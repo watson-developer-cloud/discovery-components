@@ -2,7 +2,8 @@ language: node_js
 node_js:
 - stable
 notifications:
-  email: true
+  email:
+    on_failure: always
   # TODO: update this when we move this travis file to a public repo
   # 1. login to travis cli
   # >> travis login -e "https://travis.ibm.com" -g <YOUR_GITHUB_ACCESS_TOKEN>
