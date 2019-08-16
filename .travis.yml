@@ -4,6 +4,7 @@ node_js:
 
 notifications:
   email:
+    on_success: change
     on_failure: always
   # TODO: update this when we move this travis file to a public repo
   # 1. login to travis cli
