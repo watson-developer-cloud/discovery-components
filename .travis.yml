@@ -15,7 +15,7 @@ notifications:
   # 3. push up the changes to .travis.yml
   slack:
     secure: ge3dRoR7R7x0zu7fa3i00Ty8AJsHMOpTLD/fGbmFARveOkxFFkgPI4tJFrHMzQIilbdUT7tuNHfmDKF0IQZmNKKZ6edD9KlcUT/JMVmSGS/OuIu06c9g5yoc4ngq/XNXG+yYdBpcEn9wmu3JZ+w+HsnJ/ADTEzt+KmlL7QbnN1U5ZLzPQ7ZmLuG+rUlnArwcUpmsfXTKUPqKyUyHQ8VIyuOg/DNE0Kcjc+fQ12sabkQAI6zBmvSvf8iR41KYdE9SV8gLiUAj9l89EopqjJXWxgJtEKwWGc0vUzm3VDi/My1QWj5znp40etw7sKDU3ABPRlrv7tQTgRIfiMD/ti+XWgDLGvuJSPQaqkk8gXT6yUdY5V/Pj6mLbjpy82pna0tzhYFwUqufTO+hRK/oVufOtdOSUPE9Vpp7WrMSrLlEzkkVc46j29ObxjDKwlJRDuDj9jcbpvGDAU6WwtFpXp1xFWCiDHnsTkEyTxCXMVQnEx8rtswTdQfTm4aS+AJaG7Qyz48l2QPGlhcYnNwkmKjc6EVpgs4w/ADZkk0qrGI/fI7CSL0j81RlaXyNeksyZC93af4om6pctlNXVRcPWO3KwoC68y1jF95GEka/a4EwXVCD+4L5Amb5PUhnFOmyFMxFmUapMfwGBlYi+Wnt3EF2Soxqe6qN5YW5M3kGynuLXGY=
-    on_success: change
+    on_success: always
     on_failure: always
 
 script: bash tests.sh
