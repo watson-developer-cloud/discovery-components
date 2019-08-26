@@ -1,0 +1,12 @@
+{
+  "name": "root",
+  "private": true,
+  "devDependencies": {
+    "eslint-plugin-import": "^2.18.2",
+    "lerna": "^3.16.4"
+  },
+  "workspaces": [
+    "packages/*",
+    "examples/*"
+  ]
+}
