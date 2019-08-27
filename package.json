@@ -3,7 +3,8 @@
   "private": true,
   "devDependencies": {
     "eslint-plugin-import": "^2.18.2",
-    "lerna": "^3.16.4"
+    "lerna": "^3.16.4",
+    "lerna-update-wizard": "^0.16.0"
   },
   "workspaces": [
     "packages/*",
