@@ -11,7 +11,8 @@
     "test": "cross-env CI=1 react-scripts test --env=jsdom",
     "test:watch": "react-scripts test --env=jsdom",
     "build": "rollup -c",
-    "start": "rollup -c -w"
+    "start": "rollup -c -w",
+    "storybook": "start-storybook"
   },
   "files": [
     "dist"
@@ -23,6 +24,15 @@
     "react-dom": "^15.0.0 || ^16.0.0"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^5.1.11",
+    "@storybook/addon-info": "^5.1.11",
+    "@storybook/addon-knobs": "^5.1.11",
+    "@storybook/addon-storysource": "^5.1.11",
+    "@storybook/react": "^5.1.11",
+    "@types/node": "^12.7.3",
+    "@types/storybook__addon-knobs": "^5.0.3",
+    "@types/storybook__react": "^4.0.2",
+    "awesome-typescript-loader": "^5.2.1",
     "@babel/core": "^7.5.5",
     "@babel/runtime": "^7.5.5",
     "@svgr/rollup": "^4.3.2",
@@ -31,6 +41,7 @@
     "@types/react-dom": "^16.9.0",
     "cross-env": "^5.1.4",
     "gh-pages": "^2.1.1",
+    "react-docgen-typescript-loader": "^3.1.1",
     "react-scripts": "^3.1.1",
     "rollup": "^1.20.2",
     "rollup-plugin-babel": "^4.3.3",

@@ -43,8 +43,9 @@ Our React package uses [Create React Library](https://www.npmjs.com/package/crea
 |------------|-----------------|
 | `yarn`    |  installs yarn dependencies  |
 | `npx lerna bootstrap` | installs dependencies in all of the packages |
+| `yarn storybook` | runs storybook and opens browser to correct port |
 
-|  examples/discovery-components-react  |  Description |
+|  examples/discovery-components-react-example  |  Description |
 |---------------------------------------|-------------|
 |  `yarn start`  |  runs the client at http://localhost:3000/  |
 |  `yarn build`  |  creates a production build of the example project  |
@@ -56,9 +57,19 @@ At the moment, only the examples are runnable. This may change in the near futur
 
 To start the examples, run the following commands:
 ```
-yarn
-cd examples/discovery-components-react
+yarn build
+cd examples/discovery-components-react-example
 yarn start
+```
+
+## Running Storybook
+
+Component documentation is done through Storybook.
+
+To run Storybook, run the following commands:
+```
+cd packages/discovery-components-react
+yarn storybook
 ```
 
 ## Testing
