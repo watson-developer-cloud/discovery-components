@@ -18,8 +18,29 @@ git clone https://github.ibm.com/Watson-Discovery/disco-widgets.git
 
 ## Project Structure
 
+```
+.
+├── examples
+│   └── discovery-components-react-example // use-case of the component library
+│       ├── cypress // feature tests
+│       └── src // source code for an example application
+│           ├── App.js
+│           ├── __tests__
+│           │   └── App.test.js
+│           ├── index.css
+│           └── index.js
+└── packages
+    └── discovery-components-react // react component library
+        ├── dist // distributable files to be consumed in a client application `npm/yarn install`
+        │   ├── index.d.ts
+        │   ├── index.es.js
+        │   ├── index.es.js.map
+        │   ├── index.js
+        │   └── index.js.map
+        └── src // source code for component library
+ ```
+
 Disco Widgets is setup as a monorepo. At the top level, `packages` contains all of the individual packages that will be offered as part of this library.
-(As of this writing, Disco Widgets is only available as a package of React components).
 
 Lerna and Yarn are used to manage shared dependencies across the packages.
 Create React Library was used to generate the library of React components, `discovery-components-react`.
@@ -28,6 +49,10 @@ Create React Library was used to generate the library of React components, `disc
 To generate the dependencies for all of the packages, run the following at the root directory:
 ```
 npx lerna bootstrap
+```
+OR
+```
+yarn
 ```
 This will install and bundle all of the shared dependencies for `packages` and for `examples`, and will also create a single `yarn.lock` file at the root directory. Dependency hoisting is taken care of with Yarn Workspaces, setup inside `package.json`.
 
@@ -40,26 +65,32 @@ Our React package uses [Create React Library](https://www.npmjs.com/package/crea
 ## Available Commands
 
 |  Root Directory  |  Description  |
-|------------|-----------------|
-| `yarn`    |  installs yarn dependencies  |
+|------------------|---------------|
+| `yarn`                |  installs yarn dependencies in all of the packages  |
 | `npx lerna bootstrap` | installs dependencies in all of the packages |
-| `yarn storybook` | runs storybook and opens browser to correct port |
+| `yarn workspace discovery-components-react-example <command>` | runs the specified `yarn` script in the `discovery-components-react-example` workspace |
+| `yarn storybook`      | runs storybook and opens browser to correct port |
 
 |  examples/discovery-components-react-example  |  Description |
 |---------------------------------------|-------------|
-|  `yarn start`  |  runs the client at http://localhost:3000/  |
-|  `yarn build`  |  creates a production build of the example project  |
-|  `yarn test`   |  runs the feature tests against the examples  |
+| `yarn start`   |  runs the client at http://localhost:3000/  |
+| `yarn build`   |  creates a production build of the example project  |
+| `yarn test`    |  runs the feature tests against the examples  |
+| `yarn cypress` |  opens the cypress application for feature testing |
+
+|  packages/discovery-components-react  |  Description |
+|---------------------------------------|-------------|
+| `yarn start` |  runs the `rollup` compiler in watch mode for the component library  |
+| `yarn build` |  uses `rollup` to create a production build of component library  |
+| `yarn test`  |  runs the unit/integration tests for the component library  |
 
 ## Running the Project
 
-At the moment, only the examples are runnable. This may change in the near future as the React components are added to the `discovery-components-react` package.
-
 To start the examples, run the following commands:
 ```
-yarn build
-cd examples/discovery-components-react-example
-yarn start
+yarn
+yarn workspace discovery-components-react build
+yarn workspace discovery-components-react-example start
 ```
 
 ## Running Storybook
@@ -80,12 +111,12 @@ yarn storybook
 ### Feature Tests
 For our React components, we're using Jest for our feature tests. <!-- change later if we decide otherwise-->
 
-Currently, tests can be run from our examples 
+Currently, tests can be run from our examples
 
 ### Continuous Integration
 [Travis CI](https://travis-ci.org/) is used to continuously run integration tests against this repository, and any PRs that are made against it.
 
-When triggered, Travis will build the project, then run the test scripts, and output the pass/fail to whichever branch/pr triggered the build. 
+When triggered, Travis will build the project, then run the test scripts, and output the pass/fail to whichever branch/pr triggered the build.
 
 Steps in the automation can be set in `.travis.yml`, located in the root directory.
 
