@@ -9,9 +9,9 @@ import ExampleComponent from './ExampleComponent';
 // https://github.com/storybookjs/addon-smart-knobs/pull/61
 export const props = () => ({
   placeholder: text('Placeholder Text', 'Enter search terms'),
-  suggestions: { 
+  suggestions: {
     enabled: boolean('Suggestions enabled', true),
-    limit: number("Suggestions limit", 3)
+    limit: number('Suggestions limit', 3)
   },
   querySubmit: () => action('querySubmitClicked')()
 });
@@ -19,17 +19,19 @@ export const props = () => ({
 storiesOf('ExampleComponent', module)
   .addDecorator(withKnobs)
   .add('default', () => {
-    return <ExampleComponent />
+    return <ExampleComponent />;
   })
-  .add('configurable', () => {
+  .add(
+    'configurable',
+    () => {
       const exampleProps = props();
-      return <ExampleComponent {...exampleProps} />
+      return <ExampleComponent {...exampleProps} />;
     },
     {
       info: {
         text: `
           This is an example component to demonstrate using Storybook for documentation.
-        `,
+        `
       }
     }
   );

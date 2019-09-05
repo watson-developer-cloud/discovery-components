@@ -1,7 +1,7 @@
-import App from '../App'
+import App from '../App';
 
 describe('App', () => {
   it('is truthy', () => {
-    expect(App).toBeTruthy()
-  })
-})
+    expect(App).toBeTruthy();
+  });
+});

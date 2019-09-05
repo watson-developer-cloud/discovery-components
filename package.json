@@ -2,9 +2,32 @@
   "name": "root",
   "private": true,
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.1.0",
+    "@typescript-eslint/parser": "^2.1.0",
+    "eslint": "^6.3.0",
+    "eslint-config-prettier": "^6.2.0",
     "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "^7.14.3",
+    "husky": "^3.0.5",
     "lerna": "^3.16.4",
-    "lerna-update-wizard": "^0.16.0"
+    "lerna-update-wizard": "^0.16.0",
+    "lint-staged": "^9.2.5",
+    "prettier": "^1.18.2"
+  },
+  "scripts": {
+    "lint": "eslint '{packages,examples}/**/*.{js,jsx,ts,tsx}' --quiet --fix --ignore-path .gitignore"
+  },
+  "lint-staged": {
+    "{packages,examples}/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "workspaces": [
     "packages/*",
