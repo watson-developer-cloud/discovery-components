@@ -18,7 +18,10 @@
     "start-server-and-test": "^1.10.0"
   },
   "dependencies": {
+    "carbon-components": "^10.6.0",
+    "carbon-components-react": "^7.6.0",
     "@disco-widgets/react-components": "^1.7.0",
+    "ibm-watson": "^4.4.0",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",

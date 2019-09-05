@@ -18,6 +18,8 @@
     "dist"
   ],
   "peerDependencies": {
+    "carbon-components-react": "^7.6.0",
+    "ibm-watson": "^4.4.0",
     "prop-types": "^15.5.4",
     "react": "^15.0.0 || ^16.0.0",
     "react-dom": "^15.0.0 || ^16.0.0"
