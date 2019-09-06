@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { ExampleComponent } from 'discovery-components-react';
+import { ExampleComponent } from '@disco-widgets/react-components';
 
 export default class App extends Component {
   render() {

@@ -1,10 +1,10 @@
 {
-  "name": "discovery-components-react",
+  "name": "@disco-widgets/react-components",
   "description": "",
   "license": "MIT",
   "author": "",
   "repository": "/discovery-components-react",
-  "version": "1.0.0",
+  "version": "1.9.0",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "scripts": {
@@ -17,28 +17,27 @@
   "files": [
     "dist"
   ],
-  "dependencies": {},
   "peerDependencies": {
     "prop-types": "^15.5.4",
     "react": "^15.0.0 || ^16.0.0",
     "react-dom": "^15.0.0 || ^16.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/runtime": "^7.5.5",
     "@storybook/addon-actions": "^5.1.11",
     "@storybook/addon-info": "^5.1.11",
     "@storybook/addon-knobs": "^5.1.11",
     "@storybook/addon-storysource": "^5.1.11",
     "@storybook/react": "^5.1.11",
+    "@svgr/rollup": "^4.3.2",
+    "@types/jest": "^24.0.18",
     "@types/node": "^12.7.3",
+    "@types/react": "^16.9.2",
+    "@types/react-dom": "^16.9.0",
     "@types/storybook__addon-knobs": "^5.0.3",
     "@types/storybook__react": "^4.0.2",
     "awesome-typescript-loader": "^5.2.1",
-    "@babel/core": "^7.5.5",
-    "@babel/runtime": "^7.5.5",
-    "@svgr/rollup": "^4.3.2",
-    "@types/jest": "^24.0.18",
-    "@types/react": "^16.9.2",
-    "@types/react-dom": "^16.9.0",
     "cross-env": "^5.1.4",
     "gh-pages": "^2.1.1",
     "react-docgen-typescript-loader": "^3.1.1",
@@ -57,5 +56,8 @@
     "node": ">=8",
     "npm": ">=5"
   },
-  "jsnext:main": "dist/index.es.js"
+  "jsnext:main": "dist/index.es.js",
+  "publishConfig": {
+    "access": "public"
+  }
 }

@@ -3,7 +3,7 @@
   "name": "discovery-components-react-example",
   "license": "MIT",
   "homepage": "https://.github.io/discovery-components-react",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "build": "react-scripts build",
     "eject": "react-scripts eject",
@@ -18,7 +18,7 @@
     "start-server-and-test": "^1.10.0"
   },
   "dependencies": {
-    "discovery-components-react": "^1.0.0",
+    "@disco-widgets/react-components": "^1.7.0",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
