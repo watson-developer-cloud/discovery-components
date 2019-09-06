@@ -9,13 +9,13 @@ interface DiscoverySearchProps {
 interface SearchFunc {
   (nlq: string): void;
 }
-interface ISearchContext {
+interface SearchContext {
   onSearch: SearchFunc;
   searchResults: DiscoveryV1.QueryResponse;
   searchParameters: DiscoveryV1.QueryParams;
 }
 
-export const SearchContext = React.createContext<ISearchContext>({
+export const SearchContext = React.createContext<SearchContext>({
   onSearch: () => {},
   searchResults: {},
   searchParameters: {

@@ -1,10 +1,11 @@
-'use strict';
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
-const express = require('express'); // eslint-disable-line node/no-missing-require
+const express = require('express');
 const app = express();
 const DiscoveryV1 = require('ibm-watson/discovery/v1');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+/* eslint-enable @typescript-eslint/no-var-requires */
 
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.json());
