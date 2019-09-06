@@ -3,6 +3,8 @@ import DiscoveryV1 from 'ibm-watson/discovery/v1';
 
 interface DiscoverySearchProps {
   searchClient: DiscoveryV1;
+  environmentId: string;
+  collectionId: string;
 }
 interface SearchFunc {
   (nlq: string): void;
@@ -25,8 +27,8 @@ export const SearchContext = React.createContext<ISearchContext>({
 export const DiscoverySearch: React.SFC<DiscoverySearchProps> = props => {
   const [searchResults, setSearchResults] = useState<DiscoveryV1.QueryResponse>({});
   const [searchParameters, setSearchParameters] = useState<DiscoveryV1.QueryParams>({
-    environment_id: 'foo',
-    collection_id: 'bar'
+    environment_id: props.environmentId || 'default',
+    collection_id: props.collectionId
   });
   const handleSearch = async (nlq: string) => {
     searchParameters.natural_language_query = nlq;
