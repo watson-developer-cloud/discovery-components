@@ -67,7 +67,7 @@ Our React package uses [Create React Library](https://www.npmjs.com/package/crea
 |  Root Directory  |  Description  |
 |------------------|---------------|
 | `yarn`                |  installs yarn dependencies in all of the packages  |
-| `npx lerna bootstrap` | installs dependencies in all of the packages |
+| `npx lerna bootstrap` | (effectively the same as `yarn`) installs dependencies in all of the packages |
 | `yarn workspace discovery-components-react-example <command>` | runs the specified `yarn` script in the `discovery-components-react-example` workspace |
 | `yarn storybook`      | runs storybook and opens browser to correct port |
 
@@ -119,6 +119,9 @@ Currently, tests can be run from our examples
 When triggered, Travis will build the project, then run the test scripts, and output the pass/fail to whichever branch/pr triggered the build.
 
 Steps in the automation can be set in `.travis.yml`, located in the root directory.
+
+#### A note on versioning
+We use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0-beta.4/) when commiting to our repository, although it is not required. If a group of commits are merged into our repo which use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0-beta.4/) syntax, than the versioning our NPM package will be determined by [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0-beta.4/) specification. If not, than the patch version will automatically be bumped.
 
 ## Helpful Links
 - [Typescript](https://www.typescriptlang.org/docs/home.html)
