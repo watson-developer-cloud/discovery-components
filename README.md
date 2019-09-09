@@ -101,7 +101,7 @@ To start the examples, run the following commands:
 
 ```
 yarn
-yarn workspace discovery-components-react build
+yarn workspace @disco-widgets/react-components build
 yarn workspace discovery-components-react-example start
 ```
 
