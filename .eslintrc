@@ -8,9 +8,7 @@
   "env": {
     "es6": true
   },
-  "plugins": [
-    "react"
-  ],
+  "plugins": ["react"],
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module",
@@ -23,5 +21,9 @@
       "version": "detect"
     }
   },
-  "rules": {}
+  "rules": {
+    "@typescript-eslint/indent": ["error", 2],
+    "@typescript-eslint/camelcase": ["error", { "properties": "never" }],
+    "react/prop-types": "off"
+  }
 }

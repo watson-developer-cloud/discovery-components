@@ -22,8 +22,7 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "resolveJsonModule": true,
-    "noEmit": true,
-    "isolatedModules": true
+    "noEmit": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "build", "dist", "rollup.config.js"]
