@@ -4,6 +4,7 @@ import DiscoveryV1 from 'ibm-watson/discovery/v1';
 import { DiscoverySearch, SearchInput } from '@disco-widgets/react-components';
 
 const App = () => {
+  // TODO: this is a dummy client to route requests to the server since CP4D doesn't support CORS
   const searchClient = new DiscoveryV1({
     url: 'http://localhost:4000/api',
     username: 'foo',
