@@ -7,9 +7,8 @@ addons:
       # Ubuntu 16+ does not install this dependency by default, so we need to install it ourselves for cypress
       - libgconf-2-4
 branches:
-  except:
-    - /@disco-widgets\/react-components@\d+\.\d+\.\d+/g #TODO change the package name when migrating to public
-    - /discovery-components-react-example@\d+\.\d+\.\d+/g #TODO change the package name when migrating to public
+  only:
+    - master
 before_install:
   - npm install -g yarn
 script:
