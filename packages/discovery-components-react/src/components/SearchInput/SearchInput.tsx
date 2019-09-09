@@ -8,9 +8,9 @@ interface SearchInputProps {
 
 export const SearchInput: React.SFC<SearchInputProps> = ({ small }) => {
   const searchContext = useContext(SearchContext);
-  const handleOnChange = (evt: any) => {
-    console.log(evt.currentTarget.value);
-    searchContext.onSearch(evt.currentTarget.value);
+  const handleOnChange = (evt: any): void => {
+    searchContext.onUpdateNaturalLanguageQuery(evt.currentTarget.value);
+    searchContext.onSearch();
   };
 
   return <CarbonSearchInput small={small} onChange={handleOnChange} />;

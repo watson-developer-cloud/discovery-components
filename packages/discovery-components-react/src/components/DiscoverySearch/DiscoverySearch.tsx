@@ -6,17 +6,17 @@ interface DiscoverySearchProps {
   environmentId: string;
   collectionId: string;
 }
-interface SearchFunc {
-  (nlq: string): void;
-}
+
 interface SearchContext {
-  onSearch: SearchFunc;
+  onSearch: () => Promise<void>;
+  onUpdateNaturalLanguageQuery: (nlq: string) => Promise<void>;
   searchResults: DiscoveryV1.QueryResponse;
   searchParameters: DiscoveryV1.QueryParams;
 }
 
 export const SearchContext = React.createContext<SearchContext>({
-  onSearch: () => {},
+  onSearch: (): Promise<void> => Promise.resolve(),
+  onUpdateNaturalLanguageQuery: (): Promise<void> => Promise.resolve(),
   searchResults: {},
   searchParameters: {
     environment_id: 'foo',
@@ -30,16 +30,26 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = props => {
     environment_id: props.environmentId || 'default',
     collection_id: props.collectionId
   });
-  const handleSearch = async (nlq: string) => {
+  const handleUpdateNaturalLanguageQuery = (nlq: string): Promise<void> => {
     searchParameters.natural_language_query = nlq;
     setSearchParameters(searchParameters);
+    return Promise.resolve();
+  };
+  const handleSearch = async () => {
     const searchResults: DiscoveryV1.QueryResponse = await props.searchClient.query(
       searchParameters
     );
     setSearchResults(searchResults);
   };
   return (
-    <SearchContext.Provider value={{ onSearch: handleSearch, searchResults, searchParameters }}>
+    <SearchContext.Provider
+      value={{
+        onSearch: handleSearch,
+        onUpdateNaturalLanguageQuery: handleUpdateNaturalLanguageQuery,
+        searchResults,
+        searchParameters
+      }}
+    >
       {props.children}
     </SearchContext.Provider>
   );

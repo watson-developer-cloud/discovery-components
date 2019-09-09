@@ -16,6 +16,7 @@ app.get('/', async (req, res) => {
 });
 app.post(
   '/api/v1/environments/:environment_id/collections/:collection_id/query',
+  cors(),
   async (req, res) => {
     try {
       const searchClient = new DiscoveryV1({
