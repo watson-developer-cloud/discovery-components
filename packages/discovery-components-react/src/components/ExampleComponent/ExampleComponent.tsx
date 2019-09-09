@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-member-accessibility */
 /**
  * @class ExampleComponent
  */
@@ -10,7 +11,7 @@ import querySuggestions from './suggestions';
 // nested descriptions under suggestions are squashed since the addon doesn't
 // expand shape types.
 // https://github.com/storybookjs/storybook/issues/3493
-type Props = {
+interface Props {
   /**
    * Placeholder text for the input
    */
@@ -30,7 +31,7 @@ type Props = {
    * Query submit callback
    */
   querySubmit: () => void;
-};
+}
 
 interface State {
   query: string;
