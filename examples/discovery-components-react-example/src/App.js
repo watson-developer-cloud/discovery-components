@@ -1,7 +1,7 @@
 import React from 'react';
 import DiscoveryV1 from 'ibm-watson/discovery/v1';
 
-import { DiscoverySearch, SearchInput } from 'discovery-components-react';
+import { DiscoverySearch, SearchInput } from '@disco-widgets/react-components';
 
 const App = () => {
   // eslint-disable @typescript-eslint/camelcase
