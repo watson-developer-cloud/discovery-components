@@ -4,6 +4,8 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.1.0",
     "@typescript-eslint/parser": "^2.1.0",
+    "@babel/core": "7.5.5",
+    "babel-loader": "^8.0.6",
     "eslint": "^6.3.0",
     "eslint-config-prettier": "^6.2.0",
     "eslint-plugin-import": "^2.18.2",
@@ -13,7 +15,12 @@
     "lerna": "^3.16.4",
     "lerna-update-wizard": "^0.16.0",
     "lint-staged": "^9.2.5",
-    "prettier": "^1.18.2"
+    "prettier": "^1.18.2",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "typescript": "^3.5.3",
+    "webpack": "4.39.1"
   },
   "scripts": {
     "lint": "eslint '{packages,examples}/**/*.{js,jsx,ts,tsx}' --quiet --fix --ignore-path .gitignore"
