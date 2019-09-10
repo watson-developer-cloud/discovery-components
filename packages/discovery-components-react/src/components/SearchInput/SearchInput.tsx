@@ -31,6 +31,7 @@ export const SearchInput: React.SFC<SearchInputProps> = ({ small }) => {
   }, [debouncedSearchTerm]);
   const handleOnKeyUp = (evt: React.KeyboardEvent<EventTarget>): void => {
     if (evt.key === 'Enter') {
+      searchContext.onUpdateNaturalLanguageQuery(value);
       searchContext.onSearch();
     }
   };
