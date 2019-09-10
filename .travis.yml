@@ -21,8 +21,6 @@ before_deploy:
 deploy:
   provider: script
   script: 
-    - echo "==== TRYING TO DEPLOY ===="
-    - git status
     - lerna publish -y
   on:
     repo: Watson-Discovery/disco-widgets #TODO change repo name if under a different org
