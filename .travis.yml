@@ -20,7 +20,10 @@ before_deploy:
   - git checkout master
 deploy:
   provider: script
-  script: lerna publish -y
+  script: 
+    - echo "==== TRYING TO DEPLOY ===="
+    - git status
+    - lerna publish -y
   on:
     repo: Watson-Discovery/disco-widgets #TODO change repo name if under a different org
     branch: master
