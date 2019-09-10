@@ -9,9 +9,7 @@ describe('basic test', () => {
     cy.visit('/');
     cy.get('input').type('abil');
     cy.wait('@postQuery')
-      .its('url')
-      .should('include', '/query')
-      .its('response.body.natural_language_query')
+      .its('requestBody.natural_language_query')
       .should('eq', 'abil');
   });
 });

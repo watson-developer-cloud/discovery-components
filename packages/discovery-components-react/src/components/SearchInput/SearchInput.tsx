@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+import React, { useContext, useState, useEffect } from 'react';
 import { Search as CarbonSearchInput } from 'carbon-components-react';
 import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
 
@@ -8,10 +9,39 @@ interface SearchInputProps {
 
 export const SearchInput: React.SFC<SearchInputProps> = ({ small }) => {
   const searchContext = useContext(SearchContext);
-  const handleOnChange = (evt: any): void => {
-    searchContext.onUpdateNaturalLanguageQuery(evt.currentTarget.value);
-    searchContext.onSearch();
+  const [value, setValue] = useState(searchContext.searchParameters.natural_language_query || '');
+  const useDebounce = (value: string, delay: number) => {
+    const [debouncedValue, setDebouncedValue] = useState(value);
+    useEffect(() => {
+      const handler = window.setTimeout(() => {
+        setDebouncedValue(value);
+      }, delay);
+      return () => {
+        window.clearTimeout(handler);
+      };
+    }, [value]);
+    return debouncedValue;
+  };
+  const handleOnChange = (evt: React.SyntheticEvent<EventTarget>): void => {
+    const target = evt.currentTarget as HTMLInputElement;
+    setValue(target.value);
+  };
+  const debouncedSearchTerm = useDebounce(value, 500);
+  useEffect(() => {
+    searchContext.onUpdateNaturalLanguageQuery(value);
+  }, [debouncedSearchTerm]);
+  const handleOnKeyUp = (evt: React.KeyboardEvent<EventTarget>): void => {
+    if (evt.key === 'Enter') {
+      searchContext.onSearch();
+    }
   };
 
-  return <CarbonSearchInput small={small} onChange={handleOnChange} />;
+  return (
+    <CarbonSearchInput
+      small={small}
+      onKeyUp={handleOnKeyUp}
+      onChange={handleOnChange}
+      value={value}
+    />
+  );
 };
