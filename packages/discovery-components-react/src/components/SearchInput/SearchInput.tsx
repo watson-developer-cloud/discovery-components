@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useContext, useState, useEffect } from 'react';
 import { Search as CarbonSearchInput } from 'carbon-components-react';
 import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
@@ -10,13 +9,13 @@ interface SearchInputProps {
 export const SearchInput: React.SFC<SearchInputProps> = ({ small }) => {
   const searchContext = useContext(SearchContext);
   const [value, setValue] = useState(searchContext.searchParameters.natural_language_query || '');
-  const useDebounce = (value: string, delay: number) => {
+  const useDebounce = (value: string, delay: number): string => {
     const [debouncedValue, setDebouncedValue] = useState(value);
     useEffect(() => {
       const handler = window.setTimeout(() => {
         setDebouncedValue(value);
       }, delay);
-      return () => {
+      return (): void => {
         window.clearTimeout(handler);
       };
     }, [value]);
