@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Search as CarbonSearchInput } from 'carbon-components-react';
 import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
+import useDebounce from '../../utils/useDebounce';
 
 interface SearchInputProps {
   small: boolean;
@@ -9,18 +10,6 @@ interface SearchInputProps {
 export const SearchInput: React.SFC<SearchInputProps> = ({ small }) => {
   const searchContext = useContext(SearchContext);
   const [value, setValue] = useState(searchContext.searchParameters.natural_language_query || '');
-  const useDebounce = (value: string, delay: number): string => {
-    const [debouncedValue, setDebouncedValue] = useState(value);
-    useEffect(() => {
-      const handler = window.setTimeout(() => {
-        setDebouncedValue(value);
-      }, delay);
-      return (): void => {
-        window.clearTimeout(handler);
-      };
-    }, [value]);
-    return debouncedValue;
-  };
   const handleOnChange = (evt: React.SyntheticEvent<EventTarget>): void => {
     const target = evt.currentTarget as HTMLInputElement;
     setValue(target.value);
