@@ -88,6 +88,7 @@ Our React package uses [Create React Library](https://www.npmjs.com/package/crea
 | `yarn build`                                | creates a production build of the example project |
 | `yarn test`                                 | runs the feature tests against the examples       |
 | `yarn cypress`                              | opens the cypress application for feature testing |
+| `yarn test:e2e`                             | starts the server and runs cypress headless       |
 
 | packages/discovery-components-react | Description                                                        |
 | ----------------------------------- | ------------------------------------------------------------------ |
@@ -116,16 +117,38 @@ cd packages/discovery-components-react
 yarn storybook
 ```
 
-## Testing
+## Unit/Integration Testing
 
-<!-- ### Unit Tests
-(Won't be much info here until we set up some unit testing framework) -->
+For our React components, we're using Jest for our feature tests through `react-scripts` (utility provided from [create react app testing](https://create-react-app.dev/docs/running-tests))
 
 ### Feature Tests
 
-For our React components, we're using Jest for our feature tests. <!-- change later if we decide otherwise-->
+[Cypress](https://docs.cypress.io) is being used for our feature/e2e testing. All feature testing will be done in the `examples` directories (end-user application examples) to test a full client-server relationship. For our CI, we will use the Cypress [server](https://docs.cypress.io/api/commands/server.html#Syntax) to mock out API requests and allow us to test our component expectations from the user's perspective.
 
-Currently, tests can be run from our examples
+The directory structure for adding feature tests in cypress looks like:
+
+```
+examples/discovery-components-react-example/cypress
+├── fixtures         // mock data or other static assets
+│   └── example.json
+├── integration      // top-level directory for feature tests
+│   └── spec.ts
+├── plugins          // any plugins from https://docs.cypress.io/plugins/index.html#content
+│   └── index.js
+├── screenshots      // screenshots are stored on test failures
+├── support          // other helper methods like custom commands https://docs.cypress.io/api/cypress-api/custom-commands.html#Syntax
+│   ├── commands.ts
+│   └── index.ts
+└── videos           // recorded videos of test failures for review after a test run
+```
+
+The basic process will be to add a new file/directory (depending on how we want to organize tests) under `cypress/integration` then run `yarn cypress` (from the `discovery-components-react-example` directory) to open up the interactive debugger.
+
+To start up our server and run all Cypress tests, use `yarn test:e2e`, which does the following steps:
+
+1. starts up a server to host the example application
+2. once the server responds, it moves on to perform the next command `cypress run` (headless version of `cypress open`)
+3. after tests are complete, results are printed in the console and both the cypress server and the application server are shut down
 
 ### Continuous Integration
 
