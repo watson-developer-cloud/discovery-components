@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import DiscoveryV1 from 'ibm-watson/discovery/v1';
 
 interface DiscoverySearchProps {
-  searchClient: DiscoveryV1;
+  searchClient: Pick<DiscoveryV1, 'query'>;
   environmentId: string;
   collectionId: string;
 }
@@ -24,21 +24,24 @@ export const SearchContext = React.createContext<SearchContext>({
   }
 });
 
-export const DiscoverySearch: React.SFC<DiscoverySearchProps> = props => {
+export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
+  searchClient,
+  environmentId,
+  collectionId,
+  children
+}) => {
   const [searchResults, setSearchResults] = useState<DiscoveryV1.QueryResponse>({});
   const [searchParameters, setSearchParameters] = useState<DiscoveryV1.QueryParams>({
-    environment_id: props.environmentId || 'default',
-    collection_id: props.collectionId
+    environment_id: environmentId || 'default',
+    collection_id: collectionId
   });
   const handleUpdateNaturalLanguageQuery = (nlq: string): Promise<void> => {
     searchParameters.natural_language_query = nlq;
     setSearchParameters(searchParameters);
     return Promise.resolve();
   };
-  const handleSearch = async () => {
-    const searchResults: DiscoveryV1.QueryResponse = await props.searchClient.query(
-      searchParameters
-    );
+  const handleSearch = async (): Promise<void> => {
+    const searchResults: DiscoveryV1.QueryResponse = await searchClient.query(searchParameters);
     setSearchResults(searchResults);
   };
   return (
@@ -50,7 +53,7 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = props => {
         searchParameters
       }}
     >
-      {props.children}
+      {children}
     </SearchContext.Provider>
   );
 };
