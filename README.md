@@ -88,6 +88,7 @@ Our React package uses [Create React Library](https://www.npmjs.com/package/crea
 | `yarn build`                                | creates a production build of the example project |
 | `yarn test`                                 | runs the feature tests against the examples       |
 | `yarn cypress`                              | opens the cypress application for feature testing |
+| `yarn server`                               | runs an express server                            |
 | `yarn test:e2e`                             | starts the server and runs cypress headless       |
 
 | packages/discovery-components-react | Description                                                        |

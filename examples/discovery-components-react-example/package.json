@@ -2,16 +2,17 @@
   "private": true,
   "name": "discovery-components-react-example",
   "license": "MIT",
-  "homepage": "https://.github.io/discovery-components-react",
-  "version": "1.0.0",
+  "homepage": ".",
+  "version": "0.0.0",
   "scripts": {
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "start": "react-scripts start",
-    "test:e2e": "BROWSER=none start-server-and-test start http://localhost:3000 './node_modules/.bin/cypress run'",
+    "test:e2e": "BROWSER=none CYPRESS_baseUrl=http://localhost:4000 start-server-and-test server http://localhost:4000 './node_modules/.bin/cypress run'",
     "test:unit": "CI=1 react-scripts test --env=jsdom",
     "test": "yarn test:unit && yarn test:e2e",
-    "cypress": "cypress open"
+    "cypress": "cypress open",
+    "server": "node ./server.js"
   },
   "devDependencies": {
     "cypress": "3.2.0",
@@ -19,6 +20,13 @@
   },
   "dependencies": {
     "@disco-widgets/react-components": "^1.7.0",
+    "body-parser": "^1.19.0",
+    "carbon-components": "^10.6.0",
+    "carbon-components-react": "^7.6.0",
+    "carbon-icons": "^7.0.7",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "ibm-watson": "^4.4.0",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
