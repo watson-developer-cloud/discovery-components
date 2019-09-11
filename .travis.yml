@@ -21,7 +21,7 @@ before_deploy:
 deploy:
   provider: script
   script: 
-    - lerna publish -y
+    - npx lerna publish -y
   on:
     repo: Watson-Discovery/disco-widgets #TODO change repo name if under a different org
     branch: master
