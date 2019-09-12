@@ -3,7 +3,7 @@
   "name": "discovery-components-react-example",
   "license": "MIT",
   "homepage": ".",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "scripts": {
     "build": "react-scripts build",
     "eject": "react-scripts eject",
@@ -15,7 +15,7 @@
     "server": "node ./server.js"
   },
   "dependencies": {
-    "@disco-widgets/react-components": "^1.13.4",
+    "@disco-widgets/react-components": "^1.13.5",
     "body-parser": "^1.19.0",
     "carbon-components": "^10.6.0",
     "carbon-components-react": "^7.6.0",
