@@ -167,3 +167,4 @@ We use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0-beta
 ## Helpful Links
 
 - [Typescript](https://www.typescriptlang.org/docs/home.html)
+- To test publishing to the npm registry locally, you can use [Verdaccio](https://www.npmjs.com/package/verdaccio)
