@@ -72,7 +72,9 @@ export class ExampleComponent extends React.Component<Props, State> {
               .filter(suggestion => suggestion.startsWith(this.state.query))
               .slice(0, limit)
               .map((suggestion, i) => (
-                <div key={`suggestion-${i}`} data-testid={`suggestion`}>{suggestion}</div>
+                <div key={`suggestion-${i}`} data-testid={`suggestion`}>
+                  {suggestion}
+                </div>
               ))}
           </div>
         )}
