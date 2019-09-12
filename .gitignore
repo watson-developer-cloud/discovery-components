@@ -2,6 +2,7 @@
 **/node_modules
 **/build
 **/dist
+coverage
 
 lerna-debug.log
 yarn-error.log

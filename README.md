@@ -86,7 +86,6 @@ Our React package uses [Create React Library](https://www.npmjs.com/package/crea
 | ------------------------------------------- | ------------------------------------------------- |
 | `yarn start`                                | runs the client at http://localhost:3000/         |
 | `yarn build`                                | creates a production build of the example project |
-| `yarn test`                                 | runs the feature tests against the examples       |
 | `yarn cypress`                              | opens the cypress application for feature testing |
 | `yarn server`                               | runs an express server                            |
 | `yarn test:e2e`                             | starts the server and runs cypress headless       |
@@ -96,6 +95,8 @@ Our React package uses [Create React Library](https://www.npmjs.com/package/crea
 | `yarn start`                        | runs the `rollup` compiler in watch mode for the component library |
 | `yarn build`                        | uses `rollup` to create a production build of component library    |
 | `yarn test`                         | runs the unit/integration tests for the component library          |
+| `yarn test:watch`                   | runs the unit/integration tests in watch mode |
+| `yarn code-coverage`                | runs the unit/integration tests code coverage report |
 
 ## Running the Project
 
@@ -120,7 +121,7 @@ yarn storybook
 
 ## Unit/Integration Testing
 
-For our React components, we're using Jest for our feature tests through `react-scripts` (utility provided from [create react app testing](https://create-react-app.dev/docs/running-tests))
+For our React components, we're using Jest for our unit and integration. Tests are rendered through [react-testing-library](https://testing-library.com/), which also provides some additional functionality.
 
 ### Feature Tests
 
