@@ -2,11 +2,12 @@
  * @class ExampleComponent
  */
 
-import * as React from 'react';
-import styles from './styles.css';
-import { Search } from 'carbon-components-react';
+import React, { useContext, useState, useEffect } from 'react';
+import { Search as CarbonSearchInput } from 'carbon-components-react';
+import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
+import useDebounce from '../../utils/useDebounce';
 
-interface Props {
+interface SearchInputProps {
   /**
    * The type of input (optional)
    */
@@ -20,10 +21,6 @@ interface Props {
    */
   placeHolderText: string;
   /**
-   * Function to run when the SearchInput changes
-   */
-  onChange: (event: React.KeyboardEvent) => void;
-  /**
    * className to style SearchInput
    */
   className: string;
@@ -35,10 +32,6 @@ interface Props {
    * True to use the light theme
    */
   light: boolean;
-  /**
-   * A custom id for the SearchInput
-   */
-  id: string;
   /**
    * Label text for the close button
    */
@@ -57,54 +50,59 @@ interface Props {
   hideClearIcon: boolean;
 }
 
-interface State {
-  query: string;
-}
+export const SearchInput: React.SFC<SearchInputProps> = props => {
+  // static defaultProps = {
+  //   className: '',
+  //   placeholder: '',
+  //   hideSearchIcon: false,
+  //   hideClearIcon: false
+  // };
+  const {
+    type,
+    small,
+    placeHolderText,
+    className,
+    labelText,
+    light,
+    closeButtonLabelText,
+    defaultValue
+  } = props;
 
-export class SearchInput extends React.Component<Props, State> {
-  static defaultProps = {
-    className: '',
-    placeholder: '',
-    hideSearchIcon: false,
-    hideClearIcon: false
+  const searchContext = useContext(SearchContext);
+  const [value, setValue] = useState(searchContext.searchParameters.natural_language_query || '');
+  const handleOnChange = (evt: React.SyntheticEvent<EventTarget>): void => {
+    const target = evt.currentTarget as HTMLInputElement;
+    setValue(target.value);
+  };
+  const debouncedSearchTerm = useDebounce(value, 500);
+  useEffect(() => {
+    searchContext.onUpdateNaturalLanguageQuery(value);
+  }, [debouncedSearchTerm]);
+  const handleOnKeyUp = (evt: React.KeyboardEvent<EventTarget>): void => {
+    if (evt.key === 'Enter') {
+      searchContext.onUpdateNaturalLanguageQuery(value);
+      searchContext.onSearch();
+    }
   };
 
-  state = {
-    query: ''
-  };
+  //TODO: modify className to apply custom styling + whatever styling we want to set by default
+  //TODO: logic for hideSearchIcon and hideClearIcon
 
-  render() {
-    const {
-      type,
-      small,
-      placeHolderText,
-      onChange,
-      className,
-      labelText,
-      light,
-      id,
-      closeButtonLabelText,
-      defaultValue
-    } = this.props;
-
-    const { query } = this.state;
-
-    return (
-      <Search
-        type={type}
-        small={small}
-        placeHolderText={placeHolderText}
-        onChange={onChange}
-        className={className}
-        labelText={labelText}
-        light={light}
-        id={id}
-        closeButtonLabelText={closeButtonLabelText}
-        defaultValue={defaultValue}
-        value={query}
-      />
-    );
-  }
-}
+  return (
+    <CarbonSearchInput
+      type={type}
+      small={small}
+      placeHolderText={placeHolderText}
+      onKeyUp={handleOnKeyUp}
+      onChange={handleOnChange}
+      className={className}
+      labelText={labelText}
+      light={light}
+      closeButtonLabelText={closeButtonLabelText}
+      defaultValue={defaultValue}
+      value={value}
+    />
+  );
+};
 
 export default SearchInput;
