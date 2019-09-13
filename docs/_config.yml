@@ -5,5 +5,5 @@ search_enabled: true
 repo_code_url: "https://github.ibm.com/watson-discovery/disco-widgets/blob/master/"
 yo_dawg: "![](https://imgflip.com/s/meme/Yo-Dawg-Heard-You.jpg)"
 aux_links:
-  "Discovery Tooling on GitHub":
+  "Discovery Widgets on GitHub":
     - "//github.ibm.com/watson-discovery/disco-widgets"
