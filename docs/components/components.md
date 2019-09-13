@@ -32,4 +32,4 @@ BLAAH
 
 These are used inside a container
 
-- [ExampleComponent](storybook/ExampleComponents)
+- [ExampleComponent](storybook/?path=/story/examplecomponent--default)
