@@ -32,4 +32,4 @@ BLAAH
 
 These are used inside a container
 
-- [ExampleComponent](docs/../storybook/?path=/story/examplecomponent--default)
+- [ExampleComponent](https://pages.github.ibm.com/Watson-Discovery/disco-widgets/storybook/?path=/story/examplecomponent--default)
