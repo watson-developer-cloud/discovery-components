@@ -6,23 +6,6 @@ nav_order: 0
 
 # Discovery Widget Docs
 
-#### Very important information
+With Discovery Widgets you can do all sorts of mystical and magical stuff. Like fine unicorns, slay dragons or fit more than 44 marshmellows in your mouth at one time.
 
-### Quick links
-- [Example Component](#examplecomponent)
-
----
-
-### ExampleComponent
-
-Dropping knowledge about the example component. Did you know it was established in September of 2019?
-
-#### Usage
-
-Use when creating examples.
-
-#### Code
-
-```
-<ExampleComponent />
-```
+These docs will take you by the hand and lead you down the path of the glourious world of search.
