@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Components
-has_children: true
+has_children: false
 nav_order: 3
 permalink: /docs/Components
 ---
