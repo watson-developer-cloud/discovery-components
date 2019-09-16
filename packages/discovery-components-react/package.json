@@ -13,7 +13,8 @@
     "code-coverage": "jest --collectCoverage",
     "build": "rollup -c",
     "start": "rollup -c -w",
-    "storybook": "start-storybook"
+    "storybook": "start-storybook",
+    "storybook:build": "build-storybook -c .storybook -o ../../docs/storybook"
   },
   "files": [
     "dist"
