@@ -3,8 +3,9 @@
   "results": [
     {
       "document_id": "e5db21d93f99dd25aefd97d1d247f416",
-      "metadata": {
-        "foo": "bar"
+      "extracted_metadata": {
+        "filename": "some file name",
+        "title": "file 2 title"
       }
     }
   ]
