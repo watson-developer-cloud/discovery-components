@@ -40,23 +40,9 @@ interface SearchInputProps {
    * Set the default value of the query in SearchInput
    */
   defaultValue: string | number;
-  /**
-   * Hides the magnifying glass icon in the search bar
-   */
-  hideSearchIcon: boolean;
-  /**
-   * Hides the clear search text icon in the search bar
-   */
-  hideClearIcon: boolean;
 }
 
 export const SearchInput: React.SFC<SearchInputProps> = props => {
-  // static defaultProps = {
-  //   className: '',
-  //   placeholder: '',
-  //   hideSearchIcon: false,
-  //   hideClearIcon: false
-  // };
   const {
     type,
     small,
@@ -85,23 +71,22 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
     }
   };
 
-  //TODO: modify className to apply custom styling + whatever styling we want to set by default
-  //TODO: logic for hideSearchIcon and hideClearIcon
-
   return (
-    <CarbonSearchInput
-      type={type}
-      small={small}
-      placeHolderText={placeHolderText}
-      onKeyUp={handleOnKeyUp}
-      onChange={handleOnChange}
-      className={className}
-      labelText={labelText}
-      light={light}
-      closeButtonLabelText={closeButtonLabelText}
-      defaultValue={defaultValue}
-      value={value}
-    />
+    <div className={className}>
+      <CarbonSearchInput
+        type={type}
+        small={small}
+        placeHolderText={placeHolderText}
+        onKeyUp={handleOnKeyUp}
+        onChange={handleOnChange}
+        labelText={labelText}
+        light={light}
+        closeButtonLabelText={closeButtonLabelText}
+        defaultValue={defaultValue}
+        value={value}
+        id={'carbon-search-input'}
+      />
+    </div>
   );
 };
 
