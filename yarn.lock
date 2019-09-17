@@ -918,6 +918,11 @@
   dependencies:
     "@carbon/icon-helpers" "10.4.0"
 
+"@carbon/icons@^10.5.0":
+  version "10.6.0"
+  resolved "https://registry.yarnpkg.com/@carbon/icons/-/icons-10.6.0.tgz#6a8472ef56d7f698838e47699a2b77f3747c0d94"
+  integrity sha512-JSiq01QPmjK8lPaC8Qqg48K5eq5ltF3h2grYZIYH9mtfNWD+itwJwkYHCoIG0Zjszl4Y5Ryw3F3oCFun2smbcw==
+
 "@cnakazawa/watch@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.3.tgz#099139eaec7ebf07a27c1786a3ff64f39464d2ef"
