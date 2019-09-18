@@ -10,7 +10,8 @@
       "conventionalCommits": true
     },
     "version": {
-      "message": "chore: publish to NPM [ci skip]"
+      "message": "chore: publish to NPM [ci skip]",
+      "ignoreChanges": ["examples/**"]
     }
   }
 }

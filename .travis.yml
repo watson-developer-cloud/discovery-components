@@ -20,6 +20,7 @@ before_deploy:
   - git checkout master
 deploy:
   provider: script
+  skip_cleanup: true
   script: 
     - npx lerna publish -y
   on:

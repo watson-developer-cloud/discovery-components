@@ -4,23 +4,25 @@
   "license": "MIT",
   "author": "",
   "repository": "/discovery-components-react",
-  "version": "1.13.0",
+  "version": "1.13.8",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "scripts": {
-    "test": "cross-env CI=1 react-scripts test --env=jsdom",
-    "test:watch": "react-scripts test --env=jsdom",
+    "test": "cross-env CI=1 react-scripts test",
+    "test:watch": "react-scripts test --watch",
+    "code-coverage": "jest --collectCoverage",
     "build": "rollup -c",
     "start": "rollup -c -w",
-    "storybook": "start-storybook"
+    "storybook": "start-storybook",
+    "storybook:build": "build-storybook -c .storybook -o ../../docs/storybook"
   },
   "files": [
     "dist"
   ],
   "peerDependencies": {
+    "@carbon/icons": "^10.5.0",
     "carbon-components": "^10.6.0",
     "carbon-components-react": "^7.6.0",
-    "carbon-icons": "^7.0.7",
     "ibm-watson": "^4.4.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
