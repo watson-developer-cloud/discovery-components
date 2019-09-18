@@ -1,8 +1,8 @@
 /**
- * @class ExampleComponent
+ * @class SearchInputProps
  */
 
-import React, { useContext, useState, useEffect } from 'react';
+import * as React from 'react';
 import { Search as CarbonSearchInput } from 'carbon-components-react';
 import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import useDebounce from '../../utils/useDebounce';
@@ -39,7 +39,7 @@ interface SearchInputProps {
   /**
    * Set the default value of the query in SearchInput
    */
-  defaultValue: string | number;
+  defaultValue: string;
 }
 
 export const SearchInput: React.SFC<SearchInputProps> = props => {
@@ -54,14 +54,16 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
     defaultValue
   } = props;
 
-  const searchContext = useContext(SearchContext);
-  const [value, setValue] = useState(searchContext.searchParameters.natural_language_query || '');
+  const searchContext = React.useContext(SearchContext);
+  const [value, setValue] = React.useState(
+    searchContext.searchParameters.natural_language_query || ''
+  );
   const handleOnChange = (evt: React.SyntheticEvent<EventTarget>): void => {
     const target = evt.currentTarget as HTMLInputElement;
     setValue(target.value);
   };
   const debouncedSearchTerm = useDebounce(value, 500);
-  useEffect(() => {
+  React.useEffect(() => {
     searchContext.onUpdateNaturalLanguageQuery(value);
   }, [debouncedSearchTerm]);
   const handleOnKeyUp = (evt: React.KeyboardEvent<EventTarget>): void => {
