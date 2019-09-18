@@ -1,10 +1,30 @@
-import React, { useState } from 'react';
+import * as React from 'react';
 import DiscoveryV1 from 'ibm-watson/discovery/v1';
 
-interface DiscoverySearchProps {
+export interface DiscoverySearchProps {
+  /**
+   * Search client
+   */
   searchClient: Pick<DiscoveryV1, 'query'>;
+  /**
+   * Environment ID for collection
+   */
   environmentId: string;
+  /**
+   * Collection ID for collection
+   */
   collectionId: string;
+  /**
+   * Search response used to override internal search results state
+   */
+  searchResults?: DiscoveryV1.QueryResponse;
+  /**
+   * Query parameters used to override internal query parameters state
+   */
+  queryParameters?: Omit<
+    DiscoveryV1.QueryParams,
+    'environment_id' | 'collection_id' | 'logging_opt_out' | 'headers' | 'return_response'
+  >;
 }
 
 interface SearchContext {
@@ -19,8 +39,8 @@ export const SearchContext = React.createContext<SearchContext>({
   onUpdateNaturalLanguageQuery: (): Promise<void> => Promise.resolve(),
   searchResults: {},
   searchParameters: {
-    environment_id: 'foo',
-    collection_id: 'bar'
+    environment_id: '',
+    collection_id: ''
   }
 });
 
@@ -28,13 +48,37 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
   searchClient,
   environmentId,
   collectionId,
+  searchResults,
+  queryParameters,
   children
 }) => {
-  const [searchResults, setSearchResults] = useState<DiscoveryV1.QueryResponse>({});
-  const [searchParameters, setSearchParameters] = useState<DiscoveryV1.QueryParams>({
+  const [stateSearchResults, setStateSearchResults] = React.useState<DiscoveryV1.QueryResponse>(
+    searchResults || {}
+  );
+  const [searchParameters, setSearchParameters] = React.useState<DiscoveryV1.QueryParams>({
     environment_id: environmentId || 'default',
     collection_id: collectionId
   });
+
+  React.useEffect(() => {
+    const newSearchParameters = Object.assign({}, searchParameters, {
+      environment_id: environmentId || 'default',
+      collection_id: collectionId
+    });
+    setSearchParameters(newSearchParameters);
+  }, [environmentId, collectionId]);
+
+  React.useEffect(() => {
+    const newSearchParameters = Object.assign({}, searchParameters, {
+      ...queryParameters
+    });
+    setSearchParameters(newSearchParameters);
+  }, [queryParameters]);
+
+  React.useEffect(() => {
+    setStateSearchResults(searchResults || stateSearchResults);
+  }, [searchResults]);
+
   const handleUpdateNaturalLanguageQuery = (nlq: string): Promise<void> => {
     searchParameters.natural_language_query = nlq;
     setSearchParameters(searchParameters);
@@ -42,14 +86,14 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
   };
   const handleSearch = async (): Promise<void> => {
     const searchResults: DiscoveryV1.QueryResponse = await searchClient.query(searchParameters);
-    setSearchResults(searchResults);
+    setStateSearchResults(searchResults);
   };
   return (
     <SearchContext.Provider
       value={{
         onSearch: handleSearch,
         onUpdateNaturalLanguageQuery: handleUpdateNaturalLanguageQuery,
-        searchResults,
+        searchResults: stateSearchResults,
         searchParameters
       }}
     >
