@@ -20,8 +20,6 @@ const App = () => {
         light={false}
         small={false}
         placeHolderText={'This is some placeholder text...'}
-        hideSearchIcon={true}
-        hideClearIcon={true}
         labelText={'This is some label text...'}
       />
     </DiscoverySearch>

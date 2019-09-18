@@ -90,4 +90,8 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
   );
 };
 
+SearchInput.defaultProps = {
+  labelText: 'Search input label text' // the only required prop for Carbon Search component that doesn't have a default value
+};
+
 export default SearchInput;

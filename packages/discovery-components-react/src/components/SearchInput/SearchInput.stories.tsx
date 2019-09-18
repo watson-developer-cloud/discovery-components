@@ -1,35 +1,23 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
-import { action } from '@storybook/addon-actions';
+import { withKnobs, text, boolean } from '@storybook/addon-knobs/react';
 
 import SearchInput from './SearchInput';
 
 export const props = () => ({
-  // placeholder: text('Placeholder Text', 'Enter search terms'),
-  // suggestions: {
-  //   enabled: boolean('Suggestions enabled', true),
-  //   limit: number('Suggestions limit', 3)
-  // },
-  // querySubmit: () => action('querySubmitClicked')()
+  className: text('ClassName', ''),
+  type: text('Input Type', 'text'),
+  small: boolean('Small', false),
+  light: boolean('Light', true),
+  placeHolderText: text('Placeholder', 'Placeholder text'),
+  labelText: text('Label', 'Label text'),
+  closeButtonLabelText: text('Close button label', 'Close button label text'),
+  defaultValue: text('Default value', '')
 });
 
 storiesOf('SearchInput', module)
   .addDecorator(withKnobs)
   .add('default', () => {
-    return <SearchInput />;
-  })
-  .add(
-    'configurable',
-    () => {
-      const exampleProps = props();
-      return <SearchInput {...exampleProps} />;
-    },
-    {
-      info: {
-        text: `
-          This is a component used to input queries to search Discovery
-        `
-      }
-    }
-  );
+    const exampleProps = props();
+    return <SearchInput {...exampleProps} />;
+  });
