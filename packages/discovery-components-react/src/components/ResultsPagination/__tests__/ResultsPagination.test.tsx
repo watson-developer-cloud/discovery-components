@@ -2,7 +2,6 @@ import * as React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { ResultsPagination } from '../ResultsPagination';
 import { SearchContext } from '../../DiscoverySearch/DiscoverySearch';
-import { number } from '@storybook/addon-knobs';
 
 const setup = (propUpdates?: any) => {
   propUpdates = propUpdates || {};

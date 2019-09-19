@@ -21,21 +21,31 @@ interface ResultsPaginationEvent {
 
 export const ResultsPagination: React.SFC<ResultsPaginationProps> = ({ page, pageSizes }) => {
   const searchContext = React.useContext(SearchContext);
-  const matchingResults = searchContext.searchResults.matching_results || 0;
+  const {
+    onUpdateResultsPagination,
+    onSearch,
+    searchResults: { matching_results }
+  } = searchContext;
+  const matchingResults = matching_results || 0;
 
   const handleOnChange = (evt: ResultsPaginationEvent): void => {
     const { page, pageSize } = evt;
     const offset = (page - 1) * pageSize;
-    searchContext.onUpdateResultsPagination(offset);
-    searchContext.onSearch();
+    onUpdateResultsPagination(offset);
+    onSearch();
   };
 
   return (
     <CarbonPagination
-      page={page || 1}
+      page={page}
       totalItems={matchingResults}
-      pageSizes={pageSizes || [10, 20, 30, 40, 50]}
+      pageSizes={pageSizes}
       onChange={handleOnChange}
     />
   );
+};
+
+ResultsPagination.defaultProps = {
+  page: 1,
+  pageSizes: [10, 20, 30, 40, 50]
 };
