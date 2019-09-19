@@ -12,7 +12,8 @@ export const props = () => ({
   placeHolderText: text('Placeholder', 'Placeholder text'),
   labelText: text('Label', 'Label text'),
   closeButtonLabelText: text('Close button label', 'Close button label text'),
-  defaultValue: text('Default value', '')
+  defaultValue: text('Default value', ''),
+  id: text('ID', 'discovery-search-input')
 });
 
 storiesOf('SearchInput', module)

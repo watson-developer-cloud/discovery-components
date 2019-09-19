@@ -40,6 +40,10 @@ interface SearchInputProps {
    * Set the default value of the query in SearchInput
    */
   defaultValue: string;
+  /**
+   * ID for the SearchInput
+   */
+  id: string;
 }
 
 export const SearchInput: React.SFC<SearchInputProps> = props => {
@@ -51,7 +55,8 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
     labelText,
     light,
     closeButtonLabelText,
-    defaultValue
+    defaultValue,
+    id
   } = props;
 
   const searchContext = React.useContext(SearchContext);
@@ -74,7 +79,7 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
   };
 
   return (
-    <div className={className}>
+    <div className={className} id={id}>
       <CarbonSearchInput
         type={type}
         small={small}
@@ -86,7 +91,6 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
         closeButtonLabelText={closeButtonLabelText}
         defaultValue={defaultValue}
         value={value}
-        id={'carbon-search-input'}
       />
     </div>
   );
