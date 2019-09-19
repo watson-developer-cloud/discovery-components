@@ -15,5 +15,6 @@ declare module '*.svg' {
 }
 
 declare module 'carbon-components-react';
+declare module 'carbon-components';
 declare module '*.md';
 declare module 'marked';

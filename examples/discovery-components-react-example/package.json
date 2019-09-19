@@ -17,6 +17,7 @@
   "dependencies": {
     "@carbon/icons": "^10.5.0",
     "@disco-widgets/react-components": "^1.13.8",
+    "@disco-widgets/styles": "^1.0.0",
     "body-parser": "^1.19.0",
     "carbon-components": "^10.6.0",
     "carbon-components-react": "^7.6.0",

@@ -26,24 +26,58 @@ git clone https://github.ibm.com/Watson-Discovery/disco-widgets.git
 
 ```
 .
-├── examples
-│   └── discovery-components-react-example // use-case of the component library
-│       ├── cypress // feature tests
-│       └── src // source code for an example application
+├── README.md
+├── docs                                     // docs published at pages.github.com
+│   ├── _config.yml
+│   ├── components
+│   │   └── components.md
+│   ├── getting-started
+│   │   ├── contributing.md
+│   │   ├── getting-started.md
+│   │   └── overview.md
+│   ├── index.md
+│   └── storybook                            // static storybook build
+├── examples                                 // examples directory to demo use-cases
+│   └── discovery-components-react-example   // kitchen-sink example application
+│       ├── CHANGELOG.md
+│       ├── README.md
+│       ├── cypress                          // e2e testing suite
+│       ├── cypress.json
+│       ├── package.json
+│       ├── server.js                        // example server
+│       └── src                              // client-side source
 │           ├── App.js
 │           ├── __tests__
 │           │   └── App.test.js
-│           ├── index.css
-│           └── index.js
-└── packages
-    └── discovery-components-react // react component library
-        ├── dist // distributable files to be consumed in a client application `npm/yarn install`
-        │   ├── index.d.ts
-        │   ├── index.es.js
-        │   ├── index.es.js.map
-        │   ├── index.js
-        │   └── index.js.map
-        └── src // source code for component library
+│           ├── index.js
+│           └── index.scss
+└──  packages                                 // libraries
+    ├── discovery-components-react           // react components package
+    │   ├── src
+    │   │   ├── components
+    │   │   │   ├── DiscoverySearch
+    │   │   │   │   ├── DiscoverySearch.tsx
+    │   │   │   │   └── __stories__          // per-component stories directory
+    │   │   │   │       ├── DiscoverySearch.stories.tsx
+    │   │   │   │       ├── custom_client.md
+    │   │   │   │       └── default.md
+    │   │   │   ├── ExampleComponent
+    │   │   │   │   ├── ExampleComponent.stories.tsx
+    │   │   │   │   ├── ExampleComponent.tsx
+    │   │   │   │   └── __tests__
+    │   │   │   │       └── ExampleComponent.test.tsx
+    │   │   │   └── SearchInput
+    │   │   │       └── SearchInput.tsx
+    │   │   ├── typings.d.ts                // type declarations
+    │   │   └── utils                       // utilities used across components
+    │   ├── tsconfig.json
+    │   └── tsconfig.prod.json
+    └── discovery-styles                    // SASS styles agnostic to JS framework
+        └── scss
+            ├── components
+            │   └── example-component
+            │       └── _example-component.scss
+            └── index.scss
 ```
 
 Disco Widgets is setup as a monorepo. At the top level, `packages` contains all of the individual packages that will be offered as part of this library.
@@ -95,8 +129,13 @@ Our React package uses [Create React Library](https://www.npmjs.com/package/crea
 | `yarn start`                        | runs the `rollup` compiler in watch mode for the component library |
 | `yarn build`                        | uses `rollup` to create a production build of component library    |
 | `yarn test`                         | runs the unit/integration tests for the component library          |
-| `yarn test:watch`                   | runs the unit/integration tests in watch mode |
-| `yarn code-coverage`                | runs the unit/integration tests code coverage report |
+| `yarn test:watch`                   | runs the unit/integration tests in watch mode                      |
+| `yarn code-coverage`                | runs the unit/integration tests code coverage report               |
+
+| packages/discovery-styles | Description                                       |
+| ------------------------- | ------------------------------------------------- |
+| `yarn start`              | runs `node-sass` in `watch` mode                  |
+| `yarn build`              | runs `node-sass` to compile `scss` files to `css` |
 
 ## Running the Project
 
@@ -107,6 +146,18 @@ yarn
 yarn workspace @disco-widgets/react-components build
 yarn workspace discovery-components-react-example start
 ```
+
+### Styling
+
+We will be following the [carbon styleguide](https://www.carbondesignsystem.com) for styling principles which follows a slightly modified [BEM](http://getbem.com/naming/) syntax -> i.e. `bx--block__element--modifier` where `bx` is just the prefix to prevent naming collisions. All styles belong in the `discovery-styles` package.
+
+Wherever possible, we should be using
+
+- `vars` like "prefix"
+  - almost on all files add-in -> `@import '~carbon-components/scss/globals/scss/vars';`
+  - we may revisit this when doing optimizations
+- [color tokens](https://www.carbondesignsystem.com/guidelines/color/usage/#tokens-by-theme)
+- [spacing tokens](https://www.carbondesignsystem.com/guidelines/themes#spacing)
 
 ## Running Storybook
 

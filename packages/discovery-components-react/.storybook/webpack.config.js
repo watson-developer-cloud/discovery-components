@@ -1,6 +1,7 @@
 const path = require('path');
 const SRC_PATH = path.join(__dirname, '../src');
 
+const styles = require.resolve('@disco-widgets/styles');
 module.exports = ({ config }) => {
   config.node = {
     fs: 'empty'
@@ -24,6 +25,11 @@ module.exports = ({ config }) => {
         options: { parser: 'typescript' }
       }
     ]
+  });
+  config.module.rules.push({
+    test: /\.scss$/,
+    use: ['style-loader', 'css-loader', 'sass-loader'],
+    include: styles
   });
   config.resolve.extensions.push('.ts', '.tsx');
   return config;

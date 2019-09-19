@@ -25,7 +25,8 @@
     "carbon-components-react": "^7.6.0",
     "ibm-watson": "^4.4.0",
     "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "react-dom": "^16.8.0",
+    "@disco-widgets/styles": "1.0.0"
   },
   "engines": {
     "node": ">=8",
