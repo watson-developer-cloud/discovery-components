@@ -38,7 +38,6 @@
     "lerna": "^3.16.4",
     "lerna-update-wizard": "^0.16.0",
     "lint-staged": "^9.2.5",
-    "node-sass": "^4.12.0",
     "marked": "^0.7.0",
     "node-sass": "^4.12.0",
     "node-sass-tilde-importer": "^1.0.2",
