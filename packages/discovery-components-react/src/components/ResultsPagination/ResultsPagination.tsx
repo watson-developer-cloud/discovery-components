@@ -4,6 +4,11 @@ import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
 
 interface ResultsPaginationProps {
   /**
+   * Current page displayed
+   */
+  page: number;
+
+  /**
    * Array of available result counts to show per page
    */
   pageSizes: Array<number>;
@@ -14,7 +19,7 @@ interface ResultsPaginationEvent {
   pageSize: number;
 }
 
-export const ResultsPagination: React.SFC<ResultsPaginationProps> = ({ pageSizes }) => {
+export const ResultsPagination: React.SFC<ResultsPaginationProps> = ({ page, pageSizes }) => {
   const searchContext = React.useContext(SearchContext);
   const matchingResults = searchContext.searchResults.matching_results || 0;
 
@@ -27,6 +32,7 @@ export const ResultsPagination: React.SFC<ResultsPaginationProps> = ({ pageSizes
 
   return (
     <CarbonPagination
+      page={page || 1}
       totalItems={matchingResults}
       pageSizes={pageSizes || [10, 20, 30, 40, 50]}
       onChange={handleOnChange}
