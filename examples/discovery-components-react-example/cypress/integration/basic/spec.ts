@@ -7,7 +7,7 @@ describe('basic test', () => {
 
   it('loads page', () => {
     cy.visit('/');
-    cy.get('input').type('abil{enter}');
+    cy.get('.bx--search input').type('abil{enter}');
     cy.wait('@postQuery')
       .its('requestBody.natural_language_query')
       .should('eq', 'abil');

@@ -170,6 +170,14 @@ cd packages/discovery-components-react
 yarn storybook
 ```
 
+## Developing Storybook
+
+If a component's storybook story isn't correctly including the defined propTypes and description, check in your component definition file that you are importing React with:
+
+```
+import * as React from 'react';
+```
+
 ## Unit/Integration Testing
 
 For our React components, we're using Jest for our unit and integration. Tests are rendered through [react-testing-library](https://testing-library.com/), which also provides some additional functionality.
