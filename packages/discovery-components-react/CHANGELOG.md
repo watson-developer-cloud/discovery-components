@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.15.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.14.0...@disco-widgets/react-components@1.15.0) (2019-09-19)
+
+
+### Features
+
+* Refinements component basic ([#106](http:///discovery-components-react/issues/106)) ([2416fc7](http:///discovery-components-react/commits/2416fc7))
+
+
+
+
+
 # [1.14.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.13.8...@disco-widgets/react-components@1.14.0) (2019-09-19)
 
 
