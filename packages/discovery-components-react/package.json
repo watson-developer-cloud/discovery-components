@@ -24,6 +24,7 @@
     "@disco-widgets/styles": "1.0.0",
     "carbon-components": "^10.6.0",
     "carbon-components-react": "^7.6.0",
+    "carbon-icons": "^7.0.7",
     "ibm-watson": "^4.4.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
@@ -35,10 +36,5 @@
   "jsnext:main": "dist/index.es.js",
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {
-    "carbon-components": "^10.6.1",
-    "carbon-components-react": "^7.6.1",
-    "carbon-icons": "^7.0.7"
   }
 }
