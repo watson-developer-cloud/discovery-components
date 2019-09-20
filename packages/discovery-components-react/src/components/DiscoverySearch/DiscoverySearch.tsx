@@ -30,6 +30,7 @@ export interface DiscoverySearchProps {
 interface SearchContext {
   onSearch: () => Promise<void>;
   onUpdateNaturalLanguageQuery: (nlq: string) => Promise<void>;
+  onUpdateResultsPagination: (offset: number) => Promise<void>;
   searchResults: DiscoveryV1.QueryResponse;
   searchParameters: DiscoveryV1.QueryParams;
 }
@@ -37,6 +38,7 @@ interface SearchContext {
 export const SearchContext = React.createContext<SearchContext>({
   onSearch: (): Promise<void> => Promise.resolve(),
   onUpdateNaturalLanguageQuery: (): Promise<void> => Promise.resolve(),
+  onUpdateResultsPagination: (): Promise<void> => Promise.resolve(),
   searchResults: {},
   searchParameters: {
     environment_id: '',
@@ -84,6 +86,11 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
     setSearchParameters(searchParameters);
     return Promise.resolve();
   };
+  const handleResultsPagination = (offset: number): Promise<void> => {
+    searchParameters.offset = offset;
+    setSearchParameters(searchParameters);
+    return Promise.resolve();
+  };
   const handleSearch = async (): Promise<void> => {
     const searchResults: DiscoveryV1.QueryResponse = await searchClient.query(searchParameters);
     setStateSearchResults(searchResults);
@@ -93,6 +100,7 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
       value={{
         onSearch: handleSearch,
         onUpdateNaturalLanguageQuery: handleUpdateNaturalLanguageQuery,
+        onUpdateResultsPagination: handleResultsPagination,
         searchResults: stateSearchResults,
         searchParameters
       }}
