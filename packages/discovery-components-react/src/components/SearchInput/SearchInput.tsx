@@ -1,5 +1,5 @@
 /**
- * @class SearchInputProps
+ * @class SearchInput
  */
 
 import * as React from 'react';

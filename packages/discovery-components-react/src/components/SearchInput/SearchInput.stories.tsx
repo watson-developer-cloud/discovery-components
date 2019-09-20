@@ -4,7 +4,7 @@ import { withKnobs, text, boolean } from '@storybook/addon-knobs/react';
 
 import SearchInput from './SearchInput';
 
-export const props = () => ({
+const props = () => ({
   className: text('ClassName', ''),
   small: boolean('Small', false),
   light: boolean('Light', true),
