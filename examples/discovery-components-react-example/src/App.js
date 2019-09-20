@@ -1,7 +1,9 @@
 import React from 'react';
 import DiscoveryV1 from 'ibm-watson/discovery/v1';
+import './app.scss';
+import refinementsQueryResponse from './fixtures/refinementsQueryResponse';
 
-import { DiscoverySearch, SearchInput } from '@disco-widgets/react-components';
+import { DiscoverySearch, SearchInput, SearchRefinements } from '@disco-widgets/react-components';
 
 const App = () => {
   // TODO: this is a dummy client to route requests to the server since CP4D doesn't support CORS
@@ -22,6 +24,7 @@ const App = () => {
         placeHolderText={'This is some placeholder text...'}
         labelText={'This is some label text...'}
       />
+      <SearchRefinements queryResponse={refinementsQueryResponse} />
     </DiscoverySearch>
   );
 };

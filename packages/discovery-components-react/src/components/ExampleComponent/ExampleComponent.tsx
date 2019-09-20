@@ -4,7 +4,7 @@
  */
 
 import * as React from 'react';
-import styles from './styles.css';
+import { settings } from 'carbon-components';
 import querySuggestions from './suggestions';
 
 // Currently only the placholder description is show by addon-info. The
@@ -63,7 +63,7 @@ export class ExampleComponent extends React.Component<Props, State> {
     } = this.props;
 
     return (
-      <div className={styles.test}>
+      <div className={`${settings.prefix}--example-component`}>
         <input type="text" placeholder={placeholder} onChange={this.updateQueryString} />
         <button onClick={querySubmit}>Submit Query</button>
         {!!enabled && this.state.query.length > 0 && (
