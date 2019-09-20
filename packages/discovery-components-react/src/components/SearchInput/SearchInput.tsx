@@ -9,10 +9,6 @@ import useDebounce from '../../utils/useDebounce';
 
 interface SearchInputProps {
   /**
-   * The type of input (optional)
-   */
-  type: string;
-  /**
    * True to use small variant of Search
    */
   small: boolean;
@@ -48,7 +44,6 @@ interface SearchInputProps {
 
 export const SearchInput: React.SFC<SearchInputProps> = props => {
   const {
-    type,
     small,
     placeHolderText,
     className,
@@ -81,7 +76,6 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
   return (
     <div className={className} id={id}>
       <CarbonSearchInput
-        type={type}
         small={small}
         placeHolderText={placeHolderText}
         onKeyUp={handleOnKeyUp}

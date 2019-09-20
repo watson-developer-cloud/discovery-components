@@ -6,7 +6,6 @@ import SearchInput from './SearchInput';
 
 export const props = () => ({
   className: text('ClassName', ''),
-  type: text('Input Type', 'text'),
   small: boolean('Small', false),
   light: boolean('Light', true),
   placeHolderText: text('Placeholder', 'Placeholder text'),
