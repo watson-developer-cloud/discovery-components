@@ -1,3 +1,9 @@
 $css--plex: true !default;
 
+// Component styles
 @import 'components/example-component/example-component';
+@import 'components/search-input/search-input';
+
+// Global styles
+@import 'carbon-components/scss/globals/scss/_css--font-face.scss';
+@import 'carbon-components/scss/globals/scss/_colors.scss';
