@@ -24,9 +24,8 @@ export const ResultsPagination: React.SFC<ResultsPaginationProps> = ({ page, pag
   const {
     onUpdateResultsPagination,
     onSearch,
-    searchResults: { matching_results }
+    searchResults: { matching_results: matchingResults }
   } = searchContext;
-  const matchingResults = matching_results || 0;
 
   const handleOnChange = (evt: ResultsPaginationEvent): void => {
     const { page, pageSize } = evt;
@@ -38,7 +37,7 @@ export const ResultsPagination: React.SFC<ResultsPaginationProps> = ({ page, pag
   return (
     <CarbonPagination
       page={page}
-      totalItems={matchingResults}
+      totalItems={matchingResults || 0}
       pageSizes={pageSizes}
       onChange={handleOnChange}
     />
@@ -49,3 +48,5 @@ ResultsPagination.defaultProps = {
   page: 1,
   pageSizes: [10, 20, 30, 40, 50]
 };
+
+export default ResultsPagination;
