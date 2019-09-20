@@ -2,9 +2,11 @@ import React from 'react';
 import DiscoveryV1 from 'ibm-watson/discovery/v1';
 import './app.scss';
 import refinementsQueryResponse from './fixtures/refinementsQueryResponse';
+
 import {
   DiscoverySearch,
   SearchInput,
+  SearchResults,
   SearchRefinements,
   ResultsPagination
 } from '@disco-widgets/react-components';
@@ -23,6 +25,7 @@ const App = () => {
       collectionId={'3bbf3413-e6ee-a939-0000-016cc02a54c5'}
     >
       <SearchInput />
+      <SearchResults />
       <SearchRefinements queryResponse={refinementsQueryResponse} />
       <ResultsPagination />
     </DiscoverySearch>
