@@ -8,6 +8,6 @@ interface Props {
   file: string;
 }
 
-const RichPreview: SFC<Props> = ({ file }) => <PdfViewer file={file} page={1} scale={1} />;
+export const RichPreview: SFC<Props> = ({ file }) => <PdfViewer file={file} page={1} scale={1} />;
 
 export default RichPreview;

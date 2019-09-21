@@ -2,13 +2,15 @@ import React from 'react';
 import DiscoveryV1 from 'ibm-watson/discovery/v1';
 import './app.scss';
 import refinementsQueryResponse from './fixtures/refinementsQueryResponse';
+import { document as pdfDocument } from './fixtures/intro_to_watson_discovery';
 
 import {
   DiscoverySearch,
   SearchInput,
   SearchResults,
   SearchRefinements,
-  ResultsPagination
+  ResultsPagination,
+  RichPreview
 } from '@disco-widgets/react-components';
 
 const App = () => {
@@ -28,6 +30,7 @@ const App = () => {
       <SearchResults />
       <SearchRefinements queryResponse={refinementsQueryResponse} />
       <ResultsPagination />
+      <RichPreview file={atob(pdfDocument)} />
     </DiscoverySearch>
   );
 };
