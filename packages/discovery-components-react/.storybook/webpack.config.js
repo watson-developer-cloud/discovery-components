@@ -31,6 +31,10 @@ module.exports = ({ config }) => {
     use: ['style-loader', 'css-loader', 'sass-loader'],
     include: styles
   });
+  config.module.rules.push({
+    test: /\.worker\.min\.js$/,
+    use: 'raw-loader'
+  });
   config.resolve.extensions.push('.ts', '.tsx');
   return config;
 };

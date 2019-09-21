@@ -39,5 +39,9 @@
   "dependencies": {
     "lodash.get": "^4.4.2",
     "pdfjs-dist": "^2.1.266"
+  },
+  "devDependencies": {
+    "raw-loader": "^3.1.0",
+    "rollup-plugin-string": "^3.0.0"
   }
 }
