@@ -23,10 +23,20 @@
   },
   "rules": {
     "@typescript-eslint/indent": "off",
-    "@typescript-eslint/camelcase": ["error", { "properties": "never" }],
+    "@typescript-eslint/camelcase": ["error", {
+      "properties": "never"
+    }],
     "@typescript-eslint/explicit-function-return-type": [
       "warn",
-      { "allowTypedFunctionExpressions": true }
+      {
+        "allowTypedFunctionExpressions": true
+      }
+    ],
+    "@typescript-eslint/no-use-before-define": [
+      "error",
+      {
+        "functions": false
+      }
     ],
     "react/prop-types": "off"
   }

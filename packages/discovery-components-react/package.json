@@ -37,6 +37,7 @@
     "access": "public"
   },
   "dependencies": {
-    "lodash.get": "^4.4.2"
+    "lodash.get": "^4.4.2",
+    "pdfjs-dist": "^2.1.266"
   }
 }
