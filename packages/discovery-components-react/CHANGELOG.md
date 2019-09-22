@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.17.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.16.1...@disco-widgets/react-components@1.17.0) (2019-09-21)
+
+
+### Features
+
+* PDF Viewer component ([#115](http:///discovery-components-react/issues/115)) ([92effb5](http:///discovery-components-react/commits/92effb5))
+
+
+
+
+
 ## [1.16.1](http:///discovery-components-react/compare/@disco-widgets/react-components@1.16.0...@disco-widgets/react-components@1.16.1) (2019-09-20)
 
 **Note:** Version bump only for package @disco-widgets/react-components
