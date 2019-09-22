@@ -95,10 +95,15 @@ function _renderPage(pdfPage: any, canvas: HTMLCanvasElement, scale: number): vo
 }
 
 // set up web worker for use by PDF.js library
+// @see https://stackoverflow.com/a/6454685/908343
 function setupPdfjs(): void {
-  const blob = new Blob([PdfjsWorkerAsText], { type: 'text/javascript' });
-  const pdfjsWorker = new Worker(window.URL.createObjectURL(blob));
-  PdfjsLib.GlobalWorkerOptions.workerPort = pdfjsWorker;
+  if (typeof Worker !== 'undefined') {
+    const blob = new Blob([PdfjsWorkerAsText], { type: 'text/javascript' });
+    const pdfjsWorker = new Worker(URL.createObjectURL(blob));
+    PdfjsLib.GlobalWorkerOptions.workerPort = pdfjsWorker;
+  } else {
+    PdfjsLib.GlobalWorkerOptions.workerSrc = PdfjsWorkerAsText;
+  }
 }
 
 export default PdfViewer;
