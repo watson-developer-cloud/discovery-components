@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.12.1](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.12.0...discovery-components-react-example@1.12.1) (2019-09-23)
+
+**Note:** Version bump only for package discovery-components-react-example
+
+
+
+
+
+# [1.12.0](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.11.3...discovery-components-react-example@1.12.0) (2019-09-23)
+
+
+### Features
+
+* generate node sdk ([#111](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/111)) ([ca42740](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/ca42740))
+
+
+
+
+
+## [1.11.3](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.11.2...discovery-components-react-example@1.11.3) (2019-09-21)
+
+**Note:** Version bump only for package discovery-components-react-example
+
+
+
+
+
+## [1.11.2](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.11.1...discovery-components-react-example@1.11.2) (2019-09-20)
+
+**Note:** Version bump only for package discovery-components-react-example
+
+
+
+
+
 ## [1.11.1](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.11.0...discovery-components-react-example@1.11.1) (2019-09-20)
 
 **Note:** Version bump only for package discovery-components-react-example

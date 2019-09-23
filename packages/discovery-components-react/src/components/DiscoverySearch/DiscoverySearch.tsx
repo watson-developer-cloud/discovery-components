@@ -1,5 +1,5 @@
 import * as React from 'react';
-import DiscoveryV1 from 'ibm-watson/discovery/v1';
+import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 
 export interface DiscoverySearchProps {
   /**
@@ -27,7 +27,7 @@ export interface DiscoverySearchProps {
   >;
 }
 
-interface SearchContext {
+export interface SearchContextIFC {
   onSearch: () => Promise<void>;
   onUpdateNaturalLanguageQuery: (nlq: string) => Promise<void>;
   onUpdateResultsPagination: (offset: number) => Promise<void>;
@@ -35,7 +35,7 @@ interface SearchContext {
   searchParameters: DiscoveryV1.QueryParams;
 }
 
-export const SearchContext = React.createContext<SearchContext>({
+export const SearchContext = React.createContext<SearchContextIFC>({
   onSearch: (): Promise<void> => Promise.resolve(),
   onUpdateNaturalLanguageQuery: (): Promise<void> => Promise.resolve(),
   onUpdateResultsPagination: (): Promise<void> => Promise.resolve(),

@@ -11,8 +11,10 @@
     "@storybook/addon-storysource": "^5.1.11",
     "@storybook/react": "^5.1.11",
     "@svgr/rollup": "^4.3.2",
+    "@testing-library/jest-dom": "^4.1.0",
     "@testing-library/react": "^9.1.4",
     "@types/jest": "^24.0.18",
+    "@types/lodash.get": "^4.4.6",
     "@types/node": "^12.7.3",
     "@types/react": "^16.9.2",
     "@types/react-dom": "^16.9.0",
@@ -60,7 +62,7 @@
     "webpack": "4.39.1"
   },
   "scripts": {
-    "lint": "eslint '{packages,examples}/**/*.{js,jsx,ts,tsx}' --quiet --fix --ignore-path .gitignore"
+    "lint": "eslint '{packages,examples}/**/*.{js,jsx,ts,tsx}' --quiet --fix"
   },
   "lint-staged": {
     "{packages,examples}/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [

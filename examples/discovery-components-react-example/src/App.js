@@ -1,10 +1,12 @@
 import React from 'react';
-import DiscoveryV1 from 'ibm-watson/discovery/v1';
+import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 import './app.scss';
 import refinementsQueryResponse from './fixtures/refinementsQueryResponse';
+
 import {
   DiscoverySearch,
   SearchInput,
+  SearchResults,
   SearchRefinements,
   ResultsPagination
 } from '@disco-widgets/react-components';
@@ -28,6 +30,7 @@ const App = () => {
         placeHolderText={'This is some placeholder text...'}
         labelText={'This is some label text...'}
       />
+      <SearchResults />
       <SearchRefinements queryResponse={refinementsQueryResponse} />
       <ResultsPagination />
     </DiscoverySearch>
