@@ -24,7 +24,12 @@ const App = () => {
       searchClient={searchClient}
       collectionId={'3bbf3413-e6ee-a939-0000-016cc02a54c5'}
     >
-      <SearchInput />
+      <SearchInput
+        light={false}
+        small={false}
+        placeHolderText={'This is some placeholder text...'}
+        labelText={'This is some label text...'}
+      />
       <SearchResults />
       <SearchRefinements queryResponse={refinementsQueryResponse} />
       <ResultsPagination />
