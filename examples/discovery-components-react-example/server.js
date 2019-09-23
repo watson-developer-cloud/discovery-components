@@ -1,3 +1,5 @@
+require('dotenv').config({ path: './.server-env' });
+
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 const express = require('express');
@@ -7,7 +9,8 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 /* eslint-enable @typescript-eslint/no-var-requires */
 
-const baseUrl = 'https://blissful-tharp-balancer.fyre.ibm.com:31843';
+const BASE_URL = process.env.BASE_URL;
+const RELEASE_PATH = process.env.RELEASE_PATH;
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.json());
 app.options('*', cors());
@@ -20,8 +23,8 @@ app.post(
   async (req, res) => {
     try {
       const searchClient = new DiscoveryV1({
-        url: `${baseUrl}/discovery/zen-apostle/instances/1566577081/api`,
-        icp4d_url: baseUrl,
+        url: `${BASE_URL}${RELEASE_PATH}`,
+        icp4d_url: BASE_URL,
         authentication_type: 'icp4d',
         username: 'admin',
         password: 'password',

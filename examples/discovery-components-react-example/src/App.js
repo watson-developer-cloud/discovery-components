@@ -24,7 +24,7 @@ const App = () => {
   return (
     <DiscoverySearch
       searchClient={searchClient}
-      collectionId={'3bbf3413-e6ee-a939-0000-016cc02a54c5'}
+      collectionId={'11ddaf80-10b3-3001-0000-016d5f7ca748'}
     >
       <SearchInput
         light={false}
