@@ -7,5 +7,5 @@ $css--plex: true !default;
 @import 'components/results-pagination/results-pagination';
 
 // Global styles
-@import 'carbon-components/scss/globals/scss/_css--font-face.scss';
-@import 'carbon-components/scss/globals/scss/_colors.scss';
+@import '~carbon-components/scss/globals/scss/_css--font-face.scss';
+@import '~carbon-components/scss/globals/scss/_colors.scss';
