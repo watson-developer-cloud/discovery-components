@@ -159,6 +159,32 @@ Wherever possible, we should be using
 - [color tokens](https://www.carbondesignsystem.com/guidelines/color/usage/#tokens-by-theme)
 - [spacing tokens](https://www.carbondesignsystem.com/guidelines/themes#spacing)
 
+## Generating the `ibm-watson` package
+
+Until the [official IBM Watson node SDK](https://github.com/IBM/node-sdk-core) is published, we are using the generation framework to make changes to the swagger used to generate the SDK so that we:
+
+1. don't have to build a wrapper HTTP library ourselves
+1. can eventually contribute back the changes to the official SDK to be published and maintained by the SDK generation team (found in the slack channel #wcp-sdk-generation)
+
+We can build the customized SDK using 3 pieces:
+
+1. **the swagger definition** at https://github.ibm.com/Watson/developer-cloud--api-definitions - this contains the models/methods in a programming language-agnostic definition that can be used in the SDK generator. **THIS IS WHERE WE WILL MAKE CHANGES**
+1. **the SDK generator** at https://github.ibm.com/CloudEngineering/openapi-sdkgen - this contains the custom logic built on top of the swagger-to-code generation tools provided by OpenAPI that can turn a swagger definition into any of the supported languages
+1. **the node SDK template** at https://github.ibm.com/CloudEngineering/node-sdk-template - this pulls in the various dependencies used to build the typescript project using the typescript compiler. it mirrors the project structure we see at https://github.com/watson-developer-cloud/node-sdk
+
+In order to do this generation, follow these **ONE TIME** setup steps:
+
+1. Clone the [developer-cloud--api-definitions Watson-Discovery fork](https://github.ibm.com/Watson-Discovery/developer-cloud--api-definitions)
+1. Download a `1.x.x` tar file from https://github.ibm.com/CloudEngineering/openapi-sdkgen/releases (`2.0.0` and up have breaking changes)
+1. Run `tar -xzf openapi-sdkgen-<version>.tar.gz` to extract the generator into your current directory
+
+After the above **ONE TIME** setup steps, these are the **REPEATABLE** steps:
+
+1. **Make changes the swagger** - any API work should only require updating the swagger definition in [developer-cloud--api-definitions](https://github.ibm.com/Watson-Discovery/developer-cloud--api-definitions) for the `apis-private/discovery-data-v1.json` file
+1. **Run the script** `./openapi-sdkgen.sh generate -i <your api def directory>/apis-private/discovery-data-v1.json -g watson-node -o <your widgets directory>/packages/ibm-watson`
+   - This should have overwritten the existing file at `packages/ibm-watson/discovery/v1.ts` with any changes you made
+1. **Build the project** with `yarn run build`. It should generate `.d.ts` and `.js` files for the SDK.
+
 ## Running Storybook
 
 Component documentation is done through Storybook.

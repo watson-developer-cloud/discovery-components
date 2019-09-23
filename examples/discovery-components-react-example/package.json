@@ -23,7 +23,7 @@
     "carbon-components-react": "^7.6.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "ibm-watson": "^4.4.0",
+    "@disco-widgets/ibm-watson": "^1.0.0",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",

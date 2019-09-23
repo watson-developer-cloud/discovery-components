@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
-import DiscoveryV1 from 'ibm-watson/discovery/v1';
+import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 
 import { Result } from './Result';
 

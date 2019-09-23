@@ -24,7 +24,7 @@
     "@disco-widgets/styles": "1.0.0",
     "carbon-components": "^10.6.0",
     "carbon-components-react": "^7.6.0",
-    "ibm-watson": "^4.4.0",
+    "@disco-widgets/ibm-watson": "^1.0.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },
