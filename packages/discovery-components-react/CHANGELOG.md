@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.18.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.17.0...@disco-widgets/react-components@1.18.0) (2019-09-23)
+
+
+### Features
+
+* generate node sdk ([#111](http:///discovery-components-react/issues/111)) ([ca42740](http:///discovery-components-react/commits/ca42740))
+
+
+
+
+
 # [1.17.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.16.1...@disco-widgets/react-components@1.17.0) (2019-09-21)
 
 
