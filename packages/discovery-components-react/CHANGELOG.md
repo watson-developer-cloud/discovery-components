@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.19.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.18.0...@disco-widgets/react-components@1.19.0) (2019-09-23)
+
+
+### Features
+
+* Refinements config to agg ([#118](http:///discovery-components-react/issues/118)) ([705abb0](http:///discovery-components-react/commits/705abb0))
+
+
+
+
+
 # [1.18.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.17.0...@disco-widgets/react-components@1.18.0) (2019-09-23)
 
 
