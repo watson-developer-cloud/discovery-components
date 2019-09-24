@@ -1,7 +1,11 @@
 $css--plex: true !default;
 
+// Component styles
 @import 'components/example-component/example-component';
-
+@import 'components/search-input/search-input';
+@import 'components/search-refinements/search-refinements';
 @import 'components/results-pagination/results-pagination';
 
-@import 'components/search-refinements/search-refinements';
+// Global styles
+@import '~carbon-components/scss/globals/scss/_css--font-face.scss';
+@import '~carbon-components/scss/globals/scss/_colors.scss';

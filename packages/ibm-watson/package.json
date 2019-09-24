@@ -1,0 +1,23 @@
+{
+  "name": "@disco-widgets/ibm-watson",
+  "version": "1.1.0",
+  "description": "IBM Cloud Node SDK",
+  "license": "Apache-2.0",
+  "repository": "/ibm-watson",
+  "keywords": [
+    "ibm"
+  ],
+  "author": "IBM Corp.",
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "yarn run build"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "dependencies": {
+    "@types/node": "^12.0.8",
+    "extend": "^3.0.2",
+    "ibm-cloud-sdk-core": "^0.3.5"
+  }
+}

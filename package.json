@@ -62,7 +62,7 @@
     "webpack": "4.39.1"
   },
   "scripts": {
-    "lint": "eslint '{packages,examples}/**/*.{js,jsx,ts,tsx}' --quiet --fix --ignore-path .gitignore"
+    "lint": "eslint '{packages,examples}/**/*.{js,jsx,ts,tsx}' --quiet --fix"
   },
   "lint-staged": {
     "{packages,examples}/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [

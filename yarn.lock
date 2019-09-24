@@ -2873,6 +2873,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-11.13.20.tgz#da42fe93d6599f80b35ffeb5006f4c31f40d89ea"
   integrity sha512-JE0UpLWZTV1sGcaj0hN+Q0760OEjpgyFJ06DOMVW6qKBducKdJQaIw0TGL6ccj7VXRduIOHLWQi+tHwulZJHVQ==
 
+"@types/node@^12.0.8":
+  version "12.7.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.7.5.tgz#e19436e7f8e9b4601005d73673b6dc4784ffcc2f"
+  integrity sha512-9fq4jZVhPNW8r+UYKnxF1e2HkDWOWKM5bC2/7c9wPV835I0aOrVbS/Hw/pWPk2uKrNXQqg9Z959Kz+IYDd5p3w==
+
 "@types/node@^6.14.4":
   version "6.14.7"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-6.14.7.tgz#2173f79d7a61d97d3aad2feeaac7ac69a3df39af"
@@ -4864,9 +4869,9 @@ capture-stack-trace@^1.0.0:
   integrity sha512-mYQLZnx5Qt1JgB1WEiMCf2647plpGeQ2NMR/5L0HNZzGQo4fuSPnK+wjfPnKZV0aiJDgzmWqqkV/g7JD+DW0qw==
 
 carbon-components-react@^7.6.0:
-  version "7.6.0"
-  resolved "https://registry.yarnpkg.com/carbon-components-react/-/carbon-components-react-7.6.0.tgz#ba746a6ca87f7386bee6700622a8ce11d07e3eff"
-  integrity sha512-kNPzZaONCQCpur3mS2veWQ5BWH52yStpGPMNPZEOvoSH01H9Shvr37tJ/kHevEKDpdlAQ5jEznAPkBkH3Ik0oQ==
+  version "7.6.1"
+  resolved "https://registry.yarnpkg.com/carbon-components-react/-/carbon-components-react-7.6.1.tgz#a98acf24852d1d51e852de2820f078eee6f798c2"
+  integrity sha512-QjtB3t8e8JJSLSGMDxK2DQHCEdRt3t+Q+Ivf6JUs1Y1BuuZrTt7zzP3TdiBHHMeUvW/gbs+/8I9gT56pHYwrqg==
   dependencies:
     "@carbon/icons-react" "10.6.0"
     classnames "2.2.6"
@@ -4882,9 +4887,9 @@ carbon-components-react@^7.6.0:
     window-or-global "^1.0.1"
 
 carbon-components@^10.6.0:
-  version "10.6.0"
-  resolved "https://registry.yarnpkg.com/carbon-components/-/carbon-components-10.6.0.tgz#e6ac0cbfbc01cf6dd5a667cfdc39af443ef741e7"
-  integrity sha512-nLPB512oG103CALSaq+7ZJWC/x1zvIzyDonYRqg9kE4uujMFLFBniVo8MSX227OpM7LMxVCX+aWDTmxoxVygtQ==
+  version "10.6.1"
+  resolved "https://registry.yarnpkg.com/carbon-components/-/carbon-components-10.6.1.tgz#7503b466657ad543dca366898cded5c1f721d99f"
+  integrity sha512-/BJ/qVTa7jaMPzrSExAD2ESHK3U0BG1Uy4M/OGHFkBIyg4fAWbnCXhVrkIy3wBoK2dQk9sm2/8rhEUq9KWFGLQ==
   dependencies:
     carbon-icons "^7.0.7"
     flatpickr "4.6.1"
@@ -7361,7 +7366,7 @@ extend-shallow@^3.0.0, extend-shallow@^3.0.2:
     assign-symbols "^1.0.0"
     is-extendable "^1.0.1"
 
-extend@^3.0.0, extend@~3.0.2:
+extend@^3.0.0, extend@^3.0.2, extend@~3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.2.tgz#f8b1136b4071fbd8eb140aff858b1019ec2915fa"
   integrity sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==

@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { SearchContextIFC } from '../../DiscoverySearch/DiscoverySearch';
-import DiscoveryV1 from 'ibm-watson/discovery/v1';
+import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 
 import { wrapWithContext } from '../../../utils/testingUtils';
 import { SearchResults } from '../SearchResults';
