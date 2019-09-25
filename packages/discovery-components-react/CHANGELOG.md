@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.21.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.20.2...@disco-widgets/react-components@1.21.0) (2019-09-25)
+
+
+### Bug Fixes
+
+* missing prop ([35ac035](http:///discovery-components-react/commits/35ac035))
+* move devDeps to top-level package.json ([965e65e](http:///discovery-components-react/commits/965e65e))
+* only use `Worker` if it's defined ([43eaef4](http:///discovery-components-react/commits/43eaef4))
+* properly load web worker for use by PDF.js ([2a941ad](http:///discovery-components-react/commits/2a941ad))
+
+
+### Features
+
+* add Rich Preview component to example app ([4ea8633](http:///discovery-components-react/commits/4ea8633))
+
+
+
+
+
 ## [1.20.2](http:///discovery-components-react/compare/@disco-widgets/react-components@1.20.1...@disco-widgets/react-components@1.20.2) (2019-09-25)
 
 **Note:** Version bump only for package @disco-widgets/react-components
