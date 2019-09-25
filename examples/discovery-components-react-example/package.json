@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@carbon/icons": "^10.5.0",
-    "@disco-widgets/ibm-watson": "^1.1.0",
+    "ibm-watson": "^4.4.0",
     "@disco-widgets/react-components": "^1.21.0",
     "@disco-widgets/styles": "^1.1.2",
     "body-parser": "^1.19.0",
