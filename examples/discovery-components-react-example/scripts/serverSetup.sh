@@ -1,5 +1,9 @@
 #!/bin/bash
 
+set -a
+source .env.local
+set +a
+
 if [[ -z $CLUSTER_USERNAME || -z $CLUSTER_PASSWORD || -z $CLUSTER_HOST || -z $CLUSTER_PORT ]]; then
   echo "You must the following defined as environment variables: CLUSTER_HOST, CLUSTER_PORT, CLUSTER_USERNAME and CLUSTER_PASSWORD" >&2
   exit 1
