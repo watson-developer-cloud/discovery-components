@@ -64,7 +64,7 @@
     "webpack": "4.39.1"
   },
   "scripts": {
-    "lint": "eslint '{packages,examples}/**/*.{js,jsx,ts,tsx}' --quiet --fix"
+    "lint": "eslint '{packages,examples}/**/*.{js,jsx,ts,tsx}' --ignore-pattern node_modules --quiet --fix"
   },
   "lint-staged": {
     "{packages,examples}/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
