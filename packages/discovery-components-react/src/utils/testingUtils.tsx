@@ -8,6 +8,7 @@ export function wrapWithContext(
   const context: SearchContextIFC = {
     onSearch: (): Promise<void> => Promise.resolve(),
     onUpdateNaturalLanguageQuery: (): Promise<void> => Promise.resolve(),
+    onUpdateResultsPagination: (): Promise<void> => Promise.resolve(),
     searchResults: {},
     searchParameters: {
       environment_id: '',
