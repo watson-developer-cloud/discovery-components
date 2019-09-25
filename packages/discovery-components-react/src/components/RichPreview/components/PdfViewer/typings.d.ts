@@ -1,2 +1,2 @@
 declare module 'pdfjs-dist';
-declare module 'pdfjs-dist/lib/pdf.worker.js';
+declare module 'pdfjs-dist/build/pdf.worker.min.js';

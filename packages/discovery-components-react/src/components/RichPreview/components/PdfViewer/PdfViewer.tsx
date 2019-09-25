@@ -1,8 +1,8 @@
 import React, { SFC, useEffect, useRef, useState } from 'react';
 import PdfjsLib from 'pdfjs-dist';
-import PdfjsWorker from 'pdfjs-dist/lib/pdf.worker.js';
+import PdfjsWorkerAsText from 'pdfjs-dist/build/pdf.worker.min.js';
 
-PdfjsLib.GlobalWorkerOptions.workerSrc = PdfjsWorker;
+setupPdfjs();
 
 interface Props {
   /**
@@ -92,6 +92,18 @@ function _renderPage(pdfPage: any, canvas: HTMLCanvasElement, scale: number): vo
   canvas.height = viewport.height;
 
   pdfPage.render({ canvasContext: canvas.getContext('2d'), viewport });
+}
+
+// set up web worker for use by PDF.js library
+// @see https://stackoverflow.com/a/6454685/908343
+function setupPdfjs(): void {
+  if (typeof Worker !== 'undefined') {
+    const blob = new Blob([PdfjsWorkerAsText], { type: 'text/javascript' });
+    const pdfjsWorker = new Worker(URL.createObjectURL(blob));
+    PdfjsLib.GlobalWorkerOptions.workerPort = pdfjsWorker;
+  } else {
+    PdfjsLib.GlobalWorkerOptions.workerSrc = PdfjsWorkerAsText;
+  }
 }
 
 export default PdfViewer;
