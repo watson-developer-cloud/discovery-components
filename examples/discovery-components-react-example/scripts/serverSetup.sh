@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -a
-source .env.development
+source .env.local
 set +a
 
 if [[ -z $CLUSTER_USERNAME || -z $CLUSTER_PASSWORD || -z $CLUSTER_HOST || -z $CLUSTER_PORT ]]; then
