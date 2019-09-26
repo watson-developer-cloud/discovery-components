@@ -143,7 +143,7 @@ Our React package uses [Create React Library](https://www.npmjs.com/package/crea
 
 To start the examples, run the following commands:
 
-**Note:** Make sure to provide the collection_id via the [`.env.local`](#environment-file) file before starting the example app.
+**Note:** Make sure to provide the collection_id via the [`.env.development`](#environment-file) file before starting the example app.
 
 ```
 yarn
@@ -157,7 +157,7 @@ yarn workspace discovery-components-react-example start
 In order to query against a deployed instance of Discovery, the server needs to be running. The following describes prerequists and commands to start the server.
 
 #### Prerequists
-When starting the server, a script runs which will attempt to get the path and instance ID of the Discovery instance based on the cluster host, port and cluster credentials, which should be stored in `.env.local`. You will need to create this file yourself as it's ignored by git. [Here](#environment-file) is more information for what should be written to the `.env.local` file.
+When starting the server, a script runs which will attempt to get the path and instance ID of the Discovery instance based on the cluster host, port and cluster credentials, which should be stored in `.env.development`. You will need to create this file yourself as it's ignored by git. [Here](#environment-file) is more information for what should be written to the `.env.development` file.
 
 To configure and start the server run:
 ```
@@ -165,7 +165,7 @@ yarn workspace discovery-components-react-example server
 ```
 
 ### Environment file
-Running both `App.js` and the `server.js` setup script require additional information to be provided through the environment. This is done via the `examples/discovery-components-react-example/.env.local` file, which is ignored by git. The contents of the file are:
+Running both `App.js` and the `server.js` setup script require additional information to be provided through the environment. This is done via the `examples/discovery-components-react-example/.env.development` file, which is ignored by git. The contents of the file are:
 
 ```
 REACT_APP_COLLECTION_ID=<collection_id to query>
