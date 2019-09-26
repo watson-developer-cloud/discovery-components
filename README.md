@@ -154,14 +154,14 @@ yarn workspace discovery-components-react-example start
 
 ### Run against live API
 
-In order to query against a deployed instance of Discovery, the server needs to be running. The following will describes prerequists and commands to start the server.
+In order to query against a deployed instance of Discovery, the server needs to be running. The following describes prerequists and commands to start the server.
 
 #### Prerequists
 When starting the server, a script runs which will attempt to get the path and instance ID of the Discovery instance based on the cluster host, port and cluster credentials, which should be stored in `.env.local`. You will need to create this file yourself as it's ignored by git. [Here](#environment-file) is more information for what should be written to the `.env.local` file.
 
 To configure and start the server run:
 ```
-yarn server
+yarn workspace discovery-components-react-example server
 ```
 
 ### Environment file
@@ -169,10 +169,10 @@ Running both `App.js` and the `server.js` setup script require additional inform
 
 ```
 REACT_APP_COLLECTION_ID=<collection_id to query>
-REACT_APP_CLUSTER_USERNAME=<cluster username>
-REACT_APP_CLUSTER_PASSWORD=<cluster password>
-REACT_APP_CLUSTER_PORT=<cluster port>
-REACT_APP_CLUSTER_HOST=<cluster hostname>
+CLUSTER_USERNAME=<cluster username>
+CLUSTER_PASSWORD=<cluster password>
+CLUSTER_PORT=<cluster port>
+CLUSTER_HOST=<cluster hostname>
 ```
 
 ### Styling
