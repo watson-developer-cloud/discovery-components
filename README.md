@@ -121,7 +121,9 @@ Our React package uses [Create React Library](https://www.npmjs.com/package/crea
 | `yarn start`                                | runs the client at http://localhost:3000/         |
 | `yarn build`                                | creates a production build of the example project |
 | `yarn cypress`                              | opens the cypress application for feature testing |
-| `yarn server`                               | runs an express server                            |
+| `yarn server`                               | configures and runs an express server             |
+| `yarn server:setup`                         | configures express server only                    |
+| `yarn server:run`                           | runs an express server without configuring first  |
 | `yarn test:e2e`                             | starts the server and runs cypress headless       |
 
 | packages/discovery-components-react | Description                                                        |
@@ -141,10 +143,36 @@ Our React package uses [Create React Library](https://www.npmjs.com/package/crea
 
 To start the examples, run the following commands:
 
+**Note:** Make sure to provide the collection_id via the [`.env.local`](#environment-file) file before starting the example app.
+
 ```
 yarn
+yarn workspace @disco-widgets/ibm-watson build
 yarn workspace @disco-widgets/react-components build
 yarn workspace discovery-components-react-example start
+```
+
+### Run against live API
+
+In order to query against a deployed instance of Discovery, the server needs to be running. The following describes prerequisites and commands to start the server.
+
+#### Prerequisites
+When starting the server, a script runs which will attempt to get the path and instance ID of the Discovery instance based on the cluster host, port and cluster credentials, which should be stored in `.env.local`. You will need to create this file yourself as it's ignored by git. [Here](#environment-file) is more information for what should be written to the `.env.local` file.
+
+To configure and start the server run:
+```
+yarn workspace discovery-components-react-example server
+```
+
+### Environment file
+Running both `App.js` and the `server.js` setup script require additional information to be provided through the environment. This is done via the `examples/discovery-components-react-example/.env.local` file, which is ignored by git. The contents of the file are:
+
+```
+REACT_APP_COLLECTION_ID=<collection_id to query>
+CLUSTER_USERNAME=<cluster username>
+CLUSTER_PASSWORD=<cluster password>
+CLUSTER_PORT=<cluster port>
+CLUSTER_HOST=<cluster hostname>
 ```
 
 ### Styling

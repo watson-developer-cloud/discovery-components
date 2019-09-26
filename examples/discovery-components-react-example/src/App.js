@@ -24,7 +24,9 @@ const App = () => {
   return (
     <DiscoverySearch
       searchClient={searchClient}
-      collectionId={'3bbf3413-e6ee-a939-0000-016cc02a54c5'}
+      // This is temporary until we switch the the v2 API
+      // and move to using Projects.
+      collectionId={process.env.REACT_APP_COLLECTION_ID}
     >
       <SearchInput
         light={false}
