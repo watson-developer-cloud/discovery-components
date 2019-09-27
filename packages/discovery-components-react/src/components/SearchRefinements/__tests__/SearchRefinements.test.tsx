@@ -7,12 +7,12 @@ import refinementsQueryResponse from '../fixtures/refinementsQueryResponse';
 
 const setup = () => {
   const context: Partial<SearchContextIFC> = {
-    searchResults: {
+    aggregationResults: {
       aggregations: refinementsQueryResponse.aggregations
     }
   };
-  const searchMock = jest.fn();
-  context.onSearch = searchMock;
+  const onLoadAggregationResultsMock = jest.fn();
+  context.onLoadAggregationResults = onLoadAggregationResultsMock;
   const onUpdateAggregationQueryMock = jest.fn();
   context.onUpdateAggregationQuery = onUpdateAggregationQueryMock;
   const searchRefinementsComponent = render(
@@ -33,7 +33,7 @@ const setup = () => {
     )
   );
   return {
-    searchMock,
+    onLoadAggregationResultsMock,
     onUpdateAggregationQueryMock,
     searchRefinementsComponent
   };
@@ -103,8 +103,8 @@ describe('SearchRefinementsComponent', () => {
     });
 
     test('it calls onSearch', () => {
-      const { searchMock } = setup();
-      expect(searchMock).toBeCalledTimes(1);
+      const { onLoadAggregationResultsMock } = setup();
+      expect(onLoadAggregationResultsMock).toBeCalledTimes(1);
     });
   });
 });

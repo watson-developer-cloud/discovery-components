@@ -13,7 +13,7 @@ describe('basic test', () => {
     it('makes the appropriate query request', () => {
       cy.wait('@postQuery')
         .its('requestBody.aggregation')
-        .should('eq', '[term(author,count:10),term(subject,count:5)]');
+        .should('eq', '[term(enriched_text.entities.text,count:10),term(subject,count:5)]');
 
       cy.wait('@postQuery')
         .its('requestBody.natural_language_query')

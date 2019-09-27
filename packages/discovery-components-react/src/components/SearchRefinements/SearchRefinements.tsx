@@ -4,6 +4,7 @@ import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import { QueryTermAggregation } from '../../utils/queryTermAggregation';
 import { configurationToAggregation } from '../../utils/configurationToAggregation';
 import { Checkbox as CarbonCheckbox } from 'carbon-components-react';
+import get from 'lodash.get';
 
 interface SearchRefinementsProps {
   /**
@@ -17,15 +18,15 @@ export const SearchRefinements: React.FunctionComponent<SearchRefinementsProps> 
 }) => {
   const searchContext = React.useContext(SearchContext);
   const {
+    onLoadAggregationResults,
     onUpdateAggregationQuery,
-    onSearch,
-    searchResults: { aggregations }
+    aggregationResults: { aggregations }
   } = searchContext;
 
   const aggregationQuery = configurationToAggregation(configuration);
   React.useEffect(() => {
     onUpdateAggregationQuery(aggregationQuery);
-    onSearch();
+    onLoadAggregationResults();
   }, []);
 
   const emptyAggregations = (
@@ -37,11 +38,18 @@ export const SearchRefinements: React.FunctionComponent<SearchRefinementsProps> 
   if (aggregations) {
     return (
       <div>
-        {aggregations.map((aggregation: QueryTermAggregation, i: number) => {
-          const aggregationResults = aggregation.results;
-          const aggregationField = aggregation.field;
+        {aggregations
+          .filter(aggregation => {
+            return aggregation.results;
+          })
+          .map((aggregation: QueryTermAggregation, i: number) => {
+            const aggregationResults: DiscoveryV1.AggregationResult[] = get(
+              aggregation,
+              'results',
+              []
+            );
+            const aggregationField = aggregation.field;
 
-          if (aggregationResults) {
             return (
               <fieldset className="bx--fieldset" key={`fieldset-${aggregationField}-${i}`}>
                 <legend className="bx--label">{aggregationField}</legend>
@@ -59,10 +67,7 @@ export const SearchRefinements: React.FunctionComponent<SearchRefinementsProps> 
                 })}
               </fieldset>
             );
-          } else {
-            return emptyAggregations;
-          }
-        })}
+          })}
       </div>
     );
   }

@@ -37,7 +37,7 @@ const App = () => {
       <SearchRefinements
         configuration={[
           {
-            field: 'author',
+            field: 'enriched_text.entities.text',
             count: 10
           },
           {

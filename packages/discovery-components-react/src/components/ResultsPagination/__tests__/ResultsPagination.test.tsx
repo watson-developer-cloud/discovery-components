@@ -12,9 +12,11 @@ const setup = (propUpdates?: any) => {
     <SearchContext.Provider
       value={{
         onSearch: searchMock,
+        onLoadAggregationResults: jest.fn(),
         onUpdateAggregationQuery: jest.fn(),
         onUpdateNaturalLanguageQuery: jest.fn(),
         onUpdateResultsPagination: paginationMock,
+        aggregationResults: {},
         searchResults: {
           matching_results: 55
         },
