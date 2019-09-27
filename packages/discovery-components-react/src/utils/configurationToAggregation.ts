@@ -1,4 +1,4 @@
-import DiscoveryV1 from 'ibm-watson/discovery/v1';
+import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 
 export const configurationToAggregation = (configuration: Array<DiscoveryV1.Term>) => {
   const aggregation = configuration.map(term => {

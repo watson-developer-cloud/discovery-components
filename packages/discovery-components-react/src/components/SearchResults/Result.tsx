@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import DiscoveryV1 from 'ibm-watson/discovery/v1';
+import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 import get from 'lodash.get';
 import { Button as CarbonButton } from 'carbon-components-react';
 import { SearchContext } from '../DiscoverySearch/DiscoverySearch';

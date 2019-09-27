@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, object } from '@storybook/addon-knobs/react';
-import DiscoveryV1 from 'ibm-watson/discovery/v1';
+import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 import { SearchRefinements } from './SearchRefinements';
 import { DiscoverySearch } from '../DiscoverySearch/DiscoverySearch';
 import refinementsQueryResponse from './fixtures/refinementsQueryResponse';

@@ -8,7 +8,7 @@ import defaultReadme from './default.md';
 import customClientReadme from './custom_client.md';
 
 import { DiscoverySearch, DiscoverySearchProps, SearchContext } from '../DiscoverySearch';
-import DiscoveryV1 from 'ibm-watson/discovery/v1';
+import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 
 const MyComponent: React.SFC<{}> = () => {
   const { searchParameters } = useContext(SearchContext);

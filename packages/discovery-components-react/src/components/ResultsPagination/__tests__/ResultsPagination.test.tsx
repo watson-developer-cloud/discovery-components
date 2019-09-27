@@ -1,33 +1,25 @@
 import * as React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { ResultsPagination } from '../ResultsPagination';
-import { SearchContext } from '../../DiscoverySearch/DiscoverySearch';
+import { wrapWithContext } from '../../../utils/testingUtils';
+import { SearchContextIFC } from '../../DiscoverySearch/DiscoverySearch';
 
 const setup = (propUpdates?: any) => {
   propUpdates = propUpdates || {};
 
   const paginationMock = jest.fn();
   const searchMock = jest.fn();
+  const context: Partial<SearchContextIFC> = {
+    onSearch: searchMock,
+    onUpdateResultsPagination: paginationMock,
+    searchResults: {
+      matching_results: 55
+    }
+  };
   const paginationComponent = render(
-    <SearchContext.Provider
-      value={{
-        onSearch: searchMock,
-        onLoadAggregationResults: jest.fn(),
-        onUpdateAggregationQuery: jest.fn(),
-        onUpdateNaturalLanguageQuery: jest.fn(),
-        onUpdateResultsPagination: paginationMock,
-        aggregationResults: {},
-        searchResults: {
-          matching_results: 55
-        },
-        searchParameters: {
-          environment_id: '',
-          collection_id: ''
-        }
-      }}
-    >
-      <ResultsPagination {...propUpdates} />
-    </SearchContext.Provider>
+    wrapWithContext(
+      <ResultsPagination {...propUpdates} />, context
+    )
   );
 
   const pageSizeSelect = paginationComponent.getByLabelText('Items per page:');

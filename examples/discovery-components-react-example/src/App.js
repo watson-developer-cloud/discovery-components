@@ -1,5 +1,5 @@
 import React from 'react';
-import DiscoveryV1 from 'ibm-watson/discovery/v1';
+import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 import './app.scss';
 import { document as pdfDocument } from './fixtures/intro_to_watson_discovery';
 

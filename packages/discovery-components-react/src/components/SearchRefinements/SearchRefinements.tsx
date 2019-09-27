@@ -1,10 +1,12 @@
 import * as React from 'react';
-import DiscoveryV1 from 'ibm-watson/discovery/v1';
+import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
-import { QueryTermAggregation } from '../../utils/queryTermAggregation';
 import { configurationToAggregation } from '../../utils/configurationToAggregation';
 import { Checkbox as CarbonCheckbox } from 'carbon-components-react';
 import get from 'lodash.get';
+
+// TODO: Figure out why Term isn't inheriting from QueryAggregation
+export interface QueryTermAggregation extends DiscoveryV1.QueryAggregation, DiscoveryV1.Term {}
 
 interface SearchRefinementsProps {
   /**

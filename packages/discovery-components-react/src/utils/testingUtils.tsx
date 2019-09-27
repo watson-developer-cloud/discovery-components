@@ -11,12 +11,14 @@ export function wrapWithContext(
     onUpdateAggregationQuery: (): Promise<void> => Promise.resolve(),
     onUpdateNaturalLanguageQuery: (): Promise<void> => Promise.resolve(),
     onUpdateResultsPagination: (): Promise<void> => Promise.resolve(),
+    onSelectResult: (): Promise<void> => Promise.resolve(),
     aggregationResults: {},
     searchResults: {},
     searchParameters: {
       environment_id: '',
       collection_id: ''
-    }
+    },
+    selectedResult: {}
   };
   return (
     <SearchContext.Provider value={Object.assign(context, contextOverride)}>

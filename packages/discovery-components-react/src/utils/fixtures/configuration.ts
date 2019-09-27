@@ -1,4 +1,4 @@
-import DiscoveryV1 from 'ibm-watson/discovery/v1';
+import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 
 export const configurationOne: Array<DiscoveryV1.Term> = [
   {

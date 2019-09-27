@@ -36,7 +36,7 @@
     "eslint-plugin-react": "^7.14.3",
     "gh-pages": "^2.1.1",
     "husky": "^3.0.5",
-    "ibm-watson": "^4.4.0",
+    "@disco-widgets/ibm-watson": "^1.1.0",
     "lerna": "^3.16.4",
     "lerna-update-wizard": "^0.16.0",
     "lint-staged": "^9.2.5",

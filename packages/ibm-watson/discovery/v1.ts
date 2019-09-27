@@ -1578,6 +1578,8 @@ namespace DiscoveryV1 {
     result_metadata?: QueryResultMetadata;
     /** Automatically extracted result title. */
     title?: string;
+    /** Aggregations returned by Discovery. */
+    document_passages?: QueryResultPassage[];
     /** QueryResult accepts additional properties. */
     [propName: string]: any;
   }
@@ -1588,10 +1590,29 @@ namespace DiscoveryV1 {
     confidence?: number;
   }
 
+  /** QueryResultPassage. */
+  export interface QueryResultPassage {
+    /** The content of the extracted passage. */
+    passage_text?: string;
+    /** The position of the first character of the extracted passage in the originating field. */
+    start_offset?: number;
+    /** The position of the last character of the extracted passage in the originating field. */
+    end_offset?: number;
+    /** The label of the field from which the passage has been extracted. */
+    field?: string;
+  }
+
   /** An object contain retrieval type information. */
   export interface RetrievalDetails {
     /** Indentifies the document retrieval strategy used for this query. `relevancy_training` indicates that the results were returned using a relevancy trained model. **Note**: In the event of trained collections being queried, but the trained model is not used to return results, the **document_retrieval_strategy** will be listed as `untrained`. */
     document_retrieval_strategy?: string;
+  }
+
+  /** Term. */
+  export interface Term {
+    /** The field where the aggregation is located in the document. */
+    field?: string;
+    count?: number;
   }
 
   /** Object specifying the training queries contained in the identified training set. */

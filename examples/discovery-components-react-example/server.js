@@ -4,7 +4,7 @@ require('dotenv').config({ path: './.server-env' });
 const path = require('path');
 const express = require('express');
 const app = express();
-const DiscoveryV1 = require('ibm-watson/discovery/v1');
+const DiscoveryV1 = require('@disco-widgets/ibm-watson/discovery/v1');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 /* eslint-enable @typescript-eslint/no-var-requires */
