@@ -25,6 +25,10 @@ export interface DiscoverySearchProps {
     DiscoveryV1.QueryParams,
     'environment_id' | 'collection_id' | 'logging_opt_out' | 'headers' | 'return_response'
   >;
+  /**
+   * selectedResult is used to override internal selectedResult state
+   */
+  selectedResult?: DiscoveryV1.QueryResult;
 }
 
 export interface SearchContextIFC {
@@ -32,8 +36,10 @@ export interface SearchContextIFC {
   onUpdateAggregationQuery: (aggregationQuery: string) => Promise<void>;
   onUpdateNaturalLanguageQuery: (nlq: string) => Promise<void>;
   onUpdateResultsPagination: (offset: number) => Promise<void>;
+  onSelectResult: (result: DiscoveryV1.QueryResult) => Promise<void>;
   searchResults: DiscoveryV1.QueryResponse;
   searchParameters: DiscoveryV1.QueryParams;
+  selectedResult: DiscoveryV1.QueryResult;
 }
 
 export const SearchContext = React.createContext<SearchContextIFC>({
@@ -41,11 +47,13 @@ export const SearchContext = React.createContext<SearchContextIFC>({
   onUpdateAggregationQuery: (): Promise<void> => Promise.resolve(),
   onUpdateNaturalLanguageQuery: (): Promise<void> => Promise.resolve(),
   onUpdateResultsPagination: (): Promise<void> => Promise.resolve(),
+  onSelectResult: (): Promise<void> => Promise.resolve(),
   searchResults: {},
   searchParameters: {
     environment_id: '',
     collection_id: ''
-  }
+  },
+  selectedResult: {}
 });
 
 export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
@@ -54,6 +62,7 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
   collectionId,
   searchResults,
   queryParameters,
+  selectedResult,
   children
 }) => {
   const [stateSearchResults, setStateSearchResults] = React.useState<DiscoveryV1.QueryResponse>(
@@ -63,6 +72,9 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
     environment_id: environmentId || 'default',
     collection_id: collectionId
   });
+  const [selectedResultState, setSelectedResultState] = React.useState<DiscoveryV1.QueryResult>(
+    selectedResult || {}
+  );
 
   React.useEffect(() => {
     const newSearchParameters = Object.assign({}, searchParameters, {
@@ -83,6 +95,10 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
     setStateSearchResults(searchResults || stateSearchResults);
   }, [searchResults]);
 
+  React.useEffect(() => {
+    setSelectedResultState(selectedResult || selectedResultState);
+  }, [selectedResult]);
+
   const handleUpdateAggregationQuery = (aggregationQuery: string): Promise<void> => {
     searchParameters.aggregation = aggregationQuery;
     setSearchParameters(searchParameters);
@@ -98,6 +114,10 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
     setSearchParameters(searchParameters);
     return Promise.resolve();
   };
+  const handleSelectResult = (result: DiscoveryV1.QueryResult): Promise<void> => {
+    setSelectedResultState(result);
+    return Promise.resolve();
+  };
   const handleSearch = async (): Promise<void> => {
     const searchResults: DiscoveryV1.QueryResponse = await searchClient.query(searchParameters);
     setStateSearchResults(searchResults);
@@ -109,8 +129,10 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
         onUpdateAggregationQuery: handleUpdateAggregationQuery,
         onUpdateNaturalLanguageQuery: handleUpdateNaturalLanguageQuery,
         onUpdateResultsPagination: handleResultsPagination,
+        onSelectResult: handleSelectResult,
         searchResults: stateSearchResults,
-        searchParameters
+        searchParameters,
+        selectedResult: selectedResultState
       }}
     >
       {children}
