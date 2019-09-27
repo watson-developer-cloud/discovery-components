@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.21.2](http:///discovery-components-react/compare/@disco-widgets/react-components@1.21.1...@disco-widgets/react-components@1.21.2) (2019-09-27)
+
+**Note:** Version bump only for package @disco-widgets/react-components
+
+
+
+
+
 ## [1.21.1](http:///discovery-components-react/compare/@disco-widgets/react-components@1.21.0...@disco-widgets/react-components@1.21.1) (2019-09-25)
 
 **Note:** Version bump only for package @disco-widgets/react-components
