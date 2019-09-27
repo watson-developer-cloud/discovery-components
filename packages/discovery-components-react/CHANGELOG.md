@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.22.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.21.2...@disco-widgets/react-components@1.22.0) (2019-09-27)
+
+
+### Features
+
+* store selectedResult inside context for rich preview consumption ([3b1cb56](http:///discovery-components-react/commits/3b1cb56))
+
+
+
+
+
 ## [1.21.2](http:///discovery-components-react/compare/@disco-widgets/react-components@1.21.1...@disco-widgets/react-components@1.21.2) (2019-09-27)
 
 **Note:** Version bump only for package @disco-widgets/react-components
