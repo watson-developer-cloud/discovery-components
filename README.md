@@ -114,7 +114,6 @@ Our React package uses [Create React Library](https://www.npmjs.com/package/crea
 | `yarn`                                                        | installs yarn dependencies in all of the packages                                      |
 | `npx lerna bootstrap`                                         | (effectively the same as `yarn`) installs dependencies in all of the packages          |
 | `yarn workspace discovery-components-react-example <command>` | runs the specified `yarn` script in the `discovery-components-react-example` workspace |
-| `yarn storybook`                                              | runs storybook and opens browser to correct port                                       |
 
 | examples/discovery-components-react-example | Description                                       |
 | ------------------------------------------- | ------------------------------------------------- |
@@ -133,6 +132,7 @@ Our React package uses [Create React Library](https://www.npmjs.com/package/crea
 | `yarn test`                         | runs the unit/integration tests for the component library          |
 | `yarn test:watch`                   | runs the unit/integration tests in watch mode                      |
 | `yarn code-coverage`                | runs the unit/integration tests code coverage report               |
+| `yarn storybook`                    | runs storybook and opens browser to correct port                   |
 
 | packages/discovery-styles | Description                                       |
 | ------------------------- | ------------------------------------------------- |
