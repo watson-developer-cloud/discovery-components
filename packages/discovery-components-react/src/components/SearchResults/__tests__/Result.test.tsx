@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { SearchContextIFC } from '../../DiscoverySearch/DiscoverySearch';
 import DiscoveryV1 from 'ibm-watson/discovery/v1';
@@ -15,6 +15,25 @@ const context: Partial<SearchContextIFC> = {
 };
 
 describe('<Result />', () => {
+  describe('when clicked', () => {
+    test('will call onSelectResult with result as a parameter', () => {
+      const mockResult = {
+        document_id: 'some document_id',
+        extracted_metadata: {
+          filename: 'some file name',
+          title: 'some title'
+        }
+      };
+      const mockselectResult = jest.fn();
+      context.onSelectResult = mockselectResult;
+      (context.searchResults as DiscoveryV1.QueryResponse).results = [mockResult];
+      const { getByText } = render(wrapWithContext(<SearchResults />, context));
+      fireEvent.click(getByText('preview'));
+      expect(mockselectResult.mock.calls.length).toBe(1);
+      expect(mockselectResult.mock.calls[0][0]).toBe(mockResult);
+    });
+  });
+
   describe('when the result prop has a title and filename property', () => {
     test('we display both', () => {
       (context.searchResults as DiscoveryV1.QueryResponse).results = [
