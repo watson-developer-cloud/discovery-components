@@ -1,4 +1,11 @@
-const refinementsQueryResponse: object = {
+import DiscoveryV1 from 'ibm-watson/discovery/v1';
+import { QueryTermAggregation } from '../../../utils/queryTermAggregation';
+
+interface QueryResponseWithTermAggregation extends DiscoveryV1.QueryResponse {
+  aggregations?: Array<QueryTermAggregation>;
+}
+
+const refinementsQueryResponse: QueryResponseWithTermAggregation = {
   matching_results: 123456,
   results: [],
   aggregations: [
@@ -24,27 +31,23 @@ const refinementsQueryResponse: object = {
     {
       type: 'term',
       field: 'subject',
-      count: 5,
+      count: 4,
       results: [
         {
-          key: 'kittens',
+          key: 'Animals',
           matching_results: 138993
         },
         {
-          key: 'puppies',
+          key: 'People',
           matching_results: 133760
         },
         {
-          key: 'pandas',
+          key: 'Places',
           matching_results: 129139
         },
         {
-          key: 'tigers',
+          key: 'Things',
           matching_results: 76403
-        },
-        {
-          key: 'elephants',
-          matching_results: 57158
         }
       ]
     }

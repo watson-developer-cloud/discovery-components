@@ -29,6 +29,7 @@ export interface DiscoverySearchProps {
 
 export interface SearchContextIFC {
   onSearch: () => Promise<void>;
+  onUpdateAggregationQuery: (aggregationQuery: string) => Promise<void>;
   onUpdateNaturalLanguageQuery: (nlq: string) => Promise<void>;
   onUpdateResultsPagination: (offset: number) => Promise<void>;
   searchResults: DiscoveryV1.QueryResponse;
@@ -37,6 +38,7 @@ export interface SearchContextIFC {
 
 export const SearchContext = React.createContext<SearchContextIFC>({
   onSearch: (): Promise<void> => Promise.resolve(),
+  onUpdateAggregationQuery: (): Promise<void> => Promise.resolve(),
   onUpdateNaturalLanguageQuery: (): Promise<void> => Promise.resolve(),
   onUpdateResultsPagination: (): Promise<void> => Promise.resolve(),
   searchResults: {},
@@ -81,6 +83,11 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
     setStateSearchResults(searchResults || stateSearchResults);
   }, [searchResults]);
 
+  const handleUpdateAggregationQuery = (aggregationQuery: string): Promise<void> => {
+    searchParameters.aggregation = aggregationQuery;
+    setSearchParameters(searchParameters);
+    return Promise.resolve();
+  };
   const handleUpdateNaturalLanguageQuery = (nlq: string): Promise<void> => {
     searchParameters.natural_language_query = nlq;
     setSearchParameters(searchParameters);
@@ -99,6 +106,7 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
     <SearchContext.Provider
       value={{
         onSearch: handleSearch,
+        onUpdateAggregationQuery: handleUpdateAggregationQuery,
         onUpdateNaturalLanguageQuery: handleUpdateNaturalLanguageQuery,
         onUpdateResultsPagination: handleResultsPagination,
         searchResults: stateSearchResults,

@@ -1,54 +1,70 @@
 import * as React from 'react';
 import DiscoveryV1 from 'ibm-watson/discovery/v1';
+import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
+import { QueryTermAggregation } from '../../utils/queryTermAggregation';
+import { configurationToAggregation } from '../../utils/configurationToAggregation';
 import { Checkbox as CarbonCheckbox } from 'carbon-components-react';
 
 interface SearchRefinementsProps {
-  /** Query response that contains aggregation results for the query */
-  /** TODO: This issue should go away when we hook up to the search context, but otherwise should determine why we
-   * need to specify DiscoveryV1.QueryResult here and if this best represents the type.
+  /**
+   * Refinements configuration with fields and results counts
    */
-  queryResponse: DiscoveryV1.QueryResponse | DiscoveryV1.QueryResult;
+  configuration: Array<QueryTermAggregation>;
 }
 
-interface QueryTermAggregation extends DiscoveryV1.QueryAggregation {
-  field?: string;
-}
+export const SearchRefinements: React.FunctionComponent<SearchRefinementsProps> = ({
+  configuration
+}) => {
+  const searchContext = React.useContext(SearchContext);
+  const {
+    onUpdateAggregationQuery,
+    onSearch,
+    searchResults: { aggregations }
+  } = searchContext;
 
-export const SearchRefinements: React.SFC<SearchRefinementsProps> = ({ queryResponse }) => {
-  const aggregations = queryResponse.aggregations;
+  const aggregationQuery = configurationToAggregation(configuration);
+  React.useEffect(() => {
+    onUpdateAggregationQuery(aggregationQuery);
+    onSearch();
+  }, []);
+
   const emptyAggregations = (
     <div>
-      <h1>There are no aggregation results.</h1>
+      <p>There are no aggregation results.</p>
     </div>
   );
 
   if (aggregations) {
-    return aggregations.map((aggregation: QueryTermAggregation, i: number) => {
-      const aggregationResults = aggregation.results;
-      const aggregationField = aggregation.field;
+    return (
+      <div>
+        {aggregations.map((aggregation: QueryTermAggregation, i: number) => {
+          const aggregationResults = aggregation.results;
+          const aggregationField = aggregation.field;
 
-      if (aggregationResults) {
-        return (
-          <fieldset className="bx--fieldset" key={`fieldset-${aggregationField}-${i}`}>
-            <legend className="bx--label">{aggregationField}</legend>
-            {aggregationResults.map((result: DiscoveryV1.AggregationResult, index: number) => {
-              const resultKey = result.key;
+          if (aggregationResults) {
+            return (
+              <fieldset className="bx--fieldset" key={`fieldset-${aggregationField}-${i}`}>
+                <legend className="bx--label">{aggregationField}</legend>
+                {aggregationResults.map((result: DiscoveryV1.AggregationResult, index: number) => {
+                  const resultKey = result.key;
 
-              return (
-                <CarbonCheckbox
-                  labelText={resultKey}
-                  key={`checkbox-label-${resultKey}-${index}`}
-                  id={`checkbox-label-${resultKey}-${index}`}
-                  defaultChecked={false}
-                />
-              );
-            })}
-          </fieldset>
-        );
-      } else {
-        return emptyAggregations;
-      }
-    });
+                  return (
+                    <CarbonCheckbox
+                      labelText={resultKey}
+                      key={`checkbox-label-${resultKey}-${index}`}
+                      id={`checkbox-label-${resultKey}-${index}`}
+                      defaultChecked={false}
+                    />
+                  );
+                })}
+              </fieldset>
+            );
+          } else {
+            return emptyAggregations;
+          }
+        })}
+      </div>
+    );
   }
 
   return emptyAggregations;

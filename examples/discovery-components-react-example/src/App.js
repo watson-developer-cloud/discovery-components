@@ -1,7 +1,6 @@
 import React from 'react';
 import DiscoveryV1 from 'ibm-watson/discovery/v1';
 import './app.scss';
-import refinementsQueryResponse from './fixtures/refinementsQueryResponse';
 import { document as pdfDocument } from './fixtures/intro_to_watson_discovery';
 
 import {
@@ -35,7 +34,18 @@ const App = () => {
         labelText={'This is some label text...'}
       />
       <SearchResults />
-      <SearchRefinements queryResponse={refinementsQueryResponse} />
+      <SearchRefinements
+        configuration={[
+          {
+            field: 'author',
+            count: 10
+          },
+          {
+            field: 'subject',
+            count: 5
+          }
+        ]}
+      />
       <ResultsPagination />
       <RichPreview file={atob(pdfDocument)} />
     </DiscoverySearch>
