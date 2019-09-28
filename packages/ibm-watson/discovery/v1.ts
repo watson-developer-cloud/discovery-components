@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
-/* eslint-disable @typescript-eslint/no-namespace */
 /**
  * (C) Copyright IBM Corp. 2019.
  *
@@ -26,7 +24,7 @@ import { getSdkHeaders } from '../lib/common';
  */
 
 class DiscoveryV1 extends BaseService {
-  static URL = 'https://{cluster_host}{:port}/discovery/api';
+  static URL: string = 'https://{cluster_host}{:port}/discovery/api';
   name: string; // set by prototype to 'discovery-data'
   serviceVersion: string; // set by prototype to 'v1'
 
@@ -338,15 +336,112 @@ class DiscoveryV1 extends BaseService {
    ************************/
 
   /**
-   * Query a collection.
+   * Query a collection (GET).
    *
-   * By using this method, you can construct long queries. For details, see the [Query
+   * After your content is uploaded and enriched by Discovery, you can build queries to search your content. For
+   * details, see the [Query
    * documentation](https://cloud.ibm.com/docs/services/discovery-data?topic=discovery-data-query-concepts).
    *
    * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.environment_id - The ID of the environment. The value of this parameter must always be
-   * `default`.
-   * @param {string} params.collection_id - The ID of the collection.
+   * @param {string} params.project_id - The ID of the project.
+   * @param {string[]} [params.collection_ids] - The ID of the collections.
+   * @param {string} [params.filter] - A cacheable query that excludes documents that don't mention the query content.
+   * Filter searches are better for metadata-type searches and for assessing the concepts in the data set.
+   * @param {string} [params.query] - A query search returns all documents in your data set with full enrichments and
+   * full text, but with the most relevant documents listed first.
+   * @param {string} [params.natural_language_query] - A natural language query that returns relevant documents by
+   * utilizing training data and natural language understanding.
+   * @param {string} [params.aggregation] - An aggregation search that returns an exact answer by combining query search
+   * with filters. Useful for applications to build lists, tables, and time series. For a full list of possible
+   * aggregations, see the Query reference.
+   * @param {number} [params.count] - Number of results to return. The maximum for the **count** and **offset** values
+   * together in any one query is **10000**.
+   * @param {string[]} [params.return_fields] - A comma-separated list of the portion of the document hierarchy to
+   * return.
+   * @param {number} [params.offset] - The number of query results to skip at the beginning. For example, if the total
+   * number of results that are returned is 10 and the offset is 8, it returns the last two results. The maximum for the
+   * **count** and **offset** values together in any one query is **10000**.
+   * @param {string[]} [params.sort] - A comma-separated list of fields in the document to sort on. You can optionally
+   * specify a sort direction by prefixing the field with `-` for descending or `+` for ascending. Ascending is the
+   * default sort direction if no prefix is specified.
+   * @param {boolean} [params.highlight] - When true, a highlight field is returned for each result which contains the
+   * fields which match the query with `<em></em>` tags around the matching query terms.
+   * @param {boolean} [params.spelling_suggestions] - When `true` and the **natural_language_query** parameter is used,
+   * the **natural_language_query** parameter is spell checked. The most likely correction is returned in the
+   * **suggested_query** field of the response (if one exists).
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @param {Function} [callback] - The callback that handles the response.
+   * @returns {Promise<any>|void}
+   */
+  public queryUsingGet(
+    params: DiscoveryV1.QueryUsingGetParams,
+    callback?: DiscoveryV1.Callback<DiscoveryV1.QueryResponse>
+  ): Promise<any> | void {
+    const _params = extend({}, params);
+    const _callback = callback;
+    const requiredParams = ['project_id'];
+
+    if (!_callback) {
+      return new Promise((resolve, reject) => {
+        this.queryUsingGet(params, (err, bod, res) => {
+          err ? reject(err) : _params.return_response ? resolve(res) : resolve(bod);
+        });
+      });
+    }
+
+    const missingParams = getMissingParams(_params, requiredParams);
+    if (missingParams) {
+      return _callback(missingParams);
+    }
+
+    const query = {
+      collection_ids: _params.collection_ids,
+      filter: _params.filter,
+      query: _params.query,
+      natural_language_query: _params.natural_language_query,
+      aggregation: _params.aggregation,
+      count: _params.count,
+      return: _params.return_fields,
+      offset: _params.offset,
+      sort: _params.sort,
+      highlight: _params.highlight,
+      spelling_suggestions: _params.spelling_suggestions
+    };
+
+    const path = {
+      project_id: _params.project_id
+    };
+
+    const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'queryUsingGet');
+
+    const parameters = {
+      options: {
+        url: '/v2/projects/{project_id}/query',
+        method: 'GET',
+        qs: query,
+        path
+      },
+      defaultOptions: extend(true, {}, this._options, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            Accept: 'application/json'
+          },
+          _params.headers
+        )
+      })
+    };
+
+    return this.createRequest(parameters, _callback);
+  }
+
+  /**
+   * Query a project.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.project_id - The ID of the project.
+   * @param {string[]} [params.collection_ids] - A comma-separated list of collection IDs to be queried against.
    * @param {string} [params.filter] - A cacheable query that excludes documents that don't mention the query content.
    * Filter searches are better for metadata-type searches and for assessing the concepts in the data set.
    * @param {string} [params.query] - A query search returns all documents in your data set with full enrichments and
@@ -380,7 +475,7 @@ class DiscoveryV1 extends BaseService {
   ): Promise<any> | void {
     const _params = extend({}, params);
     const _callback = callback;
-    const requiredParams = ['environment_id', 'collection_id'];
+    const requiredParams = ['project_id'];
 
     if (!_callback) {
       return new Promise((resolve, reject) => {
@@ -396,6 +491,7 @@ class DiscoveryV1 extends BaseService {
     }
 
     const body = {
+      collection_ids: _params.collection_ids,
       filter: _params.filter,
       query: _params.query,
       natural_language_query: _params.natural_language_query,
@@ -409,15 +505,14 @@ class DiscoveryV1 extends BaseService {
     };
 
     const path = {
-      environment_id: _params.environment_id,
-      collection_id: _params.collection_id
+      project_id: _params.project_id
     };
 
     const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'query');
 
     const parameters = {
       options: {
-        url: '/v1/environments/{environment_id}/collections/{collection_id}/query',
+        url: '/v2/projects/{project_id}/query',
         method: 'POST',
         body,
         path
@@ -1304,12 +1399,42 @@ namespace DiscoveryV1 {
     return_response?: boolean;
   }
 
+  /** Parameters for the `queryUsingGet` operation. */
+  export interface QueryUsingGetParams {
+    /** The ID of the project. */
+    project_id: string;
+    /** The ID of the collections. */
+    collection_ids?: string[];
+    /** A cacheable query that excludes documents that don't mention the query content. Filter searches are better for metadata-type searches and for assessing the concepts in the data set. */
+    filter?: string;
+    /** A query search returns all documents in your data set with full enrichments and full text, but with the most relevant documents listed first. */
+    query?: string;
+    /** A natural language query that returns relevant documents by utilizing training data and natural language understanding. */
+    natural_language_query?: string;
+    /** An aggregation search that returns an exact answer by combining query search with filters. Useful for applications to build lists, tables, and time series. For a full list of possible aggregations, see the Query reference. */
+    aggregation?: string;
+    /** Number of results to return. The maximum for the **count** and **offset** values together in any one query is **10000**. */
+    count?: number;
+    /** A comma-separated list of the portion of the document hierarchy to return. */
+    return_fields?: string[];
+    /** The number of query results to skip at the beginning. For example, if the total number of results that are returned is 10 and the offset is 8, it returns the last two results. The maximum for the **count** and **offset** values together in any one query is **10000**. */
+    offset?: number;
+    /** A comma-separated list of fields in the document to sort on. You can optionally specify a sort direction by prefixing the field with `-` for descending or `+` for ascending. Ascending is the default sort direction if no prefix is specified. */
+    sort?: string[];
+    /** When true, a highlight field is returned for each result which contains the fields which match the query with `<em></em>` tags around the matching query terms. */
+    highlight?: boolean;
+    /** When `true` and the **natural_language_query** parameter is used, the **natural_language_query** parameter is spell checked. The most likely correction is returned in the **suggested_query** field of the response (if one exists). */
+    spelling_suggestions?: boolean;
+    headers?: OutgoingHttpHeaders;
+    return_response?: boolean;
+  }
+
   /** Parameters for the `query` operation. */
   export interface QueryParams {
-    /** The ID of the environment. The value of this parameter must always be `default`. */
-    environment_id: string;
-    /** The ID of the collection. */
-    collection_id: string;
+    /** The ID of the project. */
+    project_id: string;
+    /** A comma-separated list of collection IDs to be queried against. */
+    collection_ids?: string[];
     /** A cacheable query that excludes documents that don't mention the query content. Filter searches are better for metadata-type searches and for assessing the concepts in the data set. */
     filter?: string;
     /** A query search returns all documents in your data set with full enrichments and full text, but with the most relevant documents listed first. Use a query search when you want to find the most relevant search results. */

@@ -17,29 +17,25 @@ app.options('*', cors());
 app.get('/', async (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
-app.post(
-  '/api/v1/environments/:environment_id/collections/:collection_id/query',
-  cors(),
-  async (req, res) => {
-    try {
-      const searchClient = new DiscoveryV1({
-        url: `${BASE_URL}${RELEASE_PATH}`,
-        icp4d_url: BASE_URL,
-        authentication_type: 'icp4d',
-        username: 'admin',
-        password: 'password',
-        disable_ssl_verification: true,
-        version: '2019-01-01'
-      });
-      const params = Object.assign({}, req.body, req.params);
-      const response = await searchClient.query(params);
-      res.json(response);
-    } catch (e) {
-      console.error(e);
-      res.json({ error: 'something went wrong' });
-    }
+app.post('/api/v2/projects/:project_id/query', cors(), async (req, res) => {
+  try {
+    const searchClient = new DiscoveryV1({
+      url: `${BASE_URL}${RELEASE_PATH}`,
+      icp4d_url: BASE_URL,
+      authentication_type: 'icp4d',
+      username: 'admin',
+      password: 'password',
+      disable_ssl_verification: true,
+      version: '2019-01-01'
+    });
+    const params = Object.assign({}, req.body, req.params);
+    const response = await searchClient.query(params);
+    res.json(response);
+  } catch (e) {
+    console.error(e);
+    res.json({ error: 'something went wrong' });
   }
-);
+});
 
 const port = 4000;
 app.listen(port, () => {

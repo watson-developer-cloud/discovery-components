@@ -7,13 +7,9 @@ export interface DiscoverySearchProps {
    */
   searchClient: Pick<DiscoveryV1, 'query'>;
   /**
-   * Environment ID for collection
+   * Project ID
    */
-  environmentId: string;
-  /**
-   * Collection ID for collection
-   */
-  collectionId: string;
+  projectId: string;
   /**
    * Aggregation results used to override internal aggregation search results state
    */
@@ -27,7 +23,7 @@ export interface DiscoverySearchProps {
    */
   queryParameters?: Omit<
     DiscoveryV1.QueryParams,
-    'environment_id' | 'collection_id' | 'logging_opt_out' | 'headers' | 'return_response'
+    'project_id' | 'logging_opt_out' | 'headers' | 'return_response'
   >;
   /**
    * selectedResult is used to override internal selectedResult state
@@ -58,16 +54,14 @@ export const SearchContext = React.createContext<SearchContextIFC>({
   aggregationResults: {},
   searchResults: {},
   searchParameters: {
-    environment_id: '',
-    collection_id: ''
+    project_id: ''
   },
   selectedResult: {}
 });
 
 export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
   searchClient,
-  environmentId,
-  collectionId,
+  projectId,
   aggregationResults,
   searchResults,
   queryParameters,
@@ -81,8 +75,7 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
     DiscoveryV1.QueryAggregation
   >(aggregationResults || {});
   const [searchParameters, setSearchParameters] = React.useState<DiscoveryV1.QueryParams>({
-    environment_id: environmentId || 'default',
-    collection_id: collectionId
+    project_id: projectId
   });
   const [selectedResultState, setSelectedResultState] = React.useState<DiscoveryV1.QueryResult>(
     selectedResult || {}
@@ -90,11 +83,10 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
 
   React.useEffect(() => {
     const newSearchParameters = Object.assign({}, searchParameters, {
-      environment_id: environmentId || 'default',
-      collection_id: collectionId
+      project_id: projectId
     });
     setSearchParameters(newSearchParameters);
-  }, [environmentId, collectionId]);
+  }, [projectId]);
 
   React.useEffect(() => {
     const newSearchParameters = Object.assign({}, searchParameters, {
