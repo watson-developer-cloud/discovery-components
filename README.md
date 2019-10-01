@@ -143,7 +143,7 @@ Our React package uses [Create React Library](https://www.npmjs.com/package/crea
 
 To start the examples, run the following commands:
 
-**Note:** Make sure to provide the collection_id via the [`.env.local`](#environment-file) file before starting the example app.
+**Note:** Make sure to provide the `project_id` via the [`.env.local`](#environment-file) file before starting the example app.
 
 ```
 yarn
@@ -168,7 +168,7 @@ yarn workspace discovery-components-react-example server
 Running both `App.js` and the `server.js` setup script require additional information to be provided through the environment. This is done via the `examples/discovery-components-react-example/.env.local` file, which is ignored by git. The contents of the file are:
 
 ```
-REACT_APP_COLLECTION_ID=<collection_id to query>
+REACT_APP_PROJECT_ID=<project_id to query>
 CLUSTER_USERNAME=<cluster username>
 CLUSTER_PASSWORD=<cluster password>
 CLUSTER_PORT=<cluster port>
