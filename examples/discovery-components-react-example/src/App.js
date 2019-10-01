@@ -20,13 +20,9 @@ const App = () => {
     password: 'bar',
     version: '2019-01-01'
   });
+
   return (
-    <DiscoverySearch
-      searchClient={searchClient}
-      // This is temporary until we switch the the v2 API
-      // and move to using Projects.
-      collectionId={process.env.REACT_APP_COLLECTION_ID}
-    >
+    <DiscoverySearch searchClient={searchClient} projectId={process.env.REACT_APP_PROJECT_ID}>
       <SearchInput
         light={false}
         small={false}
