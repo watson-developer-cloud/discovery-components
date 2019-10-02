@@ -369,6 +369,15 @@ class DiscoveryV1 extends BaseService {
    * @param {boolean} [params.spelling_suggestions] - When `true` and the **natural_language_query** parameter is used,
    * the **natural_language_query** parameter is spell checked. The most likely correction is returned in the
    * **suggested_query** field of the response (if one exists).
+   * @param {boolean} [params.passages] - A passages query that returns the most relevant passages from the results.
+   * @param {boolean} [params.passages_per_document] - When `true`, passages will be returned whithin their respective
+   * result.
+   * @param {number} [params.passages_max_passages_per_document] - Maximum number of passages to return per result.
+   * @param {string[]} [params.passages_fields] - A comma-separated list of fields that passages are drawn from. If this
+   * parameter not specified, then all top-level fields are included.
+   * @param {number} [params.passages_count] - The maximum number of passages to return. The search returns fewer
+   * passages if the requested total is not found.
+   * @param {number} [params.passages_characters] - The approximate number of characters that any one passage will have.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @param {Function} [callback] - The callback that handles the response.
    * @returns {Promise<any>|void}
@@ -405,7 +414,13 @@ class DiscoveryV1 extends BaseService {
       offset: _params.offset,
       sort: _params.sort,
       highlight: _params.highlight,
-      spelling_suggestions: _params.spelling_suggestions
+      spelling_suggestions: _params.spelling_suggestions,
+      passages: _params.passages,
+      'passages.per_document': _params.passages_per_document,
+      'passages.max_passages_per_document': _params.passages_max_passages_per_document,
+      'passages.fields': _params.passages_fields,
+      'passages.count': _params.passages_count,
+      'passages.characters': _params.passages_characters
     };
 
     const path = {
@@ -465,6 +480,15 @@ class DiscoveryV1 extends BaseService {
    * @param {boolean} [params.spelling_suggestions] - When `true` and the **natural_language_query** parameter is used,
    * the **natural_languge_query** parameter is spell checked. The most likely correction is retunred in the
    * **suggested_query** field of the response (if one exists).
+   * @param {boolean} [params.passages] - A passages query that returns the most relevant passages from the results.
+   * @param {boolean} [params.passages_per_document] - When `true`, passages will be returned whithin their respective
+   * result.
+   * @param {boolean} [params.passages_max_passages_per_document] - Maximum number of passages to return per result.
+   * @param {string} [params.passages_fields] - A comma-separated list of fields that passages are drawn from. If this
+   * parameter not specified, then all top-level fields are included.
+   * @param {number} [params.passages_count] - The maximum number of passages to return. The search returns fewer
+   * passages if the requested total is not found. The default is `10`. The maximum is `100`.
+   * @param {number} [params.passages_characters] - The approximate number of characters that any one passage will have.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @param {Function} [callback] - The callback that handles the response.
    * @returns {Promise<any>|void}
@@ -501,7 +525,13 @@ class DiscoveryV1 extends BaseService {
       offset: _params.offset,
       sort: _params.sort,
       highlight: _params.highlight,
-      spelling_suggestions: _params.spelling_suggestions
+      spelling_suggestions: _params.spelling_suggestions,
+      passages: _params.passages,
+      'passages.per_document': _params.passages_per_document,
+      'passages.max_passages_per_document': _params.passages_max_passages_per_document,
+      'passages.fields': _params.passages_fields,
+      'passages.count': _params.passages_count,
+      'passages.characters': _params.passages_characters
     };
 
     const path = {
@@ -1425,6 +1455,18 @@ namespace DiscoveryV1 {
     highlight?: boolean;
     /** When `true` and the **natural_language_query** parameter is used, the **natural_language_query** parameter is spell checked. The most likely correction is returned in the **suggested_query** field of the response (if one exists). */
     spelling_suggestions?: boolean;
+    /** A passages query that returns the most relevant passages from the results. */
+    passages?: boolean;
+    /** When `true`, passages will be returned whithin their respective result. */
+    passages_per_document?: boolean;
+    /** Maximum number of passages to return per result. */
+    passages_max_passages_per_document?: number;
+    /** A comma-separated list of fields that passages are drawn from. If this parameter not specified, then all top-level fields are included. */
+    passages_fields?: string[];
+    /** The maximum number of passages to return. The search returns fewer passages if the requested total is not found. */
+    passages_count?: number;
+    /** The approximate number of characters that any one passage will have. */
+    passages_characters?: number;
     headers?: OutgoingHttpHeaders;
     return_response?: boolean;
   }
@@ -1455,6 +1497,18 @@ namespace DiscoveryV1 {
     highlight?: boolean;
     /** When `true` and the **natural_language_query** parameter is used, the **natural_languge_query** parameter is spell checked. The most likely correction is retunred in the **suggested_query** field of the response (if one exists). */
     spelling_suggestions?: boolean;
+    /** A passages query that returns the most relevant passages from the results. */
+    passages?: boolean;
+    /** When `true`, passages will be returned whithin their respective result. */
+    passages_per_document?: boolean;
+    /** Maximum number of passages to return per result. */
+    passages_max_passages_per_document?: boolean;
+    /** A comma-separated list of fields that passages are drawn from. If this parameter not specified, then all top-level fields are included. */
+    passages_fields?: string;
+    /** The maximum number of passages to return. The search returns fewer passages if the requested total is not found. The default is `10`. The maximum is `100`. */
+    passages_count?: number;
+    /** The approximate number of characters that any one passage will have. */
+    passages_characters?: number;
     headers?: OutgoingHttpHeaders;
     return_response?: boolean;
   }
