@@ -17,9 +17,7 @@ const setup = (propUpdates?: any) => {
     }
   };
   const paginationComponent = render(
-    wrapWithContext(
-      <ResultsPagination {...propUpdates} />, context
-    )
+    wrapWithContext(<ResultsPagination {...propUpdates} />, context)
   );
 
   const pageSizeSelect = paginationComponent.getByLabelText('Items per page:');
