@@ -15,8 +15,7 @@ export function wrapWithContext(
     aggregationResults: {},
     searchResults: {},
     searchParameters: {
-      environment_id: '',
-      collection_id: ''
+      project_id: ''
     },
     selectedResult: {}
   };

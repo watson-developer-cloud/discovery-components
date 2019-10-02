@@ -25,8 +25,7 @@ class CustomSearchClient {
 
 const customSearchClientProps = (): DiscoverySearchProps => ({
   searchClient: new CustomSearchClient(),
-  environmentId: text('Environment ID', 'default'),
-  collectionId: text('Collection ID', 'coll-id'),
+  projectId: text('Project ID', 'project-id'),
   searchResults: object('Search results object', {
     matching_results: 1,
     results: [
@@ -57,8 +56,7 @@ storiesOf('DiscoverySearch', module)
           password: text('Password', 'bar'),
           version: text('Version Date', '2019-01-01')
         }),
-        environmentId: text('Environment ID', 'default'),
-        collectionId: text('Collection ID', 'coll-id')
+        projectId: text('Project ID', 'project-id')
       });
       return (
         <DiscoverySearch {...defaultProps()}>
