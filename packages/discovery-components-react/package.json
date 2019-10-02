@@ -4,7 +4,7 @@
   "license": "MIT",
   "author": "",
   "repository": "/discovery-components-react",
-  "version": "1.22.1",
+  "version": "1.23.0",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "scripts": {
@@ -21,10 +21,10 @@
   ],
   "peerDependencies": {
     "@carbon/icons": "^10.5.0",
+    "@disco-widgets/ibm-watson": "^1.1.0",
     "@disco-widgets/styles": "1.0.0",
     "carbon-components": "^10.6.0",
     "carbon-components-react": "^7.6.0",
-    "@disco-widgets/ibm-watson": "^1.1.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },
