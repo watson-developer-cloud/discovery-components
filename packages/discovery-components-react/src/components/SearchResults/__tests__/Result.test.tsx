@@ -28,7 +28,7 @@ describe('<Result />', () => {
       context.onSelectResult = mockselectResult;
       (context.searchResults as DiscoveryV1.QueryResponse).results = [mockResult];
       const { getByText } = render(wrapWithContext(<SearchResults />, context));
-      fireEvent.click(getByText('preview'));
+      fireEvent.click(getByText('some title'));
       expect(mockselectResult.mock.calls.length).toBe(1);
       expect(mockselectResult.mock.calls[0][0]).toBe(mockResult);
     });

@@ -1,0 +1,5 @@
+@import '~carbon-components/scss/globals/scss/vars';
+
+.#{$prefix}--search-result--selected {
+  border-left: 0.3rem solid $interactive-04;
+}
