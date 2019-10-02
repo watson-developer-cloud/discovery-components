@@ -1,0 +1,3694 @@
+{
+  "id": "537f32884074766eeec0dde774c24aa8",
+  "result_metadata": {
+    "confidence": 0.08408220853860772,
+    "score": 1
+  },
+  "enriched_title": {
+    "entities": [],
+    "sentiment": {
+      "document": {
+        "score": 0,
+        "label": "neutral"
+      }
+    },
+    "semantic_roles": [],
+    "emotion": {
+      "document": {
+        "emotion": {
+          "disgust": 0.068738,
+          "joy": 0.229396,
+          "anger": 0.13679,
+          "fear": 0.098771,
+          "sadness": 0.069049
+        }
+      }
+    },
+    "concepts": [
+      {
+        "text": "Example.com",
+        "relevance": 0.94476,
+        "dbpedia_resource": "http://dbpedia.org/resource/Example.com"
+      },
+      {
+        "text": "Matrix",
+        "relevance": 0.72744,
+        "dbpedia_resource": "http://dbpedia.org/resource/Matrix"
+      },
+      {
+        "text": "Semantics",
+        "relevance": 0.700346,
+        "dbpedia_resource": "http://dbpedia.org/resource/Semantics"
+      }
+    ],
+    "categories": [
+      {
+        "score": 0.799751,
+        "label": "/technology and computing/software/databases"
+      },
+      {
+        "score": 0.751544,
+        "label": "/technology and computing/hardware/computer components"
+      },
+      {
+        "score": 0.737679,
+        "label": "/technology and computing/operating systems"
+      }
+    ],
+    "relations": [],
+    "keywords": [
+      {
+        "text": "Final Merge",
+        "relevance": 0.864224,
+        "count": 1
+      },
+      {
+        "text": "Rank",
+        "relevance": 0.549086,
+        "count": 1
+      },
+      {
+        "text": "FMR",
+        "relevance": 0.279457,
+        "count": 1
+      }
+    ]
+  },
+  "text": "Accuracy The precision of the answers returned if all questions are answered. Accuracy can be measured in terms of how highly ranked the correct answer is in the final answer set. So, \"accuracy at one,\" would measure how often the correct answer is the top ranked position. For some applications, the correct answer might have to be only in the top five (or top \"n\"), so accuracy at 5 (or accuracy at \"n\") might be the more appropriate metric to track. Accuracy analysis The study of experiments run against IBM Watson. The goals of such analysis include understanding the behavior of the system as implemented (a control) and determining if and how changes to the implementation (the experiment) benefit or hinder the overall ability of the system to answer questions. Adaptation methodology The guiding process for creating a domain solution based on the IBM Watson platform. The methodology defines four phases: inception, elaboration, construction, and transition which cover the steps from domain analysis and goal setting through to a deployment of the system in a production environment. Aggregate analysis engine An analysis engine made up of multiple subcomponent analysis engines arranged in a flow. The flow can be one of the built-in UIMA flows, or a custom flow provided by the user. Also referred to as the top level aggregate (TLA). Analysis engine A program that analyzes artifacts, such as documents, and infers information about them, and which implements the UIMA Analysis Engine interface specification. Analysis engines are constructed from building blocks called annotators. An analysis engine can contain a single annotator, which is referred to as a primitive analysis engine, or multiple annotators, which is referred to as an aggregate analysis engine. Anaphora An instance of an expression referencing another expression. The association of a label with a region of text or other type of artifact. For example, the label \"Person\" associated with a region of text \"John Doe\" constitutes an annotation. We say \"Person\" annotates the span of text from X to Y containing exactly \"John Doe.\" An annotation is represented as a special type in a UIMA type system. It is the type used to record the labeling of regions of a subject of analysis. Annotator A software component that implements the UIMA Annotator interface. Annotators are implemented to produce and record annotations over regions of an artifact. Annotators define a set of vocabularies and rules which describe the language used to describe objects in a given domain and how they interact. Anonymization The process of permanently and completely removing personal identifiers from data. Anonymized data is data that can no longer be associated with an individual in any manner. Once this data is stripped of personally identifying elements, those elements can never be reassociated with the data nor the underlying individual. Answer key Refers to a single XML file containing all questions and their allowable answers for the IBM Watson system. Also referred to as ground truth. Answer scoring Process of associating a set of values with each possible answer. Referred to as context independent scoring in the code. ARFF The Attribute-Relation File Format file extension type. Artifact The object being analyzed by the UIMA pipeline. Artifacts include a text document, or audio or video stream. Ask Term used to describe the phase in which the system is answering questions, both those asked by testing and accuracy analysts while testing the system and those asked at runtime by users. It is one of three phases: ingest, train, and ask. Attribute Key word or concept within an input case that is known or expected to be deterministic of the correct output. BlADE BlueJ Automatic Distributed Execution Environment. Web tool for experiment job scheduling and work distribution. Developed by IBMÂ® Research to ensure that question-centric tasks could be processed as efficiently as possible through the DeepQA pipeline using the hardware resources available. Blind data A set of question and answer pairs that are never released or seen by developers and are used to test the system periodically, typically quarterly, to evaluate performance on unseen data. Testing on blind data prevents accuracy from being tainted by over-fitting to known question sets. Reported results should only come from tests that are run on blind data. Build phase The development and deployment phase of an IBM Watson engagement that serves to deliver a solution into a pilot. BVT Build Verification Test. Small set of tests that are run to verify the quality of a build. Camel Apache Camel is an open source rule-based application integration framework used by DUCC. It is a routing engine builder that allows you to define your own routing rules, decide from which sources to accept messages, and determine how to process and send those messages to other destinations. Camel uses an integration language that allows you to define complex routing rules. Candidate answer An answer generated by the system which is evaluated for correctness and might be returned as the correct answer. CAS Common Analysis Structure. UIMA data structure for storing annotations. The UIMA Common Analysis Structure is the primary data structure which UIMA analysis components use to represent and share analysis results. It contains:  The artifact: This is the object being analyzed such as a text document or audio or video stream. The CAS projects one or more views of the artifact. Each view is referred to as a Sofa.  A type system description: The CAS indicates the supported types, subtypes, and their features.  Analysis metadata: Annotations describing the artifact or a region of the artifact.  Index repository: Supports efficient access to and iteration over the results of analysis. UIMA's primary interface to this structure is provided by a class called the Common Analysis System. \"CAS\" is used to refer to both the structure and system. Where the common analysis structure is used through a different interface, the particular implementation of the structure is indicated. For example, the JCas is a native Javaâ„¢ object representation of the contents of the common analysis structure. A CAS can have multiple views; each view has a unique representation of the artifact, and has its own index repository, representing results of analysis for that representation of the artifact. CAS Consumer A component that receives each CAS in the collection after it has been processed by an analysis engine. The CAS Consumer may then perform collection-level analysis and construct an application-specific, aggregate data structure. A component that populates a CAS from a raw document. For example, if the document is HTML, a CAS Initializer might store a detagged version of the document in the CAS and also create inline annotations derived from the tags. For example <p> tags might be translated into inline Paragraph annotations in the CAS. CAS Processor A component that takes a CAS as input and returns a CAS as output. There are two types of CAS Processors: Analysis Engines and CAS Consumers. CDE Component Descriptor Editor. An Eclipse tool that you can use to edit UIMA descriptors. CE Controlled English. A type of Controlled Natural Language, used for displaying the PCAS and describing Prolog rules. CNL Controlled Natural Language. A simplified version of English that provides unambiguous meaning and permits easy parsing by a computer system. Might be used as a human-readable formal language between system and machine. Collection reader A component that reads documents from some source, for example a file system or database. Each document is returned as a CAS that may then be processed by analysis engines. If the task of populating a CAS from the document is complex, a Collection Reader may choose to use a CAS Initializer for this purpose. Component Term used to refer to one of the many products that comprise the IBM Watson system's hardware. In the context of Watson, the term concept is used to define the class of objects and terms in a domain. For example, in the health care domain, concepts include doctor, patient, symptom, and disease. ConceptMapper Apache dictionary lookup utility that, given text as input, maps entries in a dictionary to UIMA annotations. This utility is used by the IBM Watson system to annotate Wikipedia titles in question and document text and to map synonyms of Wikipedia titles. The ConceptMapper, or JFrost service, was replace by the Concept Annotator in the 1.3 release. Confidence The predicted probability of an answer being correct. Precision and accuracy are both related to the confidence metric produced by Watson for each possible answer it returns. Candidate answers are ranked by confidence; if the customized pipeline is providing high-quality answers, confidence should show a strong correlation with answer quality. Confusion matrix Table providing detailed numeric breakdown of predicted and actual answers. The table is used to evaluate model predictions for candidate answers. The example below includes two additional columns providing summary counts and the percentage of correct numbers. Table 1. Confusion matrix table example Construction phase Third phase in the adapting Watson methodology which involves an iterative process of functional adaptation driven by accuracy analysis. Content The resources, structured or unstructured, that are ingested into the Watson system to form the knowledge base. These ingested resources are used to understand the question, determine hypotheses, find supporting evidence, and rank candidate answers. The term content is used to distinguish the source corpora from the term data , which consists of question sets and the answer key that are used to train and test the system. Context Dependent Scoring Annotators that create machine learning features based on the question text, the answer, and the context in which the answer appeared, such as a passage. Context Independent Scoring Annotators that create machine learning features based on the question text and the answer without regard to the context of the answer. Corpora Multiple collections of resources. A corpora is distinct from a knowledge base in that it represents raw data, while a knowledge base is the term used to describe corpora that have been ingested into the system. Corpora is the plural form of corpus. Corpus In linguistics, a corpus is a large and structured set of texts that are usually electronically stored and processed. In the IBM Watson system, the corpus represents a collection of as yet unprocessed data resources for a specific domain or target solution. The plural form of corpus is corpora. CPE Collection Processing Engine. Performs collection processing through the combination of a Collection Reader, an optional CAS Initializer, an Analysis Engine, and one or more CAS Consumers. The Collection Processing Manager (CPM) manages the execution of the engine. CPM Collection Processing Manager. A module in the framework that manages the execution of collection processing, routing CASs from the Collection Reader to an Analysis Engine and then to the CAS Consumers. The CPM provides feedback such as performance statistics and error reporting and may implement other features such as parallelization. CSV Comma Separated Values. A file format used to represent feature vectors for machine learning training and testing by SPSSÂ®. See also ARFF. Customization mode One of the three modes in which you can run the IBM Watson system. You run the system in customization mode when you are adapting the annotators, services, and components that make up the system for a new domain or data set. See Ingestion mode and Production mode for information about the other two modes. Declarative customization Changing files that express rules or information for various algorithms in the pipeline. Deep evidence scoring Referred to as context dependent scoring in the code. De-identification The removal of personally identifying information in order to protect personal privacy. Deidentified data may not necessarily be anonymized data. This may mean that the personally identifying information may be able to be re-associated with the data at a later time. In this product document, anonymization is considered a subset of de-identification. Deliverable Content ready to be handed over to client or to be used in the next phase of a methodology. Derby Open source small relational database implemented in Java. Descriptor Short for UIMA descriptor; A UIMA configuration file for a primitive UIMA analysis engine or a configuration for an aggregate set of other descriptors. Design patterns Repeatable patterns that have been used in IBM Watson solutions such as Jeopardy! or Oncology diagnosis and treatment that can be modified and reused in other solutions. Developer gateway system A machine used by developers, domain experts, and others to make changes to the underlying system code. When configuring the system to run in customization mode, the system administrator reserves a set of machines which are nodes within the 10 GbE compute network, and that have access to the shared file system, to serve as developer gateway systems. The administrator installs the Eclipse development environment, and other UI services on these machines, which developers can use to add to and change annotators and other services in the pipeline. DFR Daily Functional Regression. A suite of FVT tests that go beyond BVT and provide a high degree of confidence that the build quality is high. DI Document Largest unit of text considered by an analysis engine; primarily searched using Indri. Domain DUCC Distributed UIMA Cluster Controller. UIMA AS based runtime job management application framework that will replace the BlADE tool. Elaboration phase Second phase of the adapting Watson methodology which involves building a baseline system with training and test data, and content. Elementary Watson A configuration of the IBM Watson pipeline that runs only one process of each service type. This configuration reduces the memory footprint of the runtime to the point where it is possible to run all the pipeline processes on a single LPAR with 512G of memory. ESG English Slot Grammar parser. Evidence Details from supporting passages returned after searching the IBM Watson corpora that was used to form the answer to the question. The evidence provides text from passages within the corpora that support the answer. Evidence preparation Any process needed to prepare evidence for use by IBM Watson. De-identification, corpus reduction, optical character recognition, language translation are examples of evidence preparation. Experiment A question set run through the pipeline based on configuration and training models. The configuration and training models are varied over time in an attempt to improve question answering performance. When question sets are modified, new experiments must be created. Extract, transform, load (ETL) The process of extracting information from available content, transforming it into a form usable by IBM Watson and loading it into some operational store for real time use. Fact search A search that given a fact pattern, returns facts extracted from a collection of documents by a set of analysis engines that match the fact pattern. False negation Answers that are actually true and are predicted to be false. These answers are called Type II errors in some contexts. False positive Answers that are actually false and are predicted to be true. These answers are called Type I errors in some contexts. Feature A data member or attribute of a type. Each feature itself has an associated type. In the database analogy where types are tables, features are columns. Feature vector An ordered set of features representing multiple characteristics. The last stage of processing in the IBM Watson pipeline which uses machine learning to identify the final answer. The various feature scores are normalized and combined into a single score for each candidate answer and a ranking of those candidate answers is provided. Flow controller A UIMA construct that determines the order in which the components of a top level aggregate are invoked on a CAS. Focus A noun or a noun phrase that is likely to be present in the answer. To test a candidate answer, Watson substitutes the focus with the candidate answer to produce a statement; the truth of the resulting statement is correlated with the value of the substituted answer. Frame Contains all the relevant ESG (English Slot Grammer) slots and their values. They are created during preprocessing when building Prismatic Knowledge Bases. GPFS IBM General Parallel File System. High performance shared-disk file management solution that provides quick access to data from multiple nodes in a cluster environment. Ground truth An answer key that contains questions and answers that are representative of the types of questions that will be asked and answers expected in a given use case. Hadoop Software library that serves as a framework for the distributed processing of large data sets across clusters of computers. Starting with release 1.3, the ingestion processes that were once managed by Hadoop are managed by BlADE and LiteScale. Headroom analysis The process of determining how much improvement in accuracy or recall can be expected by addressing some class of problems identified while performing accuracy analysis. Human annotator A person who updates answer keys with alternative answers and answer forms. HUTT Hierarchical Unified Type Taxonomy. A universal entity type system integrated into the base type system for the IBM Watson system. Hybrid analysis engine An aggregate analysis engine where more than one of its component analysis engines are deployed in the same address space and one or more are deployed remotely (part tightly and part loosely-coupled). Hypothesis generation Also known as candidate answer generation. This is the step in an IBM Watson pipeline where all possible candidate answers for a given case are identified from the available content. IDF Inverse Document Frequency. A measure of how common or rare a term is across a corpus. Inception phase First phase of the adapting Watson methodology which involves defining the Watson solution and its key requirements, especially the types of questions that will be asked and the kind of application and workflow that will use the Watson service. Data in the CAS can only be retrieved using Indexes. Indexes are analogous to the indexes that are specified on tables of a database. Indexes belong to Index Repositories; there is one Repository for the base CAS and additional ones for each TCAS view of the CAS. Indexes are specified to retrieve instances of some CAS Type (including its subtypes), and can be sorted in a user-definable way. For example, all types derived from the UIMA built-in type uima.tcas.annotation contain begin and end features, which mark the begin and end offsets in the text where this annotation occurs. One may then specify that types should be retrieved sequentially by begin (ascending) and end (descending). In this case, iterating over the annotations, one first obtains annotations that come sequentially first in the text, while favoring shorter annotations, in the case where two annotations start at the same offset. Index, search, and navigate Information from an evidence corpus must be synthesized and placed into an index for efficient use by IBM Watson at runtime. Searches for candidate answers or for supporting evidence are performed over this index. Indri Search engine used to build language modeling information retrieval tools. Information model The generic term used to describe the collection of data repositories used to capture relationships discovered from the available content. Ingest Term used to describe the phase in which the system is being taught. It is one of three phases: ingest, train, and ask. Ingestion The process of feeding data into the system to create its base of knowledge. Processing is performed on the content as it is added to the system, including the creation of derived data resources such as search indexes and a formal knowledge base, and natural language preprocessing of text corpora. One of the three modes in which you can run the IBM Watson system. You run the system in ingestion mode when you are feeding data into the system. See Customization mode and Production mode for information about the other two modes. JCas A Java object interface to the contents of the CAS, where each type in the CAS is represented as a Java class, each feature a property, and each instance of a type a Java object. JMS Java Messaging Service used by UIMA AS. JMX Java Management Extensions. A framework to monitor and manage resources as they are created, installed, and implemented. Keyword search The standard search method where one supplies words or \"keywords\" and candidate documents are returned. Knowledge base A set of data generated by the processing of corpora ingested into the system. LAT Lexical Answer Type. The term in a question or category that indicates the type of entity that is being asked for, independent of assigning semantics to that term. Lemma Canonical form of a set of words. For example, the lemma of run, runs, ran, and running is run. A catalog of a given language's words. The ESG component of Watson includes a set of lexicons which are tailored to perform well for an open domain. These lexicons may not include provisions for some of the domain-specific vocabulary or syntactic structures, thus causing ESG to produce incorrect or incomplete parses. By creating additional domain-specific lexicons ESG parser recall and accuracy can be significantly improved. LiteScale Alternative to UIMA AS that enables you to process multiple CASes within a single UIMA process. Logistic regression A commonly-used regression analysis that predicts the value of a binomial dependent variable from one or more independent or predictor variables. Loosely-coupled analysis engine An aggregate analysis engine where no two of its component analysis engines run in the same address space but where each is remote with respect to the others that make up the aggregate. Ideal for using remote analysis engine services that are not locally available, or for quickly assembling and testing functionality in cross-language, cross-platform distributed environments. Also better enables distributed scaleable implementations where quick recoverability may have a greater impact on overall throughput than analysis speed. Lucene Full text search engine. Machine Learning model Machine Learning applies past experience, such as training data, to determine or predict the correct outcome of future experiences based on characteristics of the data. These past experiences are captured in the form of a model by calculating feature scores for each candidate answer or evidence and combining that with known outcomes. MDA Leukemia Advisor The IBM Watson solution being created for MD Anderson. Named entities Concepts in the domain that fall in to well defined categories, such as names of organizations, locations, authors, or diseases. NED Named-entity detection. See NER. NER Named Entity Recognition. A system which identifies entities in text and classifies them into predefined categories such as the names of persons, organizations, locations, and so on. NLP Natural Language Processing. The process of a computer extracting meaningful information from natural language input and producing natural language output. NLP models Models are created to perform the extraction of meaningful information from a wide variety of data in natural language format. Ontology The part of a knowledge base that defines the semantics of the data axiomatically. Optical character recognition The conversion of scanned images into machine-encoded text. PAS Predicate Argument Structure. A simplified representation the deep parse of the question. Unit of text typically bounded by a sentence in preprocessed search results; searched using Lucene and Indri in the IBM Watson system. PCAS The Prolog version of the CAS. PDM Predicate Disambiguation and Matching. PEAR An archive file that packages up a UIMA component, its code, descriptor files and other resources required to install and run it in another environment. You can generate PEAR files using utilities that come with the UIMA SDK. Performance In Watson terms, performance refers to the system's accuracy, precision, and recall in answering questions. Phase Final merging and ranking is executed as a sequence of phases that combine machine learning and programmatic functions. PHI Personal Health Information. Any information in a medical record or designated record set that can be used to identify an individual and that was created, used, or disclosed in the course of providing a health care service such as diagnosis or treatment. PII Personally Identifiable Information. Information that can be used to uniquely identify, contact, or locate a single person or can be used with other sources to uniquely identify a single individual. Pipeline Term used to refer to the runtime portion of IBM Watson system. The term is appropriate because the system includes many levels of nested analysis engines; questions that are posed to the system flow from one engine to the next. PMML Predictive Model Markup Language. POS Part of speech. During the NLP processing stage that identifies and delimits syntactic components, individual lexical items are assigned part of speech (POS) tags , and larger units are assigned phrase tags, such as a verb phrase or noun phrase. See http://www.scs.leeds.ac.uk/ccalas/tagsets/brown.html for the parts of speech tags using in the Brown corpus. The tags from the Brown corpus tag set are used frequently in language processing because the Brown corpus was the first tagged electronic resource to be widely available to researchers. Precision A measure of the fraction of retrieved instances that are relevant. High precision means that an algorithm returned more relevant results than irrelevant. In the context of Watson, it measures the percentage of questions that the system gets right out of those it chooses to answer. If no answers with confidence above a defined threshold are returned, then the Watson solution might choose to return no answers. In this case, the precision metric becomes relevant. The threshold must be determined empirically. Precision takes all retrieved documents into account, but it can also be evaluated at a given cut-off rank, considering only the topmost results returned by the system. This measure is called precision at n. For example, for a text search on a set of documents, precision is the number of correct results divided by the number of all returned results. Precision is also used with recall, the percent of all relevant documents that is returned by the search. The two measures are sometimes used together in the F1 Score (or f-measure) to provide a single measurement for a system. Predictive analytics Analytic techniques to examine historical facts and make predictions about future events. Primitive analysis engine An analysis engine that is composed of a single annotator but has no component analysis engines inside of it. Prismatic Knowledge base that stores linguistic frames in association with their frequency of occurrence; used in the IBM Watson system to store knowledge about \"is a\" relationships. Production mode One of the three modes in which you can run the IBM Watson system. You run the system in production mode after it has been adapted to a domain, trained, and tested, and is ready to answer questions. See Customization mode and Ingestion mode for information about the other two modes. Programmatic customization Adding new algorithms into the processing pipeline, and into the post-processors in the final merging and ranking phase. The new algorithms are inserted as UIMA annotators and might replace existing annotators. QA Question and Answer. Question analysis The step in an IBM Watson pipeline that deals with understanding the question or input case supplied to IBM Watson to determine exactly what it is asking and also extracts key information from the question or case such as critical attributes that might be helpful in determining candidate answers. Question set A set of questions and known answers. There are two types of question sets used by the IBM Watson system:  Testing question set: Used to evaluate the system metrics after ingestion and training.  Training question set: Used to train the machine learning models. R2 A named entity recognition annotator that runs in the IBM Watson system. RDF Resource Description Framework. A family of World Wide Web Consortium (W3C) specifications designed as a metadata data model. It is now used as a general method for conceptual description or modeling of information that is implemented in web resources, using a variety of syntax formats. Ready phase The pre-build or data phase of an IBM Watson engagement that ensures all the prerequisites are in place before entering the development or build phase. Recall Recall measures how often the correct answer is found in the top x candidate answers. A measure of the fraction of relevant instances that are retrieved. High recall means that an algorithm returned most of the relevant results. For example, for a text search on a set of documents, recall is the number of correct results divided by the number of results that should have been returned. In the context of Watson, recall@010 identifies the percentage with which the top ten results for the question contain the correct answer to that question. Recall correlates to whether Watson could find the answer in its ingested corpora. It is trivial to achieve recall of 100% by returning all documents in response to any query. Recall should not be evaluated alone, but should be considered along with precision, or the fraction of retrieved documents that are relevant to the search. Route The final merging and ranking phases can be divided into parallel data processing streams called routes; each route handles a different set of candidate answers. The final phase of an IBM Watson engagement where the solution is placed into a production environment in which users use it in their daily jobs. Scoring annotator This is a specific type of UIMA annotator that produces one or more feature scores for each candidate answer. Semantic search A search where the semantic intent of the query is specified using one or more entity or relation specifiers. For example, one could specify that they are looking for a person (named) \"Bush.\" Such a query would then not return results about the kind of bushes that grow in your garden but rather just persons named Bush. Sesame Resource Description Framework triplestore supporting query APIs including SPARQL; used to store word and concept relationships in the IBM Watson system. Service Term used to refer to a process that runs within the IBM Watson system. The services.xml configuration file defines the processes for a given implementation of the pipeline. Sicstus Prolog engine. SofA See Subject of analysis. SPSS Modeler The IBM SPSS Modeler Server is a data mining workbench that helps you build accurate predictive models quickly and intuitively, without having to do any programming. Span Sequence of characters in a text document. SRD Semantic Relation Detection. Semantic relations are relationships between concepts. They can be shallow, based on the syntax of a sentence, or deep, based on rules and the types of entities participating in the relation. Stop words Words that occur frequently and are therefore not useful in distinguishing the semantic content of one document from another. For example, given a query about the size of Vermont , it would not be helpful to return documents containing the word of , whereas documents containing the word Vermont might be relevant. Stop words often operate to provide the structure of a sentence, so they are needed for full parsing, but not for shallow analysis. See http://www.textfixer.com/resources/common-english-words.txt for a sample list of English stop words. Store, manage, govern All of the physical assets and processes needed to ensure the proper capture, access, protection, and replication of the data used in an IBM Watson engagement. Structured information Items stored in structured resources such as search engine indices, databases, or knowledge bases. The canonical example of structured information is the database table. Each element of information in the database is associated with a precisely defined schema where each table column heading indicates its precise semantics, defining exactly how the information should be interpreted by a computer program or end-user. Subject of analysis (SofA) A piece of data, such as a text document, image, audio segment, or video segment, which is intended for analysis by UIMA analysis components. It belongs to a CAS View which has the same name; there is a one-to-one correspondence between these. There can be multiple Sofas contained within one CAS, each one representing a different view of the original artifact -- for example, an audio file could be the original artifact, and also be one SofA, and another could be the output of a voice-recognition component, where the SofA would be the corresponding text document. Sofas may be analyzed independently or simultaneously; they all co-exist within the CAS. TAE A specialization of analysis engine for processing artifacts where annotations over those artifacts are being produced. TA Type Alignment. TCAS A particular view of the CAS corresponding to one particular Sofa. The TCAS has all the methods of a CAS and additional methods related to its Sofa. It also provides access to an index repository holding instances of Feature Structures associated with this Sofa. Teach phase A pilot instance of an IBM Watson solution that is made available to domain experts with the intent of providing feedback to improve the solution over iterative teach cycles. Tightly-coupled analysis engine An aggregate analysis engine where all of its component analysis engines run in the same address space. TLA Top Level Aggregate. An analysis engine made up of multiple subcomponent analysis engines arranged in a flow. The flow can be one of the built-in UIMA flows, or a custom flow provided by the user. Also referred to as an aggregate analysis engine. Title Oriented Documents. A document which contains content that supports its title, such as a Wikipedia article. TR Type Retrieval. Train Term used to describe the phase in which the system is being trained. It is one of three phases: ingest, train, and ask. Training the machine is a key part of machine learning; the machine identifies relationships within the known data set which it can use to form rules and estimate probabilities that it can apply to an unknown data set. Training data A set of question and answer pairs that are used to teach the machine learning models in the system. These questions and answers are representative of the types of questions that will be asked and answers expected in the use case. The only distinction between training and test question and answer pairs is when they are used. Training model See Machine Learning model. Transition phase Fourth and final phase of the adapting Watson methodology which involves moving the adapted IBM Watson system into production mode. TREC format XML files formatted for Text REtrieval Conference information retrieval competitions sponsored by NIST. TREC format is supported as an intermediate file format that can be used during ingestion. Answers that are actually false and are predicted to be false. True positive Answers that are actually true and are predicted to be true. TyCor Type Coercion. Determining the question type information; this is a crucial step in the process of identifying the correct answer. One or more lexical answer types (LATs) and a candidate answer are the inputs to type coercion scoring. Type An object used to store the results of analysis. Types are defined using inheritance, so some types may be defined purely for the sake of defining other types, and are in this sense \"abstract types.\" Types usually contain features, which are attributes or properties of the type. A type is roughly equivalent to a class in an object oriented programming language, or a table in a database. Types may be indexed for fast retrieval. Type system A collection of related types. Each analysis engine or CAS consumer has its own type system. Type systems are often shared across analysis engines. A type system is roughly analogous to a set of related classes in object oriented programming, or a set of related tables in a database. The type system/type/feature terminology comes from computational linguistics. UIMA Unstructured Information Management Architecture. An architecture and software framework for creating, discovering, composing and deploying a broad range of multi-modal analysis capabilities and integrating them with search technologies. The Apache UIMA framework is an Apache licensed, open source implementation of the UIMA Architecture, and provides a runtime environment in which developers can plug in and run their UIMA component implementations and with which they can build and deploy UIM applications. The framework itself is not specific to any IDE or platform. IBM is a main contributor to the Apache project. UIMA is the base architecture for IBM Watson. UIMA Asynchronous Scaleout. An architecture that provides for scaling out annotators by creating multiple instances for each annotator class. Each instance runs in its own thread. It is also possible in UIMA AS to spread the processing elements out across servers, which then communicate between each other using \"messages\" through the use of a message queuing middleware like Apache ActiveMQ. In the case of UIMA AS , the messages are individual CASes. UIMA framework A Java-based implementation of the UIMA architecture. It provides a runtime environment in which developers can plug in and run their UIMA component implementations and with which they can build and deploy UIMA applications. The framework is not specific to any IDE or platform. The original design for the framework was largely inspired by the original TAF and Talent systems developed in IBM Watson Research labs and IBM Software Group. UIMA software development kit (SDK) Includes an all-Java implementation of the UIMA framework for the implementation, description, composition and deployment of UIMA components and applications. It also provides the developer with an Eclipse-based (www.eclipse.org) development environment that includes a set of tools and utilities for using UIMA. Unstructured information The canonical example of unstructured information is the natural language text document. The intended meaning of a document's content is only implicit and its precise interpretation by a computer program requires some degree of analysis to explicate the document's semantics. Other examples include audio, video and images. Unstructured information is contrasted with structured information. The canonical example of structured information is the database table. Each element of information in the database is associated with a precisely defined schema where each table column heading indicates its precise semantics, defining exactly how the information elements should be interpreted by a computer program or end-user. Use case A use case refers to the specific problem domain being addressed by an IBM Watson solution. A single use case drives a full IBM Watson Ready, Build, Teach, Run cycle. The programming interface that is used by a requesting application to present input information to IBM Watson and to receive output information from IBM Watson. Watson Enabled Application (WEA) One of any number of applications surrounding an IBM Watson pipeline that serve to provide data to it or receive data from it. One example is a client application that captures the questions that are submitted to the pipeline for processing. Watson methods Watson methods is an end-to-end workflow of an IBM Watson solution. Watson platform The set of reusable assets that make up the IBM Watson product. A subset of these assets are used in any particular solution within an engagement. WordNet Lexical database that groups English nouns, verbs, adjectives, and adverbs into sets of cognitive synonyms (synsets), each expressing a distinct concept. Work product A working document used to create a deliverable. XCAS An XML representation of the CAS. The XCAS can be used for saving and restoring CASs to and from streams. The UIMA SDK provides serialization and deserialization methods for the XCAS format. XSG Generic Slot Grammar parser. Attention: Your comment can be viewed by anyone in IBM. Do not add IBM Confidential information about Watson capabilities or detailed instructions for system tasks. Use the Watson UA teamroom available here instead. If you cannot see the comments section below, it might be due to the site certificate issue. Go to: idoc.hursley.ibm.com, accept the security exception, and then return to the information center.",
+  "enriched_text": {
+    "entities": [
+      {
+        "count": 25,
+        "sentiment": {
+          "score": 0.487105,
+          "label": "positive"
+        },
+        "text": "IBM Watson",
+        "relevance": 0.83562,
+        "type": "Company"
+      },
+      {
+        "count": 16,
+        "sentiment": {
+          "score": 0.297746,
+          "label": "positive"
+        },
+        "text": "Watson",
+        "relevance": 0.585544,
+        "type": "Person"
+      },
+      {
+        "count": 21,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "IBM Software Group",
+        "relevance": 0.557797,
+        "type": "Company",
+        "disambiguation": {
+          "subtype": [
+            "SoftwareLicense",
+            "OperatingSystemDeveloper",
+            "ProcessorManufacturer",
+            "SoftwareDeveloper",
+            "CompanyFounder",
+            "ProgrammingLanguageDesigner",
+            "ProgrammingLanguageDeveloper"
+          ],
+          "name": "IBM",
+          "dbpedia_resource": "http://dbpedia.org/resource/IBM"
+        }
+      },
+      {
+        "count": 21,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "CAS",
+        "relevance": 0.51371,
+        "type": "Organization",
+        "disambiguation": {
+          "subtype": ["MusicalArtist"],
+          "name": "Corale Alpina Savonese",
+          "dbpedia_resource": "http://dbpedia.org/resource/Corale_Alpina_Savonese"
+        }
+      },
+      {
+        "count": 7,
+        "sentiment": {
+          "score": 0.513207,
+          "label": "positive"
+        },
+        "text": "UIMA",
+        "relevance": 0.346814,
+        "type": "Organization"
+      },
+      {
+        "count": 7,
+        "sentiment": {
+          "score": 0.469122,
+          "label": "positive"
+        },
+        "text": "developer",
+        "relevance": 0.239581,
+        "type": "JobTitle"
+      },
+      {
+        "count": 1,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "IBM Watson Research",
+        "relevance": 0.238786,
+        "type": "Company"
+      },
+      {
+        "count": 1,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "CAS Processors",
+        "relevance": 0.210229,
+        "type": "Company"
+      },
+      {
+        "count": 4,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "Collection Reader",
+        "relevance": 0.205684,
+        "type": "PrintMedia"
+      },
+      {
+        "count": 1,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "IBM Confidential",
+        "relevance": 0.186315,
+        "type": "PrintMedia"
+      },
+      {
+        "count": 2,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "representative",
+        "relevance": 0.184253,
+        "type": "JobTitle"
+      },
+      {
+        "count": 1,
+        "sentiment": {
+          "score": 0.441263,
+          "label": "positive"
+        },
+        "text": "IBMÂ® Research",
+        "relevance": 0.181805,
+        "type": "Company"
+      },
+      {
+        "count": 2,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "UIMA Architecture",
+        "relevance": 0.181041,
+        "type": "Facility"
+      },
+      {
+        "count": 1,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "UIMA",
+        "relevance": 0.180367,
+        "type": "Company"
+      },
+      {
+        "count": 1,
+        "sentiment": {
+          "score": 0.531695,
+          "label": "positive"
+        },
+        "text": "search technologies",
+        "relevance": 0.176393,
+        "type": "Company",
+        "disambiguation": {
+          "subtype": [],
+          "name": "Search Technologies",
+          "dbpedia_resource": "http://dbpedia.org/resource/Search_Technologies"
+        }
+      },
+      {
+        "count": 1,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "Collection Processing Manager",
+        "relevance": 0.170155,
+        "type": "JobTitle"
+      },
+      {
+        "count": 1,
+        "sentiment": {
+          "score": 0.648265,
+          "label": "positive"
+        },
+        "text": "Controlled Natural Language",
+        "relevance": 0.16898,
+        "type": "PrintMedia"
+      },
+      {
+        "count": 1,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "Editor",
+        "relevance": 0.163637,
+        "type": "JobTitle"
+      },
+      {
+        "count": 2,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "Brown corpus",
+        "relevance": 0.163199,
+        "type": "Facility"
+      },
+      {
+        "count": 2,
+        "sentiment": {
+          "score": -0.488297,
+          "label": "negative"
+        },
+        "text": "ESG",
+        "relevance": 0.161996,
+        "type": "Organization"
+      },
+      {
+        "count": 2,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "Apache",
+        "relevance": 0.161617,
+        "type": "Company"
+      },
+      {
+        "count": 1,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "administrator",
+        "relevance": 0.157478,
+        "type": "JobTitle"
+      },
+      {
+        "count": 1,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "IDF",
+        "relevance": 0.156935,
+        "type": "Organization"
+      },
+      {
+        "count": 1,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "CASs",
+        "relevance": 0.156053,
+        "type": "Person"
+      }
+    ],
+    "sentiment": {
+      "document": {
+        "score": 0.566974,
+        "label": "positive"
+      }
+    },
+    "semantic_roles": [
+      {
+        "subject": {
+          "text": "all questions"
+        },
+        "sentence": "Accuracy The precision of the answers returned if all questions are answered.",
+        "object": {
+          "text": "answered"
+        },
+        "action": {
+          "verb": {
+            "text": "be",
+            "tense": "present"
+          },
+          "text": "are",
+          "normalized": "be"
+        }
+      },
+      {
+        "subject": {
+          "text": "how highly ranked the correct answer"
+        },
+        "sentence": " Accuracy can be measured in terms of how highly ranked the correct answer is in the final answer set.",
+        "object": {
+          "text": "in the final answer set"
+        },
+        "action": {
+          "verb": {
+            "text": "be",
+            "tense": "present"
+          },
+          "text": "is",
+          "normalized": "be"
+        }
+      },
+      {
+        "subject": {
+          "text": "the correct answer"
+        },
+        "sentence": " So, \"accuracy at one,\" would measure how often the correct answer is the top ranked position.",
+        "object": {
+          "text": "the top ranked position"
+        },
+        "action": {
+          "verb": {
+            "text": "be",
+            "tense": "present"
+          },
+          "text": "is",
+          "normalized": "be"
+        }
+      },
+      {
+        "subject": {
+          "text": "accuracy at 5 (or accuracy at \"n\")"
+        },
+        "sentence": " For some applications, the correct answer might have to be only in the top five (or top \"n\"), so accuracy at 5 (or accuracy at \"n\") might be the more appropriate metric to track.",
+        "object": {
+          "text": "the more appropriate metric to track"
+        },
+        "action": {
+          "verb": {
+            "text": "be",
+            "tense": "present"
+          },
+          "text": "might be",
+          "normalized": "might be"
+        }
+      },
+      {
+        "subject": {
+          "text": "understanding the behavior of the system as implemented (a control) and determining if and how changes to the implementation (the experiment) benefit or hinder the overall ability of the system to answer questions"
+        },
+        "sentence": " The goals of such analysis include understanding the behavior of the system as implemented (a control) and determining if and how changes to the implementation (the experiment) benefit or hinder the overall ability of the system to answer questions.",
+        "object": {
+          "text": "The goals of such analysis"
+        },
+        "action": {
+          "verb": {
+            "text": "include",
+            "tense": "present"
+          },
+          "text": "include",
+          "normalized": "include"
+        }
+      },
+      {
+        "subject": {
+          "text": "a domain solution"
+        },
+        "sentence": " Adaptation methodology The guiding process for creating a domain solution based on the IBM Watson platform.",
+        "object": {
+          "text": "on the IBM Watson platform"
+        },
+        "action": {
+          "verb": {
+            "text": "base",
+            "tense": "past"
+          },
+          "text": "based",
+          "normalized": "base"
+        }
+      },
+      {
+        "subject": {
+          "text": "The methodology"
+        },
+        "sentence": " The methodology defines four phases: inception, elaboration, construction, and transition which cover the steps from domain analysis and goal setting through to a deployment of the system in a production environment.",
+        "object": {
+          "text": "four phases"
+        },
+        "action": {
+          "verb": {
+            "text": "define",
+            "tense": "present"
+          },
+          "text": "defines",
+          "normalized": "define"
+        }
+      },
+      {
+        "subject": {
+          "text": "Aggregate analysis engine An analysis engine"
+        },
+        "sentence": " Aggregate analysis engine An analysis engine made up of multiple subcomponent analysis engines arranged in a flow.",
+        "object": {
+          "text": "up of multiple subcomponent analysis engines arranged in a flow"
+        },
+        "action": {
+          "verb": {
+            "text": "make",
+            "tense": "past"
+          },
+          "text": "made",
+          "normalized": "make"
+        }
+      },
+      {
+        "subject": {
+          "text": "engines"
+        },
+        "sentence": " Aggregate analysis engine An analysis engine made up of multiple subcomponent analysis engines arranged in a flow.",
+        "action": {
+          "verb": {
+            "text": "arrange",
+            "tense": "past"
+          },
+          "text": "arranged",
+          "normalized": "arrange"
+        }
+      },
+      {
+        "subject": {
+          "text": "The flow"
+        },
+        "sentence": " The flow can be one of the built-in UIMA flows, or a custom flow provided by the user.",
+        "object": {
+          "text": "one of the built-in UIMA flows, or a custom flow provided by the user"
+        },
+        "action": {
+          "verb": {
+            "text": "be",
+            "tense": "future"
+          },
+          "text": "can be",
+          "normalized": "can be"
+        }
+      },
+      {
+        "subject": {
+          "text": "by the user"
+        },
+        "sentence": " The flow can be one of the built-in UIMA flows, or a custom flow provided by the user.",
+        "object": {
+          "text": "a custom flow"
+        },
+        "action": {
+          "verb": {
+            "text": "provide",
+            "tense": "past"
+          },
+          "text": "provided",
+          "normalized": "provide"
+        }
+      },
+      {
+        "subject": {
+          "text": "A program"
+        },
+        "sentence": " Analysis engine A program that analyzes artifacts, such as documents, and infers information about them, and which implements the UIMA Analysis Engine interface specification.",
+        "object": {
+          "text": "artifacts, such as documents"
+        },
+        "action": {
+          "verb": {
+            "text": "analyze",
+            "tense": "present"
+          },
+          "text": "analyzes",
+          "normalized": "analyze"
+        }
+      },
+      {
+        "subject": {
+          "text": "A program"
+        },
+        "sentence": " Analysis engine A program that analyzes artifacts, such as documents, and infers information about them, and which implements the UIMA Analysis Engine interface specification.",
+        "object": {
+          "text": "information about them, and which implements the UIMA Analysis Engine interface specification"
+        },
+        "action": {
+          "verb": {
+            "text": "infer",
+            "tense": "present"
+          },
+          "text": "infers",
+          "normalized": "infer"
+        }
+      },
+      {
+        "subject": {
+          "text": "them"
+        },
+        "sentence": " Analysis engine A program that analyzes artifacts, such as documents, and infers information about them, and which implements the UIMA Analysis Engine interface specification.",
+        "object": {
+          "text": "the UIMA Analysis Engine interface specification"
+        },
+        "action": {
+          "verb": {
+            "text": "implement",
+            "tense": "present"
+          },
+          "text": "implements",
+          "normalized": "implement"
+        }
+      },
+      {
+        "subject": {
+          "text": "Analysis engines"
+        },
+        "sentence": " Analysis engines are constructed from building blocks called annotators.",
+        "object": {
+          "text": "blocks called annotators"
+        },
+        "action": {
+          "verb": {
+            "text": "build",
+            "tense": "present"
+          },
+          "text": "building",
+          "normalized": "build"
+        }
+      },
+      {
+        "subject": {
+          "text": "building blocks"
+        },
+        "sentence": " Analysis engines are constructed from building blocks called annotators.",
+        "object": {
+          "text": "annotators"
+        },
+        "action": {
+          "verb": {
+            "text": "call",
+            "tense": "past"
+          },
+          "text": "called",
+          "normalized": "call"
+        }
+      },
+      {
+        "subject": {
+          "text": "An analysis engine"
+        },
+        "sentence": " An analysis engine can contain a single annotator, which is referred to as a primitive analysis engine, or multiple annotators, which is referred to as an aggregate analysis engine.",
+        "object": {
+          "text": "a single annotator, which is referred to as a primitive analysis engine, or multiple annotators, which is referred to as an aggregate analysis engine"
+        },
+        "action": {
+          "verb": {
+            "text": "contain",
+            "tense": "future"
+          },
+          "text": "can contain",
+          "normalized": "can contain"
+        }
+      },
+      {
+        "subject": {
+          "text": "a single annotator"
+        },
+        "sentence": " An analysis engine can contain a single annotator, which is referred to as a primitive analysis engine, or multiple annotators, which is referred to as an aggregate analysis engine.",
+        "object": {
+          "text": "referred to as a primitive analysis engine, or multiple annotators, which is referred to as an aggregate analysis engine"
+        },
+        "action": {
+          "verb": {
+            "text": "be",
+            "tense": "present"
+          },
+          "text": "is",
+          "normalized": "be"
+        }
+      },
+      {
+        "subject": {
+          "text": "a single annotator"
+        },
+        "sentence": " An analysis engine can contain a single annotator, which is referred to as a primitive analysis engine, or multiple annotators, which is referred to as an aggregate analysis engine.",
+        "object": {
+          "text": "to as a primitive analysis engine, or multiple annotators, which is referred to as an aggregate analysis engine"
+        },
+        "action": {
+          "verb": {
+            "text": "refer",
+            "tense": "past"
+          },
+          "text": "is referred",
+          "normalized": "be refer"
+        }
+      },
+      {
+        "subject": {
+          "text": "a primitive analysis engine, or multiple annotators"
+        },
+        "sentence": " An analysis engine can contain a single annotator, which is referred to as a primitive analysis engine, or multiple annotators, which is referred to as an aggregate analysis engine.",
+        "object": {
+          "text": "referred to as an aggregate analysis engine"
+        },
+        "action": {
+          "verb": {
+            "text": "be",
+            "tense": "present"
+          },
+          "text": "is",
+          "normalized": "be"
+        }
+      },
+      {
+        "subject": {
+          "text": "a primitive analysis engine"
+        },
+        "sentence": " An analysis engine can contain a single annotator, which is referred to as a primitive analysis engine, or multiple annotators, which is referred to as an aggregate analysis engine.",
+        "object": {
+          "text": "as an aggregate analysis engine"
+        },
+        "action": {
+          "verb": {
+            "text": "refer",
+            "tense": "past"
+          },
+          "text": "is referred",
+          "normalized": "be refer"
+        }
+      },
+      {
+        "subject": {
+          "text": "John Doe"
+        },
+        "sentence": " For example, the label \"Person\" associated with a region of text \"John Doe\" constitutes an annotation.",
+        "object": {
+          "text": "an annotation"
+        },
+        "action": {
+          "verb": {
+            "text": "constitute",
+            "tense": "present"
+          },
+          "text": "constitutes",
+          "normalized": "constitute"
+        }
+      },
+      {
+        "subject": {
+          "text": "We"
+        },
+        "sentence": " We say \"Person\" annotates the span of text from X to Y containing exactly \"John Doe.\"",
+        "object": {
+          "text": "Person\" annotates the span of text from X to Y containing exactly \"John Doe"
+        },
+        "action": {
+          "verb": {
+            "text": "say",
+            "tense": "present"
+          },
+          "text": "say",
+          "normalized": "say"
+        }
+      },
+      {
+        "subject": {
+          "text": "Person"
+        },
+        "sentence": " We say \"Person\" annotates the span of text from X to Y containing exactly \"John Doe.\"",
+        "object": {
+          "text": "the span of text"
+        },
+        "action": {
+          "verb": {
+            "text": "annotate",
+            "tense": "present"
+          },
+          "text": "annotates",
+          "normalized": "annotate"
+        }
+      },
+      {
+        "subject": {
+          "text": "the type"
+        },
+        "sentence": " It is the type used to record the labeling of regions of a subject of analysis.",
+        "object": {
+          "text": "to record the labeling of regions of a subject of analysis"
+        },
+        "action": {
+          "verb": {
+            "text": "use",
+            "tense": "past"
+          },
+          "text": "used",
+          "normalized": "use"
+        }
+      },
+      {
+        "subject": {
+          "text": "the type"
+        },
+        "sentence": " It is the type used to record the labeling of regions of a subject of analysis.",
+        "object": {
+          "text": "the labeling of regions of a subject of analysis"
+        },
+        "action": {
+          "verb": {
+            "text": "record",
+            "tense": "future"
+          },
+          "text": "to record",
+          "normalized": "to record"
+        }
+      },
+      {
+        "subject": {
+          "text": "Annotator A software component"
+        },
+        "sentence": " Annotator A software component that implements the UIMA Annotator interface.",
+        "object": {
+          "text": "the UIMA Annotator interface"
+        },
+        "action": {
+          "verb": {
+            "text": "implement",
+            "tense": "present"
+          },
+          "text": "implements",
+          "normalized": "implement"
+        }
+      },
+      {
+        "subject": {
+          "text": "Annotators"
+        },
+        "sentence": " Annotators are implemented to produce and record annotations over regions of an artifact.",
+        "object": {
+          "text": "record annotations"
+        },
+        "action": {
+          "verb": {
+            "text": "produce",
+            "tense": "future"
+          },
+          "text": "produce",
+          "normalized": "produce"
+        }
+      },
+      {
+        "subject": {
+          "text": "Annotators"
+        },
+        "sentence": " Annotators are implemented to produce and record annotations over regions of an artifact.",
+        "object": {
+          "text": "annotations"
+        },
+        "action": {
+          "verb": {
+            "text": "record",
+            "tense": "present"
+          },
+          "text": "to produce and record",
+          "normalized": "to produce and record"
+        }
+      },
+      {
+        "subject": {
+          "text": "Annotators"
+        },
+        "sentence": " Annotators define a set of vocabularies and rules which describe the language used to describe objects in a given domain and how they interact.",
+        "object": {
+          "text": "a set of vocabularies and rules which describe the language used to describe objects in a given domain and how they interact"
+        },
+        "action": {
+          "verb": {
+            "text": "define",
+            "tense": "present"
+          },
+          "text": "define",
+          "normalized": "define"
+        }
+      },
+      {
+        "subject": {
+          "text": "Anonymization"
+        },
+        "sentence": " Anonymization The process of permanently and completely removing personal identifiers from data.",
+        "object": {
+          "text": "personal identifiers"
+        },
+        "action": {
+          "verb": {
+            "text": "remove",
+            "tense": "present"
+          },
+          "text": "removing",
+          "normalized": "remove"
+        }
+      },
+      {
+        "subject": {
+          "text": "data"
+        },
+        "sentence": " Anonymized data is data that can no longer be associated with an individual in any manner.",
+        "object": {
+          "text": "associated with an individual"
+        },
+        "action": {
+          "verb": {
+            "text": "be",
+            "tense": "future"
+          },
+          "text": "be",
+          "normalized": "be"
+        }
+      },
+      {
+        "subject": {
+          "text": "this data"
+        },
+        "sentence": " Once this data is stripped of personally identifying elements, those elements can never be reassociated with the data nor the underlying individual.",
+        "object": {
+          "text": "stripped of personally identifying elements"
+        },
+        "action": {
+          "verb": {
+            "text": "be",
+            "tense": "present"
+          },
+          "text": "is",
+          "normalized": "be"
+        }
+      },
+      {
+        "subject": {
+          "text": "those elements"
+        },
+        "sentence": " Once this data is stripped of personally identifying elements, those elements can never be reassociated with the data nor the underlying individual.",
+        "object": {
+          "text": "reassociated"
+        },
+        "action": {
+          "verb": {
+            "text": "be",
+            "tense": "future"
+          },
+          "text": "be",
+          "normalized": "be"
+        }
+      },
+      {
+        "subject": {
+          "text": "a single XML file"
+        },
+        "sentence": " Answer key Refers to a single XML file containing all questions and their allowable answers for the IBM Watson system.",
+        "object": {
+          "text": "all questions and their allowable answers"
+        },
+        "action": {
+          "verb": {
+            "text": "contain",
+            "tense": "present"
+          },
+          "text": "containing",
+          "normalized": "contain"
+        }
+      },
+      {
+        "subject": {
+          "text": "a set of values"
+        },
+        "sentence": " Answer scoring Process of associating a set of values with each possible answer.",
+        "object": {
+          "text": "with each possible"
+        },
+        "action": {
+          "verb": {
+            "text": "associate",
+            "tense": "future"
+          },
+          "text": "associating",
+          "normalized": "associate"
+        }
+      },
+      {
+        "subject": {
+          "text": "by the UIMA pipeline"
+        },
+        "sentence": " Artifact The object being analyzed by the UIMA pipeline.",
+        "object": {
+          "text": "The object"
+        },
+        "action": {
+          "verb": {
+            "text": "analyze",
+            "tense": "past"
+          },
+          "text": "being analyzed",
+          "normalized": "be analyze"
+        }
+      },
+      {
+        "subject": {
+          "text": "a text document, or audio or video stream"
+        },
+        "sentence": " Artifacts include a text document, or audio or video stream.",
+        "object": {
+          "text": "Artifacts"
+        },
+        "action": {
+          "verb": {
+            "text": "include",
+            "tense": "present"
+          },
+          "text": "include",
+          "normalized": "include"
+        }
+      },
+      {
+        "subject": {
+          "text": "Term"
+        },
+        "sentence": " Ask Term used to describe the phase in which the system is answering questions, both those asked by testing and accuracy analysts while testing the system and those asked at runtime by users.",
+        "object": {
+          "text": "to describe the phase"
+        },
+        "action": {
+          "verb": {
+            "text": "use",
+            "tense": "past"
+          },
+          "text": "used",
+          "normalized": "use"
+        }
+      },
+      {
+        "subject": {
+          "text": "Term"
+        },
+        "sentence": " Ask Term used to describe the phase in which the system is answering questions, both those asked by testing and accuracy analysts while testing the system and those asked at runtime by users.",
+        "object": {
+          "text": "the phase in which the system is answering questions"
+        },
+        "action": {
+          "verb": {
+            "text": "describe",
+            "tense": "future"
+          },
+          "text": "to describe",
+          "normalized": "to describe"
+        }
+      },
+      {
+        "subject": {
+          "text": "by testing and accuracy analysts"
+        },
+        "sentence": " Ask Term used to describe the phase in which the system is answering questions, both those asked by testing and accuracy analysts while testing the system and those asked at runtime by users.",
+        "object": {
+          "text": "those"
+        },
+        "action": {
+          "verb": {
+            "text": "ask",
+            "tense": "past"
+          },
+          "text": "asked",
+          "normalized": "ask"
+        }
+      },
+      {
+        "subject": {
+          "text": "at runtime by users"
+        },
+        "sentence": " Ask Term used to describe the phase in which the system is answering questions, both those asked by testing and accuracy analysts while testing the system and those asked at runtime by users.",
+        "object": {
+          "text": "those"
+        },
+        "action": {
+          "verb": {
+            "text": "ask",
+            "tense": "past"
+          },
+          "text": "asked",
+          "normalized": "ask"
+        }
+      },
+      {
+        "subject": {
+          "text": "It"
+        },
+        "sentence": " It is one of three phases: ingest, train, and ask.",
+        "object": {
+          "text": "one of three phases"
+        },
+        "action": {
+          "verb": {
+            "text": "be",
+            "tense": "present"
+          },
+          "text": "is",
+          "normalized": "be"
+        }
+      },
+      {
+        "subject": {
+          "text": "Attribute Key word or concept"
+        },
+        "sentence": " Attribute Key word or concept within an input case that is known or expected to be deterministic of the correct output.",
+        "object": {
+          "text": "known or expected to be deterministic of the correct output"
+        },
+        "action": {
+          "verb": {
+            "text": "be",
+            "tense": "present"
+          },
+          "text": "is",
+          "normalized": "be"
+        }
+      },
+      {
+        "subject": {
+          "text": "Attribute Key word or concept"
+        },
+        "sentence": " Attribute Key word or concept within an input case that is known or expected to be deterministic of the correct output.",
+        "object": {
+          "text": "deterministic of the correct output"
+        },
+        "action": {
+          "verb": {
+            "text": "be",
+            "tense": "future"
+          },
+          "text": "expected to be",
+          "normalized": "expect to be"
+        }
+      },
+      {
+        "subject": {
+          "text": "the hardware resources"
+        },
+        "sentence": " Developed by IBMÂ® Research to ensure that question-centric tasks could be processed as efficiently as possible through the DeepQA pipeline using the hardware resources available.",
+        "object": {
+          "text": "available"
+        },
+        "action": {
+          "verb": {
+            "text": "use",
+            "tense": "present"
+          },
+          "text": "using",
+          "normalized": "use"
+        }
+      },
+      {
+        "subject": {
+          "text": "answer pairs"
+        },
+        "sentence": " Blind data A set of question and answer pairs that are never released or seen by developers and are used to test the system periodically, typically quarterly, to evaluate performance on unseen data.",
+        "object": {
+          "text": "never released or seen by developers"
+        },
+        "action": {
+          "verb": {
+            "text": "be",
+            "tense": "present"
+          },
+          "text": "are",
+          "normalized": "be"
+        }
+      },
+      {
+        "subject": {
+          "text": "answer pairs"
+        },
+        "sentence": " Blind data A set of question and answer pairs that are never released or seen by developers and are used to test the system periodically, typically quarterly, to evaluate performance on unseen data.",
+        "action": {
+          "verb": {
+            "text": "release",
+            "tense": "past"
+          },
+          "text": "released",
+          "normalized": "release"
+        }
+      },
+      {
+        "subject": {
+          "text": "by developers"
+        },
+        "sentence": " Blind data A set of question and answer pairs that are never released or seen by developers and are used to test the system periodically, typically quarterly, to evaluate performance on unseen data.",
+        "object": {
+          "text": "answer pairs"
+        },
+        "action": {
+          "verb": {
+            "text": "see",
+            "tense": "past"
+          },
+          "text": "are never released or seen",
+          "normalized": "be never release or see"
+        }
+      },
+      {
+        "subject": {
+          "text": "the system"
+        },
+        "sentence": " Blind data A set of question and answer pairs that are never released or seen by developers and are used to test the system periodically, typically quarterly, to evaluate performance on unseen data.",
+        "action": {
+          "verb": {
+            "text": "test",
+            "tense": "future"
+          },
+          "text": "to test",
+          "normalized": "to test"
+        }
+      }
+    ],
+    "emotion": {
+      "document": {
+        "emotion": {
+          "disgust": 0.045333,
+          "joy": 0.177481,
+          "anger": 0.08999,
+          "fear": 0.067359,
+          "sadness": 0.090491
+        }
+      }
+    },
+    "concepts": [
+      {
+        "text": "Information retrieval",
+        "relevance": 0.953882,
+        "dbpedia_resource": "http://dbpedia.org/resource/Information_retrieval"
+      },
+      {
+        "text": "Natural language processing",
+        "relevance": 0.885521,
+        "dbpedia_resource": "http://dbpedia.org/resource/Natural_language_processing"
+      },
+      {
+        "text": "Type theory",
+        "relevance": 0.881064,
+        "dbpedia_resource": "http://dbpedia.org/resource/Type_theory"
+      },
+      {
+        "text": "Data",
+        "relevance": 0.811164,
+        "dbpedia_resource": "http://dbpedia.org/resource/Data"
+      },
+      {
+        "text": "Type system",
+        "relevance": 0.807444,
+        "dbpedia_resource": "http://dbpedia.org/resource/Type_system"
+      },
+      {
+        "text": "Type I and type II errors",
+        "relevance": 0.742657,
+        "dbpedia_resource": "http://dbpedia.org/resource/Type_I_and_type_II_errors"
+      },
+      {
+        "text": "C",
+        "relevance": 0.721067,
+        "dbpedia_resource": "http://dbpedia.org/resource/C_(programming_language)"
+      },
+      {
+        "text": "Data set",
+        "relevance": 0.690612,
+        "dbpedia_resource": "http://dbpedia.org/resource/Data_set"
+      }
+    ],
+    "categories": [
+      {
+        "score": 0.926601,
+        "label": "/technology and computing/hardware/computer components"
+      },
+      {
+        "score": 0.924809,
+        "label": "/technology and computing/operating systems"
+      },
+      {
+        "score": 0.900468,
+        "label": "/technology and computing/software/databases"
+      }
+    ],
+    "relations": [
+      {
+        "type": "ownerOf",
+        "sentence": "Adaptation methodology The guiding process for creating a domain solution based on the IBM Watson platform.",
+        "score": 0.898758,
+        "arguments": [
+          {
+            "text": "IBM Watson",
+            "location": [857, 867],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "Watson Enabled Application",
+                "disambiguation": {
+                  "subtype": ["Commercial"]
+                }
+              }
+            ]
+          },
+          {
+            "text": "platform",
+            "location": [868, 876],
+            "entities": [
+              {
+                "type": "Facility",
+                "text": "platform"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ownerOf",
+        "sentence": "Watson platform The set of reusable assets that make up the IBM Watson product.",
+        "score": 0.789375,
+        "arguments": [
+          {
+            "text": "Watson",
+            "location": [40474, 40480],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "Watson Enabled Application",
+                "disambiguation": {
+                  "subtype": ["Commercial"]
+                }
+              }
+            ]
+          },
+          {
+            "text": "platform",
+            "location": [40481, 40489],
+            "entities": [
+              {
+                "type": "Facility",
+                "text": "platform"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "productOf",
+        "sentence": "This utility is used by the IBM Watson system to annotate Wikipedia titles in question and document text and to map synonyms of Wikipedia titles.",
+        "score": 0.516017,
+        "arguments": [
+          {
+            "text": "Wikipedia",
+            "location": [8477, 8486],
+            "entities": [
+              {
+                "type": "Product",
+                "text": "Wikipedia"
+              }
+            ]
+          },
+          {
+            "text": "IBM Watson",
+            "location": [8377, 8387],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "Watson Enabled Application",
+                "disambiguation": {
+                  "subtype": ["Commercial"]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "partOf",
+        "sentence": "Confusion matrix table example Construction phase Third phase in the adapting Watson methodology which involves an iterative process of functional adaptation driven by accuracy analysis.",
+        "score": 0.381065,
+        "arguments": [
+          {
+            "text": "Confusion matrix",
+            "location": [9234, 9250],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "Confusion matrix Table"
+              }
+            ]
+          },
+          {
+            "text": "Watson",
+            "location": [9312, 9318],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "Watson Enabled Application",
+                "disambiguation": {
+                  "subtype": ["Commercial"]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "agentOf",
+        "sentence": "The term content is used to distinguish the source corpora from the term data , which consists of question sets and the answer key that are used to train and test the system.",
+        "score": 0.983713,
+        "arguments": [
+          {
+            "text": "source",
+            "location": [9723, 9729],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "source"
+              }
+            ]
+          },
+          {
+            "text": "corpora",
+            "location": [9730, 9737],
+            "entities": [
+              {
+                "type": "EventCommunication",
+                "text": "corpora"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "employedBy",
+        "sentence": "CPM Collection Processing Manager.",
+        "score": 0.516892,
+        "arguments": [
+          {
+            "text": "Manager",
+            "location": [11055, 11062],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "Manager"
+              }
+            ]
+          },
+          {
+            "text": "CPM Collection",
+            "location": [11029, 11043],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "CPM Collection"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "partOfMany",
+        "sentence": "Developer gateway system A machine used by developers, domain experts, and others to make changes to the underlying system code.",
+        "score": 0.517327,
+        "arguments": [
+          {
+            "text": "developers",
+            "location": [12963, 12973],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "developers"
+              }
+            ]
+          },
+          {
+            "text": "others",
+            "location": [12995, 13001],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "others"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "employedBy",
+        "sentence": "Domain DUCC Distributed UIMA Cluster Controller.",
+        "score": 0.386417,
+        "arguments": [
+          {
+            "text": "Controller",
+            "location": [13776, 13786],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "Domain DUCC"
+              }
+            ]
+          },
+          {
+            "text": "UIMA Cluster",
+            "location": [13763, 13775],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "UIMA Unstructured Information Management Architecture"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ownerOf",
+        "sentence": "Elementary Watson A configuration of the IBM Watson pipeline that runs only one process of each service type.",
+        "score": 0.893912,
+        "arguments": [
+          {
+            "text": "IBM Watson",
+            "location": [14072, 14082],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "Watson Enabled Application",
+                "disambiguation": {
+                  "subtype": ["Commercial"]
+                }
+              }
+            ]
+          },
+          {
+            "text": "pipeline",
+            "location": [14083, 14091],
+            "entities": [
+              {
+                "type": "Facility",
+                "text": "pipeline"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ownerOf",
+        "sentence": "The last stage of processing in the IBM Watson pipeline which uses machine learning to identify the final answer.",
+        "score": 0.903681,
+        "arguments": [
+          {
+            "text": "IBM Watson",
+            "location": [15966, 15976],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "Watson Enabled Application",
+                "disambiguation": {
+                  "subtype": ["Commercial"]
+                }
+              }
+            ]
+          },
+          {
+            "text": "pipeline",
+            "location": [15977, 15985],
+            "entities": [
+              {
+                "type": "Facility",
+                "text": "pipeline"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ownerOf",
+        "sentence": "This is the step in an IBM Watson pipeline where all possible candidate answers for a given case are identified from the available content.",
+        "score": 0.892036,
+        "arguments": [
+          {
+            "text": "IBM Watson",
+            "location": [18092, 18102],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "Watson Enabled Application",
+                "disambiguation": {
+                  "subtype": ["Commercial"]
+                }
+              }
+            ]
+          },
+          {
+            "text": "pipeline",
+            "location": [18103, 18111],
+            "entities": [
+              {
+                "type": "Facility",
+                "text": "pipeline"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ownerOf",
+        "sentence": "Question analysis The step in an IBM Watson pipeline that deals with understanding the question or input case supplied to IBM Watson to determine exactly what it is asking and also extracts key information from the question or case such as critical attributes that might be helpful in determining candidate answers.",
+        "score": 0.903682,
+        "arguments": [
+          {
+            "text": "IBM Watson",
+            "location": [28234, 28244],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "Watson Enabled Application",
+                "disambiguation": {
+                  "subtype": ["Commercial"]
+                }
+              }
+            ]
+          },
+          {
+            "text": "pipeline",
+            "location": [28245, 28253],
+            "entities": [
+              {
+                "type": "Facility",
+                "text": "pipeline"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ownerOf",
+        "sentence": "Watson Enabled Application (WEA) One of any number of applications surrounding an IBM Watson pipeline that serve to provide data to it or receive data from it.",
+        "score": 0.878565,
+        "arguments": [
+          {
+            "text": "IBM Watson",
+            "location": [40198, 40208],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "Watson Enabled Application",
+                "disambiguation": {
+                  "subtype": ["Commercial"]
+                }
+              }
+            ]
+          },
+          {
+            "text": "pipeline",
+            "location": [40209, 40217],
+            "entities": [
+              {
+                "type": "Facility",
+                "text": "pipeline"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "managerOf",
+        "sentence": "Flow controller A UIMA construct that determines the order in which the components of a top level aggregate are invoked on a CAS.",
+        "score": 0.463061,
+        "arguments": [
+          {
+            "text": "controller",
+            "location": [16204, 16214],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "controller"
+              }
+            ]
+          },
+          {
+            "text": "UIMA",
+            "location": [16217, 16221],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "UIMA Unstructured Information Management Architecture"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "employedBy",
+        "sentence": "Hypothesis generation Also known as candidate answer generation.",
+        "score": 0.403821,
+        "arguments": [
+          {
+            "text": "generation",
+            "location": [18015, 18025],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "generation"
+              }
+            ]
+          },
+          {
+            "text": "Hypothesis",
+            "location": [18004, 18014],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "Hypothesis"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "affectedBy",
+        "sentence": "This is the step in an IBM Watson pipeline where all possible candidate answers for a given case are identified from the available content.",
+        "score": 0.479452,
+        "arguments": [
+          {
+            "text": "candidate",
+            "location": [18131, 18140],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "controller"
+              }
+            ]
+          },
+          {
+            "text": "case",
+            "location": [18161, 18165],
+            "entities": [
+              {
+                "type": "EventLegal",
+                "text": "case"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "agentOf",
+        "sentence": "We say \"Person\" annotates the span of text from X to Y containing exactly \"John Doe.",
+        "score": 0.982638,
+        "arguments": [
+          {
+            "text": "We",
+            "location": [2028, 2030],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "We"
+              }
+            ]
+          },
+          {
+            "text": "say",
+            "location": [2031, 2034],
+            "entities": [
+              {
+                "type": "EventCommunication",
+                "text": "say"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "partOf",
+        "sentence": "The ESG component of Watson includes a set of lexicons which are tailored to perform well for an open domain.",
+        "score": 0.433308,
+        "arguments": [
+          {
+            "text": "ESG",
+            "location": [21496, 21499],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "ESG English Slot Grammar parser"
+              }
+            ]
+          },
+          {
+            "text": "Watson",
+            "location": [21513, 21519],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "Watson Enabled Application",
+                "disambiguation": {
+                  "subtype": ["Commercial"]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "locatedAt",
+        "sentence": "These lexicons may not include provisions for some of the domain-specific vocabulary or syntactic structures, thus causing ESG to produce incorrect or incomplete parses.",
+        "score": 0.455417,
+        "arguments": [
+          {
+            "text": "some",
+            "location": [21648, 21652],
+            "entities": [
+              {
+                "type": "Cardinal",
+                "text": "some"
+              }
+            ]
+          },
+          {
+            "text": "structures",
+            "location": [21700, 21710],
+            "entities": [
+              {
+                "type": "Facility",
+                "text": "structures"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "affectedBy",
+        "sentence": "These past experiences are captured in the form of a model by calculating feature scores for each candidate answer or evidence and combining that with known outcomes.",
+        "score": 0.77048,
+        "arguments": [
+          {
+            "text": "candidate",
+            "location": [23040, 23049],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "candidate"
+              }
+            ]
+          },
+          {
+            "text": "captured",
+            "location": [22969, 22977],
+            "entities": [
+              {
+                "type": "EventCustody",
+                "text": "captured"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "employedBy",
+        "sentence": "Named entities Concepts in the domain that fall in to well defined categories, such as names of organizations, locations, authors, or diseases.",
+        "score": 0.509934,
+        "arguments": [
+          {
+            "text": "authors",
+            "location": [23307, 23314],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "authors"
+              }
+            ]
+          },
+          {
+            "text": "organizations",
+            "location": [23281, 23294],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "organizations"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "hasAttribute",
+        "sentence": "Named entities Concepts in the domain that fall in to well defined categories, such as names of organizations, locations, authors, or diseases.",
+        "score": 0.547119,
+        "arguments": [
+          {
+            "text": "authors",
+            "location": [23307, 23314],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "authors"
+              }
+            ]
+          },
+          {
+            "text": "diseases",
+            "location": [23319, 23327],
+            "entities": [
+              {
+                "type": "HealthCondition",
+                "text": "diseases"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "locatedAt",
+        "sentence": "A system which identifies entities in text and classifies them into predefined categories such as the names of persons, organizations, locations, and so on.",
+        "score": 0.394497,
+        "arguments": [
+          {
+            "text": "persons",
+            "location": [23507, 23514],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "characters"
+              }
+            ]
+          },
+          {
+            "text": "locations",
+            "location": [23531, 23540],
+            "entities": [
+              {
+                "type": "Location",
+                "text": "locations"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "employedBy",
+        "sentence": "NLP models Models are created to perform the extraction of meaningful information from a wide variety of data in natural language format.",
+        "score": 0.780373,
+        "arguments": [
+          {
+            "text": "models Models",
+            "location": [23717, 23730],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "models Models"
+              }
+            ]
+          },
+          {
+            "text": "NLP",
+            "location": [23713, 23716],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "NLP Natural Language",
+                "disambiguation": {
+                  "subtype": ["Commercial"]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "affectedBy",
+        "sentence": "Unit of text typically bounded by a sentence in preprocessed search results; searched using Lucene and Indri in the IBM Watson system.",
+        "score": 0.685253,
+        "arguments": [
+          {
+            "text": "Indri",
+            "location": [24230, 24235],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "Indri Search"
+              }
+            ]
+          },
+          {
+            "text": "sentence",
+            "location": [24163, 24171],
+            "entities": [
+              {
+                "type": "EventLegal",
+                "text": "sentence"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "employedBy",
+        "sentence": "Unit of text typically bounded by a sentence in preprocessed search results; searched using Lucene and Indri in the IBM Watson system.",
+        "score": 0.658893,
+        "arguments": [
+          {
+            "text": "Indri",
+            "location": [24230, 24235],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "Indri Search"
+              }
+            ]
+          },
+          {
+            "text": "IBM Watson",
+            "location": [24243, 24253],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "Watson Enabled Application",
+                "disambiguation": {
+                  "subtype": ["Commercial"]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "agentOf",
+        "sentence": "POS Part of speech.",
+        "score": 0.74274,
+        "arguments": [
+          {
+            "text": "POS",
+            "location": [25557, 25560],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "POS"
+              }
+            ]
+          },
+          {
+            "text": "speech",
+            "location": [25569, 25575],
+            "entities": [
+              {
+                "type": "EventPerformance",
+                "text": "speech"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "partOf",
+        "sentence": "Ask Term used to describe the phase in which the system is answering questions, both those asked by testing and accuracy analysts while testing the system and those asked at runtime by users.",
+        "score": 0.523648,
+        "arguments": [
+          {
+            "text": "describe",
+            "location": [3398, 3406],
+            "entities": [
+              {
+                "type": "EventCommunication",
+                "text": "answering"
+              }
+            ]
+          },
+          {
+            "text": "Ask",
+            "location": [3381, 3384],
+            "entities": [
+              {
+                "type": "EventCommunication",
+                "text": "Ask"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "agentOf",
+        "sentence": "During the NLP processing stage that identifies and delimits syntactic components, individual lexical items are assigned part of speech (POS) tags , and larger units are assigned phrase tags, such as a verb phrase or noun phrase.",
+        "score": 0.567975,
+        "arguments": [
+          {
+            "text": "individual",
+            "location": [25660, 25670],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "individual"
+              }
+            ]
+          },
+          {
+            "text": "speech",
+            "location": [25706, 25712],
+            "entities": [
+              {
+                "type": "EventPerformance",
+                "text": "speech"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "locatedAt",
+        "sentence": "Question analysis The step in an IBM Watson pipeline that deals with understanding the question or input case supplied to IBM Watson to determine exactly what it is asking and also extracts key information from the question or case such as critical attributes that might be helpful in determining candidate answers.",
+        "score": 0.713531,
+        "arguments": [
+          {
+            "text": "Question",
+            "location": [28201, 28209],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "QA Question"
+              }
+            ]
+          },
+          {
+            "text": "pipeline",
+            "location": [28245, 28253],
+            "entities": [
+              {
+                "type": "Facility",
+                "text": "pipeline"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "partOf",
+        "sentence": "Sesame Resource Description Framework triplestore supporting query APIs including SPARQL; used to store word and concept relationships in the IBM Watson system.",
+        "score": 0.30732,
+        "arguments": [
+          {
+            "text": "Framework",
+            "location": [31017, 31026],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "RDF Resource Description Framework"
+              }
+            ]
+          },
+          {
+            "text": "IBM Watson",
+            "location": [31131, 31141],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "Watson Enabled Application",
+                "disambiguation": {
+                  "subtype": ["Commercial"]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "employedBy",
+        "sentence": "SPSS Modeler The IBM SPSS Modeler Server is a data mining workbench that helps you build accurate predictive models quickly and intuitively, without having to do any programming.",
+        "score": 0.507473,
+        "arguments": [
+          {
+            "text": "SPSS Modeler",
+            "location": [31385, 31397],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "SPSS Modeler"
+              }
+            ]
+          },
+          {
+            "text": "IBM SPSS Modeler Server",
+            "location": [31402, 31425],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "IBM SPSS Modeler Server",
+                "disambiguation": {
+                  "subtype": ["Commercial"]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "locatedAt",
+        "sentence": "TCAS A particular view of the CAS corresponding to one particular Sofa.",
+        "score": 0.555373,
+        "arguments": [
+          {
+            "text": "CAS",
+            "location": [33882, 33885],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "CAS Common Analysis Structure"
+              }
+            ]
+          },
+          {
+            "text": "Sofa",
+            "location": [33918, 33922],
+            "entities": [
+              {
+                "type": "GeopoliticalEntity",
+                "text": "Sofa"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "locatedAt",
+        "sentence": "The TCAS has all the methods of a CAS and additional methods related to its Sofa.",
+        "score": 0.494761,
+        "arguments": [
+          {
+            "text": "its",
+            "location": [33996, 33999],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "CAS Common Analysis Structure"
+              }
+            ]
+          },
+          {
+            "text": "Sofa",
+            "location": [34000, 34004],
+            "entities": [
+              {
+                "type": "GeopoliticalEntity",
+                "text": "Sofa"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "locatedAt",
+        "sentence": "It also provides access to an index repository holding instances of Feature Structures associated with this Sofa.",
+        "score": 0.776717,
+        "arguments": [
+          {
+            "text": "Structures",
+            "location": [34082, 34092],
+            "entities": [
+              {
+                "type": "Facility",
+                "text": "structures"
+              }
+            ]
+          },
+          {
+            "text": "Sofa",
+            "location": [34114, 34118],
+            "entities": [
+              {
+                "type": "GeopoliticalEntity",
+                "text": "Sofa"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "agentOf",
+        "sentence": "These questions and answers are representative of the types of questions that will be asked and answers expected in the use case.",
+        "score": 0.736696,
+        "arguments": [
+          {
+            "text": "representative",
+            "location": [35320, 35334],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "representative"
+              }
+            ]
+          },
+          {
+            "text": "asked",
+            "location": [35374, 35379],
+            "entities": [
+              {
+                "type": "EventCommunication",
+                "text": "asked"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "partOf",
+        "sentence": "The Apache UIMA framework is an Apache licensed, open source implementation of the UIMA Architecture, and provides a runtime environment in which developers can plug in and run their UIMA component implementations and with which they can build and deploy UIM applications.",
+        "score": 0.4739,
+        "arguments": [
+          {
+            "text": "UIMA Architecture",
+            "location": [37430, 37447],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "UIMA Unstructured Information Management Architecture"
+              }
+            ]
+          },
+          {
+            "text": "Apache",
+            "location": [37379, 37385],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "Apache ActiveMQ",
+                "disambiguation": {
+                  "subtype": ["Commercial"]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "affectedBy",
+        "sentence": "In the case of UIMA AS , the messages are individual CASes.",
+        "score": 0.632434,
+        "arguments": [
+          {
+            "text": "UIMA AS",
+            "location": [38185, 38192],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "UIMA Unstructured Information Management Architecture"
+              }
+            ]
+          },
+          {
+            "text": "case",
+            "location": [38177, 38181],
+            "entities": [
+              {
+                "type": "EventLegal",
+                "text": "case"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ownerOf",
+        "sentence": "UIMA framework A Java-based implementation of the UIMA architecture.",
+        "score": 0.459386,
+        "arguments": [
+          {
+            "text": "UIMA",
+            "location": [38280, 38284],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "UIMA Unstructured Information Management Architecture"
+              }
+            ]
+          },
+          {
+            "text": "architecture",
+            "location": [38285, 38297],
+            "entities": [
+              {
+                "type": "Facility",
+                "text": "architecture"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "agentOf",
+        "sentence": "Ask Term used to describe the phase in which the system is answering questions, both those asked by testing and accuracy analysts while testing the system and those asked at runtime by users.",
+        "score": 0.713472,
+        "arguments": [
+          {
+            "text": "analysts",
+            "location": [3502, 3510],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "analysts"
+              }
+            ]
+          },
+          {
+            "text": "asked",
+            "location": [3472, 3477],
+            "entities": [
+              {
+                "type": "EventCommunication",
+                "text": "asked"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ownerOf",
+        "sentence": "The original design for the framework was largely inspired by the original TAF and Talent systems developed in IBM Watson Research labs and IBM Software Group.",
+        "score": 0.846726,
+        "arguments": [
+          {
+            "text": "IBM Watson Research",
+            "location": [38635, 38654],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "IBM Watson Research",
+                "disambiguation": {
+                  "subtype": ["Commercial"]
+                }
+              }
+            ]
+          },
+          {
+            "text": "labs",
+            "location": [38655, 38659],
+            "entities": [
+              {
+                "type": "Facility",
+                "text": "labs"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "productOf",
+        "sentence": "UIMA software development kit (SDK) Includes an all-Java implementation of the UIMA framework for the implementation, description, composition and deployment of UIMA components and applications.",
+        "score": 0.857814,
+        "arguments": [
+          {
+            "text": "software",
+            "location": [38689, 38697],
+            "entities": [
+              {
+                "type": "Product",
+                "text": "software"
+              }
+            ]
+          },
+          {
+            "text": "UIMA",
+            "location": [38684, 38688],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "UIMA Unstructured Information Management Architecture"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "agentOf",
+        "sentence": "Use case A use case refers to the specific problem domain being addressed by an IBM Watson solution.",
+        "score": 0.850156,
+        "arguments": [
+          {
+            "text": "IBM Watson",
+            "location": [39859, 39869],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "Watson Enabled Application",
+                "disambiguation": {
+                  "subtype": ["Commercial"]
+                }
+              }
+            ]
+          },
+          {
+            "text": "addressed",
+            "location": [39843, 39852],
+            "entities": [
+              {
+                "type": "EventCommunication",
+                "text": "addressed"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "agentOf",
+        "sentence": "Ask Term used to describe the phase in which the system is answering questions, both those asked by testing and accuracy analysts while testing the system and those asked at runtime by users.",
+        "score": 0.459446,
+        "arguments": [
+          {
+            "text": "analysts",
+            "location": [3502, 3510],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "analysts"
+              }
+            ]
+          },
+          {
+            "text": "asked",
+            "location": [3546, 3551],
+            "entities": [
+              {
+                "type": "EventCommunication",
+                "text": "asked"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "agentOf",
+        "sentence": " Analysis metadata: Annotations describing the artifact or a region of the artifact.",
+        "score": 0.980858,
+        "arguments": [
+          {
+            "text": "Annotations",
+            "location": [5685, 5696],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "Annotations"
+              }
+            ]
+          },
+          {
+            "text": "describing",
+            "location": [5697, 5707],
+            "entities": [
+              {
+                "type": "EventCommunication",
+                "text": "describing"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "employedBy",
+        "sentence": "CDE Component Descriptor Editor.",
+        "score": 0.496922,
+        "arguments": [
+          {
+            "text": "Editor",
+            "location": [7181, 7187],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "Editor"
+              }
+            ]
+          },
+          {
+            "text": "CDE Component Descriptor",
+            "location": [7156, 7180],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "CDE Component Descriptor"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "employedBy",
+        "sentence": "An Eclipse tool that you can use to edit UIMA descriptors.",
+        "score": 0.46513,
+        "arguments": [
+          {
+            "text": "descriptors",
+            "location": [7235, 7246],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "descriptors"
+              }
+            ]
+          },
+          {
+            "text": "UIMA",
+            "location": [7230, 7234],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "UIMA Unstructured Information Management Architecture"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "hasAttribute",
+        "sentence": "For example, in the health care domain, concepts include doctor, patient, symptom, and disease.",
+        "score": 0.490002,
+        "arguments": [
+          {
+            "text": "patient",
+            "location": [8194, 8201],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "patient"
+              }
+            ]
+          },
+          {
+            "text": "disease",
+            "location": [8216, 8223],
+            "entities": [
+              {
+                "type": "HealthCondition",
+                "text": "disease"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "keywords": [
+      {
+        "text": "real time use",
+        "relevance": 0.647905,
+        "count": 1
+      },
+      {
+        "text": "IBM Watson",
+        "relevance": 0.615745,
+        "count": 8
+      },
+      {
+        "text": "precision of the answers",
+        "relevance": 0.586171,
+        "count": 1
+      },
+      {
+        "text": "Accuracy analysis",
+        "relevance": 0.577832,
+        "count": 3
+      },
+      {
+        "text": "use case",
+        "relevance": 0.573161,
+        "count": 4
+      },
+      {
+        "text": "behavior of the system",
+        "relevance": 0.569502,
+        "count": 1
+      },
+      {
+        "text": "type of artifact",
+        "relevance": 0.567477,
+        "count": 1
+      },
+      {
+        "text": "final answer set",
+        "relevance": 0.563374,
+        "count": 1
+      },
+      {
+        "text": "guiding process",
+        "relevance": 0.560111,
+        "count": 1
+      },
+      {
+        "text": "CAS Common Analysis Structure",
+        "relevance": 0.557139,
+        "count": 1
+      },
+      {
+        "text": "Aggregate analysis engine",
+        "relevance": 0.556008,
+        "count": 6
+      },
+      {
+        "text": "IBM Watson platform",
+        "relevance": 0.55536,
+        "count": 1
+      },
+      {
+        "text": "correct answer",
+        "relevance": 0.547655,
+        "count": 7
+      },
+      {
+        "text": "efficient use",
+        "relevance": 0.54602,
+        "count": 1
+      },
+      {
+        "text": "knowledge base",
+        "relevance": 0.545892,
+        "count": 4
+      },
+      {
+        "text": "goals of such analysis",
+        "relevance": 0.543616,
+        "count": 1
+      },
+      {
+        "text": "software component",
+        "relevance": 0.538083,
+        "count": 1
+      },
+      {
+        "text": "IBM Watson system",
+        "relevance": 0.53726,
+        "count": 14
+      },
+      {
+        "text": "special type",
+        "relevance": 0.537201,
+        "count": 1
+      },
+      {
+        "text": "UIMA Analysis Engine interface specification",
+        "relevance": 0.536979,
+        "count": 1
+      },
+      {
+        "text": "region of text",
+        "relevance": 0.536015,
+        "count": 2
+      },
+      {
+        "text": "UIMA type system",
+        "relevance": 0.533906,
+        "count": 1
+      },
+      {
+        "text": "overall ability of the system",
+        "relevance": 0.531663,
+        "count": 1
+      },
+      {
+        "text": "question set run",
+        "relevance": 0.531448,
+        "count": 1
+      },
+      {
+        "text": "application integration framework",
+        "relevance": 0.528574,
+        "count": 1
+      },
+      {
+        "text": "source corpora",
+        "relevance": 0.52788,
+        "count": 1
+      },
+      {
+        "text": " Index",
+        "relevance": 0.527283,
+        "count": 1
+      },
+      {
+        "text": "SofA See Subject of analysis",
+        "relevance": 0.526767,
+        "count": 1
+      },
+      {
+        "text": "analysis engine",
+        "relevance": 0.526668,
+        "count": 12
+      },
+      {
+        "text": "single XML file",
+        "relevance": 0.525581,
+        "count": 1
+      },
+      {
+        "text": "use of a message",
+        "relevance": 0.52495,
+        "count": 1
+      },
+      {
+        "text": "set of vocabularies",
+        "relevance": 0.524564,
+        "count": 1
+      },
+      {
+        "text": "domain analysis",
+        "relevance": 0.524091,
+        "count": 1
+      },
+      {
+        "text": "Customization mode",
+        "relevance": 0.524015,
+        "count": 5
+      },
+      {
+        "text": "UIMA pipeline",
+        "relevance": 0.522554,
+        "count": 1
+      },
+      {
+        "text": "text document",
+        "relevance": 0.522517,
+        "count": 4
+      },
+      {
+        "text": "domain solution",
+        "relevance": 0.522321,
+        "count": 1
+      },
+      {
+        "text": "BVT Build Verification Test",
+        "relevance": 0.521801,
+        "count": 1
+      },
+      {
+        "text": "input case",
+        "relevance": 0.521406,
+        "count": 2
+      },
+      {
+        "text": "SPSS Modeler",
+        "relevance": 0.520446,
+        "count": 1
+      },
+      {
+        "text": "model predictions",
+        "relevance": 0.519529,
+        "count": 1
+      },
+      {
+        "text": "deployment of the system",
+        "relevance": 0.519216,
+        "count": 1
+      },
+      {
+        "text": "IBM Watson system's hardware",
+        "relevance": 0.518391,
+        "count": 1
+      },
+      {
+        "text": "Camel Apache Camel",
+        "relevance": 0.518241,
+        "count": 1
+      },
+      {
+        "text": "optical character recognition",
+        "relevance": 0.517782,
+        "count": 2
+      },
+      {
+        "text": "Candidate answer",
+        "relevance": 0.5177,
+        "count": 7
+      },
+      {
+        "text": "subcomponent analysis engines",
+        "relevance": 0.517364,
+        "count": 2
+      },
+      {
+        "text": "UIMA analysis components",
+        "relevance": 0.517312,
+        "count": 2
+      },
+      {
+        "text": "single annotator",
+        "relevance": 0.51691,
+        "count": 2
+      },
+      {
+        "text": "hardware resources",
+        "relevance": 0.51684,
+        "count": 1
+      }
+    ]
+  },
+  "extracted_metadata": {
+    "sha1": "7f4dd11e412596c0477e4ff8d07064a48b24e9ec",
+    "author": [],
+    "subject": "WEA",
+    "filename": "WEA.Glossary.pdf",
+    "keywords": "WEA, glossary, watson, ai",
+    "file_type": "pdf",
+    "title": "WEA Glossary",
+    "text_mappings": [
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 684.5999774932861, 169.32400512695312, 700.3319778442383]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [0, 8]
+        }
+      },
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 653.7000188827515, 539.740234375, 661.4100189208984]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [9, 105]
+        }
+      },
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 639.9000310897827, 526.9482421875, 647.6100311279297]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [106, 203]
+        }
+      },
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 626.0999822616577, 526.348388671875, 633.8099822998047]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [203, 297]
+        }
+      },
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 612.299994468689, 495.6642761230469, 620.0099945068359]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [297, 389]
+        }
+      },
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 598.5000066757202, 373.32421875, 606.2100067138672]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [389, 452]
+        }
+      },
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 559.9999942779541, 256.5879821777344, 575.7319946289062]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [453, 470]
+        }
+      },
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 529.0999822616577, 486.5082092285156, 536.8099822998047]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [471, 555]
+        }
+      },
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 515.2999792098999, 537.17236328125, 523.0099792480469]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [555, 649]
+        }
+      },
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 501.49999141693115, 539.12841796875, 509.2099914550781]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [650, 748]
+        }
+      },
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 487.7000036239624, 169.66001892089844, 495.4100036621094]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [749, 769]
+        }
+      },
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 449.20000648498535, 325.9239807128906, 464.9320068359375]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [770, 792]
+        }
+      },
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 418.2999792098999, 514.1802978515625, 426.0099792480469]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [793, 882]
+        }
+      },
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 404.49999141693115, 511.2283630371094, 412.2099914550781]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [882, 974]
+        }
+      },
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 390.7000036239624, 537.4722290039062, 398.4100036621094]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [974, 1070]
+        }
+      },
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 376.8999853134155, 190.5880126953125, 384.6099853515625]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [1071, 1094]
+        }
+      },
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 338.3999881744385, 336.7479553222656, 354.1319885253906]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [1095, 1120]
+        }
+      },
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 307.49999141693115, 532.7922973632812, 315.2099914550781]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [1121, 1214]
+        }
+      },
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 293.7000036239624, 539.7279663085938, 301.4100036621094]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [1214, 1310]
+        }
+      },
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 279.90001583099365, 243.6520233154297, 287.6100158691406]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [1311, 1347]
+        }
+      },
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 241.4000186920166, 231.26797485351562, 257.13201904296875]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [1348, 1363]
+        }
+      },
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 210.50002193450928, 520.4923095703125, 218.21002197265625]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [1364, 1457]
+        }
+      },
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 196.70003414154053, 509.44036865234375, 204.4100341796875]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [1457, 1545]
+        }
+      },
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 182.90004634857178, 510.78436279296875, 190.61004638671875]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [1545, 1637]
+        }
+      },
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 169.09999752044678, 520.1083984375, 176.80999755859375]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [1637, 1734]
+        }
+      },
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 155.30000972747803, 278.8600769042969, 163.010009765625]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [1734, 1778]
+        }
+      },
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 116.79998207092285, 176.11599731445312, 132.531982421875]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [1779, 1787]
+        }
+      },
+      {
+        "page": {
+          "page_number": 1,
+          "bbox": [72.0999984741211, 85.90004634857178, 364.5521240234375, 93.61004638671875]
+        },
+        "field": {
+          "name": "text",
+          "index": 0,
+          "span": [1788, 1848]
+        }
+      }
+    ]
+  },
+  "title": [
+    "Annotation",
+    "CAS Initializer",
+    "Concept",
+    "Table 1. Confusion matrix table example",
+    "Domain independent.",
+    "Final Merge and Rank (FMR)",
+    "Index",
+    "Ingestion mode",
+    "Lexicon",
+    "Passage",
+    "Run phase",
+    "TOD",
+    "True negative",
+    "UIMAAS",
+    "Watson API"
+  ],
+  "tables": [
+    {
+      "table_text": " Actual  Predicted Total % Correct   false true   false  501,387 (True  50,600 (False  551,987 90.833%    Negatives)  Positives)    true  2,968 (False  3,926 (True  6,894 56.948% ",
+      "column_headers": [],
+      "row_headers": [],
+      "body_cells": [
+        {
+          "row_header_ids": [],
+          "column_min": 0,
+          "row_header_texts": [],
+          "row_min": 0,
+          "cell_text": "",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-0-0",
+          "column_max": 0,
+          "row_max": 0
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 1,
+          "row_header_texts": [],
+          "row_min": 0,
+          "cell_text": "Actual",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-0-1",
+          "column_max": 1,
+          "row_max": 0
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 2,
+          "row_header_texts": [],
+          "row_min": 0,
+          "cell_text": "",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-0-2",
+          "column_max": 2,
+          "row_max": 0
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 3,
+          "row_header_texts": [],
+          "row_min": 0,
+          "cell_text": "Predicted",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-0-3",
+          "column_max": 3,
+          "row_max": 0
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 4,
+          "row_header_texts": [],
+          "row_min": 0,
+          "cell_text": "Total",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-0-4",
+          "column_max": 4,
+          "row_max": 0
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 5,
+          "row_header_texts": [],
+          "row_min": 0,
+          "cell_text": "% Correct",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-0-5",
+          "column_max": 5,
+          "row_max": 0
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 0,
+          "row_header_texts": [],
+          "row_min": 1,
+          "cell_text": "",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-1-0",
+          "column_max": 0,
+          "row_max": 1
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 1,
+          "row_header_texts": [],
+          "row_min": 1,
+          "cell_text": "",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-1-1",
+          "column_max": 1,
+          "row_max": 1
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 2,
+          "row_header_texts": [],
+          "row_min": 1,
+          "cell_text": "false",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-1-2",
+          "column_max": 2,
+          "row_max": 1
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 3,
+          "row_header_texts": [],
+          "row_min": 1,
+          "cell_text": "true",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-1-3",
+          "column_max": 3,
+          "row_max": 1
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 4,
+          "row_header_texts": [],
+          "row_min": 1,
+          "cell_text": "",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-1-4",
+          "column_max": 4,
+          "row_max": 1
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 5,
+          "row_header_texts": [],
+          "row_min": 1,
+          "cell_text": "",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-1-5",
+          "column_max": 5,
+          "row_max": 1
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 0,
+          "row_header_texts": [],
+          "row_min": 2,
+          "cell_text": "false",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-2-0",
+          "column_max": 0,
+          "row_max": 2
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 1,
+          "row_header_texts": [],
+          "row_min": 2,
+          "cell_text": "",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-2-1",
+          "column_max": 1,
+          "row_max": 2
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 2,
+          "row_header_texts": [],
+          "row_min": 2,
+          "cell_text": "501,387 (True ",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-2-2",
+          "column_max": 2,
+          "row_max": 2
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 3,
+          "row_header_texts": [],
+          "row_min": 2,
+          "cell_text": "50,600 (False ",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-2-3",
+          "column_max": 3,
+          "row_max": 2
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 4,
+          "row_header_texts": [],
+          "row_min": 2,
+          "cell_text": "551,987",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-2-4",
+          "column_max": 4,
+          "row_max": 2
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 5,
+          "row_header_texts": [],
+          "row_min": 2,
+          "cell_text": "90.833% ",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-2-5",
+          "column_max": 5,
+          "row_max": 2
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 0,
+          "row_header_texts": [],
+          "row_min": 3,
+          "cell_text": "",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-3-0",
+          "column_max": 0,
+          "row_max": 3
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 1,
+          "row_header_texts": [],
+          "row_min": 3,
+          "cell_text": "",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-3-1",
+          "column_max": 1,
+          "row_max": 3
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 2,
+          "row_header_texts": [],
+          "row_min": 3,
+          "cell_text": "Negatives) ",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-3-2",
+          "column_max": 2,
+          "row_max": 3
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 3,
+          "row_header_texts": [],
+          "row_min": 3,
+          "cell_text": "Positives) ",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-3-3",
+          "column_max": 3,
+          "row_max": 3
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 4,
+          "row_header_texts": [],
+          "row_min": 3,
+          "cell_text": "",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-3-4",
+          "column_max": 4,
+          "row_max": 3
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 5,
+          "row_header_texts": [],
+          "row_min": 3,
+          "cell_text": "",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-3-5",
+          "column_max": 5,
+          "row_max": 3
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 0,
+          "row_header_texts": [],
+          "row_min": 4,
+          "cell_text": "true",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-4-0",
+          "column_max": 0,
+          "row_max": 4
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 1,
+          "row_header_texts": [],
+          "row_min": 4,
+          "cell_text": "",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-4-1",
+          "column_max": 1,
+          "row_max": 4
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 2,
+          "row_header_texts": [],
+          "row_min": 4,
+          "cell_text": "2,968 (False ",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-4-2",
+          "column_max": 2,
+          "row_max": 4
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 3,
+          "row_header_texts": [],
+          "row_min": 4,
+          "cell_text": "3,926 (True ",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-4-3",
+          "column_max": 3,
+          "row_max": 4
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 4,
+          "row_header_texts": [],
+          "row_min": 4,
+          "cell_text": "6,894",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-4-4",
+          "column_max": 4,
+          "row_max": 4
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 5,
+          "row_header_texts": [],
+          "row_min": 4,
+          "cell_text": "56.948% ",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-4-5",
+          "column_max": 5,
+          "row_max": 4
+        }
+      ]
+    },
+    {
+      "table_text": "Actual  Predicted Total % Correct  Negatives)  Positives)   ",
+      "column_headers": [],
+      "row_headers": [],
+      "body_cells": [
+        {
+          "row_header_ids": [],
+          "column_min": 0,
+          "row_header_texts": [],
+          "row_min": 0,
+          "cell_text": "Actual",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-0-0",
+          "column_max": 0,
+          "row_max": 0
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 1,
+          "row_header_texts": [],
+          "row_min": 0,
+          "cell_text": "",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-0-1",
+          "column_max": 1,
+          "row_max": 0
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 2,
+          "row_header_texts": [],
+          "row_min": 0,
+          "cell_text": "Predicted",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-0-2",
+          "column_max": 2,
+          "row_max": 0
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 3,
+          "row_header_texts": [],
+          "row_min": 0,
+          "cell_text": "Total",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-0-3",
+          "column_max": 3,
+          "row_max": 0
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 4,
+          "row_header_texts": [],
+          "row_min": 0,
+          "cell_text": "% Correct",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-0-4",
+          "column_max": 4,
+          "row_max": 0
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 0,
+          "row_header_texts": [],
+          "row_min": 1,
+          "cell_text": "",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-1-0",
+          "column_max": 0,
+          "row_max": 1
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 1,
+          "row_header_texts": [],
+          "row_min": 1,
+          "cell_text": "Negatives) ",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-1-1",
+          "column_max": 1,
+          "row_max": 1
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 2,
+          "row_header_texts": [],
+          "row_min": 1,
+          "cell_text": "Positives) ",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-1-2",
+          "column_max": 2,
+          "row_max": 1
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 3,
+          "row_header_texts": [],
+          "row_min": 1,
+          "cell_text": "",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-1-3",
+          "column_max": 3,
+          "row_max": 1
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 4,
+          "row_header_texts": [],
+          "row_min": 1,
+          "cell_text": "",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-1-4",
+          "column_max": 4,
+          "row_max": 1
+        }
+      ]
+    }
+  ]
+}

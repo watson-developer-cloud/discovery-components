@@ -1,0 +1,23 @@
+@import '~carbon-components/scss/globals/scss/vars';
+
+.#{$prefix}--rich-preview {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.#{$prefix}--rich-preview__document {
+  position: relative;
+}
+
+.#{$prefix}--rich-preview__passage {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.#{$prefix}--rich-preview__highlight {
+  fill: yellow;
+  fill-opacity: 0.25;
+}

@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { act, render } from '@testing-library/react';
 import PdfViewer from '../PdfViewer';
-import { document as doc } from '../../../__fixtures__/intro_to_watson_discovery';
+import { document as doc } from '../../../__fixtures__/intro_to_watson_discovery.pdf';
 
 describe('PdfViewer', () => {
-  it('renders PDF document', async () => {
+  it('renders PDF document', () => {
     act(() => {
       render(<PdfViewer file={atob(doc)} page={1} scale={1} />);
     });

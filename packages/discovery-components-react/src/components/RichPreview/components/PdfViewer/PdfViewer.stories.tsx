@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, radios, number } from '@storybook/addon-knobs';
 import PdfViewer from './PdfViewer';
-import { document } from '../../__fixtures__/intro_to_watson_discovery';
+import { document } from '../../__fixtures__/intro_to_watson_discovery.pdf';
 
 const pageKnob = {
   label: 'Page',
@@ -25,7 +25,7 @@ const zoomKnob = {
   defaultValue: '1'
 };
 
-storiesOf('RichPreview/PdfViewer', module)
+storiesOf('RichPreview/components/PdfViewer', module)
   .addDecorator(withKnobs)
   .add('default', () => {
     const page = number(pageKnob.label, pageKnob.defaultValue, pageKnob.options);
