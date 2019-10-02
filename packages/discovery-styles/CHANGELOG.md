@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](http:///discovery-styles/compare/@disco-widgets/styles@1.2.0...@disco-widgets/styles@1.3.0) (2019-10-02)
+
+
+### Features
+
+* indicate which search result is selected ([#151](http:///discovery-styles/issues/151)) ([5d91dbf](http:///discovery-styles/commits/5d91dbf))
+
+
+
+
+
 # [1.2.0](http:///discovery-styles/compare/@disco-widgets/styles@1.1.2...@disco-widgets/styles@1.2.0) (2019-10-02)
 
 
