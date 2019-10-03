@@ -14,7 +14,8 @@
     "build": "rollup -c",
     "start": "rollup -c -w",
     "storybook": "start-storybook",
-    "storybook:build": "build-storybook -c .storybook -o ../../docs/storybook"
+    "storybook:build": "build-storybook",
+    "storybook:build:release": "build-storybook -o ../../docs/storybook"
   },
   "files": [
     "dist"
