@@ -1,0 +1,55 @@
+.#{$prefix}--rp-toolbar {
+  display: flex;
+  justify-content: center;
+  background-color: #eaeaea;
+  height: $spacing-2xl;
+}
+
+.#{$prefix}--rp-toolbar__nav {
+  display: flex;
+  flex: 0 1 auto;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+}
+
+.#{$prefix}--rp-toolbar__button {
+  padding-left: $spacing-xs !important;
+  padding-right: $spacing-xs !important;
+}
+
+.#{$prefix}--rp-toolbar__input {
+  text-align: center;
+  max-width: $layout-lg;
+  height: $spacing-xl;
+}
+
+// removes number wheel buttons from input (chrome and safari)
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+// removes number wheel buttons from input (firefox)
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.#{$prefix}--rp-toolbar__pageLabel {
+  margin: auto;
+  padding-left: $spacing-xs;
+  padding-right: $spacing-xs;
+}
+
+.#{$prefix}--rp-toolbar__spacer,
+.#{$prefix}--rp-toolbar__zoom {
+  flex: 1 1 auto;
+}
+
+.#{$prefix}--rp-toolbar__zoom {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: $spacing-md;
+}

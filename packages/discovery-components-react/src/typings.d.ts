@@ -16,5 +16,6 @@ declare module '*.svg' {
 
 declare module 'carbon-components-react';
 declare module 'carbon-components';
+declare module '@carbon/icons-react/*';
 declare module '*.md';
 declare module 'marked';
