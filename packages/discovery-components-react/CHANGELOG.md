@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.24.1](http:///discovery-components-react/compare/@disco-widgets/react-components@1.24.0...@disco-widgets/react-components@1.24.1) (2019-10-03)
+
+
+### Bug Fixes
+
+* Build storybook as part of travis build ([a69e81c](http:///discovery-components-react/commits/a69e81c))
+
+
+
+
+
 # [1.24.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.23.0...@disco-widgets/react-components@1.24.0) (2019-10-02)
 
 
