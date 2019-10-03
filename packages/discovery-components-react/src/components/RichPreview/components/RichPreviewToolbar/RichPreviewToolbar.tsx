@@ -133,8 +133,6 @@ function nextPrevButtonClicked(
 
 function currentPageChanged(e: Event, onChange: (page: number) => void, inputRef: any): void {
   e.preventDefault();
-  console.log(typeof inputRef);
-  console.log(inputRef);
   const pageInput = Number(inputRef.current.value);
   onChange(pageInput);
 }
