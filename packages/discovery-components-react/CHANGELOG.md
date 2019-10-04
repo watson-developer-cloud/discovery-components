@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.2](http:///discovery-components-react/compare/@disco-widgets/react-components@1.25.1...@disco-widgets/react-components@1.25.2) (2019-10-04)
+
+
+### Bug Fixes
+
+* use static port for storybook, don't auto-open browser ([#167](http:///discovery-components-react/issues/167)) ([7600268](http:///discovery-components-react/commits/7600268))
+
+
+
+
+
 ## [1.25.1](http:///discovery-components-react/compare/@disco-widgets/react-components@1.25.0...@disco-widgets/react-components@1.25.1) (2019-10-03)
 
 
