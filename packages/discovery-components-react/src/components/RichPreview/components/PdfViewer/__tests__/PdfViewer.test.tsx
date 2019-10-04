@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { act, render } from '@testing-library/react';
 import PdfViewer from '../PdfViewer';
-import { document as doc } from '../../../__fixtures__/intro_to_watson_discovery.pdf';
+import { document as doc } from '../../../__fixtures__/WEA.Glossary_pdf';
 
 describe('PdfViewer', () => {
   it('renders PDF document', () => {

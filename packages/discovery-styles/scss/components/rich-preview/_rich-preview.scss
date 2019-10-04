@@ -9,6 +9,10 @@
   position: relative;
 }
 
+.#{$prefix}--rich-preview__document > * {
+  width: 100%;
+}
+
 .#{$prefix}--rich-preview__passage {
   position: absolute;
   top: 0;

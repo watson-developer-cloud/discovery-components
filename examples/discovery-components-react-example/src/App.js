@@ -1,7 +1,8 @@
 import React from 'react';
 import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 import './app.scss';
-import { document as pdfDocument } from './fixtures/intro_to_watson_discovery';
+import { document as pdfDocument } from './__fixtures__/WEA.Glossary_pdf';
+import documentData from './__fixtures__/WEA.Glossary.pdf.json';
 
 import {
   DiscoverySearch,
@@ -43,7 +44,7 @@ const App = () => {
         ]}
       />
       <ResultsPagination />
-      <RichPreview file={atob(pdfDocument)} />
+      <RichPreview document={documentData} file={atob(pdfDocument)} />
     </DiscoverySearch>
   );
 };

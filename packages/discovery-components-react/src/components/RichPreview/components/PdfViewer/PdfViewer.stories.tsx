@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, radios, number } from '@storybook/addon-knobs';
 import PdfViewer from './PdfViewer';
-import { document } from '../../__fixtures__/intro_to_watson_discovery.pdf';
+import { document as doc } from '../../__fixtures__/WEA.Glossary_pdf';
 
 const pageKnob = {
   label: 'Page',
@@ -33,5 +33,5 @@ storiesOf('RichPreview/components/PdfViewer', module)
     const zoom = radios(zoomKnob.label, zoomKnob.options, zoomKnob.defaultValue);
     const scale = parseFloat(zoom);
 
-    return <PdfViewer file={atob(document)} page={page} scale={scale} />;
+    return <PdfViewer file={atob(doc)} page={page} scale={scale} />;
   });

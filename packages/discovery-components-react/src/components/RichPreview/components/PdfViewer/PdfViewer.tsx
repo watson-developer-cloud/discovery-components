@@ -19,9 +19,14 @@ interface Props {
    * Zoom factor, where `1` is equal to 100%
    */
   scale: number;
+
+  /**
+   * Callback invoked with page count, once `file` has been parsed
+   */
+  setPageCount?: (count: number) => void;
 }
 
-const PdfViewer: SFC<Props> = ({ file, page, scale }) => {
+const PdfViewer: SFC<Props> = ({ file, page, scale, setPageCount }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // In order to prevent unnecessary re-loading, loaded file and page are stored in state
@@ -36,6 +41,9 @@ const PdfViewer: SFC<Props> = ({ file, page, scale }) => {
         const newPdf = await _loadPdf(file);
         if (!didCancel) {
           setLoadedFile(newPdf);
+          if (setPageCount) {
+            setPageCount(newPdf.numPages);
+          }
         }
       }
     }
@@ -44,7 +52,7 @@ const PdfViewer: SFC<Props> = ({ file, page, scale }) => {
     return (): void => {
       didCancel = true;
     };
-  }, [file]);
+  }, [file, setPageCount]);
 
   useEffect(() => {
     let didCancel = false;
