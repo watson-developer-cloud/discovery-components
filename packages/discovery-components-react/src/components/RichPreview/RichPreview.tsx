@@ -1,4 +1,4 @@
-import React, { SFC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect, ReactElement } from 'react';
 import get from 'lodash/get';
 import { settings } from 'carbon-components';
 import RichPreviewToolbar, { ZOOM_IN } from './components/RichPreviewToolbar/RichPreviewToolbar';
@@ -19,7 +19,7 @@ interface Props {
 
 const SCALE_FACTOR = 1.2;
 
-export const RichPreview: SFC<Props> = ({ document, file }) => {
+export const RichPreview: FC<Props> = ({ document, file }) => {
   const base = `${settings.prefix}--rich-preview`;
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -50,13 +50,12 @@ export const RichPreview: SFC<Props> = ({ document, file }) => {
         }}
       />
       <div className={`${base}__document`}>
-        {/* if we have PDF data, render that */}
-        {/* otherwise, render fallback document view */}
-        {file ? (
-          <PdfViewer file={file} page={currentPage} scale={scale} setPageCount={setPdfPageCount} />
-        ) : (
-          document && <div>FALLBACK</div>
-        )}
+        <RichPreviewDocument
+          file={file}
+          currentPage={currentPage}
+          scale={scale}
+          setPdfPageCount={setPdfPageCount}
+        />
         {/* highlight passage on top of document view */}
         <div className={`${base}__passage`}>
           <PassageHighlight
@@ -70,4 +69,27 @@ export const RichPreview: SFC<Props> = ({ document, file }) => {
   );
 };
 
+interface DocumentProps {
+  file?: string;
+  currentPage: number;
+  scale: number;
+  setPdfPageCount?: (count: number) => void;
+}
+
+function RichPreviewDocument({
+  file,
+  currentPage,
+  scale,
+  setPdfPageCount
+}: DocumentProps): ReactElement {
+  // if we have PDF data, render that
+  // otherwise, render fallback document view
+  return file ? (
+    <PdfViewer file={file} page={currentPage} scale={scale} setPageCount={setPdfPageCount} />
+  ) : (
+    document && <div>FALLBACK</div>
+  );
+}
+
 export default RichPreview;
+export { RichPreviewToolbar, RichPreviewDocument };
