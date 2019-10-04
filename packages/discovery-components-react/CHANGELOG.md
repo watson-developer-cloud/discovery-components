@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.27.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.26.0...@disco-widgets/react-components@1.27.0) (2019-10-04)
+
+
+### Features
+
+* export toolbar and document sub-components ([#170](http:///discovery-components-react/issues/170)) ([bc7b16f](http:///discovery-components-react/commits/bc7b16f))
+
+
+
+
+
 # [1.26.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.25.2...@disco-widgets/react-components@1.26.0) (2019-10-04)
 
 
