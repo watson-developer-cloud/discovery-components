@@ -19,3 +19,4 @@ declare module 'carbon-components';
 declare module '@carbon/icons-react/*';
 declare module '*.md';
 declare module 'marked';
+declare module 'uuid';

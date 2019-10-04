@@ -6,6 +6,7 @@ import * as React from 'react';
 import { Search as CarbonSearchInput } from 'carbon-components-react';
 import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import useDebounce from '../../utils/useDebounce';
+import uuid from 'uuid';
 
 interface SearchInputProps {
   /**
@@ -54,6 +55,7 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
     id
   } = props;
 
+  const inputId = id || `search-input__${uuid.v4()}`;
   const searchContext = React.useContext(SearchContext);
   const [value, setValue] = React.useState(
     searchContext.searchParameters.natural_language_query || ''
@@ -74,7 +76,7 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
   };
 
   return (
-    <div className={className} id={id}>
+    <div className={className} id={inputId}>
       <CarbonSearchInput
         small={small}
         placeHolderText={placeHolderText}
@@ -85,6 +87,7 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
         closeButtonLabelText={closeButtonLabelText}
         defaultValue={defaultValue}
         value={value}
+        id={`${inputId}_input_field`}
       />
     </div>
   );
