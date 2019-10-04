@@ -132,7 +132,7 @@ Our React package uses [Create React Library](https://www.npmjs.com/package/crea
 | `yarn test`                         | runs the unit/integration tests for the component library          |
 | `yarn test:watch`                   | runs the unit/integration tests in watch mode                      |
 | `yarn code-coverage`                | runs the unit/integration tests code coverage report               |
-| `yarn storybook`                    | runs storybook and opens browser to correct port                   |
+| `yarn storybook`                    | runs storybook on http://localhost:9002                            |
 | `yarn storybook:build`              | builds storybook artifacts locally (primarily for testing build)   |
 | `yarn storybook:build:release`      | builds storybook artifacts and outputs into `/docs`                |
 
