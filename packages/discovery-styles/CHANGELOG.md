@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](http:///discovery-styles/compare/@disco-widgets/styles@1.4.0...@disco-widgets/styles@1.5.0) (2019-10-04)
+
+
+### Features
+
+* integrate rich preview toolbar ([#165](http:///discovery-styles/issues/165)) ([975e999](http:///discovery-styles/commits/975e999))
+
+
+
+
+
 # [1.4.0](http:///discovery-styles/compare/@disco-widgets/styles@1.3.0...@disco-widgets/styles@1.4.0) (2019-10-03)
 
 

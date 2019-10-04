@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.26.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.25.2...@disco-widgets/react-components@1.26.0) (2019-10-04)
+
+
+### Features
+
+* integrate rich preview toolbar ([#165](http:///discovery-components-react/issues/165)) ([975e999](http:///discovery-components-react/commits/975e999))
+
+
+
+
+
 ## [1.25.2](http:///discovery-components-react/compare/@disco-widgets/react-components@1.25.1...@disco-widgets/react-components@1.25.2) (2019-10-04)
 
 
