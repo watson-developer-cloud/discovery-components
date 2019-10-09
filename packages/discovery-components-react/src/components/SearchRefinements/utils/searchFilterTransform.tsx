@@ -30,7 +30,7 @@ export class SearchFilterTransform {
   }
 
   static toString(refinements: QueryTermAggregation[]): string {
-    let filterStrings: string[] = [];
+    const filterStrings: string[] = [];
     refinements.map(refinement => {
       const field = get(refinement, 'field', '');
       const results = get(refinement, 'results', []);
