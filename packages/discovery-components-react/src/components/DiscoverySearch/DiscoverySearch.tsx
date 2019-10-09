@@ -37,8 +37,9 @@ export interface DiscoverySearchProps {
 
 export interface SearchContextIFC {
   onSearch: () => Promise<void>;
-  onLoadAggregationResults: () => Promise<void>;
+  onRefinementsMount: () => Promise<void>;
   onUpdateAggregationQuery: (aggregationQuery: string) => Promise<void>;
+  onUpdateFilter: (filter: string) => Promise<void>;
   onUpdateNaturalLanguageQuery: (nlq: string, splitSearchQuerySelector?: string) => Promise<void>;
   onUpdateResultsPagination: (offset: number) => Promise<void>;
   onSelectResult: (result: DiscoveryV1.QueryResult) => Promise<void>;
@@ -51,8 +52,9 @@ export interface SearchContextIFC {
 
 export const SearchContext = React.createContext<SearchContextIFC>({
   onSearch: (): Promise<void> => Promise.resolve(),
-  onLoadAggregationResults: (): Promise<void> => Promise.resolve(),
+  onRefinementsMount: (): Promise<void> => Promise.resolve(),
   onUpdateAggregationQuery: (): Promise<void> => Promise.resolve(),
+  onUpdateFilter: (): Promise<void> => Promise.resolve(),
   onUpdateNaturalLanguageQuery: (): Promise<void> => Promise.resolve(),
   onUpdateResultsPagination: (): Promise<void> => Promise.resolve(),
   onSelectResult: (): Promise<void> => Promise.resolve(),
@@ -142,9 +144,10 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
     }
   };
 
-  const handleLoadAggregationResults = async (): Promise<void> => {
+  const handleRefinementsMount = async (): Promise<void> => {
     const { aggregations }: DiscoveryV1.QueryResponse = await searchClient.query(searchParameters);
     setStateAggregationResults({ aggregations });
+    return Promise.resolve();
   };
   const handleUpdateAggregationQuery = (aggregationQuery: string): Promise<void> => {
     searchParameters.aggregation = aggregationQuery;
@@ -159,6 +162,12 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
       getCompletions(nlq, splitSearchQuerySelector);
     }
     searchParameters.natural_language_query = nlq;
+    searchParameters.filter = '';
+    setSearchParameters(searchParameters);
+    return Promise.resolve();
+  };
+  const handleUpdateFilter = (filter: string): Promise<void> => {
+    searchParameters.filter = filter;
     setSearchParameters(searchParameters);
     return Promise.resolve();
   };
@@ -181,8 +190,9 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
     <SearchContext.Provider
       value={{
         onSearch: handleSearch,
-        onLoadAggregationResults: handleLoadAggregationResults,
+        onRefinementsMount: handleRefinementsMount,
         onUpdateAggregationQuery: handleUpdateAggregationQuery,
+        onUpdateFilter: handleUpdateFilter,
         onUpdateNaturalLanguageQuery: handleUpdateNaturalLanguageQuery,
         onUpdateResultsPagination: handleResultsPagination,
         onSelectResult: handleSelectResult,

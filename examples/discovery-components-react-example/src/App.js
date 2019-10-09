@@ -38,8 +38,8 @@ const App = () => {
             count: 10
           },
           {
-            field: 'subject',
-            count: 5
+            field: 'enriched_title.entities.text',
+            count: 10
           }
         ]}
       />

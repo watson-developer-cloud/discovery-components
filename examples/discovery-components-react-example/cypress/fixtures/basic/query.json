@@ -8,5 +8,30 @@
         "title": "file 2 title"
       }
     }
+  ],
+  "aggregations": [
+    {
+      "type": "term",
+      "field": "subject",
+      "count": 4,
+      "results": [
+        {
+          "key": "Animals",
+          "matching_results": 138993
+        },
+        {
+          "key": "People",
+          "matching_results": 133760
+        },
+        {
+          "key": "Places",
+          "matching_results": 129139
+        },
+        {
+          "key": "Things",
+          "matching_results": 76403
+        }
+      ]
+    }
   ]
 }

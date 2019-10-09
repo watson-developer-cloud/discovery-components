@@ -7,9 +7,10 @@ export function wrapWithContext(
 ): React.ReactElement {
   const context: SearchContextIFC = {
     onSearch: (): Promise<void> => Promise.resolve(),
-    onLoadAggregationResults: (): Promise<void> => Promise.resolve(),
+    onRefinementsMount: (): Promise<void> => Promise.resolve(),
     onUpdateAggregationQuery: (): Promise<void> => Promise.resolve(),
     onUpdateNaturalLanguageQuery: (): Promise<void> => Promise.resolve(),
+    onUpdateFilter: (): Promise<void> => Promise.resolve(),
     onUpdateResultsPagination: (): Promise<void> => Promise.resolve(),
     onSelectResult: (): Promise<void> => Promise.resolve(),
     aggregationResults: {},

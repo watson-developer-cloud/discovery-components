@@ -1,12 +1,16 @@
 import * as React from 'react';
 import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
-import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
-import { configurationToAggregation } from '../../utils/configurationToAggregation';
-import { Checkbox as CarbonCheckbox } from 'carbon-components-react';
 import get from 'lodash.get';
-
-// TODO: Figure out why Term isn't inheriting from QueryAggregation
-export interface QueryTermAggregation extends DiscoveryV1.QueryAggregation, DiscoveryV1.Term {}
+import findIndex from 'lodash/findIndex';
+import { Checkbox as CarbonCheckbox } from 'carbon-components-react';
+import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
+import { buildAggregationQuery } from './utils/buildAggregationQuery';
+import { SearchFilterTransform } from './utils/searchFilterTransform';
+import { mergeFilterRefinements } from './utils/mergeFilterRefinements';
+import {
+  QueryTermAggregation,
+  SelectableAggregationResult
+} from './utils/searchRefinementInterfaces';
 
 interface SearchRefinementsProps {
   /**
@@ -20,27 +24,70 @@ export const SearchRefinements: React.FunctionComponent<SearchRefinementsProps> 
 }) => {
   const searchContext = React.useContext(SearchContext);
   const {
-    onLoadAggregationResults,
+    onRefinementsMount,
     onUpdateAggregationQuery,
-    aggregationResults: { aggregations }
+    onUpdateFilter,
+    onSearch,
+    aggregationResults: { aggregations },
+    searchParameters: { natural_language_query: naturalLanguageQuery, filter }
   } = searchContext;
+  const allRefinements = mergeFilterRefinements(aggregations || [], filter || '', configuration);
 
-  const aggregationQuery = configurationToAggregation(configuration);
   React.useEffect(() => {
-    onUpdateAggregationQuery(aggregationQuery);
-    onLoadAggregationResults();
-  }, []);
+    onUpdateAggregationQuery(buildAggregationQuery(configuration));
+    onRefinementsMount();
+  }, [configuration]);
 
-  const emptyAggregations = (
+  const emptyRefinements = (
     <div>
-      <p>There are no aggregation results.</p>
+      <p>There are no available refinements.</p>
     </div>
   );
 
-  if (aggregations) {
+  const handleOnChange = (
+    checked: boolean,
+    _id: string,
+    event: React.SyntheticEvent<HTMLInputElement>
+  ): void => {
+    const target: HTMLInputElement = event.currentTarget;
+    const selectedRefinementField = target.getAttribute('data-field');
+    const selectedRefinementKey = target.getAttribute('data-key');
+
+    const refinementsForField = allRefinements.find(
+      refinement => refinement.field === selectedRefinementField
+    );
+    if (refinementsForField) {
+      const refinementResults: SelectableAggregationResult[] = get(
+        refinementsForField,
+        'results',
+        []
+      );
+      const selectedRefinementResults: SelectableAggregationResult[] = refinementResults.map(
+        result => {
+          const key = get(result, 'key', '');
+          return key === selectedRefinementKey
+            ? Object.assign({}, result, { selected: checked })
+            : result;
+        }
+      );
+      const newrefinementsForField = Object.assign({}, refinementsForField, {
+        results: selectedRefinementResults
+      });
+      const index = findIndex(allRefinements, refinement => {
+        return refinement.field === selectedRefinementField;
+      });
+
+      allRefinements.splice(index, 1, newrefinementsForField);
+    }
+
+    onUpdateFilter(SearchFilterTransform.toString(allRefinements));
+    onSearch();
+  };
+
+  if (allRefinements) {
     return (
       <div>
-        {aggregations
+        {allRefinements
           .filter(aggregation => {
             return aggregation.results;
           })
@@ -51,18 +98,27 @@ export const SearchRefinements: React.FunctionComponent<SearchRefinementsProps> 
               []
             );
             const aggregationField = aggregation.field;
+            const orderedAggregationResults = aggregationResults.sort(
+              (a, b) => (b.matching_results || 0) - (a.matching_results || 0)
+            );
 
             return (
               <fieldset className="bx--fieldset" key={`fieldset-${aggregationField}-${i}`}>
                 <legend className="bx--label">{aggregationField}</legend>
-                {aggregationResults.map((result: DiscoveryV1.AggregationResult, index: number) => {
+                {orderedAggregationResults.map((result: DiscoveryV1.AggregationResult) => {
                   const resultKey = result.key;
+                  const query = naturalLanguageQuery || '';
+                  const buff = new Buffer(query + resultKey);
+                  const base64data = buff.toString('base64');
 
                   return (
                     <CarbonCheckbox
+                      onChange={handleOnChange}
                       labelText={resultKey}
-                      key={`checkbox-label-${resultKey}-${index}`}
-                      id={`checkbox-label-${resultKey}-${index}`}
+                      key={`checkbox-${aggregationField}-${base64data}`}
+                      id={`checkbox-${aggregationField}-${resultKey}`}
+                      data-field={`${aggregationField}`}
+                      data-key={`${resultKey}`}
                       defaultChecked={false}
                     />
                   );
@@ -74,5 +130,5 @@ export const SearchRefinements: React.FunctionComponent<SearchRefinementsProps> 
     );
   }
 
-  return emptyAggregations;
+  return emptyRefinements;
 };

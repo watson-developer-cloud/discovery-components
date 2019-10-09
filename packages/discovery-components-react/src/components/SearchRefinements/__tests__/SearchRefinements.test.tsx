@@ -5,16 +5,22 @@ import { SearchContextIFC } from '../../DiscoverySearch/DiscoverySearch';
 import { SearchRefinements } from '../SearchRefinements';
 import refinementsQueryResponse from '../fixtures/refinementsQueryResponse';
 
-const setup = () => {
+const setup = (filter: string) => {
   const context: Partial<SearchContextIFC> = {
     aggregationResults: {
       aggregations: refinementsQueryResponse.aggregations
+    },
+    searchParameters: {
+      project_id: '',
+      filter: filter
     }
   };
-  const onLoadAggregationResultsMock = jest.fn();
-  context.onLoadAggregationResults = onLoadAggregationResultsMock;
+  const onRefinementsMountMock = jest.fn();
+  context.onRefinementsMount = onRefinementsMountMock;
   const onUpdateAggregationQueryMock = jest.fn();
   context.onUpdateAggregationQuery = onUpdateAggregationQueryMock;
+  const onUpdateFilterMock = jest.fn();
+  context.onUpdateFilter = onUpdateFilterMock;
   const searchRefinementsComponent = render(
     wrapWithContext(
       <SearchRefinements
@@ -33,8 +39,9 @@ const setup = () => {
     )
   );
   return {
-    onLoadAggregationResultsMock,
+    onRefinementsMountMock,
     onUpdateAggregationQueryMock,
+    onUpdateFilterMock,
     searchRefinementsComponent
   };
 };
@@ -42,13 +49,13 @@ const setup = () => {
 describe('SearchRefinementsComponent', () => {
   describe('legend header elements', () => {
     test('contains first refinement header with author field text', () => {
-      const { searchRefinementsComponent } = setup();
+      const { searchRefinementsComponent } = setup('');
       const headerAuthorField = searchRefinementsComponent.getByText('author');
       expect(headerAuthorField).toBeDefined();
     });
 
     test('contains second refinement header with subject field text', () => {
-      const { searchRefinementsComponent } = setup();
+      const { searchRefinementsComponent } = setup('');
       const headerSubjectField = searchRefinementsComponent.getByText('subject');
       expect(headerSubjectField).toBeDefined();
     });
@@ -56,7 +63,7 @@ describe('SearchRefinementsComponent', () => {
 
   describe('checkbox elements', () => {
     test('contains first refinement checkboxes with correct labels', () => {
-      const { searchRefinementsComponent } = setup();
+      const { searchRefinementsComponent } = setup('');
       const ABMNStaffCheckbox = searchRefinementsComponent.getByLabelText('ABMN Staff');
       const newsStaffCheckbox = searchRefinementsComponent.getByLabelText('News Staff');
       const editorCheckbox = searchRefinementsComponent.getByLabelText('editor');
@@ -66,7 +73,7 @@ describe('SearchRefinementsComponent', () => {
     });
 
     test('contains second refinement checkboxes with correct labels', () => {
-      const { searchRefinementsComponent } = setup();
+      const { searchRefinementsComponent } = setup('');
       const animalsCheckbox = searchRefinementsComponent.getByLabelText('Animals');
       const peopleCheckbox = searchRefinementsComponent.getByLabelText('People');
       const placesCheckbox = searchRefinementsComponent.getByLabelText('Places');
@@ -78,14 +85,14 @@ describe('SearchRefinementsComponent', () => {
     });
 
     test('checkboxes are unchecked when initially rendered', () => {
-      const { searchRefinementsComponent } = setup();
+      const { searchRefinementsComponent } = setup('');
       const animalsCheckbox = searchRefinementsComponent.getByLabelText('Animals');
       expect(animalsCheckbox['defaultChecked']).toEqual(false);
       expect(animalsCheckbox['checked']).toEqual(false);
     });
 
     test('checkboxes can be checked and checkbox is not disabled', () => {
-      const { searchRefinementsComponent } = setup();
+      const { searchRefinementsComponent } = setup('');
       const animalsCheckbox = searchRefinementsComponent.getByLabelText('Animals');
       expect(animalsCheckbox['checked']).toEqual(false);
       fireEvent.click(animalsCheckbox);
@@ -95,7 +102,7 @@ describe('SearchRefinementsComponent', () => {
 
   describe('component load', () => {
     test('it calls onAggregationRequest with configuration', () => {
-      const { onUpdateAggregationQueryMock } = setup();
+      const { onUpdateAggregationQueryMock } = setup('');
       expect(onUpdateAggregationQueryMock).toBeCalledTimes(1);
       expect(onUpdateAggregationQueryMock).toBeCalledWith(
         '[term(author,count:3),term(subject,count:4)]'
@@ -103,8 +110,46 @@ describe('SearchRefinementsComponent', () => {
     });
 
     test('it calls onSearch', () => {
-      const { onLoadAggregationResultsMock } = setup();
-      expect(onLoadAggregationResultsMock).toBeCalledTimes(1);
+      const { onRefinementsMountMock } = setup('');
+      expect(onRefinementsMountMock).toBeCalledTimes(1);
+    });
+  });
+
+  describe('checkboxes apply filters', () => {
+    test('it adds correct filter when one checkbox within single refinement is checked', () => {
+      const { searchRefinementsComponent, onUpdateFilterMock } = setup('');
+      const animalsCheckbox = searchRefinementsComponent.getByLabelText('Animals');
+      fireEvent.click(animalsCheckbox);
+      expect(onUpdateFilterMock).toBeCalledTimes(1);
+      expect(onUpdateFilterMock).toBeCalledWith('subject:Animals');
+    });
+
+    test('it adds correct filters when second checkbox within single refinement is checked', () => {
+      const { searchRefinementsComponent, onUpdateFilterMock } = setup('subject:Animals');
+      const peopleCheckbox = searchRefinementsComponent.getByLabelText('People');
+      fireEvent.click(peopleCheckbox);
+      expect(onUpdateFilterMock).toBeCalledTimes(1);
+      expect(onUpdateFilterMock).toBeCalledWith('subject:Animals|People');
+    });
+
+    test('it adds correct filter when checkboxes from multiple refinements are checked', () => {
+      const { searchRefinementsComponent, onUpdateFilterMock } = setup('subject:Animals');
+      const newsStaffCheckbox = searchRefinementsComponent.getByLabelText('News Staff');
+      fireEvent.click(newsStaffCheckbox);
+      expect(onUpdateFilterMock).toBeCalledTimes(1);
+      expect(onUpdateFilterMock).toBeCalledWith('author:News Staff,subject:Animals');
+    });
+  });
+
+  describe('checkboxes remove filters', () => {
+    test('it removes correct filter when checkbox within single refinement is unchecked', () => {
+      const { searchRefinementsComponent, onUpdateFilterMock } = setup('subject:Animals');
+      const animalsCheckbox = searchRefinementsComponent.getByLabelText('Animals');
+      fireEvent.click(animalsCheckbox);
+      // For the test, have to check the checkbox twice to get it in the 'checked' state to uncheck
+      fireEvent.click(animalsCheckbox);
+      expect(onUpdateFilterMock).toBeCalledTimes(2);
+      expect(onUpdateFilterMock).toBeCalledWith('');
     });
   });
 });

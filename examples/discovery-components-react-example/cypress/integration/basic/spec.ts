@@ -13,11 +13,35 @@ describe('basic test', () => {
     it('makes the appropriate query request', () => {
       cy.wait('@postQuery')
         .its('requestBody.aggregation')
-        .should('eq', '[term(enriched_text.entities.text,count:10),term(subject,count:5)]');
+        .should(
+          'eq',
+          '[term(enriched_text.entities.text,count:10),term(enriched_title.entities.text,count:10)]'
+        );
 
       cy.wait('@postQuery')
         .its('requestBody.natural_language_query')
         .should('eq', 'abil');
+    });
+  });
+  describe('search refinements filters test', () => {
+    it('clears previous filters when a new natural language query is made', () => {
+      cy.get('#checkbox-subject-Animals').click({ force: true });
+      cy.wait('@postQuery')
+        .its('requestBody.aggregation')
+        .should(
+          'eq',
+          '[term(enriched_text.entities.text,count:10),term(enriched_title.entities.text,count:10)]'
+        );
+
+      cy.wait('@postQuery')
+        .its('requestBody.filter')
+        .should('eq', 'subject:Animals');
+
+      cy.get('.bx--search-input').type('abil{enter}');
+
+      cy.wait('@postQuery')
+        .its('requestBody.filter')
+        .should('eq', '');
     });
   });
 });

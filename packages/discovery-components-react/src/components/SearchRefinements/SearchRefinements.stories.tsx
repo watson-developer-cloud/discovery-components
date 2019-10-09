@@ -30,11 +30,13 @@ storiesOf('SearchRefinements', module)
   .addDecorator(withKnobs)
   .add('default', () => {
     const exampleProps = props();
+    const aggregations = refinementsQueryResponse.aggregations;
     return (
       <DiscoverySearch
         searchClient={searchClient}
         projectId="project-id"
         searchResults={refinementsQueryResponse}
+        aggregationResults={{ aggregations }}
       >
         <SearchRefinements {...exampleProps} />
       </DiscoverySearch>
