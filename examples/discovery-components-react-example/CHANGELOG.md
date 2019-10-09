@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.16.0](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.15.2...discovery-components-react-example@1.16.0) (2019-10-09)
+
+
+### Features
+
+* Auto complete basic ([#147](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/147)) ([ca46aa2](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/ca46aa2))
+
+
+
+
+
 ## [1.15.2](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.15.1...discovery-components-react-example@1.15.2) (2019-10-08)
 
 **Note:** Version bump only for package discovery-components-react-example

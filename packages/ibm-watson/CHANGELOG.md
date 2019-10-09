@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](http:///ibm-watson/compare/@disco-widgets/ibm-watson@1.1.3...@disco-widgets/ibm-watson@1.2.0) (2019-10-09)
+
+
+### Features
+
+* Auto complete basic ([#147](http:///ibm-watson/issues/147)) ([ca46aa2](http:///ibm-watson/commits/ca46aa2))
+
+
+
+
+
 ## [1.1.3](http:///ibm-watson/compare/@disco-widgets/ibm-watson@1.1.2...@disco-widgets/ibm-watson@1.1.3) (2019-10-08)
 
 

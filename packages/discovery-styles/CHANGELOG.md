@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](http:///discovery-styles/compare/@disco-widgets/styles@1.5.0...@disco-widgets/styles@1.6.0) (2019-10-09)
+
+
+### Features
+
+* Auto complete basic ([#147](http:///discovery-styles/issues/147)) ([ca46aa2](http:///discovery-styles/commits/ca46aa2))
+
+
+
+
+
 # [1.5.0](http:///discovery-styles/compare/@disco-widgets/styles@1.4.0...@disco-widgets/styles@1.5.0) (2019-10-04)
 
 

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.28.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.27.0...@disco-widgets/react-components@1.28.0) (2019-10-09)
+
+
+### Bug Fixes
+
+* linter errors ([#187](http:///discovery-components-react/issues/187)) ([29a2055](http:///discovery-components-react/commits/29a2055))
+
+
+### Features
+
+* Auto complete basic ([#147](http:///discovery-components-react/issues/147)) ([ca46aa2](http:///discovery-components-react/commits/ca46aa2))
+
+
+
+
+
 # [1.27.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.26.0...@disco-widgets/react-components@1.27.0) (2019-10-04)
 
 
