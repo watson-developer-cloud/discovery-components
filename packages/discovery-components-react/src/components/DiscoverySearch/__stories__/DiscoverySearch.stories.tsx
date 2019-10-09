@@ -21,6 +21,12 @@ class CustomSearchClient {
   public async query(queryParams: DiscoveryV1.QueryParams): Promise<any> {
     action('query')(queryParams);
   }
+
+  public async getAutocompletion(
+    autocompletionParams: DiscoveryV1.GetAutocompletionParams
+  ): Promise<any> {
+    action('getAutocompletion')(autocompletionParams);
+  }
 }
 
 const customSearchClientProps = (): DiscoverySearchProps => ({

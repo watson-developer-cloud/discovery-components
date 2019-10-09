@@ -4,6 +4,7 @@
 
 import * as React from 'react';
 import { Search as CarbonSearchInput } from 'carbon-components-react';
+import ListBox from 'carbon-components-react/lib/components/ListBox';
 import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import useDebounce from '../../utils/useDebounce';
 import uuid from 'uuid';
@@ -12,35 +13,35 @@ interface SearchInputProps {
   /**
    * True to use small variant of Search
    */
-  small: boolean;
+  small?: boolean;
   /**
    * Placeholder text for the SearchInput
    */
-  placeHolderText: string;
+  placeHolderText?: string;
   /**
    * className to style SearchInput
    */
-  className: string;
+  className?: string;
   /**
    * Label text for the SearchInput
    */
-  labelText: React.ReactNode;
+  labelText?: React.ReactNode;
   /**
    * True to use the light theme
    */
-  light: boolean;
+  light?: boolean;
   /**
    * Label text for the close button
    */
-  closeButtonLabelText: string;
-  /**
-   * Set the default value of the query in SearchInput
-   */
-  defaultValue: string;
+  closeButtonLabelText?: string;
   /**
    * ID for the SearchInput
    */
-  id: string;
+  id?: string;
+  /**
+   * Value to split words in the search query (Default: ' ')
+   */
+  splitSearchQuerySelector?: string;
 }
 
 export const SearchInput: React.SFC<SearchInputProps> = props => {
@@ -51,8 +52,8 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
     labelText,
     light,
     closeButtonLabelText,
-    defaultValue,
-    id
+    id,
+    splitSearchQuerySelector
   } = props;
 
   const inputId = id || `search-input__${uuid.v4()}`;
@@ -62,18 +63,69 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
   );
   const handleOnChange = (evt: React.SyntheticEvent<EventTarget>): void => {
     const target = evt.currentTarget as HTMLInputElement;
-    setValue(target.value);
+    setValue(!!target ? target.value : '');
   };
+
+  const setupHandleOnCompletionFocus = (i: number) => {
+    return (): void => {
+      const valueArray = value.split(splitSearchQuerySelector as string);
+      const prefix = valueArray.pop();
+      const completionValue = !!searchContext.completionResults.completions
+        ? searchContext.completionResults.completions[i]
+        : prefix;
+      valueArray.push(completionValue || '');
+      setValue(valueArray.join(splitSearchQuerySelector));
+    };
+  };
+
   const debouncedSearchTerm = useDebounce(value, 500);
   React.useEffect(() => {
-    searchContext.onUpdateNaturalLanguageQuery(value);
-  }, [debouncedSearchTerm]);
+    searchContext.onUpdateNaturalLanguageQuery(value, splitSearchQuerySelector as string);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedSearchTerm, splitSearchQuerySelector]);
+
   const handleOnKeyUp = (evt: React.KeyboardEvent<EventTarget>): void => {
     if (evt.key === 'Enter') {
       searchContext.onUpdateNaturalLanguageQuery(value);
       searchContext.onSearch();
     }
   };
+
+  const selectCompletion = (): void => {
+    const currentQuery = `${value} `;
+    setValue(currentQuery);
+
+    // The carbon Search component does seem to use ForwardRef
+    // so looking up by ID for now.
+    const searchInput = document.getElementById(`${inputId}_input_field`);
+    if (searchInput !== null) {
+      searchInput.focus();
+    }
+  };
+
+  const handleCompletionKeyEvent = (evt: React.KeyboardEvent<EventTarget>): void => {
+    if (evt.key === 'Enter') {
+      selectCompletion();
+    }
+  };
+
+  const completions = searchContext.completionResults.completions || [];
+  const completionsList = completions.map((completion, i) => {
+    return (
+      <ListBox key={`completion_${i}`}>
+        <ListBox.Field
+          role="listitem"
+          id={`completion_${i}_field`}
+          tabIndex="0"
+          onFocus={setupHandleOnCompletionFocus(i)}
+          onClick={selectCompletion}
+          onKeyDown={handleCompletionKeyEvent}
+        >
+          {completion}
+        </ListBox.Field>
+      </ListBox>
+    );
+  });
 
   return (
     <div className={className} id={inputId}>
@@ -85,16 +137,17 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
         labelText={labelText}
         light={light}
         closeButtonLabelText={closeButtonLabelText}
-        defaultValue={defaultValue}
         value={value}
         id={`${inputId}_input_field`}
       />
+      {!!value && <div>{completionsList}</div>}
     </div>
   );
 };
 
 SearchInput.defaultProps = {
-  labelText: 'Search input label text' // the only required prop for Carbon Search component that doesn't have a default value
+  labelText: 'Search input label text', // the only required prop for Carbon Search component that doesn't have a default value
+  splitSearchQuerySelector: ' '
 };
 
 export default SearchInput;

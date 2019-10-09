@@ -569,9 +569,8 @@ class DiscoveryV1 extends BaseService {
    * Returns completion query suggestions for the specified prefix.
    *
    * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.environment_id - The ID of the environment. The value of this parameter must always be
-   * `default`.
-   * @param {string} params.collection_id - The ID of the collection.
+   * @param {string} params.project_id - The ID of the project.
+   * @param {string[]} [params.collection_ids] - The ID of the collections.
    * @param {string} [params.field] - The field in the result documents that autocompletion suggestions are identified
    * from.
    * @param {string} [params.prefix] - The prefix to use for autocompletion. For example, the prefix `Ho` could
@@ -587,7 +586,7 @@ class DiscoveryV1 extends BaseService {
   ): Promise<any> | void {
     const _params = extend({}, params);
     const _callback = callback;
-    const requiredParams = ['environment_id', 'collection_id'];
+    const requiredParams = ['project_id'];
 
     if (!_callback) {
       return new Promise((resolve, reject) => {
@@ -603,21 +602,21 @@ class DiscoveryV1 extends BaseService {
     }
 
     const query = {
+      collection_ids: _params.collection_ids,
       field: _params.field,
       prefix: _params.prefix,
       count: _params.count
     };
 
     const path = {
-      environment_id: _params.environment_id,
-      collection_id: _params.collection_id
+      project_id: _params.project_id
     };
 
     const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'getAutocompletion');
 
     const parameters = {
       options: {
-        url: '/v1/environments/{environment_id}/collections/{collection_id}/autocompletion',
+        url: '/v2/projects/{project_id}/autocompletion',
         method: 'GET',
         qs: query,
         path
@@ -1515,10 +1514,10 @@ namespace DiscoveryV1 {
 
   /** Parameters for the `getAutocompletion` operation. */
   export interface GetAutocompletionParams {
-    /** The ID of the environment. The value of this parameter must always be `default`. */
-    environment_id: string;
-    /** The ID of the collection. */
-    collection_id: string;
+    /** The ID of the project. */
+    project_id: string;
+    /** The ID of the collections. */
+    collection_ids?: string[];
     /** The field in the result documents that autocompletion suggestions are identified from. */
     field?: string;
     /** The prefix to use for autocompletion. For example, the prefix `Ho` could autocomplete to `Hot`, `Housing`, or `How do I upgrade`. Possible completions are. */

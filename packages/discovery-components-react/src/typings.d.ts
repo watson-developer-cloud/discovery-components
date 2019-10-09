@@ -20,3 +20,4 @@ declare module '@carbon/icons-react/*';
 declare module '*.md';
 declare module 'marked';
 declare module 'uuid';
+declare module 'carbon-components-react/lib/components/ListBox';

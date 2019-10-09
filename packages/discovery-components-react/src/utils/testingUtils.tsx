@@ -17,7 +17,8 @@ export function wrapWithContext(
     searchParameters: {
       project_id: ''
     },
-    selectedResult: {}
+    selectedResult: {},
+    completionResults: {}
   };
   return (
     <SearchContext.Provider value={Object.assign(context, contextOverride)}>
