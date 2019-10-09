@@ -13,10 +13,16 @@ interface SearchResultsProps {
    * specify a string template using mustache templating syntax https://github.com/janl/mustache.js to pull the result link from
    */
   resultLinkTemplate?: string;
+  /**
+   * specify a field on the result object to pull the displayed text from
+   */
+  bodyField?: string;
 }
+
 export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   resultLinkField,
-  resultLinkTemplate
+  resultLinkTemplate,
+  bodyField
 }) => {
   const { searchResults } = useContext(SearchContext);
   const { matching_results: matchingResults, results } = searchResults;
@@ -33,6 +39,7 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
               result={result}
               resultLinkField={resultLinkField}
               resultLinkTemplate={resultLinkTemplate}
+              bodyField={bodyField || 'text'}
             />
           );
         })}
