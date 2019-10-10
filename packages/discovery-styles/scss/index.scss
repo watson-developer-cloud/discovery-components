@@ -1,5 +1,9 @@
 $css--plex: true !default;
 
+// Global styles
+@import '~carbon-components/scss/globals/scss/_css--font-face.scss';
+@import '~carbon-components/scss/globals/scss/_colors.scss';
+
 // Component styles
 @import 'components/example-component/example-component';
 @import 'components/search-input/search-input';
@@ -8,7 +12,3 @@ $css--plex: true !default;
 @import 'components/rich-preview/rich-preview-toolbar';
 @import 'components/rich-preview/rich-preview';
 @import 'components/search-results/search-results';
-
-// Global styles
-@import '~carbon-components/scss/globals/scss/_css--font-face.scss';
-@import '~carbon-components/scss/globals/scss/_colors.scss';

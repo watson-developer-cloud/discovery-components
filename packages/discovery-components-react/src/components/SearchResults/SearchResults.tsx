@@ -22,7 +22,7 @@ interface SearchResultsProps {
 export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   resultLinkField,
   resultLinkTemplate,
-  bodyField
+  bodyField = 'text'
 }) => {
   const { searchResults } = useContext(SearchContext);
   const { matching_results: matchingResults, results } = searchResults;
