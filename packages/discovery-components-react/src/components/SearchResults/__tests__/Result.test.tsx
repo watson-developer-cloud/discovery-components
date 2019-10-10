@@ -188,39 +188,21 @@ describe('<Result />', () => {
         expect(browserWindow.open.mock.calls[0][0]).toBe('https://www.ibm.com');
       });
     });
+  });
 
-    describe('when the result prop has a title and filename property', () => {
-      test('we display the title only', () => {
-        const mockResult = {
+  describe('when the result prop has a title and filename property', () => {
+    test('we display the title only', () => {
+      (context.searchResults as DiscoveryV1.QueryResponse).results = [
+        {
           document_id: 'some document_id',
-          url: {
-            firstPart: 'ibm',
-            secondPart: 'com'
+          extracted_metadata: {
+            title: 'some title',
+            filename: 'some file name'
           }
-        };
+        }
+      ];
 
-        (context.searchResults as DiscoveryV1.QueryResponse).results = [
-          {
-            document_id: 'some document_id',
-            url: {
-              firstPart: 'ibm',
-              secondPart: 'com'
-            }
-          }
-        ];
-
-        context.onSelectResult = jest.fn();
-        (context.searchResults as DiscoveryV1.QueryResponse).results = [mockResult];
-        const { getByText } = render(
-          wrapWithContext(
-            <SearchResults resultLinkTemplate={'https://{{url.firstPart}}.{{url.secondPart}}'} />,
-            context
-          )
-        );
-        fireEvent.click(getByText('some document_id'));
-        expect((context.onSelectResult as jest.Mock).mock.calls.length).toBe(0);
-      });
-
+      context.onSelectResult = jest.fn();
       const { getByText } = render(wrapWithContext(<SearchResults />, context));
       expect(getByText('some title')).toBeInTheDocument();
     });
