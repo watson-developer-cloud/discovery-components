@@ -4,6 +4,7 @@
 
 .#{$prefix}--search-result {
   @include layer('overlay');
+  background-color: white;
   padding: $spacing-05;
   margin: $layout-01 0;
   border-radius: rem(6px);
