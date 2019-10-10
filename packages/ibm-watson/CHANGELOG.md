@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](http:///ibm-watson/compare/@disco-widgets/ibm-watson@1.2.0...@disco-widgets/ibm-watson@1.3.0) (2019-10-10)
+
+
+### Features
+
+* Update v2 SDK ([#186](http:///ibm-watson/issues/186)) ([689ea1e](http:///ibm-watson/commits/689ea1e))
+
+
+
+
+
 # [1.2.0](http:///ibm-watson/compare/@disco-widgets/ibm-watson@1.1.3...@disco-widgets/ibm-watson@1.2.0) (2019-10-09)
 
 
