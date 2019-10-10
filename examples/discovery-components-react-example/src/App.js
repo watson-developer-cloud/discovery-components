@@ -30,7 +30,7 @@ const App = () => {
         placeHolderText={'This is some placeholder text...'}
         labelText={'This is some label text...'}
       />
-      <SearchResults />
+      <SearchResults bodyField={'highlight.text[0]'} />
       <SearchRefinements
         configuration={[
           {

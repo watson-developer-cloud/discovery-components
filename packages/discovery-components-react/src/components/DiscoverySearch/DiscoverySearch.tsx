@@ -85,6 +85,7 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
   >(aggregationResults || {});
   const [searchParameters, setSearchParameters] = React.useState<DiscoveryV1.QueryParams>({
     project_id: projectId,
+    highlight: true,
     ...queryParameters
   });
   const [completionResultsState, setCompletionResultsState] = React.useState<

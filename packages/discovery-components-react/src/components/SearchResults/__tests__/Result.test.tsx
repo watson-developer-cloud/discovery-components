@@ -88,6 +88,61 @@ describe('<Result />', () => {
     });
   });
 
+  describe('when the result has text but no bodyField', () => {
+    beforeEach(() => {
+      (context.searchResults as DiscoveryV1.QueryResponse).results = [
+        {
+          document_id: 'some document_id',
+          text: 'i am text'
+        }
+      ];
+    });
+
+    it('displays the text', () => {
+      const { getByText } = render(wrapWithContext(<SearchResults />, context));
+      expect(getByText('i am text')).toBeInTheDocument();
+    });
+  });
+
+  describe('when the result has text and bodyField set to "text"', () => {
+    beforeEach(() => {
+      (context.searchResults as DiscoveryV1.QueryResponse).results = [
+        {
+          document_id: 'some document_id',
+          text: 'i am text'
+        }
+      ];
+    });
+
+    it('displays the text', () => {
+      const { getByText } = render(wrapWithContext(<SearchResults bodyField={'text'} />, context));
+      expect(getByText('i am text')).toBeInTheDocument();
+    });
+  });
+
+  describe('when the result has text and bodyField set to "other"', () => {
+    beforeEach(() => {
+      (context.searchResults as DiscoveryV1.QueryResponse).results = [
+        {
+          document_id: 'some document_id',
+          text: 'i am text',
+          highlight: {
+            text: ['i <em>am</em> other text']
+          }
+        }
+      ];
+    });
+
+    it('displays the "other" text', () => {
+      const { getByText } = render(
+        wrapWithContext(<SearchResults bodyField={'highlight.text[0]'} />, context)
+      );
+      expect(
+        getByText((_, element) => element.textContent === 'i am other text')
+      ).toBeInTheDocument();
+    });
+  });
+
   describe('when there is a value for resultLinkTemplate', () => {
     describe('on click', () => {
       test('will not call onSelectResult', () => {
@@ -135,8 +190,26 @@ describe('<Result />', () => {
     });
   });
 
+  describe('when the result prop has a title and filename property', () => {
+    test('we display the title only', () => {
+      (context.searchResults as DiscoveryV1.QueryResponse).results = [
+        {
+          document_id: 'some document_id',
+          extracted_metadata: {
+            title: 'some title',
+            filename: 'some file name'
+          }
+        }
+      ];
+
+      context.onSelectResult = jest.fn();
+      const { getByText } = render(wrapWithContext(<SearchResults />, context));
+      expect(getByText('some title')).toBeInTheDocument();
+    });
+  });
+
   describe('when the result prop has a title but no filename property', () => {
-    test('we display title and document_id', () => {
+    test('we display title only', () => {
       (context.searchResults as DiscoveryV1.QueryResponse).results = [
         {
           document_id: 'some document_id',
@@ -148,12 +221,11 @@ describe('<Result />', () => {
 
       const { getByText } = render(wrapWithContext(<SearchResults />, context));
       expect(getByText('some title')).toBeInTheDocument();
-      expect(getByText('some document_id')).toBeInTheDocument();
     });
   });
 
   describe('when the result prop has a filename but no title property', () => {
-    test('we display filename and document_id', () => {
+    test('we display filename only', () => {
       (context.searchResults as DiscoveryV1.QueryResponse).results = [
         {
           document_id: 'some document_id',
@@ -164,7 +236,6 @@ describe('<Result />', () => {
       ];
       const { getByText } = render(wrapWithContext(<SearchResults />, context));
       expect(getByText('some file name')).toBeInTheDocument();
-      expect(getByText('some document_id')).toBeInTheDocument();
     });
   });
 
@@ -172,10 +243,7 @@ describe('<Result />', () => {
     test('we display the document_id once', () => {
       (context.searchResults as DiscoveryV1.QueryResponse).results = [
         {
-          document_id: 'some document_id',
-          extracted_metadata: {
-            filename: 'some title'
-          }
+          document_id: 'some document_id'
         }
       ];
       const { getByText } = render(wrapWithContext(<SearchResults />, context));

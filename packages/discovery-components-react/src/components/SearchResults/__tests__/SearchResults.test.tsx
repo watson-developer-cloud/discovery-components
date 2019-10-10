@@ -22,7 +22,6 @@ describe('<SearchResults />', () => {
       test('renders the results', () => {
         const { getByText } = render(wrapWithContext(<SearchResults />, context));
         expect(getByText('some document_id')).toBeInTheDocument();
-        expect(getByText('Watson found 1 result(s)')).toBeInTheDocument();
       });
     });
 
