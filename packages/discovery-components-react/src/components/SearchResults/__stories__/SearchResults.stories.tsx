@@ -29,8 +29,10 @@ storiesOf('SearchResults', module)
   .addDecorator(withKnobs)
   .add('default', () => {
     return (
-      <DiscoverySearch {...discoverySearchProps()}>
-        <SearchResults {...props()} />
-      </DiscoverySearch>
+      <div style={{ padding: '1rem', backgroundColor: '#f3f3f3' }}>
+        <DiscoverySearch {...discoverySearchProps()}>
+          <SearchResults {...props()} />
+        </DiscoverySearch>
+      </div>
     );
   });
