@@ -41,6 +41,7 @@
     "@types/uuid": "^3.4.5",
     "lodash.get": "^4.4.2",
     "lodash.isequal": "^4.5.0",
+    "mustache": "^3.1.0",
     "pdfjs-dist": "^2.1.266"
   }
 }

@@ -27,3 +27,6 @@ export function wrapWithContext(
     </SearchContext.Provider>
   );
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const browserWindow: any = global; // Using this variable will allow us to access the browser window in our tests

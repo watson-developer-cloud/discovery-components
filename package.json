@@ -18,6 +18,7 @@
     "@types/lodash": "^4.14.141",
     "@types/lodash.get": "^4.4.6",
     "@types/lodash.isequal": "^4.5.5",
+    "@types/mustache": "^0.8.32",
     "@types/node": "^12.7.3",
     "@types/react": "^16.9.2",
     "@types/react-dom": "^16.9.0",

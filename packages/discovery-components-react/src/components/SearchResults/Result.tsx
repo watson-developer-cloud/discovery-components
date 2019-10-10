@@ -4,11 +4,24 @@ import get from 'lodash.get';
 import isEqual from 'lodash.isequal';
 import { settings } from 'carbon-components';
 import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
+import mustache from 'mustache';
 
 interface ResultProps {
   result: DiscoveryV1.QueryResult;
+  /**
+   * specify a field on the result object to pull the result link from
+   */
+  resultLinkField?: string;
+  /**
+   * specify a string template using mustache templating syntax https://github.com/janl/mustache.js to pull the result link from
+   */
+  resultLinkTemplate?: string;
 }
-export const Result: React.FunctionComponent<ResultProps> = ({ result }) => {
+export const Result: React.FunctionComponent<ResultProps> = ({
+  result,
+  resultLinkField,
+  resultLinkTemplate
+}) => {
   const { document_id: documentId } = result;
   const { onSelectResult, selectedResult } = useContext(SearchContext);
   const title: string | undefined = get(result, 'extracted_metadata.title');
@@ -16,13 +29,20 @@ export const Result: React.FunctionComponent<ResultProps> = ({ result }) => {
   const baseStyle = `${settings.prefix}--search-result`;
   const selectedStyle: string = isEqual(result, selectedResult) ? `${baseStyle}--selected` : '';
 
+  const handleSelectResult = (): void => {
+    if (resultLinkField || resultLinkTemplate) {
+      // expected behavior, use the resultLinkField if it exists over the resultLinkTemplate
+      const url = resultLinkField
+        ? get(result, resultLinkField)
+        : mustache.render(resultLinkTemplate as string, result);
+      window.open(url);
+    } else {
+      onSelectResult(result);
+    }
+  };
+
   return (
-    <div
-      onClick={(): void => {
-        onSelectResult(result);
-      }}
-      className={`${baseStyle} ${selectedStyle}`}
-    >
+    <div onClick={handleSelectResult} className={`${baseStyle} ${selectedStyle}`}>
       {title || filename ? (
         <>
           <h3>{title ? title : documentId}</h3>
