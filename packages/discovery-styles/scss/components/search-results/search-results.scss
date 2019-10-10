@@ -34,8 +34,8 @@ $result-background: white;
 
 .#{$prefix}--search-result--body {
   max-width: 560px;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
+
+  @include type-style('body-short-01');
 }
 
 .#{$prefix}--search-result--title {
