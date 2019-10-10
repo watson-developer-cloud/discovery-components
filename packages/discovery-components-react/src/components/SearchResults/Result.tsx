@@ -51,12 +51,7 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   };
 
   return (
-    <div
-      onClick={(): void => {
-        onSelectResult(result);
-      }}
-      className={`${baseStyle} ${selectedStyle}`}
-    >
+    <div onClick={handleSelectResult} className={`${baseStyle} ${selectedStyle}`}>
       {body && <div className={bodyStyle} dangerouslySetInnerHTML={{ __html: body }}></div>}
       <div className={titleStyle}>
         <Document16 />
