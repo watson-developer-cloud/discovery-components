@@ -45,7 +45,9 @@ $result-background: white;
   display: flex;
   align-items: center;
 
-  text-decoration: underline;
+  &:hover {
+    text-decoration: underline;
+  }
 
   svg {
     margin-right: $spacing-03;
