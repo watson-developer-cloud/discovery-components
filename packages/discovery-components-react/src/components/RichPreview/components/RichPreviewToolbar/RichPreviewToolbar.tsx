@@ -29,7 +29,7 @@ interface Props {
   onChange: (newPage: number) => void;
 }
 
-const base = `${settings.prefix}--rp-toolbar`;
+const base = `${settings.prefix}--rich-preview-toolbar`;
 
 const RichPreviewToolbar: SFC<Props> = ({ current, total, onZoom, onChange }) => {
   const inputRef = useRef<HTMLInputElement>(null);

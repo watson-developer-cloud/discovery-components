@@ -1,14 +1,14 @@
 @import '~carbon-components/scss/components/button/button';
 @import '~carbon-components/scss/components/tooltip/tooltip';
 
-.#{$prefix}--rp-toolbar {
+.#{$prefix}--rich-preview-toolbar {
   display: flex;
   justify-content: center;
   background-color: #eaeaea;
   height: $spacing-2xl;
 }
 
-.#{$prefix}--rp-toolbar__nav {
+.#{$prefix}--rich-preview-toolbar__nav {
   display: flex;
   flex: 0 1 auto;
   justify-content: center;
@@ -16,12 +16,12 @@
   user-select: none;
 }
 
-.#{$prefix}--rp-toolbar__button {
+.#{$prefix}--rich-preview-toolbar__button {
   padding-left: $spacing-xs !important;
   padding-right: $spacing-xs !important;
 }
 
-.#{$prefix}--rp-toolbar__input {
+.#{$prefix}--rich-preview-toolbar__input {
   text-align: center;
   max-width: $layout-lg;
   height: $spacing-xl;
@@ -39,18 +39,18 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
-.#{$prefix}--rp-toolbar__pageLabel {
+.#{$prefix}--rich-preview-toolbar__pageLabel {
   margin: auto;
   padding-left: $spacing-xs;
   padding-right: $spacing-xs;
 }
 
-.#{$prefix}--rp-toolbar__spacer,
-.#{$prefix}--rp-toolbar__zoom {
+.#{$prefix}--rich-preview-toolbar__spacer,
+.#{$prefix}--rich-preview-toolbar__zoom {
   flex: 1 1 auto;
 }
 
-.#{$prefix}--rp-toolbar__zoom {
+.#{$prefix}--rich-preview-toolbar__zoom {
   display: flex;
   justify-content: flex-end;
   align-items: center;

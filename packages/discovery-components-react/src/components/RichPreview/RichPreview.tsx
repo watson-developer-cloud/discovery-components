@@ -3,6 +3,7 @@ import get from 'lodash/get';
 import { settings } from 'carbon-components';
 import RichPreviewToolbar, { ZOOM_IN } from './components/RichPreviewToolbar/RichPreviewToolbar';
 import PdfViewer from './components/PdfViewer/PdfViewer';
+import PdfFallback from './components/PdfFallback/PdfFallback';
 import PassageHighlight from './components/PassageHighlight/PassageHighlight';
 
 interface Props {
@@ -28,11 +29,11 @@ export const RichPreview: FC<Props> = ({ document, file }) => {
   useEffect(() => {
     if (file) {
       setPageCount(pdfPageCount);
-    } else if (document.text_mappings) {
-      const mappings = document.text_mappings;
+    } else if (document.extracted_metadata.text_mappings) {
+      const mappings = document.extracted_metadata.text_mappings;
       setPageCount(mappings[mappings.length - 1].page.page_number);
     }
-  }, [document.text_mappings, file, pdfPageCount]);
+  }, [document.extracted_metadata.text_mappings, file, pdfPageCount]);
 
   const [scale, setScale] = useState(1);
 
@@ -54,6 +55,7 @@ export const RichPreview: FC<Props> = ({ document, file }) => {
           file={file}
           currentPage={currentPage}
           scale={scale}
+          document={document}
           setPdfPageCount={setPdfPageCount}
         />
         {/* highlight passage on top of document view */}
@@ -70,6 +72,7 @@ export const RichPreview: FC<Props> = ({ document, file }) => {
 };
 
 interface DocumentProps {
+  document: any;
   file?: string;
   currentPage: number;
   scale: number;
@@ -80,6 +83,7 @@ function RichPreviewDocument({
   file,
   currentPage,
   scale,
+  document,
   setPdfPageCount
 }: DocumentProps): ReactElement {
   // if we have PDF data, render that
@@ -87,7 +91,7 @@ function RichPreviewDocument({
   return file ? (
     <PdfViewer file={file} page={currentPage} scale={scale} setPageCount={setPdfPageCount} />
   ) : (
-    document && <div>FALLBACK</div>
+    <PdfFallback document={document} currentPage={currentPage} />
   );
 }
 

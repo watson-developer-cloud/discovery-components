@@ -13,5 +13,6 @@ $css--use-layer: true !default;
 @import 'components/search-refinements/search-refinements';
 @import 'components/results-pagination/results-pagination';
 @import 'components/rich-preview/rich-preview-toolbar';
+@import 'components/rich-preview/rich-preview-pdf-fallback';
 @import 'components/rich-preview/rich-preview';
 @import 'components/search-results/search-results';
