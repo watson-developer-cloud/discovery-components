@@ -31,7 +31,6 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   if (matchingResults && matchingResults > 0) {
     return (
       <div>
-        <h1>Watson found {matchingResults} result(s)</h1>
         {(results as DiscoveryV1.QueryResult[]).map(result => {
           return (
             <Result

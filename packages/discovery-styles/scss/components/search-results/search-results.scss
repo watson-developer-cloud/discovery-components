@@ -1,4 +1,4 @@
-.#{$prefix}--search-result--selected {
+.#{$prefix}--search-result_selected {
   border-left: 0.3rem solid $interactive-04;
 }
 
@@ -15,4 +15,15 @@
     padding: 0 $spacing-02;
     border-radius: rem(6px);
   }
+}
+
+.#{$prefix}--search-result--body {
+  max-width: 560px;
+  line-height: 1.25;
+}
+
+.#{$prefix}--search-result--title {
+  padding-top: $spacing-05;
+  color: $text-02;
+  font-size: 0.875rem;
 }

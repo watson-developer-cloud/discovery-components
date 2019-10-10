@@ -33,7 +33,9 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   const filename: string | undefined = get(result, 'extracted_metadata.filename');
   const body: string | undefined = get(result, bodyField);
   const baseStyle = `${settings.prefix}--search-result`;
-  const selectedStyle: string = isEqual(result, selectedResult) ? `${baseStyle}--selected` : '';
+  const titleStyle = `${baseStyle}--title`;
+  const bodyStyle = `${baseStyle}--body`;
+  const selectedStyle: string = isEqual(result, selectedResult) ? `${baseStyle}_selected` : '';
 
   const handleSelectResult = (): void => {
     if (resultLinkField || resultLinkTemplate) {
@@ -48,16 +50,16 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   };
 
   return (
-    <div onClick={handleSelectResult} className={`${baseStyle} ${selectedStyle}`}>
-      {title || filename ? (
-        <>
-          <h3>{title ? title : documentId}</h3>
-          <h4>{filename ? filename : documentId}</h4>
-        </>
-      ) : (
-        <h2>{documentId}</h2>
-      )}
-      {body && <div dangerouslySetInnerHTML={{ __html: body }}></div>}
+    <div
+      onClick={(): void => {
+        onSelectResult(result);
+      }}
+      className={`${baseStyle} ${selectedStyle}`}
+    >
+      {body && <div className={bodyStyle} dangerouslySetInnerHTML={{ __html: body }}></div>}
+      <div className={titleStyle}>
+        {title || filename ? <>{title ? title : filename}</> : <>{documentId}</>}
+      </div>
     </div>
   );
 };
