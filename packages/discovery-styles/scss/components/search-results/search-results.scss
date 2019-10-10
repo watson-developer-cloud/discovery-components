@@ -3,11 +3,16 @@
 }
 
 .#{$prefix}--search-result {
-  @include layer('raised');
+  @include layer('overlay');
+  padding: $spacing-05;
+  margin: $layout-01 0;
+  border-radius: rem(6px);
 
-  margin: $spacing-07;
   em {
+    color: $text-04;
     background-color: $support-02;
     font-style: normal;
+    padding: 0 $spacing-02;
+    border-radius: rem(6px);
   }
 }

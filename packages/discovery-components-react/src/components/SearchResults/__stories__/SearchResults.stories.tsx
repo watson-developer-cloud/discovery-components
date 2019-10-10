@@ -1,0 +1,36 @@
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import { withKnobs, text } from '@storybook/addon-knobs/react';
+
+import { DiscoverySearch, DiscoverySearchProps } from '../../DiscoverySearch/DiscoverySearch';
+import { SearchResults } from '../SearchResults';
+import searchResults from '../__fixtures__/searchResults';
+
+const props = () => ({
+  bodyField: text('Field to display as body', 'highlight.text[0]')
+});
+
+class DummyClient {
+  query() {
+    return Promise.resolve();
+  }
+  getAutocompletion() {
+    return Promise.resolve();
+  }
+}
+
+const discoverySearchProps = (): DiscoverySearchProps => ({
+  searchClient: new DummyClient(),
+  projectId: text('Project ID', 'project-id'),
+  searchResults
+});
+
+storiesOf('SearchResults', module)
+  .addDecorator(withKnobs)
+  .add('default', () => {
+    return (
+      <DiscoverySearch {...discoverySearchProps()}>
+        <SearchResults {...props()} />
+      </DiscoverySearch>
+    );
+  });
