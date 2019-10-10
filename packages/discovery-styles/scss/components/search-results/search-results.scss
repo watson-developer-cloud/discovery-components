@@ -13,7 +13,7 @@
     background-color: $support-02;
     font-style: normal;
     padding: 0 $spacing-02;
-    border-radius: rem(6px);
+    border-radius: rem(4px);
   }
 }
 
@@ -26,4 +26,10 @@
   padding-top: $spacing-05;
   color: $text-02;
   font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-right: $spacing-03;
+  }
 }

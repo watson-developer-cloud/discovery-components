@@ -3,6 +3,7 @@ import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 import get from 'lodash.get';
 import isEqual from 'lodash.isequal';
 import { settings } from 'carbon-components';
+import Document16 from '@carbon/icons-react/lib/document/16.js';
 import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import mustache from 'mustache';
 
@@ -58,6 +59,7 @@ export const Result: React.FunctionComponent<ResultProps> = ({
     >
       {body && <div className={bodyStyle} dangerouslySetInnerHTML={{ __html: body }}></div>}
       <div className={titleStyle}>
+        <Document16 />
         {title || filename ? <>{title ? title : filename}</> : <>{documentId}</>}
       </div>
     </div>
