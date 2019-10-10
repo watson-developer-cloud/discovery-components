@@ -1,12 +1,12 @@
 $result-background: white;
-$selected-border-thickness: 0.3rem;
+// $selected-border-thickness: 0.3rem;
 
 .#{$prefix}--search-result {
   @include layer('overlay');
-  border-left: $selected-border-thickness solid $result-background;
   background-color: $result-background;
   padding: $spacing-05;
-  padding-left: calc(#{$spacing-05} - $selected-border-thickness);
+  // border-left: $selected-border-thickness solid $result-background;
+  // padding-left: calc(#{$spacing-05} - $selected-border-thickness);
   margin: $layout-01 0;
   border-radius: rem(4px);
   font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
@@ -29,9 +29,9 @@ $selected-border-thickness: 0.3rem;
   }
 }
 
-.#{$prefix}--search-result_selected {
-  border-left: 0.3rem solid $interactive-04;
-}
+// .#{$prefix}--search-result_selected {
+//   border-left: 0.3rem solid $interactive-04;
+// }
 
 .#{$prefix}--search-result--body {
   max-width: 560px;
