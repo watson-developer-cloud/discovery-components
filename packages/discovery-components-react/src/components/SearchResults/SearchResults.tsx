@@ -38,7 +38,7 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
               result={result}
               resultLinkField={resultLinkField}
               resultLinkTemplate={resultLinkTemplate}
-              bodyField={bodyField || 'text'}
+              bodyField={bodyField}
             />
           );
         })}
