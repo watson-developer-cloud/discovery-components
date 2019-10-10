@@ -11,6 +11,14 @@ $result-background: white;
   font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
   cursor: pointer;
 
+  &:first-of-type {
+    margin-top: 0;
+  }
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+
   em {
     color: $text-04;
     background-color: $support-02;
