@@ -5,6 +5,7 @@ $result-background: white;
   border-left: 0.3rem solid $result-background;
   background-color: $result-background;
   padding: $spacing-05;
+  padding-left: calc(#{$spacing-05} - 0.3rem);
   margin: $layout-01 0;
   border-radius: rem(4px);
   font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
