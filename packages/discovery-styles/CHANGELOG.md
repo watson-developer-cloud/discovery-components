@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.1](http:///discovery-styles/compare/@disco-widgets/styles@1.6.0...@disco-widgets/styles@1.6.1) (2019-10-10)
+
+
+### Bug Fixes
+
+* css import ([#192](http:///discovery-styles/issues/192)) ([c4c5021](http:///discovery-styles/commits/c4c5021))
+
+
+
+
+
 # [1.6.0](http:///discovery-styles/compare/@disco-widgets/styles@1.5.0...@disco-widgets/styles@1.6.0) (2019-10-09)
 
 
