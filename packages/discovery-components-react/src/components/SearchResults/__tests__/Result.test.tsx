@@ -138,7 +138,7 @@ describe('<Result />', () => {
         wrapWithContext(<SearchResults bodyField={'highlight.text[0]'} />, context)
       );
       expect(
-        getByText((content, element) => element.textContent === 'i am other text')
+        getByText((_, element) => element.textContent === 'i am other text')
       ).toBeInTheDocument();
     });
   });
