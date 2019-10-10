@@ -3,7 +3,11 @@
 }
 
 .#{$prefix}--search-result {
+  @include layer('raised');
+
+  margin: $spacing-07;
   em {
     background-color: $support-02;
+    font-style: normal;
   }
 }
