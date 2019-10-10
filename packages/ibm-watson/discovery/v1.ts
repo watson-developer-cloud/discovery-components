@@ -1297,6 +1297,69 @@ class DiscoveryV1 extends BaseService {
 
     return this.createRequest(parameters, _callback);
   }
+
+  /*************************
+   * collections
+   ************************/
+
+  /**
+   * List collections.
+   *
+   * Lists existing collections for the project instance.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.project_id - The ID of the project.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @param {Function} [callback] - The callback that handles the response.
+   * @returns {Promise<any>|void}
+   */
+  public listCollections(
+    params: DiscoveryV1.ListCollectionsParams,
+    callback?: DiscoveryV1.Callback<DiscoveryV1.ListCollectionsResponse>
+  ): Promise<any> | void {
+    const _params = extend({}, params);
+    const _callback = callback;
+    const requiredParams = ['project_id'];
+
+    if (!_callback) {
+      return new Promise((resolve, reject) => {
+        this.listCollections(params, (err, bod, res) => {
+          err ? reject(err) : _params.return_response ? resolve(res) : resolve(bod);
+        });
+      });
+    }
+
+    const missingParams = getMissingParams(_params, requiredParams);
+    if (missingParams) {
+      return _callback(missingParams);
+    }
+
+    const path = {
+      project_id: _params.project_id
+    };
+
+    const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'listCollections');
+
+    const parameters = {
+      options: {
+        url: '/v2/projects/{project_id}/collections',
+        method: 'GET',
+        path
+      },
+      defaultOptions: extend(true, {}, this._options, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            Accept: 'application/json'
+          },
+          _params.headers
+        )
+      })
+    };
+
+    return this.createRequest(parameters, _callback);
+  }
 }
 
 DiscoveryV1.prototype.name = 'discovery-data';
@@ -1664,6 +1727,14 @@ namespace DiscoveryV1 {
     return_response?: boolean;
   }
 
+  /** Parameters for the `listCollections` operation. */
+  export interface ListCollectionsParams {
+    /** The ID of the project. */
+    project_id: string;
+    headers?: OutgoingHttpHeaders;
+    return_response?: boolean;
+  }
+
   /*************************
    * model interfaces
    ************************/
@@ -1676,6 +1747,25 @@ namespace DiscoveryV1 {
     matching_results?: number;
     /** Aggregations returned in the case of chained aggregations. */
     aggregations?: QueryAggregation[];
+  }
+
+  /** A collection for storing documents. */
+  export interface Collection {
+    /** The unique identifier of the collection. */
+    collection_id?: string;
+    /** The unique identifier of the project. */
+    project_id?: string;
+    /** The creation date of the collection in the format yyyy-MM-dd'T'HH:mmcon:ss.SSS'Z'. */
+    created?: string;
+    /** The timestamp of when the collection was last updated in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'. */
+    updated?: string;
+    /** The name of the collection. */
+    name?: string;
+    /** The description of the collection. */
+    description?: string;
+    /** The language of the documents stored in the collection. Permitted values include `en` (English), `de` (German), and `es` (Spanish). */
+    language?: string;
+    document_counts?: DocumentCounts;
   }
 
   /** An object containing an array of autocompletion suggestions. */
@@ -1700,6 +1790,30 @@ namespace DiscoveryV1 {
     status?: string;
     /** Array of notices produced by the document-ingestion process. */
     notices?: Notice[];
+  }
+
+  /** DocumentCounts. */
+  export interface DocumentCounts {
+    /** The total number of available documents in the collection. */
+    available?: number;
+    /** The number of documents being indexed. */
+    indexing?: number;
+    /** The number of documents being converted. */
+    converting?: number;
+    /** The number of converted documents in the dataset. */
+    converted?: number;
+    /** The number of uploaded documents in the document store. */
+    uploaded?: number;
+    /** The number of documents that failed indexing. */
+    indexing_failures?: number;
+    /** The number of documents that failed conversion. */
+    conversion_failures?: number;
+  }
+
+  /** ListCollectionsResponse. */
+  export interface ListCollectionsResponse {
+    /** An array containing information about each collection in the project. */
+    collections?: Collection[];
   }
 
   /** A notice produced for the collection. */
@@ -1749,13 +1863,11 @@ namespace DiscoveryV1 {
   /** Result document for the specified query. */
   export interface QueryResult {
     /** The unique identifier of the document. */
-    id?: string;
+    document_id?: string;
     /** Metadata of the document. */
     metadata?: JsonObject;
     /** Metadata of a query result. */
     result_metadata?: QueryResultMetadata;
-    /** Automatically extracted result title. */
-    title?: string;
     /** Aggregations returned by Discovery. */
     document_passages?: QueryResultPassage[];
     /** QueryResult accepts additional properties. */
@@ -1764,6 +1876,8 @@ namespace DiscoveryV1 {
 
   /** Metadata of a query result. */
   export interface QueryResultMetadata {
+    /** Automatically extracted result title. */
+    title?: string;
     /** The confidence score for the given result. Calculated based on how relevant the result is estimated to be. confidence can range from `0.0` to `1.0`. The higher the number, the more relevant the document. The `confidence` value for a result was calculated using the model specified in the `document_retrieval_strategy` field of the result set. This field is only returned if the **natural_language_query** parameter is specified in the query. */
     confidence?: number;
   }
