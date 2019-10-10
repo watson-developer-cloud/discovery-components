@@ -88,6 +88,61 @@ describe('<Result />', () => {
     });
   });
 
+  describe('when the result has text but no bodyField', () => {
+    beforeEach(() => {
+      (context.searchResults as DiscoveryV1.QueryResponse).results = [
+        {
+          document_id: 'some document_id',
+          text: 'i am text'
+        }
+      ];
+    });
+
+    it('displays the text', () => {
+      const { getByText } = render(wrapWithContext(<SearchResults />, context));
+      expect(getByText('i am text')).toBeInTheDocument();
+    });
+  });
+
+  describe('when the result has text and bodyField set to "text"', () => {
+    beforeEach(() => {
+      (context.searchResults as DiscoveryV1.QueryResponse).results = [
+        {
+          document_id: 'some document_id',
+          text: 'i am text'
+        }
+      ];
+    });
+
+    it('displays the text', () => {
+      const { getByText } = render(wrapWithContext(<SearchResults bodyField={'text'} />, context));
+      expect(getByText('i am text')).toBeInTheDocument();
+    });
+  });
+
+  describe('when the result has text and bodyField set to "other"', () => {
+    beforeEach(() => {
+      (context.searchResults as DiscoveryV1.QueryResponse).results = [
+        {
+          document_id: 'some document_id',
+          text: 'i am text',
+          highlight: {
+            text: ['i <em>am</em> other text']
+          }
+        }
+      ];
+    });
+
+    it('displays the "other" text', () => {
+      const { getByText } = render(
+        wrapWithContext(<SearchResults bodyField={'highlight.text[0]'} />, context)
+      );
+      expect(
+        getByText((content, element) => element.textContent === 'i am other text')
+      ).toBeInTheDocument();
+    });
+  });
+
   describe('when there is a value for resultLinkTemplate', () => {
     describe('on click', () => {
       test('will not call onSelectResult', () => {
