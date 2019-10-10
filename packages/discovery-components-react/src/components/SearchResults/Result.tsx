@@ -36,7 +36,7 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   const baseStyle = `${settings.prefix}--search-result`;
   const titleStyle = `${baseStyle}--title`;
   const bodyStyle = `${baseStyle}--body`;
-  const selectedStyle: string = isEqual(result, selectedResult) ? `${baseStyle}_selected` : '';
+  const selectedStyle: string = isEqual(result, selectedResult) ? `${baseStyle}--selected` : '';
 
   const handleSelectResult = (): void => {
     if (resultLinkField || resultLinkTemplate) {
