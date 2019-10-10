@@ -1,3 +1,6 @@
+@import '~carbon-components/scss/components/button/button';
+@import '~carbon-components/scss/components/tooltip/tooltip';
+
 .#{$prefix}--rp-toolbar {
   display: flex;
   justify-content: center;
