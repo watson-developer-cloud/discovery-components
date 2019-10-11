@@ -3,11 +3,13 @@
  */
 
 import * as React from 'react';
+import { settings } from 'carbon-components';
 import { Search as CarbonSearchInput } from 'carbon-components-react';
 import ListBox from 'carbon-components-react/lib/components/ListBox';
 import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import useDebounce from '../../utils/useDebounce';
 import uuid from 'uuid';
+import Search16 from '@carbon/icons-react/lib/search/16.js';
 
 interface SearchInputProps {
   /**
@@ -57,6 +59,7 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
   } = props;
 
   const inputId = id || `search-input__${uuid.v4()}`;
+  const autocompleteClassName = `${settings.prefix}--search-autocomplete`;
   const searchContext = React.useContext(SearchContext);
   const [value, setValue] = React.useState(
     searchContext.searchParameters.natural_language_query || ''
@@ -112,16 +115,20 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
   const completions = searchContext.completionResults.completions || [];
   const completionsList = completions.map((completion, i) => {
     return (
-      <ListBox key={`completion_${i}`}>
+      <ListBox key={`completion_${i}`} className={`${autocompleteClassName}__wrapper`}>
         <ListBox.Field
           role="listitem"
           id={`completion_${i}_field`}
           tabIndex="0"
+          className={`${autocompleteClassName}__item`}
           onFocus={setupHandleOnCompletionFocus(i)}
           onClick={selectCompletion}
           onKeyDown={handleCompletionKeyEvent}
         >
-          {completion}
+          <div className={`${autocompleteClassName}__icon`}>
+            <Search16 />
+          </div>
+          <div className={`${autocompleteClassName}__term`}>{completion}</div>
         </ListBox.Field>
       </ListBox>
     );
@@ -140,7 +147,7 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
         value={value}
         id={`${inputId}_input_field`}
       />
-      {!!value && <div>{completionsList}</div>}
+      {!!value && <div className={autocompleteClassName}>{completionsList}</div>}
     </div>
   );
 };

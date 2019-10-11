@@ -3,6 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { withKnobs, text, boolean } from '@storybook/addon-knobs/react';
 import SearchInput from './SearchInput';
 import { DiscoverySearch, DiscoverySearchProps } from '../DiscoverySearch/DiscoverySearch';
+import { StoryWrapper } from '../../utils/storybookUtils';
 
 const props = () => ({
   className: text('ClassName', ''),
@@ -38,9 +39,11 @@ storiesOf('SearchInput', module)
   .addDecorator(withKnobs)
   .add('default', () => {
     return (
-      <DiscoverySearch {...discoverySearchProps()}>
-        <SearchInput {...props()} />
-      </DiscoverySearch>
+      <StoryWrapper>
+        <DiscoverySearch {...discoverySearchProps()}>
+          <SearchInput {...props()} />
+        </DiscoverySearch>
+      </StoryWrapper>
     );
   })
   .add('with autocomplete', () => {
@@ -52,8 +55,10 @@ storiesOf('SearchInput', module)
     });
 
     return (
-      <DiscoverySearch {...autocompleteProps}>
-        <SearchInput {...props()} />
-      </DiscoverySearch>
+      <StoryWrapper>
+        <DiscoverySearch {...autocompleteProps}>
+          <SearchInput {...props()} />
+        </DiscoverySearch>
+      </StoryWrapper>
     );
   });

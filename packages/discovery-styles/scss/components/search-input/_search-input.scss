@@ -1,3 +1,35 @@
 // Component styles
 @import '~carbon-components/scss/components/search/_search.scss';
 @import '~carbon-components/scss/components/list-box/_list-box.scss';
+
+.#{$prefix}--search-autocomplete {
+  @include layer('overlay');
+  padding: 0 $spacing-md;
+}
+
+.#{$prefix}--search-autocomplete__wrapper {
+  @include type-style('body-short-01');
+  color: $gray-70;
+  border-bottom-color: $ui-03;
+
+  &:last-of-type {
+    border-bottom: none;
+  }
+}
+
+.#{$prefix}--search-autocomplete__item {
+  display: flex;
+  align-items: center;
+}
+
+.#{$prefix}--search-autocomplete__term {
+  padding: $spacing-sm 0 $spacing-md;
+}
+
+.#{$prefix}--search-autocomplete__icon {
+  padding: $spacing-sm $spacing-md $spacing-sm 0;
+
+  svg {
+    fill: $interactive-04;
+  }
+}
