@@ -1,1 +1,19 @@
 @import '~carbon-components/scss/components/checkbox/_checkbox.scss';
+
+.#{$prefix}--refinement {
+  margin-bottom: $spacing-md;
+}
+
+.#{$prefix}--refinement_label {
+  color: $ui-05;
+  font-size: 0.75rem;
+}
+
+.#{$prefix}--form-item.#{$prefix}--checkbox-wrapper.#{$prefix}--refinement-option {
+  margin-bottom: rem(6px);
+}
+
+.#{$prefix}--refinement-option_label {
+  @include type-style('body-short-02');
+  color: $ui-05;
+}

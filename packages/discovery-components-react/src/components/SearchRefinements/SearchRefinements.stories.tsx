@@ -1,7 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, object } from '@storybook/addon-knobs/react';
-import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 import { SearchRefinements } from './SearchRefinements';
 import { DiscoverySearch } from '../DiscoverySearch/DiscoverySearch';
 import refinementsQueryResponse from './fixtures/refinementsQueryResponse';
@@ -19,12 +18,14 @@ export const props = () => ({
   ])
 });
 
-const searchClient = new DiscoveryV1({
-  url: 'http://localhost:4000/api',
-  username: 'foo',
-  password: 'bar',
-  version: '2019-01-01'
-});
+class DummyClient {
+  query() {
+    return Promise.resolve(refinementsQueryResponse);
+  }
+  getAutocompletion() {
+    return Promise.resolve();
+  }
+}
 
 storiesOf('SearchRefinements', module)
   .addDecorator(withKnobs)
@@ -32,13 +33,15 @@ storiesOf('SearchRefinements', module)
     const exampleProps = props();
     const aggregations = refinementsQueryResponse.aggregations;
     return (
-      <DiscoverySearch
-        searchClient={searchClient}
-        projectId="project-id"
-        searchResults={refinementsQueryResponse}
-        aggregationResults={{ aggregations }}
-      >
-        <SearchRefinements {...exampleProps} />
-      </DiscoverySearch>
+      <div style={{ padding: '1rem', backgroundColor: '#f3f3f3' }}>
+        <DiscoverySearch
+          searchClient={new DummyClient()}
+          projectId="project-id"
+          searchResults={refinementsQueryResponse}
+          aggregationResults={{ aggregations }}
+        >
+          <SearchRefinements {...exampleProps} />
+        </DiscoverySearch>
+      </div>
     );
   });

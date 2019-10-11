@@ -2,6 +2,7 @@ import * as React from 'react';
 import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 import get from 'lodash.get';
 import findIndex from 'lodash/findIndex';
+import { settings } from 'carbon-components';
 import { Checkbox as CarbonCheckbox } from 'carbon-components-react';
 import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import { buildAggregationQuery } from './utils/buildAggregationQuery';
@@ -103,8 +104,15 @@ export const SearchRefinements: React.FunctionComponent<SearchRefinementsProps> 
             );
 
             return (
-              <fieldset className="bx--fieldset" key={`fieldset-${aggregationField}-${i}`}>
-                <legend className="bx--label">{aggregationField}</legend>
+              <fieldset
+                className={`${settings.prefix}--fieldset ${settings.prefix}--refinement`}
+                key={`fieldset-${aggregationField}-${i}`}
+              >
+                <legend
+                  className={`${settings.prefix}--label ${settings.prefix}--refinement_label`}
+                >
+                  {aggregationField}
+                </legend>
                 {orderedAggregationResults.map((result: DiscoveryV1.AggregationResult) => {
                   const resultKey = result.key;
                   const query = naturalLanguageQuery || '';
@@ -113,6 +121,8 @@ export const SearchRefinements: React.FunctionComponent<SearchRefinementsProps> 
 
                   return (
                     <CarbonCheckbox
+                      className={`${settings.prefix}--refinement-option_label`}
+                      wrapperClassName={`${settings.prefix}--refinement-option`}
                       onChange={handleOnChange}
                       labelText={resultKey}
                       key={`checkbox-${aggregationField}-${base64data}`}
