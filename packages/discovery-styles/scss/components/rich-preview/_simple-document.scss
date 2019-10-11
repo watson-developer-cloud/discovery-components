@@ -1,0 +1,9 @@
+.#{$prefix}--simple-document {
+  display: flex;
+  justify-content: center;
+}
+
+.#{$prefix}--simple-document__content {
+  max-width: 78ch;
+  margin: 0 5%;
+}

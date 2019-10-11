@@ -1,16 +1,18 @@
 import React, { FC, useState, useEffect, ReactElement } from 'react';
 import get from 'lodash/get';
 import { settings } from 'carbon-components';
+import { QueryResult } from '@disco-widgets/ibm-watson/discovery/v1';
 import RichPreviewToolbar, { ZOOM_IN } from './components/RichPreviewToolbar/RichPreviewToolbar';
 import PdfViewer from './components/PdfViewer/PdfViewer';
-import PdfFallback from './components/PdfFallback/PdfFallback';
+import PdfFallback, { supportsPdfFallback } from './components/PdfFallback/PdfFallback';
+import SimpleDocument from './components/SimpleDocument/SimpleDocument';
 import PassageHighlight from './components/PassageHighlight/PassageHighlight';
 
 interface Props {
   /**
    * Document data returned by query
    */
-  document: any; // TODO should be `QueryResult`? but `title` props mismatch
+  document: QueryResult;
 
   /**
    * PDF file data as base64-encoded string
@@ -106,8 +108,10 @@ function RichPreviewDocument({
   // otherwise, render fallback document view
   return file ? (
     <PdfViewer file={file} page={currentPage} scale={scale} setPageCount={setPdfPageCount} />
-  ) : (
+  ) : supportsPdfFallback(document) ? (
     <PdfFallback document={document} currentPage={currentPage} />
+  ) : (
+    <SimpleDocument document={document} />
   );
 }
 

@@ -1,14 +1,14 @@
-import React, { SFC, useState, useEffect } from 'react';
+import React, { ReactElement, SFC, useState, useEffect } from 'react';
 import { settings } from 'carbon-components';
 import get from 'lodash/get';
-
+import { QueryResult } from '@disco-widgets/ibm-watson/discovery/v1';
 import { ComputeFontFamilyAndWeight } from './utils/fallbackFonts';
 
 interface Props {
   /**
    * Contains JSON data of the PDF
    */
-  document: any;
+  document: QueryResult;
   /**
    * Contains the current page number, default of 1
    */
@@ -103,7 +103,16 @@ const PdfFallback: SFC<Props> = ({ document, currentPage }) => {
   );
 };
 
-function renderCell(cell: CellShape, index: number): any {
+/**
+ * Returns true if document can use PdfFallback
+ * @param document query result
+ * @returns {boolean}
+ */
+export const supportsPdfFallback = (document: QueryResult): boolean => {
+  return !!get(document, 'extracted_metadata.text_mappings');
+};
+
+function renderCell(cell: CellShape, index: number): ReactElement {
   const { bbox, font, content } = cell;
   const { size, color, isBold, isItalic, name } = font;
   const { fontFamily, fontWeight } = ComputeFontFamilyAndWeight(name);

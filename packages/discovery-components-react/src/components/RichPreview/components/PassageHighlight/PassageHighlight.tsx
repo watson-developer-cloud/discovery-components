@@ -1,12 +1,12 @@
 import React, { SFC, useEffect } from 'react';
-import { QueryResultPassage } from '@disco-widgets/ibm-watson/discovery/v1';
+import { QueryResultPassage, QueryResult } from '@disco-widgets/ibm-watson/discovery/v1';
 import { usePassage } from './passages';
 
 interface Props {
   /**
    * Document data returned by query
    */
-  document?: any;
+  document?: QueryResult;
 
   /**
    * Page to display
