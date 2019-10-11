@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.30.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.29.0...@disco-widgets/react-components@1.30.0) (2019-10-11)
+
+
+### Features
+
+* initial 2nd fallback view ([#197](http:///discovery-components-react/issues/197)) ([7d63ca4](http:///discovery-components-react/commits/7d63ca4))
+
+
+
+
+
 # [1.29.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.28.3...@disco-widgets/react-components@1.29.0) (2019-10-11)
 
 

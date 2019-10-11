@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](http:///discovery-styles/compare/@disco-widgets/styles@1.6.3...@disco-widgets/styles@1.7.0) (2019-10-11)
+
+
+### Features
+
+* initial 2nd fallback view ([#197](http:///discovery-styles/issues/197)) ([7d63ca4](http:///discovery-styles/commits/7d63ca4))
+
+
+
+
+
 ## [1.6.3](http:///discovery-styles/compare/@disco-widgets/styles@1.6.2...@disco-widgets/styles@1.6.3) (2019-10-10)
 
 **Note:** Version bump only for package @disco-widgets/styles
