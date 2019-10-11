@@ -33,6 +33,122 @@ describe('<Result />', () => {
     });
   });
 
+  describe('when usePassages is set to true', () => {
+    test('will render the first passage if it exists', () => {
+      (context.searchResults as DiscoveryV1.QueryResponse).results = [
+        {
+          document_id: 'some document_id',
+          document_passages: [
+            {
+              passage_text: 'this is the first passage text'
+            },
+            {
+              passage_text: 'this is the second passage text'
+            }
+          ]
+        }
+      ];
+      const { getByText } = render(wrapWithContext(<SearchResults usePassages={true} />, context));
+      expect(getByText('this is the first passage text')).toBeInTheDocument();
+    });
+
+    test('will render the bodyField if first passage doesnt exist', () => {
+      (context.searchResults as DiscoveryV1.QueryResponse).results = [
+        {
+          document_id: 'some document_id',
+          document_passages: [],
+          text: 'this is the bodyField text'
+        }
+      ];
+      const { getByText } = render(wrapWithContext(<SearchResults usePassages={true} />, context));
+      expect(getByText('this is the bodyField text')).toBeInTheDocument();
+    });
+  });
+
+  describe('when usePassages is set to false', () => {
+    describe('and there is a value at bodyField', () => {
+      it('displays the bodyField text', () => {
+        (context.searchResults as DiscoveryV1.QueryResponse).results = [
+          {
+            document_id: 'some document_id',
+            text: 'i am text',
+            highlight: {
+              text: ['i <em>am</em> other text']
+            }
+          }
+        ];
+        const { getByText } = render(
+          wrapWithContext(
+            <SearchResults bodyField={'highlight.text[0]'} usePassages={false} />,
+            context
+          )
+        );
+        expect(
+          getByText((_, element) => element.textContent === 'i am other text')
+        ).toBeInTheDocument();
+      });
+    });
+    describe('and bodyField is undefined', () => {
+      beforeEach(() => {
+        (context.searchResults as DiscoveryV1.QueryResponse).results = [
+          {
+            document_id: 'some document_id',
+            text: 'i am text'
+          }
+        ];
+      });
+
+      it('displays the default bodyField value', () => {
+        const { getByText } = render(
+          wrapWithContext(<SearchResults usePassages={false} />, context)
+        );
+        expect(getByText('i am text')).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('when usePassages is null', () => {
+    test('will render the first passage if it exists', () => {
+      (context.searchResults as DiscoveryV1.QueryResponse).results = [
+        {
+          document_id: 'some document_id',
+          document_passages: [
+            {
+              passage_text: 'this is the first passage text'
+            },
+            {
+              passage_text: 'this is the second passage text'
+            }
+          ]
+        }
+      ];
+      const { getByText } = render(wrapWithContext(<SearchResults />, context));
+      expect(getByText('this is the first passage text')).toBeInTheDocument();
+    });
+
+    describe('and there are no passages in the result object', () => {
+      describe('and there is a value for bodyField', () => {
+        it('displays the bodyField text', () => {
+          (context.searchResults as DiscoveryV1.QueryResponse).results = [
+            {
+              document_id: 'some document_id',
+              text: 'i am text',
+              highlight: {
+                text: ['i <em>am</em> other text']
+              }
+            }
+          ];
+          const { getByText } = render(
+            wrapWithContext(<SearchResults bodyField={'highlight.text[0]'} />, context)
+          );
+          expect(
+            getByText((_, element) => element.textContent === 'i am other text')
+          ).toBeInTheDocument();
+        });
+      });
+    });
+  });
+
   describe('When there is a value for resultLinkField', () => {
     describe('on click', () => {
       test('will not call onSelectResult', () => {
@@ -88,61 +204,6 @@ describe('<Result />', () => {
     });
   });
 
-  describe('when the result has text but no bodyField', () => {
-    beforeEach(() => {
-      (context.searchResults as DiscoveryV1.QueryResponse).results = [
-        {
-          document_id: 'some document_id',
-          text: 'i am text'
-        }
-      ];
-    });
-
-    it('displays the text', () => {
-      const { getByText } = render(wrapWithContext(<SearchResults />, context));
-      expect(getByText('i am text')).toBeInTheDocument();
-    });
-  });
-
-  describe('when the result has text and bodyField set to "text"', () => {
-    beforeEach(() => {
-      (context.searchResults as DiscoveryV1.QueryResponse).results = [
-        {
-          document_id: 'some document_id',
-          text: 'i am text'
-        }
-      ];
-    });
-
-    it('displays the text', () => {
-      const { getByText } = render(wrapWithContext(<SearchResults bodyField={'text'} />, context));
-      expect(getByText('i am text')).toBeInTheDocument();
-    });
-  });
-
-  describe('when the result has text and bodyField set to "other"', () => {
-    beforeEach(() => {
-      (context.searchResults as DiscoveryV1.QueryResponse).results = [
-        {
-          document_id: 'some document_id',
-          text: 'i am text',
-          highlight: {
-            text: ['i <em>am</em> other text']
-          }
-        }
-      ];
-    });
-
-    it('displays the "other" text', () => {
-      const { getByText } = render(
-        wrapWithContext(<SearchResults bodyField={'highlight.text[0]'} />, context)
-      );
-      expect(
-        getByText((_, element) => element.textContent === 'i am other text')
-      ).toBeInTheDocument();
-    });
-  });
-
   describe('when there is a value for resultLinkTemplate', () => {
     describe('on click', () => {
       test('will not call onSelectResult', () => {
@@ -190,8 +251,29 @@ describe('<Result />', () => {
     });
   });
 
+  describe('when there is a value for resultTitleField', () => {
+    test('we display the value at that property', () => {
+      (context.searchResults as DiscoveryV1.QueryResponse).results = [
+        {
+          document_id: 'some document_id',
+          extracted_metadata: {
+            title: 'some title',
+            filename: 'some file name'
+          },
+          myTitle: 'my title'
+        }
+      ];
+
+      context.onSelectResult = jest.fn();
+      const { getByText } = render(
+        wrapWithContext(<SearchResults resultTitleField="myTitle" />, context)
+      );
+      expect(getByText('my title')).toBeInTheDocument();
+    });
+  });
+
   describe('when the result prop has a title and filename property', () => {
-    test('we display the title only', () => {
+    test('we display the title', () => {
       (context.searchResults as DiscoveryV1.QueryResponse).results = [
         {
           document_id: 'some document_id',

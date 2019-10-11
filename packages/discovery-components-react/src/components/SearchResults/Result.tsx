@@ -10,6 +10,10 @@ import mustache from 'mustache';
 interface ResultProps {
   result: DiscoveryV1.QueryResult;
   /**
+   * specify a field on the result object to pull the result title from
+   */
+  resultTitleField: string;
+  /**
    * specify a field on the result object to pull the result link from
    */
   resultLinkField?: string;
@@ -21,18 +25,32 @@ interface ResultProps {
    * specify a field on the result object to pull the displayed text from
    */
   bodyField: string;
+  /**
+   * specify whether or not the Result component should display passages
+   */
+  usePassages: boolean;
 }
 export const Result: React.FunctionComponent<ResultProps> = ({
   result,
+  resultTitleField,
   resultLinkField,
   resultLinkTemplate,
-  bodyField
+  bodyField,
+  usePassages
 }) => {
   const { document_id: documentId } = result;
   const { onSelectResult, selectedResult } = useContext(SearchContext);
-  const title: string | undefined = get(result, 'extracted_metadata.title');
+  const title: string | undefined = get(result, resultTitleField);
   const filename: string | undefined = get(result, 'extracted_metadata.filename');
-  const body: string | undefined = get(result, bodyField);
+  const firstPassageText: string | undefined = get(result, 'document_passages[0].passage_text');
+
+  let body: string | undefined;
+  if (usePassages) {
+    body = firstPassageText || get(result, bodyField);
+  } else {
+    body = get(result, bodyField);
+  }
+
   const baseStyle = `${settings.prefix}--search-result`;
   const titleStyle = `${baseStyle}--title`;
   const bodyStyle = `${baseStyle}--body`;

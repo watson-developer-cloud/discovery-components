@@ -6,6 +6,10 @@ import { Result } from './Result';
 
 interface SearchResultsProps {
   /**
+   * specify a field on the result object to pull the result title from
+   */
+  resultTitleField?: string;
+  /**
    * specify a field on the result object to pull the result link from
    */
   resultLinkField?: string;
@@ -17,12 +21,18 @@ interface SearchResultsProps {
    * specify a field on the result object to pull the displayed text from
    */
   bodyField?: string;
+  /**
+   * specify whether or not the Result component should display passages
+   */
+  usePassages?: boolean;
 }
 
 export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   resultLinkField,
   resultLinkTemplate,
-  bodyField = 'text'
+  resultTitleField = 'extracted_metadata.title',
+  bodyField = 'text',
+  usePassages = true
 }) => {
   const { searchResults } = useContext(SearchContext);
   const { matching_results: matchingResults, results } = searchResults;
@@ -36,9 +46,11 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
             <Result
               key={result.document_id}
               result={result}
+              resultTitleField={resultTitleField}
               resultLinkField={resultLinkField}
               resultLinkTemplate={resultLinkTemplate}
               bodyField={bodyField}
+              usePassages={usePassages}
             />
           );
         })}
