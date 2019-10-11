@@ -3,6 +3,10 @@ import { QueryResultPassage } from '@disco-widgets/ibm-watson/discovery/v1';
 
 // [ left, top, right, bottom ]
 export type Bbox = [number, number, number, number];
+export interface PageInfo {
+  page_number: number;
+  bbox: Bbox;
+}
 
 // TODO replace with interface from SDK once defined
 interface TextMapping {
@@ -23,8 +27,8 @@ interface TextMapping {
 export function usePassage(
   document?: any,
   passage?: QueryResultPassage
-): ReadonlyArray<Bbox> | null {
-  const [bbox, setBbox] = useState<ReadonlyArray<Bbox> | null>(null);
+): ReadonlyArray<PageInfo> | null {
+  const [pageInfo, setPageInfo] = useState<ReadonlyArray<PageInfo> | null>(null);
 
   useEffect((): void => {
     if (
@@ -36,23 +40,23 @@ export function usePassage(
       return;
     }
 
-    const box = getPassageBbox(document.extracted_metadata.text_mappings, passage);
+    const box = getPassagePageInfo(document.extracted_metadata.text_mappings, passage);
     if (box) {
-      setBbox(box);
+      setPageInfo(box);
     }
   }, [document, passage]);
 
-  return bbox;
+  return pageInfo;
 }
 
 const START = 0;
 const END = 1;
 
 /* eslint-disable @typescript-eslint/camelcase */
-export function getPassageBbox(
+export function getPassagePageInfo(
   textMappings: ReadonlyArray<TextMapping>,
   passage: QueryResultPassage
-): ReadonlyArray<Bbox> | null {
+): ReadonlyArray<PageInfo> | null {
   const { start_offset, end_offset, field } = passage;
 
   if (!start_offset || !end_offset) {
@@ -66,6 +70,6 @@ export function getPassageBbox(
       } = mapping;
       return name === field && (span[START] <= end_offset && span[END] >= start_offset);
     })
-    .map(mapping => mapping.page.bbox);
+    .map(mapping => mapping.page);
 }
 /* eslint-enable @typescript-eslint/camelcase */

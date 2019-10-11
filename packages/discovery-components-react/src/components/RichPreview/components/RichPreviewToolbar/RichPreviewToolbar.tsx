@@ -12,6 +12,11 @@ export const ZOOM_OUT = 'zoom-out';
 
 interface Props {
   /**
+   * Show loading state
+   */
+  loading?: boolean;
+
+  /**
    * Current page number, starting at 1
    */
   current: number;
@@ -31,7 +36,7 @@ interface Props {
 
 const base = `${settings.prefix}--rich-preview-toolbar`;
 
-const RichPreviewToolbar: SFC<Props> = ({ current, total, onZoom, onChange }) => {
+const RichPreviewToolbar: SFC<Props> = ({ loading = false, current, total, onZoom, onChange }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -48,7 +53,7 @@ const RichPreviewToolbar: SFC<Props> = ({ current, total, onZoom, onChange }) =>
           icon: CaretLeft24,
           description: 'Previous Page',
           onClick: () => nextPrevButtonClicked(current, total, onChange, -1),
-          disabled: current === 1
+          disabled: loading || current === 1
         })}
         <Form
           onSubmit={(e: Event): void => currentPageChanged(e, onChange, inputRef)}
@@ -65,6 +70,7 @@ const RichPreviewToolbar: SFC<Props> = ({ current, total, onZoom, onChange }) =>
             onBlur={(e: Event): void => currentPageChanged(e, onChange, inputRef)}
             labelText="labelText"
             hideLabel={true}
+            disabled={loading}
           />
         </Form>
         <FormLabel className={`${base}__pageLabel`}>/ {total}</FormLabel>
@@ -72,7 +78,7 @@ const RichPreviewToolbar: SFC<Props> = ({ current, total, onZoom, onChange }) =>
           icon: CaretRight24,
           description: 'Next Page',
           onClick: () => nextPrevButtonClicked(current, total, onChange, 1),
-          disabled: current === total
+          disabled: loading || current === total
         })}
       </div>
       <div className={`${base}__zoom`}>
@@ -80,21 +86,17 @@ const RichPreviewToolbar: SFC<Props> = ({ current, total, onZoom, onChange }) =>
           icon: ZoomIn24,
           description: 'Zoom In',
           onClick: () => onZoom(ZOOM_IN),
-          disabled: false
+          disabled: loading
         })}
         {renderButton({
           icon: ZoomOut24,
           description: 'Zoom Out',
           onClick: () => onZoom(ZOOM_OUT),
-          disabled: false
+          disabled: loading
         })}
       </div>
     </div>
   );
-};
-
-RichPreviewToolbar.defaultProps = {
-  current: 1
 };
 
 function renderButton(obj: {

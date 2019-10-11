@@ -1,4 +1,4 @@
-import React, { SFC } from 'react';
+import React, { SFC, useEffect } from 'react';
 import { QueryResultPassage } from '@disco-widgets/ibm-watson/discovery/v1';
 import { usePassage } from './passages';
 
@@ -9,6 +9,10 @@ interface Props {
   document?: any;
 
   /**
+   * Page to display
+   */
+  currentPage: number;
+  /**
    * Passage descriptor, to be highlighted
    */
   passage?: QueryResultPassage;
@@ -17,6 +21,11 @@ interface Props {
    * Classname for highlight <rect>
    */
   highlightClassname?: string;
+
+  /**
+   * Callback to set first page of found passage
+   */
+  setPassageFirstPage?: (page: number) => void;
 }
 
 // default PDF dimensions
@@ -25,8 +34,24 @@ const HEIGHT = 792;
 // padding to enlarge highlight box
 const PADDING = 5;
 
-export const PassageHighlight: SFC<Props> = ({ document, passage, highlightClassname }) => {
-  const bboxes = usePassage(document, passage);
+export const PassageHighlight: SFC<Props> = ({
+  document,
+  currentPage,
+  passage,
+  highlightClassname,
+  setPassageFirstPage
+}) => {
+  const pageInfo = usePassage(document, passage);
+  useEffect(() => {
+    if (pageInfo && setPassageFirstPage) {
+      setPassageFirstPage(pageInfo[0].page_number);
+    }
+  }, [pageInfo, setPassageFirstPage]);
+
+  let bboxes = null;
+  if (pageInfo && currentPage > 0) {
+    bboxes = pageInfo.filter(page => page.page_number === currentPage).map(page => page.bbox);
+  }
 
   return (
     bboxes && (

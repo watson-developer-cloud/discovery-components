@@ -23,9 +23,23 @@ const SCALE_FACTOR = 1.2;
 export const RichPreview: FC<Props> = ({ document, file }) => {
   const base = `${settings.prefix}--rich-preview`;
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageCount, setPageCount] = useState(1);
-  const [pdfPageCount, setPdfPageCount] = useState(1);
+  // If passage, initialize first page to that of passage; otherwise
+  // default to first page
+  const passage = get(document, 'document_passages[0]'); // Only look for first passage, if available
+  const [currentPage, setCurrentPage] = useState(0);
+  const [passageFirstPage, setPassageFirstPage] = useState(0);
+  useEffect(() => {
+    if (!passage) {
+      setCurrentPage(1);
+    } else if (passageFirstPage > 0) {
+      setCurrentPage(passageFirstPage);
+    }
+  }, [passage, passageFirstPage]);
+
+  // Pull total page count from either the PDF file or the structural
+  // data list
+  const [pageCount, setPageCount] = useState(0);
+  const [pdfPageCount, setPdfPageCount] = useState(pageCount);
   useEffect(() => {
     if (file) {
       setPageCount(pdfPageCount);
@@ -37,12 +51,12 @@ export const RichPreview: FC<Props> = ({ document, file }) => {
 
   const [scale, setScale] = useState(1);
 
-  // Only look for first passage, if available
-  const passage = get(document, 'document_passages[0]');
+  const loading = !(currentPage > 0) || !(pageCount > 0);
 
   return (
     <div className={`${base}`}>
       <RichPreviewToolbar
+        loading={loading}
         current={currentPage}
         total={pageCount}
         onChange={setCurrentPage}
@@ -63,7 +77,9 @@ export const RichPreview: FC<Props> = ({ document, file }) => {
           <PassageHighlight
             highlightClassname={`${base}__highlight`}
             document={document}
+            currentPage={currentPage}
             passage={passage}
+            setPassageFirstPage={setPassageFirstPage}
           />
         </div>
       </div>

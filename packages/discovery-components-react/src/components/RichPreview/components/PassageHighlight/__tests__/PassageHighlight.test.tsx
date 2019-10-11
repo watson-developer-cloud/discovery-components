@@ -10,7 +10,7 @@ describe('PassageHighlight', () => {
 
     act(() => {
       ({ getAllByTestId } = render(
-        <PassageHighlight document={docJson} passage={passages.single} />
+        <PassageHighlight document={docJson} currentPage={1} passage={passages.single} />
       ));
     });
 
@@ -23,7 +23,7 @@ describe('PassageHighlight', () => {
 
     act(() => {
       ({ getAllByTestId } = render(
-        <PassageHighlight document={docJson} passage={passages.multiline} />
+        <PassageHighlight document={docJson} currentPage={1} passage={passages.multiline} />
       ));
     });
 
