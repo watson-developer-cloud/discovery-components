@@ -49,8 +49,8 @@ describe('<SearchResults />', () => {
     // });
     describe('And we are not in the middle of fetching query_results', () => {
       test('renders the submit a query message', () => {
-        const { getByText } = render(wrapWithContext(<SearchResults />, context));
-        expect(getByText('make a query')).toBeInTheDocument();
+        const { container } = render(wrapWithContext(<SearchResults />, context));
+        expect(container.children).toHaveLength(0);
       });
     });
   });

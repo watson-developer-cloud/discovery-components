@@ -61,6 +61,6 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   } else if (!matchingResults && querySubmitted) {
     return <div>Loading spinner</div>;
   } else {
-    return <div>make a query</div>;
+    return null;
   }
 };
