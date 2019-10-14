@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import PdfFallback from './PdfFallback';
-import docJson from '../../__fixtures__/WEA.Glossary.pdf.json';
+import docJson from '../../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
 
 storiesOf('RichPreview/components/PdfFallback', module).add('default', () => {
   return (

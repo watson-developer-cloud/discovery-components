@@ -1,4 +1,5 @@
 import React, { SFC, useEffect } from 'react';
+import get from 'lodash/get';
 import { QueryResultPassage, QueryResult } from '@disco-widgets/ibm-watson/discovery/v1';
 import { usePassage } from './passages';
 
@@ -29,8 +30,10 @@ interface Props {
 }
 
 // default PDF dimensions
-const WIDTH = 612;
-const HEIGHT = 792;
+const DEFAULT_WIDTH = 612;
+const DEFAULT_HEIGHT = 792;
+const DEFAULT_ORIGIN = 'BottomLeft';
+
 // padding to enlarge highlight box
 const PADDING = 5;
 
@@ -53,10 +56,20 @@ export const PassageHighlight: SFC<Props> = ({
     bboxes = pageInfo.filter(page => page.page_number === currentPage).map(page => page.bbox);
   }
 
+  // get page info
+  let width = DEFAULT_WIDTH;
+  let height = DEFAULT_HEIGHT;
+  let origin = DEFAULT_ORIGIN;
+  const pages = get(document, 'extracted_metadata.text_mappings.pages');
+  if (pages && pages[currentPage - 1]) {
+    const page = pages[currentPage - 1];
+    ({ width, height, origin } = page);
+  }
+
   return (
     bboxes && (
       <svg
-        viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
+        viewBox={`0 0 ${width} ${height}`}
         preserveAspectRatio="none"
         xmlns="http://www.w3.org/2000/svg"
         height="100%"
@@ -66,7 +79,7 @@ export const PassageHighlight: SFC<Props> = ({
             key={`${left}${top}${right}${bottom}`}
             className={highlightClassname}
             x={left - PADDING}
-            y={HEIGHT - top - PADDING}
+            y={(origin === 'TopLeft' ? top : height - top) - PADDING}
             width={right - left + PADDING}
             height={bottom - top + PADDING}
             data-testid="highlight"

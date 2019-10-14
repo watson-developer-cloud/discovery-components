@@ -9,18 +9,26 @@ export interface PageInfo {
 }
 
 // TODO replace with interface from SDK once defined
-interface TextMapping {
-  page: {
+interface TextMappings {
+  pages: Array<{
     page_number: number;
-    bbox: Bbox;
-  };
+    width: number;
+    height: number;
+    origin: 'TopLeft' | 'BottomLeft';
+  }>;
+  cells: Array<{
+    page: {
+      page_number: number;
+      bbox: Bbox;
+    };
 
-  field: {
-    name: string;
-    index: number;
-    // [ START, END ]
-    span: [number, number];
-  };
+    field: {
+      name: string;
+      index: number;
+      // [ START, END ]
+      span: [number, number];
+    };
+  }>;
 }
 
 // React hook for retrieving passage bbox data from document
@@ -54,7 +62,7 @@ const END = 1;
 
 /* eslint-disable @typescript-eslint/camelcase */
 export function getPassagePageInfo(
-  textMappings: ReadonlyArray<TextMapping>,
+  textMappings: TextMappings,
   passage: QueryResultPassage
 ): ReadonlyArray<PageInfo> | null {
   const { start_offset, end_offset, field } = passage;
@@ -63,13 +71,13 @@ export function getPassagePageInfo(
     return null;
   }
 
-  return textMappings
-    .filter(mapping => {
+  return textMappings.cells
+    .filter(cell => {
       const {
         field: { name, span }
-      } = mapping;
+      } = cell;
       return name === field && (span[START] <= end_offset && span[END] >= start_offset);
     })
-    .map(mapping => mapping.page);
+    .map(cell => cell.page);
 }
 /* eslint-enable @typescript-eslint/camelcase */

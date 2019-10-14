@@ -47,7 +47,7 @@ export const RichPreview: FC<Props> = ({ document, file }) => {
       setPageCount(pdfPageCount);
     } else if (document.extracted_metadata.text_mappings) {
       const mappings = document.extracted_metadata.text_mappings;
-      setPageCount(mappings[mappings.length - 1].page.page_number);
+      setPageCount(mappings.cells[mappings.cells.length - 1].page.page_number);
     }
   }, [document.extracted_metadata.text_mappings, file, pdfPageCount]);
 

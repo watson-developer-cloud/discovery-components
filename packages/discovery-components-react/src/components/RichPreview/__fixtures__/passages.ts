@@ -1,10 +1,14 @@
 export default {
-  single: { passage_text: 'Accuracy analysis', start_offset: 453, end_offset: 469, field: 'text' },
+  single: {
+    passage_text: '5.21 Miscellaneous Costs',
+    start_offset: 39574,
+    end_offset: 39598,
+    field: 'text'
+  },
   multiline: {
-    passage_text:
-      'The study of experiments run against IBM Watson. The goals of such analysis include understanding the behavior of the system as implemented (a control) and determining if and how changes to the implementation (the experiment) benefit or hinder the overall ability of the system to answer questions.',
-    start_offset: 471,
-    end_offset: 768,
+    passage_text: `32.7 Buyer’s and Customer's Regulatory Authorities shall have the benefit of any rights of audit and access to information and documentation provided for in this Agreement to the extent that they relate to the exercise of the Regulatory Authorities' legal rights and/or responsibilities.`,
+    start_offset: 138570,
+    end_offset: 138857,
     field: 'text'
   }
 };

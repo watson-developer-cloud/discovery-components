@@ -1,4 +1,4 @@
-import React, { ReactElement, SFC, useState, useEffect } from 'react';
+import React, { ReactElement, FC, useState, useEffect } from 'react';
 import { settings } from 'carbon-components';
 import get from 'lodash/get';
 import { QueryResult } from '@disco-widgets/ibm-watson/discovery/v1';
@@ -15,42 +15,49 @@ interface Props {
   currentPage: number;
 }
 
-interface CellShape {
-  bbox: Array<number>;
-  font: FontShape;
+interface Page {
+  width: number;
+  height: number;
+  origin: string; // TODO 'TopLeft' | 'BottomLeft';
+  cells: Cell[];
+}
+interface Cell {
+  bbox: number[];
+  font: Font;
   content: string;
 }
 
-interface FontShape {
+interface Font {
   name: string;
   size: number;
-  color: Array<number>;
+  color: number[];
   isBold: boolean;
   isItalic: boolean;
 }
 
-interface TextMappingsShape {
-  page: PageShape;
-  field: FieldShape;
+interface TextMappings {
+  page: {
+    page_number: number;
+    bbox: number[];
+  };
+  field: Field;
 }
 
-interface PageShape {
-  page_number: number;
-  bbox: Array<number>;
-}
-
-interface FieldShape {
+interface Field {
   name: string;
   index: number;
-  span: Array<number>;
+  span: number[];
 }
 
-const ORIGINAL_HEIGHT = 792;
-const ORIGINAL_WIDTH = 612;
+const EMPTY_PAGE = {
+  width: 612,
+  height: 792,
+  origin: 'TopLeft',
+  cells: []
+};
 
-const PdfFallback: SFC<Props> = ({ document, currentPage }) => {
-  const [pages, setPages] = useState({});
-
+const PdfFallback: FC<Props> = ({ document, currentPage }) => {
+  const [pages, setPages] = useState<Page[]>([]);
   useEffect(() => {
     const newPages: any = {};
     const { text } = document;
@@ -63,19 +70,27 @@ const PdfFallback: SFC<Props> = ({ document, currentPage }) => {
     };
 
     const textMappings = get(document, 'extracted_metadata.text_mappings', []);
-    textMappings.map(({ page, field }: TextMappingsShape) => {
-      const textValue = field.name === 'text' ? text : document[field.name][field.index];
+    if (!textMappings) {
+      return;
+    }
+
+    textMappings.cells.map(({ page, field }: TextMappings) => {
+      const textValue = field.name === 'text' ? text : getFieldText(document, field);
       const content = textValue.substring(field.span[0], field.span[1]);
       const cellPageNumber = page.page_number;
       const cellData = { bbox: page.bbox, font: font, content: content };
 
-      //Check if pages is present in the array
+      // check if pages is present in the array
       if (newPages[cellPageNumber]) {
-        //Add new cell to the page array
+        // add new cell to the page array
         newPages[cellPageNumber].cells.push(cellData);
       } else {
-        //Add new page entry
+        // add new page entry
+        const pageData = textMappings.pages[cellPageNumber - 1];
         newPages[cellPageNumber] = {
+          width: pageData.width,
+          height: pageData.height,
+          origin: pageData.origin,
           cells: [cellData]
         };
       }
@@ -83,21 +98,26 @@ const PdfFallback: SFC<Props> = ({ document, currentPage }) => {
     setPages(newPages);
   }, [document]);
 
-  const [cells, setCells] = useState([]);
-
+  const [page, setPage] = useState<Page>(EMPTY_PAGE);
   useEffect(() => {
-    pages[currentPage] && setCells(pages[currentPage].cells);
+    if (pages[currentPage]) {
+      setPage(pages[currentPage]);
+    } else {
+      setPage(EMPTY_PAGE);
+    }
   }, [pages, currentPage]);
+
+  // TODO handle `origin`
 
   return (
     <div className={`${settings.prefix}--rich-preview-pdf-fallback`}>
       <svg
-        viewBox={`0 0 ${ORIGINAL_WIDTH} ${ORIGINAL_HEIGHT}`}
+        viewBox={`0 0 ${page.width} ${page.height}`}
         preserveAspectRatio="none"
         xmlns="http://www.w3.org/2000/svg"
         height="100%"
       >
-        {cells.map((cell, index) => renderCell(cell, index))}
+        {page.cells.map((cell, index) => renderCell(page, cell, index))}
       </svg>
     </div>
   );
@@ -112,7 +132,12 @@ export const supportsPdfFallback = (document: QueryResult): boolean => {
   return !!get(document, 'extracted_metadata.text_mappings');
 };
 
-function renderCell(cell: CellShape, index: number): ReactElement {
+function getFieldText(document: QueryResult, field: Field): string {
+  const [fieldName, fieldProp] = field.name.split('.');
+  return document[fieldName][field.index][fieldProp];
+}
+
+function renderCell(page: Page, cell: Cell, index: number): ReactElement {
   const { bbox, font, content } = cell;
   const { size, color, isBold, isItalic, name } = font;
   const { fontFamily, fontWeight } = ComputeFontFamilyAndWeight(name);
@@ -123,7 +148,7 @@ function renderCell(cell: CellShape, index: number): ReactElement {
     <text
       key={index}
       x={left}
-      y={ORIGINAL_HEIGHT - top}
+      y={page.origin === 'TopLeft' ? top : page.height - top}
       width={boxWidth}
       height={bottom - top}
       textLength={boxWidth}

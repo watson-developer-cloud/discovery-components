@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { act, render } from '@testing-library/react';
 import RichPreview from '../RichPreview';
-import { document as doc } from '../__fixtures__/WEA.Glossary_pdf';
-import docJson from '../__fixtures__/WEA.Glossary.pdf.json';
+import { document as doc } from '../__fixtures__/Art Effects.pdf';
+import docJson from '../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
 import passages from '../__fixtures__/passages';
 
 describe('RichPreview', () => {
