@@ -4,6 +4,7 @@ import { wrapWithContext } from '../../../utils/testingUtils';
 import { SearchContextIFC } from '../../DiscoverySearch/DiscoverySearch';
 import { SearchRefinements } from '../SearchRefinements';
 import refinementsQueryResponse from '../fixtures/refinementsQueryResponse';
+import { invalidConfigurationMessage } from '../utils/searchRefinementMessages';
 
 const setup = (filter: string) => {
   const context: Partial<SearchContextIFC> = {
@@ -39,6 +40,7 @@ const setup = (filter: string) => {
     )
   );
   return {
+    context,
     onRefinementsMountMock,
     onUpdateAggregationQueryMock,
     onUpdateFilterMock,
@@ -150,6 +152,43 @@ describe('SearchRefinementsComponent', () => {
       fireEvent.click(animalsCheckbox);
       expect(onUpdateFilterMock).toBeCalledTimes(2);
       expect(onUpdateFilterMock).toBeCalledWith('');
+    });
+  });
+
+  describe('provides invalid error message in console when invalid configuration is provided', () => {
+    const originalError = console.error;
+    afterEach(() => (console.error = originalError));
+    const consoleOutput: string[] = [];
+    const mockedError = (output: string) => {
+      consoleOutput.push(output);
+    };
+    beforeEach(() => (console.error = mockedError));
+
+    test('it provides invalid message in console error when empty array is provided for configuration', () => {
+      const { context } = setup('');
+      render(wrapWithContext(<SearchRefinements configuration={[]} />, context));
+      expect(consoleOutput).toEqual([invalidConfigurationMessage]);
+    });
+
+    test('it provides invalid message in console error when field is missing in provided configuration', () => {
+      const { context } = setup('');
+      render(
+        wrapWithContext(
+          <SearchRefinements
+            configuration={[
+              {
+                field: 'enriched_text.entities.text',
+                count: 10
+              },
+              {
+                count: 5
+              }
+            ]}
+          />,
+          context
+        )
+      );
+      expect(consoleOutput).toEqual([invalidConfigurationMessage, invalidConfigurationMessage]);
     });
   });
 });

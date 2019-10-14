@@ -27,22 +27,13 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [1.1.3](http:///ibm-watson/compare/@disco-widgets/ibm-watson@1.1.2...@disco-widgets/ibm-watson@1.1.3) (2019-10-08)
 
-
 ### Bug Fixes
 
-* add access config for ibm-watson package ([e8c1d61](http:///ibm-watson/commits/e8c1d61))
-
-
-
-
+- add access config for ibm-watson package ([e8c1d61](http:///ibm-watson/commits/e8c1d61))
 
 ## [1.1.2](http:///ibm-watson/compare/@disco-widgets/ibm-watson@1.1.1...@disco-widgets/ibm-watson@1.1.2) (2019-10-02)
 
 **Note:** Version bump only for package @disco-widgets/ibm-watson
-
-
-
-
 
 ## [1.1.1](http:///ibm-watson/compare/@disco-widgets/ibm-watson@1.1.0...@disco-widgets/ibm-watson@1.1.1) (2019-10-02)
 

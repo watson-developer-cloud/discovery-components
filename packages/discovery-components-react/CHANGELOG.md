@@ -102,69 +102,39 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [1.27.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.26.0...@disco-widgets/react-components@1.27.0) (2019-10-04)
 
-
 ### Features
 
-* export toolbar and document sub-components ([#170](http:///discovery-components-react/issues/170)) ([bc7b16f](http:///discovery-components-react/commits/bc7b16f))
-
-
-
-
+- export toolbar and document sub-components ([#170](http:///discovery-components-react/issues/170)) ([bc7b16f](http:///discovery-components-react/commits/bc7b16f))
 
 # [1.26.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.25.2...@disco-widgets/react-components@1.26.0) (2019-10-04)
 
-
 ### Features
 
-* integrate rich preview toolbar ([#165](http:///discovery-components-react/issues/165)) ([975e999](http:///discovery-components-react/commits/975e999))
-
-
-
-
+- integrate rich preview toolbar ([#165](http:///discovery-components-react/issues/165)) ([975e999](http:///discovery-components-react/commits/975e999))
 
 ## [1.25.2](http:///discovery-components-react/compare/@disco-widgets/react-components@1.25.1...@disco-widgets/react-components@1.25.2) (2019-10-04)
 
-
 ### Bug Fixes
 
-* use static port for storybook, don't auto-open browser ([#167](http:///discovery-components-react/issues/167)) ([7600268](http:///discovery-components-react/commits/7600268))
-
-
-
-
+- use static port for storybook, don't auto-open browser ([#167](http:///discovery-components-react/issues/167)) ([7600268](http:///discovery-components-react/commits/7600268))
 
 ## [1.25.1](http:///discovery-components-react/compare/@disco-widgets/react-components@1.25.0...@disco-widgets/react-components@1.25.1) (2019-10-03)
 
-
 ### Bug Fixes
 
-* remove console logs ([#161](http:///discovery-components-react/issues/161)) ([84950c5](http:///discovery-components-react/commits/84950c5))
-
-
-
-
+- remove console logs ([#161](http:///discovery-components-react/issues/161)) ([84950c5](http:///discovery-components-react/commits/84950c5))
 
 # [1.25.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.24.1...@disco-widgets/react-components@1.25.0) (2019-10-03)
 
-
 ### Features
 
-* navtoolbar component ([#145](http:///discovery-components-react/issues/145)) ([32a64a6](http:///discovery-components-react/commits/32a64a6))
-
-
-
-
+- navtoolbar component ([#145](http:///discovery-components-react/issues/145)) ([32a64a6](http:///discovery-components-react/commits/32a64a6))
 
 ## [1.24.1](http:///discovery-components-react/compare/@disco-widgets/react-components@1.24.0...@disco-widgets/react-components@1.24.1) (2019-10-03)
 
-
 ### Bug Fixes
 
-* Build storybook as part of travis build ([a69e81c](http:///discovery-components-react/commits/a69e81c))
-
-
-
-
+- Build storybook as part of travis build ([a69e81c](http:///discovery-components-react/commits/a69e81c))
 
 # [1.24.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.23.0...@disco-widgets/react-components@1.24.0) (2019-10-02)
 

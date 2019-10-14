@@ -12,12 +12,19 @@ import {
   QueryTermAggregation,
   SelectableAggregationResult
 } from './utils/searchRefinementInterfaces';
+import { validateConfiguration } from './utils/validateConfiguration';
+import {
+  displayMessage,
+  consoleErrorMessage,
+  noAvailableRefinementsMessage,
+  invalidConfigurationMessage
+} from './utils/searchRefinementMessages';
 
 interface SearchRefinementsProps {
   /**
    * Refinements configuration with fields and results counts
    */
-  configuration: Array<QueryTermAggregation>;
+  configuration: QueryTermAggregation[];
 }
 
 export const SearchRefinements: React.FunctionComponent<SearchRefinementsProps> = ({
@@ -32,18 +39,17 @@ export const SearchRefinements: React.FunctionComponent<SearchRefinementsProps> 
     aggregationResults: { aggregations },
     searchParameters: { natural_language_query: naturalLanguageQuery, filter }
   } = searchContext;
-  const allRefinements = mergeFilterRefinements(aggregations || [], filter || '', configuration);
 
   React.useEffect(() => {
-    onUpdateAggregationQuery(buildAggregationQuery(configuration));
-    onRefinementsMount();
+    if (validateConfiguration(configuration)) {
+      onUpdateAggregationQuery(buildAggregationQuery(configuration));
+      onRefinementsMount();
+    } else {
+      consoleErrorMessage(invalidConfigurationMessage);
+    }
   }, [configuration]);
 
-  const emptyRefinements = (
-    <div>
-      <p>There are no available refinements.</p>
-    </div>
-  );
+  const allRefinements = mergeFilterRefinements(aggregations || [], filter || '', configuration);
 
   const handleOnChange = (
     checked: boolean,
@@ -140,5 +146,5 @@ export const SearchRefinements: React.FunctionComponent<SearchRefinementsProps> 
     );
   }
 
-  return emptyRefinements;
+  return displayMessage(noAvailableRefinementsMessage);
 };

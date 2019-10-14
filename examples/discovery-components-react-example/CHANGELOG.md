@@ -106,68 +106,35 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package discovery-components-react-example
 
-
-
-
-
 ## [1.15.1](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.15.0...discovery-components-react-example@1.15.1) (2019-10-04)
 
 **Note:** Version bump only for package discovery-components-react-example
 
-
-
-
-
 # [1.15.0](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.14.11...discovery-components-react-example@1.15.0) (2019-10-04)
-
 
 ### Features
 
-* integrate rich preview toolbar ([#165](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/165)) ([975e999](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/975e999))
-
-
-
-
+- integrate rich preview toolbar ([#165](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/165)) ([975e999](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/975e999))
 
 ## [1.14.11](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.14.10...discovery-components-react-example@1.14.11) (2019-10-04)
 
 **Note:** Version bump only for package discovery-components-react-example
 
-
-
-
-
 ## [1.14.10](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.14.9...discovery-components-react-example@1.14.10) (2019-10-03)
 
 **Note:** Version bump only for package discovery-components-react-example
-
-
-
-
 
 ## [1.14.9](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.14.8...discovery-components-react-example@1.14.9) (2019-10-03)
 
 **Note:** Version bump only for package discovery-components-react-example
 
-
-
-
-
 ## [1.14.8](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.14.7...discovery-components-react-example@1.14.8) (2019-10-03)
 
 **Note:** Version bump only for package discovery-components-react-example
 
-
-
-
-
 ## [1.14.7](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.14.6...discovery-components-react-example@1.14.7) (2019-10-02)
 
 **Note:** Version bump only for package discovery-components-react-example
-
-
-
-
 
 ## [1.14.6](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.14.5...discovery-components-react-example@1.14.6) (2019-10-02)
 
