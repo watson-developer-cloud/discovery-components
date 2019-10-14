@@ -3,5 +3,9 @@ export { DiscoverySearch, SearchContext } from './components/DiscoverySearch/Dis
 export { SearchInput } from './components/SearchInput/SearchInput';
 export { SearchRefinements } from './components/SearchRefinements/SearchRefinements';
 export { ResultsPagination } from './components/ResultsPagination/ResultsPagination';
-export { RichPreview } from './components/RichPreview/RichPreview';
+export {
+  RichPreview,
+  RichPreviewToolbar,
+  RichPreviewDocument
+} from './components/RichPreview/RichPreview';
 export { SearchResults } from './components/SearchResults/SearchResults';
