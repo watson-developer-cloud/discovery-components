@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.31.4](http:///discovery-components-react/compare/@disco-widgets/react-components@1.31.3...@disco-widgets/react-components@1.31.4) (2019-10-14)
+
+
+### Bug Fixes
+
+* update text-mappings structure and examples ([#206](http:///discovery-components-react/issues/206)) ([1836067](http:///discovery-components-react/commits/1836067))
+
+
+
+
+
 ## [1.31.3](http:///discovery-components-react/compare/@disco-widgets/react-components@1.31.2...@disco-widgets/react-components@1.31.3) (2019-10-14)
 
 

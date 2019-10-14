@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.4](http:///discovery-styles/compare/@disco-widgets/styles@1.7.3...@disco-widgets/styles@1.7.4) (2019-10-14)
+
+
+### Bug Fixes
+
+* update text-mappings structure and examples ([#206](http:///discovery-styles/issues/206)) ([1836067](http:///discovery-styles/commits/1836067))
+
+
+
+
+
 ## [1.7.3](http:///discovery-styles/compare/@disco-widgets/styles@1.7.2...@disco-widgets/styles@1.7.3) (2019-10-14)
 
 **Note:** Version bump only for package @disco-widgets/styles
