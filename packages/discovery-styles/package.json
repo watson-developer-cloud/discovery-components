@@ -4,7 +4,7 @@
   "license": "MIT",
   "author": "",
   "repository": "/discovery-styles",
-  "version": "1.7.2",
+  "version": "1.7.3",
   "main": "scss/index.scss",
   "scripts": {
     "build": "node-sass --importer=../../node_modules/node-sass-tilde-importer scss/index.scss css/index.css",
