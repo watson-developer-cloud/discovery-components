@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.31.3](http:///discovery-components-react/compare/@disco-widgets/react-components@1.31.2...@disco-widgets/react-components@1.31.3) (2019-10-14)
+
+
+### Bug Fixes
+
+* export Toolbar and Rich Preview Document modules ([#209](http:///discovery-components-react/issues/209)) ([bcb459e](http:///discovery-components-react/commits/bcb459e))
+
+
+
+
+
 ## [1.31.2](http:///discovery-components-react/compare/@disco-widgets/react-components@1.31.1...@disco-widgets/react-components@1.31.2) (2019-10-14)
 
 **Note:** Version bump only for package @disco-widgets/react-components
