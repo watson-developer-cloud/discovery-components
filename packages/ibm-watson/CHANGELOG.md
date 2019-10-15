@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.3](http:///ibm-watson/compare/@disco-widgets/ibm-watson@1.3.2...@disco-widgets/ibm-watson@1.3.3) (2019-10-15)
+
+**Note:** Version bump only for package @disco-widgets/ibm-watson
+
+
+
+
+
 ## [1.3.2](http:///ibm-watson/compare/@disco-widgets/ibm-watson@1.3.1...@disco-widgets/ibm-watson@1.3.2) (2019-10-14)
 
 **Note:** Version bump only for package @disco-widgets/ibm-watson
