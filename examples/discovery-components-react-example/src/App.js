@@ -32,6 +32,7 @@ const App = () => {
       />
       <SearchResults bodyField={'highlight.text[0]'} />
       <SearchRefinements
+        showCollections={true}
         configuration={[
           {
             field: 'enriched_text.entities.text',

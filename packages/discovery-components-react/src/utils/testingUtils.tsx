@@ -12,6 +12,7 @@ export function wrapWithContext(
     onUpdateNaturalLanguageQuery: (): Promise<void> => Promise.resolve(),
     onUpdateFilter: (): Promise<void> => Promise.resolve(),
     onUpdateResultsPagination: (): Promise<void> => Promise.resolve(),
+    onUpdateSelectedCollections: (): Promise<void> => Promise.resolve(),
     onSelectResult: (): Promise<void> => Promise.resolve(),
     aggregationResults: {},
     searchResults: {},
@@ -19,7 +20,8 @@ export function wrapWithContext(
       project_id: ''
     },
     selectedResult: {},
-    completionResults: {}
+    completionResults: {},
+    collectionsResults: {}
   };
   return (
     <SearchContext.Provider value={Object.assign(context, contextOverride)}>

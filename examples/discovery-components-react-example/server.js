@@ -36,6 +36,25 @@ app.post('/api/v2/projects/:project_id/query', cors(), async (req, res) => {
     res.json({ error: 'something went wrong' });
   }
 });
+app.get('/api/v2/projects/:project_id/collections', cors(), async (req, res) => {
+  try {
+    const searchClient = new DiscoveryV1({
+      url: `${BASE_URL}${RELEASE_PATH}`,
+      icp4d_url: BASE_URL,
+      authentication_type: 'icp4d',
+      username: 'admin',
+      password: 'password',
+      disable_ssl_verification: true,
+      version: '2019-01-01'
+    });
+    const params = Object.assign({}, req.body, req.params);
+    const response = await searchClient.listCollections(params);
+    res.json(response);
+  } catch (e) {
+    console.error(e);
+    res.json({ error: 'something went wrong' });
+  }
+});
 
 app.get('/api/v2/projects/:project_id/autocompletion', cors(), async (req, res) => {
   try {

@@ -17,6 +17,9 @@ class DummyClient {
   getAutocompletion() {
     return Promise.resolve();
   }
+  listCollections() {
+    return Promise.resolve();
+  }
 }
 
 const discoverySearchProps = (): DiscoverySearchProps => ({

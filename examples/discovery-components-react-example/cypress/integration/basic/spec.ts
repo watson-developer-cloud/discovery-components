@@ -3,6 +3,8 @@ describe('basic test', () => {
     cy.server();
     cy.fixture('basic/query.json').as('queryJSON');
     cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQuery');
+    cy.fixture('basic/collections.json').as('collectionsJSON');
+    cy.route('GET', '**/collections?version=2019-01-01', '@collectionsJSON').as('getCollections');
     cy.visit('/');
   });
   describe('When entering a query', () => {

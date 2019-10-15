@@ -1,11 +1,12 @@
 import * as React from 'react';
 import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
+import pick from 'lodash/pick';
 
 export interface DiscoverySearchProps {
   /**
    * Search client
    */
-  searchClient: Pick<DiscoveryV1, 'query' | 'getAutocompletion'>;
+  searchClient: Pick<DiscoveryV1, 'query' | 'getAutocompletion' | 'listCollections'>;
   /**
    * Project ID
    */
@@ -33,6 +34,10 @@ export interface DiscoverySearchProps {
    * Autocompletion suggestions for the searchInput
    */
   completionResults?: DiscoveryV1.Completions;
+  /**
+   * collectionsResults is used to override internal collections result state
+   */
+  collectionsResults?: DiscoveryV1.ListCollectionsResponse;
 }
 
 export interface SearchContextIFC {
@@ -41,11 +46,13 @@ export interface SearchContextIFC {
   onUpdateAggregationQuery: (aggregationQuery: string) => Promise<void>;
   onUpdateFilter: (filter: string) => Promise<void>;
   onUpdateNaturalLanguageQuery: (nlq: string, splitSearchQuerySelector?: string) => Promise<void>;
+  onUpdateSelectedCollections: (collectionIds: string[]) => Promise<void>;
   onUpdateResultsPagination: (offset: number) => Promise<void>;
   onSelectResult: (result: DiscoveryV1.QueryResult) => Promise<void>;
   aggregationResults: DiscoveryV1.QueryAggregation;
   searchResults: DiscoveryV1.QueryResponse;
   searchParameters: DiscoveryV1.QueryParams;
+  collectionsResults: DiscoveryV1.ListCollectionsResponse;
   selectedResult: DiscoveryV1.QueryResult;
   completionResults: DiscoveryV1.Completions;
 }
@@ -57,6 +64,7 @@ export const SearchContext = React.createContext<SearchContextIFC>({
   onUpdateFilter: (): Promise<void> => Promise.resolve(),
   onUpdateNaturalLanguageQuery: (): Promise<void> => Promise.resolve(),
   onUpdateResultsPagination: (): Promise<void> => Promise.resolve(),
+  onUpdateSelectedCollections: (): Promise<void> => Promise.resolve(),
   onSelectResult: (): Promise<void> => Promise.resolve(),
   aggregationResults: {},
   searchResults: {},
@@ -64,7 +72,8 @@ export const SearchContext = React.createContext<SearchContextIFC>({
     project_id: ''
   },
   selectedResult: {},
-  completionResults: {}
+  completionResults: {},
+  collectionsResults: {}
 });
 
 export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
@@ -75,6 +84,7 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
   queryParameters,
   selectedResult,
   completionResults,
+  collectionsResults,
   children
 }) => {
   const [stateSearchResults, setStateSearchResults] = React.useState<DiscoveryV1.QueryResponse>(
@@ -83,6 +93,9 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
   const [stateAggregationResults, setStateAggregationResults] = React.useState<
     DiscoveryV1.QueryAggregation
   >(aggregationResults || {});
+  const [stateCollectionsResults, setStateCollectionsResults] = React.useState<
+    DiscoveryV1.ListCollectionsResponse
+  >(collectionsResults || {});
   const [searchParameters, setSearchParameters] = React.useState<DiscoveryV1.QueryParams>({
     project_id: projectId,
     highlight: true,
@@ -110,6 +123,10 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
   React.useEffect(() => {
     setStateAggregationResults(aggregationResults || stateAggregationResults);
   }, [aggregationResults]);
+
+  React.useEffect(() => {
+    setStateCollectionsResults(collectionsResults || stateCollectionsResults);
+  }, [collectionsResults]);
 
   React.useEffect(() => {
     setSelectedResultState(selectedResult || selectedResultState);
@@ -146,12 +163,22 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
   };
 
   const handleRefinementsMount = async (): Promise<void> => {
-    const { aggregations }: DiscoveryV1.QueryResponse = await searchClient.query(searchParameters);
+    const [aggregationsResults, collectionsResults] = await Promise.all([
+      searchClient.query(searchParameters),
+      searchClient.listCollections(pick(searchParameters, 'project_id'))
+    ]);
+    const { aggregations } = aggregationsResults;
     setStateAggregationResults({ aggregations });
+    setStateCollectionsResults(collectionsResults);
     return Promise.resolve();
   };
   const handleUpdateAggregationQuery = (aggregationQuery: string): Promise<void> => {
     searchParameters.aggregation = aggregationQuery;
+    setSearchParameters(searchParameters);
+    return Promise.resolve();
+  };
+  const handleUpdateSelectedCollections = (collectionIds: string[]): Promise<void> => {
+    searchParameters.collection_ids = collectionIds;
     setSearchParameters(searchParameters);
     return Promise.resolve();
   };
@@ -196,12 +223,14 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
         onUpdateFilter: handleUpdateFilter,
         onUpdateNaturalLanguageQuery: handleUpdateNaturalLanguageQuery,
         onUpdateResultsPagination: handleResultsPagination,
+        onUpdateSelectedCollections: handleUpdateSelectedCollections,
         onSelectResult: handleSelectResult,
         aggregationResults: stateAggregationResults,
         searchResults: stateSearchResults,
         searchParameters,
         selectedResult: selectedResultState,
-        completionResults: completionResultsState
+        completionResults: completionResultsState,
+        collectionsResults: stateCollectionsResults
       }}
     >
       {children}

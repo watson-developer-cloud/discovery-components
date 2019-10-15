@@ -1,11 +1,14 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, object } from '@storybook/addon-knobs/react';
+import { withKnobs, text, object, boolean } from '@storybook/addon-knobs/react';
 import { SearchRefinements } from './SearchRefinements';
-import { DiscoverySearch } from '../DiscoverySearch/DiscoverySearch';
 import refinementsQueryResponse from './fixtures/refinementsQueryResponse';
+import collectionsResponse from './fixtures/collectionsResponse';
+import { DiscoverySearch, DiscoverySearchProps } from '../DiscoverySearch/DiscoverySearch';
+import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 
 export const props = () => ({
+  showCollections: boolean('Show collection refinements', false),
   configuration: object('Refinements configuration', [
     {
       field: 'author',
@@ -25,22 +28,37 @@ class DummyClient {
   getAutocompletion() {
     return Promise.resolve();
   }
+  listCollections() {
+    return Promise.resolve(collectionsResponse);
+  }
 }
+
+const discoverySearchProps = (
+  queryParams?: Partial<DiscoveryV1.QueryParams>
+): DiscoverySearchProps => ({
+  searchClient: new DummyClient(),
+  projectId: text('Project ID', 'project-id'),
+  queryParameters: queryParams
+});
 
 storiesOf('SearchRefinements', module)
   .addDecorator(withKnobs)
   .add('default', () => {
     const exampleProps = props();
-    const aggregations = refinementsQueryResponse.aggregations;
     return (
       <div style={{ padding: '1rem', backgroundColor: '#f3f3f3' }}>
-        <DiscoverySearch
-          searchClient={new DummyClient()}
-          projectId="project-id"
-          searchResults={refinementsQueryResponse}
-          aggregationResults={{ aggregations }}
-        >
+        <DiscoverySearch {...discoverySearchProps()}>
           <SearchRefinements {...exampleProps} />
+        </DiscoverySearch>
+      </div>
+    );
+  })
+  .add('initially selected collection', () => {
+    const exampleProps = props();
+    return (
+      <div style={{ padding: '1rem', backgroundColor: '#f3f3f3' }}>
+        <DiscoverySearch {...discoverySearchProps({ collection_ids: ['deadspin9876'] })}>
+          <SearchRefinements {...exampleProps} showCollections={true} />
         </DiscoverySearch>
       </div>
     );

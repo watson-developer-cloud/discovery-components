@@ -27,6 +27,12 @@ class CustomSearchClient {
   ): Promise<any> {
     action('getAutocompletion')(autocompletionParams);
   }
+
+  public async listCollections(
+    listCollectionParams: DiscoveryV1.ListCollectionsParams
+  ): Promise<any> {
+    action('listCollection')(listCollectionParams);
+  }
 }
 
 const customSearchClientProps = (): DiscoverySearchProps => ({
