@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.32.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.31.4...@disco-widgets/react-components@1.32.0) (2019-10-15)
+
+
+### Features
+
+* Add ability to filter by collection ([#199](http:///discovery-components-react/issues/199)) ([d71f92d](http:///discovery-components-react/commits/d71f92d))
+
+
+
+
+
 ## [1.31.4](http:///discovery-components-react/compare/@disco-widgets/react-components@1.31.3...@disco-widgets/react-components@1.31.4) (2019-10-14)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.17.0](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.16.15...discovery-components-react-example@1.17.0) (2019-10-15)
+
+
+### Features
+
+* Add ability to filter by collection ([#199](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/199)) ([d71f92d](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/d71f92d))
+
+
+
+
+
 ## [1.16.15](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.16.14...discovery-components-react-example@1.16.15) (2019-10-14)
 
 **Note:** Version bump only for package discovery-components-react-example

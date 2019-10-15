@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](http:///discovery-styles/compare/@disco-widgets/styles@1.7.4...@disco-widgets/styles@1.8.0) (2019-10-15)
+
+
+### Features
+
+* Add ability to filter by collection ([#199](http:///discovery-styles/issues/199)) ([d71f92d](http:///discovery-styles/commits/d71f92d))
+
+
+
+
+
 ## [1.7.4](http:///discovery-styles/compare/@disco-widgets/styles@1.7.3...@disco-widgets/styles@1.7.4) (2019-10-14)
 
 
