@@ -1880,6 +1880,8 @@ namespace DiscoveryV1 {
     title?: string;
     /** The document retrieval source that produced this search result. */
     document_retrieval_source?: string;
+    /** The collection id associated with this training data set. */
+    collection_id?: string;
     /** The confidence score for the given result. Calculated based on how relevant the result is estimated to be. confidence can range from `0.0` to `1.0`. The higher the number, the more relevant the document. The `confidence` value for a result was calculated using the model specified in the `document_retrieval_strategy` field of the result set. This field is only returned if the **natural_language_query** parameter is specified in the query. */
     confidence?: number;
   }
