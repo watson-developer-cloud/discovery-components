@@ -10,6 +10,7 @@
   "scripts": {
     "test": "cross-env CI=1 react-scripts test",
     "test:watch": "react-scripts test --watch",
+    "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
     "code-coverage": "jest --collectCoverage",
     "build": "rollup -c",
     "start": "rollup -c -w",

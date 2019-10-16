@@ -24,6 +24,7 @@ storiesOf('RichPreview', module)
     );
   })
   .add('render fallback', () => {
+    // document selection
     const label = 'Document';
     const options = {
       ArtEffects: 'Art Effects',

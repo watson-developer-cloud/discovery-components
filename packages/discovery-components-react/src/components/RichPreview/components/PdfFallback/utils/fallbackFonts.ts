@@ -1,4 +1,5 @@
 import deburr from 'lodash/deburr';
+// import memoize from 'lodash/memoize';
 import { serif, sansSerif, semiSerif, monoSpace, weightsMap } from './fontsList';
 
 interface ComputeShape {
@@ -13,20 +14,20 @@ interface ComputeShape {
  * @param {string} name string to normalize
  * @return {string} normalized value
  */
-const NormalizeFontName = (name: string): string =>
+const normalizeFontName = (name: string): string =>
   deburr(name)
     .toLowerCase()
     .replace(/\W/g, '');
 
 const fontsFamilyMap = new Map();
 
-serif.forEach(font => fontsFamilyMap.set(NormalizeFontName(font), 'serif'));
+serif.forEach(font => fontsFamilyMap.set(normalizeFontName(font), 'serif'));
 
-semiSerif.forEach(font => fontsFamilyMap.set(NormalizeFontName(font), 'sans-serif'));
+semiSerif.forEach(font => fontsFamilyMap.set(normalizeFontName(font), 'sans-serif'));
 
-sansSerif.forEach(font => fontsFamilyMap.set(NormalizeFontName(font), 'sans-serif'));
+sansSerif.forEach(font => fontsFamilyMap.set(normalizeFontName(font), 'sans-serif'));
 
-monoSpace.forEach(font => fontsFamilyMap.set(NormalizeFontName(font), 'monospace'));
+monoSpace.forEach(font => fontsFamilyMap.set(normalizeFontName(font), 'monospace'));
 
 const getFontStack = (font: string): string => {
   const stack = {
@@ -45,9 +46,9 @@ const getFontStack = (font: string): string => {
  * @param {string} fontString string representing font
  * @return {Object} containing font value and font weight
  */
-const ComputeFontFamilyAndWeight = (fontString: string): ComputeShape => {
+const computeFontFamilyAndWeight = (fontString: string): ComputeShape => {
   //normalize incoming font string
-  let fontFamilyName = NormalizeFontName(fontString);
+  let fontFamilyName = normalizeFontName(fontString);
   let fontWeight = weightsMap.Normal;
   let fontWeightIndex;
   //check if normalized font string is present in font map
@@ -67,7 +68,7 @@ const ComputeFontFamilyAndWeight = (fontString: string): ComputeShape => {
       //get weight value from weight string
       fontWeight = weightsMap[fontString.substr(fontWeightIndex)];
       //get new normalized font name after removing weight string
-      fontFamilyName = NormalizeFontName(fontString.substr(0, fontWeightIndex));
+      fontFamilyName = normalizeFontName(fontString.substr(0, fontWeightIndex));
       //check if new normalized font name is present in the map
       fontFamilyString = fontsFamilyMap.get(fontFamilyName);
     }
@@ -79,4 +80,7 @@ const ComputeFontFamilyAndWeight = (fontString: string): ComputeShape => {
   return { fontFamily, fontWeight };
 };
 
-export { ComputeFontFamilyAndWeight, NormalizeFontName };
+// TODO if using memoize, should cache get cleared on document change?
+// export const computeFontFamilyAndWeight = memoize(_computeFontFamilyAndWeight);
+// export const normalizeFontName = memoize(_normalizeFontName);
+export { computeFontFamilyAndWeight, normalizeFontName };

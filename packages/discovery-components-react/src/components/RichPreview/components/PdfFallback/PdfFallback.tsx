@@ -1,8 +1,13 @@
-import React, { ReactElement, FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect, useMemo, useReducer } from 'react';
 import { settings } from 'carbon-components';
 import get from 'lodash/get';
 import { QueryResult } from '@disco-widgets/ibm-watson/discovery/v1';
-import { ComputeFontFamilyAndWeight } from './utils/fallbackFonts';
+import { Cell, CellPage, CellField, Page, Bbox } from '../../types';
+import CellComponent from './Cell';
+import { computeFontFamilyAndWeight } from './utils/fallbackFonts';
+import processDoc, { ProcessedDoc, ProcessedBbox } from './utils/processDoc';
+import { intersects } from './utils/box';
+import shortid from '../../../../utils/shortid';
 
 interface Props {
   /**
@@ -15,110 +20,160 @@ interface Props {
   currentPage: number;
 }
 
-interface Page {
-  width: number;
-  height: number;
-  origin: string; // TODO 'TopLeft' | 'BottomLeft';
-  cells: Cell[];
-}
-interface Cell {
-  bbox: number[];
-  font: Font;
-  content: string;
-}
+type State = {
+  pages: PageWithCells[];
+  page: PageWithCells;
+  pagesHaveFonts: boolean;
+};
 
-interface Font {
-  name: string;
-  size: number;
-  color: number[];
-  isBold: boolean;
-  isItalic: boolean;
-}
+type Action = {
+  type: 'reset' | 'setPages' | 'setCurrentPage' | 'setHaveFonts';
+  data?: Partial<State>;
+};
 
-interface TextMappings {
-  page: {
-    page_number: number;
-    bbox: number[];
-  };
-  field: Field;
-}
-
-interface Field {
-  name: string;
-  index: number;
-  span: number[];
-}
-
-const EMPTY_PAGE = {
+const EMPTY_PAGE: PageWithCells = {
+  page_number: 0,
   width: 612,
   height: 792,
   origin: 'TopLeft',
   cells: []
 };
 
-const PdfFallback: FC<Props> = ({ document, currentPage }) => {
-  const [pages, setPages] = useState<Page[]>([]);
-  useEffect(() => {
-    const newPages: any = {};
-    const { text } = document;
-    const font = {
-      name: 'sans-serif',
-      size: 12.0,
-      color: [0, 0, 0, 255],
-      isBold: false,
-      isItalic: false
-    };
+const INITIAL_STATE = {
+  pages: [],
+  page: EMPTY_PAGE,
+  pagesHaveFonts: false
+};
 
+function reducer(state: State, { type, data }: Action): State {
+  switch (type) {
+    case 'reset':
+      return INITIAL_STATE;
+    case 'setPages':
+      const pages = (data && data.pages) || INITIAL_STATE.pages;
+      return {
+        ...state,
+        pages,
+        page: EMPTY_PAGE,
+        pagesHaveFonts: false
+      };
+    case 'setCurrentPage':
+      const page = (data && data.page) || INITIAL_STATE.page;
+      return { ...state, page };
+    case 'setHaveFonts':
+      return { ...state, pagesHaveFonts: true };
+    default:
+      throw new Error();
+  }
+}
+
+export interface PageWithCells extends Page {
+  cells: StyledCell[];
+}
+
+export interface StyledCell extends CellPage {
+  id: string;
+  className: string;
+  content: string;
+}
+
+export const PdfFallback: FC<Props> = ({ document, currentPage }) => {
+  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
+  const { pages, page, pagesHaveFonts } = state;
+  useEffect(() => {
     const textMappings = get(document, 'extracted_metadata.text_mappings', []);
     if (!textMappings) {
       return;
     }
 
-    textMappings.cells.map(({ page, field }: TextMappings) => {
+    const { text } = document;
+
+    const newPages = [
+      EMPTY_PAGE, // add "zeroth" page (unused; makes this array 1-based)
+      ...textMappings.pages
+    ].map(page => ({ ...page, cells: [] }));
+
+    textMappings.cells.map(({ page, field }: Cell) => {
       const textValue = field.name === 'text' ? text : getFieldText(document, field);
       const content = textValue.substring(field.span[0], field.span[1]);
       const cellPageNumber = page.page_number;
-      const cellData = { bbox: page.bbox, font: font, content: content };
+      const cellData = { id: shortid(), bbox: page.bbox, content: content };
 
-      // check if pages is present in the array
-      if (newPages[cellPageNumber]) {
-        // add new cell to the page array
-        newPages[cellPageNumber].cells.push(cellData);
-      } else {
-        // add new page entry
-        const pageData = textMappings.pages[cellPageNumber - 1];
-        newPages[cellPageNumber] = {
-          width: pageData.width,
-          height: pageData.height,
-          origin: pageData.origin,
-          cells: [cellData]
-        };
-      }
+      // add new cell to the page array
+      newPages[cellPageNumber].cells.push(cellData);
     });
-    setPages(newPages);
+
+    dispatch({ type: 'setPages', data: { pages: newPages } });
   }, [document]);
 
-  const [page, setPage] = useState<Page>(EMPTY_PAGE);
   useEffect(() => {
-    if (pages[currentPage]) {
-      setPage(pages[currentPage]);
-    } else {
-      setPage(EMPTY_PAGE);
-    }
+    dispatch({ type: 'setCurrentPage', data: { page: pages[currentPage] || EMPTY_PAGE } });
   }, [pages, currentPage]);
 
-  // TODO handle `origin`
+  const [processedDoc, setProcessedDoc] = useState<ProcessedDoc | null>();
+  useEffect(() => {
+    async function process(): Promise<void> {
+      try {
+        const doc = await processDoc(document, { bbox: true });
+        setProcessedDoc(doc);
+      } catch (err) {
+        console.warn('Failed to parse document. Styling will be diminished.');
+      }
+    }
+
+    if (document.html) {
+      process();
+    }
+  }, [document]);
+
+  useEffect(() => {
+    if (processedDoc && pages.length > 0) {
+      pages.forEach((page, index) => {
+        const pageNum = index;
+        const bboxes =
+          processedDoc.bboxes &&
+          processedDoc.bboxes.filter((bbox: ProcessedBbox) => bbox.page == pageNum);
+
+        if (bboxes) {
+          page.cells.forEach(cell => {
+            const bbox = findMatchingBbox(cell.bbox, bboxes);
+            if (bbox) {
+              cell.className = bbox.className;
+            }
+          });
+        }
+      });
+      dispatch({ type: 'setHaveFonts' });
+    }
+  }, [processedDoc, pages]);
+
+  const doRender = (document.html && pagesHaveFonts) || !document.html;
+
+  const docStyles = useMemo(() => {
+    if (doRender && processedDoc && processedDoc.styles) {
+      return processStyles(processedDoc.styles);
+    }
+    return null;
+  }, [doRender, processedDoc]);
 
   return (
     <div className={`${settings.prefix}--rich-preview-pdf-fallback`}>
-      <svg
-        viewBox={`0 0 ${page.width} ${page.height}`}
-        preserveAspectRatio="none"
-        xmlns="http://www.w3.org/2000/svg"
-        height="100%"
-      >
-        {page.cells.map((cell, index) => renderCell(page, cell, index))}
-      </svg>
+      {doRender ? (
+        <>
+          <style>{docStyles}</style>
+          <svg
+            viewBox={`0 0 ${page.width} ${page.height}`}
+            preserveAspectRatio="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            {page.cells.map(cell => (
+              <CellComponent key={cell.id} page={page} cell={cell} />
+            ))}
+          </svg>
+        </>
+      ) : (
+        <div>Loading...{/* TODO proper loading view */}</div>
+      )}
     </div>
   );
 };
@@ -132,38 +187,36 @@ export const supportsPdfFallback = (document: QueryResult): boolean => {
   return !!get(document, 'extracted_metadata.text_mappings');
 };
 
-function getFieldText(document: QueryResult, field: Field): string {
+function getFieldText(document: QueryResult, field: CellField): string {
   const [fieldName, fieldProp] = field.name.split('.');
   return document[fieldName][field.index][fieldProp];
 }
 
-function renderCell(page: Page, cell: Cell, index: number): ReactElement {
-  const { bbox, font, content } = cell;
-  const { size, color, isBold, isItalic, name } = font;
-  const { fontFamily, fontWeight } = ComputeFontFamilyAndWeight(name);
-  const [left, top, right, bottom] = bbox;
-  const boxWidth = right - left;
-
+function processStyles(styles: string): string {
   return (
-    <text
-      key={index}
-      x={left}
-      y={page.origin === 'TopLeft' ? top : page.height - top}
-      width={boxWidth}
-      height={bottom - top}
-      textLength={boxWidth}
-      lengthAdjust="spacingAndGlyphs"
-      style={{
-        fontSize: `${size}px`,
-        fontFamily: `${name}, ${fontFamily}`,
-        fill: `rgb(${color[0]}, ${color[1]}, ${color[2]}, ${color[3] / 255})`,
-        fontWeight: isBold ? 'bold' : fontWeight,
-        fontStyle: isItalic ? 'italic' : 'normal'
-      }}
-    >
-      {content}
-    </text>
+    styles
+      // 'pt'->'px', since this works better with diff dimensions of SVG viewport
+      .replace(/(\d+)pt;/g, '$1px;')
+      // 'color'->'fill', for SVG
+      .replace(/(\W)color:/g, '$1fill:')
+      // add fallback fonts
+      .replace(/font-family:\s*([^;]+)/g, (_, p1) => {
+        const { fontFamily } = computeFontFamilyAndWeight(p1);
+        return `font-family: ${p1}, ${fontFamily}`;
+      })
   );
+}
+
+/**
+ *
+ * @param cellBbox box data in style [left, top, right, bottom]
+ * @param docBboxes document box data in style {x, y, width, height}
+ */
+function findMatchingBbox(cellBbox: Bbox, docBboxes: ProcessedBbox[]): ProcessedBbox | undefined {
+  return docBboxes.find(docBox => {
+    const { left: leftB, top: topB, right: rightB, bottom: bottomB } = docBox;
+    return intersects(cellBbox, [leftB, topB, rightB, bottomB]);
+  });
 }
 
 export default PdfFallback;

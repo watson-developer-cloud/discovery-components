@@ -1,42 +1,13 @@
 import { useEffect, useState } from 'react';
-import { QueryResultPassage } from '@disco-widgets/ibm-watson/discovery/v1';
-
-// [ left, top, right, bottom ]
-export type Bbox = [number, number, number, number];
-export interface PageInfo {
-  page_number: number;
-  bbox: Bbox;
-}
-
-// TODO replace with interface from SDK once defined
-interface TextMappings {
-  pages: Array<{
-    page_number: number;
-    width: number;
-    height: number;
-    origin: 'TopLeft' | 'BottomLeft';
-  }>;
-  cells: Array<{
-    page: {
-      page_number: number;
-      bbox: Bbox;
-    };
-
-    field: {
-      name: string;
-      index: number;
-      // [ START, END ]
-      span: [number, number];
-    };
-  }>;
-}
+import { QueryResult, QueryResultPassage } from '@disco-widgets/ibm-watson/discovery/v1';
+import { CellPage, TextMappings } from '../../types';
 
 // React hook for retrieving passage bbox data from document
 export function usePassage(
-  document?: any,
+  document?: QueryResult,
   passage?: QueryResultPassage
-): ReadonlyArray<PageInfo> | null {
-  const [pageInfo, setPageInfo] = useState<ReadonlyArray<PageInfo> | null>(null);
+): ReadonlyArray<CellPage> | null {
+  const [pageInfo, setPageInfo] = useState<ReadonlyArray<CellPage> | null>(null);
 
   useEffect((): void => {
     if (
@@ -64,7 +35,7 @@ const END = 1;
 export function getPassagePageInfo(
   textMappings: TextMappings,
   passage: QueryResultPassage
-): ReadonlyArray<PageInfo> | null {
+): ReadonlyArray<CellPage> | null {
   const { start_offset, end_offset, field } = passage;
 
   if (!start_offset || !end_offset) {

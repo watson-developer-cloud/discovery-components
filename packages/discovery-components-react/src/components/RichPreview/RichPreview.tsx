@@ -25,10 +25,15 @@ const SCALE_FACTOR = 1.2;
 export const RichPreview: FC<Props> = ({ document, file }) => {
   const base = `${settings.prefix}--rich-preview`;
 
+  const [currentPage, setCurrentPage] = useState(1);
+  useEffect(() => {
+    // reset state if document changes
+    setCurrentPage(1);
+  }, [document]);
+
   // If passage, initialize first page to that of passage; otherwise
   // default to first page
   const passage = get(document, 'document_passages[0]'); // Only look for first passage, if available
-  const [currentPage, setCurrentPage] = useState(0);
   const [passageFirstPage, setPassageFirstPage] = useState(0);
   useEffect(() => {
     if (!passage) {
@@ -109,7 +114,7 @@ function RichPreviewDocument({
   return file ? (
     <PdfViewer file={file} page={currentPage} scale={scale} setPageCount={setPdfPageCount} />
   ) : supportsPdfFallback(document) ? (
-    <PdfFallback document={document} currentPage={currentPage} />
+    <PdfFallback key={document && document.id} document={document} currentPage={currentPage} />
   ) : (
     <SimpleDocument document={document} />
   );
