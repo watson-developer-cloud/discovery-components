@@ -25,6 +25,15 @@ interface SearchResultsProps {
    * specify whether or not the Result component should display passages
    */
   usePassages?: boolean;
+  /**
+   * specify an approximate max length for passages returned to the Result component
+   * default length is 400. Min length is 50 and max length is 2000.
+   */
+  passageLength?: number;
+  /**
+   * specify a className for styling <em> tags within passages
+   */
+  passageHighlightsClassName?: string;
 }
 
 export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
@@ -32,11 +41,19 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   resultLinkTemplate,
   resultTitleField = 'extracted_metadata.title',
   bodyField = 'text',
-  usePassages = true
+  usePassages = true,
+  passageLength,
+  passageHighlightsClassName
 }) => {
-  const { searchResults } = useContext(SearchContext);
+  const { searchResults, onUpdatePassageLength } = useContext(SearchContext);
   const { matching_results: matchingResults, results } = searchResults;
   const querySubmitted = false; // TODO replace this with whatever value tells our component if a query has been submitted
+
+  React.useEffect(() => {
+    if (passageLength) {
+      onUpdatePassageLength(passageLength);
+    }
+  }, [passageLength]);
 
   if (matchingResults && matchingResults > 0) {
     return (
@@ -51,6 +68,7 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
               resultLinkTemplate={resultLinkTemplate}
               bodyField={bodyField}
               usePassages={usePassages}
+              passageHighlightsClassName={passageHighlightsClassName}
             />
           );
         })}

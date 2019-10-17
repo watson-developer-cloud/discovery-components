@@ -11,6 +11,7 @@ export function wrapWithContext(
     onUpdateAggregationQuery: (): Promise<void> => Promise.resolve(),
     onUpdateNaturalLanguageQuery: (): Promise<void> => Promise.resolve(),
     onUpdateFilter: (): Promise<void> => Promise.resolve(),
+    onUpdatePassageLength: (): Promise<void> => Promise.resolve(),
     onUpdateResultsPagination: (): Promise<void> => Promise.resolve(),
     onUpdateSelectedCollections: (): Promise<void> => Promise.resolve(),
     onSelectResult: (): Promise<void> => Promise.resolve(),

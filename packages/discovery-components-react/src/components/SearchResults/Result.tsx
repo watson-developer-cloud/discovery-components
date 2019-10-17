@@ -29,6 +29,10 @@ interface ResultProps {
    * specify whether or not the Result component should display passages
    */
   usePassages: boolean;
+  /**
+   * specify a className for styling <em> tags within passages
+   */
+  passageHighlightsClassName?: string;
 }
 export const Result: React.FunctionComponent<ResultProps> = ({
   result,
@@ -36,7 +40,8 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   resultLinkField,
   resultLinkTemplate,
   bodyField,
-  usePassages
+  usePassages,
+  passageHighlightsClassName
 }) => {
   const { document_id: documentId } = result;
   const { onSelectResult, selectedResult } = useContext(SearchContext);
@@ -53,7 +58,12 @@ export const Result: React.FunctionComponent<ResultProps> = ({
 
   const baseStyle = `${settings.prefix}--search-result`;
   const titleStyle = `${baseStyle}--title`;
-  const bodyStyle = `${baseStyle}--body`;
+  let bodyStyle = `${baseStyle}--body`;
+  if (passageHighlightsClassName) {
+    bodyStyle += ` ${passageHighlightsClassName}`;
+  } else {
+    bodyStyle += ` ${baseStyle}--body__highlight`;
+  }
   const selectedStyle: string = isEqual(result, selectedResult) ? `${baseStyle}--selected` : '';
 
   const handleSelectResult = (): void => {

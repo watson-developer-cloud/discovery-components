@@ -24,6 +24,7 @@ import { getSdkHeaders } from '../lib/common';
  */
 
 class DiscoveryV1 extends BaseService {
+
   static URL: string = 'https://{cluster_host}{:port}/discovery/api';
   name: string; // set by prototype to 'discovery-data'
   serviceVersion: string; // set by prototype to 'v1'
@@ -113,10 +114,7 @@ class DiscoveryV1 extends BaseService {
    * @param {Function} [callback] - The callback that handles the response.
    * @returns {Promise<any>|void}
    */
-  public addDocument(
-    params: DiscoveryV1.AddDocumentParams,
-    callback?: DiscoveryV1.Callback<DiscoveryV1.DocumentAccepted>
-  ): Promise<any> | void {
+  public addDocument(params: DiscoveryV1.AddDocumentParams, callback?: DiscoveryV1.Callback<DiscoveryV1.DocumentAccepted>): Promise<any> | void {
     const _params = extend({}, params);
     const _callback = callback;
     const requiredParams = ['environment_id', 'collection_id'];
@@ -134,17 +132,17 @@ class DiscoveryV1 extends BaseService {
       return _callback(missingParams);
     }
     const formData = {
-      file: {
+      'file': {
         data: _params.file,
         filename: _params.filename,
         contentType: _params.file_content_type
       },
-      metadata: _params.metadata
+      'metadata': _params.metadata
     };
 
     const path = {
-      environment_id: _params.environment_id,
-      collection_id: _params.collection_id
+      'environment_id': _params.environment_id,
+      'collection_id': _params.collection_id
     };
 
     const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'addDocument');
@@ -157,20 +155,15 @@ class DiscoveryV1 extends BaseService {
         formData
       },
       defaultOptions: extend(true, {}, this._options, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            Accept: 'application/json',
-            'Content-Type': 'multipart/form-data'
-          },
-          _params.headers
-        )
-      })
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+          'Content-Type': 'multipart/form-data',
+        }, _params.headers),
+      }),
     };
 
     return this.createRequest(parameters, _callback);
-  }
+  };
 
   /**
    * Update a document.
@@ -201,10 +194,7 @@ class DiscoveryV1 extends BaseService {
    * @param {Function} [callback] - The callback that handles the response.
    * @returns {Promise<any>|void}
    */
-  public updateDocument(
-    params: DiscoveryV1.UpdateDocumentParams,
-    callback?: DiscoveryV1.Callback<DiscoveryV1.DocumentAccepted>
-  ): Promise<any> | void {
+  public updateDocument(params: DiscoveryV1.UpdateDocumentParams, callback?: DiscoveryV1.Callback<DiscoveryV1.DocumentAccepted>): Promise<any> | void {
     const _params = extend({}, params);
     const _callback = callback;
     const requiredParams = ['environment_id', 'collection_id', 'document_id'];
@@ -222,45 +212,39 @@ class DiscoveryV1 extends BaseService {
       return _callback(missingParams);
     }
     const formData = {
-      file: {
+      'file': {
         data: _params.file,
         filename: _params.filename,
         contentType: _params.file_content_type
       },
-      metadata: _params.metadata
+      'metadata': _params.metadata
     };
 
     const path = {
-      environment_id: _params.environment_id,
-      collection_id: _params.collection_id,
-      document_id: _params.document_id
+      'environment_id': _params.environment_id,
+      'collection_id': _params.collection_id,
+      'document_id': _params.document_id
     };
 
     const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'updateDocument');
 
     const parameters = {
       options: {
-        url:
-          '/v1/environments/{environment_id}/collections/{collection_id}/documents/{document_id}',
+        url: '/v1/environments/{environment_id}/collections/{collection_id}/documents/{document_id}',
         method: 'POST',
         path,
         formData
       },
       defaultOptions: extend(true, {}, this._options, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            Accept: 'application/json',
-            'Content-Type': 'multipart/form-data'
-          },
-          _params.headers
-        )
-      })
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+          'Content-Type': 'multipart/form-data',
+        }, _params.headers),
+      }),
     };
 
     return this.createRequest(parameters, _callback);
-  }
+  };
 
   /**
    * Delete a document.
@@ -280,10 +264,7 @@ class DiscoveryV1 extends BaseService {
    * @param {Function} [callback] - The callback that handles the response.
    * @returns {Promise<any>|void}
    */
-  public deleteDocument(
-    params: DiscoveryV1.DeleteDocumentParams,
-    callback?: DiscoveryV1.Callback<DiscoveryV1.DeleteDocumentResponse>
-  ): Promise<any> | void {
+  public deleteDocument(params: DiscoveryV1.DeleteDocumentParams, callback?: DiscoveryV1.Callback<DiscoveryV1.DeleteDocumentResponse>): Promise<any> | void {
     const _params = extend({}, params);
     const _callback = callback;
     const requiredParams = ['environment_id', 'collection_id', 'document_id'];
@@ -302,34 +283,28 @@ class DiscoveryV1 extends BaseService {
     }
 
     const path = {
-      environment_id: _params.environment_id,
-      collection_id: _params.collection_id,
-      document_id: _params.document_id
+      'environment_id': _params.environment_id,
+      'collection_id': _params.collection_id,
+      'document_id': _params.document_id
     };
 
     const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'deleteDocument');
 
     const parameters = {
       options: {
-        url:
-          '/v1/environments/{environment_id}/collections/{collection_id}/documents/{document_id}',
+        url: '/v1/environments/{environment_id}/collections/{collection_id}/documents/{document_id}',
         method: 'DELETE',
-        path
+        path,
       },
       defaultOptions: extend(true, {}, this._options, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            Accept: 'application/json'
-          },
-          _params.headers
-        )
-      })
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+        }, _params.headers),
+      }),
     };
 
     return this.createRequest(parameters, _callback);
-  }
+  };
 
   /*************************
    * queries
@@ -382,10 +357,7 @@ class DiscoveryV1 extends BaseService {
    * @param {Function} [callback] - The callback that handles the response.
    * @returns {Promise<any>|void}
    */
-  public queryUsingGet(
-    params: DiscoveryV1.QueryUsingGetParams,
-    callback?: DiscoveryV1.Callback<DiscoveryV1.QueryResponse>
-  ): Promise<any> | void {
+  public queryUsingGet(params: DiscoveryV1.QueryUsingGetParams, callback?: DiscoveryV1.Callback<DiscoveryV1.QueryResponse>): Promise<any> | void {
     const _params = extend({}, params);
     const _callback = callback;
     const requiredParams = ['project_id'];
@@ -404,18 +376,18 @@ class DiscoveryV1 extends BaseService {
     }
 
     const query = {
-      collection_ids: _params.collection_ids,
-      filter: _params.filter,
-      query: _params.query,
-      natural_language_query: _params.natural_language_query,
-      aggregation: _params.aggregation,
-      count: _params.count,
-      return: _params.return_fields,
-      offset: _params.offset,
-      sort: _params.sort,
-      highlight: _params.highlight,
-      spelling_suggestions: _params.spelling_suggestions,
-      passages: _params.passages,
+      'collection_ids': _params.collection_ids,
+      'filter': _params.filter,
+      'query': _params.query,
+      'natural_language_query': _params.natural_language_query,
+      'aggregation': _params.aggregation,
+      'count': _params.count,
+      'return': _params.return_fields,
+      'offset': _params.offset,
+      'sort': _params.sort,
+      'highlight': _params.highlight,
+      'spelling_suggestions': _params.spelling_suggestions,
+      'passages': _params.passages,
       'passages.per_document': _params.passages_per_document,
       'passages.max_passages_per_document': _params.passages_max_passages_per_document,
       'passages.fields': _params.passages_fields,
@@ -424,7 +396,7 @@ class DiscoveryV1 extends BaseService {
     };
 
     const path = {
-      project_id: _params.project_id
+      'project_id': _params.project_id
     };
 
     const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'queryUsingGet');
@@ -434,22 +406,17 @@ class DiscoveryV1 extends BaseService {
         url: '/v2/projects/{project_id}/query',
         method: 'GET',
         qs: query,
-        path
+        path,
       },
       defaultOptions: extend(true, {}, this._options, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            Accept: 'application/json'
-          },
-          _params.headers
-        )
-      })
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+        }, _params.headers),
+      }),
     };
 
     return this.createRequest(parameters, _callback);
-  }
+  };
 
   /**
    * Query a project.
@@ -478,25 +445,14 @@ class DiscoveryV1 extends BaseService {
    * @param {boolean} [params.highlight] - When `true`, a highlight field is returned for each result which contains the
    * fields which match the query with `<em></em>` tags around the matching query terms.
    * @param {boolean} [params.spelling_suggestions] - When `true` and the **natural_language_query** parameter is used,
-   * the **natural_languge_query** parameter is spell checked. The most likely correction is retunred in the
+   * the **natural_language_query** parameter is spell checked. The most likely correction is retunred in the
    * **suggested_query** field of the response (if one exists).
-   * @param {boolean} [params.passages] - A passages query that returns the most relevant passages from the results.
-   * @param {boolean} [params.passages_per_document] - When `true`, passages will be returned whithin their respective
-   * result.
-   * @param {boolean} [params.passages_max_passages_per_document] - Maximum number of passages to return per result.
-   * @param {string} [params.passages_fields] - A comma-separated list of fields that passages are drawn from. If this
-   * parameter not specified, then all top-level fields are included.
-   * @param {number} [params.passages_count] - The maximum number of passages to return. The search returns fewer
-   * passages if the requested total is not found. The default is `10`. The maximum is `100`.
-   * @param {number} [params.passages_characters] - The approximate number of characters that any one passage will have.
+   * @param {QueryLargePassages} [params.passages] - Configuration for passage retrieval.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @param {Function} [callback] - The callback that handles the response.
    * @returns {Promise<any>|void}
    */
-  public query(
-    params: DiscoveryV1.QueryParams,
-    callback?: DiscoveryV1.Callback<DiscoveryV1.QueryResponse>
-  ): Promise<any> | void {
+  public query(params: DiscoveryV1.QueryParams, callback?: DiscoveryV1.Callback<DiscoveryV1.QueryResponse>): Promise<any> | void {
     const _params = extend({}, params);
     const _callback = callback;
     const requiredParams = ['project_id'];
@@ -515,27 +471,22 @@ class DiscoveryV1 extends BaseService {
     }
 
     const body = {
-      collection_ids: _params.collection_ids,
-      filter: _params.filter,
-      query: _params.query,
-      natural_language_query: _params.natural_language_query,
-      aggregation: _params.aggregation,
-      count: _params.count,
-      return: _params.return_fields,
-      offset: _params.offset,
-      sort: _params.sort,
-      highlight: _params.highlight,
-      spelling_suggestions: _params.spelling_suggestions,
-      passages: _params.passages,
-      'passages.per_document': _params.passages_per_document,
-      'passages.max_passages_per_document': _params.passages_max_passages_per_document,
-      'passages.fields': _params.passages_fields,
-      'passages.count': _params.passages_count,
-      'passages.characters': _params.passages_characters
+      'collection_ids': _params.collection_ids,
+      'filter': _params.filter,
+      'query': _params.query,
+      'natural_language_query': _params.natural_language_query,
+      'aggregation': _params.aggregation,
+      'count': _params.count,
+      'return': _params.return_fields,
+      'offset': _params.offset,
+      'sort': _params.sort,
+      'highlight': _params.highlight,
+      'spelling_suggestions': _params.spelling_suggestions,
+      'passages': _params.passages
     };
 
     const path = {
-      project_id: _params.project_id
+      'project_id': _params.project_id
     };
 
     const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'query');
@@ -545,23 +496,18 @@ class DiscoveryV1 extends BaseService {
         url: '/v2/projects/{project_id}/query',
         method: 'POST',
         body,
-        path
+        path,
       },
       defaultOptions: extend(true, {}, this._options, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          },
-          _params.headers
-        )
-      })
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        }, _params.headers),
+      }),
     };
 
     return this.createRequest(parameters, _callback);
-  }
+  };
 
   /**
    * Get Autocomplete Suggestions.
@@ -580,10 +526,7 @@ class DiscoveryV1 extends BaseService {
    * @param {Function} [callback] - The callback that handles the response.
    * @returns {Promise<any>|void}
    */
-  public getAutocompletion(
-    params: DiscoveryV1.GetAutocompletionParams,
-    callback?: DiscoveryV1.Callback<DiscoveryV1.Completions>
-  ): Promise<any> | void {
+  public getAutocompletion(params: DiscoveryV1.GetAutocompletionParams, callback?: DiscoveryV1.Callback<DiscoveryV1.Completions>): Promise<any> | void {
     const _params = extend({}, params);
     const _callback = callback;
     const requiredParams = ['project_id'];
@@ -602,14 +545,14 @@ class DiscoveryV1 extends BaseService {
     }
 
     const query = {
-      collection_ids: _params.collection_ids,
-      field: _params.field,
-      prefix: _params.prefix,
-      count: _params.count
+      'collection_ids': _params.collection_ids,
+      'field': _params.field,
+      'prefix': _params.prefix,
+      'count': _params.count
     };
 
     const path = {
-      project_id: _params.project_id
+      'project_id': _params.project_id
     };
 
     const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'getAutocompletion');
@@ -619,22 +562,17 @@ class DiscoveryV1 extends BaseService {
         url: '/v2/projects/{project_id}/autocompletion',
         method: 'GET',
         qs: query,
-        path
+        path,
       },
       defaultOptions: extend(true, {}, this._options, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            Accept: 'application/json'
-          },
-          _params.headers
-        )
-      })
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+        }, _params.headers),
+      }),
     };
 
     return this.createRequest(parameters, _callback);
-  }
+  };
 
   /*************************
    * trainingData
@@ -653,10 +591,7 @@ class DiscoveryV1 extends BaseService {
    * @param {Function} [callback] - The callback that handles the response.
    * @returns {Promise<any>|void}
    */
-  public listTrainingData(
-    params: DiscoveryV1.ListTrainingDataParams,
-    callback?: DiscoveryV1.Callback<DiscoveryV1.TrainingDataSet>
-  ): Promise<any> | void {
+  public listTrainingData(params: DiscoveryV1.ListTrainingDataParams, callback?: DiscoveryV1.Callback<DiscoveryV1.TrainingDataSet>): Promise<any> | void {
     const _params = extend({}, params);
     const _callback = callback;
     const requiredParams = ['environment_id', 'collection_id'];
@@ -675,8 +610,8 @@ class DiscoveryV1 extends BaseService {
     }
 
     const path = {
-      environment_id: _params.environment_id,
-      collection_id: _params.collection_id
+      'environment_id': _params.environment_id,
+      'collection_id': _params.collection_id
     };
 
     const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'listTrainingData');
@@ -685,22 +620,17 @@ class DiscoveryV1 extends BaseService {
       options: {
         url: '/v1/environments/{environment_id}/collections/{collection_id}/training_data',
         method: 'GET',
-        path
+        path,
       },
       defaultOptions: extend(true, {}, this._options, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            Accept: 'application/json'
-          },
-          _params.headers
-        )
-      })
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+        }, _params.headers),
+      }),
     };
 
     return this.createRequest(parameters, _callback);
-  }
+  };
 
   /**
    * Add query to training data.
@@ -719,10 +649,7 @@ class DiscoveryV1 extends BaseService {
    * @param {Function} [callback] - The callback that handles the response.
    * @returns {Promise<any>|void}
    */
-  public addTrainingData(
-    params: DiscoveryV1.AddTrainingDataParams,
-    callback?: DiscoveryV1.Callback<DiscoveryV1.TrainingQuery>
-  ): Promise<any> | void {
+  public addTrainingData(params: DiscoveryV1.AddTrainingDataParams, callback?: DiscoveryV1.Callback<DiscoveryV1.TrainingQuery>): Promise<any> | void {
     const _params = extend({}, params);
     const _callback = callback;
     const requiredParams = ['environment_id', 'collection_id'];
@@ -741,14 +668,14 @@ class DiscoveryV1 extends BaseService {
     }
 
     const body = {
-      natural_language_query: _params.natural_language_query,
-      filter: _params.filter,
-      examples: _params.examples
+      'natural_language_query': _params.natural_language_query,
+      'filter': _params.filter,
+      'examples': _params.examples
     };
 
     const path = {
-      environment_id: _params.environment_id,
-      collection_id: _params.collection_id
+      'environment_id': _params.environment_id,
+      'collection_id': _params.collection_id
     };
 
     const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'addTrainingData');
@@ -758,23 +685,18 @@ class DiscoveryV1 extends BaseService {
         url: '/v1/environments/{environment_id}/collections/{collection_id}/training_data',
         method: 'POST',
         body,
-        path
+        path,
       },
       defaultOptions: extend(true, {}, this._options, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          },
-          _params.headers
-        )
-      })
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        }, _params.headers),
+      }),
     };
 
     return this.createRequest(parameters, _callback);
-  }
+  };
 
   /**
    * Delete all training data.
@@ -789,10 +711,7 @@ class DiscoveryV1 extends BaseService {
    * @param {Function} [callback] - The callback that handles the response.
    * @returns {Promise<any>|void}
    */
-  public deleteAllTrainingData(
-    params: DiscoveryV1.DeleteAllTrainingDataParams,
-    callback?: DiscoveryV1.Callback<DiscoveryV1.Empty>
-  ): Promise<any> | void {
+  public deleteAllTrainingData(params: DiscoveryV1.DeleteAllTrainingDataParams, callback?: DiscoveryV1.Callback<DiscoveryV1.Empty>): Promise<any> | void {
     const _params = extend({}, params);
     const _callback = callback;
     const requiredParams = ['environment_id', 'collection_id'];
@@ -811,8 +730,8 @@ class DiscoveryV1 extends BaseService {
     }
 
     const path = {
-      environment_id: _params.environment_id,
-      collection_id: _params.collection_id
+      'environment_id': _params.environment_id,
+      'collection_id': _params.collection_id
     };
 
     const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'deleteAllTrainingData');
@@ -821,15 +740,16 @@ class DiscoveryV1 extends BaseService {
       options: {
         url: '/v1/environments/{environment_id}/collections/{collection_id}/training_data',
         method: 'DELETE',
-        path
+        path,
       },
       defaultOptions: extend(true, {}, this._options, {
-        headers: extend(true, sdkHeaders, {}, _params.headers)
-      })
+        headers: extend(true, sdkHeaders, {
+        }, _params.headers),
+      }),
     };
 
     return this.createRequest(parameters, _callback);
-  }
+  };
 
   /**
    * Get details about a query.
@@ -845,10 +765,7 @@ class DiscoveryV1 extends BaseService {
    * @param {Function} [callback] - The callback that handles the response.
    * @returns {Promise<any>|void}
    */
-  public getTrainingData(
-    params: DiscoveryV1.GetTrainingDataParams,
-    callback?: DiscoveryV1.Callback<DiscoveryV1.TrainingQuery>
-  ): Promise<any> | void {
+  public getTrainingData(params: DiscoveryV1.GetTrainingDataParams, callback?: DiscoveryV1.Callback<DiscoveryV1.TrainingQuery>): Promise<any> | void {
     const _params = extend({}, params);
     const _callback = callback;
     const requiredParams = ['environment_id', 'collection_id', 'query_id'];
@@ -867,34 +784,28 @@ class DiscoveryV1 extends BaseService {
     }
 
     const path = {
-      environment_id: _params.environment_id,
-      collection_id: _params.collection_id,
-      query_id: _params.query_id
+      'environment_id': _params.environment_id,
+      'collection_id': _params.collection_id,
+      'query_id': _params.query_id
     };
 
     const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'getTrainingData');
 
     const parameters = {
       options: {
-        url:
-          '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}',
+        url: '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}',
         method: 'GET',
-        path
+        path,
       },
       defaultOptions: extend(true, {}, this._options, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            Accept: 'application/json'
-          },
-          _params.headers
-        )
-      })
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+        }, _params.headers),
+      }),
     };
 
     return this.createRequest(parameters, _callback);
-  }
+  };
 
   /**
    * Delete a training data query.
@@ -910,10 +821,7 @@ class DiscoveryV1 extends BaseService {
    * @param {Function} [callback] - The callback that handles the response.
    * @returns {Promise<any>|void}
    */
-  public deleteTrainingData(
-    params: DiscoveryV1.DeleteTrainingDataParams,
-    callback?: DiscoveryV1.Callback<DiscoveryV1.Empty>
-  ): Promise<any> | void {
+  public deleteTrainingData(params: DiscoveryV1.DeleteTrainingDataParams, callback?: DiscoveryV1.Callback<DiscoveryV1.Empty>): Promise<any> | void {
     const _params = extend({}, params);
     const _callback = callback;
     const requiredParams = ['environment_id', 'collection_id', 'query_id'];
@@ -932,27 +840,27 @@ class DiscoveryV1 extends BaseService {
     }
 
     const path = {
-      environment_id: _params.environment_id,
-      collection_id: _params.collection_id,
-      query_id: _params.query_id
+      'environment_id': _params.environment_id,
+      'collection_id': _params.collection_id,
+      'query_id': _params.query_id
     };
 
     const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'deleteTrainingData');
 
     const parameters = {
       options: {
-        url:
-          '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}',
+        url: '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}',
         method: 'DELETE',
-        path
+        path,
       },
       defaultOptions: extend(true, {}, this._options, {
-        headers: extend(true, sdkHeaders, {}, _params.headers)
-      })
+        headers: extend(true, sdkHeaders, {
+        }, _params.headers),
+      }),
     };
 
     return this.createRequest(parameters, _callback);
-  }
+  };
 
   /**
    * List examples for a training data query.
@@ -968,10 +876,7 @@ class DiscoveryV1 extends BaseService {
    * @param {Function} [callback] - The callback that handles the response.
    * @returns {Promise<any>|void}
    */
-  public listTrainingExamples(
-    params: DiscoveryV1.ListTrainingExamplesParams,
-    callback?: DiscoveryV1.Callback<DiscoveryV1.TrainingExampleList>
-  ): Promise<any> | void {
+  public listTrainingExamples(params: DiscoveryV1.ListTrainingExamplesParams, callback?: DiscoveryV1.Callback<DiscoveryV1.TrainingExampleList>): Promise<any> | void {
     const _params = extend({}, params);
     const _callback = callback;
     const requiredParams = ['environment_id', 'collection_id', 'query_id'];
@@ -990,34 +895,28 @@ class DiscoveryV1 extends BaseService {
     }
 
     const path = {
-      environment_id: _params.environment_id,
-      collection_id: _params.collection_id,
-      query_id: _params.query_id
+      'environment_id': _params.environment_id,
+      'collection_id': _params.collection_id,
+      'query_id': _params.query_id
     };
 
     const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'listTrainingExamples');
 
     const parameters = {
       options: {
-        url:
-          '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}/examples',
+        url: '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}/examples',
         method: 'GET',
-        path
+        path,
       },
       defaultOptions: extend(true, {}, this._options, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            Accept: 'application/json'
-          },
-          _params.headers
-        )
-      })
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+        }, _params.headers),
+      }),
     };
 
     return this.createRequest(parameters, _callback);
-  }
+  };
 
   /**
    * Add example to training data query.
@@ -1036,10 +935,7 @@ class DiscoveryV1 extends BaseService {
    * @param {Function} [callback] - The callback that handles the response.
    * @returns {Promise<any>|void}
    */
-  public createTrainingExample(
-    params: DiscoveryV1.CreateTrainingExampleParams,
-    callback?: DiscoveryV1.Callback<DiscoveryV1.TrainingExample>
-  ): Promise<any> | void {
+  public createTrainingExample(params: DiscoveryV1.CreateTrainingExampleParams, callback?: DiscoveryV1.Callback<DiscoveryV1.TrainingExample>): Promise<any> | void {
     const _params = extend({}, params);
     const _callback = callback;
     const requiredParams = ['environment_id', 'collection_id', 'query_id'];
@@ -1058,42 +954,36 @@ class DiscoveryV1 extends BaseService {
     }
 
     const body = {
-      document_id: _params.document_id,
-      cross_reference: _params.cross_reference,
-      relevance: _params.relevance
+      'document_id': _params.document_id,
+      'cross_reference': _params.cross_reference,
+      'relevance': _params.relevance
     };
 
     const path = {
-      environment_id: _params.environment_id,
-      collection_id: _params.collection_id,
-      query_id: _params.query_id
+      'environment_id': _params.environment_id,
+      'collection_id': _params.collection_id,
+      'query_id': _params.query_id
     };
 
     const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'createTrainingExample');
 
     const parameters = {
       options: {
-        url:
-          '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}/examples',
+        url: '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}/examples',
         method: 'POST',
         body,
-        path
+        path,
       },
       defaultOptions: extend(true, {}, this._options, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          },
-          _params.headers
-        )
-      })
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        }, _params.headers),
+      }),
     };
 
     return this.createRequest(parameters, _callback);
-  }
+  };
 
   /**
    * Delete example for training data query.
@@ -1110,10 +1000,7 @@ class DiscoveryV1 extends BaseService {
    * @param {Function} [callback] - The callback that handles the response.
    * @returns {Promise<any>|void}
    */
-  public deleteTrainingExample(
-    params: DiscoveryV1.DeleteTrainingExampleParams,
-    callback?: DiscoveryV1.Callback<DiscoveryV1.Empty>
-  ): Promise<any> | void {
+  public deleteTrainingExample(params: DiscoveryV1.DeleteTrainingExampleParams, callback?: DiscoveryV1.Callback<DiscoveryV1.Empty>): Promise<any> | void {
     const _params = extend({}, params);
     const _callback = callback;
     const requiredParams = ['environment_id', 'collection_id', 'query_id', 'example_id'];
@@ -1132,28 +1019,28 @@ class DiscoveryV1 extends BaseService {
     }
 
     const path = {
-      environment_id: _params.environment_id,
-      collection_id: _params.collection_id,
-      query_id: _params.query_id,
-      example_id: _params.example_id
+      'environment_id': _params.environment_id,
+      'collection_id': _params.collection_id,
+      'query_id': _params.query_id,
+      'example_id': _params.example_id
     };
 
     const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'deleteTrainingExample');
 
     const parameters = {
       options: {
-        url:
-          '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}/examples/{example_id}',
+        url: '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}/examples/{example_id}',
         method: 'DELETE',
-        path
+        path,
       },
       defaultOptions: extend(true, {}, this._options, {
-        headers: extend(true, sdkHeaders, {}, _params.headers)
-      })
+        headers: extend(true, sdkHeaders, {
+        }, _params.headers),
+      }),
     };
 
     return this.createRequest(parameters, _callback);
-  }
+  };
 
   /**
    * Change label or cross reference for example.
@@ -1172,10 +1059,7 @@ class DiscoveryV1 extends BaseService {
    * @param {Function} [callback] - The callback that handles the response.
    * @returns {Promise<any>|void}
    */
-  public updateTrainingExample(
-    params: DiscoveryV1.UpdateTrainingExampleParams,
-    callback?: DiscoveryV1.Callback<DiscoveryV1.TrainingExample>
-  ): Promise<any> | void {
+  public updateTrainingExample(params: DiscoveryV1.UpdateTrainingExampleParams, callback?: DiscoveryV1.Callback<DiscoveryV1.TrainingExample>): Promise<any> | void {
     const _params = extend({}, params);
     const _callback = callback;
     const requiredParams = ['environment_id', 'collection_id', 'query_id', 'example_id'];
@@ -1194,42 +1078,36 @@ class DiscoveryV1 extends BaseService {
     }
 
     const body = {
-      cross_reference: _params.cross_reference,
-      relevance: _params.relevance
+      'cross_reference': _params.cross_reference,
+      'relevance': _params.relevance
     };
 
     const path = {
-      environment_id: _params.environment_id,
-      collection_id: _params.collection_id,
-      query_id: _params.query_id,
-      example_id: _params.example_id
+      'environment_id': _params.environment_id,
+      'collection_id': _params.collection_id,
+      'query_id': _params.query_id,
+      'example_id': _params.example_id
     };
 
     const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'updateTrainingExample');
 
     const parameters = {
       options: {
-        url:
-          '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}/examples/{example_id}',
+        url: '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}/examples/{example_id}',
         method: 'PUT',
         body,
-        path
+        path,
       },
       defaultOptions: extend(true, {}, this._options, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          },
-          _params.headers
-        )
-      })
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        }, _params.headers),
+      }),
     };
 
     return this.createRequest(parameters, _callback);
-  }
+  };
 
   /**
    * Get details for training data example.
@@ -1246,10 +1124,7 @@ class DiscoveryV1 extends BaseService {
    * @param {Function} [callback] - The callback that handles the response.
    * @returns {Promise<any>|void}
    */
-  public getTrainingExample(
-    params: DiscoveryV1.GetTrainingExampleParams,
-    callback?: DiscoveryV1.Callback<DiscoveryV1.TrainingExample>
-  ): Promise<any> | void {
+  public getTrainingExample(params: DiscoveryV1.GetTrainingExampleParams, callback?: DiscoveryV1.Callback<DiscoveryV1.TrainingExample>): Promise<any> | void {
     const _params = extend({}, params);
     const _callback = callback;
     const requiredParams = ['environment_id', 'collection_id', 'query_id', 'example_id'];
@@ -1268,35 +1143,29 @@ class DiscoveryV1 extends BaseService {
     }
 
     const path = {
-      environment_id: _params.environment_id,
-      collection_id: _params.collection_id,
-      query_id: _params.query_id,
-      example_id: _params.example_id
+      'environment_id': _params.environment_id,
+      'collection_id': _params.collection_id,
+      'query_id': _params.query_id,
+      'example_id': _params.example_id
     };
 
     const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'getTrainingExample');
 
     const parameters = {
       options: {
-        url:
-          '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}/examples/{example_id}',
+        url: '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}/examples/{example_id}',
         method: 'GET',
-        path
+        path,
       },
       defaultOptions: extend(true, {}, this._options, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            Accept: 'application/json'
-          },
-          _params.headers
-        )
-      })
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+        }, _params.headers),
+      }),
     };
 
     return this.createRequest(parameters, _callback);
-  }
+  };
 
   /*************************
    * collections
@@ -1313,10 +1182,7 @@ class DiscoveryV1 extends BaseService {
    * @param {Function} [callback] - The callback that handles the response.
    * @returns {Promise<any>|void}
    */
-  public listCollections(
-    params: DiscoveryV1.ListCollectionsParams,
-    callback?: DiscoveryV1.Callback<DiscoveryV1.ListCollectionsResponse>
-  ): Promise<any> | void {
+  public listCollections(params: DiscoveryV1.ListCollectionsParams, callback?: DiscoveryV1.Callback<DiscoveryV1.ListCollectionsResponse>): Promise<any> | void {
     const _params = extend({}, params);
     const _callback = callback;
     const requiredParams = ['project_id'];
@@ -1335,7 +1201,7 @@ class DiscoveryV1 extends BaseService {
     }
 
     const path = {
-      project_id: _params.project_id
+      'project_id': _params.project_id
     };
 
     const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'listCollections');
@@ -1344,22 +1210,18 @@ class DiscoveryV1 extends BaseService {
       options: {
         url: '/v2/projects/{project_id}/collections',
         method: 'GET',
-        path
+        path,
       },
       defaultOptions: extend(true, {}, this._options, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            Accept: 'application/json'
-          },
-          _params.headers
-        )
-      })
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+        }, _params.headers),
+      }),
     };
 
     return this.createRequest(parameters, _callback);
-  }
+  };
+
 }
 
 DiscoveryV1.prototype.name = 'discovery-data';
@@ -1370,6 +1232,7 @@ DiscoveryV1.prototype.serviceVersion = 'v1';
  ************************/
 
 namespace DiscoveryV1 {
+
   /** Options for the `DiscoveryV1` constructor. */
   export type Options = {
     version: string;
@@ -1390,9 +1253,9 @@ namespace DiscoveryV1 {
     headers?: OutgoingHttpHeaders;
     /** Allow additional request config parameters */
     [propName: string]: any;
-  };
+  }
 
-  export interface Response<T = any> {
+  export interface Response<T = any>  {
     result: T;
     data: T; // for compatibility
     status: number;
@@ -1404,7 +1267,7 @@ namespace DiscoveryV1 {
   export type Callback<T> = (error: any, body?: T, response?: Response<T>) => void;
 
   /** The body of a service request that returns no response data. */
-  export interface Empty {}
+  export interface Empty { }
 
   /** A standard JS object, defined to avoid the limitations of `Object` and `object` */
   export interface JsonObject {
@@ -1422,7 +1285,7 @@ namespace DiscoveryV1 {
     /** The ID of the collection. */
     collection_id: string;
     /** The content of the document to ingest. The maximum supported file size when adding a file to a collection is 50 megabytes, the maximum supported file size when testing a confiruration is 1 megabyte. Files larger than the supported size are rejected. */
-    file?: NodeJS.ReadableStream | FileObject | Buffer;
+    file?: NodeJS.ReadableStream|FileObject|Buffer;
     /** The filename for file. */
     filename?: string;
     /** The content type of file. */
@@ -1442,7 +1305,7 @@ namespace DiscoveryV1 {
       APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
       APPLICATION_PDF = 'application/pdf',
       TEXT_HTML = 'text/html',
-      APPLICATION_XHTML_XML = 'application/xhtml+xml'
+      APPLICATION_XHTML_XML = 'application/xhtml+xml',
     }
   }
 
@@ -1455,7 +1318,7 @@ namespace DiscoveryV1 {
     /** The ID of the document. */
     document_id: string;
     /** The content of the document to ingest. The maximum supported file size when adding a file to a collection is 50 megabytes, the maximum supported file size when testing a confiruration is 1 megabyte. Files larger than the supported size are rejected. */
-    file?: NodeJS.ReadableStream | FileObject | Buffer;
+    file?: NodeJS.ReadableStream|FileObject|Buffer;
     /** The filename for file. */
     filename?: string;
     /** The content type of file. */
@@ -1475,7 +1338,7 @@ namespace DiscoveryV1 {
       APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
       APPLICATION_PDF = 'application/pdf',
       TEXT_HTML = 'text/html',
-      APPLICATION_XHTML_XML = 'application/xhtml+xml'
+      APPLICATION_XHTML_XML = 'application/xhtml+xml',
     }
   }
 
@@ -1557,20 +1420,10 @@ namespace DiscoveryV1 {
     sort?: string;
     /** When `true`, a highlight field is returned for each result which contains the fields which match the query with `<em></em>` tags around the matching query terms. */
     highlight?: boolean;
-    /** When `true` and the **natural_language_query** parameter is used, the **natural_languge_query** parameter is spell checked. The most likely correction is retunred in the **suggested_query** field of the response (if one exists). */
+    /** When `true` and the **natural_language_query** parameter is used, the **natural_language_query** parameter is spell checked. The most likely correction is retunred in the **suggested_query** field of the response (if one exists). */
     spelling_suggestions?: boolean;
-    /** A passages query that returns the most relevant passages from the results. */
-    passages?: boolean;
-    /** When `true`, passages will be returned whithin their respective result. */
-    passages_per_document?: boolean;
-    /** Maximum number of passages to return per result. */
-    passages_max_passages_per_document?: boolean;
-    /** A comma-separated list of fields that passages are drawn from. If this parameter not specified, then all top-level fields are included. */
-    passages_fields?: string;
-    /** The maximum number of passages to return. The search returns fewer passages if the requested total is not found. The default is `10`. The maximum is `100`. */
-    passages_count?: number;
-    /** The approximate number of characters that any one passage will have. */
-    passages_characters?: number;
+    /** Configuration for passage retrieval. */
+    passages?: QueryLargePassages;
     headers?: OutgoingHttpHeaders;
     return_response?: boolean;
   }
@@ -1846,6 +1699,22 @@ namespace DiscoveryV1 {
     aggregations?: QueryAggregation[];
   }
 
+  /** Configuration for passage retrieval. */
+  export interface QueryLargePassages {
+    /** A passages query that returns the most relevant passages from the results. */
+    enabled?: boolean;
+    /** When `true`, passages will be returned whithin their respective result. */
+    per_document?: boolean;
+    /** Maximum number of passages to return per result. */
+    max_passages_per_document?: boolean;
+    /** A comma-separated list of fields that passages are drawn from. If this parameter not specified, then all top-level fields are included. */
+    fields?: string;
+    /** The maximum number of passages to return. The search returns fewer passages if the requested total is not found. The default is `10`. The maximum is `100`. */
+    count?: number;
+    /** The approximate number of characters that any one passage will have. */
+    characters?: number;
+  }
+
   /** A response containing the documents and aggregations for the query. */
   export interface QueryResponse {
     /** The number of matching results for the query. */
@@ -1948,6 +1817,7 @@ namespace DiscoveryV1 {
     /** Array of training examples. */
     examples?: TrainingExample[];
   }
+
 }
 
 export = DiscoveryV1;

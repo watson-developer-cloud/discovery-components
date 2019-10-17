@@ -18,7 +18,9 @@ $result-background: white;
   &:last-of-type {
     margin-bottom: 0;
   }
+}
 
+.#{$prefix}--search-result--body__highlight {
   em {
     color: $text-04;
     background-color: $support-02;

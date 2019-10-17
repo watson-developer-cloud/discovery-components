@@ -46,6 +46,7 @@ export interface SearchContextIFC {
   onUpdateAggregationQuery: (aggregationQuery: string) => Promise<void>;
   onUpdateFilter: (filter: string) => Promise<void>;
   onUpdateNaturalLanguageQuery: (nlq: string, splitSearchQuerySelector?: string) => Promise<void>;
+  onUpdatePassageLength: (passageLength: number) => Promise<void>;
   onUpdateSelectedCollections: (collectionIds: string[]) => Promise<void>;
   onUpdateResultsPagination: (offset: number) => Promise<void>;
   onSelectResult: (result: DiscoveryV1.QueryResult) => Promise<void>;
@@ -63,6 +64,7 @@ export const SearchContext = React.createContext<SearchContextIFC>({
   onUpdateAggregationQuery: (): Promise<void> => Promise.resolve(),
   onUpdateFilter: (): Promise<void> => Promise.resolve(),
   onUpdateNaturalLanguageQuery: (): Promise<void> => Promise.resolve(),
+  onUpdatePassageLength: (): Promise<void> => Promise.resolve(),
   onUpdateResultsPagination: (): Promise<void> => Promise.resolve(),
   onUpdateSelectedCollections: (): Promise<void> => Promise.resolve(),
   onSelectResult: (): Promise<void> => Promise.resolve(),
@@ -199,6 +201,19 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
     setSearchParameters(searchParameters);
     return Promise.resolve();
   };
+  const handleUpdatePassageLength = (passageLength: number): Promise<void> => {
+    if (searchParameters.passages) {
+      searchParameters.passages.characters = passageLength;
+      searchParameters.passages.enabled = true;
+    } else {
+      searchParameters.passages = {
+        characters: passageLength,
+        enabled: true
+      };
+    }
+    setSearchParameters(searchParameters);
+    return Promise.resolve();
+  };
   const handleResultsPagination = (offset: number): Promise<void> => {
     searchParameters.offset = offset;
     setSearchParameters(searchParameters);
@@ -219,6 +234,7 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
       value={{
         onSearch: handleSearch,
         onRefinementsMount: handleRefinementsMount,
+        onUpdatePassageLength: handleUpdatePassageLength,
         onUpdateAggregationQuery: handleUpdateAggregationQuery,
         onUpdateFilter: handleUpdateFilter,
         onUpdateNaturalLanguageQuery: handleUpdateNaturalLanguageQuery,
