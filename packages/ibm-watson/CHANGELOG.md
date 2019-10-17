@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](http:///ibm-watson/compare/@disco-widgets/ibm-watson@1.3.3...@disco-widgets/ibm-watson@1.4.0) (2019-10-17)
+
+
+### Features
+
+* search results passage options ([#214](http:///ibm-watson/issues/214)) ([503daa3](http:///ibm-watson/commits/503daa3))
+
+
+
+
+
 ## [1.3.3](http:///ibm-watson/compare/@disco-widgets/ibm-watson@1.3.2...@disco-widgets/ibm-watson@1.3.3) (2019-10-15)
 
 **Note:** Version bump only for package @disco-widgets/ibm-watson

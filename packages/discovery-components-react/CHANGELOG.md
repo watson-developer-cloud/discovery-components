@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.34.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.33.0...@disco-widgets/react-components@1.34.0) (2019-10-17)
+
+
+### Features
+
+* search results passage options ([#214](http:///discovery-components-react/issues/214)) ([503daa3](http:///discovery-components-react/commits/503daa3))
+
+
+
+
+
 # [1.33.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.32.0...@disco-widgets/react-components@1.33.0) (2019-10-16)
 
 
