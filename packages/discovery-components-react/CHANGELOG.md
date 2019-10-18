@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.36.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.35.3...@disco-widgets/react-components@1.36.0) (2019-10-18)
+
+
+### Features
+
+* Curations (previously: Spotlights) support ([#217](http:///discovery-components-react/issues/217)) ([5192958](http:///discovery-components-react/commits/5192958))
+
+
+
+
+
 ## [1.35.3](http:///discovery-components-react/compare/@disco-widgets/react-components@1.35.2...@disco-widgets/react-components@1.35.3) (2019-10-18)
 
 

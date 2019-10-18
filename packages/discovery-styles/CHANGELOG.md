@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.0](http:///discovery-styles/compare/@disco-widgets/styles@1.10.1...@disco-widgets/styles@1.11.0) (2019-10-18)
+
+
+### Features
+
+* Curations (previously: Spotlights) support ([#217](http:///discovery-styles/issues/217)) ([5192958](http:///discovery-styles/commits/5192958))
+
+
+
+
+
 ## [1.10.1](http:///discovery-styles/compare/@disco-widgets/styles@1.10.0...@disco-widgets/styles@1.10.1) (2019-10-18)
 
 **Note:** Version bump only for package @disco-widgets/styles
