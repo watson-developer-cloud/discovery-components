@@ -64,7 +64,7 @@ export interface SearchContextIFC {
   autocompletionResults: DiscoveryV1.Completions;
 }
 
-export const SearchContext = React.createContext<SearchContextIFC>({
+export const searchContextDefaults = {
   onSearch: (): Promise<void> => Promise.resolve(),
   onFetchAutoCompletions: () => Promise.resolve(),
   onRefinementsMount: (): Promise<void> => Promise.resolve(),
@@ -79,7 +79,9 @@ export const SearchContext = React.createContext<SearchContextIFC>({
   selectedResult: {},
   autocompletionResults: {},
   collectionsResults: {}
-});
+};
+
+export const SearchContext = React.createContext<SearchContextIFC>(searchContextDefaults);
 
 export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
   searchClient,
