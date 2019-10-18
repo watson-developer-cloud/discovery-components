@@ -48,6 +48,10 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   const title: string | undefined = get(result, resultTitleField);
   const filename: string | undefined = get(result, 'extracted_metadata.filename');
   const firstPassageText: string | undefined = get(result, 'document_passages[0].passage_text');
+  const documentRetrievalSource: string | undefined = get(
+    result,
+    'result_metadata.document_retrieval_source'
+  );
 
   let body: string | undefined;
   if (usePassages) {
@@ -57,14 +61,18 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   }
 
   const baseStyle = `${settings.prefix}--search-result`;
-  const titleStyle = `${baseStyle}--title`;
-  let bodyStyle = `${baseStyle}--body`;
-  if (passageHighlightsClassName) {
-    bodyStyle += ` ${passageHighlightsClassName}`;
-  } else {
-    bodyStyle += ` ${baseStyle}--body__highlight`;
+  const searchResultClasses = [baseStyle];
+  if (documentRetrievalSource === 'curation') {
+    searchResultClasses.push(`${baseStyle}_curation`);
   }
-  const selectedStyle: string = isEqual(result, selectedResult) ? `${baseStyle}--selected` : '';
+  if (isEqual(result, selectedResult)) {
+    searchResultClasses.push(`${baseStyle}--selected`);
+  }
+  const titleStyle = `${baseStyle}--title`;
+  const bodyStyle = `${baseStyle}--body`;
+  const highlightsStyle: string = passageHighlightsClassName
+    ? `${passageHighlightsClassName}`
+    : `${baseStyle}--body__highlights`;
 
   const handleSelectResult = (): void => {
     if (resultLinkField || resultLinkTemplate) {
@@ -79,8 +87,13 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   };
 
   return (
-    <div onClick={handleSelectResult} className={`${baseStyle} ${selectedStyle}`}>
-      {body && <div className={bodyStyle} dangerouslySetInnerHTML={{ __html: body }}></div>}
+    <div onClick={handleSelectResult} className={searchResultClasses.join(' ')}>
+      {body && (
+        <div
+          className={`${bodyStyle} ${highlightsStyle}`}
+          dangerouslySetInnerHTML={{ __html: body }}
+        ></div>
+      )}
       <div className={titleStyle}>
         <Document16 />
         {title || filename ? <>{title ? title : filename}</> : <>{documentId}</>}
