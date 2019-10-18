@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.38.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.37.0...@disco-widgets/react-components@1.38.0) (2019-10-18)
+
+
+### Features
+
+* Advanced autocomplete ([#201](http:///discovery-components-react/issues/201)) ([b62617e](http:///discovery-components-react/commits/b62617e))
+
+
+
+
+
 # [1.37.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.36.0...@disco-widgets/react-components@1.37.0) (2019-10-18)
 
 

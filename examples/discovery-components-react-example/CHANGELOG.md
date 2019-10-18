@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.19.0](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.18.0...discovery-components-react-example@1.19.0) (2019-10-18)
+
+
+### Features
+
+* Advanced autocomplete ([#201](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/201)) ([b62617e](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/b62617e))
+
+
+
+
+
 # [1.18.0](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.17.8...discovery-components-react-example@1.18.0) (2019-10-18)
 
 
