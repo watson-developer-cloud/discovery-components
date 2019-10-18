@@ -64,6 +64,7 @@
     "rollup-plugin-string": "^3.0.0",
     "rollup-plugin-typescript2": "^0.23.0",
     "rollup-plugin-url": "^2.2.2",
+    "source-map-explorer": "2.0.1",
     "start-server-and-test": "^1.10.0",
     "typescript": "^3.5.3",
     "webpack": "4.39.1"

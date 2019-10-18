@@ -16,7 +16,8 @@
     "start": "rollup -c -w",
     "storybook": "start-storybook --ci --port=9002",
     "storybook:build": "build-storybook",
-    "storybook:build:release": "build-storybook -o ../../docs/storybook"
+    "storybook:build:release": "build-storybook -o ../../docs/storybook",
+    "analyze": "source-map-explorer 'dist/index.js'"
   },
   "files": [
     "dist"
