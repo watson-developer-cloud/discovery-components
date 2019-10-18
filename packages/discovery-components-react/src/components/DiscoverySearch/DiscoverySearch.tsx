@@ -44,7 +44,19 @@ export interface DiscoverySearchProps {
 
 export interface AutocompletionOptions {
   /**
-   * Rest of the autocompletion options
+   * Whether or not to update the autocompletions
+   */
+  updateAutocompletions?: boolean;
+  /**
+   * Number of autocomplete suggestions to fetch
+   */
+  completionsCount?: number;
+  /**
+   * The minimum number of characters necessary to run autocompletion
+   */
+  minCharsToAutocomplete?: number;
+  /**
+   * String to split words on in the query
    */
   splitSearchQuerySelector?: string;
 }
@@ -172,8 +184,18 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
   };
 
   const handleFetchAutocompletions = async (nlq: string): Promise<void> => {
-    const { splitSearchQuerySelector } = autocompletionOptionsState;
-    if (!!splitSearchQuerySelector) {
+    const {
+      splitSearchQuerySelector,
+      updateAutocompletions: updateAutocomplete,
+      completionsCount,
+      minCharsToAutocomplete
+    } = autocompletionOptionsState;
+    if (
+      updateAutocomplete &&
+      !!completionsCount &&
+      !!splitSearchQuerySelector &&
+      minCharsToAutocomplete !== undefined
+    ) {
       /**
        * If user clicks space consider searching a new word. Also don't try to autocomplete
        * if the query only contains spaces.
@@ -185,7 +207,7 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
         prefix: prefix
       };
 
-      if (!!prefix) {
+      if (!!prefix && prefix !== '' && prefix.length >= minCharsToAutocomplete) {
         const autocompletions: DiscoveryV1.Completions = await searchClient.getAutocompletion(
           autocompletionParams
         );

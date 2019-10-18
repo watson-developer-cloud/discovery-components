@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, boolean } from '@storybook/addon-knobs/react';
+import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
 import SearchInput from './SearchInput';
 import { DiscoverySearch, DiscoverySearchProps } from '../DiscoverySearch/DiscoverySearch';
 import { StoryWrapper } from '../../utils/storybookUtils';
@@ -17,17 +17,31 @@ const props = () => ({
     "String to split words on for autocompletion (defaults to ' ')",
     ' '
   ),
-  spellingSuggestion: boolean('Fetch spelling suggestions', true)
+  spellingSuggestion: boolean('Fetch spelling suggestions', true),
+  completionsCount: number('Number of autocompletion results to show', 5),
+  showAutocomplete: boolean('Show autocompletions', true),
+  minCharsToAutocomplete: number(
+    'Minimum characters in last word before showing autocomplete suggestions',
+    1
+  )
 });
-const autocompletions = {
-  completions: ['eagle', 'eager', 'eagles', 'eagerly', 'eag']
+
+let autocompletions: string[] = [];
+
+const generateCompletionsArray = (length: number) => {
+  const completionsArray = [];
+  for (let i = 0; i < length; i++) {
+    completionsArray.push(`autocomplete suggestion ${i + 1}`);
+  }
+  return completionsArray;
 };
+
 class DummyClient {
   query() {
     return Promise.resolve({});
   }
   getAutocompletion() {
-    return Promise.resolve(autocompletions);
+    return Promise.resolve({ completions: autocompletions });
   }
   listCollections() {
     return Promise.resolve();
@@ -36,31 +50,19 @@ class DummyClient {
 
 const discoverySearchProps = (): DiscoverySearchProps => ({
   searchClient: new DummyClient(),
-  projectId: text('Project ID', 'project-id')
+  projectId: text('Project ID', 'project-id'),
+  autocompletionResults: {
+    completions: autocompletions
+  }
 });
 
 storiesOf('SearchInput', module)
   .addDecorator(withKnobs)
   .add('default', () => {
+    autocompletions = generateCompletionsArray(props().completionsCount);
     return (
       <StoryWrapper>
         <DiscoverySearch {...discoverySearchProps()}>
-          <SearchInput {...props()} />
-        </DiscoverySearch>
-      </StoryWrapper>
-    );
-  })
-  .add('with autocomplete', () => {
-    const autocompleteProps = Object.assign(discoverySearchProps(), {
-      autocompletionResults: autocompletions,
-      queryParameters: {
-        natural_language_query: 'eag'
-      }
-    });
-
-    return (
-      <StoryWrapper>
-        <DiscoverySearch {...autocompleteProps}>
           <SearchInput {...props()} />
         </DiscoverySearch>
       </StoryWrapper>

@@ -45,6 +45,18 @@ interface SearchInputProps {
    */
   splitSearchQuerySelector?: string;
   /**
+   * Number of autocomplete suggestions to show in the autocomplete dropdown (default: 5)
+   */
+  completionsCount?: number;
+  /**
+   * Prop to show/hide the autocomplete dropdown (default: true)
+   */
+  showAutocomplete?: boolean;
+  /**
+   * Minimum number of characters present in the last word before the SearchInput fetches autocomplete suggestions
+   */
+  minCharsToAutocomplete?: number;
+  /*
    * True to return spelling suggestion with results
    */
   spellingSuggestions?: boolean;
@@ -59,11 +71,14 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
     small,
     placeHolderText,
     className,
-    labelText,
+    labelText = 'Search',
     light,
     closeButtonLabelText,
     id,
-    splitSearchQuerySelector,
+    splitSearchQuerySelector = ' ' as string,
+    completionsCount = 5,
+    showAutocomplete = true,
+    minCharsToAutocomplete = 0,
     spellingSuggestions,
     spellingSuggestionsPrefix = 'Did you mean:'
   } = props;
@@ -76,23 +91,52 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
   const [value, setValue] = React.useState(
     searchContext.searchParameters.natural_language_query || ''
   );
+  const lastWordOfValue = value.split(splitSearchQuerySelector).pop();
   const [skipFetchAutoCompletions, setSkipFetchAutoCompletions] = React.useState(false);
   const suggestedQuery = searchContext.searchResults.suggested_query;
+  const [focused, setFocused] = React.useState(false);
+  let focusTimeout: ReturnType<typeof setTimeout>;
+
   const handleOnChange = (evt: React.SyntheticEvent<EventTarget>): void => {
     const target = evt.currentTarget as HTMLInputElement;
     setValue(!!target ? target.value : '');
   };
 
-  const setupHandleOnCompletionFocus = (i: number) => {
-    return (): void => {
-      const valueArray = value.split(splitSearchQuerySelector as string);
-      const prefix = valueArray.pop();
-      const autocompletionValue = !!searchContext.autocompletionResults.completions
-        ? searchContext.autocompletionResults.completions[i]
-        : prefix;
-      valueArray.push(autocompletionValue || '');
-      setValue(valueArray.join(splitSearchQuerySelector));
+  const selectAutocompletion = (i: number): void => {
+    const valueArray = value.split(splitSearchQuerySelector);
+    const prefix = valueArray.pop();
+    const completionValue = !!searchContext.autocompletionResults.completions
+      ? searchContext.autocompletionResults.completions[i]
+      : prefix;
+    valueArray.push(completionValue || '');
+    setValue(`${valueArray.join(splitSearchQuerySelector)}${splitSearchQuerySelector}`);
+
+    // The carbon Search component doesn't seem to use ForwardRef
+    // so looking up by ID for now.
+    const searchInput = document.getElementById(`${inputId}_input_field`);
+    if (searchInput !== null) {
+      searchInput.focus();
+    }
+  };
+
+  const setupHandleAutocompletionKeyUp = (i: number) => {
+    return (evt: React.KeyboardEvent<EventTarget>): void => {
+      if (evt.key === 'Enter') {
+        selectAutocompletion(i);
+      }
     };
+  };
+
+  const setupHandleAutocompletionOnClick = (i: number) => {
+    return (): void => {
+      selectAutocompletion(i);
+    };
+  };
+
+  const handleAutocompletionOnFocus = (): void => {
+    // cancel the timeout set in handleOnBlur
+    clearTimeout(focusTimeout);
+    setFocused(true);
   };
 
   const setQueryOptions = (nlq: string): void => {
@@ -117,10 +161,13 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
 
   React.useEffect(() => {
     searchContext.onUpdateAutoCompletionOptions({
+      updateAutocompletions: showAutocomplete,
+      completionsCount: completionsCount,
+      minCharsToAutocomplete: minCharsToAutocomplete,
       splitSearchQuerySelector: splitSearchQuerySelector
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [splitSearchQuerySelector]);
+  }, [showAutocomplete, completionsCount, minCharsToAutocomplete, splitSearchQuerySelector]);
 
   React.useEffect(() => {
     searchContext.onUpdateQueryOptions({ spelling_suggestions: !!spellingSuggestions });
@@ -134,16 +181,18 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
     }
   };
 
-  const selectAutoCompletion = (): void => {
-    const currentQuery = `${value} `;
-    setValue(currentQuery);
+  // onFocus for the entire SearchInput
+  const handleOnFocus = (): void => {
+    // cancel the timeout set in handleOnBlur
+    clearTimeout(focusTimeout);
+    setFocused(true);
+  };
 
-    // The carbon Search component does seem to use ForwardRef
-    // so looking up by ID for now.
-    const searchInput = document.getElementById(`${inputId}_input_field`);
-    if (searchInput !== null) {
-      searchInput.focus();
-    }
+  // onBlur for the entire SearchInput
+  const handleOnBlur = (): void => {
+    focusTimeout = setTimeout(() => {
+      setFocused(false);
+    }, 0);
   };
 
   const selectSuggestion = (evt: React.SyntheticEvent<EventTarget>): void => {
@@ -156,14 +205,10 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
     }
   };
 
-  const handleAutoCompletionKeyEvent = (evt: React.KeyboardEvent<EventTarget>): void => {
-    if (evt.key === 'Enter') {
-      selectAutoCompletion();
-    }
-  };
-
+  const shouldShowCompletions = lastWordOfValue !== '' && showAutocomplete && focused;
   const autocompletions = searchContext.autocompletionResults.completions || [];
   const autocompletionsList = autocompletions.map((autocompletion, i) => {
+    const suffix = autocompletion.slice((lastWordOfValue as string).length);
     return (
       <ListBox key={`autocompletion_${i}`} className={`${autocompletionClassName}__wrapper`}>
         <ListBox.Field
@@ -171,21 +216,30 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
           id={`autocompletion_${i}_field`}
           tabIndex="0"
           className={`${autocompletionClassName}__item`}
-          onFocus={setupHandleOnCompletionFocus(i)}
-          onClick={selectAutoCompletion}
-          onKeyDown={handleAutoCompletionKeyEvent}
+          onFocus={handleAutocompletionOnFocus}
+          onClick={setupHandleAutocompletionOnClick(i)}
+          onKeyUp={setupHandleAutocompletionKeyUp(i)}
         >
           <div className={`${autocompletionClassName}__icon`}>
             <Search16 />
           </div>
-          <div className={`${autocompletionClassName}__term`}>{autocompletion}</div>
+          <div className={`${autocompletionClassName}__term`}>
+            <strong>{value}</strong>
+            {suffix}
+          </div>
         </ListBox.Field>
       </ListBox>
     );
   });
 
   return (
-    <div className={className} id={inputId}>
+    <div
+      className={className}
+      id={inputId}
+      data-testid="search-input-test-id"
+      onFocus={handleOnFocus}
+      onBlur={handleOnBlur}
+    >
       <CarbonSearchInput
         small={small}
         placeHolderText={placeHolderText}
@@ -197,7 +251,11 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
         value={value}
         id={`${inputId}_input_field`}
       />
-      {!!value && <div className={autocompletionClassName}>{autocompletionsList}</div>}
+      {shouldShowCompletions && (
+        <div className={autocompletionClassName} data-testid="completions-dropdown-test-id">
+          {autocompletionsList}
+        </div>
+      )}
       {!!suggestedQuery && (
         <div className={spellingSuggestionWrapperClassName}>
           {spellingSuggestionsPrefix}
@@ -213,11 +271,6 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
       )}
     </div>
   );
-};
-
-SearchInput.defaultProps = {
-  labelText: 'Search input label text', // the only required prop for Carbon Search component that doesn't have a default value
-  splitSearchQuerySelector: ' '
 };
 
 export default SearchInput;
