@@ -189,7 +189,7 @@ export const supportsPdfFallback = (document: QueryResult): boolean => {
 
 function getFieldText(document: QueryResult, field: CellField): string {
   const [fieldName, fieldProp] = field.name.split('.');
-  return document[fieldName][field.index][fieldProp];
+  return fieldProp ? document[fieldName][field.index][fieldProp] : document[fieldName][field.index];
 }
 
 function processStyles(styles: string): string {

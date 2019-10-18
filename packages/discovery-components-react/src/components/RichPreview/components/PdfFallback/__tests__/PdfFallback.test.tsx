@@ -9,9 +9,26 @@ import {
 } from '@testing-library/react';
 import PdfFallback from '../PdfFallback';
 import docJson from '../../../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
+import fieldNameTest from '../../../__fixtures__/FieldNameTest.json';
 
 describe('PdfFallback', () => {
+  const mockedBbox = {
+    x: 0,
+    y: 0,
+    width: 10,
+    height: 12
+  };
+
+  const originalGetBBox = (SVGElement.prototype as SVGTextElement).getBBox;
+  beforeEach(
+    () =>
+      ((SVGElement.prototype as SVGTextElement).getBBox = (): any => {
+        return mockedBbox;
+      })
+  );
+
   afterEach(cleanup);
+  afterEach(() => ((SVGElement.prototype as SVGTextElement).getBBox = originalGetBBox));
 
   it('Verify number of line generated is accurate', async () => {
     let container: HTMLElement;
@@ -48,6 +65,16 @@ describe('PdfFallback', () => {
     getByText('1.0 Definitions');
     getByText(
       'materials basis as set out in the relevant SOW and charged in accordance with Clause 5 (Pricing) and additional terms within'
+    );
+  });
+
+  it('loads text, title, and table field names', () => {
+    const wrapper = render(<PdfFallback document={fieldNameTest} currentPage={1} />);
+
+    wrapper.getByText('Technical');
+    wrapper.getByText('Party');
+    wrapper.getByText(
+      'On 22 December 2008 ART EFFECTS LIMITED and Customer entered into an Framework Agreement'
     );
   });
 });
