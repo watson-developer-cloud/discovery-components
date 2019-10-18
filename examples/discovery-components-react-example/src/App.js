@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 import './app.scss';
-import { document as pdfDocument } from './__fixtures__/WEA.Glossary_pdf';
-import documentData from './__fixtures__/WEA.Glossary.pdf.json';
 
 import {
   DiscoverySearch,
+  SearchContext,
   SearchInput,
   SearchResults,
   SearchRefinements,
@@ -23,6 +22,29 @@ const App = () => {
 
   return (
     <DiscoverySearch searchClient={searchClient} projectId={process.env.REACT_APP_PROJECT_ID}>
+      <AppView />
+    </DiscoverySearch>
+  );
+};
+
+function AppView() {
+  const { selectedResult } = useContext(SearchContext);
+  return !selectedResult ? <SearchPage /> : <PreviewPage />;
+}
+
+function SearchPage() {
+  const [configuration] = useState([
+    {
+      field: 'enriched_text.entities.text',
+      count: 10
+    },
+    {
+      field: 'enriched_title.entities.text',
+      count: 10
+    }
+  ]);
+  return (
+    <>
       <SearchInput
         light={false}
         small={false}
@@ -31,22 +53,30 @@ const App = () => {
         spellingSuggestions={true}
       />
       <SearchResults bodyField={'highlight.text[0]'} />
-      <SearchRefinements
-        showCollections={true}
-        configuration={[
-          {
-            field: 'enriched_text.entities.text',
-            count: 10
-          },
-          {
-            field: 'enriched_title.entities.text',
-            count: 10
-          }
-        ]}
-      />
+      <SearchRefinements showCollections={true} configuration={configuration} />
       <ResultsPagination />
-      <RichPreview document={documentData} file={atob(pdfDocument)} />
-    </DiscoverySearch>
+    </>
   );
-};
+}
+
+function PreviewPage() {
+  const { selectedResult, onSelectResult } = useContext(SearchContext);
+
+  function back(evt) {
+    evt.preventDefault();
+    onSelectResult(null);
+  }
+
+  return (
+    <div className="preview-page">
+      <div className="nav-toolbar">
+        <a href="/" onClick={back}>
+          {'< Back to Search'}
+        </a>
+      </div>
+      <RichPreview document={selectedResult} />
+    </div>
+  );
+}
+
 export default App;

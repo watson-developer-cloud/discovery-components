@@ -60,7 +60,7 @@ export interface SearchContextIFC {
   searchResults: DiscoveryV1.QueryResponse;
   searchParameters: DiscoveryV1.QueryParams;
   collectionsResults: DiscoveryV1.ListCollectionsResponse;
-  selectedResult: DiscoveryV1.QueryResult;
+  selectedResult: DiscoveryV1.QueryResult | null;
   autocompletionResults: DiscoveryV1.Completions;
 }
 
@@ -76,7 +76,7 @@ export const searchContextDefaults = {
   searchParameters: {
     project_id: ''
   },
-  selectedResult: {},
+  selectedResult: null,
   autocompletionResults: {},
   collectionsResults: {}
 };
@@ -111,13 +111,15 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
   const [autocompletionResultsState, setAutocompletionResultsState] = React.useState<
     DiscoveryV1.Completions
   >(autocompletionResults || {});
-  const [selectedResultState, setSelectedResultState] = React.useState<DiscoveryV1.QueryResult>(
-    selectedResult || {}
-  );
+  const [
+    selectedResultState,
+    setSelectedResultState
+  ] = React.useState<DiscoveryV1.QueryResult | null>(selectedResult || null);
   const [queryOptionsState, setQueryOptionsState] = React.useState<SearchParams>({});
   const [autocompletionOptionsState, setAutocompletionOptionsState] = React.useState<
     AutocompletionOptions
   >({});
+
   React.useEffect(() => {
     const newSearchParameters = Object.assign({}, searchParameters, {
       project_id: projectId,
