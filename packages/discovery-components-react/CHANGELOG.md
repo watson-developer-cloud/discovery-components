@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.35.3](http:///discovery-components-react/compare/@disco-widgets/react-components@1.35.2...@disco-widgets/react-components@1.35.3) (2019-10-18)
+
+
+### Bug Fixes
+
+* add fieldProp check to getFieldText function ([#232](http:///discovery-components-react/issues/232)) ([9af0e32](http:///discovery-components-react/commits/9af0e32))
+
+
+
+
+
 ## [1.35.2](http:///discovery-components-react/compare/@disco-widgets/react-components@1.35.1...@disco-widgets/react-components@1.35.2) (2019-10-18)
 
 **Note:** Version bump only for package @disco-widgets/react-components
