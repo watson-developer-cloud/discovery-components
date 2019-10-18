@@ -51,12 +51,86 @@ describe('<SearchInput />', () => {
     });
   });
 
+  describe('When spelling suggestions enabled', () => {
+    let searchComponent: RenderResult;
+    let input: HTMLElement;
+
+    const context: Partial<SearchContextIFC> = {
+      searchResults: {
+        suggested_query: 'cunningham'
+      }
+    };
+    const onSearchMock = jest.fn();
+    context.onSearch = onSearchMock;
+    const onUpdateQueryOptionsMock = jest.fn();
+    context.onUpdateQueryOptions = onUpdateQueryOptionsMock;
+    const onFetchCompletionsMock = jest.fn();
+    context.onFetchAutoCompletions = onFetchCompletionsMock;
+
+    beforeEach(() => {
+      searchComponent = render(
+        wrapWithContext(
+          <SearchInput placeHolderText={PLACE_HOLDER_TEXT} spellingSuggestions={true} />,
+          context
+        )
+      );
+      input = searchComponent.getByPlaceholderText(PLACE_HOLDER_TEXT);
+    });
+
+    test('renders suggestion message', () => {
+      const correctionMessage = searchComponent.getByText('Did you mean:');
+      expect(correctionMessage).toBeDefined();
+    });
+
+    test('renders spelling suggestion', () => {
+      const spellingCorrection = searchComponent.getByText('cunningham');
+      expect(spellingCorrection).toBeDefined();
+    });
+
+    describe('clicking on suggestion', () => {
+      test('updates query', () => {
+        fireEvent.change(input, { target: { value: 'cunnigham' } });
+        expect((input as HTMLInputElement).value).toBe('cunnigham');
+
+        const spellingCorrection = searchComponent.getByText('cunningham');
+        fireEvent.click(spellingCorrection);
+        expect((input as HTMLInputElement).value).toBe('cunningham');
+      });
+
+      test('updates nlq search param', () => {
+        const spellingCorrection = searchComponent.getByText('cunningham');
+        onUpdateQueryOptionsMock.mockReset();
+        fireEvent.click(spellingCorrection);
+        expect(onUpdateQueryOptionsMock).toBeCalledTimes(1);
+        expect(onUpdateQueryOptionsMock).toBeCalledWith({
+          natural_language_query: 'cunningham',
+          filter: '',
+          offset: 0
+        });
+      });
+
+      test('calls onSearch', () => {
+        const spellingCorrection = searchComponent.getByText('cunningham');
+        onSearchMock.mockReset();
+        fireEvent.click(spellingCorrection);
+        expect(onSearchMock).toBeCalledTimes(1);
+      });
+
+      test('does not call onFetchCompletionsMock', () => {
+        const spellingCorrection = searchComponent.getByText('cunningham');
+        onFetchCompletionsMock.mockReset();
+        fireEvent.click(spellingCorrection);
+        expect(onFetchCompletionsMock).not.toBeCalled();
+      });
+    });
+  });
+
   describe('When we have completions', () => {
     let container: HTMLElement;
     let input: HTMLInputElement;
 
     const context: Partial<SearchContextIFC> = {
-      completionResults: {
+      autocompletionResults: {
         completions: COMPLETIONS
       }
     };

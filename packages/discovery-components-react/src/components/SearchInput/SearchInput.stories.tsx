@@ -16,17 +16,18 @@ const props = () => ({
   splitSearchQuerySelector: text(
     "String to split words on for autocompletion (defaults to ' ')",
     ' '
-  )
+  ),
+  spellingSuggestion: boolean('Fetch spelling suggestions', true)
 });
-const completions = {
+const autocompletions = {
   completions: ['eagle', 'eager', 'eagles', 'eagerly', 'eag']
 };
 class DummyClient {
   query() {
-    return Promise.resolve();
+    return Promise.resolve({});
   }
   getAutocompletion() {
-    return Promise.resolve(completions);
+    return Promise.resolve(autocompletions);
   }
   listCollections() {
     return Promise.resolve();
@@ -51,7 +52,7 @@ storiesOf('SearchInput', module)
   })
   .add('with autocomplete', () => {
     const autocompleteProps = Object.assign(discoverySearchProps(), {
-      completionResults: completions,
+      autocompletionResults: autocompletions,
       queryParameters: {
         natural_language_query: 'eag'
       }
@@ -60,6 +61,24 @@ storiesOf('SearchInput', module)
     return (
       <StoryWrapper>
         <DiscoverySearch {...autocompleteProps}>
+          <SearchInput {...props()} />
+        </DiscoverySearch>
+      </StoryWrapper>
+    );
+  })
+  .add('with spelling suggestion', () => {
+    const spellingSuggestionProps = Object.assign(discoverySearchProps(), {
+      queryParameters: {
+        natural_language_query: 'Philadlphia'
+      },
+      searchResults: {
+        suggested_query: 'Philadelphia'
+      }
+    });
+
+    return (
+      <StoryWrapper>
+        <DiscoverySearch {...spellingSuggestionProps}>
           <SearchInput {...props()} />
         </DiscoverySearch>
       </StoryWrapper>

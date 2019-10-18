@@ -23,7 +23,7 @@ export const FieldRefinements: React.FunctionComponent<FieldRefinementsProps> = 
 }) => {
   const searchContext = React.useContext(SearchContext);
   const {
-    onUpdateFilter,
+    onUpdateQueryOptions,
     onSearch,
     searchParameters: { natural_language_query: naturalLanguageQuery }
   } = searchContext;
@@ -64,7 +64,10 @@ export const FieldRefinements: React.FunctionComponent<FieldRefinementsProps> = 
       allRefinements.splice(index, 1, newrefinementsForField);
     }
 
-    onUpdateFilter(SearchFilterTransform.toString(allRefinements));
+    onUpdateQueryOptions({
+      filter: SearchFilterTransform.toString(allRefinements),
+      offset: 0
+    });
     onSearch();
   };
 

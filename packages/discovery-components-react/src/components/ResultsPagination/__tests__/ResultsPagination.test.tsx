@@ -7,11 +7,11 @@ import { SearchContextIFC } from '../../DiscoverySearch/DiscoverySearch';
 const setup = (propUpdates?: any) => {
   propUpdates = propUpdates || {};
 
-  const paginationMock = jest.fn();
+  const onUpdateQueryOptionsMock = jest.fn();
   const searchMock = jest.fn();
   const context: Partial<SearchContextIFC> = {
     onSearch: searchMock,
-    onUpdateResultsPagination: paginationMock,
+    onUpdateQueryOptions: onUpdateQueryOptionsMock,
     searchResults: {
       matching_results: 55
     }
@@ -24,7 +24,7 @@ const setup = (propUpdates?: any) => {
   const pageNumberSelect = paginationComponent.getByLabelText('Page number, of 6 pages');
 
   return {
-    paginationMock,
+    onUpdateQueryOptionsMock,
     searchMock,
     pageSizeSelect,
     pageNumberSelect,
@@ -35,11 +35,11 @@ const setup = (propUpdates?: any) => {
 describe('ResultsPaginationComponent', () => {
   describe('page number select', () => {
     test('calls onUpdateResultsPagination', () => {
-      const { paginationMock, pageNumberSelect } = setup();
+      const { onUpdateQueryOptionsMock, pageNumberSelect } = setup();
       fireEvent.change(pageNumberSelect, { target: { value: 2 } });
 
-      expect(paginationMock).toBeCalledTimes(1);
-      expect(paginationMock.mock.calls[0][0]).toBe(10);
+      expect(onUpdateQueryOptionsMock).toBeCalledTimes(1);
+      expect(onUpdateQueryOptionsMock.mock.calls[0][0]).toStrictEqual({ offset: 10 });
     });
 
     test('calls onSubmit', () => {
@@ -52,12 +52,12 @@ describe('ResultsPaginationComponent', () => {
 
   describe('page size select', () => {
     test('calls onUpdateResultsPagination from first page', () => {
-      const { paginationMock, pageNumberSelect, pageSizeSelect } = setup();
+      const { onUpdateQueryOptionsMock, pageNumberSelect, pageSizeSelect } = setup();
       fireEvent.change(pageSizeSelect, { target: { value: 20 } });
       fireEvent.change(pageNumberSelect, { target: { value: 2 } });
 
-      expect(paginationMock).toBeCalledTimes(2);
-      expect(paginationMock.mock.calls[1][0]).toBe(20);
+      expect(onUpdateQueryOptionsMock).toBeCalledTimes(2);
+      expect(onUpdateQueryOptionsMock.mock.calls[1][0]).toStrictEqual({ offset: 20 });
     });
 
     test('calls onSubmit', () => {

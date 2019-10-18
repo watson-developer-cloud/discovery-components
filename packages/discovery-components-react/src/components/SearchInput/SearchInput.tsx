@@ -4,7 +4,7 @@
 
 import * as React from 'react';
 import { settings } from 'carbon-components';
-import { Search as CarbonSearchInput } from 'carbon-components-react';
+import { Search as CarbonSearchInput, Button as CarbonButton } from 'carbon-components-react';
 import ListBox from 'carbon-components-react/lib/components/ListBox';
 import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import useDebounce from '../../utils/useDebounce';
@@ -44,6 +44,14 @@ interface SearchInputProps {
    * Value to split words in the search query (Default: ' ')
    */
   splitSearchQuerySelector?: string;
+  /**
+   * True to return spelling suggestion with results
+   */
+  spellingSuggestions?: boolean;
+  /**
+   * Message prefix used when displaying spelling suggestion
+   */
+  spellingSuggestionsPrefix?: string;
 }
 
 export const SearchInput: React.SFC<SearchInputProps> = props => {
@@ -55,15 +63,21 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
     light,
     closeButtonLabelText,
     id,
-    splitSearchQuerySelector
+    splitSearchQuerySelector,
+    spellingSuggestions,
+    spellingSuggestionsPrefix = 'Did you mean:'
   } = props;
 
   const inputId = id || `search-input__${uuid.v4()}`;
-  const autocompleteClassName = `${settings.prefix}--search-autocomplete`;
+  const autocompletionClassName = `${settings.prefix}--search-autocompletion`;
+  const spellingSuggestionClassName = `${settings.prefix}--spelling-suggestion`;
+  const spellingSuggestionWrapperClassName = `${settings.prefix}--spelling-suggestion__wrapper`;
   const searchContext = React.useContext(SearchContext);
   const [value, setValue] = React.useState(
     searchContext.searchParameters.natural_language_query || ''
   );
+  const [skipFetchAutoCompletions, setSkipFetchAutoCompletions] = React.useState(false);
+  const suggestedQuery = searchContext.searchResults.suggested_query;
   const handleOnChange = (evt: React.SyntheticEvent<EventTarget>): void => {
     const target = evt.currentTarget as HTMLInputElement;
     setValue(!!target ? target.value : '');
@@ -73,28 +87,54 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
     return (): void => {
       const valueArray = value.split(splitSearchQuerySelector as string);
       const prefix = valueArray.pop();
-      const completionValue = !!searchContext.completionResults.completions
-        ? searchContext.completionResults.completions[i]
+      const autocompletionValue = !!searchContext.autocompletionResults.completions
+        ? searchContext.autocompletionResults.completions[i]
         : prefix;
-      valueArray.push(completionValue || '');
+      valueArray.push(autocompletionValue || '');
       setValue(valueArray.join(splitSearchQuerySelector));
     };
   };
 
+  const setQueryOptions = (nlq: string): void => {
+    searchContext.onUpdateQueryOptions({
+      natural_language_query: nlq,
+      filter: '',
+      offset: 0
+    });
+  };
+
   const debouncedSearchTerm = useDebounce(value, 500);
   React.useEffect(() => {
-    searchContext.onUpdateNaturalLanguageQuery(value, splitSearchQuerySelector as string);
+    setQueryOptions(value);
+
+    if (!skipFetchAutoCompletions) {
+      searchContext.onFetchAutoCompletions(value);
+    } else {
+      setSkipFetchAutoCompletions(false);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedSearchTerm, splitSearchQuerySelector]);
+  }, [debouncedSearchTerm]);
+
+  React.useEffect(() => {
+    searchContext.onUpdateAutoCompletionOptions({
+      splitSearchQuerySelector: splitSearchQuerySelector
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [splitSearchQuerySelector]);
+
+  React.useEffect(() => {
+    searchContext.onUpdateQueryOptions({ spelling_suggestions: !!spellingSuggestions });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [spellingSuggestions]);
 
   const handleOnKeyUp = (evt: React.KeyboardEvent<EventTarget>): void => {
     if (evt.key === 'Enter') {
-      searchContext.onUpdateNaturalLanguageQuery(value);
+      setQueryOptions(value);
       searchContext.onSearch();
     }
   };
 
-  const selectCompletion = (): void => {
+  const selectAutoCompletion = (): void => {
     const currentQuery = `${value} `;
     setValue(currentQuery);
 
@@ -106,29 +146,39 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
     }
   };
 
-  const handleCompletionKeyEvent = (evt: React.KeyboardEvent<EventTarget>): void => {
-    if (evt.key === 'Enter') {
-      selectCompletion();
+  const selectSuggestion = (evt: React.SyntheticEvent<EventTarget>): void => {
+    evt.preventDefault();
+    if (!!suggestedQuery) {
+      setSkipFetchAutoCompletions(true);
+      setValue(suggestedQuery);
+      setQueryOptions(suggestedQuery);
+      searchContext.onSearch();
     }
   };
 
-  const completions = searchContext.completionResults.completions || [];
-  const completionsList = completions.map((completion, i) => {
+  const handleAutoCompletionKeyEvent = (evt: React.KeyboardEvent<EventTarget>): void => {
+    if (evt.key === 'Enter') {
+      selectAutoCompletion();
+    }
+  };
+
+  const autocompletions = searchContext.autocompletionResults.completions || [];
+  const autocompletionsList = autocompletions.map((autocompletion, i) => {
     return (
-      <ListBox key={`completion_${i}`} className={`${autocompleteClassName}__wrapper`}>
+      <ListBox key={`autocompletion_${i}`} className={`${autocompletionClassName}__wrapper`}>
         <ListBox.Field
           role="listitem"
-          id={`completion_${i}_field`}
+          id={`autocompletion_${i}_field`}
           tabIndex="0"
-          className={`${autocompleteClassName}__item`}
+          className={`${autocompletionClassName}__item`}
           onFocus={setupHandleOnCompletionFocus(i)}
-          onClick={selectCompletion}
-          onKeyDown={handleCompletionKeyEvent}
+          onClick={selectAutoCompletion}
+          onKeyDown={handleAutoCompletionKeyEvent}
         >
-          <div className={`${autocompleteClassName}__icon`}>
+          <div className={`${autocompletionClassName}__icon`}>
             <Search16 />
           </div>
-          <div className={`${autocompleteClassName}__term`}>{completion}</div>
+          <div className={`${autocompletionClassName}__term`}>{autocompletion}</div>
         </ListBox.Field>
       </ListBox>
     );
@@ -147,7 +197,20 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
         value={value}
         id={`${inputId}_input_field`}
       />
-      {!!value && <div className={autocompleteClassName}>{completionsList}</div>}
+      {!!value && <div className={autocompletionClassName}>{autocompletionsList}</div>}
+      {!!suggestedQuery && (
+        <div className={spellingSuggestionWrapperClassName}>
+          {spellingSuggestionsPrefix}
+          <CarbonButton
+            className={spellingSuggestionClassName}
+            onClick={selectSuggestion}
+            kind="ghost"
+            size="small"
+          >
+            {suggestedQuery}
+          </CarbonButton>
+        </div>
+      )}
     </div>
   );
 };

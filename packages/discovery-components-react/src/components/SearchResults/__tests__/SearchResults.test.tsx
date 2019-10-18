@@ -58,21 +58,23 @@ describe('<SearchResults />', () => {
   describe('when passageLength is defined', () => {
     test('onUpdatePassageLength is called with the expected character count', () => {
       const context: Partial<SearchContextIFC> = {};
-      const onUpdatePassageLengthMock = jest.fn();
-      context.onUpdatePassageLength = onUpdatePassageLengthMock;
+      const onUpdateQueryOptionsMock = jest.fn();
+      context.onUpdateQueryOptions = onUpdateQueryOptionsMock;
       render(wrapWithContext(<SearchResults passageLength={20} />, context));
-      expect(onUpdatePassageLengthMock).toBeCalledTimes(1);
-      expect(onUpdatePassageLengthMock).toBeCalledWith(20);
+      expect(onUpdateQueryOptionsMock).toBeCalledTimes(1);
+      expect(onUpdateQueryOptionsMock).toBeCalledWith({
+        passages: { characters: 20, enabled: true }
+      });
     });
   });
 
   describe('when passageLength is not defined', () => {
     test('onUpdatePassageLength is not called', () => {
       const context: Partial<SearchContextIFC> = {};
-      const onUpdatePassageLengthMock = jest.fn();
-      context.onUpdatePassageLength = onUpdatePassageLengthMock;
+      const onUpdateQueryOptionsMock = jest.fn();
+      context.onUpdateQueryOptions = onUpdateQueryOptionsMock;
       render(wrapWithContext(<SearchResults />, context));
-      expect(onUpdatePassageLengthMock).toBeCalledTimes(0);
+      expect(onUpdateQueryOptionsMock).toBeCalledTimes(0);
     });
   });
 });

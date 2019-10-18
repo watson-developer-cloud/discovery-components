@@ -17,10 +17,8 @@ const setup = (filter: string) => {
   };
   const onRefinementsMountMock = jest.fn();
   context.onRefinementsMount = onRefinementsMountMock;
-  const onUpdateAggregationQueryMock = jest.fn();
-  context.onUpdateAggregationQuery = onUpdateAggregationQueryMock;
-  const onUpdateFilterMock = jest.fn();
-  context.onUpdateFilter = onUpdateFilterMock;
+  const onUpdateQueryOptionsMock = jest.fn();
+  context.onUpdateQueryOptions = onUpdateQueryOptionsMock;
   const fieldRefinementsComponent = render(
     wrapWithContext(
       <SearchRefinements
@@ -40,8 +38,7 @@ const setup = (filter: string) => {
   );
   return {
     onRefinementsMountMock,
-    onUpdateAggregationQueryMock,
-    onUpdateFilterMock,
+    onUpdateQueryOptionsMock,
     fieldRefinementsComponent
   };
 };
@@ -102,39 +99,55 @@ describe('FieldRefinementsComponent', () => {
 
   describe('checkboxes apply filters', () => {
     test('it adds correct filter when one checkbox within single refinement is checked', () => {
-      const { fieldRefinementsComponent, onUpdateFilterMock } = setup('');
+      const { fieldRefinementsComponent, onUpdateQueryOptionsMock } = setup('');
       const animalsCheckbox = fieldRefinementsComponent.getByLabelText('Animals');
+      onUpdateQueryOptionsMock.mockReset();
       fireEvent.click(animalsCheckbox);
-      expect(onUpdateFilterMock).toBeCalledTimes(1);
-      expect(onUpdateFilterMock).toBeCalledWith('subject:Animals');
+      expect(onUpdateQueryOptionsMock).toBeCalledTimes(1);
+      expect(onUpdateQueryOptionsMock).toBeCalledWith({
+        filter: 'subject:Animals',
+        offset: 0
+      });
     });
 
     test('it adds correct filters when second checkbox within single refinement is checked', () => {
-      const { fieldRefinementsComponent, onUpdateFilterMock } = setup('subject:Animals');
+      const { fieldRefinementsComponent, onUpdateQueryOptionsMock } = setup('subject:Animals');
       const peopleCheckbox = fieldRefinementsComponent.getByLabelText('People');
+      onUpdateQueryOptionsMock.mockReset();
       fireEvent.click(peopleCheckbox);
-      expect(onUpdateFilterMock).toBeCalledTimes(1);
-      expect(onUpdateFilterMock).toBeCalledWith('subject:Animals|People');
+      expect(onUpdateQueryOptionsMock).toBeCalledTimes(1);
+      expect(onUpdateQueryOptionsMock).toBeCalledWith({
+        filter: 'subject:Animals|People',
+        offset: 0
+      });
     });
 
     test('it adds correct filter when checkboxes from multiple refinements are checked', () => {
-      const { fieldRefinementsComponent, onUpdateFilterMock } = setup('subject:Animals');
+      const { fieldRefinementsComponent, onUpdateQueryOptionsMock } = setup('subject:Animals');
       const newsStaffCheckbox = fieldRefinementsComponent.getByLabelText('News Staff');
+      onUpdateQueryOptionsMock.mockReset();
       fireEvent.click(newsStaffCheckbox);
-      expect(onUpdateFilterMock).toBeCalledTimes(1);
-      expect(onUpdateFilterMock).toBeCalledWith('author:News Staff,subject:Animals');
+      expect(onUpdateQueryOptionsMock).toBeCalledTimes(1);
+      expect(onUpdateQueryOptionsMock).toBeCalledWith({
+        filter: 'author:News Staff,subject:Animals',
+        offset: 0
+      });
     });
   });
 
   describe('checkboxes remove filters', () => {
     test('it removes correct filter when checkbox within single refinement is unchecked', () => {
-      const { fieldRefinementsComponent, onUpdateFilterMock } = setup('subject:Animals');
+      const { fieldRefinementsComponent, onUpdateQueryOptionsMock } = setup('subject:Animals');
       const animalsCheckbox = fieldRefinementsComponent.getByLabelText('Animals');
       fireEvent.click(animalsCheckbox);
       // For the test, have to check the checkbox twice to get it in the 'checked' state to uncheck
+      onUpdateQueryOptionsMock.mockReset();
       fireEvent.click(animalsCheckbox);
-      expect(onUpdateFilterMock).toBeCalledTimes(2);
-      expect(onUpdateFilterMock).toBeCalledWith('');
+      expect(onUpdateQueryOptionsMock).toBeCalledTimes(1);
+      expect(onUpdateQueryOptionsMock).toBeCalledWith({
+        filter: '',
+        offset: 0
+      });
     });
   });
 });

@@ -15,8 +15,8 @@ const setup = (collectionIds?: string[]) => {
   };
   const onSearchMock = jest.fn();
   context.onSearch = onSearchMock;
-  const onUpdateSelectedCollectionsMock = jest.fn();
-  context.onUpdateSelectedCollections = onUpdateSelectedCollectionsMock;
+  const onUpdateQueryOptions = jest.fn();
+  context.onUpdateQueryOptions = onUpdateQueryOptions;
   const collectionRefinementsComponent = render(
     wrapWithContext(
       <SearchRefinements
@@ -37,7 +37,7 @@ const setup = (collectionIds?: string[]) => {
   );
   return {
     onSearchMock,
-    onUpdateSelectedCollectionsMock,
+    onUpdateQueryOptions,
     collectionRefinementsComponent
   };
 };
@@ -93,13 +93,17 @@ describe('CollectionRefinementsComponent', () => {
 
   describe('selecting collection', () => {
     test('it calls onUpdateSelectedCollections with collection id', () => {
-      const { collectionRefinementsComponent, onUpdateSelectedCollectionsMock } = setup();
+      const { collectionRefinementsComponent, onUpdateQueryOptions } = setup();
       const collectionSelect = collectionRefinementsComponent.getByText('Available collections');
       fireEvent.click(collectionSelect);
       const deadspinCollection = collectionRefinementsComponent.getByLabelText('deadspin');
+      onUpdateQueryOptions.mockReset();
       fireEvent.click(deadspinCollection);
-      expect(onUpdateSelectedCollectionsMock).toBeCalledTimes(1);
-      expect(onUpdateSelectedCollectionsMock).toBeCalledWith(['deadspin9876']);
+      expect(onUpdateQueryOptions).toBeCalledTimes(1);
+      expect(onUpdateQueryOptions).toBeCalledWith({
+        collection_ids: ['deadspin9876'],
+        offset: 0
+      });
     });
 
     test('it calls onSearch', () => {

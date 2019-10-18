@@ -2,6 +2,11 @@ import * as React from 'react';
 import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 import pick from 'lodash/pick';
 
+export type SearchParams = Omit<
+  DiscoveryV1.QueryParams,
+  'project_id' | 'logging_opt_out' | 'headers' | 'return_response'
+>;
+
 export interface DiscoverySearchProps {
   /**
    * Search client
@@ -22,10 +27,7 @@ export interface DiscoverySearchProps {
   /**
    * Query parameters used to override internal query parameters state
    */
-  queryParameters?: Omit<
-    DiscoveryV1.QueryParams,
-    'project_id' | 'logging_opt_out' | 'headers' | 'return_response'
-  >;
+  queryParameters?: SearchParams;
   /**
    * selectedResult is used to override internal selectedResult state
    */
@@ -33,40 +35,41 @@ export interface DiscoverySearchProps {
   /**
    * Autocompletion suggestions for the searchInput
    */
-  completionResults?: DiscoveryV1.Completions;
+  autocompletionResults?: DiscoveryV1.Completions;
   /**
    * collectionsResults is used to override internal collections result state
    */
   collectionsResults?: DiscoveryV1.ListCollectionsResponse;
 }
 
+export interface AutocompletionOptions {
+  /**
+   * Rest of the autocompletion options
+   */
+  splitSearchQuerySelector?: string;
+}
+
 export interface SearchContextIFC {
   onSearch: () => Promise<void>;
+  onFetchAutoCompletions: (nlq: string) => Promise<void>;
   onRefinementsMount: () => Promise<void>;
-  onUpdateAggregationQuery: (aggregationQuery: string) => Promise<void>;
-  onUpdateFilter: (filter: string) => Promise<void>;
-  onUpdateNaturalLanguageQuery: (nlq: string, splitSearchQuerySelector?: string) => Promise<void>;
-  onUpdatePassageLength: (passageLength: number) => Promise<void>;
-  onUpdateSelectedCollections: (collectionIds: string[]) => Promise<void>;
-  onUpdateResultsPagination: (offset: number) => Promise<void>;
   onSelectResult: (result: DiscoveryV1.QueryResult) => Promise<void>;
+  onUpdateAutoCompletionOptions: (autoCompletionOptions: AutocompletionOptions) => Promise<void>;
+  onUpdateQueryOptions: (queryOptions: SearchParams) => Promise<void>;
   aggregationResults: DiscoveryV1.QueryAggregation;
   searchResults: DiscoveryV1.QueryResponse;
   searchParameters: DiscoveryV1.QueryParams;
   collectionsResults: DiscoveryV1.ListCollectionsResponse;
   selectedResult: DiscoveryV1.QueryResult;
-  completionResults: DiscoveryV1.Completions;
+  autocompletionResults: DiscoveryV1.Completions;
 }
 
 export const SearchContext = React.createContext<SearchContextIFC>({
   onSearch: (): Promise<void> => Promise.resolve(),
+  onFetchAutoCompletions: () => Promise.resolve(),
   onRefinementsMount: (): Promise<void> => Promise.resolve(),
-  onUpdateAggregationQuery: (): Promise<void> => Promise.resolve(),
-  onUpdateFilter: (): Promise<void> => Promise.resolve(),
-  onUpdateNaturalLanguageQuery: (): Promise<void> => Promise.resolve(),
-  onUpdatePassageLength: (): Promise<void> => Promise.resolve(),
-  onUpdateResultsPagination: (): Promise<void> => Promise.resolve(),
-  onUpdateSelectedCollections: (): Promise<void> => Promise.resolve(),
+  onUpdateAutoCompletionOptions: (): Promise<void> => Promise.resolve(),
+  onUpdateQueryOptions: (): Promise<void> => Promise.resolve(),
   onSelectResult: (): Promise<void> => Promise.resolve(),
   aggregationResults: {},
   searchResults: {},
@@ -74,7 +77,7 @@ export const SearchContext = React.createContext<SearchContextIFC>({
     project_id: ''
   },
   selectedResult: {},
-  completionResults: {},
+  autocompletionResults: {},
   collectionsResults: {}
 });
 
@@ -85,7 +88,7 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
   searchResults,
   queryParameters,
   selectedResult,
-  completionResults,
+  autocompletionResults,
   collectionsResults,
   children
 }) => {
@@ -103,13 +106,16 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
     highlight: true,
     ...queryParameters
   });
-  const [completionResultsState, setCompletionResultsState] = React.useState<
+  const [autocompletionResultsState, setAutocompletionResultsState] = React.useState<
     DiscoveryV1.Completions
-  >(completionResults || {});
+  >(autocompletionResults || {});
   const [selectedResultState, setSelectedResultState] = React.useState<DiscoveryV1.QueryResult>(
     selectedResult || {}
   );
-
+  const [queryOptionsState, setQueryOptionsState] = React.useState<SearchParams>({});
+  const [autocompletionOptionsState, setAutocompletionOptionsState] = React.useState<
+    AutocompletionOptions
+  >({});
   React.useEffect(() => {
     const newSearchParameters = Object.assign({}, searchParameters, {
       project_id: projectId,
@@ -135,38 +141,12 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
   }, [selectedResult]);
 
   React.useEffect(() => {
-    setCompletionResultsState(completionResults || completionResultsState);
-  }, [completionResults]);
+    setAutocompletionResultsState(autocompletionResults || autocompletionResultsState);
+  }, [autocompletionResults]);
 
-  // helper method that handles the logic to fetch completions whenever the search query is updated
-  const getCompletions = async (
-    searchQuery: string,
-    splitSearchQuerySelector: string
-  ): Promise<void> => {
-    /**
-     * If user clicks space consider searching a new word. Also don't try to autocomplete
-     * if the query only contains spaces.
-     */
-    const queryArray = searchQuery.split(splitSearchQuerySelector);
-    const prefix = queryArray[queryArray.length - 1];
-    const completionParams = {
-      project_id: searchParameters.project_id,
-      prefix: prefix
-    };
-
-    if (!!prefix) {
-      const completions: DiscoveryV1.Completions = await searchClient.getAutocompletion(
-        completionParams
-      );
-      setCompletionResultsState(completions);
-    } else {
-      setCompletionResultsState({});
-    }
-  };
-
-  const handleRefinementsMount = async (): Promise<void> => {
+  const handleFetchRefinements = async (): Promise<void> => {
     const [aggregationsResults, collectionsResults] = await Promise.all([
-      searchClient.query(searchParameters),
+      searchClient.query(Object.assign(searchParameters, queryOptionsState)),
       searchClient.listCollections(pick(searchParameters, 'project_id'))
     ]);
     const { aggregations } = aggregationsResults;
@@ -174,78 +154,74 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
     setStateCollectionsResults(collectionsResults);
     return Promise.resolve();
   };
-  const handleUpdateAggregationQuery = (aggregationQuery: string): Promise<void> => {
-    searchParameters.aggregation = aggregationQuery;
-    setSearchParameters(searchParameters);
+
+  const handleUpdateQueryOptions = (queryOptions: SearchParams): Promise<void> => {
+    setQueryOptionsState(Object.assign(queryOptionsState, queryOptions));
     return Promise.resolve();
   };
-  const handleUpdateSelectedCollections = (collectionIds: string[]): Promise<void> => {
-    searchParameters.collection_ids = collectionIds;
-    setSearchParameters(searchParameters);
-    return Promise.resolve();
-  };
-  const handleUpdateNaturalLanguageQuery = (
-    nlq: string,
-    splitSearchQuerySelector?: string
+
+  const handleUpdateAutocompletionOptions = (
+    autocompletionOptions: AutocompletionOptions
   ): Promise<void> => {
+    setAutocompletionOptionsState(Object.assign(autocompletionOptionsState, autocompletionOptions));
+    return Promise.resolve();
+  };
+
+  const handleFetchAutocompletions = async (nlq: string): Promise<void> => {
+    const { splitSearchQuerySelector } = autocompletionOptionsState;
     if (!!splitSearchQuerySelector) {
-      getCompletions(nlq, splitSearchQuerySelector);
-    }
-    searchParameters.natural_language_query = nlq;
-    searchParameters.filter = '';
-    setSearchParameters(searchParameters);
-    return Promise.resolve();
-  };
-  const handleUpdateFilter = (filter: string): Promise<void> => {
-    searchParameters.filter = filter;
-    setSearchParameters(searchParameters);
-    return Promise.resolve();
-  };
-  const handleUpdatePassageLength = (passageLength: number): Promise<void> => {
-    if (searchParameters.passages) {
-      searchParameters.passages.characters = passageLength;
-      searchParameters.passages.enabled = true;
-    } else {
-      searchParameters.passages = {
-        characters: passageLength,
-        enabled: true
+      /**
+       * If user clicks space consider searching a new word. Also don't try to autocomplete
+       * if the query only contains spaces.
+       */
+      const queryArray = nlq.split(splitSearchQuerySelector);
+      const prefix = queryArray[queryArray.length - 1];
+      const autocompletionParams = {
+        project_id: searchParameters.project_id,
+        prefix: prefix
       };
+
+      if (!!prefix) {
+        const autocompletions: DiscoveryV1.Completions = await searchClient.getAutocompletion(
+          autocompletionParams
+        );
+        setAutocompletionResultsState(autocompletions);
+        return Promise.resolve();
+      }
     }
-    setSearchParameters(searchParameters);
+
+    setAutocompletionResultsState({});
     return Promise.resolve();
   };
-  const handleResultsPagination = (offset: number): Promise<void> => {
-    searchParameters.offset = offset;
-    setSearchParameters(searchParameters);
-    return Promise.resolve();
-  };
+
   const handleSelectResult = (result: DiscoveryV1.QueryResult): Promise<void> => {
     setSelectedResultState(result);
     return Promise.resolve();
   };
+
   const handleSearch = async (): Promise<void> => {
-    const searchResults: DiscoveryV1.QueryResponse = await searchClient.query(searchParameters);
+    const searchResults: DiscoveryV1.QueryResponse = await searchClient.query(
+      Object.assign(searchParameters, queryOptionsState)
+    );
     setStateSearchResults(searchResults);
     const { aggregations } = searchResults;
     setStateAggregationResults({ aggregations });
   };
+
   return (
     <SearchContext.Provider
       value={{
         onSearch: handleSearch,
-        onRefinementsMount: handleRefinementsMount,
-        onUpdatePassageLength: handleUpdatePassageLength,
-        onUpdateAggregationQuery: handleUpdateAggregationQuery,
-        onUpdateFilter: handleUpdateFilter,
-        onUpdateNaturalLanguageQuery: handleUpdateNaturalLanguageQuery,
-        onUpdateResultsPagination: handleResultsPagination,
-        onUpdateSelectedCollections: handleUpdateSelectedCollections,
+        onFetchAutoCompletions: handleFetchAutocompletions,
+        onRefinementsMount: handleFetchRefinements,
         onSelectResult: handleSelectResult,
+        onUpdateAutoCompletionOptions: handleUpdateAutocompletionOptions,
+        onUpdateQueryOptions: handleUpdateQueryOptions,
         aggregationResults: stateAggregationResults,
         searchResults: stateSearchResults,
         searchParameters,
         selectedResult: selectedResultState,
-        completionResults: completionResultsState,
+        autocompletionResults: autocompletionResultsState,
         collectionsResults: stateCollectionsResults
       }}
     >

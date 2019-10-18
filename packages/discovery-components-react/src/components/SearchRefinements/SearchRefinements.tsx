@@ -31,7 +31,7 @@ export const SearchRefinements: React.FunctionComponent<SearchRefinementsProps> 
   const searchContext = React.useContext(SearchContext);
   const {
     onRefinementsMount,
-    onUpdateAggregationQuery,
+    onUpdateQueryOptions,
     aggregationResults: { aggregations },
     searchParameters: { filter },
     collectionsResults: { collections }
@@ -39,7 +39,7 @@ export const SearchRefinements: React.FunctionComponent<SearchRefinementsProps> 
 
   React.useEffect(() => {
     if (validateConfiguration(configuration)) {
-      onUpdateAggregationQuery(buildAggregationQuery(configuration));
+      onUpdateQueryOptions({ aggregation: buildAggregationQuery(configuration) });
       onRefinementsMount();
     } else {
       consoleErrorMessage(invalidConfigurationMessage);

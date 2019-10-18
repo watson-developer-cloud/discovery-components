@@ -18,7 +18,7 @@ export const CollectionRefinements: React.FunctionComponent = () => {
   const idPrefix = 'collection-refinement-';
   const searchContext = React.useContext(SearchContext);
   const {
-    onUpdateSelectedCollections,
+    onUpdateQueryOptions,
     onSearch,
     collectionsResults,
     searchParameters: { collection_ids: collectionIds }
@@ -51,7 +51,10 @@ export const CollectionRefinements: React.FunctionComponent = () => {
         return collection.id.split(idPrefix).pop() || '';
       })
       .filter(id => id !== '');
-    onUpdateSelectedCollections(collectionIds);
+    onUpdateQueryOptions({
+      collection_ids: collectionIds,
+      offset: 0
+    });
     onSearch();
   };
 

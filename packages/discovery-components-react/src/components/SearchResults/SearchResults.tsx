@@ -45,13 +45,18 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   passageLength,
   passageHighlightsClassName
 }) => {
-  const { searchResults, onUpdatePassageLength } = useContext(SearchContext);
+  const { searchResults, onUpdateQueryOptions } = useContext(SearchContext);
   const { matching_results: matchingResults, results } = searchResults;
   const querySubmitted = false; // TODO replace this with whatever value tells our component if a query has been submitted
 
   React.useEffect(() => {
     if (passageLength) {
-      onUpdatePassageLength(passageLength);
+      onUpdateQueryOptions({
+        passages: {
+          characters: passageLength,
+          enabled: true
+        }
+      });
     }
   }, [passageLength]);
 

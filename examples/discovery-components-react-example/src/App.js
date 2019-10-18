@@ -28,6 +28,7 @@ const App = () => {
         small={false}
         placeHolderText={'This is some placeholder text...'}
         labelText={'This is some label text...'}
+        spellingSuggestions={true}
       />
       <SearchResults bodyField={'highlight.text[0]'} />
       <SearchRefinements

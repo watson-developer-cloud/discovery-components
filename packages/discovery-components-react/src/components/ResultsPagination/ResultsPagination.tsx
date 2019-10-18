@@ -22,7 +22,7 @@ interface ResultsPaginationEvent {
 export const ResultsPagination: React.SFC<ResultsPaginationProps> = ({ page, pageSizes }) => {
   const searchContext = React.useContext(SearchContext);
   const {
-    onUpdateResultsPagination,
+    onUpdateQueryOptions,
     onSearch,
     searchResults: { matching_results: matchingResults }
   } = searchContext;
@@ -30,7 +30,7 @@ export const ResultsPagination: React.SFC<ResultsPaginationProps> = ({ page, pag
   const handleOnChange = (evt: ResultsPaginationEvent): void => {
     const { page, pageSize } = evt;
     const offset = (page - 1) * pageSize;
-    onUpdateResultsPagination(offset);
+    onUpdateQueryOptions({ offset: offset });
     onSearch();
   };
 

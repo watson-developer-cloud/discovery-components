@@ -7,13 +7,10 @@ export function wrapWithContext(
 ): React.ReactElement {
   const context: SearchContextIFC = {
     onSearch: (): Promise<void> => Promise.resolve(),
+    onFetchAutoCompletions: (): Promise<void> => Promise.resolve(),
     onRefinementsMount: (): Promise<void> => Promise.resolve(),
-    onUpdateAggregationQuery: (): Promise<void> => Promise.resolve(),
-    onUpdateNaturalLanguageQuery: (): Promise<void> => Promise.resolve(),
-    onUpdateFilter: (): Promise<void> => Promise.resolve(),
-    onUpdatePassageLength: (): Promise<void> => Promise.resolve(),
-    onUpdateResultsPagination: (): Promise<void> => Promise.resolve(),
-    onUpdateSelectedCollections: (): Promise<void> => Promise.resolve(),
+    onUpdateAutoCompletionOptions: (): Promise<void> => Promise.resolve(),
+    onUpdateQueryOptions: (): Promise<void> => Promise.resolve(),
     onSelectResult: (): Promise<void> => Promise.resolve(),
     aggregationResults: {},
     searchResults: {},
@@ -21,7 +18,7 @@ export function wrapWithContext(
       project_id: ''
     },
     selectedResult: {},
-    completionResults: {},
+    autocompletionResults: {},
     collectionsResults: {}
   };
   return (

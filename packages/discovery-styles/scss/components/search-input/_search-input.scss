@@ -1,13 +1,34 @@
 // Component styles
 @import '~carbon-components/scss/components/search/_search.scss';
+@import '~carbon-components/scss/components/button/_button.scss';
 @import '~carbon-components/scss/components/list-box/_list-box.scss';
 
-.#{$prefix}--search-autocomplete {
+.#{$prefix}--search-autocompletion {
   @include layer('overlay');
   padding: 0 $spacing-md;
 }
 
-.#{$prefix}--search-autocomplete__wrapper {
+.#{$prefix}--spelling-suggestion__wrapper {
+  margin: $spacing-sm 0 $spacing-sm $spacing-md;
+}
+
+.#{$prefix}--spelling-suggestion {
+  color: $text-01;
+  text-decoration: underline;
+  border-width: 0;
+
+  @include type-style('body-short-02');
+
+  &:hover,
+  &:focus,
+  &:active {
+    outline-style: none;
+    color: $text-01;
+    background: transparent;
+  }
+}
+
+.#{$prefix}--search-autocompletion__wrapper {
   @include type-style('body-short-01');
   color: $gray-70;
   border-bottom-color: $ui-03;
@@ -17,16 +38,16 @@
   }
 }
 
-.#{$prefix}--search-autocomplete__item {
+.#{$prefix}--search-autocompletion__item {
   display: flex;
   align-items: center;
 }
 
-.#{$prefix}--search-autocomplete__term {
+.#{$prefix}--search-autocompletion__term {
   padding: $spacing-sm 0 $spacing-md;
 }
 
-.#{$prefix}--search-autocomplete__icon {
+.#{$prefix}--search-autocompletion__icon {
   padding: $spacing-sm $spacing-md $spacing-sm 0;
 
   svg {

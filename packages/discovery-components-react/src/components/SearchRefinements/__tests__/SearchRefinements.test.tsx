@@ -29,10 +29,8 @@ const setup = (
   context.onRefinementsMount = onRefinementsMountMock;
   const onSearchMock = jest.fn();
   context.onSearch = onSearchMock;
-  const onUpdateAggregationQueryMock = jest.fn();
-  context.onUpdateAggregationQuery = onUpdateAggregationQueryMock;
-  const onUpdateFilterMock = jest.fn();
-  context.onUpdateFilter = onUpdateFilterMock;
+  const onUpdateQueryOptionsMock = jest.fn();
+  context.onUpdateQueryOptions = onUpdateQueryOptionsMock;
   const searchRefinementsComponent = render(
     wrapWithContext(
       <SearchRefinements
@@ -54,8 +52,7 @@ const setup = (
   return {
     context,
     onRefinementsMountMock,
-    onUpdateAggregationQueryMock,
-    onUpdateFilterMock,
+    onUpdateQueryOptionsMock,
     onSearchMock,
     searchRefinementsComponent
   };
@@ -64,11 +61,11 @@ const setup = (
 describe('SearchRefinementsComponent', () => {
   describe('component load', () => {
     test('it calls onAggregationRequest with configuration', () => {
-      const { onUpdateAggregationQueryMock } = setup('');
-      expect(onUpdateAggregationQueryMock).toBeCalledTimes(1);
-      expect(onUpdateAggregationQueryMock).toBeCalledWith(
-        '[term(author,count:3),term(subject,count:4)]'
-      );
+      const { onUpdateQueryOptionsMock } = setup('');
+      expect(onUpdateQueryOptionsMock).toBeCalledTimes(1);
+      expect(onUpdateQueryOptionsMock).toBeCalledWith({
+        aggregation: '[term(author,count:3),term(subject,count:4)]'
+      });
     });
 
     test('it does not calls onSearch', () => {
