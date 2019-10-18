@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.1](http:///discovery-styles/compare/@disco-widgets/styles@1.10.0...@disco-widgets/styles@1.10.1) (2019-10-18)
+
+**Note:** Version bump only for package @disco-widgets/styles
+
+
+
+
+
 # [1.10.0](http:///discovery-styles/compare/@disco-widgets/styles@1.9.0...@disco-widgets/styles@1.10.0) (2019-10-18)
 
 
