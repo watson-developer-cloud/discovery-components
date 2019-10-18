@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.35.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.34.0...@disco-widgets/react-components@1.35.0) (2019-10-18)
+
+
+### Features
+
+* add cmd to analyze source (JS, CSS) ([#203](http:///discovery-components-react/issues/203)) ([074b2a5](http:///discovery-components-react/commits/074b2a5))
+
+
+
+
+
 # [1.34.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.33.0...@disco-widgets/react-components@1.34.0) (2019-10-17)
 
 
