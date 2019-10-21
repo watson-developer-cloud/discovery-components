@@ -1,10 +1,12 @@
 .#{$prefix}--rich-preview {
   display: flex;
   flex-flow: column nowrap;
+  height: 100%;
 }
 
 .#{$prefix}--rich-preview__document {
   position: relative;
+  overflow: scroll;
 }
 
 .#{$prefix}--rich-preview__document > * {

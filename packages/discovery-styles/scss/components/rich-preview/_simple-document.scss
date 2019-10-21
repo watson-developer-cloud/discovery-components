@@ -1,9 +1,20 @@
 .#{$prefix}--simple-document {
   display: flex;
   justify-content: center;
+
+  .field--rect {
+    position: absolute;
+    background-color: yellow;
+    opacity: 0.25;
+  }
+}
+
+.#{$prefix}--simple-document__wrapper {
+  margin: 0 5%;
+  // required for positioning field rects
+  position: relative;
 }
 
 .#{$prefix}--simple-document__content {
   max-width: 78ch;
-  margin: 0 5%;
 }

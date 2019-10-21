@@ -2,6 +2,7 @@
 @import '~carbon-components/scss/components/tooltip/tooltip';
 
 .#{$prefix}--rich-preview-toolbar {
+  flex: 0 0 auto;
   display: flex;
   justify-content: center;
   background-color: #eaeaea;

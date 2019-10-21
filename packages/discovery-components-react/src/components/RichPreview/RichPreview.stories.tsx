@@ -10,8 +10,13 @@ import docHonda from './__fixtures__/ATLA1919NV.PDF.json';
 import docSOW from './__fixtures__/SOW 4915017574 SAP System Analyst Services for the GSD - v5.pdf.json';
 import passages from './__fixtures__/passages';
 
-const Wrapper: FC = ({ children }) => (
-  <div style={{ maxWidth: '50rem', margin: '2rem', border: '1px solid black' }}>{children}</div>
+interface WrapperProps {
+  style?: any;
+}
+const Wrapper: FC<WrapperProps> = ({ children, style = {} }) => (
+  <div style={{ maxWidth: '50rem', margin: '2rem', border: '1px solid black', ...style }}>
+    {children}
+  </div>
 );
 
 storiesOf('RichPreview', module)
@@ -50,11 +55,27 @@ storiesOf('RichPreview', module)
     );
   })
   .add('render 2nd fallback', () => {
+    // passage highlight selection
+    const label = 'Passage';
+    const options = {
+      single: 'single',
+      multiline: 'multiline'
+    };
+    const defaultValue = 'single';
+    const groupId = 'GROUP-ID1';
+    const passageType = radios(label, options, defaultValue, groupId);
+
     // create document without text_mappings
     const doc = omit(docArtEffects, 'extracted_metadata.text_mappings');
+    // inject single-line passage
+    const docWithPassage = {
+      ...doc,
+      document_passages: [passages[passageType]]
+    };
+
     return (
-      <Wrapper>
-        <RichPreview document={doc} />
+      <Wrapper style={{ height: '90vh' }}>
+        <RichPreview document={docWithPassage} />
       </Wrapper>
     );
   })
