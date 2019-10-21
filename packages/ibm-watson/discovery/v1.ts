@@ -344,6 +344,11 @@ class DiscoveryV1 extends BaseService {
    * @param {boolean} [params.spelling_suggestions] - When `true` and the **natural_language_query** parameter is used,
    * the **natural_language_query** parameter is spell checked. The most likely correction is returned in the
    * **suggested_query** field of the response (if one exists).
+   * @param {boolean} [params.table_results_enabled] - Whether to enable table retrieval.
+   * @param {number} [params.table_results_count] - Number of tables to return.
+   * @param {boolean} [params.suggested_refinements_enabled] - Whether to perform suggested refinements.
+   * @param {number} [params.suggested_refinements_count] - Maximum number of suggested refinements texts to be
+   * returned. The default is `10`. The maximum is `100`.
    * @param {boolean} [params.passages] - A passages query that returns the most relevant passages from the results.
    * @param {boolean} [params.passages_per_document] - When `true`, passages will be returned whithin their respective
    * result.
@@ -387,6 +392,10 @@ class DiscoveryV1 extends BaseService {
       'sort': _params.sort,
       'highlight': _params.highlight,
       'spelling_suggestions': _params.spelling_suggestions,
+      'table_results.enabled': _params.table_results_enabled,
+      'table_results.count': _params.table_results_count,
+      'suggested_refinements.enabled': _params.suggested_refinements_enabled,
+      'suggested_refinements.count': _params.suggested_refinements_count,
       'passages': _params.passages,
       'passages.per_document': _params.passages_per_document,
       'passages.max_passages_per_document': _params.passages_max_passages_per_document,
@@ -447,6 +456,8 @@ class DiscoveryV1 extends BaseService {
    * @param {boolean} [params.spelling_suggestions] - When `true` and the **natural_language_query** parameter is used,
    * the **natural_language_query** parameter is spell checked. The most likely correction is retunred in the
    * **suggested_query** field of the response (if one exists).
+   * @param {QueryLargeTableResults} [params.table_results] - Configuration for table retrieval.
+   * @param {QueryLargeSuggestedRefinements} [params.suggested_refinements] - Configuration for suggested refinements.
    * @param {QueryLargePassages} [params.passages] - Configuration for passage retrieval.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @param {Function} [callback] - The callback that handles the response.
@@ -482,6 +493,8 @@ class DiscoveryV1 extends BaseService {
       'sort': _params.sort,
       'highlight': _params.highlight,
       'spelling_suggestions': _params.spelling_suggestions,
+      'table_results': _params.table_results,
+      'suggested_refinements': _params.suggested_refinements,
       'passages': _params.passages
     };
 
@@ -1380,6 +1393,14 @@ namespace DiscoveryV1 {
     highlight?: boolean;
     /** When `true` and the **natural_language_query** parameter is used, the **natural_language_query** parameter is spell checked. The most likely correction is returned in the **suggested_query** field of the response (if one exists). */
     spelling_suggestions?: boolean;
+    /** Whether to enable table retrieval. */
+    table_results_enabled?: boolean;
+    /** Number of tables to return. */
+    table_results_count?: number;
+    /** Whether to perform suggested refinements. */
+    suggested_refinements_enabled?: boolean;
+    /** Maximum number of suggested refinements texts to be returned. The default is `10`. The maximum is `100`. */
+    suggested_refinements_count?: number;
     /** A passages query that returns the most relevant passages from the results. */
     passages?: boolean;
     /** When `true`, passages will be returned whithin their respective result. */
@@ -1422,6 +1443,10 @@ namespace DiscoveryV1 {
     highlight?: boolean;
     /** When `true` and the **natural_language_query** parameter is used, the **natural_language_query** parameter is spell checked. The most likely correction is retunred in the **suggested_query** field of the response (if one exists). */
     spelling_suggestions?: boolean;
+    /** Configuration for table retrieval. */
+    table_results?: QueryLargeTableResults;
+    /** Configuration for suggested refinements. */
+    suggested_refinements?: QueryLargeSuggestedRefinements;
     /** Configuration for passage retrieval. */
     passages?: QueryLargePassages;
     headers?: OutgoingHttpHeaders;
@@ -1645,6 +1670,16 @@ namespace DiscoveryV1 {
     notices?: Notice[];
   }
 
+  /** List of document attributes. */
+  export interface DocumentAttribute {
+    /** The type of attribute. */
+    type?: string;
+    /** The text associated with the attribute. */
+    text?: string;
+    /** The numeric location of the identified element in the document, represented with two integers labeled `begin` and `end`. */
+    location?: TableElementLocation;
+  }
+
   /** DocumentCounts. */
   export interface DocumentCounts {
     /** The total number of available documents in the collection. */
@@ -1687,7 +1722,7 @@ namespace DiscoveryV1 {
     description?: string;
   }
 
-  /** An aggregation produced by  Discovery to analyze the input provided. */
+  /** An aggregation produced by Discovery to analyze the input provided. */
   export interface QueryAggregation {
     /** The type of aggregation command used. For example: term, filter, max, min, etc. */
     type?: string;
@@ -1715,6 +1750,22 @@ namespace DiscoveryV1 {
     characters?: number;
   }
 
+  /** Configuration for suggested refinements. */
+  export interface QueryLargeSuggestedRefinements {
+    /** Whether to perform suggested refinements. */
+    enabled?: boolean;
+    /** Maximum number of suggested refinements texts to be returned. The default is `10`. The maximum is `100`. */
+    count?: number;
+  }
+
+  /** Configuration for table retrieval. */
+  export interface QueryLargeTableResults {
+    /** Whether to enable table retrieval. */
+    enabled?: boolean;
+    /** Number of tables to return. */
+    count?: number;
+  }
+
   /** A response containing the documents and aggregations for the query. */
   export interface QueryResponse {
     /** The number of matching results for the query. */
@@ -1727,6 +1778,10 @@ namespace DiscoveryV1 {
     retrieval_details?: RetrievalDetails;
     /** Suggested correction to the submitted **natural_language_query** value. */
     suggested_query?: string;
+    /** Array of suggested refinments. */
+    suggested_refinements?: QuerySuggestedRefinement[];
+    /** Array of table results. */
+    table_results?: QueryTableResult[];
   }
 
   /** Result document for the specified query. */
@@ -1767,10 +1822,219 @@ namespace DiscoveryV1 {
     field?: string;
   }
 
+  /** A suggested additional query term or terms user to filter results. */
+  export interface QuerySuggestedRefinement {
+    /** The text used to filter. */
+    text?: string;
+  }
+
+  /** A tables whose content or context match a search query. */
+  export interface QueryTableResult {
+    /** The identifier for the retrieved table. */
+    table_id?: string;
+    /** The identifier of the document the table was retrieved from. */
+    source_document_id?: string;
+    /** The identifier of the collection the table was retrieved from. */
+    collection_id?: string;
+    /** HTML snippet of the table info. */
+    table_html?: string;
+    /** Used to convert the spans in the table object to resolve in the html snippet. */
+    table_html_offset?: string;
+    /** Full table object retrieved from Table Understanding Enrichment. */
+    table?: TableResultTable;
+  }
+
   /** An object contain retrieval type information. */
   export interface RetrievalDetails {
     /** Indentifies the document retrieval strategy used for this query. `relevancy_training` indicates that the results were returned using a relevancy trained model. **Note**: In the event of trained collections being queried, but the trained model is not used to return results, the **document_retrieval_strategy** will be listed as `untrained`. */
     document_retrieval_strategy?: string;
+  }
+
+  /** Cells that are not table header, column header, or row header cells. */
+  export interface TableBodyCells {
+    /** The unique ID of the cell in the current table. */
+    cell_id?: string;
+    /** The numeric location of the identified element in the document, represented with two integers labeled `begin` and `end`. */
+    location?: TableElementLocation;
+    /** The textual contents of this cell from the input document without associated markup content. */
+    text?: string;
+    /** The `begin` index of this cell's `row` location in the current table. */
+    row_index_begin?: number;
+    /** The `end` index of this cell's `row` location in the current table. */
+    row_index_end?: number;
+    /** The `begin` index of this cell's `column` location in the current table. */
+    column_index_begin?: number;
+    /** The `end` index of this cell's `column` location in the current table. */
+    column_index_end?: number;
+    row_header_ids?: TableRowHeaderIds[];
+    row_header_texts?: TableRowHeaderTexts[];
+    row_header_texts_normalized?: TableRowHeaderTextsNormalized[];
+    column_header_ids?: TableColumnHeaderIds[];
+    column_header_texts?: TableColumnHeaderTexts[];
+    column_header_texts_normalized?: TableColumnHeaderTextsNormalized[];
+    attributes?: DocumentAttribute[];
+  }
+
+  /** A key in a key-value pair. */
+  export interface TableCellKey {
+    /** The unique ID of the key in the table. */
+    cell_id?: string;
+    /** The numeric location of the identified element in the document, represented with two integers labeled `begin` and `end`. */
+    location?: TableElementLocation;
+    /** The text content of the table cell without HTML markup. */
+    text?: string;
+  }
+
+  /** A value in a key-value pair. */
+  export interface TableCellValues {
+    /** The unique ID of the value in the table. */
+    cell_id?: string;
+    /** The numeric location of the identified element in the document, represented with two integers labeled `begin` and `end`. */
+    location?: TableElementLocation;
+    /** The text content of the table cell without HTML markup. */
+    text?: string;
+  }
+
+  /** An array of values, each being the `id` value of a column header that is applicable to the current cell. */
+  export interface TableColumnHeaderIds {
+    /** The `id` value of a column header. */
+    id?: string;
+  }
+
+  /** An array of values, each being the `text` value of a column header that is applicable to the current cell. */
+  export interface TableColumnHeaderTexts {
+    /** The `text` value of a column header. */
+    text?: string;
+  }
+
+  /** If you provide customization input, the normalized version of the column header texts according to the customization; otherwise, the same value as `column_header_texts`. */
+  export interface TableColumnHeaderTextsNormalized {
+    /** The normalized version of a column header text. */
+    text_normalized?: string;
+  }
+
+  /** Column-level cells, each applicable as a header to other cells in the same column as itself, of the current table. */
+  export interface TableColumnHeaders {
+    /** The unique ID of the cell in the current table. */
+    cell_id?: string;
+    /** The location of the column header cell in the current table as defined by its `begin` and `end` offsets, respectfully, in the input document. */
+    location?: JsonObject;
+    /** The textual contents of this cell from the input document without associated markup content. */
+    text?: string;
+    /** If you provide customization input, the normalized version of the cell text according to the customization; otherwise, the same value as `text`. */
+    text_normalized?: string;
+    /** The `begin` index of this cell's `row` location in the current table. */
+    row_index_begin?: number;
+    /** The `end` index of this cell's `row` location in the current table. */
+    row_index_end?: number;
+    /** The `begin` index of this cell's `column` location in the current table. */
+    column_index_begin?: number;
+    /** The `end` index of this cell's `column` location in the current table. */
+    column_index_end?: number;
+  }
+
+  /** The numeric location of the identified element in the document, represented with two integers labeled `begin` and `end`. */
+  export interface TableElementLocation {
+    /** The element's `begin` index. */
+    begin: number;
+    /** The element's `end` index. */
+    end: number;
+  }
+
+  /** The contents of the current table's header. */
+  export interface TableHeaders {
+    /** The unique ID of the cell in the current table. */
+    cell_id?: string;
+    /** The location of the table header cell in the current table as defined by its `begin` and `end` offsets, respectfully, in the input document. */
+    location?: JsonObject;
+    /** The textual contents of the cell from the input document without associated markup content. */
+    text?: string;
+    /** The `begin` index of this cell's `row` location in the current table. */
+    row_index_begin?: number;
+    /** The `end` index of this cell's `row` location in the current table. */
+    row_index_end?: number;
+    /** The `begin` index of this cell's `column` location in the current table. */
+    column_index_begin?: number;
+    /** The `end` index of this cell's `column` location in the current table. */
+    column_index_end?: number;
+  }
+
+  /** Key-value pairs detected across cell boundaries. */
+  export interface TableKeyValuePairs {
+    /** A key in a key-value pair. */
+    key?: TableCellKey;
+    /** A list of values in a key-value pair. */
+    value?: TableCellValues[];
+  }
+
+  /** Full table object retrieved from Table Understanding Enrichment. */
+  export interface TableResultTable {
+    /** The numeric location of the identified element in the document, represented with two integers labeled `begin` and `end`. */
+    location?: TableElementLocation;
+    /** The textual contents of the current table from the input document without associated markup content. */
+    text?: string;
+    /** Text and associated location within a table. */
+    section_title?: TableTextLocation;
+    /** Text and associated location within a table. */
+    title?: TableTextLocation;
+    /** An array of table-level cells that apply as headers to all the other cells in the current table. */
+    table_headers?: TableHeaders[];
+    /** An array of row-level cells, each applicable as a header to other cells in the same row as itself, of the current table. */
+    row_headers?: TableRowHeaders[];
+    /** An array of column-level cells, each applicable as a header to other cells in the same column as itself, of the current table. */
+    column_headers?: TableColumnHeaders[];
+    /** An array of key-value pairs identified in the current table. */
+    key_value_pairs?: TableKeyValuePairs[];
+    /** An array of cells that are neither table header nor column header nor row header cells, of the current table with corresponding row and column header associations. */
+    body_cells?: TableBodyCells[];
+    /** An array of lists of textual entries across the document related to the current table being parsed. */
+    contexts?: TableTextLocation[];
+  }
+
+  /** An array of values, each being the `id` value of a row header that is applicable to this body cell. */
+  export interface TableRowHeaderIds {
+    /** The `id` values of a row header. */
+    id?: string;
+  }
+
+  /** An array of values, each being the `text` value of a row header that is applicable to this body cell. */
+  export interface TableRowHeaderTexts {
+    /** The `text` value of a row header. */
+    text?: string;
+  }
+
+  /** If you provide customization input, the normalized version of the row header texts according to the customization; otherwise, the same value as `row_header_texts`. */
+  export interface TableRowHeaderTextsNormalized {
+    /** The normalized version of a row header text. */
+    text_normalized?: string;
+  }
+
+  /** Row-level cells, each applicable as a header to other cells in the same row as itself, of the current table. */
+  export interface TableRowHeaders {
+    /** The unique ID of the cell in the current table. */
+    cell_id?: string;
+    /** The numeric location of the identified element in the document, represented with two integers labeled `begin` and `end`. */
+    location?: TableElementLocation;
+    /** The textual contents of this cell from the input document without associated markup content. */
+    text?: string;
+    /** If you provide customization input, the normalized version of the cell text according to the customization; otherwise, the same value as `text`. */
+    text_normalized?: string;
+    /** The `begin` index of this cell's `row` location in the current table. */
+    row_index_begin?: number;
+    /** The `end` index of this cell's `row` location in the current table. */
+    row_index_end?: number;
+    /** The `begin` index of this cell's `column` location in the current table. */
+    column_index_begin?: number;
+    /** The `end` index of this cell's `column` location in the current table. */
+    column_index_end?: number;
+  }
+
+  /** Text and associated location within a table. */
+  export interface TableTextLocation {
+    /** The text retrieved. */
+    text?: string;
+    /** The numeric location of the identified element in the document, represented with two integers labeled `begin` and `end`. */
+    location?: TableElementLocation;
   }
 
   /** Term. */
