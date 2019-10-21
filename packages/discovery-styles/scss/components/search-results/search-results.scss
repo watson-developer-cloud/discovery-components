@@ -34,16 +34,22 @@ $result-background: white;
 //   border-left: 0.3rem solid $interactive-04;
 // }
 
-.#{$prefix}--search-result--body {
+.#{$prefix}--search-result__body {
   max-width: 560px;
 
   @include type-style('body-short-01');
 }
 
-.#{$prefix}--search-result--title {
+.#{$prefix}--search-result__footer {
   padding-top: $spacing-05;
   color: $text-02;
   font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.#{$prefix}--search-result__title {
   display: flex;
   align-items: center;
 
@@ -54,4 +60,8 @@ $result-background: white;
   svg {
     margin-right: $spacing-03;
   }
+}
+
+.#{$prefix}--search-result__collection-name {
+  margin-left: $spacing-05;
 }

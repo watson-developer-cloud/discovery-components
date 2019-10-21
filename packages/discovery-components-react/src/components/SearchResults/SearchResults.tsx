@@ -3,6 +3,7 @@ import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 
 import { Result } from './Result';
+import { findCollectionName } from './utils/findCollectionName';
 
 interface SearchResultsProps {
   /**
@@ -34,6 +35,10 @@ interface SearchResultsProps {
    * specify a className for styling <em> tags within passages
    */
   passageHighlightsClassName?: string;
+  /**
+   * specify a label to display instead of 'Collection Name:' on each search Result
+   */
+  collectionLabel?: string;
 }
 
 export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
@@ -43,9 +48,10 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   bodyField = 'text',
   usePassages = true,
   passageLength,
-  passageHighlightsClassName
+  passageHighlightsClassName,
+  collectionLabel = 'Collection Name:'
 }) => {
-  const { searchResults, onUpdateQueryOptions } = useContext(SearchContext);
+  const { searchResults, onUpdateQueryOptions, collectionsResults } = useContext(SearchContext);
   const { matching_results: matchingResults, results } = searchResults;
   const querySubmitted = false; // TODO replace this with whatever value tells our component if a query has been submitted
 
@@ -64,6 +70,7 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
     return (
       <div>
         {(results as DiscoveryV1.QueryResult[]).map(result => {
+          const collectionName = findCollectionName(collectionsResults, result.collection_id);
           return (
             <Result
               key={result.document_id}
@@ -74,6 +81,8 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
               bodyField={bodyField}
               usePassages={usePassages}
               passageHighlightsClassName={passageHighlightsClassName}
+              collectionName={collectionName}
+              collectionLabel={collectionLabel}
             />
           );
         })}

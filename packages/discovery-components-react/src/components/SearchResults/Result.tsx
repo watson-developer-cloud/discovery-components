@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
-import get from 'lodash.get';
+import get from 'lodash/get';
 import isEqual from 'lodash.isequal';
 import { settings } from 'carbon-components';
 import Document16 from '@carbon/icons-react/lib/document/16.js';
@@ -33,6 +33,14 @@ interface ResultProps {
    * specify a className for styling <em> tags within passages
    */
   passageHighlightsClassName?: string;
+  /**
+   * specify a label to display instead of 'Collection Name:' on each search Result
+   */
+  collectionLabel: string;
+  /**
+   * collection name to render
+   */
+  collectionName: string;
 }
 export const Result: React.FunctionComponent<ResultProps> = ({
   result,
@@ -41,7 +49,9 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   resultLinkTemplate,
   bodyField,
   usePassages,
-  passageHighlightsClassName
+  passageHighlightsClassName,
+  collectionLabel,
+  collectionName
 }) => {
   const { document_id: documentId } = result;
   const { onSelectResult, selectedResult } = useContext(SearchContext);
@@ -61,6 +71,8 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   }
 
   const baseStyle = `${settings.prefix}--search-result`;
+  const footerStyle = `${baseStyle}__footer`;
+  const collectionNameStyle = `${baseStyle}__collection-name`;
   const searchResultClasses = [baseStyle];
   if (documentRetrievalSource === 'curation') {
     searchResultClasses.push(`${baseStyle}_curation`);
@@ -68,8 +80,8 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   if (isEqual(result, selectedResult)) {
     searchResultClasses.push(`${baseStyle}--selected`);
   }
-  const titleStyle = `${baseStyle}--title`;
-  const bodyStyle = `${baseStyle}--body`;
+  const titleStyle = `${baseStyle}__title`;
+  const bodyStyle = `${baseStyle}__body`;
   const highlightsStyle: string = passageHighlightsClassName
     ? `${passageHighlightsClassName}`
     : `${baseStyle}--body__highlights`;
@@ -94,9 +106,16 @@ export const Result: React.FunctionComponent<ResultProps> = ({
           dangerouslySetInnerHTML={{ __html: body }}
         ></div>
       )}
-      <div className={titleStyle}>
-        <Document16 />
-        {title || filename ? <>{title ? title : filename}</> : <>{documentId}</>}
+      <div className={footerStyle}>
+        <div className={titleStyle}>
+          <div>
+            <Document16 />
+          </div>
+          {title || filename ? <>{title ? title : filename}</> : <>{documentId}</>}
+        </div>
+        <div className={collectionNameStyle}>
+          {collectionLabel} {collectionName}
+        </div>
       </div>
     </div>
   );

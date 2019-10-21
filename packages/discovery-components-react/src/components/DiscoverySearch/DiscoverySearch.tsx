@@ -31,7 +31,7 @@ export interface DiscoverySearchProps {
   /**
    * selectedResult is used to override internal selectedResult state
    */
-  selectedResult?: DiscoveryV1.QueryResult;
+  selectedResult?: DiscoveryV1.QueryResult | null;
   /**
    * Autocompletion suggestions for the searchInput
    */
@@ -78,7 +78,7 @@ export interface SearchContextIFC {
 
 export const searchContextDefaults = {
   onSearch: (): Promise<void> => Promise.resolve(),
-  onFetchAutoCompletions: () => Promise.resolve(),
+  onFetchAutoCompletions: (): Promise<void> => Promise.resolve(),
   onRefinementsMount: (): Promise<void> => Promise.resolve(),
   onUpdateAutoCompletionOptions: (): Promise<void> => Promise.resolve(),
   onUpdateQueryOptions: (): Promise<void> => Promise.resolve(),
@@ -132,6 +132,11 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
     AutocompletionOptions
   >({});
 
+  // when Discovery Search mounts, fetch info that multiple components rely on
+  React.useEffect(() => {
+    handleFetchCollections();
+  }, []);
+
   React.useEffect(() => {
     const newSearchParameters = Object.assign({}, searchParameters, {
       project_id: projectId,
@@ -161,15 +166,20 @@ export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
   }, [autocompletionResults]);
 
   const handleFetchRefinements = async (): Promise<void> => {
-    const [aggregationsResults, collectionsResults] = await Promise.all([
-      searchClient.query(Object.assign(searchParameters, queryOptionsState)),
-      searchClient.listCollections(pick(searchParameters, 'project_id'))
-    ]);
-    const { aggregations } = aggregationsResults;
+    const { aggregations } = await searchClient.query(
+      Object.assign(searchParameters, queryOptionsState)
+    );
     setStateAggregationResults({ aggregations });
-    setStateCollectionsResults(collectionsResults);
     return Promise.resolve();
   };
+
+  async function handleFetchCollections(): Promise<void> {
+    const collectionsResults = await searchClient.listCollections(
+      pick(searchParameters, 'project_id')
+    );
+    setStateCollectionsResults(collectionsResults);
+    return Promise.resolve();
+  }
 
   const handleUpdateQueryOptions = (queryOptions: SearchParams): Promise<void> => {
     setQueryOptionsState(Object.assign(queryOptionsState, queryOptions));

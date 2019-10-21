@@ -332,4 +332,58 @@ describe('<Result />', () => {
       expect(getByText('some document_id')).toBeInTheDocument();
     });
   });
+
+  describe('when collectionLabel is passed as a param', () => {
+    test('will render', () => {
+      (context.searchResults as DiscoveryV1.QueryResponse).results = [
+        {
+          document_id: 'some document_id',
+          collection_id: '123',
+          document_passages: [
+            {
+              passage_text: 'this is the first passage text'
+            }
+          ]
+        }
+      ];
+      context.collectionsResults = {
+        collections: [
+          {
+            collection_id: '123',
+            name: 'test collection'
+          }
+        ]
+      };
+      const { getByText } = render(
+        wrapWithContext(<SearchResults collectionLabel={'my label'} />, context)
+      );
+      expect(getByText(/.*my label/)).toBeInTheDocument();
+    });
+  });
+
+  describe('when there are collectionsResults stored in context', () => {
+    test('renders the collectionName', () => {
+      (context.searchResults as DiscoveryV1.QueryResponse).results = [
+        {
+          document_id: 'some document_id',
+          collection_id: '123',
+          document_passages: [
+            {
+              passage_text: 'this is the first passage text'
+            }
+          ]
+        }
+      ];
+      context.collectionsResults = {
+        collections: [
+          {
+            collection_id: '123',
+            name: 'test collection'
+          }
+        ]
+      };
+      const { getByText } = render(wrapWithContext(<SearchResults />, context));
+      expect(getByText(/.*test collection/)).toBeInTheDocument();
+    });
+  });
 });
