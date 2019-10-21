@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.39.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.38.0...@disco-widgets/react-components@1.39.0) (2019-10-21)
+
+
+### Features
+
+* passage hilite 2nd fallback ([#242](http:///discovery-components-react/issues/242)) ([eea9abe](http:///discovery-components-react/commits/eea9abe))
+
+
+
+
+
 # [1.38.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.37.0...@disco-widgets/react-components@1.38.0) (2019-10-18)
 
 

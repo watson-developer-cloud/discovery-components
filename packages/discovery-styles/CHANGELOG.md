@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.12.0](http:///discovery-styles/compare/@disco-widgets/styles@1.11.0...@disco-widgets/styles@1.12.0) (2019-10-21)
+
+
+### Features
+
+* passage hilite 2nd fallback ([#242](http:///discovery-styles/issues/242)) ([eea9abe](http:///discovery-styles/commits/eea9abe))
+
+
+
+
+
 # [1.11.0](http:///discovery-styles/compare/@disco-widgets/styles@1.10.1...@disco-widgets/styles@1.11.0) (2019-10-18)
 
 
