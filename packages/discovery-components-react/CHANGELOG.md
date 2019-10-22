@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.41.1](http:///discovery-components-react/compare/@disco-widgets/react-components@1.41.0...@disco-widgets/react-components@1.41.1) (2019-10-22)
+
+
+### Bug Fixes
+
+* don't build in duplicate pdf.worker.js ([#248](http:///discovery-components-react/issues/248)) ([d9e26d6](http:///discovery-components-react/commits/d9e26d6))
+
+
+
+
+
 # [1.41.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.40.0...@disco-widgets/react-components@1.41.0) (2019-10-22)
 
 
