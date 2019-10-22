@@ -61,7 +61,7 @@ function SearchPage() {
 }
 
 function PreviewPage() {
-  const { selectedResult, onSelectResult } = useContext(SearchContext);
+  const { onSelectResult } = useContext(SearchContext);
 
   function back(evt) {
     evt.preventDefault();
@@ -75,7 +75,7 @@ function PreviewPage() {
           {'< Back to Search'}
         </a>
       </div>
-      <RichPreview document={selectedResult} />
+      <RichPreview />
     </div>
   );
 }

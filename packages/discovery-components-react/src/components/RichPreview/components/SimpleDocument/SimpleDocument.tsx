@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useRef } from 'react';
 import { settings } from 'carbon-components';
-import { QueryResult } from '@disco-widgets/ibm-watson/discovery/v1';
+import { QueryResult, QueryResultPassage } from '@disco-widgets/ibm-watson/discovery/v1';
 import { clearNodeChildren } from '../../utils/dom';
 import { findOffsetInDOM, createFieldRects } from '../../utils/document';
 
@@ -12,26 +12,29 @@ interface Props {
 }
 
 export const SimpleDocument: FC<Props> = ({ document }) => {
-  const base = `${settings.prefix}--simple-document`;
-  const { text, document_passages: passages } = document;
   const contentRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
 
-  let html = `<p data-child-begin="0" data-child-end=${text.length - 1}>${text}</p>`;
-  if (passages && passages.length > 0) {
-    // use text from field defined in passage
-    // (only support first passage)
-    const { field } = passages[0];
-    if (field && field !== 'text') {
-      let rollingStart = 0;
-      html = document[field]
-        .map((val: string) => {
-          const end = rollingStart + val.length - 1;
-          const res = `<p data-child-begin=${rollingStart} data-child-end=${end}>${val}</p>`;
-          rollingStart = end + 1;
-          return res;
-        })
-        .join('\n');
+  let html, text, passages: QueryResultPassage[] | undefined;
+  if (document) {
+    ({ text, document_passages: passages } = document);
+    html = `<p data-child-begin="0" data-child-end=${text.length - 1}>${text}</p>`;
+
+    if (passages && passages.length > 0) {
+      // use text from field defined in passage
+      // (only support first passage)
+      const { field } = passages[0];
+      if (field && field !== 'text') {
+        let rollingStart = 0;
+        html = document[field]
+          .map((val: string) => {
+            const end = rollingStart + val.length - 1;
+            const res = `<p data-child-begin=${rollingStart} data-child-end=${end}>${val}</p>`;
+            rollingStart = end + 1;
+            return res;
+          })
+          .join('\n');
+      }
     }
   }
 
@@ -73,7 +76,8 @@ export const SimpleDocument: FC<Props> = ({ document }) => {
     }
   }, [passages]);
 
-  return (
+  const base = `${settings.prefix}--simple-document`;
+  return html ? (
     <div className={`${base}`}>
       <div className={`${base}__wrapper`}>
         <div ref={highlightRef} />
@@ -84,7 +88,7 @@ export const SimpleDocument: FC<Props> = ({ document }) => {
         />
       </div>
     </div>
-  );
+  ) : null;
 };
 
 export default SimpleDocument;

@@ -7,7 +7,7 @@ interface Props {
   /**
    * Document data returned by query
    */
-  document?: QueryResult;
+  document?: QueryResult | null;
 
   /**
    * Page to display

@@ -1,7 +1,8 @@
-import React, { FC, useState, useEffect, ReactElement } from 'react';
+import React, { FC, ReactElement, useContext, useEffect, useState } from 'react';
 import get from 'lodash/get';
 import { settings } from 'carbon-components';
 import { QueryResult } from '@disco-widgets/ibm-watson/discovery/v1';
+import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import RichPreviewToolbar, { ZOOM_IN } from './components/RichPreviewToolbar/RichPreviewToolbar';
 import PdfViewer from './components/PdfViewer/PdfViewer';
 import PdfFallback, { supportsPdfFallback } from './components/PdfFallback/PdfFallback';
@@ -10,9 +11,9 @@ import PassageHighlight from './components/PassageHighlight/PassageHighlight';
 
 interface Props {
   /**
-   * Document data returned by query
+   * Document data, as that returned by a query. Overrides result from SearchContext
    */
-  document: QueryResult;
+  document?: QueryResult;
 
   /**
    * PDF file data as base64-encoded string
@@ -23,17 +24,19 @@ interface Props {
 const SCALE_FACTOR = 1.2;
 
 export const RichPreview: FC<Props> = ({ document, file }) => {
-  const base = `${settings.prefix}--rich-preview`;
+  const { selectedResult } = useContext(SearchContext);
+  // document prop takes precedence over that in context
+  const doc = document || selectedResult;
 
   const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
     // reset state if document changes
     setCurrentPage(1);
-  }, [document]);
+  }, [doc]);
 
   // If passage, initialize first page to that of passage; otherwise
   // default to first page
-  const passage = get(document, 'document_passages[0]'); // Only look for first passage, if available
+  const passage = get(doc, 'document_passages[0]'); // Only look for first passage, if available
   const [passageFirstPage, setPassageFirstPage] = useState(0);
   useEffect(() => {
     if (!passage) {
@@ -45,57 +48,64 @@ export const RichPreview: FC<Props> = ({ document, file }) => {
 
   // Pull total page count from either the PDF file or the structural
   // data list
+  const textMappings = get(doc, 'extracted_metadata.text_mappings');
   const [pageCount, setPageCount] = useState(0);
   const [pdfPageCount, setPdfPageCount] = useState(pageCount);
   useEffect(() => {
-    if (file) {
+    if (file && pdfPageCount > 0) {
       setPageCount(pdfPageCount);
-    } else if (document.extracted_metadata.text_mappings) {
-      const mappings = document.extracted_metadata.text_mappings;
-      setPageCount(mappings.cells[mappings.cells.length - 1].page.page_number);
+    } else if (textMappings) {
+      setPageCount(textMappings.cells[textMappings.cells.length - 1].page.page_number);
     }
-  }, [document.extracted_metadata.text_mappings, file, pdfPageCount]);
+  }, [textMappings, file, pdfPageCount]);
 
   const [scale, setScale] = useState(1);
 
-  const loading = !(currentPage > 0) || !(pageCount > 0);
+  const loading = !doc || !(currentPage > 0) || !(pageCount > 0);
 
+  const base = `${settings.prefix}--rich-preview`;
   return (
     <div className={`${base}`}>
-      <RichPreviewToolbar
-        loading={loading}
-        current={currentPage}
-        total={pageCount}
-        onChange={setCurrentPage}
-        onZoom={(zoom): void => {
-          setScale(zoom === ZOOM_IN ? scale * SCALE_FACTOR : scale / SCALE_FACTOR);
-        }}
-      />
-      <div className={`${base}__document`}>
-        <RichPreviewDocument
-          file={file}
-          currentPage={currentPage}
-          scale={scale}
-          document={document}
-          setPdfPageCount={setPdfPageCount}
-        />
-        {/* highlight passage on top of document view */}
-        <div className={`${base}__passage`}>
-          <PassageHighlight
-            highlightClassname={`${base}__highlight`}
-            document={document}
-            currentPage={currentPage}
-            passage={passage}
-            setPassageFirstPage={setPassageFirstPage}
+      {doc || file ? (
+        <>
+          <RichPreviewToolbar
+            loading={loading}
+            current={currentPage}
+            total={pageCount}
+            onChange={setCurrentPage}
+            onZoom={(zoom): void => {
+              setScale(zoom === ZOOM_IN ? scale * SCALE_FACTOR : scale / SCALE_FACTOR);
+            }}
           />
-        </div>
-      </div>
+          <div className={`${base}__document`}>
+            <RichPreviewDocument
+              file={file}
+              currentPage={currentPage}
+              scale={scale}
+              document={doc || undefined}
+              setPdfPageCount={setPdfPageCount}
+            />
+            {/* highlight passage on top of document view */}
+            <div className={`${base}__passage`}>
+              <PassageHighlight
+                highlightClassname={`${base}__highlight`}
+                document={doc}
+                currentPage={currentPage}
+                passage={passage}
+                setPassageFirstPage={setPassageFirstPage}
+              />
+            </div>
+          </div>
+        </>
+      ) : (
+        <div>No document data</div>
+      )}
     </div>
   );
 };
 
 interface DocumentProps {
-  document: any;
+  document?: QueryResult;
   file?: string;
   currentPage: number;
   scale: number;
@@ -108,16 +118,18 @@ function RichPreviewDocument({
   scale,
   document,
   setPdfPageCount
-}: DocumentProps): ReactElement {
+}: DocumentProps): ReactElement | null {
   // if we have PDF data, render that
   // otherwise, render fallback document view
   return file ? (
     <PdfViewer file={file} page={currentPage} scale={scale} setPageCount={setPdfPageCount} />
-  ) : supportsPdfFallback(document) ? (
-    <PdfFallback key={document && document.id} document={document} currentPage={currentPage} />
-  ) : (
-    <SimpleDocument document={document} />
-  );
+  ) : document ? (
+    supportsPdfFallback(document) ? (
+      <PdfFallback key={document && document.id} document={document} currentPage={currentPage} />
+    ) : (
+      <SimpleDocument document={document} />
+    )
+  ) : null;
 }
 
 export default RichPreview;

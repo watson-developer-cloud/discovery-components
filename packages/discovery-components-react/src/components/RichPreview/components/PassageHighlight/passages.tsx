@@ -4,7 +4,7 @@ import { CellPage, TextMappings } from '../../types';
 
 // React hook for retrieving passage bbox data from document
 export function usePassage(
-  document?: QueryResult,
+  document?: QueryResult | null,
   passage?: QueryResultPassage
 ): ReadonlyArray<CellPage> | null {
   const [pageInfo, setPageInfo] = useState<ReadonlyArray<CellPage> | null>(null);
