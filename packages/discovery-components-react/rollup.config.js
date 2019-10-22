@@ -10,6 +10,22 @@ import pkg from './package.json';
 
 // for some reason, '**/*.worker.min.js' doesn't work
 const pdfWorkerRegex = /\.worker\.min\.js$/;
+// don't import pdf.worker.js from within pdf.js
+const replacePdfWorker = {
+  name: 'replace-pdf-worker',
+  resolveId(source) {
+    if (source === './pdf.worker.js') {
+      return source; // this signals that rollup should not ask other plugins or check the file system to find this id
+    }
+    return null; // other ids should be handled as usually
+  },
+  load(id) {
+    if (id === './pdf.worker.js') {
+      return 'export default {}'; // replacement source
+    }
+    return null; // other ids should be handled as usually
+  }
+};
 
 export default {
   input: 'src/index.tsx',
@@ -28,8 +44,11 @@ export default {
     }
   ],
   plugins: [
+    replacePdfWorker,
     external(),
-    resolve(),
+    resolve({
+      browser: true
+    }),
     commonjs({
       exclude: [pdfWorkerRegex]
     }),
