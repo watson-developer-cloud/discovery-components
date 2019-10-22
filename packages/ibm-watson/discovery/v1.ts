@@ -1235,6 +1235,61 @@ class DiscoveryV1 extends BaseService {
     return this.createRequest(parameters, _callback);
   };
 
+  /*************************
+   * componentSettings
+   ************************/
+
+  /**
+   * Configuration settings for components.
+   *
+   * Returns default configuration settings for components.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.project_id - The ID of the project.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @param {Function} [callback] - The callback that handles the response.
+   * @returns {Promise<any>|void}
+   */
+  public componentSettings(params: DiscoveryV1.ComponentSettingsParams, callback?: DiscoveryV1.Callback<DiscoveryV1.ComponentSettingsResponse>): Promise<any> | void {
+    const _params = extend({}, params);
+    const _callback = callback;
+    const requiredParams = ['project_id'];
+
+    if (!_callback) {
+      return new Promise((resolve, reject) => {
+        this.componentSettings(params, (err, bod, res) => {
+          err ? reject(err) : _params.return_response ? resolve(res) : resolve(bod);
+        });
+      });
+    }
+
+    const missingParams = getMissingParams(_params, requiredParams);
+    if (missingParams) {
+      return _callback(missingParams);
+    }
+
+    const path = {
+      'project_id': _params.project_id
+    };
+
+    const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'componentSettings');
+
+    const parameters = {
+      options: {
+        url: '/v2/projects/{project_id}/component_settings',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this._options, {
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+        }, _params.headers),
+      }),
+    };
+
+    return this.createRequest(parameters, _callback);
+  };
+
 }
 
 DiscoveryV1.prototype.name = 'discovery-data';
@@ -1613,6 +1668,14 @@ namespace DiscoveryV1 {
     return_response?: boolean;
   }
 
+  /** Parameters for the `componentSettings` operation. */
+  export interface ComponentSettingsParams {
+    /** The ID of the project. */
+    project_id: string;
+    headers?: OutgoingHttpHeaders;
+    return_response?: boolean;
+  }
+
   /*************************
    * model interfaces
    ************************/
@@ -1650,6 +1713,53 @@ namespace DiscoveryV1 {
   export interface Completions {
     /** Array of autcomplete suggestion based on the provided prefix. */
     completions?: string[];
+  }
+
+  /** Display settings for aggregations. */
+  export interface ComponentSettingsAggregation {
+    /** Identifier used to map aggregation settings to aggregation configuration. */
+    name?: string;
+    /** User-friendly alias for the aggregation. */
+    label?: string;
+    /** Whether users is allowed to select more than one of the aggregation terms. */
+    multiple_selections_allowed?: boolean;
+    /** Type of visualization to use when rendering the aggregation. */
+    visualization_type?: string;
+  }
+
+  /** Fields shown in the results section of the UI. */
+  export interface ComponentSettingsFieldsShown {
+    /** Body label. */
+    body?: ComponentSettingsFieldsShownBody;
+    /** Title label. */
+    title?: ComponentSettingsFieldsShownTitle;
+  }
+
+  /** Body label. */
+  export interface ComponentSettingsFieldsShownBody {
+    /** Use the whole passage as the body. */
+    use_passage?: boolean;
+    /** Use a specific field as the title. */
+    field?: string;
+  }
+
+  /** Title label. */
+  export interface ComponentSettingsFieldsShownTitle {
+    /** Use a specific field as the title. */
+    field?: string;
+  }
+
+  /** A response containing the default component settings. */
+  export interface ComponentSettingsResponse {
+    /** Fields shown in the results section of the UI. */
+    fields_shown?: ComponentSettingsFieldsShown;
+    /** Whether or not autocomplete is enabled. */
+    autocomplete?: boolean;
+    /** Whether or not structured search is enabled. */
+    structured_search?: boolean;
+    /** Number or results shown per page. */
+    results_per_page?: number;
+    aggregations?: ComponentSettingsAggregation[];
   }
 
   /** Information about the deleted document. */
@@ -2042,6 +2152,8 @@ namespace DiscoveryV1 {
     /** The field where the aggregation is located in the document. */
     field?: string;
     count?: number;
+    /** Identifier used to map aggregation settings to aggregation configuration. */
+    name?: string;
   }
 
   /** Object specifying the training queries contained in the identified training set. */
