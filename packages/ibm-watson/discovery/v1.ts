@@ -1250,14 +1250,14 @@ class DiscoveryV1 extends BaseService {
    * @param {Function} [callback] - The callback that handles the response.
    * @returns {Promise<any>|void}
    */
-  public componentSettings(params: DiscoveryV1.ComponentSettingsParams, callback?: DiscoveryV1.Callback<DiscoveryV1.ComponentSettingsResponse>): Promise<any> | void {
+  public getComponentSettings(params: DiscoveryV1.GetComponentSettingsParams, callback?: DiscoveryV1.Callback<DiscoveryV1.ComponentSettingsResponse>): Promise<any> | void {
     const _params = extend({}, params);
     const _callback = callback;
     const requiredParams = ['project_id'];
 
     if (!_callback) {
       return new Promise((resolve, reject) => {
-        this.componentSettings(params, (err, bod, res) => {
+        this.getComponentSettings(params, (err, bod, res) => {
           err ? reject(err) : _params.return_response ? resolve(res) : resolve(bod);
         });
       });
@@ -1272,7 +1272,7 @@ class DiscoveryV1 extends BaseService {
       'project_id': _params.project_id
     };
 
-    const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'componentSettings');
+    const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'getComponentSettings');
 
     const parameters = {
       options: {
@@ -1668,8 +1668,8 @@ namespace DiscoveryV1 {
     return_response?: boolean;
   }
 
-  /** Parameters for the `componentSettings` operation. */
-  export interface ComponentSettingsParams {
+  /** Parameters for the `getComponentSettings` operation. */
+  export interface GetComponentSettingsParams {
     /** The ID of the project. */
     project_id: string;
     headers?: OutgoingHttpHeaders;
