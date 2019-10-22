@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](http:///ibm-watson/compare/@disco-widgets/ibm-watson@1.4.1...@disco-widgets/ibm-watson@1.5.0) (2019-10-22)
+
+
+### Features
+
+* Adding component settings to the API ([#250](http:///ibm-watson/issues/250)) ([61d5aab](http:///ibm-watson/commits/61d5aab))
+
+
+
+
+
 ## [1.4.1](http:///ibm-watson/compare/@disco-widgets/ibm-watson@1.4.0...@disco-widgets/ibm-watson@1.4.1) (2019-10-21)
 
 **Note:** Version bump only for package @disco-widgets/ibm-watson
