@@ -18,6 +18,10 @@ interface Props {
    * Contains the current page number, default of 1
    */
   currentPage: number;
+  /**
+   * Zoom factor, where `1` is equal to 100%
+   */
+  scale?: number;
 }
 
 type State = {
@@ -77,7 +81,7 @@ export interface StyledCell extends CellPage {
   content: string;
 }
 
-export const PdfFallback: FC<Props> = ({ document, currentPage }) => {
+export const PdfFallback: FC<Props> = ({ document, currentPage, scale = 1 }) => {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
   const { pages, page, pagesHaveFonts } = state;
   useEffect(() => {
@@ -157,7 +161,10 @@ export const PdfFallback: FC<Props> = ({ document, currentPage }) => {
   }, [doRender, processedDoc]);
 
   return (
-    <div className={`${settings.prefix}--document-preview-pdf-fallback`}>
+    <div
+      style={{ transform: `scale(${scale})` }}
+      className={`${settings.prefix}--document-preview-pdf-fallback`}
+    >
       {doRender ? (
         <>
           <style>{docStyles}</style>

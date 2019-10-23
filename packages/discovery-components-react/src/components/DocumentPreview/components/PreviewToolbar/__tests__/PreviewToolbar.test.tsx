@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { cleanup, render, fireEvent } from '@testing-library/react';
-import PreviewToolbar from '../PreviewToolbar';
+import PreviewToolbar, { ZOOM_IN, ZOOM_OUT, ZOOM_RESET } from '../PreviewToolbar';
 
 let current = 5;
 let zoomLevel = '';
@@ -50,12 +50,18 @@ describe('PreviewToolbar', () => {
   it('zooms in when clicked', () => {
     fireEvent.click(toolbarButtons[2]);
 
-    expect(zoomLevel).toEqual('zoom-in');
+    expect(zoomLevel).toEqual(ZOOM_IN);
   });
 
   it('zooms out when clicked', () => {
     fireEvent.click(toolbarButtons[3]);
 
-    expect(zoomLevel).toEqual('zoom-out');
+    expect(zoomLevel).toEqual(ZOOM_OUT);
+  });
+
+  it('reset zoom when clicked', () => {
+    fireEvent.click(toolbarButtons[4]);
+
+    expect(zoomLevel).toEqual(ZOOM_RESET);
   });
 });

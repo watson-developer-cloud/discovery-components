@@ -1,6 +1,7 @@
 import React, { SFC, useEffect, useRef, useState } from 'react';
 import PdfjsLib from 'pdfjs-dist';
 import PdfjsWorkerAsText from 'pdfjs-dist/build/pdf.worker.min.js';
+import { settings } from 'carbon-components';
 
 setupPdfjs();
 
@@ -78,7 +79,15 @@ const PdfViewer: SFC<Props> = ({ file, page, scale, setPageCount }) => {
     }
   }, [loadedPage, scale]);
 
-  return <canvas ref={canvasRef} />;
+  return (
+    <canvas
+      style={{
+        transform: `scale(${scale})`
+      }}
+      ref={canvasRef}
+      className={`${settings.prefix}--document-preview-pdf-viewer`}
+    />
+  );
 };
 
 PdfViewer.defaultProps = {

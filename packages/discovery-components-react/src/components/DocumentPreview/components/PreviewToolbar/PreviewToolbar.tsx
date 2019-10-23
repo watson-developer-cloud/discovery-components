@@ -6,9 +6,11 @@ import ZoomIn24 from '@carbon/icons-react/lib/zoom--in/24.js';
 import ZoomOut24 from '@carbon/icons-react/lib/zoom--out/24.js';
 import CaretLeft24 from '@carbon/icons-react/lib/caret--left/24.js';
 import CaretRight24 from '@carbon/icons-react/lib/caret--right/24.js';
+import Reset24 from '@carbon/icons-react/lib/reset/24.js';
 
 export const ZOOM_IN = 'zoom-in';
 export const ZOOM_OUT = 'zoom-out';
+export const ZOOM_RESET = 'reset-zoom';
 
 interface Props {
   /**
@@ -92,6 +94,12 @@ const PreviewToolbar: SFC<Props> = ({ loading = false, current, total, onZoom, o
           icon: ZoomOut24,
           description: 'Zoom Out',
           onClick: () => onZoom(ZOOM_OUT),
+          disabled: loading
+        })}
+        {renderButton({
+          icon: Reset24,
+          description: 'Reset Zoom',
+          onClick: () => onZoom(ZOOM_RESET),
           disabled: loading
         })}
       </div>

@@ -10,6 +10,9 @@ export { ResultsPagination } from './components/ResultsPagination/ResultsPaginat
 export {
   DocumentPreview,
   PreviewToolbar,
-  PreviewDocument
+  PreviewDocument,
+  ZOOM_IN,
+  ZOOM_OUT,
+  ZOOM_RESET
 } from './components/DocumentPreview/DocumentPreview';
 export { SearchResults } from './components/SearchResults/SearchResults';

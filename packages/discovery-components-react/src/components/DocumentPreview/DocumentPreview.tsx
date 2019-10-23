@@ -3,7 +3,11 @@ import get from 'lodash/get';
 import { settings } from 'carbon-components';
 import { QueryResult } from '@disco-widgets/ibm-watson/discovery/v1';
 import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
-import PreviewToolbar, { ZOOM_IN } from './components/PreviewToolbar/PreviewToolbar';
+import PreviewToolbar, {
+  ZOOM_IN,
+  ZOOM_OUT,
+  ZOOM_RESET
+} from './components/PreviewToolbar/PreviewToolbar';
 import PdfViewer from './components/PdfViewer/PdfViewer';
 import PdfFallback, { supportsPdfFallback } from './components/PdfFallback/PdfFallback';
 import SimpleDocument from './components/SimpleDocument/SimpleDocument';
@@ -28,10 +32,14 @@ export const DocumentPreview: FC<Props> = ({ document, file }) => {
   // document prop takes precedence over that in context
   const doc = document || selectedResult;
 
+  const [scale, setScale] = useState(1);
+
   const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
     // reset state if document changes
     setCurrentPage(1);
+    //reset scale if document changes
+    setScale(1);
   }, [doc]);
 
   // If passage, initialize first page to that of passage; otherwise
@@ -59,11 +67,11 @@ export const DocumentPreview: FC<Props> = ({ document, file }) => {
     }
   }, [textMappings, file, pdfPageCount]);
 
-  const [scale, setScale] = useState(1);
-
   const loading = !doc || !(currentPage > 0) || !(pageCount > 0);
 
   const base = `${settings.prefix}--document-preview`;
+  const previewBase = `${settings.prefix}--preview`;
+
   return (
     <div className={`${base}`}>
       {doc || file ? (
@@ -74,10 +82,14 @@ export const DocumentPreview: FC<Props> = ({ document, file }) => {
             total={pageCount}
             onChange={setCurrentPage}
             onZoom={(zoom): void => {
-              setScale(zoom === ZOOM_IN ? scale * SCALE_FACTOR : scale / SCALE_FACTOR);
+              if (zoom === ZOOM_IN || zoom === ZOOM_OUT) {
+                setScale(zoom === ZOOM_IN ? scale * SCALE_FACTOR : scale / SCALE_FACTOR);
+              } else {
+                setScale(1);
+              }
             }}
           />
-          <div className={`${base}__document`}>
+          <div className={`${previewBase}__document`}>
             <PreviewDocument
               file={file}
               currentPage={currentPage}
@@ -125,7 +137,12 @@ function PreviewDocument({
     <PdfViewer file={file} page={currentPage} scale={scale} setPageCount={setPdfPageCount} />
   ) : document ? (
     supportsPdfFallback(document) ? (
-      <PdfFallback key={document && document.id} document={document} currentPage={currentPage} />
+      <PdfFallback
+        key={document && document.id}
+        document={document}
+        currentPage={currentPage}
+        scale={scale}
+      />
     ) : (
       <SimpleDocument document={document} />
     )
@@ -133,4 +150,4 @@ function PreviewDocument({
 }
 
 export default DocumentPreview;
-export { PreviewToolbar, PreviewDocument };
+export { PreviewToolbar, PreviewDocument, ZOOM_IN, ZOOM_OUT, ZOOM_RESET };
