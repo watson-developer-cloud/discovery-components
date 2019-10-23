@@ -52,8 +52,8 @@ describe('DocumentPreview', () => {
         <DiscoverySearch
           searchClient={searchClient}
           projectId={'PROJECT_ID'}
-          searchResults={results}
-          selectedResult={selectedResult}
+          overrideSearchResults={results}
+          overrideSelectedResult={selectedResult}
         >
           <DocumentPreview />
         </DiscoverySearch>

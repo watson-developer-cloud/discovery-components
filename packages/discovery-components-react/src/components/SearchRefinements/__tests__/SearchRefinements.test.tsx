@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { render } from '@testing-library/react';
+import { render, RenderResult } from '@testing-library/react';
 import { wrapWithContext } from '../../../utils/testingUtils';
-import { SearchContextIFC } from '../../DiscoverySearch/DiscoverySearch';
 import { SearchRefinements } from '../SearchRefinements';
+import { SearchContextIFC, SearchApiIFC } from '../../DiscoverySearch/DiscoverySearch';
 import refinementsQueryResponse from '../fixtures/refinementsQueryResponse';
 import collectionsResponse from '../fixtures/collectionsResponse';
 import {
@@ -10,11 +10,19 @@ import {
   invalidConfigurationMessage
 } from '../utils/searchRefinementMessages';
 
+interface Setup {
+  context: Partial<SearchContextIFC>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  fetchAggregationsMock: jest.Mock<any, any>;
+  searchRefinementsComponent: RenderResult;
+}
+
 const setup = (
   filter: string,
   showCollections = false,
   aggregations = refinementsQueryResponse.aggregations
-) => {
+): Setup => {
+  const fetchAggregationsMock = jest.fn();
   const context: Partial<SearchContextIFC> = {
     aggregationResults: {
       aggregations: aggregations
@@ -25,12 +33,9 @@ const setup = (
       filter: filter
     }
   };
-  const onRefinementsMountMock = jest.fn();
-  context.onRefinementsMount = onRefinementsMountMock;
-  const onSearchMock = jest.fn();
-  context.onSearch = onSearchMock;
-  const onUpdateQueryOptionsMock = jest.fn();
-  context.onUpdateQueryOptions = onUpdateQueryOptionsMock;
+  const api: Partial<SearchApiIFC> = {
+    fetchAggregations: fetchAggregationsMock
+  };
   const searchRefinementsComponent = render(
     wrapWithContext(
       <SearchRefinements
@@ -46,31 +51,27 @@ const setup = (
           }
         ]}
       />,
+      api,
       context
     )
   );
   return {
     context,
-    onRefinementsMountMock,
-    onUpdateQueryOptionsMock,
-    onSearchMock,
+    fetchAggregationsMock,
     searchRefinementsComponent
   };
 };
 
 describe('SearchRefinementsComponent', () => {
   describe('component load', () => {
-    test('it calls onAggregationRequest with configuration', () => {
-      const { onUpdateQueryOptionsMock } = setup('');
-      expect(onUpdateQueryOptionsMock).toBeCalledTimes(1);
-      expect(onUpdateQueryOptionsMock).toBeCalledWith({
-        aggregation: '[term(author,count:3),term(subject,count:4)]'
-      });
-    });
-
-    test('it does not calls onSearch', () => {
-      const { onSearchMock } = setup('');
-      expect(onSearchMock).not.toBeCalled();
+    test('it calls fetchAggregations with configuration', () => {
+      const { fetchAggregationsMock } = setup('');
+      expect(fetchAggregationsMock).toBeCalledTimes(1);
+      expect(fetchAggregationsMock).toBeCalledWith(
+        expect.objectContaining({
+          aggregation: '[term(author,count:3),term(subject,count:4)]'
+        })
+      );
     });
   });
 
@@ -128,14 +129,14 @@ describe('SearchRefinementsComponent', () => {
     const originalError = console.error;
     afterEach(() => (console.error = originalError));
     const consoleOutput: string[] = [];
-    const mockedError = (output: string) => {
+    const mockedError = (output: string): any => {
       consoleOutput.push(output);
     };
     beforeEach(() => (console.error = mockedError));
 
     test('it provides invalid message in console error when empty array is provided for configuration', () => {
       const { context } = setup('');
-      render(wrapWithContext(<SearchRefinements configuration={[]} />, context));
+      render(wrapWithContext(<SearchRefinements configuration={[]} />, {}, context));
       expect(consoleOutput).toEqual([invalidConfigurationMessage]);
     });
 
@@ -154,6 +155,7 @@ describe('SearchRefinementsComponent', () => {
               }
             ]}
           />,
+          {},
           context
         )
       );

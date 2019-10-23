@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
+import React, { useContext, useEffect } from 'react';
+import { SearchApi, SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 
 import { Result } from './Result';
@@ -51,20 +51,25 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   passageHighlightsClassName,
   collectionLabel = 'Collection Name:'
 }) => {
-  const { searchResults, onUpdateQueryOptions, collectionsResults } = useContext(SearchContext);
-  const { matching_results: matchingResults, results } = searchResults;
+  const { searchResponse, collectionsResults } = useContext(SearchContext);
+  const { setSearchParameters } = useContext(SearchApi);
+  const matchingResults = (searchResponse && searchResponse.matching_results) || 0;
+  const results = (searchResponse && searchResponse.results) || [];
   const querySubmitted = false; // TODO replace this with whatever value tells our component if a query has been submitted
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (passageLength) {
-      onUpdateQueryOptions({
-        passages: {
-          characters: passageLength,
-          enabled: true
-        }
+      setSearchParameters((currentSearchParameters: DiscoveryV1.QueryParams) => {
+        return {
+          ...currentSearchParameters,
+          passages: {
+            characters: passageLength,
+            enabled: true
+          }
+        };
       });
     }
-  }, [passageLength]);
+  }, [passageLength, setSearchParameters]);
 
   if (matchingResults && matchingResults > 0) {
     return (
@@ -88,7 +93,7 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
         })}
       </div>
     );
-  } else if (matchingResults === 0) {
+  } else if (searchResponse && matchingResults === 0) {
     return <div>There were no results found</div>;
   } else if (!matchingResults && querySubmitted) {
     return <div>Loading spinner</div>;

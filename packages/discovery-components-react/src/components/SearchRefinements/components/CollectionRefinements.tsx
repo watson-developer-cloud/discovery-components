@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React, { FC, useContext } from 'react';
 import get from 'lodash.get';
-import { SearchContext } from '../../DiscoverySearch/DiscoverySearch';
+import { SearchContext, SearchApi } from '../../DiscoverySearch/DiscoverySearch';
 import { MultiSelect as CarbonMultiSelect } from 'carbon-components-react';
 import { settings } from 'carbon-components';
 import { Collection } from '@disco-widgets/ibm-watson/discovery/v1';
@@ -14,15 +14,19 @@ interface CollectionItem {
   label: string;
 }
 
-export const CollectionRefinements: React.FunctionComponent = () => {
+interface CollectionRefinementsProps {
+  label: string;
+  titleText: string;
+}
+
+export const CollectionRefinements: FC<CollectionRefinementsProps> = ({ label, titleText }) => {
   const idPrefix = 'collection-refinement-';
-  const searchContext = React.useContext(SearchContext);
   const {
-    onUpdateQueryOptions,
-    onSearch,
     collectionsResults,
+    searchParameters,
     searchParameters: { collection_ids: collectionIds }
-  } = searchContext;
+  } = useContext(SearchContext);
+  const { performSearch } = useContext(SearchApi);
   const collections: Collection[] = get(collectionsResults, 'collections', []);
   const selectedCollectionIds = collectionIds || [];
   const selectedCollections = collections
@@ -51,23 +55,23 @@ export const CollectionRefinements: React.FunctionComponent = () => {
         return collection.id.split(idPrefix).pop() || '';
       })
       .filter(id => id !== '');
-    onUpdateQueryOptions({
-      collection_ids: collectionIds,
-      offset: 0
-    });
-    onSearch();
+    performSearch({ ...searchParameters, offset: 0, collection_ids: collectionIds });
   };
 
-  return (
-    <fieldset className={`${settings.prefix}--fieldset`}>
-      <CarbonMultiSelect
-        id={`${idPrefix}select`}
-        items={collectionItems}
-        initialSelectedItems={selectedCollections}
-        label="Available collections"
-        titleText="Collections"
-        onChange={handleCollectionToggle}
-      />
-    </fieldset>
-  );
+  // TODO: figure out why MultiSelect doesn't set initialSelectedItems on subsequent renders
+  if (collectionItems.length > 0) {
+    return (
+      <fieldset className={`${settings.prefix}--fieldset`}>
+        <CarbonMultiSelect
+          id={`${idPrefix}select`}
+          items={collectionItems}
+          initialSelectedItems={selectedCollections}
+          label={label}
+          titleText={titleText}
+          onChange={handleCollectionToggle}
+        />
+      </fieldset>
+    );
+  }
+  return null;
 };

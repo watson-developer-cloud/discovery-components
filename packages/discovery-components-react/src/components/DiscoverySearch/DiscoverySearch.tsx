@@ -1,6 +1,10 @@
-import * as React from 'react';
+import React, { createContext, FC, useEffect, useState, useCallback, useMemo } from 'react';
 import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
-import pick from 'lodash/pick';
+import {
+  useDeepCompareEffect,
+  useDeepCompareCallback,
+  useDeepCompareMemo
+} from '../../utils/useDeepCompareMemoize';
 
 export type SearchParams = Omit<
   DiscoveryV1.QueryParams,
@@ -19,27 +23,27 @@ export interface DiscoverySearchProps {
   /**
    * Aggregation results used to override internal aggregation search results state
    */
-  aggregationResults?: DiscoveryV1.QueryAggregation;
+  overrideAggregationResults?: DiscoveryV1.QueryAggregation;
   /**
    * Search response used to override internal search results state
    */
-  searchResults?: DiscoveryV1.QueryResponse;
+  overrideSearchResults?: DiscoveryV1.QueryResponse;
   /**
    * Query parameters used to override internal query parameters state
    */
-  queryParameters?: SearchParams;
+  overrideQueryParameters?: SearchParams;
   /**
-   * selectedResult is used to override internal selectedResult state
+   * overrideSelectedResult is used to override internal selected result state
    */
-  selectedResult?: DiscoveryV1.QueryResult | null;
+  overrideSelectedResult?: DiscoveryV1.QueryResult;
   /**
    * Autocompletion suggestions for the searchInput
    */
-  autocompletionResults?: DiscoveryV1.Completions;
+  overrideAutocompletionResults?: DiscoveryV1.Completions;
   /**
-   * collectionsResults is used to override internal collections result state
+   * overrideCollectionsResults is used to override internal collections result state
    */
-  collectionsResults?: DiscoveryV1.ListCollectionsResponse;
+  overrideCollectionsResults?: DiscoveryV1.ListCollectionsResponse;
 }
 
 export interface AutocompletionOptions {
@@ -62,206 +66,225 @@ export interface AutocompletionOptions {
 }
 
 export interface SearchContextIFC {
-  onSearch: () => Promise<void>;
-  onFetchAutoCompletions: (nlq: string) => Promise<void>;
-  onRefinementsMount: () => Promise<void>;
-  onSelectResult: (result: DiscoveryV1.QueryResult) => Promise<void>;
-  onUpdateAutoCompletionOptions: (autoCompletionOptions: AutocompletionOptions) => Promise<void>;
-  onUpdateQueryOptions: (queryOptions: SearchParams) => Promise<void>;
-  aggregationResults: DiscoveryV1.QueryAggregation;
-  searchResults: DiscoveryV1.QueryResponse;
+  aggregationResults: DiscoveryV1.QueryAggregation | null;
+  searchResponse: DiscoveryV1.QueryResponse | null;
   searchParameters: DiscoveryV1.QueryParams;
-  collectionsResults: DiscoveryV1.ListCollectionsResponse;
+  collectionsResults: DiscoveryV1.ListCollectionsResponse | null;
   selectedResult: DiscoveryV1.QueryResult | null;
-  autocompletionResults: DiscoveryV1.Completions;
+  autocompletionResults: DiscoveryV1.Completions | null;
 }
 
+export interface SearchApiIFC {
+  performSearch: (searchParameters: DiscoveryV1.QueryParams) => Promise<void>;
+  fetchAutocompletions: (nlq: string) => Promise<void>;
+  fetchAggregations: (searchParameters: DiscoveryV1.QueryParams) => Promise<void>;
+  setSelectedResult: (
+    result: DiscoveryV1.QueryResult | React.SetStateAction<DiscoveryV1.QueryResult>
+  ) => void;
+  setAutocompletionOptions: (
+    autoCompletionOptions: AutocompletionOptions | React.SetStateAction<AutocompletionOptions>
+  ) => void;
+  setSearchParameters: (
+    searchParameters: DiscoveryV1.QueryParams | React.SetStateAction<DiscoveryV1.QueryParams>
+  ) => void;
+}
+
+export const searchApiDefaults = {
+  performSearch: (): Promise<void> => Promise.resolve(),
+  fetchAutocompletions: (): Promise<void> => Promise.resolve(),
+  fetchAggregations: (): Promise<void> => Promise.resolve(),
+  setSelectedResult: (): void => {},
+  setAutocompletionOptions: (): void => {},
+  setSearchParameters: (): void => {}
+};
+
 export const searchContextDefaults = {
-  onSearch: (): Promise<void> => Promise.resolve(),
-  onFetchAutoCompletions: (): Promise<void> => Promise.resolve(),
-  onRefinementsMount: (): Promise<void> => Promise.resolve(),
-  onUpdateAutoCompletionOptions: (): Promise<void> => Promise.resolve(),
-  onUpdateQueryOptions: (): Promise<void> => Promise.resolve(),
-  onSelectResult: (): Promise<void> => Promise.resolve(),
-  aggregationResults: {},
-  searchResults: {},
+  aggregationResults: null,
+  searchResponse: null,
   searchParameters: {
     project_id: ''
   },
+  collectionsResults: null,
   selectedResult: null,
-  autocompletionResults: {},
-  collectionsResults: {}
+  autocompletionResults: null
 };
 
-export const SearchContext = React.createContext<SearchContextIFC>(searchContextDefaults);
+export const SearchApi = createContext<SearchApiIFC>(searchApiDefaults);
+export const SearchContext = createContext<SearchContextIFC>(searchContextDefaults);
 
-export const DiscoverySearch: React.SFC<DiscoverySearchProps> = ({
+export const DiscoverySearch: FC<DiscoverySearchProps> = ({
   searchClient,
   projectId,
-  aggregationResults,
-  searchResults,
-  queryParameters,
-  selectedResult,
-  autocompletionResults,
-  collectionsResults,
+  overrideAggregationResults = null,
+  overrideSearchResults = null,
+  overrideQueryParameters,
+  overrideSelectedResult = null,
+  overrideAutocompletionResults = null,
+  overrideCollectionsResults = null,
   children
 }) => {
-  const [stateSearchResults, setStateSearchResults] = React.useState<DiscoveryV1.QueryResponse>(
-    searchResults || {}
+  const [searchResponse, setSearchResponse] = useState<DiscoveryV1.QueryResponse | null>(
+    overrideSearchResults
   );
-  const [stateAggregationResults, setStateAggregationResults] = React.useState<
-    DiscoveryV1.QueryAggregation
-  >(aggregationResults || {});
-  const [stateCollectionsResults, setStateCollectionsResults] = React.useState<
-    DiscoveryV1.ListCollectionsResponse
-  >(collectionsResults || {});
-  const [searchParameters, setSearchParameters] = React.useState<DiscoveryV1.QueryParams>({
-    project_id: projectId,
-    highlight: true,
-    ...queryParameters
-  });
-  const [autocompletionResultsState, setAutocompletionResultsState] = React.useState<
-    DiscoveryV1.Completions
-  >(autocompletionResults || {});
+  const [aggregationResults, setAggregationResults] = useState<DiscoveryV1.QueryAggregation | null>(
+    overrideAggregationResults
+  );
   const [
-    selectedResultState,
-    setSelectedResultState
-  ] = React.useState<DiscoveryV1.QueryResult | null>(selectedResult || null);
-  const [queryOptionsState, setQueryOptionsState] = React.useState<SearchParams>({});
-  const [autocompletionOptionsState, setAutocompletionOptionsState] = React.useState<
-    AutocompletionOptions
-  >({});
+    collectionsResults,
+    setCollectionsResults
+  ] = useState<DiscoveryV1.ListCollectionsResponse | null>(overrideCollectionsResults);
+  const [searchParameters, setSearchParameters] = useState<DiscoveryV1.QueryParams>({
+    project_id: projectId,
+    ...overrideQueryParameters
+  });
+  const [
+    autocompletionResults,
+    setAutocompletionResults
+  ] = useState<DiscoveryV1.Completions | null>(overrideAutocompletionResults);
+  const [autocompletionOptions, setAutocompletionOptions] = useState<AutocompletionOptions>({});
+  const [selectedResult, setSelectedResult] = useState<DiscoveryV1.QueryResult | null>(
+    overrideSelectedResult
+  );
 
-  // when Discovery Search mounts, fetch info that multiple components rely on
-  React.useEffect(() => {
-    handleFetchCollections();
-  }, []);
-
-  React.useEffect(() => {
-    const newSearchParameters = Object.assign({}, searchParameters, {
-      project_id: projectId,
-      ...queryParameters
-    });
-    setSearchParameters(newSearchParameters);
-  }, [projectId, queryParameters]);
-
-  React.useEffect(() => {
-    setStateSearchResults(searchResults || stateSearchResults);
-  }, [searchResults]);
-
-  React.useEffect(() => {
-    setStateAggregationResults(aggregationResults || stateAggregationResults);
-  }, [aggregationResults]);
-
-  React.useEffect(() => {
-    setStateCollectionsResults(collectionsResults || stateCollectionsResults);
-  }, [collectionsResults]);
-
-  React.useEffect(() => {
-    setSelectedResultState(selectedResult || selectedResultState);
-  }, [selectedResult]);
-
-  React.useEffect(() => {
-    setAutocompletionResultsState(autocompletionResults || autocompletionResultsState);
-  }, [autocompletionResults]);
-
-  const handleFetchRefinements = async (): Promise<void> => {
-    const { aggregations } = await searchClient.query(
-      Object.assign(searchParameters, queryOptionsState)
-    );
-    setStateAggregationResults({ aggregations });
-    return Promise.resolve();
-  };
-
-  async function handleFetchCollections(): Promise<void> {
-    const collectionsResults = await searchClient.listCollections(
-      pick(searchParameters, 'project_id')
-    );
-    setStateCollectionsResults(collectionsResults);
-    return Promise.resolve();
-  }
-
-  const handleUpdateQueryOptions = (queryOptions: SearchParams): Promise<void> => {
-    setQueryOptionsState(Object.assign(queryOptionsState, queryOptions));
-    return Promise.resolve();
-  };
-
-  const handleUpdateAutocompletionOptions = (
-    autocompletionOptions: AutocompletionOptions
-  ): Promise<void> => {
-    setAutocompletionOptionsState(Object.assign(autocompletionOptionsState, autocompletionOptions));
-    return Promise.resolve();
-  };
-
-  const handleFetchAutocompletions = async (nlq: string): Promise<void> => {
-    const {
-      splitSearchQuerySelector,
-      updateAutocompletions: updateAutocomplete,
-      completionsCount,
-      minCharsToAutocomplete
-    } = autocompletionOptionsState;
-    if (
-      updateAutocomplete &&
-      !!completionsCount &&
-      !!splitSearchQuerySelector &&
-      minCharsToAutocomplete !== undefined
-    ) {
-      /**
-       * If user clicks space consider searching a new word. Also don't try to autocomplete
-       * if the query only contains spaces.
-       */
-      const queryArray = nlq.split(splitSearchQuerySelector);
-      const prefix = queryArray[queryArray.length - 1];
-      const autocompletionParams = {
-        project_id: searchParameters.project_id,
-        prefix: prefix
+  useDeepCompareEffect(() => {
+    setSearchParameters(currentSearchParameters => {
+      return {
+        ...currentSearchParameters,
+        project_id: projectId,
+        ...overrideQueryParameters
       };
+    });
+  }, [projectId, overrideQueryParameters]);
 
-      if (!!prefix && prefix !== '' && prefix.length >= minCharsToAutocomplete) {
-        const autocompletions: DiscoveryV1.Completions = await searchClient.getAutocompletion(
-          autocompletionParams
-        );
-        setAutocompletionResultsState(autocompletions);
-        return Promise.resolve();
-      }
+  useDeepCompareEffect(() => {
+    setSearchResponse(overrideSearchResults);
+  }, [overrideSearchResults]);
+
+  useDeepCompareEffect(() => {
+    setAggregationResults(overrideAggregationResults);
+  }, [overrideAggregationResults]);
+
+  useDeepCompareEffect(() => {
+    setCollectionsResults(overrideCollectionsResults);
+  }, [overrideCollectionsResults]);
+
+  useDeepCompareEffect(() => {
+    setSelectedResult(overrideSelectedResult);
+  }, [overrideSelectedResult]);
+
+  useDeepCompareEffect(() => {
+    setAutocompletionResults(overrideAutocompletionResults);
+  }, [overrideAutocompletionResults]);
+
+  useEffect(() => {
+    async function fetchCollections(): Promise<void> {
+      setCollectionsResults(await searchClient.listCollections({ project_id: projectId }));
     }
+    fetchCollections();
+  }, [searchClient, projectId]);
 
-    setAutocompletionResultsState({});
-    return Promise.resolve();
-  };
+  // helper method that handles the logic to fetch completions whenever the search query is updated
+  const handleFetchAutocompletions = useDeepCompareCallback(
+    async (searchQuery: string): Promise<void> => {
+      const {
+        splitSearchQuerySelector,
+        updateAutocompletions: updateAutocomplete,
+        completionsCount,
+        minCharsToAutocomplete
+      } = autocompletionOptions;
+      if (
+        updateAutocomplete &&
+        !!completionsCount &&
+        !!splitSearchQuerySelector &&
+        minCharsToAutocomplete !== undefined
+      ) {
+        /**
+         * If user clicks space consider searching a new word. Also don't try to autocomplete
+         * if the query only contains spaces.
+         */
+        const queryArray = searchQuery.split(splitSearchQuerySelector);
+        const prefix = queryArray[queryArray.length - 1];
+        const completionParams = {
+          project_id: projectId,
+          prefix: prefix
+        };
 
-  const handleSelectResult = (result: DiscoveryV1.QueryResult): Promise<void> => {
-    setSelectedResultState(result);
-    return Promise.resolve();
-  };
+        if (!!prefix) {
+          const completions: DiscoveryV1.Completions = await searchClient.getAutocompletion(
+            completionParams
+          );
+          setAutocompletionResults(completions);
+          return;
+        }
+        setAutocompletionResults(null);
+      }
+    },
+    [autocompletionOptions, projectId, searchClient]
+  );
 
-  const handleSearch = async (): Promise<void> => {
-    const searchResults: DiscoveryV1.QueryResponse = await searchClient.query(
-      Object.assign(searchParameters, queryOptionsState)
-    );
-    setStateSearchResults(searchResults);
-    const { aggregations } = searchResults;
-    setStateAggregationResults({ aggregations });
-  };
+  const handleFetchAggregations = useCallback(
+    async (searchParameters): Promise<void> => {
+      setSearchParameters(currentSearchParameters => {
+        return {
+          ...currentSearchParameters,
+          aggregation: searchParameters.aggregation
+        };
+      });
+      const aggregationsResults = await searchClient.query(searchParameters);
+      if (aggregationsResults) {
+        const { aggregations } = aggregationsResults;
+        setAggregationResults({ aggregations });
+      }
+    },
+    [searchClient]
+  );
+
+  const handleSearch = useCallback(
+    async (searchParameters): Promise<void> => {
+      setSearchParameters(searchParameters);
+      const searchResponse: DiscoveryV1.QueryResponse = await searchClient.query(searchParameters);
+      setSearchResponse(searchResponse);
+      if (searchResponse) {
+        const { aggregations } = searchResponse;
+        setAggregationResults({ aggregations });
+      }
+    },
+    [searchClient]
+  );
+
+  const api = useMemo(() => {
+    return {
+      performSearch: handleSearch,
+      fetchAggregations: handleFetchAggregations,
+      fetchAutocompletions: handleFetchAutocompletions,
+      setSelectedResult,
+      setAutocompletionOptions,
+      setSearchParameters
+    };
+  }, [handleFetchAggregations, handleFetchAutocompletions, handleSearch]);
+
+  const state = useDeepCompareMemo(() => {
+    return {
+      aggregationResults,
+      autocompletionResults,
+      searchParameters,
+      searchResponse,
+      selectedResult,
+      collectionsResults
+    };
+  }, [
+    autocompletionResults,
+    aggregationResults,
+    collectionsResults,
+    autocompletionResults,
+    searchParameters,
+    searchResponse,
+    selectedResult
+  ]);
 
   return (
-    <SearchContext.Provider
-      value={{
-        onSearch: handleSearch,
-        onFetchAutoCompletions: handleFetchAutocompletions,
-        onRefinementsMount: handleFetchRefinements,
-        onSelectResult: handleSelectResult,
-        onUpdateAutoCompletionOptions: handleUpdateAutocompletionOptions,
-        onUpdateQueryOptions: handleUpdateQueryOptions,
-        aggregationResults: stateAggregationResults,
-        searchResults: stateSearchResults,
-        searchParameters,
-        selectedResult: selectedResultState,
-        autocompletionResults: autocompletionResultsState,
-        collectionsResults: stateCollectionsResults
-      }}
-    >
-      {children}
-    </SearchContext.Provider>
+    <SearchApi.Provider value={api}>
+      <SearchContext.Provider value={state}>{children}</SearchContext.Provider>
+    </SearchApi.Provider>
   );
 };

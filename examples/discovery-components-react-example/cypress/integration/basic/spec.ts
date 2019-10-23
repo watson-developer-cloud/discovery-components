@@ -17,7 +17,7 @@ describe('basic test', () => {
         .its('requestBody.aggregation')
         .should(
           'eq',
-          '[term(enriched_text.entities.text,count:10),term(enriched_title.entities.text,count:10)]'
+          '[term(extracted_metadata.title,count:10),term(extracted_metadata.file_type,count:10)]'
         );
 
       cy.wait('@postQuery')
@@ -32,7 +32,7 @@ describe('basic test', () => {
         .its('requestBody.aggregation')
         .should(
           'eq',
-          '[term(enriched_text.entities.text,count:10),term(enriched_title.entities.text,count:10)]'
+          '[term(extracted_metadata.title,count:10),term(extracted_metadata.file_type,count:10)]'
         );
 
       cy.wait('@postQuery')

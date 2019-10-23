@@ -10,8 +10,8 @@ Components nested within this parent component can access this context either us
 import React, { useContext } from 'react';
 import { SearchContext } from '@disco-widgets/react-components';
 const MyComponent = () => {
-  const { searchResults } = useContext(SearchContext);
-  return <div>{searchResults}</div>;
+  const { searchResponse } = useContext(SearchContext);
+  return <div>{searchResponse}</div>;
 };
 ```
 
@@ -24,7 +24,7 @@ class MyComponent extends React.Component {
   render() {
     return (
       <SearchContext.Consumer>
-        {({ searchResults }) => <div>{searchResults}</div>}
+        {({ searchResponse }) => <div>{searchResponse}</div>}
       </SearchContext.Consumer>
     );
   }
@@ -33,12 +33,5 @@ class MyComponent extends React.Component {
 
 ### DiscoverySearch Component Context API
 
-- `searchResults` (type: `object`) [spec](https://cloud.ibm.com/apidocs/discovery-data#query-a-collection)
+- `searchResponse` (type: `object`) [spec](https://cloud.ibm.com/apidocs/discovery-data#query-a-collection)
 - `searchParameters` (type: `object`) [spec](https://cloud.ibm.com/apidocs/discovery-data#query-a-collection)
-- `onSearch` (type: `function`) executes the query using the `searchParameters` context value against the Watson Discovery service
-  - **arguments**: none
-  - **return value**: `Promise<void>` - search results can be retrieved from the `searchResults` context value
-- `onUpdateNaturalLanguageQuery` (type: `function`) updates the `natural_language_query` parameter in the `searchParameters` context value used for searching
-  - **arguments**:
-    - `nlq` (type: `string`) the natural language query to update
-  - **return value**: `Promise<void>` - search parameters can be retrieved from the `searchParameters` context value

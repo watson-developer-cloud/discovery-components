@@ -56,7 +56,7 @@ class DummyClient {
 const discoverySearchProps = (): DiscoverySearchProps => ({
   searchClient: new DummyClient(),
   projectId: text('Project ID', 'project-id'),
-  autocompletionResults: {
+  overrideAutocompletionResults: {
     completions: autocompletions
   }
 });
@@ -74,14 +74,15 @@ storiesOf('SearchInput', module)
     );
   })
   .add('with spelling suggestion', () => {
-    const spellingSuggestionProps = Object.assign(discoverySearchProps(), {
-      queryParameters: {
+    const spellingSuggestionProps = {
+      ...discoverySearchProps(),
+      overrideQueryParameters: {
         natural_language_query: 'Philadlphia'
       },
-      searchResults: {
+      overrideSearchResults: {
         suggested_query: 'Philadelphia'
       }
-    });
+    };
 
     return (
       <StoryWrapper>

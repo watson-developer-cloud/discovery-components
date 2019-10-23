@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { FC, useContext } from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, text, object } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
@@ -7,13 +7,19 @@ import marked from 'marked';
 import defaultReadme from './default.md';
 import customClientReadme from './custom_client.md';
 
-import { DiscoverySearch, DiscoverySearchProps, SearchContext } from '../DiscoverySearch';
+import {
+  DiscoverySearch,
+  DiscoverySearchProps,
+  SearchContext,
+  SearchApi
+} from '../DiscoverySearch';
 import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 
-const MyComponent: React.SFC<{}> = () => {
+const MyComponent: FC<{}> = () => {
   const { searchParameters } = useContext(SearchContext);
+  const { performSearch } = useContext(SearchApi);
 
-  return <div>{JSON.stringify(searchParameters)}</div>;
+  return <button onClick={() => performSearch(searchParameters)}>Perform Search</button>;
 };
 
 class CustomSearchClient {
@@ -24,13 +30,15 @@ class CustomSearchClient {
 
   public async getAutocompletion(
     autocompletionParams: DiscoveryV1.GetAutocompletionParams
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): Promise<any> {
     action('getAutocompletion')(autocompletionParams);
   }
 
   public async listCollections(
     listCollectionParams: DiscoveryV1.ListCollectionsParams
-  ): Promise<any> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ): Promise<void> {
     action('listCollection')(listCollectionParams);
   }
 }
@@ -38,7 +46,7 @@ class CustomSearchClient {
 const customSearchClientProps = (): DiscoverySearchProps => ({
   searchClient: new CustomSearchClient(),
   projectId: text('Project ID', 'project-id'),
-  searchResults: object('Search results object', {
+  overrideSearchResults: object('Search results object', {
     matching_results: 1,
     results: [
       {
@@ -46,7 +54,7 @@ const customSearchClientProps = (): DiscoverySearchProps => ({
       }
     ]
   }),
-  queryParameters: object('Query Parameters', {
+  overrideQueryParameters: object('Query Parameters', {
     natural_language_query: 'query string',
     query: 'field:value',
     filter: 'field:value',
@@ -88,9 +96,15 @@ storiesOf('DiscoverySearch', module)
       const props = customSearchClientProps();
       return (
         <DiscoverySearch {...props}>
-          <SearchContext.Consumer>
-            {({ onSearch }): React.ReactNode => <button onClick={onSearch}>Perform Search</button>}
-          </SearchContext.Consumer>
+          <SearchApi.Consumer>
+            {({ performSearch }): React.ReactNode => (
+              <SearchContext.Consumer>
+                {({ searchParameters }): React.ReactNode => (
+                  <button onClick={() => performSearch(searchParameters)}>Perform Search</button>
+                )}
+              </SearchContext.Consumer>
+            )}
+          </SearchApi.Consumer>
         </DiscoverySearch>
       );
     },

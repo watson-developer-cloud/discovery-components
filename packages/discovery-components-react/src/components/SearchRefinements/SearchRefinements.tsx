@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
+import React, { FC, useContext } from 'react';
+import { SearchContext, SearchApi } from '../DiscoverySearch/DiscoverySearch';
 import { buildAggregationQuery } from './utils/buildAggregationQuery';
 import { mergeFilterRefinements } from './utils/mergeFilterRefinements';
 import { validateConfiguration } from './utils/validateConfiguration';
@@ -12,6 +12,7 @@ import {
 import { QueryTermAggregation } from './utils/searchRefinementInterfaces';
 import { CollectionRefinements } from './components/CollectionRefinements';
 import { FieldRefinements } from './components/FieldRefinements';
+import { useDeepCompareEffect } from '../../utils/useDeepCompareMemoize';
 
 interface SearchRefinementsProps {
   /**
@@ -19,41 +20,57 @@ interface SearchRefinementsProps {
    */
   showCollections?: boolean;
   /**
+   * label shown above the collection selection refinement control
+   */
+  collectionSelectLabel?: string;
+  /**
+   * tooltip text for collection selection refinement control
+   */
+  collectionSelectTitleText?: string;
+  /**
    * Refinements configuration with fields and results counts
    */
   configuration: QueryTermAggregation[];
 }
 
-export const SearchRefinements: React.FunctionComponent<SearchRefinementsProps> = ({
+export const SearchRefinements: FC<SearchRefinementsProps> = ({
   showCollections,
+  collectionSelectLabel = 'Available collections',
+  collectionSelectTitleText = 'Collections',
   configuration
 }) => {
-  const searchContext = React.useContext(SearchContext);
   const {
-    onRefinementsMount,
-    onUpdateQueryOptions,
-    aggregationResults: { aggregations },
+    aggregationResults,
+    searchParameters,
     searchParameters: { filter },
-    collectionsResults: { collections }
-  } = searchContext;
+    collectionsResults
+  } = useContext(SearchContext);
+  const { fetchAggregations } = useContext(SearchApi);
+  const aggregations = (aggregationResults && aggregationResults.aggregations) || [];
+  const collections = (collectionsResults && collectionsResults.collections) || [];
 
-  React.useEffect(() => {
+  useDeepCompareEffect(() => {
     if (validateConfiguration(configuration)) {
-      onUpdateQueryOptions({ aggregation: buildAggregationQuery(configuration) });
-      onRefinementsMount();
+      const aggregation = buildAggregationQuery(configuration);
+      fetchAggregations({ ...searchParameters, aggregation });
     } else {
       consoleErrorMessage(invalidConfigurationMessage);
     }
   }, [configuration]);
 
-  const allRefinements = mergeFilterRefinements(aggregations || [], filter || '', configuration);
+  const allRefinements = mergeFilterRefinements(aggregations, filter || '', configuration);
   const shouldShowCollections = showCollections && !!collections;
   const shouldShowFields = !!allRefinements && allRefinements.length > 0;
 
   if (shouldShowFields || shouldShowCollections) {
     return (
       <div>
-        {shouldShowCollections && <CollectionRefinements />}
+        {shouldShowCollections && (
+          <CollectionRefinements
+            label={collectionSelectLabel}
+            titleText={collectionSelectTitleText}
+          />
+        )}
         {shouldShowFields && <FieldRefinements allRefinements={allRefinements} />}
       </div>
     );

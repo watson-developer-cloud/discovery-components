@@ -1,31 +1,39 @@
 import * as React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { SearchApiIFC, SearchContextIFC } from '../../DiscoverySearch/DiscoverySearch';
+import { render, fireEvent, RenderResult } from '@testing-library/react';
 import { ResultsPagination } from '../ResultsPagination';
 import { wrapWithContext } from '../../../utils/testingUtils';
-import { SearchContextIFC } from '../../DiscoverySearch/DiscoverySearch';
 
-const setup = (propUpdates?: any) => {
+interface Setup extends RenderResult {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  performSearchMock: jest.Mock<any, any>;
+  pageSizeSelect: HTMLElement;
+  pageNumberSelect: HTMLElement;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const setup = (propUpdates?: any): Setup => {
   propUpdates = propUpdates || {};
 
-  const onUpdateQueryOptionsMock = jest.fn();
-  const searchMock = jest.fn();
+  const performSearchMock = jest.fn();
+  const api: Partial<SearchApiIFC> = {
+    performSearch: performSearchMock
+  };
   const context: Partial<SearchContextIFC> = {
-    onSearch: searchMock,
-    onUpdateQueryOptions: onUpdateQueryOptionsMock,
-    searchResults: {
+    searchResponse: {
       matching_results: 55
     }
   };
+
   const paginationComponent = render(
-    wrapWithContext(<ResultsPagination {...propUpdates} />, context)
+    wrapWithContext(<ResultsPagination {...propUpdates} />, api, context)
   );
 
   const pageSizeSelect = paginationComponent.getByLabelText('Items per page:');
   const pageNumberSelect = paginationComponent.getByLabelText('Page number, of 6 pages');
 
   return {
-    onUpdateQueryOptionsMock,
-    searchMock,
+    performSearchMock,
     pageSizeSelect,
     pageNumberSelect,
     ...paginationComponent
@@ -34,37 +42,31 @@ const setup = (propUpdates?: any) => {
 
 describe('ResultsPaginationComponent', () => {
   describe('page number select', () => {
-    test('calls onUpdateResultsPagination', () => {
-      const { onUpdateQueryOptionsMock, pageNumberSelect } = setup();
+    test('calls performSearch', () => {
+      const { performSearchMock, pageNumberSelect } = setup();
       fireEvent.change(pageNumberSelect, { target: { value: 2 } });
 
-      expect(onUpdateQueryOptionsMock).toBeCalledTimes(1);
-      expect(onUpdateQueryOptionsMock.mock.calls[0][0]).toStrictEqual({ offset: 10 });
-    });
-
-    test('calls onSubmit', () => {
-      const { searchMock, pageNumberSelect } = setup();
-      fireEvent.change(pageNumberSelect, { target: { value: 2 } });
-
-      expect(searchMock).toBeCalledTimes(1);
+      expect(performSearchMock).toBeCalledTimes(1);
+      expect(performSearchMock).toBeCalledWith(
+        expect.objectContaining({
+          offset: 10
+        })
+      );
     });
   });
 
   describe('page size select', () => {
     test('calls onUpdateResultsPagination from first page', () => {
-      const { onUpdateQueryOptionsMock, pageNumberSelect, pageSizeSelect } = setup();
+      const { performSearchMock, pageNumberSelect, pageSizeSelect } = setup();
       fireEvent.change(pageSizeSelect, { target: { value: 20 } });
       fireEvent.change(pageNumberSelect, { target: { value: 2 } });
 
-      expect(onUpdateQueryOptionsMock).toBeCalledTimes(2);
-      expect(onUpdateQueryOptionsMock.mock.calls[1][0]).toStrictEqual({ offset: 20 });
-    });
-
-    test('calls onSubmit', () => {
-      const { searchMock, pageSizeSelect } = setup({ page: 2 });
-      fireEvent.change(pageSizeSelect, { target: { value: 20 } });
-
-      expect(searchMock).toBeCalledTimes(1);
+      expect(performSearchMock).toBeCalledTimes(2);
+      expect(performSearchMock).toBeCalledWith(
+        expect.objectContaining({
+          offset: 20
+        })
+      );
     });
   });
 });

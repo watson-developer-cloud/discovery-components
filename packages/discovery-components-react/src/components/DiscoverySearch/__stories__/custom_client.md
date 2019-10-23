@@ -37,7 +37,7 @@ const MyApp = () => {
   return (
     <DiscoverySearch
       searchClient={new MyCustomSearchClient()}
-      searchResults={window.mySearchResults}
+      searchResponse={window.mySearchResults}
       queryParameters={window.myQueryParameters}
     >
       <div>Other components here</div>

@@ -35,11 +35,11 @@ function AppView() {
 function SearchPage() {
   const [configuration] = useState([
     {
-      field: 'enriched_text.entities.text',
+      field: 'extracted_metadata.title',
       count: 10
     },
     {
-      field: 'enriched_title.entities.text',
+      field: 'extracted_metadata.file_type',
       count: 10
     }
   ]);
@@ -53,7 +53,7 @@ function SearchPage() {
         completionsCount={7}
         spellingSuggestions={true}
       />
-      <SearchResults bodyField={'highlight.text[0]'} />
+      <SearchResults bodyField={'text'} />
       <SearchRefinements showCollections={true} configuration={configuration} />
       <ResultsPagination />
     </>

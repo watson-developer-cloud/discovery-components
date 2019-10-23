@@ -4,7 +4,7 @@ import get from 'lodash/get';
 import isEqual from 'lodash.isequal';
 import { settings } from 'carbon-components';
 import Document16 from '@carbon/icons-react/lib/document/16.js';
-import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
+import { SearchApi, SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import mustache from 'mustache';
 
 interface ResultProps {
@@ -54,7 +54,8 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   collectionName
 }) => {
   const { document_id: documentId } = result;
-  const { onSelectResult, selectedResult } = useContext(SearchContext);
+  const { setSelectedResult } = useContext(SearchApi);
+  const { selectedResult } = useContext(SearchContext);
   const title: string | undefined = get(result, resultTitleField);
   const filename: string | undefined = get(result, 'extracted_metadata.filename');
   const firstPassageText: string | undefined = get(result, 'document_passages[0].passage_text');
@@ -94,7 +95,7 @@ export const Result: React.FunctionComponent<ResultProps> = ({
         : mustache.render(resultLinkTemplate as string, result);
       window.open(url);
     } else {
-      onSelectResult(result);
+      setSelectedResult(result);
     }
   };
 

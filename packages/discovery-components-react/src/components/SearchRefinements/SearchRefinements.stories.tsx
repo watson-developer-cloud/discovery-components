@@ -38,7 +38,7 @@ const discoverySearchProps = (
 ): DiscoverySearchProps => ({
   searchClient: new DummyClient(),
   projectId: text('Project ID', 'project-id'),
-  queryParameters: queryParams
+  overrideQueryParameters: queryParams
 });
 
 storiesOf('SearchRefinements', module)

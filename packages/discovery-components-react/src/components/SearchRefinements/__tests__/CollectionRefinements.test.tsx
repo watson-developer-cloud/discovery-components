@@ -1,11 +1,21 @@
 import * as React from 'react';
-import { render, getNodeText, fireEvent } from '@testing-library/react';
+import { render, getNodeText, fireEvent, RenderResult } from '@testing-library/react';
 import { wrapWithContext } from '../../../utils/testingUtils';
-import { SearchContextIFC } from '../../DiscoverySearch/DiscoverySearch';
+import { SearchContextIFC, SearchApiIFC } from '../../DiscoverySearch/DiscoverySearch';
 import { SearchRefinements } from '../SearchRefinements';
 import collectionsResponse from '../fixtures/collectionsResponse';
 
-const setup = (collectionIds?: string[]) => {
+interface Setup {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  performSearchMock: jest.Mock<any, any>;
+  collectionRefinementsComponent: RenderResult;
+}
+
+const setup = (collectionIds?: string[]): Setup => {
+  const performSearchMock = jest.fn();
+  const api: Partial<SearchApiIFC> = {
+    performSearch: performSearchMock
+  };
   const context: Partial<SearchContextIFC> = {
     collectionsResults: collectionsResponse,
     searchParameters: {
@@ -13,10 +23,6 @@ const setup = (collectionIds?: string[]) => {
       collection_ids: collectionIds
     }
   };
-  const onSearchMock = jest.fn();
-  context.onSearch = onSearchMock;
-  const onUpdateQueryOptions = jest.fn();
-  context.onUpdateQueryOptions = onUpdateQueryOptions;
   const collectionRefinementsComponent = render(
     wrapWithContext(
       <SearchRefinements
@@ -32,12 +38,12 @@ const setup = (collectionIds?: string[]) => {
           }
         ]}
       />,
+      api,
       context
     )
   );
   return {
-    onSearchMock,
-    onUpdateQueryOptions,
+    performSearchMock,
     collectionRefinementsComponent
   };
 };
@@ -92,27 +98,19 @@ describe('CollectionRefinementsComponent', () => {
   });
 
   describe('selecting collection', () => {
-    test('it calls onUpdateSelectedCollections with collection id', () => {
-      const { collectionRefinementsComponent, onUpdateQueryOptions } = setup();
-      const collectionSelect = collectionRefinementsComponent.getByText('Available collections');
-      fireEvent.click(collectionSelect);
-      const deadspinCollection = collectionRefinementsComponent.getByLabelText('deadspin');
-      onUpdateQueryOptions.mockReset();
-      fireEvent.click(deadspinCollection);
-      expect(onUpdateQueryOptions).toBeCalledTimes(1);
-      expect(onUpdateQueryOptions).toBeCalledWith({
-        collection_ids: ['deadspin9876'],
-        offset: 0
-      });
-    });
-
-    test('it calls onSearch', () => {
-      const { collectionRefinementsComponent, onSearchMock } = setup();
+    test('it calls performSearch', () => {
+      const { collectionRefinementsComponent, performSearchMock } = setup();
       const collectionSelect = collectionRefinementsComponent.getByText('Available collections');
       fireEvent.click(collectionSelect);
       const deadspinCollection = collectionRefinementsComponent.getByLabelText('deadspin');
       fireEvent.click(deadspinCollection);
-      expect(onSearchMock).toBeCalledTimes(1);
+      expect(performSearchMock).toBeCalledTimes(1);
+      expect(performSearchMock).toBeCalledWith(
+        expect.objectContaining({
+          offset: 0,
+          collection_ids: ['deadspin9876']
+        })
+      );
     });
   });
 });

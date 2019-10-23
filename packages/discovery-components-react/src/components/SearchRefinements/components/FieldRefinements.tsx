@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React, { FC, useContext, SyntheticEvent } from 'react';
 import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 import get from 'lodash.get';
 import findIndex from 'lodash/findIndex';
 import { settings } from 'carbon-components';
 import { Checkbox as CarbonCheckbox } from 'carbon-components-react';
-import { SearchContext } from '../../DiscoverySearch/DiscoverySearch';
+import { SearchApi, SearchContext } from '../../DiscoverySearch/DiscoverySearch';
 import { SearchFilterTransform } from '../utils/searchFilterTransform';
 import {
   QueryTermAggregation,
@@ -18,20 +18,17 @@ interface FieldRefinementsProps {
   allRefinements: QueryTermAggregation[];
 }
 
-export const FieldRefinements: React.FunctionComponent<FieldRefinementsProps> = ({
-  allRefinements
-}) => {
-  const searchContext = React.useContext(SearchContext);
+export const FieldRefinements: FC<FieldRefinementsProps> = ({ allRefinements }) => {
   const {
-    onUpdateQueryOptions,
-    onSearch,
+    searchParameters,
     searchParameters: { natural_language_query: naturalLanguageQuery }
-  } = searchContext;
+  } = useContext(SearchContext);
+  const { performSearch } = useContext(SearchApi);
 
   const handleOnChange = (
     checked: boolean,
     _id: string,
-    event: React.SyntheticEvent<HTMLInputElement>
+    event: SyntheticEvent<HTMLInputElement>
   ): void => {
     const target: HTMLInputElement = event.currentTarget;
     const selectedRefinementField = target.getAttribute('data-field');
@@ -64,11 +61,8 @@ export const FieldRefinements: React.FunctionComponent<FieldRefinementsProps> = 
       allRefinements.splice(index, 1, newrefinementsForField);
     }
 
-    onUpdateQueryOptions({
-      filter: SearchFilterTransform.toString(allRefinements),
-      offset: 0
-    });
-    onSearch();
+    const filter = SearchFilterTransform.toString(allRefinements);
+    performSearch({ ...searchParameters, offset: 0, filter });
   };
 
   return (

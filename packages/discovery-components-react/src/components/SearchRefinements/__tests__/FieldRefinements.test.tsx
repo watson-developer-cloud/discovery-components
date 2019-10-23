@@ -1,11 +1,18 @@
 import * as React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, RenderResult } from '@testing-library/react';
 import { wrapWithContext } from '../../../utils/testingUtils';
-import { SearchContextIFC } from '../../DiscoverySearch/DiscoverySearch';
+import { SearchContextIFC, SearchApiIFC } from '../../DiscoverySearch/DiscoverySearch';
 import { SearchRefinements } from '../SearchRefinements';
 import refinementsQueryResponse from '../fixtures/refinementsQueryResponse';
 
-const setup = (filter: string) => {
+interface Setup {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  performSearchMock: jest.Mock<any, any>;
+  fieldRefinementsComponent: RenderResult;
+}
+
+const setup = (filter: string): Setup => {
+  const performSearchMock = jest.fn();
   const context: Partial<SearchContextIFC> = {
     aggregationResults: {
       aggregations: refinementsQueryResponse.aggregations
@@ -15,10 +22,9 @@ const setup = (filter: string) => {
       filter: filter
     }
   };
-  const onRefinementsMountMock = jest.fn();
-  context.onRefinementsMount = onRefinementsMountMock;
-  const onUpdateQueryOptionsMock = jest.fn();
-  context.onUpdateQueryOptions = onUpdateQueryOptionsMock;
+  const api: Partial<SearchApiIFC> = {
+    performSearch: performSearchMock
+  };
   const fieldRefinementsComponent = render(
     wrapWithContext(
       <SearchRefinements
@@ -33,12 +39,12 @@ const setup = (filter: string) => {
           }
         ]}
       />,
+      api,
       context
     )
   );
   return {
-    onRefinementsMountMock,
-    onUpdateQueryOptionsMock,
+    performSearchMock,
     fieldRefinementsComponent
   };
 };
@@ -99,55 +105,60 @@ describe('FieldRefinementsComponent', () => {
 
   describe('checkboxes apply filters', () => {
     test('it adds correct filter when one checkbox within single refinement is checked', () => {
-      const { fieldRefinementsComponent, onUpdateQueryOptionsMock } = setup('');
+      const { fieldRefinementsComponent, performSearchMock } = setup('');
       const animalsCheckbox = fieldRefinementsComponent.getByLabelText('Animals');
-      onUpdateQueryOptionsMock.mockReset();
+      performSearchMock.mockReset();
       fireEvent.click(animalsCheckbox);
-      expect(onUpdateQueryOptionsMock).toBeCalledTimes(1);
-      expect(onUpdateQueryOptionsMock).toBeCalledWith({
-        filter: 'subject:Animals',
-        offset: 0
-      });
+      expect(performSearchMock).toBeCalledTimes(1);
+      expect(performSearchMock).toBeCalledWith(
+        expect.objectContaining({
+          filter: 'subject:Animals'
+        })
+      );
     });
 
     test('it adds correct filters when second checkbox within single refinement is checked', () => {
-      const { fieldRefinementsComponent, onUpdateQueryOptionsMock } = setup('subject:Animals');
+      const { fieldRefinementsComponent, performSearchMock } = setup('subject:Animals');
       const peopleCheckbox = fieldRefinementsComponent.getByLabelText('People');
-      onUpdateQueryOptionsMock.mockReset();
+      performSearchMock.mockReset();
       fireEvent.click(peopleCheckbox);
-      expect(onUpdateQueryOptionsMock).toBeCalledTimes(1);
-      expect(onUpdateQueryOptionsMock).toBeCalledWith({
-        filter: 'subject:Animals|People',
-        offset: 0
-      });
+      expect(performSearchMock).toBeCalledTimes(1);
+      expect(performSearchMock).toBeCalledWith(
+        expect.objectContaining({
+          filter: 'subject:Animals|People'
+        })
+      );
     });
 
     test('it adds correct filter when checkboxes from multiple refinements are checked', () => {
-      const { fieldRefinementsComponent, onUpdateQueryOptionsMock } = setup('subject:Animals');
+      const { fieldRefinementsComponent, performSearchMock } = setup('subject:Animals');
       const newsStaffCheckbox = fieldRefinementsComponent.getByLabelText('News Staff');
-      onUpdateQueryOptionsMock.mockReset();
+      performSearchMock.mockReset();
       fireEvent.click(newsStaffCheckbox);
-      expect(onUpdateQueryOptionsMock).toBeCalledTimes(1);
-      expect(onUpdateQueryOptionsMock).toBeCalledWith({
-        filter: 'author:News Staff,subject:Animals',
-        offset: 0
-      });
+      expect(performSearchMock).toBeCalledTimes(1);
+      expect(performSearchMock).toBeCalledWith(
+        expect.objectContaining({
+          filter: 'author:News Staff,subject:Animals'
+        })
+      );
     });
   });
 
   describe('checkboxes remove filters', () => {
     test('it removes correct filter when checkbox within single refinement is unchecked', () => {
-      const { fieldRefinementsComponent, onUpdateQueryOptionsMock } = setup('subject:Animals');
+      const { fieldRefinementsComponent, performSearchMock } = setup('subject:Animals');
       const animalsCheckbox = fieldRefinementsComponent.getByLabelText('Animals');
       fireEvent.click(animalsCheckbox);
       // For the test, have to check the checkbox twice to get it in the 'checked' state to uncheck
-      onUpdateQueryOptionsMock.mockReset();
+      performSearchMock.mockReset();
       fireEvent.click(animalsCheckbox);
-      expect(onUpdateQueryOptionsMock).toBeCalledTimes(1);
-      expect(onUpdateQueryOptionsMock).toBeCalledWith({
-        filter: '',
-        offset: 0
-      });
+      expect(performSearchMock).toBeCalledTimes(1);
+      expect(performSearchMock).toBeCalledWith(
+        expect.objectContaining({
+          filter: '',
+          offset: 0
+        })
+      );
     });
   });
 });

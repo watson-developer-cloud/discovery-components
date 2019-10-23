@@ -4,7 +4,7 @@ import { withKnobs, text } from '@storybook/addon-knobs/react';
 
 import { DiscoverySearch, DiscoverySearchProps } from '../../DiscoverySearch/DiscoverySearch';
 import { SearchResults } from '../SearchResults';
-import searchResults from '../__fixtures__/searchResults';
+import overrideSearchResults from '../__fixtures__/searchResults';
 
 const props = () => ({
   bodyField: text('Field to display as body', 'highlight.text[0]')
@@ -25,7 +25,7 @@ class DummyClient {
 const discoverySearchProps = (): DiscoverySearchProps => ({
   searchClient: new DummyClient(),
   projectId: text('Project ID', 'project-id'),
-  searchResults
+  overrideSearchResults
 });
 
 storiesOf('SearchResults', module)

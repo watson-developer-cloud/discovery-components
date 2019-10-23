@@ -11,7 +11,7 @@ describe('<Result />', () => {
   let context: Partial<SearchContextIFC>;
   beforeEach(() => {
     context = {
-      searchResults: {
+      searchResponse: {
         matching_results: 1,
         results: []
       }
@@ -19,23 +19,26 @@ describe('<Result />', () => {
   });
 
   describe('on click', () => {
-    test('will call onSelectResult with result as a parameter by default', () => {
+    test('will call setSelectedResult with result as a parameter by default', () => {
+      const mockSelectResult = jest.fn();
       const mockResult = {
         document_id: 'some document_id'
       };
-      const mockselectResult = jest.fn();
-      context.onSelectResult = mockselectResult;
-      (context.searchResults as DiscoveryV1.QueryResponse).results = [mockResult];
-      const { getByText } = render(wrapWithContext(<SearchResults />, context));
+      const api = {
+        setSelectedResult: mockSelectResult
+      };
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      context.searchResponse!.results = [mockResult];
+      const { getByText } = render(wrapWithContext(<SearchResults />, api, context));
       fireEvent.click(getByText('some document_id'));
-      expect(mockselectResult.mock.calls.length).toBe(1);
-      expect(mockselectResult.mock.calls[0][0]).toBe(mockResult);
+      expect(mockSelectResult.mock.calls.length).toBe(1);
+      expect(mockSelectResult.mock.calls[0][0]).toBe(mockResult);
     });
   });
 
   describe('when usePassages is set to true', () => {
     test('will render the first passage if it exists', () => {
-      (context.searchResults as DiscoveryV1.QueryResponse).results = [
+      (context.searchResponse as DiscoveryV1.QueryResponse).results = [
         {
           document_id: 'some document_id',
           document_passages: [
@@ -48,19 +51,23 @@ describe('<Result />', () => {
           ]
         }
       ];
-      const { getByText } = render(wrapWithContext(<SearchResults usePassages={true} />, context));
+      const { getByText } = render(
+        wrapWithContext(<SearchResults usePassages={true} />, {}, context)
+      );
       expect(getByText('this is the first passage text')).toBeInTheDocument();
     });
 
     test('will render the bodyField if first passage doesnt exist', () => {
-      (context.searchResults as DiscoveryV1.QueryResponse).results = [
+      (context.searchResponse as DiscoveryV1.QueryResponse).results = [
         {
           document_id: 'some document_id',
           document_passages: [],
           text: 'this is the bodyField text'
         }
       ];
-      const { getByText } = render(wrapWithContext(<SearchResults usePassages={true} />, context));
+      const { getByText } = render(
+        wrapWithContext(<SearchResults usePassages={true} />, {}, context)
+      );
       expect(getByText('this is the bodyField text')).toBeInTheDocument();
     });
   });
@@ -68,7 +75,7 @@ describe('<Result />', () => {
   describe('when usePassages is set to false', () => {
     describe('and there is a value at bodyField', () => {
       it('displays the bodyField text', () => {
-        (context.searchResults as DiscoveryV1.QueryResponse).results = [
+        (context.searchResponse as DiscoveryV1.QueryResponse).results = [
           {
             document_id: 'some document_id',
             text: 'i am text',
@@ -80,6 +87,7 @@ describe('<Result />', () => {
         const { getByText } = render(
           wrapWithContext(
             <SearchResults bodyField={'highlight.text[0]'} usePassages={false} />,
+            {},
             context
           )
         );
@@ -90,7 +98,7 @@ describe('<Result />', () => {
     });
     describe('and bodyField is undefined', () => {
       beforeEach(() => {
-        (context.searchResults as DiscoveryV1.QueryResponse).results = [
+        (context.searchResponse as DiscoveryV1.QueryResponse).results = [
           {
             document_id: 'some document_id',
             text: 'i am text'
@@ -100,7 +108,7 @@ describe('<Result />', () => {
 
       it('displays the default bodyField value', () => {
         const { getByText } = render(
-          wrapWithContext(<SearchResults usePassages={false} />, context)
+          wrapWithContext(<SearchResults usePassages={false} />, {}, context)
         );
         expect(getByText('i am text')).toBeInTheDocument();
       });
@@ -109,7 +117,7 @@ describe('<Result />', () => {
 
   describe('when usePassages is null', () => {
     test('will render the first passage if it exists', () => {
-      (context.searchResults as DiscoveryV1.QueryResponse).results = [
+      (context.searchResponse as DiscoveryV1.QueryResponse).results = [
         {
           document_id: 'some document_id',
           document_passages: [
@@ -122,14 +130,14 @@ describe('<Result />', () => {
           ]
         }
       ];
-      const { getByText } = render(wrapWithContext(<SearchResults />, context));
+      const { getByText } = render(wrapWithContext(<SearchResults />, {}, context));
       expect(getByText('this is the first passage text')).toBeInTheDocument();
     });
 
     describe('and there are no passages in the result object', () => {
       describe('and there is a value for bodyField', () => {
         it('displays the bodyField text', () => {
-          (context.searchResults as DiscoveryV1.QueryResponse).results = [
+          (context.searchResponse as DiscoveryV1.QueryResponse).results = [
             {
               document_id: 'some document_id',
               text: 'i am text',
@@ -139,7 +147,7 @@ describe('<Result />', () => {
             }
           ];
           const { getByText } = render(
-            wrapWithContext(<SearchResults bodyField={'highlight.text[0]'} />, context)
+            wrapWithContext(<SearchResults bodyField={'highlight.text[0]'} />, {}, context)
           );
           expect(
             getByText((_, element) => element.textContent === 'i am other text')
@@ -151,24 +159,26 @@ describe('<Result />', () => {
 
   describe('When there is a value for resultLinkField', () => {
     describe('on click', () => {
-      test('will not call onSelectResult', () => {
+      test('will not call setSelectedResult', () => {
         const mockResult = {
           document_id: 'some document_id'
         };
-        (context.searchResults as DiscoveryV1.QueryResponse).results = [mockResult];
-        context.onSelectResult = jest.fn();
+        (context.searchResponse as DiscoveryV1.QueryResponse).results = [mockResult];
+        const api = {
+          setSelectedResult: jest.fn()
+        };
         const { getByText } = render(
-          wrapWithContext(<SearchResults resultLinkField={'url'} />, context)
+          wrapWithContext(<SearchResults resultLinkField={'url'} />, api, context)
         );
         fireEvent.click(getByText('some document_id'));
-        expect((context.onSelectResult as jest.Mock).mock.calls.length).toBe(0);
+        expect((api.setSelectedResult as jest.Mock).mock.calls.length).toBe(0);
       });
       describe('when resultLinkField is a top level value on the result object', () => {
         test('will open a new window with the correct value', () => {
           browserWindow.open = jest.fn();
           const urlValue = 'https://www.ibm.com';
 
-          (context.searchResults as DiscoveryV1.QueryResponse).results = [
+          (context.searchResponse as DiscoveryV1.QueryResponse).results = [
             {
               document_id: 'some document_id',
               url: urlValue
@@ -176,7 +186,7 @@ describe('<Result />', () => {
           ];
 
           const { getByText } = render(
-            wrapWithContext(<SearchResults resultLinkField={'url'} />, context)
+            wrapWithContext(<SearchResults resultLinkField={'url'} />, {}, context)
           );
           fireEvent.click(getByText('some document_id'));
           expect(browserWindow.open.mock.calls[0][0]).toBe(urlValue);
@@ -187,7 +197,7 @@ describe('<Result />', () => {
           browserWindow.open = jest.fn();
           const urlValue = 'https://www.ibm.com';
 
-          (context.searchResults as DiscoveryV1.QueryResponse).results = [
+          (context.searchResponse as DiscoveryV1.QueryResponse).results = [
             {
               document_id: 'some document_id',
               url: { value: urlValue }
@@ -195,7 +205,7 @@ describe('<Result />', () => {
           ];
 
           const { getByText } = render(
-            wrapWithContext(<SearchResults resultLinkField={'url.value'} />, context)
+            wrapWithContext(<SearchResults resultLinkField={'url.value'} />, {}, context)
           );
           fireEvent.click(getByText('some document_id'));
           expect(browserWindow.open.mock.calls[0][0]).toBe(urlValue);
@@ -206,7 +216,7 @@ describe('<Result />', () => {
 
   describe('when there is a value for resultLinkTemplate', () => {
     describe('on click', () => {
-      test('will not call onSelectResult', () => {
+      test('will not call setSelectedResult', () => {
         const mockResult = {
           document_id: 'some document_id',
           url: {
@@ -214,21 +224,24 @@ describe('<Result />', () => {
             secondPart: 'com'
           }
         };
-        context.onSelectResult = jest.fn();
-        (context.searchResults as DiscoveryV1.QueryResponse).results = [mockResult];
+        const api = {
+          setSelectedResult: jest.fn()
+        };
+        (context.searchResponse as DiscoveryV1.QueryResponse).results = [mockResult];
         const { getByText } = render(
           wrapWithContext(
             <SearchResults resultLinkTemplate={'https://{{url.firstPart}}.{{url.secondPart}}'} />,
+            api,
             context
           )
         );
         fireEvent.click(getByText('some document_id'));
-        expect((context.onSelectResult as jest.Mock).mock.calls.length).toBe(0);
+        expect((api.setSelectedResult as jest.Mock).mock.calls.length).toBe(0);
       });
 
       test('will open a new window with the correct value', () => {
         browserWindow.open = jest.fn();
-        (context.searchResults as DiscoveryV1.QueryResponse).results = [
+        (context.searchResponse as DiscoveryV1.QueryResponse).results = [
           {
             document_id: 'some document_id',
             url: {
@@ -242,6 +255,7 @@ describe('<Result />', () => {
             <SearchResults
               resultLinkTemplate={'https://www.{{url.firstPart}}.{{url.secondPart}}'}
             />,
+            {},
             context
           )
         );
@@ -253,7 +267,7 @@ describe('<Result />', () => {
 
   describe('when there is a value for resultTitleField', () => {
     test('we display the value at that property', () => {
-      (context.searchResults as DiscoveryV1.QueryResponse).results = [
+      (context.searchResponse as DiscoveryV1.QueryResponse).results = [
         {
           document_id: 'some document_id',
           extracted_metadata: {
@@ -263,10 +277,11 @@ describe('<Result />', () => {
           myTitle: 'my title'
         }
       ];
-
-      context.onSelectResult = jest.fn();
+      const api = {
+        setSelectedResult: jest.fn()
+      };
       const { getByText } = render(
-        wrapWithContext(<SearchResults resultTitleField="myTitle" />, context)
+        wrapWithContext(<SearchResults resultTitleField="myTitle" />, api, context)
       );
       expect(getByText('my title')).toBeInTheDocument();
     });
@@ -274,7 +289,7 @@ describe('<Result />', () => {
 
   describe('when the result prop has a title and filename property', () => {
     test('we display the title', () => {
-      (context.searchResults as DiscoveryV1.QueryResponse).results = [
+      (context.searchResponse as DiscoveryV1.QueryResponse).results = [
         {
           document_id: 'some document_id',
           extracted_metadata: {
@@ -283,16 +298,17 @@ describe('<Result />', () => {
           }
         }
       ];
-
-      context.onSelectResult = jest.fn();
-      const { getByText } = render(wrapWithContext(<SearchResults />, context));
+      const api = {
+        setSelectedResult: jest.fn()
+      };
+      const { getByText } = render(wrapWithContext(<SearchResults />, api, context));
       expect(getByText('some title')).toBeInTheDocument();
     });
   });
 
   describe('when the result prop has a title but no filename property', () => {
     test('we display title only', () => {
-      (context.searchResults as DiscoveryV1.QueryResponse).results = [
+      (context.searchResponse as DiscoveryV1.QueryResponse).results = [
         {
           document_id: 'some document_id',
           extracted_metadata: {
@@ -301,14 +317,14 @@ describe('<Result />', () => {
         }
       ];
 
-      const { getByText } = render(wrapWithContext(<SearchResults />, context));
+      const { getByText } = render(wrapWithContext(<SearchResults />, {}, context));
       expect(getByText('some title')).toBeInTheDocument();
     });
   });
 
   describe('when the result prop has a filename but no title property', () => {
     test('we display filename only', () => {
-      (context.searchResults as DiscoveryV1.QueryResponse).results = [
+      (context.searchResponse as DiscoveryV1.QueryResponse).results = [
         {
           document_id: 'some document_id',
           extracted_metadata: {
@@ -316,26 +332,26 @@ describe('<Result />', () => {
           }
         }
       ];
-      const { getByText } = render(wrapWithContext(<SearchResults />, context));
+      const { getByText } = render(wrapWithContext(<SearchResults />, {}, context));
       expect(getByText('some file name')).toBeInTheDocument();
     });
   });
 
   describe('when the result prop has no filename or title property', () => {
     test('we display the document_id once', () => {
-      (context.searchResults as DiscoveryV1.QueryResponse).results = [
+      (context.searchResponse as DiscoveryV1.QueryResponse).results = [
         {
           document_id: 'some document_id'
         }
       ];
-      const { getByText } = render(wrapWithContext(<SearchResults />, context));
+      const { getByText } = render(wrapWithContext(<SearchResults />, {}, context));
       expect(getByText('some document_id')).toBeInTheDocument();
     });
   });
 
   describe('when collectionLabel is passed as a param', () => {
     test('will render', () => {
-      (context.searchResults as DiscoveryV1.QueryResponse).results = [
+      (context.searchResponse as DiscoveryV1.QueryResponse).results = [
         {
           document_id: 'some document_id',
           collection_id: '123',
@@ -355,7 +371,7 @@ describe('<Result />', () => {
         ]
       };
       const { getByText } = render(
-        wrapWithContext(<SearchResults collectionLabel={'my label'} />, context)
+        wrapWithContext(<SearchResults collectionLabel={'my label'} />, {}, context)
       );
       expect(getByText(/.*my label/)).toBeInTheDocument();
     });
@@ -363,7 +379,7 @@ describe('<Result />', () => {
 
   describe('when there are collectionsResults stored in context', () => {
     test('renders the collectionName', () => {
-      (context.searchResults as DiscoveryV1.QueryResponse).results = [
+      (context.searchResponse as DiscoveryV1.QueryResponse).results = [
         {
           document_id: 'some document_id',
           collection_id: '123',
@@ -382,7 +398,7 @@ describe('<Result />', () => {
           }
         ]
       };
-      const { getByText } = render(wrapWithContext(<SearchResults />, context));
+      const { getByText } = render(wrapWithContext(<SearchResults />, {}, context));
       expect(getByText(/.*test collection/)).toBeInTheDocument();
     });
   });

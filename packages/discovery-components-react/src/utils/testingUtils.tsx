@@ -1,18 +1,24 @@
 import React from 'react';
 import {
+  SearchApi,
   SearchContext,
   SearchContextIFC,
+  SearchApiIFC,
+  searchApiDefaults,
   searchContextDefaults
 } from '../components/DiscoverySearch/DiscoverySearch';
 
 export function wrapWithContext(
   children: React.ReactElement,
+  apiOverride: Partial<SearchApiIFC>,
   contextOverride: Partial<SearchContextIFC>
 ): React.ReactElement {
   return (
-    <SearchContext.Provider value={Object.assign(searchContextDefaults, contextOverride)}>
-      {children}
-    </SearchContext.Provider>
+    <SearchApi.Provider value={Object.assign(searchApiDefaults, apiOverride)}>
+      <SearchContext.Provider value={Object.assign(searchContextDefaults, contextOverride)}>
+        {children}
+      </SearchContext.Provider>
+    </SearchApi.Provider>
   );
 }
 

@@ -12,9 +12,9 @@ import {
   waitForElementToBeRemoved
 } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
+import { SearchContextIFC, SearchApiIFC } from '../../DiscoverySearch/DiscoverySearch';
 import { wrapWithContext } from '../../../utils/testingUtils';
 import { SearchInput } from '../SearchInput';
-import { SearchContextIFC } from '../../DiscoverySearch/DiscoverySearch';
 
 const PLACE_HOLDER_TEXT = 'Type query term...';
 const CLOSE_BUTTON_LABEL_TEXT = 'clear input label text';
@@ -65,23 +65,26 @@ describe('<SearchInput />', () => {
   describe('When spelling suggestions enabled', () => {
     let searchComponent: RenderResult;
     let input: HTMLElement;
+    const performSearchMock = jest.fn();
+    const setSearchParametersMock = jest.fn();
+    const fetchAutocompletionsMock = jest.fn();
 
     const context: Partial<SearchContextIFC> = {
-      searchResults: {
+      searchResponse: {
         suggested_query: 'cunningham'
       }
     };
-    const onSearchMock = jest.fn();
-    context.onSearch = onSearchMock;
-    const onUpdateQueryOptionsMock = jest.fn();
-    context.onUpdateQueryOptions = onUpdateQueryOptionsMock;
-    const onFetchCompletionsMock = jest.fn();
-    context.onFetchAutoCompletions = onFetchCompletionsMock;
+    const api: Partial<SearchApiIFC> = {
+      performSearch: performSearchMock,
+      setSearchParameters: setSearchParametersMock,
+      fetchAutocompletions: fetchAutocompletionsMock
+    };
 
     beforeEach(() => {
       searchComponent = render(
         wrapWithContext(
           <SearchInput placeHolderText={PLACE_HOLDER_TEXT} spellingSuggestions={true} />,
+          api,
           context
         )
       );
@@ -106,9 +109,8 @@ describe('<SearchInput />', () => {
         expect((input as HTMLInputElement).value).toBe('cunnigham');
 
         // reset the mock methods
-        onUpdateQueryOptionsMock.mockReset();
-        onSearchMock.mockReset();
-        onFetchCompletionsMock.mockReset();
+        performSearchMock.mockReset();
+        fetchAutocompletionsMock.mockReset();
 
         // click on the suggestion
         spellingCorrection = searchComponent.getByText('cunningham');
@@ -120,21 +122,19 @@ describe('<SearchInput />', () => {
         expect((input as HTMLInputElement).value).toBe('cunningham');
       });
 
-      test('updates nlq search param', () => {
-        expect(onUpdateQueryOptionsMock).toBeCalledTimes(1);
-        expect(onUpdateQueryOptionsMock).toBeCalledWith({
-          natural_language_query: 'cunningham',
-          filter: '',
-          offset: 0
-        });
+      test('calls performSearch', () => {
+        expect(performSearchMock).toBeCalledTimes(1);
+        expect(performSearchMock).toBeCalledWith(
+          expect.objectContaining({
+            natural_language_query: 'cunningham',
+            filter: '',
+            offset: 0
+          })
+        );
       });
 
-      test('calls onSearch', () => {
-        expect(onSearchMock).toBeCalledTimes(1);
-      });
-
-      test('does not call onFetchCompletionsMock', () => {
-        expect(onFetchCompletionsMock).not.toBeCalled();
+      test('does not call fetchAutocompletionsMock', () => {
+        expect(fetchAutocompletionsMock).not.toBeCalled();
       });
     });
   });
@@ -154,6 +154,7 @@ describe('<SearchInput />', () => {
         const searchInput: RenderResult = render(
           wrapWithContext(
             <SearchInput placeHolderText={PLACE_HOLDER_TEXT} showAutocomplete={true} />,
+            {},
             context
           )
         );
@@ -251,6 +252,7 @@ describe('<SearchInput />', () => {
         const searchInput: RenderResult = render(
           wrapWithContext(
             <SearchInput placeHolderText={PLACE_HOLDER_TEXT} showAutocomplete={false} />,
+            {},
             context
           )
         );
