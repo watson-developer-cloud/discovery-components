@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.41.4](http:///discovery-components-react/compare/@disco-widgets/react-components@1.41.3...@disco-widgets/react-components@1.41.4) (2019-10-23)
+
+
+### Bug Fixes
+
+* zoom, add reset zoom ([#251](http:///discovery-components-react/issues/251)) ([fb011ab](http:///discovery-components-react/commits/fb011ab))
+
+
+
+
+
 ## [1.41.3](http:///discovery-components-react/compare/@disco-widgets/react-components@1.41.2...@disco-widgets/react-components@1.41.3) (2019-10-23)
 
 

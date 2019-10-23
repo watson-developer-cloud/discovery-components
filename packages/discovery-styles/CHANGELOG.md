@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.13.2](http:///discovery-styles/compare/@disco-widgets/styles@1.13.1...@disco-widgets/styles@1.13.2) (2019-10-23)
+
+
+### Bug Fixes
+
+* zoom, add reset zoom ([#251](http:///discovery-styles/issues/251)) ([fb011ab](http:///discovery-styles/commits/fb011ab))
+
+
+
+
+
 ## [1.13.1](http:///discovery-styles/compare/@disco-widgets/styles@1.13.0...@disco-widgets/styles@1.13.1) (2019-10-23)
 
 

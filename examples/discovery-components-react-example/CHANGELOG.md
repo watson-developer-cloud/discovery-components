@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.20.6](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.20.5...discovery-components-react-example@1.20.6) (2019-10-23)
+
+**Note:** Version bump only for package discovery-components-react-example
+
+
+
+
+
 ## [1.20.5](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.20.4...discovery-components-react-example@1.20.5) (2019-10-23)
 
 
