@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.20.5](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.20.4...discovery-components-react-example@1.20.5) (2019-10-23)
+
+
+### Bug Fixes
+
+* referential equality optimization ([#216](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/216)) ([2c0646e](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/2c0646e))
+
+
+
+
+
 ## [1.20.4](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.20.3...discovery-components-react-example@1.20.4) (2019-10-23)
 
 

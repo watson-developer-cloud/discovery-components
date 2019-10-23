@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.41.3](http:///discovery-components-react/compare/@disco-widgets/react-components@1.41.2...@disco-widgets/react-components@1.41.3) (2019-10-23)
+
+
+### Bug Fixes
+
+* referential equality optimization ([#216](http:///discovery-components-react/issues/216)) ([2c0646e](http:///discovery-components-react/commits/2c0646e))
+
+
+
+
+
 ## [1.41.2](http:///discovery-components-react/compare/@disco-widgets/react-components@1.41.1...@disco-widgets/react-components@1.41.2) (2019-10-23)
 
 
