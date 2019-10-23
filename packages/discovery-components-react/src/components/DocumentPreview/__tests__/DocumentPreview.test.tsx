@@ -3,21 +3,21 @@ import { act, render } from '@testing-library/react';
 import omit from 'lodash/omit';
 import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 import { DiscoverySearch } from '../../DiscoverySearch/DiscoverySearch';
-import RichPreview from '../RichPreview';
+import DocumentPreview from '../DocumentPreview';
 import { document as doc } from '../__fixtures__/Art Effects.pdf';
 import docJson from '../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
 import passages from '../__fixtures__/passages';
 
-describe('RichPreview', () => {
+describe('DocumentPreview', () => {
   it('renders with file data without crashing', () => {
     act(() => {
-      render(<RichPreview document={docJson} file={atob(doc)} />);
+      render(<DocumentPreview document={docJson} file={atob(doc)} />);
     });
   });
 
   it('renders with document data (fallback) without crashing', () => {
     act(() => {
-      render(<RichPreview document={docJson} />);
+      render(<DocumentPreview document={docJson} />);
     });
   });
 
@@ -28,7 +28,7 @@ describe('RichPreview', () => {
         ...docJson,
         document_passages: [passages.single]
       };
-      render(<RichPreview document={doc} />);
+      render(<DocumentPreview document={doc} />);
     });
   });
 
@@ -55,7 +55,7 @@ describe('RichPreview', () => {
           searchResults={results}
           selectedResult={selectedResult}
         >
-          <RichPreview />
+          <DocumentPreview />
         </DiscoverySearch>
       ));
     });

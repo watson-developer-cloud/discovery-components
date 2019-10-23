@@ -3,7 +3,7 @@ import get from 'lodash/get';
 import { settings } from 'carbon-components';
 import { QueryResult } from '@disco-widgets/ibm-watson/discovery/v1';
 import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
-import RichPreviewToolbar, { ZOOM_IN } from './components/RichPreviewToolbar/RichPreviewToolbar';
+import PreviewToolbar, { ZOOM_IN } from './components/PreviewToolbar/PreviewToolbar';
 import PdfViewer from './components/PdfViewer/PdfViewer';
 import PdfFallback, { supportsPdfFallback } from './components/PdfFallback/PdfFallback';
 import SimpleDocument from './components/SimpleDocument/SimpleDocument';
@@ -23,7 +23,7 @@ interface Props {
 
 const SCALE_FACTOR = 1.2;
 
-export const RichPreview: FC<Props> = ({ document, file }) => {
+export const DocumentPreview: FC<Props> = ({ document, file }) => {
   const { selectedResult } = useContext(SearchContext);
   // document prop takes precedence over that in context
   const doc = document || selectedResult;
@@ -63,12 +63,12 @@ export const RichPreview: FC<Props> = ({ document, file }) => {
 
   const loading = !doc || !(currentPage > 0) || !(pageCount > 0);
 
-  const base = `${settings.prefix}--rich-preview`;
+  const base = `${settings.prefix}--document-preview`;
   return (
     <div className={`${base}`}>
       {doc || file ? (
         <>
-          <RichPreviewToolbar
+          <PreviewToolbar
             loading={loading}
             current={currentPage}
             total={pageCount}
@@ -78,7 +78,7 @@ export const RichPreview: FC<Props> = ({ document, file }) => {
             }}
           />
           <div className={`${base}__document`}>
-            <RichPreviewDocument
+            <PreviewDocument
               file={file}
               currentPage={currentPage}
               scale={scale}
@@ -112,7 +112,7 @@ interface DocumentProps {
   setPdfPageCount?: (count: number) => void;
 }
 
-function RichPreviewDocument({
+function PreviewDocument({
   file,
   currentPage,
   scale,
@@ -132,5 +132,5 @@ function RichPreviewDocument({
   ) : null;
 }
 
-export default RichPreview;
-export { RichPreviewToolbar, RichPreviewDocument };
+export default DocumentPreview;
+export { PreviewToolbar, PreviewDocument };

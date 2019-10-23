@@ -9,7 +9,7 @@ import {
   SearchResults,
   SearchRefinements,
   ResultsPagination,
-  RichPreview
+  DocumentPreview
 } from '@disco-widgets/react-components';
 
 const App = () => {
@@ -75,7 +75,7 @@ function PreviewPage() {
           {'< Back to Search'}
         </a>
       </div>
-      <RichPreview />
+      <DocumentPreview />
     </div>
   );
 }

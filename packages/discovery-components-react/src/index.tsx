@@ -4,8 +4,8 @@ export { SearchInput } from './components/SearchInput/SearchInput';
 export { SearchRefinements } from './components/SearchRefinements/SearchRefinements';
 export { ResultsPagination } from './components/ResultsPagination/ResultsPagination';
 export {
-  RichPreview,
-  RichPreviewToolbar,
-  RichPreviewDocument
-} from './components/RichPreview/RichPreview';
+  DocumentPreview,
+  PreviewToolbar,
+  PreviewDocument
+} from './components/DocumentPreview/DocumentPreview';
 export { SearchResults } from './components/SearchResults/SearchResults';

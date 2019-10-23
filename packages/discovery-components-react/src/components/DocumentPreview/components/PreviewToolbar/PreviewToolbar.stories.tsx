@@ -2,13 +2,13 @@ import React, { useState, ReactElement } from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import RichPreviewToolbar from './RichPreviewToolbar';
+import PreviewToolbar from './PreviewToolbar';
 
-const RichPreviewToolbarWrapper = (): ReactElement => {
+const PreviewToolbarWrapper = (): ReactElement => {
   const [current, setCurrent] = useState(1);
 
   return (
-    <RichPreviewToolbar
+    <PreviewToolbar
       current={current}
       total={100}
       onZoom={action('zoom')}
@@ -25,11 +25,11 @@ const divStyle = {
   marginTop: '2rem'
 };
 
-storiesOf('RichPreview/components/RichPreviewToolbar', module)
+storiesOf('DocumentPreview/components/PreviewToolbar', module)
   .add('default', () => {
     return (
       <div style={divStyle}>
-        <RichPreviewToolbar
+        <PreviewToolbar
           current={1}
           total={100}
           onZoom={action('zoom')}
@@ -41,7 +41,7 @@ storiesOf('RichPreview/components/RichPreviewToolbar', module)
   .add('parent wrapped', () => {
     return (
       <div style={divStyle}>
-        <RichPreviewToolbarWrapper />
+        <PreviewToolbarWrapper />
       </div>
     );
   });

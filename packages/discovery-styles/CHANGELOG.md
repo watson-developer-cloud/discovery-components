@@ -165,7 +165,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-- integrate rich preview toolbar ([#165](http:///discovery-styles/issues/165)) ([975e999](http:///discovery-styles/commits/975e999))
+- integrate document preview toolbar ([#165](http:///discovery-styles/issues/165)) ([975e999](http:///discovery-styles/commits/975e999))
 
 # [1.4.0](http:///discovery-styles/compare/@disco-widgets/styles@1.3.0...@disco-widgets/styles@1.4.0) (2019-10-03)
 

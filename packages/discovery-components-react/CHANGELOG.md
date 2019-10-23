@@ -63,7 +63,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-* wire rich preview example ([#164](http:///discovery-components-react/issues/164)) ([92371b3](http:///discovery-components-react/commits/92371b3))
+* wire document preview example ([#164](http:///discovery-components-react/issues/164)) ([92371b3](http:///discovery-components-react/commits/92371b3))
 
 
 
@@ -288,7 +288,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-- integrate rich preview toolbar ([#165](http:///discovery-components-react/issues/165)) ([975e999](http:///discovery-components-react/commits/975e999))
+- integrate document preview toolbar ([#165](http:///discovery-components-react/issues/165)) ([975e999](http:///discovery-components-react/commits/975e999))
 
 ## [1.25.2](http:///discovery-components-react/compare/@disco-widgets/react-components@1.25.1...@disco-widgets/react-components@1.25.2) (2019-10-04)
 
@@ -334,7 +334,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-- store selectedResult inside context for rich preview consumption ([3b1cb56](http:///discovery-components-react/commits/3b1cb56))
+- store selectedResult inside context for document preview consumption ([3b1cb56](http:///discovery-components-react/commits/3b1cb56))
 
 ## [1.21.2](http:///discovery-components-react/compare/@disco-widgets/react-components@1.21.1...@disco-widgets/react-components@1.21.2) (2019-09-27)
 

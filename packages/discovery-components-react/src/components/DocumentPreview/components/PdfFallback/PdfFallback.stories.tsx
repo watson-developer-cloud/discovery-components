@@ -4,7 +4,7 @@ import { storiesOf } from '@storybook/react';
 import PdfFallback from './PdfFallback';
 import docJson from '../../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
 
-storiesOf('RichPreview/components/PdfFallback', module).add('default', () => {
+storiesOf('DocumentPreview/components/PdfFallback', module).add('default', () => {
   return (
     <div style={{ height: '100%' }}>
       <PdfFallback document={docJson} currentPage={1} />

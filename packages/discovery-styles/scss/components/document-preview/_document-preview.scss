@@ -1,19 +1,19 @@
-.#{$prefix}--rich-preview {
+.#{$prefix}--document-preview {
   display: flex;
   flex-flow: column nowrap;
   height: 100%;
 }
 
-.#{$prefix}--rich-preview__document {
+.#{$prefix}--preview__document {
   position: relative;
   overflow: scroll;
 }
 
-.#{$prefix}--rich-preview__document > * {
+.#{$prefix}--preview__document > * {
   width: 100%;
 }
 
-.#{$prefix}--rich-preview__passage {
+.#{$prefix}--document-preview__passage {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -22,7 +22,7 @@
   pointer-events: none;
 }
 
-.#{$prefix}--rich-preview__highlight {
+.#{$prefix}--document-preview__highlight {
   fill: yellow;
   fill-opacity: 0.25;
 }

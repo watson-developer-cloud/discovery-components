@@ -157,7 +157,7 @@ export const PdfFallback: FC<Props> = ({ document, currentPage }) => {
   }, [doRender, processedDoc]);
 
   return (
-    <div className={`${settings.prefix}--rich-preview-pdf-fallback`}>
+    <div className={`${settings.prefix}--document-preview-pdf-fallback`}>
       {doRender ? (
         <>
           <style>{docStyles}</style>

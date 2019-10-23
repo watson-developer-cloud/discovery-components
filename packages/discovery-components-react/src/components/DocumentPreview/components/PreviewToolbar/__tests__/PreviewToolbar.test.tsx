@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { cleanup, render, fireEvent } from '@testing-library/react';
-import RichPreviewToolbar from '../RichPreviewToolbar';
+import PreviewToolbar from '../PreviewToolbar';
 
 let current = 5;
 let zoomLevel = '';
@@ -15,13 +15,13 @@ const zoomUpdate = (newZoom: string): void => {
 
 afterEach(cleanup);
 
-describe('RichPreviewToolbar', () => {
+describe('PreviewToolbar', () => {
   let wrapper: any;
   let toolbarButtons: any;
 
   beforeEach(() => {
     wrapper = render(
-      <RichPreviewToolbar current={current} total={10} onZoom={zoomUpdate} onChange={pageUpdate} />
+      <PreviewToolbar current={current} total={10} onZoom={zoomUpdate} onChange={pageUpdate} />
     );
     toolbarButtons = wrapper.getAllByRole('button');
   });

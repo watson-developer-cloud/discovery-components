@@ -25,7 +25,7 @@ const zoomKnob = {
   defaultValue: '1'
 };
 
-storiesOf('RichPreview/components/PdfViewer', module)
+storiesOf('DocumentPreview/components/PdfViewer', module)
   .addDecorator(withKnobs)
   .add('default', () => {
     const page = number(pageKnob.label, pageKnob.defaultValue, pageKnob.options);

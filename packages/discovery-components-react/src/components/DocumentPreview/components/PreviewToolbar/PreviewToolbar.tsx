@@ -34,9 +34,9 @@ interface Props {
   onChange: (newPage: number) => void;
 }
 
-const base = `${settings.prefix}--rich-preview-toolbar`;
+const base = `${settings.prefix}--preview-toolbar`;
 
-const RichPreviewToolbar: SFC<Props> = ({ loading = false, current, total, onZoom, onChange }) => {
+const PreviewToolbar: SFC<Props> = ({ loading = false, current, total, onZoom, onChange }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -139,4 +139,4 @@ function currentPageChanged(e: Event, onChange: (page: number) => void, inputRef
   onChange(pageInput);
 }
 
-export default RichPreviewToolbar;
+export default PreviewToolbar;

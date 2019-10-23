@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, radios } from '@storybook/addon-knobs';
 import omit from 'lodash/omit';
-import RichPreview from './RichPreview';
+import DocumentPreview from './DocumentPreview';
 import { document as doc } from './__fixtures__/Art Effects.pdf';
 import docPO from './__fixtures__/77219743-PO.pdf.json';
 import docArtEffects from './__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
@@ -19,12 +19,12 @@ const Wrapper: FC<WrapperProps> = ({ children, style = {} }) => (
   </div>
 );
 
-storiesOf('RichPreview', module)
+storiesOf('DocumentPreview', module)
   .addDecorator(withKnobs)
   .add('render PDF file', () => {
     return (
       <Wrapper>
-        <RichPreview document={docArtEffects} file={atob(doc)} />
+        <DocumentPreview document={docArtEffects} file={atob(doc)} />
       </Wrapper>
     );
   })
@@ -50,7 +50,7 @@ storiesOf('RichPreview', module)
 
     return (
       <Wrapper>
-        <RichPreview document={docs[docname]} />
+        <DocumentPreview document={docs[docname]} />
       </Wrapper>
     );
   })
@@ -75,7 +75,7 @@ storiesOf('RichPreview', module)
 
     return (
       <Wrapper style={{ height: '90vh' }}>
-        <RichPreview document={docWithPassage} />
+        <DocumentPreview document={docWithPassage} />
       </Wrapper>
     );
   })
@@ -87,7 +87,7 @@ storiesOf('RichPreview', module)
     };
     return (
       <Wrapper>
-        <RichPreview file={atob(doc)} document={docWithPassage} />
+        <DocumentPreview file={atob(doc)} document={docWithPassage} />
       </Wrapper>
     );
   })
@@ -99,7 +99,7 @@ storiesOf('RichPreview', module)
     };
     return (
       <Wrapper>
-        <RichPreview file={atob(doc)} document={docWithPassage} />
+        <DocumentPreview file={atob(doc)} document={docWithPassage} />
       </Wrapper>
     );
   });
