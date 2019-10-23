@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.13.1](http:///discovery-styles/compare/@disco-widgets/styles@1.13.0...@disco-widgets/styles@1.13.1) (2019-10-23)
+
+
+### Bug Fixes
+
+* rename richPreview to DocumentPreview ([#254](http:///discovery-styles/issues/254)) ([71d8fd9](http:///discovery-styles/commits/71d8fd9))
+
+
+
+
+
 # [1.13.0](http:///discovery-styles/compare/@disco-widgets/styles@1.12.0...@disco-widgets/styles@1.13.0) (2019-10-21)
 
 

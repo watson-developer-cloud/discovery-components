@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.41.2](http:///discovery-components-react/compare/@disco-widgets/react-components@1.41.1...@disco-widgets/react-components@1.41.2) (2019-10-23)
+
+
+### Bug Fixes
+
+* Iron out interaction between autocomplete and spell checking ([#249](http:///discovery-components-react/issues/249)) ([541000d](http:///discovery-components-react/commits/541000d))
+* rename richPreview to DocumentPreview ([#254](http:///discovery-components-react/issues/254)) ([71d8fd9](http:///discovery-components-react/commits/71d8fd9))
+
+
+
+
+
 ## [1.41.1](http:///discovery-components-react/compare/@disco-widgets/react-components@1.41.0...@disco-widgets/react-components@1.41.1) (2019-10-22)
 
 

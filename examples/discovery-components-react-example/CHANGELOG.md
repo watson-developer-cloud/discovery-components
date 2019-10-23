@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.20.4](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.20.3...discovery-components-react-example@1.20.4) (2019-10-23)
+
+
+### Bug Fixes
+
+* rename richPreview to DocumentPreview ([#254](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/254)) ([71d8fd9](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/71d8fd9))
+
+
+
+
+
 ## [1.20.3](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.20.2...discovery-components-react-example@1.20.3) (2019-10-22)
 
 **Note:** Version bump only for package discovery-components-react-example
