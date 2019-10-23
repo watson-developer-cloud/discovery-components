@@ -99,19 +99,28 @@ describe('<SearchInput />', () => {
     });
 
     describe('clicking on suggestion', () => {
-      test('updates query', () => {
+      let spellingCorrection: HTMLElement;
+      beforeEach(() => {
+        // set the input value
         fireEvent.change(input, { target: { value: 'cunnigham' } });
         expect((input as HTMLInputElement).value).toBe('cunnigham');
 
-        const spellingCorrection = searchComponent.getByText('cunningham');
+        // reset the mock methods
+        onUpdateQueryOptionsMock.mockReset();
+        onSearchMock.mockReset();
+        onFetchCompletionsMock.mockReset();
+
+        // click on the suggestion
+        spellingCorrection = searchComponent.getByText('cunningham');
+        fireEvent.focus(spellingCorrection);
         fireEvent.click(spellingCorrection);
+      });
+
+      test('updates query', () => {
         expect((input as HTMLInputElement).value).toBe('cunningham');
       });
 
       test('updates nlq search param', () => {
-        const spellingCorrection = searchComponent.getByText('cunningham');
-        onUpdateQueryOptionsMock.mockReset();
-        fireEvent.click(spellingCorrection);
         expect(onUpdateQueryOptionsMock).toBeCalledTimes(1);
         expect(onUpdateQueryOptionsMock).toBeCalledWith({
           natural_language_query: 'cunningham',
@@ -121,16 +130,10 @@ describe('<SearchInput />', () => {
       });
 
       test('calls onSearch', () => {
-        const spellingCorrection = searchComponent.getByText('cunningham');
-        onSearchMock.mockReset();
-        fireEvent.click(spellingCorrection);
         expect(onSearchMock).toBeCalledTimes(1);
       });
 
       test('does not call onFetchCompletionsMock', () => {
-        const spellingCorrection = searchComponent.getByText('cunningham');
-        onFetchCompletionsMock.mockReset();
-        fireEvent.click(spellingCorrection);
         expect(onFetchCompletionsMock).not.toBeCalled();
       });
     });

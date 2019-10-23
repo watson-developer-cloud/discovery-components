@@ -133,10 +133,15 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
     };
   };
 
-  const handleAutocompletionOnFocus = (): void => {
-    // cancel the timeout set in handleOnBlur
-    clearTimeout(focusTimeout);
-    setFocused(true);
+  const searchAndBlur = (): void => {
+    searchContext.onSearch();
+
+    // The carbon Search component doesn't seem to use ForwardRef
+    // so looking up by ID for now.
+    const searchInput = document.getElementById(`${inputId}_input_field`);
+    if (searchInput !== null) {
+      searchInput.blur();
+    }
   };
 
   const setQueryOptions = (nlq: string): void => {
@@ -177,11 +182,11 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
   const handleOnKeyUp = (evt: React.KeyboardEvent<EventTarget>): void => {
     if (evt.key === 'Enter') {
       setQueryOptions(value);
-      searchContext.onSearch();
+      searchAndBlur();
     }
   };
 
-  // onFocus for the entire SearchInput
+  // onFocus for the carbon search component and the autocomplete dropdown
   const handleOnFocus = (): void => {
     // cancel the timeout set in handleOnBlur
     clearTimeout(focusTimeout);
@@ -201,7 +206,7 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
       setSkipFetchAutoCompletions(true);
       setValue(suggestedQuery);
       setQueryOptions(suggestedQuery);
-      searchContext.onSearch();
+      searchAndBlur();
     }
   };
 
@@ -216,7 +221,6 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
           id={`autocompletion_${i}_field`}
           tabIndex="0"
           className={`${autocompletionClassName}__item`}
-          onFocus={handleAutocompletionOnFocus}
           onClick={setupHandleAutocompletionOnClick(i)}
           onKeyUp={setupHandleAutocompletionKeyUp(i)}
         >
@@ -237,25 +241,26 @@ export const SearchInput: React.SFC<SearchInputProps> = props => {
       className={className}
       id={inputId}
       data-testid="search-input-test-id"
-      onFocus={handleOnFocus}
       onBlur={handleOnBlur}
     >
-      <CarbonSearchInput
-        small={small}
-        placeHolderText={placeHolderText}
-        onKeyUp={handleOnKeyUp}
-        onChange={handleOnChange}
-        labelText={labelText}
-        light={light}
-        closeButtonLabelText={closeButtonLabelText}
-        value={value}
-        id={`${inputId}_input_field`}
-      />
-      {shouldShowCompletions && (
-        <div className={autocompletionClassName} data-testid="completions-dropdown-test-id">
-          {autocompletionsList}
-        </div>
-      )}
+      <div onFocus={handleOnFocus}>
+        <CarbonSearchInput
+          small={small}
+          placeHolderText={placeHolderText}
+          onKeyUp={handleOnKeyUp}
+          onChange={handleOnChange}
+          labelText={labelText}
+          light={light}
+          closeButtonLabelText={closeButtonLabelText}
+          value={value}
+          id={`${inputId}_input_field`}
+        />
+        {shouldShowCompletions && (
+          <div className={autocompletionClassName} data-testid="completions-dropdown-test-id">
+            {autocompletionsList}
+          </div>
+        )}
+      </div>
       {!!suggestedQuery && (
         <div className={spellingSuggestionWrapperClassName}>
           {spellingSuggestionsPrefix}

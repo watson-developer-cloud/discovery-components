@@ -4,6 +4,7 @@ import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
 import SearchInput from './SearchInput';
 import { DiscoverySearch, DiscoverySearchProps } from '../DiscoverySearch/DiscoverySearch';
 import { StoryWrapper } from '../../utils/storybookUtils';
+import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 
 const props = () => ({
   className: text('ClassName', ''),
@@ -26,12 +27,14 @@ const props = () => ({
   )
 });
 
+let currentValue = ''; // used for autocomplete suggestions
 let autocompletions: string[] = [];
 
 const generateCompletionsArray = (length: number) => {
   const completionsArray = [];
   for (let i = 0; i < length; i++) {
-    completionsArray.push(`autocomplete suggestion ${i + 1}`);
+    const defaultText = `autocomplete-suggestion-${i + 1}`;
+    completionsArray.push(currentValue + defaultText.slice(currentValue.length));
   }
   return completionsArray;
 };
@@ -40,7 +43,9 @@ class DummyClient {
   query() {
     return Promise.resolve({});
   }
-  getAutocompletion() {
+  getAutocompletion(params: DiscoveryV1.GetAutocompletionParams) {
+    currentValue = params.prefix || '';
+    autocompletions = generateCompletionsArray(params.count || 0);
     return Promise.resolve({ completions: autocompletions });
   }
   listCollections() {
