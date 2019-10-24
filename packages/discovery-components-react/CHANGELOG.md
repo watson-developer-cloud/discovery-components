@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.42.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.41.4...@disco-widgets/react-components@1.42.0) (2019-10-24)
+
+
+### Features
+
+* handle nested/filter aggregations ([#269](http:///discovery-components-react/issues/269)) ([ce2f1c5](http:///discovery-components-react/commits/ce2f1c5))
+
+
+
+
+
 ## [1.41.4](http:///discovery-components-react/compare/@disco-widgets/react-components@1.41.3...@disco-widgets/react-components@1.41.4) (2019-10-23)
 
 
