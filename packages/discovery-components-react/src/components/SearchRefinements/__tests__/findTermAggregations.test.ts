@@ -1,0 +1,138 @@
+import { findTermAggregations } from '../utils/findTermAggregations';
+import { QueryTermAggregation } from '../utils/searchRefinementInterfaces';
+import {
+  twoTermAggs,
+  nestedTermAgg,
+  nestedFilterTermAgg,
+  twoNestedFilterTermAgg
+} from '../fixtures/aggregationResponses';
+
+describe('findTermAggregations', () => {
+  it('keeps two term aggregations the same', () => {
+    const termAggregations: QueryTermAggregation[] = findTermAggregations(twoTermAggs.aggregations);
+    expect(termAggregations).toEqual([
+      {
+        type: 'term',
+        field: 'author',
+        count: 3,
+        results: [
+          {
+            key: 'ABMN Staff',
+            matching_results: 138993
+          },
+          {
+            key: 'News Staff',
+            matching_results: 57158
+          },
+          {
+            key: 'editor',
+            matching_results: 32444
+          }
+        ]
+      },
+      {
+        type: 'term',
+        field: 'subject',
+        count: 4,
+        results: [
+          {
+            key: 'Animals',
+            matching_results: 138993
+          },
+          {
+            key: 'People',
+            matching_results: 133760
+          },
+          {
+            key: 'Places',
+            matching_results: 129139
+          },
+          {
+            key: 'Things',
+            matching_results: 76403
+          }
+        ]
+      }
+    ]);
+  });
+
+  it('removes a top level nested aggregation to retrieve second level term aggregation', () => {
+    const termAggregations: QueryTermAggregation[] = findTermAggregations(
+      nestedTermAgg.aggregations
+    );
+    expect(termAggregations).toEqual([
+      {
+        type: 'term',
+        field: 'enriched_text.entities.text',
+        results: [
+          {
+            key: 'United States',
+            matching_results: 863358
+          },
+          {
+            key: 'Twitter',
+            matching_results: 825192
+          }
+        ]
+      }
+    ]);
+  });
+
+  it('removes a top level nested aggregation and second level filter aggregation to retrieve third level term aggrgation', () => {
+    const termAggregations: QueryTermAggregation[] = findTermAggregations(
+      nestedFilterTermAgg.aggregations
+    );
+    expect(termAggregations).toEqual([
+      {
+        type: 'term',
+        field: 'enriched_text.entities.text',
+        results: [
+          {
+            key: 'Twitter',
+            matching_results: 825192
+          },
+          {
+            key: 'Facebook',
+            matching_results: 793668
+          }
+        ]
+      }
+    ]);
+  });
+
+  it('removes 2 top level nested aggregation and second level filter aggregation to retrieve both third level term aggrgations', () => {
+    const termAggregations: QueryTermAggregation[] = findTermAggregations(
+      twoNestedFilterTermAgg.aggregations
+    );
+    expect(termAggregations).toEqual([
+      {
+        type: 'term',
+        field: 'enriched_text.entities.text',
+        results: [
+          {
+            key: 'Twitter',
+            matching_results: 825192
+          },
+          {
+            key: 'Facebook',
+            matching_results: 793668
+          }
+        ]
+      },
+      {
+        type: 'term',
+        field: 'enriched_text.entities.text',
+        results: [
+          {
+            key: 'Twitter',
+            matching_results: 825192
+          },
+          {
+            key: 'Facebook',
+            matching_results: 793668
+          }
+        ]
+      }
+    ]);
+  });
+});

@@ -2,7 +2,7 @@ import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 import { QueryTermAggregation } from '../utils/searchRefinementInterfaces';
 
 interface QueryResponseWithTermAggregation extends DiscoveryV1.QueryResponse {
-  aggregations?: Array<QueryTermAggregation>;
+  aggregations?: QueryTermAggregation[];
 }
 
 const refinementsQueryResponse: QueryResponseWithTermAggregation = {
