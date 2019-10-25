@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.20.8](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.20.7...discovery-components-react-example@1.20.8) (2019-10-25)
+
+
+### Bug Fixes
+
+* update setSelectedResult in example app ([#272](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/272)) ([1af5039](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/1af5039))
+
+
+
+
+
 ## [1.20.7](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.20.6...discovery-components-react-example@1.20.7) (2019-10-24)
 
 **Note:** Version bump only for package discovery-components-react-example
