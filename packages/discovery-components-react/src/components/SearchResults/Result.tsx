@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 import get from 'lodash/get';
-import isEqual from 'lodash.isequal';
+import isEqual from 'lodash/isEqual';
 import { settings } from 'carbon-components';
 import Document16 from '@carbon/icons-react/lib/document/16.js';
 import { SearchApi, SearchContext } from '../DiscoverySearch/DiscoverySearch';

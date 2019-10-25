@@ -2,7 +2,7 @@ import { SearchFilterTransform } from './searchFilterTransform';
 import { QueryTermAggregation, SelectableAggregationResult } from './searchRefinementInterfaces';
 import { findTermAggregations } from './findTermAggregations';
 import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
-import get from 'lodash.get';
+import get from 'lodash/get';
 import unionBy from 'lodash/unionBy';
 
 export const mergeFilterRefinements = (

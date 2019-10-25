@@ -1,6 +1,6 @@
 import React, { FC, useContext, SyntheticEvent } from 'react';
 import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
-import get from 'lodash.get';
+import get from 'lodash/get';
 import findIndex from 'lodash/findIndex';
 import { settings } from 'carbon-components';
 import { Checkbox as CarbonCheckbox } from 'carbon-components-react';

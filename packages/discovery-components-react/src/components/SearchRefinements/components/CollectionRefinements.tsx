@@ -1,5 +1,5 @@
 import React, { FC, useContext } from 'react';
-import get from 'lodash.get';
+import get from 'lodash/get';
 import { SearchContext, SearchApi } from '../../DiscoverySearch/DiscoverySearch';
 import { MultiSelect as CarbonMultiSelect } from 'carbon-components-react';
 import { settings } from 'carbon-components';
