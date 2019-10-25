@@ -113,7 +113,8 @@ describe('FieldRefinementsComponent', () => {
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
           filter: 'subject:Animals'
-        })
+        }),
+        false
       );
     });
 
@@ -126,7 +127,8 @@ describe('FieldRefinementsComponent', () => {
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
           filter: 'subject:Animals|People'
-        })
+        }),
+        false
       );
     });
 
@@ -139,7 +141,8 @@ describe('FieldRefinementsComponent', () => {
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
           filter: 'author:News Staff,subject:Animals'
-        })
+        }),
+        false
       );
     });
   });
@@ -157,7 +160,8 @@ describe('FieldRefinementsComponent', () => {
         expect.objectContaining({
           filter: '',
           offset: 0
-        })
+        }),
+        false
       );
     });
   });

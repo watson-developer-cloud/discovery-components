@@ -75,7 +75,10 @@ export interface SearchContextIFC {
 }
 
 export interface SearchApiIFC {
-  performSearch: (searchParameters: DiscoveryV1.QueryParams) => Promise<void>;
+  performSearch: (
+    searchParameters: DiscoveryV1.QueryParams,
+    resetAggregations?: boolean
+  ) => Promise<void>;
   fetchAutocompletions: (nlq: string) => Promise<void>;
   fetchAggregations: (searchParameters: DiscoveryV1.QueryParams) => Promise<void>;
   setSelectedResult: (
@@ -240,11 +243,11 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
   );
 
   const handleSearch = useCallback(
-    async (searchParameters): Promise<void> => {
+    async (searchParameters, resetAggregations = true): Promise<void> => {
       setSearchParameters(searchParameters);
       const searchResponse: DiscoveryV1.QueryResponse = await searchClient.query(searchParameters);
       setSearchResponse(searchResponse);
-      if (searchResponse) {
+      if (searchResponse && resetAggregations) {
         const { aggregations } = searchResponse;
         setAggregationResults({ aggregations });
       }

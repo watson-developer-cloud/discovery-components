@@ -50,7 +50,8 @@ describe('ResultsPaginationComponent', () => {
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
           offset: 10
-        })
+        }),
+        false
       );
     });
   });
@@ -65,7 +66,8 @@ describe('ResultsPaginationComponent', () => {
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
           offset: 20
-        })
+        }),
+        false
       );
     });
   });

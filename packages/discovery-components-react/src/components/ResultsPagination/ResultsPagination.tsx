@@ -27,7 +27,7 @@ export const ResultsPagination: FC<ResultsPaginationProps> = ({ page, pageSizes 
   const handleOnChange = (evt: ResultsPaginationEvent): void => {
     const { page, pageSize } = evt;
     const offset = (page - 1) * pageSize;
-    performSearch({ ...searchParameters, offset });
+    performSearch({ ...searchParameters, offset }, false);
   };
 
   return (

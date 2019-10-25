@@ -62,7 +62,7 @@ export const FieldRefinements: FC<FieldRefinementsProps> = ({ allRefinements }) 
     }
 
     const filter = SearchFilterTransform.toString(allRefinements);
-    performSearch({ ...searchParameters, offset: 0, filter });
+    performSearch({ ...searchParameters, offset: 0, filter }, false);
   };
 
   return (
