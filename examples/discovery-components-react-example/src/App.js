@@ -5,6 +5,7 @@ import './app.scss';
 import {
   DiscoverySearch,
   SearchContext,
+  SearchApi,
   SearchInput,
   SearchResults,
   SearchRefinements,
@@ -61,11 +62,11 @@ function SearchPage() {
 }
 
 function PreviewPage() {
-  const { onSelectResult } = useContext(SearchContext);
+  const { setSelectedResult } = useContext(SearchApi);
 
   function back(evt) {
     evt.preventDefault();
-    onSelectResult(null);
+    setSelectedResult(null);
   }
 
   return (
