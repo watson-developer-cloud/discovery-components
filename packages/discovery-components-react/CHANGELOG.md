@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.42.3](http:///discovery-components-react/compare/@disco-widgets/react-components@1.42.2...@disco-widgets/react-components@1.42.3) (2019-10-28)
+
+
+### Bug Fixes
+
+* Quote selected aggretion terms in filter field ([#271](http:///discovery-components-react/issues/271)) ([ebd9d08](http:///discovery-components-react/commits/ebd9d08))
+
+
+
+
+
 ## [1.42.2](http:///discovery-components-react/compare/@disco-widgets/react-components@1.42.1...@disco-widgets/react-components@1.42.2) (2019-10-25)
 
 **Note:** Version bump only for package @disco-widgets/react-components

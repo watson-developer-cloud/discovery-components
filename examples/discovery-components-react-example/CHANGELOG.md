@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.20.10](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.20.9...discovery-components-react-example@1.20.10) (2019-10-28)
+
+
+### Bug Fixes
+
+* Quote selected aggretion terms in filter field ([#271](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/271)) ([ebd9d08](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/ebd9d08))
+
+
+
+
+
 ## [1.20.9](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.20.8...discovery-components-react-example@1.20.9) (2019-10-25)
 
 **Note:** Version bump only for package discovery-components-react-example
