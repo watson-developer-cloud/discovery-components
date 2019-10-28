@@ -41,6 +41,12 @@ class CustomSearchClient {
   ): Promise<void> {
     action('listCollection')(listCollectionParams);
   }
+
+  public async getComponentSettings(
+    getComponentSettingsParams: DiscoveryV1.GetComponentSettingsParams
+  ): Promise<void> {
+    action('getComponentSettings')(getComponentSettingsParams);
+  }
 }
 
 const customSearchClientProps = (): DiscoverySearchProps => ({

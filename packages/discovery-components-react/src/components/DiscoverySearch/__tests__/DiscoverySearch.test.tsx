@@ -24,6 +24,9 @@ const setup = (props: Partial<DiscoverySearchProps>, children: JSX.Element): Set
     getAutocompletion(): Promise<void> {
       return Promise.resolve();
     }
+    getComponentSettings(): Promise<void> {
+      return Promise.resolve();
+    }
   }
   const searchClient = new DummyClient();
   const defaultProps: DiscoverySearchProps = {

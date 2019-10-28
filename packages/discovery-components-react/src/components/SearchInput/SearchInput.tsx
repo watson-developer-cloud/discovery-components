@@ -1,3 +1,5 @@
+import get from 'lodash/get';
+
 /**
  * @class SearchInput
  */
@@ -87,7 +89,7 @@ export const SearchInput: FC<SearchInputProps> = props => {
     id,
     splitSearchQuerySelector = ' ' as string,
     completionsCount = 5,
-    showAutocomplete = true,
+    showAutocomplete,
     minCharsToAutocomplete = 0,
     spellingSuggestions,
     spellingSuggestionsPrefix = 'Did you mean:'
@@ -97,7 +99,16 @@ export const SearchInput: FC<SearchInputProps> = props => {
   const autocompletionClassName = `${settings.prefix}--search-autocompletion`;
   const spellingSuggestionClassName = `${settings.prefix}--spelling-suggestion`;
   const spellingSuggestionWrapperClassName = `${settings.prefix}--spelling-suggestion__wrapper`;
-  const { searchParameters, searchResponse, autocompletionResults } = useContext(SearchContext);
+  const { searchParameters, searchResponse, autocompletionResults, componentSettings } = useContext(
+    SearchContext
+  );
+  const displaySettings = {
+    showAutocomplete:
+      showAutocomplete === undefined
+        ? get(componentSettings, 'autocomplete', true)
+        : showAutocomplete
+  };
+
   const {
     performSearch,
     fetchAutocompletions,
@@ -188,13 +199,13 @@ export const SearchInput: FC<SearchInputProps> = props => {
 
   useEffect(() => {
     setAutocompletionOptions({
-      updateAutocompletions: showAutocomplete,
+      updateAutocompletions: displaySettings.showAutocomplete,
       completionsCount: completionsCount,
       minCharsToAutocomplete: minCharsToAutocomplete,
       splitSearchQuerySelector: splitSearchQuerySelector
     });
   }, [
-    showAutocomplete,
+    displaySettings.showAutocomplete,
     completionsCount,
     minCharsToAutocomplete,
     splitSearchQuerySelector,
@@ -236,7 +247,8 @@ export const SearchInput: FC<SearchInputProps> = props => {
     }
   };
 
-  const shouldShowCompletions = lastWordOfValue !== '' && showAutocomplete && focused;
+  const shouldShowCompletions =
+    lastWordOfValue !== '' && displaySettings.showAutocomplete && focused;
   const autocompletionsList = completions.map((completion, i) => {
     const suffix = completion.slice((lastWordOfValue as string).length);
     return (

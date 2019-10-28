@@ -51,6 +51,9 @@ class DummyClient {
   listCollections() {
     return Promise.resolve();
   }
+  getComponentSettings() {
+    return Promise.resolve();
+  }
 }
 
 const discoverySearchProps = (): DiscoverySearchProps => ({

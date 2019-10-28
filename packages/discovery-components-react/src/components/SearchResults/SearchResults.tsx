@@ -3,9 +3,9 @@ import { SearchApi, SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 
 import { Result } from './Result';
-import { findCollectionName } from './utils/findCollectionName';
+import { findCollectionName, getDisplaySettings } from './utils';
 
-interface SearchResultsProps {
+export interface SearchResultsProps {
   /**
    * specify a field on the result object to pull the result title from
    */
@@ -15,7 +15,7 @@ interface SearchResultsProps {
    */
   resultLinkField?: string;
   /**
-   * specify a string template using mustache templating syntax https://github.com/janl/mustache.js to pull the result link from
+   * specify a string template using mustache templating syntax https://github.com/janl/mustache.js to create the title from each result object
    */
   resultLinkTemplate?: string;
   /**
@@ -44,14 +44,20 @@ interface SearchResultsProps {
 export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   resultLinkField,
   resultLinkTemplate,
-  resultTitleField = 'extracted_metadata.title',
-  bodyField = 'text',
-  usePassages = true,
+  resultTitleField,
+  bodyField,
+  usePassages,
   passageLength,
   passageHighlightsClassName,
   collectionLabel = 'Collection Name:'
 }) => {
-  const { searchResponse, collectionsResults } = useContext(SearchContext);
+  const { searchResponse, collectionsResults, componentSettings } = useContext(SearchContext);
+
+  const displaySettings = getDisplaySettings(
+    { resultTitleField, bodyField, usePassages },
+    componentSettings
+  );
+
   const { setSearchParameters } = useContext(SearchApi);
   const matchingResults = (searchResponse && searchResponse.matching_results) || 0;
   const results = (searchResponse && searchResponse.results) || [];
@@ -80,14 +86,14 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
             <Result
               key={result.document_id}
               result={result}
-              resultTitleField={resultTitleField}
               resultLinkField={resultLinkField}
               resultLinkTemplate={resultLinkTemplate}
-              bodyField={bodyField}
-              usePassages={usePassages}
               passageHighlightsClassName={passageHighlightsClassName}
               collectionName={collectionName}
               collectionLabel={collectionLabel}
+              bodyField={displaySettings.bodyField}
+              usePassages={displaySettings.usePassages}
+              resultTitleField={displaySettings.resultTitleField}
             />
           );
         })}

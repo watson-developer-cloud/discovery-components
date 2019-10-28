@@ -82,4 +82,64 @@ describe('<SearchResults />', () => {
       expect(setSearchParametersMock).toBeCalledTimes(0);
     });
   });
+
+  describe('when there are component settings in context', () => {
+    const context: Partial<SearchContextIFC> = {
+      componentSettings: {
+        fields_shown: {
+          body: {
+            use_passage: true
+          },
+          title: {
+            field: 'titleField'
+          }
+        }
+      },
+      searchResponse: {
+        matching_results: 1,
+        results: [
+          {
+            document_id: 'document_id',
+            titleField: 'this title comes from the titleField',
+            document_passages: [
+              {
+                passage_text: 'this is the first passage text'
+              }
+            ],
+            overwrittenTitleField: 'this title comes from the overwritten title field',
+            overwrittenBodyField: 'this body text comes from the overwritten body field'
+          }
+        ]
+      }
+    };
+    const api: Partial<SearchApiIFC> = {};
+
+    describe('and none of those settings are overwritten as props on SearchResults', () => {
+      test('should render with component settings', () => {
+        const { getByText } = render(wrapWithContext(<SearchResults />, api, context));
+        expect(getByText('this is the first passage text')).toBeInTheDocument();
+        expect(getByText('this title comes from the titleField')).toBeInTheDocument();
+      });
+    });
+
+    describe('and some of those settings are overwritten as props on SearchResults', () => {
+      test('should render with the overwritten properties', () => {
+        const { getByText } = render(
+          wrapWithContext(
+            <SearchResults
+              usePassages={false}
+              bodyField={'overwrittenBodyField'}
+              resultTitleField={'overwrittenTitleField'}
+            />,
+            api,
+            context
+          )
+        );
+        expect(getByText('this title comes from the overwritten title field')).toBeInTheDocument();
+        expect(
+          getByText('this body text comes from the overwritten body field')
+        ).toBeInTheDocument();
+      });
+    });
+  });
 });

@@ -19,7 +19,7 @@ import { SearchInput } from '../SearchInput';
 const PLACE_HOLDER_TEXT = 'Type query term...';
 const CLOSE_BUTTON_LABEL_TEXT = 'clear input label text';
 const COMPLETIONS = ['some', 'someone', 'solar', 'somatic', 'soke'];
-
+const SEARCHINPUTVALUE = 'so';
 const expectNoCompletionsDropdown = (container: HTMLElement): void => {
   expect(queryByTestId(container, 'completions-dropdown-test-id')).toBeNull();
 };
@@ -40,11 +40,11 @@ describe('<SearchInput />', () => {
       container = searchInput.container;
       input = getByPlaceholderText(container, PLACE_HOLDER_TEXT) as HTMLInputElement;
       fireEvent.focus(input);
-      fireEvent.change(input, { target: { value: 'so' } });
+      fireEvent.change(input, { target: { value: SEARCHINPUTVALUE } });
     });
 
     test('the input has value "so"', () => {
-      expect(input.value).toBe('so');
+      expect(input.value).toBe(SEARCHINPUTVALUE);
     });
 
     describe('when we click the clear button', () => {
@@ -149,6 +149,91 @@ describe('<SearchInput />', () => {
       }
     };
 
+    describe('when we have component settings', () => {
+      context.componentSettings = {
+        autocomplete: false
+      };
+      describe('and there are no display parameters passed on SearchInput', () => {
+        beforeEach(() => {
+          const searchInput: RenderResult = render(
+            wrapWithContext(<SearchInput placeHolderText={PLACE_HOLDER_TEXT} />, {}, context)
+          );
+          container = searchInput.container;
+          input = getByPlaceholderText(container, PLACE_HOLDER_TEXT) as HTMLInputElement;
+        });
+        describe('when we type "so" into the input', () => {
+          beforeEach(() => {
+            fireEvent.focus(input);
+            fireEvent.change(input, { target: { value: SEARCHINPUTVALUE } });
+          });
+
+          test('no autocompletions are displayed', () => {
+            expectNoCompletionsDropdown(container);
+          });
+        });
+      });
+      describe('and there are some display parameters passed on SearchInput', () => {
+        describe('when showAutocomplete is true', () => {
+          beforeEach(() => {
+            const searchInput: RenderResult = render(
+              wrapWithContext(
+                <SearchInput placeHolderText={PLACE_HOLDER_TEXT} showAutocomplete={true} />,
+                {},
+                context
+              )
+            );
+            container = searchInput.container;
+            input = getByPlaceholderText(container, PLACE_HOLDER_TEXT) as HTMLInputElement;
+          });
+
+          describe('when we type "so" into the input', () => {
+            let completionsDropdown: HTMLElement;
+            beforeEach(() => {
+              fireEvent.focus(input);
+              fireEvent.change(input, { target: { value: SEARCHINPUTVALUE } });
+              completionsDropdown = getByTestId(container, 'completions-dropdown-test-id');
+            });
+
+            test('renders list of completions', () => {
+              // since current value is in a <strong>, look for all iterations of that, then each of the suffixes separately
+              expect(getAllByText(completionsDropdown, SEARCHINPUTVALUE).length).toBe(
+                COMPLETIONS.length
+              );
+              COMPLETIONS.forEach(completion => {
+                const suffix = completion.slice(SEARCHINPUTVALUE.length); // everything after 'so'
+                expect(getByText(container, suffix)).toBeTruthy();
+              });
+            });
+          });
+        });
+
+        describe('when showAutocomplete is false', () => {
+          beforeEach(() => {
+            const searchInput: RenderResult = render(
+              wrapWithContext(
+                <SearchInput placeHolderText={PLACE_HOLDER_TEXT} showAutocomplete={false} />,
+                {},
+                context
+              )
+            );
+            container = searchInput.container;
+            input = getByPlaceholderText(container, PLACE_HOLDER_TEXT) as HTMLInputElement;
+          });
+
+          describe('when we type "so" into the input', () => {
+            beforeEach(() => {
+              fireEvent.focus(input);
+              fireEvent.change(input, { target: { value: SEARCHINPUTVALUE } });
+            });
+
+            test('no autocompletions are displayed', () => {
+              expectNoCompletionsDropdown(container);
+            });
+          });
+        });
+      });
+    });
+
     describe('when showAutocomplete is true', () => {
       beforeEach(() => {
         const searchInput: RenderResult = render(
@@ -166,13 +251,15 @@ describe('<SearchInput />', () => {
         let completionsDropdown: HTMLElement;
         beforeEach(() => {
           fireEvent.focus(input);
-          fireEvent.change(input, { target: { value: 'so' } });
+          fireEvent.change(input, { target: { value: SEARCHINPUTVALUE } });
           completionsDropdown = getByTestId(container, 'completions-dropdown-test-id');
         });
 
         test('renders list of completions', () => {
           // since current value is in a <strong>, look for all iterations of that, then each of the suffixes separately
-          expect(getAllByText(completionsDropdown, 'so').length).toBe(COMPLETIONS.length);
+          expect(getAllByText(completionsDropdown, SEARCHINPUTVALUE).length).toBe(
+            COMPLETIONS.length
+          );
           COMPLETIONS.forEach(completion => {
             const suffix = completion.slice(2); // everything after 'so'
             expect(getByText(container, suffix)).toBeTruthy();
@@ -263,7 +350,7 @@ describe('<SearchInput />', () => {
       describe('when we type "so" into the input', () => {
         beforeEach(() => {
           fireEvent.focus(input);
-          fireEvent.change(input, { target: { value: 'so' } });
+          fireEvent.change(input, { target: { value: SEARCHINPUTVALUE } });
         });
 
         test('no autocompletions are displayed', () => {

@@ -15,7 +15,10 @@ export interface DiscoverySearchProps {
   /**
    * Search client
    */
-  searchClient: Pick<DiscoveryV1, 'query' | 'getAutocompletion' | 'listCollections'>;
+  searchClient: Pick<
+    DiscoveryV1,
+    'query' | 'getAutocompletion' | 'listCollections' | 'getComponentSettings'
+  >;
   /**
    * Project ID
    */
@@ -44,6 +47,10 @@ export interface DiscoverySearchProps {
    * overrideCollectionsResults is used to override internal collections result state
    */
   overrideCollectionsResults?: DiscoveryV1.ListCollectionsResponse;
+  /**
+   * overrideComponentSettings is used to override internal collections result state
+   */
+  overrideComponentSettings?: DiscoveryV1.ComponentSettingsResponse;
 }
 
 export interface AutocompletionOptions {
@@ -72,6 +79,7 @@ export interface SearchContextIFC {
   collectionsResults: DiscoveryV1.ListCollectionsResponse | null;
   selectedResult: DiscoveryV1.QueryResult | null;
   autocompletionResults: DiscoveryV1.Completions | null;
+  componentSettings: DiscoveryV1.ComponentSettingsResponse | null;
 }
 
 export interface SearchApiIFC {
@@ -96,6 +104,7 @@ export const searchApiDefaults = {
   performSearch: (): Promise<void> => Promise.resolve(),
   fetchAutocompletions: (): Promise<void> => Promise.resolve(),
   fetchAggregations: (): Promise<void> => Promise.resolve(),
+  fetchComponentSettings: (): Promise<void> => Promise.resolve(),
   setSelectedResult: (): void => {},
   setAutocompletionOptions: (): void => {},
   setSearchParameters: (): void => {}
@@ -109,7 +118,8 @@ export const searchContextDefaults = {
   },
   collectionsResults: null,
   selectedResult: null,
-  autocompletionResults: null
+  autocompletionResults: null,
+  componentSettings: null
 };
 
 export const SearchApi = createContext<SearchApiIFC>(searchApiDefaults);
@@ -124,6 +134,7 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
   overrideSelectedResult = null,
   overrideAutocompletionResults = null,
   overrideCollectionsResults = null,
+  overrideComponentSettings = null,
   children
 }) => {
   const [searchResponse, setSearchResponse] = useState<DiscoveryV1.QueryResponse | null>(
@@ -148,6 +159,11 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
   const [selectedResult, setSelectedResult] = useState<DiscoveryV1.QueryResult | null>(
     overrideSelectedResult
   );
+
+  const [
+    componentSettings,
+    setComponentSettings
+  ] = useState<DiscoveryV1.ComponentSettingsResponse | null>(overrideComponentSettings);
 
   useDeepCompareEffect(() => {
     setSearchParameters(currentSearchParameters => {
@@ -183,7 +199,11 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
     async function fetchCollections(): Promise<void> {
       setCollectionsResults(await searchClient.listCollections({ project_id: projectId }));
     }
+    async function getComponentSettings(): Promise<void> {
+      setComponentSettings(await searchClient.getComponentSettings({ project_id: projectId }));
+    }
     fetchCollections();
+    getComponentSettings();
   }, [searchClient, projectId]);
 
   // helper method that handles the logic to fetch completions whenever the search query is updated
@@ -273,7 +293,8 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
       searchParameters,
       searchResponse,
       selectedResult,
-      collectionsResults
+      collectionsResults,
+      componentSettings
     };
   }, [
     autocompletionResults,
@@ -282,7 +303,8 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
     autocompletionResults,
     searchParameters,
     searchResponse,
-    selectedResult
+    selectedResult,
+    componentSettings
   ]);
 
   return (
