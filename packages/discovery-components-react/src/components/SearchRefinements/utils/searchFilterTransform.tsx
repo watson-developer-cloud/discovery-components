@@ -2,21 +2,26 @@ import get from 'lodash/get';
 import { QueryTermAggregation, SelectableAggregationResult } from './searchRefinementInterfaces';
 
 export class SearchFilterTransform {
+  static SPLIT_UNQUOTED_COMMAS = /,(?=(?:(?:[^"\\"]*["\\"]){2})*[^"\\"]*$)/;
+  static SPLIT_UNQUOTED_COLONS = /:(?=(?:(?:[^"\\"]*["\\"]){2})*[^"\\"]*$)/;
+  static SPLIT_UNQUOTED_PIPES = /\|(?=(?:(?:[^"\\"]*["\\"]){2})*[^"\\"]*$)/;
+
   static fromString(filterString: string): QueryTermAggregation[] {
     if (filterString === '') {
       return [];
     }
 
-    const refinementFields = filterString.split(',');
+    const refinementFields = filterString.split(SearchFilterTransform.SPLIT_UNQUOTED_COMMAS);
     return refinementFields.map(refinementField => {
-      const refinementSplit = refinementField.split(':');
+      const refinementSplit = refinementField.split(SearchFilterTransform.SPLIT_UNQUOTED_COLONS);
       const field = refinementSplit[0];
       const results = refinementSplit[1]
-        .split('|')
+        .split(SearchFilterTransform.SPLIT_UNQUOTED_PIPES)
         .sort()
         .map(result => {
+          const unquotedResult = result.replace(/^"(.+)"$/, '$1').replace(/\\"/, '"');
           return {
-            key: result,
+            key: unquotedResult,
             matching_results: 1,
             selected: true
           };
@@ -36,7 +41,10 @@ export class SearchFilterTransform {
       const results = get(refinement, 'results', []);
       const keys = results
         .filter((result: SelectableAggregationResult) => result.selected)
-        .map((result: SelectableAggregationResult) => result.key);
+        .map((result: SelectableAggregationResult) => {
+          const key = result.key || '';
+          return `"${key.replace(/"/, '\\"')}"`;
+        });
       if (keys.length) {
         filterStrings.push(`${field}:${keys.join('|')}`);
       }

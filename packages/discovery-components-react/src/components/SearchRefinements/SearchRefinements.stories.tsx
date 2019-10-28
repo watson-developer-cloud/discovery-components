@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, text, object, boolean } from '@storybook/addon-knobs/react';
 import { SearchRefinements } from './SearchRefinements';
-import refinementsQueryResponse from './fixtures/refinementsQueryResponse';
+import { refinementsQueryResponse } from './fixtures/refinementsQueryResponse';
 import collectionsResponse from './fixtures/collectionsResponse';
 import { DiscoverySearch, DiscoverySearchProps } from '../DiscoverySearch/DiscoverySearch';
 import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
@@ -47,7 +47,7 @@ storiesOf('SearchRefinements', module)
     const exampleProps = props();
     return (
       <div style={{ padding: '1rem', backgroundColor: '#f3f3f3' }}>
-        <DiscoverySearch {...discoverySearchProps()}>
+        <DiscoverySearch {...discoverySearchProps({ filter: 'subject:"this | that"|"bl:ah"' })}>
           <SearchRefinements {...exampleProps} />
         </DiscoverySearch>
       </div>

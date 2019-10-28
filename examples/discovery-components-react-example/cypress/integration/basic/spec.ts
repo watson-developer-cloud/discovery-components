@@ -37,7 +37,7 @@ describe('basic test', () => {
 
       cy.wait('@postQuery')
         .its('requestBody.filter')
-        .should('eq', 'subject:Animals');
+        .should('eq', 'subject:"Animals"');
 
       cy.get('.bx--search-input').type('abil{enter}');
 

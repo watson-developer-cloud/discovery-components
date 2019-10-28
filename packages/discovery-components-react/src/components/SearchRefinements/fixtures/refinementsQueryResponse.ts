@@ -5,7 +5,7 @@ interface QueryResponseWithTermAggregation extends DiscoveryV1.QueryResponse {
   aggregations?: QueryTermAggregation[];
 }
 
-const refinementsQueryResponse: QueryResponseWithTermAggregation = {
+export const refinementsQueryResponse: QueryResponseWithTermAggregation = {
   matching_results: 123456,
   results: [],
   aggregations: [
@@ -48,6 +48,67 @@ const refinementsQueryResponse: QueryResponseWithTermAggregation = {
         {
           key: 'Things',
           matching_results: 76403
+        }
+      ]
+    }
+  ]
+};
+
+export const weirdRefinementsQueryResponse: QueryResponseWithTermAggregation = {
+  matching_results: 123456,
+  results: [],
+  aggregations: [
+    {
+      type: 'term',
+      field: 'author',
+      count: 3,
+      results: [
+        {
+          key: 'ABMN Staff',
+          matching_results: 138993
+        },
+        {
+          key: 'News Staff',
+          matching_results: 57158
+        },
+        {
+          key: 'editor',
+          matching_results: 32444
+        }
+      ]
+    },
+    {
+      type: 'term',
+      field: 'subject',
+      count: 4,
+      results: [
+        {
+          key: 'Animals',
+          matching_results: 138993
+        },
+        {
+          key: 'People',
+          matching_results: 133760
+        },
+        {
+          key: 'Places',
+          matching_results: 129139
+        },
+        {
+          key: 'Things',
+          matching_results: 76403
+        },
+        {
+          key: 'This | that',
+          matching_results: 2727
+        },
+        {
+          key: 'something: else',
+          matching_results: 18111
+        },
+        {
+          key: 'hey, you',
+          matching_results: 8282
         }
       ]
     }

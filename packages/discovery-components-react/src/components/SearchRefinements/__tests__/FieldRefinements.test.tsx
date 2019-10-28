@@ -3,7 +3,7 @@ import { render, fireEvent, RenderResult } from '@testing-library/react';
 import { wrapWithContext } from '../../../utils/testingUtils';
 import { SearchContextIFC, SearchApiIFC } from '../../DiscoverySearch/DiscoverySearch';
 import { SearchRefinements } from '../SearchRefinements';
-import refinementsQueryResponse from '../fixtures/refinementsQueryResponse';
+import { weirdRefinementsQueryResponse } from '../fixtures/refinementsQueryResponse';
 
 interface Setup {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -15,7 +15,7 @@ const setup = (filter: string): Setup => {
   const performSearchMock = jest.fn();
   const context: Partial<SearchContextIFC> = {
     aggregationResults: {
-      aggregations: refinementsQueryResponse.aggregations
+      aggregations: weirdRefinementsQueryResponse.aggregations
     },
     searchParameters: {
       project_id: '',
@@ -112,7 +112,49 @@ describe('FieldRefinementsComponent', () => {
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: 'subject:Animals'
+          filter: 'subject:"Animals"'
+        }),
+        false
+      );
+    });
+
+    test('it adds correct filter when aggregation contains `|`', () => {
+      const { fieldRefinementsComponent, performSearchMock } = setup('');
+      const animalsCheckbox = fieldRefinementsComponent.getByLabelText('This | that');
+      performSearchMock.mockReset();
+      fireEvent.click(animalsCheckbox);
+      expect(performSearchMock).toBeCalledTimes(1);
+      expect(performSearchMock).toBeCalledWith(
+        expect.objectContaining({
+          filter: 'subject:"This | that"'
+        }),
+        false
+      );
+    });
+
+    test('it adds correct filter when aggregation contains `,`', () => {
+      const { fieldRefinementsComponent, performSearchMock } = setup('');
+      const animalsCheckbox = fieldRefinementsComponent.getByLabelText('hey, you');
+      performSearchMock.mockReset();
+      fireEvent.click(animalsCheckbox);
+      expect(performSearchMock).toBeCalledTimes(1);
+      expect(performSearchMock).toBeCalledWith(
+        expect.objectContaining({
+          filter: 'subject:"hey, you"'
+        }),
+        false
+      );
+    });
+
+    test('it adds correct filter when aggregation contains `:`', () => {
+      const { fieldRefinementsComponent, performSearchMock } = setup('');
+      const animalsCheckbox = fieldRefinementsComponent.getByLabelText('something: else');
+      performSearchMock.mockReset();
+      fireEvent.click(animalsCheckbox);
+      expect(performSearchMock).toBeCalledTimes(1);
+      expect(performSearchMock).toBeCalledWith(
+        expect.objectContaining({
+          filter: 'subject:"something: else"'
         }),
         false
       );
@@ -126,21 +168,21 @@ describe('FieldRefinementsComponent', () => {
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: 'subject:Animals|People'
+          filter: 'subject:"Animals"|"People"'
         }),
         false
       );
     });
 
     test('it adds correct filter when checkboxes from multiple refinements are checked', () => {
-      const { fieldRefinementsComponent, performSearchMock } = setup('subject:Animals');
+      const { fieldRefinementsComponent, performSearchMock } = setup('subject:"Animals"');
       const newsStaffCheckbox = fieldRefinementsComponent.getByLabelText('News Staff');
       performSearchMock.mockReset();
       fireEvent.click(newsStaffCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: 'author:News Staff,subject:Animals'
+          filter: 'author:"News Staff",subject:"Animals"'
         }),
         false
       );

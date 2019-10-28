@@ -3,7 +3,7 @@ import { render, RenderResult } from '@testing-library/react';
 import { wrapWithContext } from '../../../utils/testingUtils';
 import { SearchRefinements } from '../SearchRefinements';
 import { SearchContextIFC, SearchApiIFC } from '../../DiscoverySearch/DiscoverySearch';
-import refinementsQueryResponse from '../fixtures/refinementsQueryResponse';
+import { refinementsQueryResponse } from '../fixtures/refinementsQueryResponse';
 import collectionsResponse from '../fixtures/collectionsResponse';
 import {
   noAvailableRefinementsMessage,
