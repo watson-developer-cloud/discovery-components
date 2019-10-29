@@ -1,7 +1,11 @@
 import React, { FC, ReactElement, useContext, useEffect, useState } from 'react';
 import get from 'lodash/get';
 import { settings } from 'carbon-components';
-import { QueryResult } from '@disco-widgets/ibm-watson/discovery/v2';
+import {
+  QueryResult,
+  QueryResultPassage,
+  QueryTableResult
+} from '@disco-widgets/ibm-watson/discovery/v2';
 import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import PreviewToolbar, {
   ZOOM_IN,
@@ -11,7 +15,7 @@ import PreviewToolbar, {
 import PdfViewer from './components/PdfViewer/PdfViewer';
 import PdfFallback, { supportsPdfFallback } from './components/PdfFallback/PdfFallback';
 import SimpleDocument from './components/SimpleDocument/SimpleDocument';
-import PassageHighlight from './components/PassageHighlight/PassageHighlight';
+import Highlight from './components/Highlight/Highlight';
 
 interface Props {
   /**
@@ -23,14 +27,21 @@ interface Props {
    * PDF file data as base64-encoded string
    */
   file?: string;
+
+  /**
+   * Passage or table to highlight in document. Reference to item with
+   * `document.document_passages` or `document.table_results`
+   */
+  highlight?: QueryResultPassage | QueryTableResult;
 }
 
 const SCALE_FACTOR = 1.2;
 
-export const DocumentPreview: FC<Props> = ({ document, file }) => {
+export const DocumentPreview: FC<Props> = ({ document, file, highlight }) => {
   const { selectedResult } = useContext(SearchContext);
   // document prop takes precedence over that in context
   const doc = document || selectedResult.document;
+  highlight = highlight || selectedResult.element || undefined;
 
   const [scale, setScale] = useState(1);
 
@@ -42,17 +53,16 @@ export const DocumentPreview: FC<Props> = ({ document, file }) => {
     setScale(1);
   }, [doc]);
 
-  // If passage, initialize first page to that of passage; otherwise
+  // If highlight, initialize first page to that of highlight; otherwise
   // default to first page
-  const passage = get(doc, 'document_passages[0]'); // Only look for first passage, if available
-  const [passageFirstPage, setPassageFirstPage] = useState(0);
+  const [highlightFirstPage, setHighlightFirstPage] = useState(0);
   useEffect(() => {
-    if (!passage) {
+    if (!highlight) {
       setCurrentPage(1);
-    } else if (passageFirstPage > 0) {
-      setCurrentPage(passageFirstPage);
+    } else if (highlightFirstPage > 0) {
+      setCurrentPage(highlightFirstPage);
     }
-  }, [passage, passageFirstPage]);
+  }, [highlight, highlightFirstPage]);
 
   // Pull total page count from either the PDF file or the structural
   // data list
@@ -94,17 +104,18 @@ export const DocumentPreview: FC<Props> = ({ document, file }) => {
               file={file}
               currentPage={currentPage}
               scale={scale}
-              document={doc || undefined}
+              document={doc}
+              highlight={highlight}
               setPdfPageCount={setPdfPageCount}
             />
-            {/* highlight passage on top of document view */}
-            <div className={`${base}__passage`}>
-              <PassageHighlight
+            {/* highlight on top of document view */}
+            <div className={`${base}__highlight-overlay`}>
+              <Highlight
                 highlightClassname={`${base}__highlight`}
                 document={doc}
                 currentPage={currentPage}
-                passage={passage}
-                setPassageFirstPage={setPassageFirstPage}
+                highlight={highlight}
+                setHighlightFirstPage={setHighlightFirstPage}
               />
             </div>
           </div>
@@ -117,8 +128,9 @@ export const DocumentPreview: FC<Props> = ({ document, file }) => {
 };
 
 interface DocumentProps {
-  document?: QueryResult;
+  document?: QueryResult | null;
   file?: string;
+  highlight?: any;
   currentPage: number;
   scale: number;
   setPdfPageCount?: (count: number) => void;
@@ -129,6 +141,7 @@ function PreviewDocument({
   currentPage,
   scale,
   document,
+  highlight,
   setPdfPageCount
 }: DocumentProps): ReactElement | null {
   // if we have PDF data, render that
@@ -144,7 +157,7 @@ function PreviewDocument({
         scale={scale}
       />
     ) : (
-      <SimpleDocument document={document} />
+      <SimpleDocument document={document} highlight={highlight} />
     )
   ) : null;
 }

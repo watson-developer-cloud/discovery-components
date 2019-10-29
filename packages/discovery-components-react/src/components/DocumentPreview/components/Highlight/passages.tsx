@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { QueryResult, QueryResultPassage } from '@disco-widgets/ibm-watson/discovery/v2';
+import get from 'lodash/get';
 import { CellPage, TextMappings } from '../../types';
 
 // React hook for retrieving passage bbox data from document
@@ -10,16 +11,12 @@ export function usePassage(
   const [pageInfo, setPageInfo] = useState<ReadonlyArray<CellPage> | null>(null);
 
   useEffect((): void => {
-    if (
-      !passage ||
-      !document ||
-      !document.extracted_metadata ||
-      !document.extracted_metadata.text_mappings
-    ) {
+    const textMappings = get(document, 'extracted_metadata.text_mappings');
+    if (!passage || !textMappings) {
       return;
     }
 
-    const box = getPassagePageInfo(document.extracted_metadata.text_mappings, passage);
+    const box = getPassagePageInfo(textMappings, passage);
     if (box) {
       setPageInfo(box);
     }
@@ -52,3 +49,8 @@ export function getPassagePageInfo(
     .map(cell => cell.page);
 }
 /* eslint-enable @typescript-eslint/camelcase */
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function isPassage(obj: any): boolean {
+  return 'passage_text' in obj;
+}

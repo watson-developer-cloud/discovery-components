@@ -1,4 +1,4 @@
-import React, { FC, createRef, useState, useEffect } from 'react';
+import React, { FC, createRef, useState, useEffect, ReactElement } from 'react';
 import { PageWithCells, StyledCell as StyledCellType } from './PdfFallback';
 
 interface Props {
@@ -66,7 +66,7 @@ const Cell: FC<Props> = props => {
   const Element = className ? StyledCell : AutosizeCell;
   return (
     <Element {...props}>
-      {(moreProps: any) => (
+      {(moreProps: any): ReactElement => (
         <text
           x={left}
           y={page.origin === 'TopLeft' ? top : page.height - top}

@@ -9,6 +9,7 @@ const SECTION_NAMES = ['p', 'ul', 'table'];
 // enrichments with location data
 const DOC_ENRICHMENTS = ['elements', 'attributes', 'relations'];
 
+const TABLE_TAG = 'table';
 const BBOX_TAG = 'bbox';
 
 // skip rendering `<bbox>` nodes?
@@ -18,12 +19,14 @@ const SKIP_BBOX = false;
 
 interface Options {
   sections?: boolean;
+  tables?: boolean;
   bbox?: boolean;
   itemMap?: boolean;
 }
 
 const DEFAULT_OPTIONS: Options = {
   sections: false,
+  tables: false,
   bbox: false,
   itemMap: false
 };
@@ -31,6 +34,7 @@ const DEFAULT_OPTIONS: Options = {
 export interface ProcessedDoc {
   styles: string;
   sections?: any[];
+  tables?: Table[];
   bboxes?: ProcessedBbox[];
   itemMap?: {
     byItem: any;
@@ -47,13 +51,24 @@ export interface ProcessedBbox {
   className: string;
 }
 
+export interface Table {
+  location: {
+    begin: number;
+    end: number;
+  };
+  bboxes: ProcessedBbox[];
+}
+
 /**
  * Convert document data into structure that is more palatable for use by
  * SemanticDocument.
  *
  * @param {Object} data Discovery document data
  * @param {Object} options
+ * @param {Boolean} options.sections return array of HTML sections
+ * @param {Boolean} options.tables return array of tables' bboxes
  * @param {Boolean} options.bbox return array of bboxes, with classname
+ * @param {Boolean} options.itemMap return item mapping into 'sections'
  * @throws {ParsingError}
  */
 export default async function processDoc(
@@ -71,6 +86,9 @@ export default async function processDoc(
   };
   if (options.sections) {
     doc.sections = [];
+  }
+  if (options.tables) {
+    doc.tables = [];
   }
   if (options.bbox) {
     doc.bboxes = [];
@@ -160,6 +178,7 @@ function setupSectionParser(
 ): void {
   const { name: sectionTagName } = sectionTag;
   let lastClassName = '';
+  let currentTable: Table | null = null;
 
   // track nested nodes of same tag name
   let stackCount = 1;
@@ -178,18 +197,39 @@ function setupSectionParser(
         openTagIndices.push(sectionHtml.length - 1);
       }
 
+      // <table border="1" data-max-height="78.36000061035156" data-max-width="514.1761474609375"
+      //    data-max-x="48.999847412109375" data-max-y="72.62348937988281"
+      //    data-min-height="78.36000061035156" data-min-width="514.1761474609375"
+      //    data-min-x="48.999847412109375" data-min-y="72.62348937988281" data-page="39">
+      if (tag.name === TABLE_TAG && doc.tables) {
+        currentTable = {
+          location: {
+            begin: this.position,
+            end: 0
+          },
+          bboxes: []
+        };
+        doc.tables.push(currentTable);
+      }
+
       // <bbox height="6.056159973144531" page="1" width="150.52044677734375" x="72.0" y="116.10381317138672">
-      if (doc.bboxes && tag.name === BBOX_TAG) {
+      if (tag.name === BBOX_TAG && (doc.bboxes || currentTable)) {
         const left = Number(attributes.x);
         const top = Number(attributes.y);
-        doc.bboxes.push({
+        const bbox = {
           left: left,
           right: left + Number(attributes.width),
           top: top,
           bottom: top + Number(attributes.height),
           page: Number(attributes.page),
           className: lastClassName
-        });
+        };
+        if (doc.bboxes) {
+          doc.bboxes.push(bbox);
+        }
+        if (currentTable && doc.tables) {
+          currentTable.bboxes.push(bbox);
+        }
       }
 
       if (tag.name === sectionTagName) {
@@ -211,6 +251,11 @@ function setupSectionParser(
           '>',
           ` data-child-end="${this.position}">`
         );
+      }
+
+      if (doc.tables && tag.name === TABLE_TAG && currentTable) {
+        currentTable.location.end = this.position;
+        currentTable = null;
       }
 
       if (tag.name === sectionTagName) {

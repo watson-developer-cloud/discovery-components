@@ -1,16 +1,16 @@
 import * as React from 'react';
 import { act, render } from '@testing-library/react';
-import PassageHighlight from '../PassageHighlight';
+import Highlight from '../Highlight';
 import docJson from '../../../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
 import passages from '../../../__fixtures__/passages';
 
-describe('PassageHighlight', () => {
+describe('Highlight', () => {
   it('renders single highlight rect', () => {
     let getAllByTestId: NonNullable<any>;
 
     act(() => {
       ({ getAllByTestId } = render(
-        <PassageHighlight document={docJson} currentPage={13} passage={passages.single} />
+        <Highlight document={docJson} currentPage={13} highlight={passages.single} />
       ));
     });
 
@@ -23,7 +23,7 @@ describe('PassageHighlight', () => {
 
     act(() => {
       ({ queryAllByTestId } = render(
-        <PassageHighlight document={docJson} currentPage={14} passage={passages.single} />
+        <Highlight document={docJson} currentPage={14} highlight={passages.single} />
       ));
     });
 
@@ -36,7 +36,7 @@ describe('PassageHighlight', () => {
 
     act(() => {
       ({ getAllByTestId } = render(
-        <PassageHighlight document={docJson} currentPage={42} passage={passages.multiline} />
+        <Highlight document={docJson} currentPage={42} highlight={passages.multiline} />
       ));
     });
 

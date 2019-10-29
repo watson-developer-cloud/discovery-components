@@ -5,7 +5,7 @@ import { QueryResult } from '@disco-widgets/ibm-watson/discovery/v2';
 import { Cell, CellPage, CellField, Page, Bbox } from '../../types';
 import CellComponent from './Cell';
 import { computeFontFamilyAndWeight } from './utils/fallbackFonts';
-import processDoc, { ProcessedDoc, ProcessedBbox } from './utils/processDoc';
+import processDoc, { ProcessedDoc, ProcessedBbox } from '../../utils/processDoc';
 import { intersects } from './utils/box';
 import shortid from '../../../../utils/shortid';
 
@@ -84,13 +84,13 @@ export interface StyledCell extends CellPage {
 export const PdfFallback: FC<Props> = ({ document, currentPage, scale = 1 }) => {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
   const { pages, page, pagesHaveFonts } = state;
+
+  // combine text_mappings with text from appropriate field
   useEffect(() => {
     const textMappings = get(document, 'extracted_metadata.text_mappings', []);
     if (!textMappings) {
       return;
     }
-
-    const { text } = document;
 
     const newPages = [
       EMPTY_PAGE, // add "zeroth" page (unused; makes this array 1-based)
@@ -98,7 +98,7 @@ export const PdfFallback: FC<Props> = ({ document, currentPage, scale = 1 }) => 
     ].map(page => ({ ...page, cells: [] }));
 
     textMappings.cells.map(({ page, field }: Cell) => {
-      const textValue = field.name === 'text' ? text : getFieldText(document, field);
+      const textValue = getFieldText(document, field);
       const content = textValue.substring(field.span[0], field.span[1]);
       const cellPageNumber = page.page_number;
       const cellData = { id: shortid(), bbox: page.bbox, content: content };
@@ -196,7 +196,11 @@ export const supportsPdfFallback = (document: QueryResult): boolean => {
 
 function getFieldText(document: QueryResult, field: CellField): string {
   const [fieldName, fieldProp] = field.name.split('.');
-  return fieldProp ? document[fieldName][field.index][fieldProp] : document[fieldName][field.index];
+  let fieldValue = document[fieldName];
+  if (Array.isArray(fieldValue)) {
+    fieldValue = fieldValue[field.index];
+  }
+  return fieldProp ? fieldValue[fieldProp] : fieldValue;
 }
 
 function processStyles(styles: string): string {

@@ -1,29 +1,37 @@
 import React, { FC, useEffect, useRef } from 'react';
 import { settings } from 'carbon-components';
-import { QueryResult, QueryResultPassage } from '@disco-widgets/ibm-watson/discovery/v2';
+import {
+  QueryResult,
+  QueryResultPassage,
+  QueryTableResult
+} from '@disco-widgets/ibm-watson/discovery/v2';
 import { clearNodeChildren } from '../../utils/dom';
 import { findOffsetInDOM, createFieldRects } from '../../utils/document';
+import { isPassage } from '../Highlight/passages';
 
 interface Props {
   /**
    * Document data returned by query
    */
   document: QueryResult;
+
+  highlight?: QueryResultPassage | QueryTableResult;
 }
 
-export const SimpleDocument: FC<Props> = ({ document }) => {
+export const SimpleDocument: FC<Props> = ({ document, highlight }) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
 
-  let html, text, passages: QueryResultPassage[] | undefined;
+  let html,
+    passage: QueryResultPassage | null = null;
   if (document) {
-    ({ text, document_passages: passages } = document);
+    const text = document.text;
     html = `<p data-child-begin="0" data-child-end=${text.length - 1}>${text}</p>`;
 
-    if (passages && passages.length > 0) {
-      // use text from field defined in passage
-      // (only support first passage)
-      const { field } = passages[0];
+    // TODO handle table highlighting? (or do we? if we have html, will we have structural data, in order to do PdfFallback instead?)
+    if (highlight && isPassage(highlight)) {
+      passage = highlight as QueryResultPassage;
+      const { field } = passage;
       if (field && field !== 'text') {
         let rollingStart = 0;
         html = document[field]
@@ -47,11 +55,11 @@ export const SimpleDocument: FC<Props> = ({ document }) => {
       clearNodeChildren(highlightNode);
     }
 
-    if (!passages || passages.length === 0 || !contentNode || !highlightNode) {
+    if (!passage || !contentNode || !highlightNode) {
       return;
     }
 
-    const { start_offset: begin, end_offset: end } = passages[0];
+    const { start_offset: begin, end_offset: end } = passage;
     if (typeof begin === 'undefined' || typeof end === 'undefined') {
       return;
     }
@@ -74,7 +82,7 @@ export const SimpleDocument: FC<Props> = ({ document }) => {
     if (firstFieldRect) {
       firstFieldRect.scrollIntoView({ block: 'center' });
     }
-  }, [passages]);
+  }, [passage]);
 
   const base = `${settings.prefix}--simple-document`;
   return html ? (
