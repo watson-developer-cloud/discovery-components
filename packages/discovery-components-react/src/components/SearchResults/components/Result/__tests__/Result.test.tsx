@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { SearchContextIFC } from '../../DiscoverySearch/DiscoverySearch';
+import { SearchContextIFC } from '../../../../DiscoverySearch/DiscoverySearch';
 import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 
-import { wrapWithContext, browserWindow } from '../../../utils/testingUtils';
-import { SearchResults } from '../SearchResults';
+import { wrapWithContext, browserWindow } from '../../../../../utils/testingUtils';
+import { SearchResults } from '../../../SearchResults';
 
 describe('<Result />', () => {
   let context: Partial<SearchContextIFC>;
@@ -18,11 +18,12 @@ describe('<Result />', () => {
     };
   });
 
-  describe('on click', () => {
-    test('will call setSelectedResult with result as a parameter by default', () => {
+  describe('on result click', () => {
+    test('will call onSelectResult with result and no element as parameters by default', () => {
       const mockSelectResult = jest.fn();
       const mockResult = {
-        document_id: 'some document_id'
+        document_id: 'some document_id',
+        text: 'body text'
       };
       const api = {
         setSelectedResult: mockSelectResult
@@ -30,9 +31,71 @@ describe('<Result />', () => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       context.searchResponse!.results = [mockResult];
       const { getByText } = render(wrapWithContext(<SearchResults />, api, context));
-      fireEvent.click(getByText('some document_id'));
+      fireEvent.click(getByText('View passage in document'));
       expect(mockSelectResult.mock.calls.length).toBe(1);
-      expect(mockSelectResult.mock.calls[0][0]).toBe(mockResult);
+      expect(mockSelectResult.mock.calls[0][0].document).toBe(mockResult);
+      expect(mockSelectResult.mock.calls[0][0].element).toBe(null);
+      expect(mockSelectResult.mock.calls[0][0].elementType).toBe(null);
+    });
+  });
+
+  describe('on result passage click', () => {
+    test('will call onSelectResult with result and passage element and element type as parameters', () => {
+      const mockSelectResult = jest.fn();
+      (context.searchResponse as DiscoveryV1.QueryResponse).results = [
+        {
+          document_id: 'some document_id',
+          document_passages: [
+            {
+              passage_text: 'this is the passage text'
+            }
+          ]
+        }
+      ];
+      const api = {
+        setSelectedResult: mockSelectResult
+      };
+      const { getByText } = render(wrapWithContext(<SearchResults />, api, context));
+      fireEvent.click(getByText('View passage in document'));
+      expect(mockSelectResult.mock.calls.length).toBe(1);
+      expect(mockSelectResult.mock.calls[0][0].document).toBe(context.searchResponse!.results![0]);
+      expect(mockSelectResult.mock.calls[0][0].element).toBe(
+        context.searchResponse!.results![0].document_passages![0]
+      );
+      expect(mockSelectResult.mock.calls[0][0].elementType).toBe('passage');
+    });
+
+    test('will call onSelectResult with result and table element and element type as parameters', () => {
+      const mockSelectResult = jest.fn();
+      (context.searchResponse as DiscoveryV1.QueryResponse).results = [
+        {
+          document_id: 'some document_id',
+          document_passages: [
+            {
+              passage_text: 'this is the passage text'
+            }
+          ]
+        }
+      ];
+      (context.searchResponse as DiscoveryV1.QueryResponse).table_results = [
+        {
+          table_id: '558ada041262d5b0aa02a05429d798c7',
+          source_document_id: 'some document_id',
+          collection_id: '8713a92b-28aa-b291-0000-016ddc68aa2a',
+          table_html:
+            '<table style="width:100%"><tr><th>Firstname</th><th>Lastname</th><th>Age</th></tr><tr><td>Jane</td><td>Smith</td><td>50</td></tr><tr><td>Eve</td><td>Jackson</td><td>94</td></tr></table>'
+        }
+      ];
+      const api = {
+        setSelectedResult: mockSelectResult
+      };
+      const { getByText } = render(wrapWithContext(<SearchResults />, api, context));
+      fireEvent.click(getByText('View table in document'));
+      expect(mockSelectResult.mock.calls[0][0].document).toBe(context.searchResponse!.results![0]);
+      expect(mockSelectResult.mock.calls[0][0].element).toBe(
+        context.searchResponse!.table_results![0]
+      );
+      expect(mockSelectResult.mock.calls[0][0].elementType).toBe('table');
     });
   });
 
@@ -181,14 +244,15 @@ describe('<Result />', () => {
           (context.searchResponse as DiscoveryV1.QueryResponse).results = [
             {
               document_id: 'some document_id',
-              url: urlValue
+              url: urlValue,
+              text: 'body text'
             }
           ];
 
           const { getByText } = render(
             wrapWithContext(<SearchResults resultLinkField={'url'} />, {}, context)
           );
-          fireEvent.click(getByText('some document_id'));
+          fireEvent.click(getByText('View passage in document'));
           expect(browserWindow.open.mock.calls[0][0]).toBe(urlValue);
         });
       });
@@ -200,14 +264,15 @@ describe('<Result />', () => {
           (context.searchResponse as DiscoveryV1.QueryResponse).results = [
             {
               document_id: 'some document_id',
-              url: { value: urlValue }
+              url: { value: urlValue },
+              text: 'body text'
             }
           ];
 
           const { getByText } = render(
             wrapWithContext(<SearchResults resultLinkField={'url.value'} />, {}, context)
           );
-          fireEvent.click(getByText('some document_id'));
+          fireEvent.click(getByText('View passage in document'));
           expect(browserWindow.open.mock.calls[0][0]).toBe(urlValue);
         });
       });
@@ -247,7 +312,8 @@ describe('<Result />', () => {
             url: {
               firstPart: 'ibm',
               secondPart: 'com'
-            }
+            },
+            text: 'body text'
           }
         ];
         const { getByText } = render(
@@ -259,7 +325,7 @@ describe('<Result />', () => {
             context
           )
         );
-        fireEvent.click(getByText('some document_id'));
+        fireEvent.click(getByText('View passage in document'));
         expect(browserWindow.open.mock.calls[0][0]).toBe('https://www.ibm.com');
       });
     });

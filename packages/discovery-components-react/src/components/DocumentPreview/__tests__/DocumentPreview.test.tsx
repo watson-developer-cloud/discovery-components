@@ -41,7 +41,11 @@ describe('DocumentPreview', () => {
     jest.spyOn(searchClient, 'listCollections').mockImplementation(() => Promise.resolve({}));
     jest.spyOn(searchClient, 'getComponentSettings').mockImplementation(() => Promise.resolve({}));
 
-    const selectedResult = omit(docJson, 'extracted_metadata.text_mappings');
+    const selectedResult = {
+      document: omit(docJson, 'extracted_metadata.text_mappings'),
+      element: null,
+      elementType: null
+    };
     const results = {
       matching_results: 1,
       results: [selectedResult]

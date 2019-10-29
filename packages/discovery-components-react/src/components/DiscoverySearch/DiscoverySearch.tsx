@@ -38,7 +38,7 @@ export interface DiscoverySearchProps {
   /**
    * overrideSelectedResult is used to override internal selected result state
    */
-  overrideSelectedResult?: DiscoveryV1.QueryResult;
+  overrideSelectedResult?: SelectedResult;
   /**
    * Autocompletion suggestions for the searchInput
    */
@@ -72,12 +72,24 @@ export interface AutocompletionOptions {
   splitSearchQuerySelector?: string;
 }
 
+export interface SelectedResult {
+  document: DiscoveryV1.QueryResult | null;
+  element?: DiscoveryV1.QueryTableResult | DiscoveryV1.QueryResultPassage | null;
+  elementType?: 'table' | 'passage' | null;
+}
+
+export const emptySelectedResult = {
+  document: null,
+  element: null,
+  elementType: null
+};
+
 export interface SearchContextIFC {
   aggregationResults: DiscoveryV1.QueryAggregation | null;
   searchResponse: DiscoveryV1.QueryResponse | null;
   searchParameters: DiscoveryV1.QueryParams;
   collectionsResults: DiscoveryV1.ListCollectionsResponse | null;
-  selectedResult: DiscoveryV1.QueryResult | null;
+  selectedResult: SelectedResult;
   autocompletionResults: DiscoveryV1.Completions | null;
   componentSettings: DiscoveryV1.ComponentSettingsResponse | null;
 }
@@ -89,9 +101,7 @@ export interface SearchApiIFC {
   ) => Promise<void>;
   fetchAutocompletions: (nlq: string) => Promise<void>;
   fetchAggregations: (searchParameters: DiscoveryV1.QueryParams) => Promise<void>;
-  setSelectedResult: (
-    result: DiscoveryV1.QueryResult | React.SetStateAction<DiscoveryV1.QueryResult>
-  ) => void;
+  setSelectedResult: (result: SelectedResult) => void;
   setAutocompletionOptions: (
     autoCompletionOptions: AutocompletionOptions | React.SetStateAction<AutocompletionOptions>
   ) => void;
@@ -116,9 +126,9 @@ export const searchContextDefaults = {
   searchParameters: {
     project_id: ''
   },
-  collectionsResults: null,
-  selectedResult: null,
+  selectedResult: emptySelectedResult,
   autocompletionResults: null,
+  collectionsResults: null,
   componentSettings: null
 };
 
@@ -131,7 +141,7 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
   overrideAggregationResults = null,
   overrideSearchResults = null,
   overrideQueryParameters,
-  overrideSelectedResult = null,
+  overrideSelectedResult = emptySelectedResult,
   overrideAutocompletionResults = null,
   overrideCollectionsResults = null,
   overrideComponentSettings = null,
@@ -156,9 +166,7 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
     setAutocompletionResults
   ] = useState<DiscoveryV1.Completions | null>(overrideAutocompletionResults);
   const [autocompletionOptions, setAutocompletionOptions] = useState<AutocompletionOptions>({});
-  const [selectedResult, setSelectedResult] = useState<DiscoveryV1.QueryResult | null>(
-    overrideSelectedResult
-  );
+  const [selectedResult, setSelectedResult] = useState<SelectedResult>(overrideSelectedResult);
 
   const [
     componentSettings,
@@ -275,12 +283,25 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
     [searchClient]
   );
 
+  const handleSetSelectedResult = (overrideSelectedResult: SelectedResult) => {
+    const newSelectedResult: SelectedResult = !overrideSelectedResult.document
+      ? emptySelectedResult
+      : overrideSelectedResult;
+    if (!newSelectedResult.element && newSelectedResult.elementType) {
+      newSelectedResult.elementType = null;
+    }
+    if (!newSelectedResult.elementType && newSelectedResult.element) {
+      newSelectedResult.element = null;
+    }
+    setSelectedResult(newSelectedResult);
+  };
+
   const api = useMemo(() => {
     return {
       performSearch: handleSearch,
       fetchAggregations: handleFetchAggregations,
       fetchAutocompletions: handleFetchAutocompletions,
-      setSelectedResult,
+      setSelectedResult: handleSetSelectedResult,
       setAutocompletionOptions,
       setSearchParameters
     };

@@ -29,8 +29,10 @@ const App = () => {
 };
 
 function AppView() {
-  const { selectedResult } = useContext(SearchContext);
-  return !selectedResult ? <SearchPage /> : <PreviewPage />;
+  const {
+    selectedResult: { document }
+  } = useContext(SearchContext);
+  return !document ? <SearchPage /> : <PreviewPage />;
 }
 
 function SearchPage() {
@@ -66,7 +68,7 @@ function PreviewPage() {
 
   function back(evt) {
     evt.preventDefault();
-    setSelectedResult(null);
+    setSelectedResult({ document: null });
   }
 
   return (

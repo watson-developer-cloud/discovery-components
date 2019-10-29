@@ -1,8 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { SearchApi, SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
-
-import { Result } from './Result';
+import { Result } from './components/Result/Result';
 import { findCollectionName, getDisplaySettings } from './utils';
 
 export interface SearchResultsProps {
@@ -39,6 +38,14 @@ export interface SearchResultsProps {
    * specify a label to display instead of 'Collection Name:' on each search Result
    */
   collectionLabel?: string;
+  /**
+   * Override the default button text for viewing displayed text (either a passage or a defined body field) in the document
+   */
+  displayedTextInDocumentButtonText?: string;
+  /**
+   * Override the default button text for viewing a table in the document
+   */
+  tableInDocumentButtonText?: string;
 }
 
 export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
@@ -49,7 +56,9 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   usePassages,
   passageLength,
   passageHighlightsClassName,
-  collectionLabel = 'Collection Name:'
+  collectionLabel = 'Collection Name:',
+  displayedTextInDocumentButtonText = 'View passage in document',
+  tableInDocumentButtonText = 'View table in document'
 }) => {
   const { searchResponse, collectionsResults, componentSettings } = useContext(SearchContext);
 
@@ -61,6 +70,7 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   const { setSearchParameters } = useContext(SearchApi);
   const matchingResults = (searchResponse && searchResponse.matching_results) || 0;
   const results = (searchResponse && searchResponse.results) || [];
+  const tableResults = (searchResponse && searchResponse.table_results) || [];
   const querySubmitted = false; // TODO replace this with whatever value tells our component if a query has been submitted
 
   useEffect(() => {
@@ -81,7 +91,14 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
     return (
       <div>
         {(results as DiscoveryV1.QueryResult[]).map(result => {
+          const documentTableResults: DiscoveryV1.QueryTableResult[] = tableResults.filter(
+            tableResult => {
+              return tableResult.source_document_id === result.document_id;
+            }
+          );
+
           const collectionName = findCollectionName(collectionsResults, result.collection_id);
+
           return (
             <Result
               key={result.document_id}
@@ -89,8 +106,11 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
               resultLinkField={resultLinkField}
               resultLinkTemplate={resultLinkTemplate}
               passageHighlightsClassName={passageHighlightsClassName}
+              tableResults={documentTableResults}
               collectionName={collectionName}
               collectionLabel={collectionLabel}
+              displayedTextInDocumentButtonText={displayedTextInDocumentButtonText}
+              tableInDocumentButtonText={tableInDocumentButtonText}
               bodyField={displaySettings.bodyField}
               usePassages={displaySettings.usePassages}
               resultTitleField={displaySettings.resultTitleField}

@@ -85,7 +85,9 @@ describe('DiscoverySearch', () => {
         <SearchContext.Consumer>
           {({ selectedResult }) => (
             <span data-testid="value">
-              {selectedResult && selectedResult.extracted_metadata.title}
+              {selectedResult &&
+                selectedResult.document &&
+                selectedResult.document.extracted_metadata.title}
             </span>
           )}
         </SearchContext.Consumer>
@@ -93,10 +95,25 @@ describe('DiscoverySearch', () => {
       const {
         fullTree,
         result: { getByTestId, rerender }
-      } = setup({ overrideSelectedResult: { extracted_metadata: { title: 'foo' } } }, tree);
+      } = setup(
+        {
+          overrideSelectedResult: {
+            document: { extracted_metadata: { title: 'foo' } },
+            element: null,
+            elementType: null
+          }
+        },
+        tree
+      );
       expect(getByTestId('value').textContent).toEqual('foo');
       rerender(
-        cloneElement(fullTree, { overrideSelectedResult: { extracted_metadata: { title: 'bar' } } })
+        cloneElement(fullTree, {
+          overrideSelectedResult: {
+            document: { extracted_metadata: { title: 'bar' } },
+            element: null,
+            elementType: null
+          }
+        })
       );
       expect(getByTestId('value').textContent).toEqual('bar');
     });

@@ -30,7 +30,7 @@ const SCALE_FACTOR = 1.2;
 export const DocumentPreview: FC<Props> = ({ document, file }) => {
   const { selectedResult } = useContext(SearchContext);
   // document prop takes precedence over that in context
-  const doc = document || selectedResult;
+  const doc = document || selectedResult.document;
 
   const [scale, setScale] = useState(1);
 
