@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.45.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.44.2...@disco-widgets/react-components@1.45.0) (2019-10-29)
+
+
+### Features
+
+* doc preview table highlight ([#276](http:///discovery-components-react/issues/276)) ([d1f9291](http:///discovery-components-react/commits/d1f9291))
+
+
+
+
+
 ## [1.44.2](http:///discovery-components-react/compare/@disco-widgets/react-components@1.44.1...@disco-widgets/react-components@1.44.2) (2019-10-29)
 
 
