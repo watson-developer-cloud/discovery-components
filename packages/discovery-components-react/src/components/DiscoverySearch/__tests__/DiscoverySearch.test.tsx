@@ -7,6 +7,7 @@ import {
   SearchContext
 } from '../DiscoverySearch';
 import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
+import { createDummyResponsePromise } from '../../../utils/testingUtils';
 interface Setup {
   fullTree: JSX.Element;
   result: RenderResult;
@@ -15,17 +16,17 @@ interface Setup {
 
 const setup = (props: Partial<DiscoverySearchProps>, children: JSX.Element): Setup => {
   class DummyClient {
-    query(): Promise<void> {
-      return Promise.resolve();
+    query() {
+      return createDummyResponsePromise({});
     }
-    listCollections(): Promise<void> {
-      return Promise.resolve();
+    listCollections() {
+      return createDummyResponsePromise({});
     }
-    getAutocompletion(): Promise<void> {
-      return Promise.resolve();
+    getAutocompletion() {
+      return createDummyResponsePromise({});
     }
-    getComponentSettings(): Promise<void> {
-      return Promise.resolve();
+    getComponentSettings() {
+      return createDummyResponsePromise({});
     }
   }
   const searchClient = new DummyClient();
@@ -65,17 +66,17 @@ describe('DiscoverySearch', () => {
       const tree = (
         <SearchContext.Consumer>
           {({ searchParameters }) => (
-            <span data-testid="value">{searchParameters.natural_language_query}</span>
+            <span data-testid="value">{searchParameters.naturalLanguageQuery}</span>
           )}
         </SearchContext.Consumer>
       );
       const {
         fullTree,
         result: { getByTestId, rerender }
-      } = setup({ overrideQueryParameters: { natural_language_query: 'foo' } }, tree);
+      } = setup({ overrideQueryParameters: { naturalLanguageQuery: 'foo' } }, tree);
       expect(getByTestId('value').textContent).toEqual('foo');
       rerender(
-        cloneElement(fullTree, { overrideQueryParameters: { natural_language_query: 'bar' } })
+        cloneElement(fullTree, { overrideQueryParameters: { naturalLanguageQuery: 'bar' } })
       );
       expect(getByTestId('value').textContent).toEqual('bar');
     });
@@ -169,7 +170,7 @@ describe('DiscoverySearch', () => {
       const tree = (
         <SearchApi.Consumer>
           {({ performSearch }) => (
-            <button onClick={() => performSearch({ project_id: '' })}>Action</button>
+            <button onClick={() => performSearch({ projectId: '' })}>Action</button>
           )}
         </SearchApi.Consumer>
       );

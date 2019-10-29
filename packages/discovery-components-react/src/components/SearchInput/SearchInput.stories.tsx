@@ -3,8 +3,10 @@ import { storiesOf } from '@storybook/react';
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
 import SearchInput from './SearchInput';
 import { DiscoverySearch, DiscoverySearchProps } from '../DiscoverySearch/DiscoverySearch';
-import { StoryWrapper } from '../../utils/storybookUtils';
+import { StoryWrapper, DummySearchClient } from '../../utils/storybookUtils';
+import { createDummyResponsePromise } from '../../utils/testingUtils';
 import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
+import { action } from '@storybook/addon-actions';
 
 const props = () => ({
   className: text('ClassName', ''),
@@ -39,25 +41,19 @@ const generateCompletionsArray = (length: number) => {
   return completionsArray;
 };
 
-class DummyClient {
-  query() {
-    return Promise.resolve({});
-  }
-  getAutocompletion(params: DiscoveryV1.GetAutocompletionParams) {
+class DummySearchClientWithAutocomplete extends DummySearchClient {
+  getAutocompletion(
+    params: DiscoveryV1.GetAutocompletionParams
+  ): Promise<DiscoveryV1.Response<DiscoveryV1.Completions>> {
+    action('getAutocompletion')(params);
     currentValue = params.prefix || '';
-    autocompletions = generateCompletionsArray(params.count || 0);
-    return Promise.resolve({ completions: autocompletions });
-  }
-  listCollections() {
-    return Promise.resolve();
-  }
-  getComponentSettings() {
-    return Promise.resolve();
+    autocompletions = generateCompletionsArray(props().completionsCount || 0);
+    return createDummyResponsePromise({ completions: autocompletions });
   }
 }
 
 const discoverySearchProps = (): DiscoverySearchProps => ({
-  searchClient: new DummyClient(),
+  searchClient: new DummySearchClientWithAutocomplete(),
   projectId: text('Project ID', 'project-id'),
   overrideAutocompletionResults: {
     completions: autocompletions
@@ -80,7 +76,7 @@ storiesOf('SearchInput', module)
     const spellingSuggestionProps = {
       ...discoverySearchProps(),
       overrideQueryParameters: {
-        natural_language_query: 'Philadlphia'
+        naturalLanguageQuery: 'Philadlphia'
       },
       overrideSearchResults: {
         suggested_query: 'Philadelphia'

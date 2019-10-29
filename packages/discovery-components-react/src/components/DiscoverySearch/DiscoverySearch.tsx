@@ -6,10 +6,7 @@ import {
   useDeepCompareMemo
 } from '../../utils/useDeepCompareMemoize';
 
-export type SearchParams = Omit<
-  DiscoveryV1.QueryParams,
-  'project_id' | 'logging_opt_out' | 'headers' | 'return_response'
->;
+export type SearchParams = Omit<DiscoveryV1.QueryParams, 'projectId' | 'headers'>;
 
 export interface DiscoverySearchProps {
   /**
@@ -124,7 +121,7 @@ export const searchContextDefaults = {
   aggregationResults: null,
   searchResponse: null,
   searchParameters: {
-    project_id: ''
+    projectId: ''
   },
   selectedResult: emptySelectedResult,
   autocompletionResults: null,
@@ -158,7 +155,7 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
     setCollectionsResults
   ] = useState<DiscoveryV1.ListCollectionsResponse | null>(overrideCollectionsResults);
   const [searchParameters, setSearchParameters] = useState<DiscoveryV1.QueryParams>({
-    project_id: projectId,
+    projectId,
     ...overrideQueryParameters
   });
   const [
@@ -177,7 +174,7 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
     setSearchParameters(currentSearchParameters => {
       return {
         ...currentSearchParameters,
-        project_id: projectId,
+        projectId,
         ...overrideQueryParameters
       };
     });
@@ -205,10 +202,12 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
 
   useEffect(() => {
     async function fetchCollections(): Promise<void> {
-      setCollectionsResults(await searchClient.listCollections({ project_id: projectId }));
+      const { result } = await searchClient.listCollections({ projectId });
+      setCollectionsResults(result);
     }
     async function getComponentSettings(): Promise<void> {
-      setComponentSettings(await searchClient.getComponentSettings({ project_id: projectId }));
+      const { result } = await searchClient.getComponentSettings({ projectId });
+      setComponentSettings(result);
     }
     fetchCollections();
     getComponentSettings();
@@ -236,15 +235,13 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
         const queryArray = searchQuery.split(splitSearchQuerySelector);
         const prefix = queryArray[queryArray.length - 1];
         const completionParams = {
-          project_id: projectId,
+          projectId,
           prefix: prefix
         };
 
         if (!!prefix) {
-          const completions: DiscoveryV1.Completions = await searchClient.getAutocompletion(
-            completionParams
-          );
-          setAutocompletionResults(completions);
+          const { result } = await searchClient.getAutocompletion(completionParams);
+          setAutocompletionResults(result);
           return;
         }
         setAutocompletionResults(null);
@@ -261,9 +258,9 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
           aggregation: searchParameters.aggregation
         };
       });
-      const aggregationsResults = await searchClient.query(searchParameters);
-      if (aggregationsResults) {
-        const { aggregations } = aggregationsResults;
+      const { result } = await searchClient.query(searchParameters);
+      if (result) {
+        const { aggregations } = result;
         setAggregationResults({ aggregations });
       }
     },
@@ -273,10 +270,10 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
   const handleSearch = useCallback(
     async (searchParameters, resetAggregations = true): Promise<void> => {
       setSearchParameters(searchParameters);
-      const searchResponse: DiscoveryV1.QueryResponse = await searchClient.query(searchParameters);
-      setSearchResponse(searchResponse);
-      if (searchResponse && resetAggregations) {
-        const { aggregations } = searchResponse;
+      const { result } = await searchClient.query(searchParameters);
+      setSearchResponse(result);
+      if (result && resetAggregations) {
+        const { aggregations } = result;
         setAggregationResults({ aggregations });
       }
     },

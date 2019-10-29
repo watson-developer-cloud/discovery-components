@@ -205,7 +205,7 @@ We can build the customized SDK using 3 pieces:
 In order to do this generation, follow these **ONE TIME** setup steps:
 
 1. Clone the [developer-cloud--api-definitions Watson-Discovery fork](https://github.ibm.com/Watson-Discovery/developer-cloud--api-definitions)
-1. Download a `1.x.x` tar file from https://github.ibm.com/CloudEngineering/openapi-sdkgen/releases (`2.0.0` and up have breaking changes)
+1. Download a `2.1.0` tar file from https://github.ibm.com/CloudEngineering/openapi-sdkgen/releases
 1. Run `tar -xzf openapi-sdkgen-<version>.tar.gz` to extract the generator into your current directory
 
 After the above **ONE TIME** setup steps, these are the **REPEATABLE** steps:

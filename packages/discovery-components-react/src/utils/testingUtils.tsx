@@ -22,5 +22,18 @@ export function wrapWithContext(
   );
 }
 
+export function createDummyResponse(result: any) {
+  return {
+    result,
+    status: 200,
+    statusText: 'OK',
+    headers: {}
+  };
+}
+
+export function createDummyResponsePromise(result: any) {
+  return Promise.resolve(createDummyResponse(result));
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const browserWindow: any = global; // Using this variable will allow us to access the browser window in our tests

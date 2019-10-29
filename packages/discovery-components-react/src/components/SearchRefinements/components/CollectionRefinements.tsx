@@ -24,7 +24,7 @@ export const CollectionRefinements: FC<CollectionRefinementsProps> = ({ label, t
   const {
     collectionsResults,
     searchParameters,
-    searchParameters: { collection_ids: collectionIds }
+    searchParameters: { collectionIds }
   } = useContext(SearchContext);
   const { performSearch } = useContext(SearchApi);
   const collections: Collection[] = get(collectionsResults, 'collections', []);
@@ -55,7 +55,7 @@ export const CollectionRefinements: FC<CollectionRefinementsProps> = ({ label, t
         return collection.id.split(idPrefix).pop() || '';
       })
       .filter(id => id !== '');
-    performSearch({ ...searchParameters, offset: 0, collection_ids: collectionIds });
+    performSearch({ ...searchParameters, offset: 0, collectionIds });
   };
 
   // TODO: figure out why MultiSelect doesn't set initialSelectedItems on subsequent renders

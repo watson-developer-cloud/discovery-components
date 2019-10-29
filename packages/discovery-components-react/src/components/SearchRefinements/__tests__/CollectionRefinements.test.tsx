@@ -17,10 +17,10 @@ const setup = (collectionIds?: string[]): Setup => {
     performSearch: performSearchMock
   };
   const context: Partial<SearchContextIFC> = {
-    collectionsResults: collectionsResponse,
+    collectionsResults: collectionsResponse.result,
     searchParameters: {
-      project_id: '',
-      collection_ids: collectionIds
+      projectId: '',
+      collectionIds
     }
   };
   const collectionRefinementsComponent = render(
@@ -65,7 +65,7 @@ describe('CollectionRefinementsComponent', () => {
     });
   });
 
-  describe('collection_ids query param already set', () => {
+  describe('collectionIds query param already set', () => {
     test('shows pre-selected count', () => {
       const { collectionRefinementsComponent } = setup(['deadspin9876']);
       const selectedCount = collectionRefinementsComponent.getByTitle('Clear all selected items');
@@ -89,7 +89,7 @@ describe('CollectionRefinementsComponent', () => {
     });
   });
 
-  describe('collection_ids query param not set', () => {
+  describe('collectionIds query param not set', () => {
     test('does not show pre-selected count', () => {
       const { collectionRefinementsComponent } = setup();
       const selectedCount = collectionRefinementsComponent.queryByTitle('Clear all selected items');
@@ -108,7 +108,7 @@ describe('CollectionRefinementsComponent', () => {
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
           offset: 0,
-          collection_ids: ['deadspin9876']
+          collectionIds: ['deadspin9876']
         })
       );
     });

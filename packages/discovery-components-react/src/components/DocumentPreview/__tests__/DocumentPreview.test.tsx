@@ -1,6 +1,7 @@
 import React from 'react';
 import { act, render } from '@testing-library/react';
 import omit from 'lodash/omit';
+import { NoAuthAuthenticator } from '@disco-widgets/ibm-watson/auth';
 import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
 import { DiscoverySearch } from '../../DiscoverySearch/DiscoverySearch';
 import DocumentPreview from '../DocumentPreview';
@@ -33,13 +34,24 @@ describe('DocumentPreview', () => {
   });
 
   it('renders with data from selected result', async () => {
+    const authenticator = new NoAuthAuthenticator();
     const searchClient = new DiscoveryV1({
       ur: 'http://mock:3000/api',
       version: '2019-01-01',
-      use_unauthenticated: true
+      authenticator
     });
-    jest.spyOn(searchClient, 'listCollections').mockImplementation(() => Promise.resolve({}));
-    jest.spyOn(searchClient, 'getComponentSettings').mockImplementation(() => Promise.resolve({}));
+    const dummyResponse = {
+      result: {},
+      status: 200,
+      statusText: 'OK',
+      headers: {}
+    };
+    jest
+      .spyOn(searchClient, 'listCollections')
+      .mockImplementation(() => Promise.resolve(dummyResponse));
+    jest
+      .spyOn(searchClient, 'getComponentSettings')
+      .mockImplementation(() => Promise.resolve(dummyResponse));
 
     const selectedResult = {
       document: omit(docJson, 'extracted_metadata.text_mappings'),

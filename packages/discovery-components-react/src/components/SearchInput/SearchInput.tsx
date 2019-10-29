@@ -115,7 +115,7 @@ export const SearchInput: FC<SearchInputProps> = props => {
     setAutocompletionOptions,
     setSearchParameters
   } = useContext(SearchApi);
-  const [value, setValue] = useState(searchParameters.natural_language_query || '');
+  const [value, setValue] = useState(searchParameters.naturalLanguageQuery || '');
   const completions = (autocompletionResults && autocompletionResults.completions) || [];
   const lastWordOfValue = value.split(splitSearchQuerySelector).pop();
   const [skipFetchAutoCompletions, setSkipFetchAutoCompletions] = useState(false);
@@ -147,7 +147,7 @@ export const SearchInput: FC<SearchInputProps> = props => {
     (nlq: string): DiscoveryV1.QueryParams => {
       return {
         ...searchParameters,
-        natural_language_query: nlq,
+        naturalLanguageQuery: nlq,
         offset: 0,
         filter: ''
       };
@@ -185,7 +185,7 @@ export const SearchInput: FC<SearchInputProps> = props => {
     setSearchParameters((currentSearchParameters: DiscoveryV1.QueryParams) => {
       return {
         ...currentSearchParameters,
-        natural_language_query: debouncedSearchTerm
+        naturalLanguageQuery: debouncedSearchTerm
       };
     });
 
@@ -214,7 +214,7 @@ export const SearchInput: FC<SearchInputProps> = props => {
 
   useEffect(() => {
     setSearchParameters((currentSearchParameters: DiscoveryV1.QueryParams) => {
-      return { ...currentSearchParameters, spelling_suggestions: !!spellingSuggestions };
+      return { ...currentSearchParameters, spellingSuggestions: !!spellingSuggestions };
     });
   }, [setSearchParameters, spellingSuggestions]);
 

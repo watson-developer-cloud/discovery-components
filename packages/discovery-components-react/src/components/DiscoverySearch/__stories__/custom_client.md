@@ -9,7 +9,7 @@ A custom implementation of the search client could look like:
 ```jsx
 import React from 'react';
 window.myQueryParameters = {
-  natural_language_query: ''
+  naturalLanguageQuery: ''
 };
 window.mySearchResults = {};
 class MyCustomSearchClient extends React.Component {

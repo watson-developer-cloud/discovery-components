@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
+import { NoAuthAuthenticator } from '@disco-widgets/ibm-watson/auth';
 import './app.scss';
 
 import {
@@ -15,10 +16,11 @@ import {
 
 const App = () => {
   // TODO: this is a dummy client to route requests to the server since CP4D doesn't support CORS
+  const authenticator = new NoAuthAuthenticator();
   const searchClient = new DiscoveryV1({
     url: 'http://localhost:4000/api',
     version: '2019-01-01',
-    use_unauthenticated: true
+    authenticator
   });
 
   return (

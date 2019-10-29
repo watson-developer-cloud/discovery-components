@@ -20,16 +20,16 @@ interface Setup {
 const setup = (
   filter: string,
   showCollections = false,
-  aggregations = refinementsQueryResponse.aggregations
+  aggregations = refinementsQueryResponse.result.aggregations
 ): Setup => {
   const fetchAggregationsMock = jest.fn();
   const context: Partial<SearchContextIFC> = {
     aggregationResults: {
       aggregations: aggregations
     },
-    collectionsResults: collectionsResponse,
+    collectionsResults: collectionsResponse.result,
     searchParameters: {
-      project_id: '',
+      projectId: '',
       filter: filter
     }
   };

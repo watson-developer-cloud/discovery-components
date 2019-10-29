@@ -15,10 +15,10 @@ const setup = (filter: string): Setup => {
   const performSearchMock = jest.fn();
   const context: Partial<SearchContextIFC> = {
     aggregationResults: {
-      aggregations: weirdRefinementsQueryResponse.aggregations
+      aggregations: weirdRefinementsQueryResponse.result.aggregations
     },
     searchParameters: {
-      project_id: '',
+      projectId: '',
       filter: filter
     }
   };

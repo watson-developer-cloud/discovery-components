@@ -126,7 +126,7 @@ describe('<SearchInput />', () => {
         expect(performSearchMock).toBeCalledTimes(1);
         expect(performSearchMock).toBeCalledWith(
           expect.objectContaining({
-            natural_language_query: 'cunningham',
+            naturalLanguageQuery: 'cunningham',
             filter: '',
             offset: 0
           })

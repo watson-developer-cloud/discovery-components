@@ -21,7 +21,7 @@ interface FieldRefinementsProps {
 export const FieldRefinements: FC<FieldRefinementsProps> = ({ allRefinements }) => {
   const {
     searchParameters,
-    searchParameters: { natural_language_query: naturalLanguageQuery }
+    searchParameters: { naturalLanguageQuery: naturalLanguageQuery }
   } = useContext(SearchContext);
   const { performSearch } = useContext(SearchApi);
 
