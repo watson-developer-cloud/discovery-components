@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.21.1](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.21.0...discovery-components-react-example@1.21.1) (2019-10-29)
+
+
+### Bug Fixes
+
+* updates to SDK ([#275](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/275)) ([36c1f21](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/36c1f21))
+
+
+
+
+
 # [1.21.0](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.20.11...discovery-components-react-example@1.21.0) (2019-10-29)
 
 
