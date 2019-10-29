@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.3](http:///ibm-watson/compare/@disco-widgets/ibm-watson@1.5.2...@disco-widgets/ibm-watson@1.5.3) (2019-10-29)
+
+
+### Bug Fixes
+
+* rename DiscoveryV1 to DiscoveryV2 ([#281](http:///ibm-watson/issues/281)) ([ad3b3ea](http:///ibm-watson/commits/ad3b3ea))
+
+
+
+
+
 ## [1.5.2](http:///ibm-watson/compare/@disco-widgets/ibm-watson@1.5.1...@disco-widgets/ibm-watson@1.5.2) (2019-10-29)
 
 

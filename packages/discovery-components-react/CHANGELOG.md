@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.44.2](http:///discovery-components-react/compare/@disco-widgets/react-components@1.44.1...@disco-widgets/react-components@1.44.2) (2019-10-29)
+
+
+### Bug Fixes
+
+* rename DiscoveryV1 to DiscoveryV2 ([#281](http:///discovery-components-react/issues/281)) ([ad3b3ea](http:///discovery-components-react/commits/ad3b3ea))
+
+
+
+
+
 ## [1.44.1](http:///discovery-components-react/compare/@disco-widgets/react-components@1.44.0...@disco-widgets/react-components@1.44.1) (2019-10-29)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.21.2](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.21.1...discovery-components-react-example@1.21.2) (2019-10-29)
+
+
+### Bug Fixes
+
+* rename DiscoveryV1 to DiscoveryV2 ([#281](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/281)) ([ad3b3ea](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/ad3b3ea))
+
+
+
+
+
 ## [1.21.1](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.21.0...discovery-components-react-example@1.21.1) (2019-10-29)
 
 
