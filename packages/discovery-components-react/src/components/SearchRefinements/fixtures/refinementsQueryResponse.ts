@@ -1,12 +1,12 @@
-import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
+import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import { QueryTermAggregation } from '../utils/searchRefinementInterfaces';
 import { createDummyResponse } from '../../../utils/testingUtils';
 
-interface QueryResponseWithTermAggregation extends DiscoveryV1.QueryResponse {
+interface QueryResponseWithTermAggregation extends DiscoveryV2.QueryResponse {
   aggregations?: QueryTermAggregation[];
 }
 
-export const refinementsQueryResponse: DiscoveryV1.Response<
+export const refinementsQueryResponse: DiscoveryV2.Response<
   QueryResponseWithTermAggregation
 > = createDummyResponse({
   matching_results: 123456,
@@ -57,7 +57,7 @@ export const refinementsQueryResponse: DiscoveryV1.Response<
   ]
 });
 
-export const weirdRefinementsQueryResponse: DiscoveryV1.Response<
+export const weirdRefinementsQueryResponse: DiscoveryV2.Response<
   QueryResponseWithTermAggregation
 > = createDummyResponse({
   matching_results: 123456,

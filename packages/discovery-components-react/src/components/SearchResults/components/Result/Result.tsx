@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
+import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import get from 'lodash/get';
 import isEqual from 'lodash.isequal';
 import { settings } from 'carbon-components';
@@ -9,7 +9,7 @@ import { Passage } from '../Passage/Passage';
 import { Table } from '../Table/Table';
 
 interface ResultProps {
-  result: DiscoveryV1.QueryResult;
+  result: DiscoveryV2.QueryResult;
   /**
    * specify a field on the result object to pull the result title from
    */
@@ -37,7 +37,7 @@ interface ResultProps {
   /**
    * table results for the result object
    */
-  tableResults: DiscoveryV1.QueryTableResult[];
+  tableResults: DiscoveryV2.QueryTableResult[];
   /** specify a label to display instead of 'Collection Name:' on each search Result
    */
   collectionLabel: string;
@@ -73,7 +73,7 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   const { selectedResult } = useContext(SearchContext);
   const title: string | undefined = get(result, resultTitleField);
   const filename: string | undefined = get(result, 'extracted_metadata.filename');
-  const firstPassage: DiscoveryV1.QueryResultPassage | undefined = get(
+  const firstPassage: DiscoveryV2.QueryResultPassage | undefined = get(
     result,
     'document_passages[0]'
   );

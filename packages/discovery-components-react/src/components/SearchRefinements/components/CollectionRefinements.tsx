@@ -3,7 +3,7 @@ import get from 'lodash/get';
 import { SearchContext, SearchApi } from '../../DiscoverySearch/DiscoverySearch';
 import { MultiSelect as CarbonMultiSelect } from 'carbon-components-react';
 import { settings } from 'carbon-components';
-import { Collection } from '@disco-widgets/ibm-watson/discovery/v1';
+import { Collection } from '@disco-widgets/ibm-watson/discovery/v2';
 
 interface SelectedCollectionItems {
   selectedItems: CollectionItem[];

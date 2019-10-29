@@ -6,12 +6,12 @@ import {
   SearchApi,
   SearchContext
 } from '../DiscoverySearch';
-import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
+import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import { createDummyResponsePromise } from '../../../utils/testingUtils';
 interface Setup {
   fullTree: JSX.Element;
   result: RenderResult;
-  searchClient: Pick<DiscoveryV1, 'query' | 'getAutocompletion' | 'listCollections'>;
+  searchClient: Pick<DiscoveryV2, 'query' | 'getAutocompletion' | 'listCollections'>;
 }
 
 const setup = (props: Partial<DiscoverySearchProps>, children: JSX.Element): Setup => {

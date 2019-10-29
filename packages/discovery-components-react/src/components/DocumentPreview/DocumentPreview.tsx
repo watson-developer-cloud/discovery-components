@@ -1,7 +1,7 @@
 import React, { FC, ReactElement, useContext, useEffect, useState } from 'react';
 import get from 'lodash/get';
 import { settings } from 'carbon-components';
-import { QueryResult } from '@disco-widgets/ibm-watson/discovery/v1';
+import { QueryResult } from '@disco-widgets/ibm-watson/discovery/v2';
 import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import PreviewToolbar, {
   ZOOM_IN,

@@ -27,13 +27,13 @@ import { getSdkHeaders } from '../lib/common';
  * eliminate the need for manual filtering of results.
  */
 
-class DiscoveryV1 extends BaseService {
+class DiscoveryV2 extends BaseService {
 
   name: string; // set by prototype to 'discovery-data'
-  serviceVersion: string; // set by prototype to 'v1'
+  serviceVersion: string; // set by prototype to 'v2'
 
   /**
-   * Construct a DiscoveryV1 object.
+   * Construct a DiscoveryV2 object.
    *
    * @param {Object} options - Options for the service.
    * @param {string} options.version - The API version date to use with the service, in "YYYY-MM-DD" format. Whenever
@@ -46,7 +46,7 @@ class DiscoveryV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [options.headers] - Default headers that shall be included with every request to the service.
    * @param {Authenticator} [options.authenticator] - The Authenticator object used to authenticate requests to the service. Defaults to environment if not set
    * @constructor
-   * @returns {DiscoveryV1}
+   * @returns {DiscoveryV2}
    * @throws {Error}
    */
   constructor(options: UserOptions) {
@@ -75,9 +75,9 @@ class DiscoveryV1 extends BaseService {
    * @param {string} params.projectId - The ID of the project.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @param {Function} [callback] - The callback that handles the response
-   * @returns {Promise<DiscoveryV1.Response<DiscoveryV1.ListCollectionsResponse>>}
+   * @returns {Promise<DiscoveryV2.Response<DiscoveryV2.ListCollectionsResponse>>}
    */
-  public listCollections(params: DiscoveryV1.ListCollectionsParams, callback?: DiscoveryV1.Callback<DiscoveryV1.ListCollectionsResponse>): Promise<DiscoveryV1.Response<DiscoveryV1.ListCollectionsResponse>> {
+  public listCollections(params: DiscoveryV2.ListCollectionsParams, callback?: DiscoveryV2.Callback<DiscoveryV2.ListCollectionsResponse>): Promise<DiscoveryV2.Response<DiscoveryV2.ListCollectionsResponse>> {
     const _params = extend({}, params);
     const _callback = callback;
     const requiredParams = ['projectId'];
@@ -96,7 +96,7 @@ class DiscoveryV1 extends BaseService {
         'project_id': _params.projectId
       };
 
-      const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'listCollections');
+      const sdkHeaders = getSdkHeaders('discovery-data', 'v2', 'listCollections');
 
       const parameters = {
         options: {
@@ -171,9 +171,9 @@ class DiscoveryV1 extends BaseService {
    * @param {QueryLargePassages} [params.passages] - Configuration for passage retrieval.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @param {Function} [callback] - The callback that handles the response
-   * @returns {Promise<DiscoveryV1.Response<DiscoveryV1.QueryResponse>>}
+   * @returns {Promise<DiscoveryV2.Response<DiscoveryV2.QueryResponse>>}
    */
-  public query(params: DiscoveryV1.QueryParams, callback?: DiscoveryV1.Callback<DiscoveryV1.QueryResponse>): Promise<DiscoveryV1.Response<DiscoveryV1.QueryResponse>> {
+  public query(params: DiscoveryV2.QueryParams, callback?: DiscoveryV2.Callback<DiscoveryV2.QueryResponse>): Promise<DiscoveryV2.Response<DiscoveryV2.QueryResponse>> {
     const _params = extend({}, params);
     const _callback = callback;
     const requiredParams = ['projectId'];
@@ -209,7 +209,7 @@ class DiscoveryV1 extends BaseService {
         'project_id': _params.projectId
       };
 
-      const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'query');
+      const sdkHeaders = getSdkHeaders('discovery-data', 'v2', 'query');
 
       const parameters = {
         options: {
@@ -259,9 +259,9 @@ class DiscoveryV1 extends BaseService {
    * @param {number} [params.count] - The number of autocompletion suggestions to return.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @param {Function} [callback] - The callback that handles the response
-   * @returns {Promise<DiscoveryV1.Response<DiscoveryV1.Completions>>}
+   * @returns {Promise<DiscoveryV2.Response<DiscoveryV2.Completions>>}
    */
-  public getAutocompletion(params: DiscoveryV1.GetAutocompletionParams, callback?: DiscoveryV1.Callback<DiscoveryV1.Completions>): Promise<DiscoveryV1.Response<DiscoveryV1.Completions>> {
+  public getAutocompletion(params: DiscoveryV2.GetAutocompletionParams, callback?: DiscoveryV2.Callback<DiscoveryV2.Completions>): Promise<DiscoveryV2.Response<DiscoveryV2.Completions>> {
     const _params = extend({}, params);
     const _callback = callback;
     const requiredParams = ['projectId'];
@@ -287,7 +287,7 @@ class DiscoveryV1 extends BaseService {
         'project_id': _params.projectId
       };
 
-      const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'getAutocompletion');
+      const sdkHeaders = getSdkHeaders('discovery-data', 'v2', 'getAutocompletion');
 
       const parameters = {
         options: {
@@ -334,9 +334,9 @@ class DiscoveryV1 extends BaseService {
    * @param {string} params.projectId - The ID of the project.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @param {Function} [callback] - The callback that handles the response
-   * @returns {Promise<DiscoveryV1.Response<DiscoveryV1.ComponentSettingsResponse>>}
+   * @returns {Promise<DiscoveryV2.Response<DiscoveryV2.ComponentSettingsResponse>>}
    */
-  public getComponentSettings(params: DiscoveryV1.GetComponentSettingsParams, callback?: DiscoveryV1.Callback<DiscoveryV1.ComponentSettingsResponse>): Promise<DiscoveryV1.Response<DiscoveryV1.ComponentSettingsResponse>> {
+  public getComponentSettings(params: DiscoveryV2.GetComponentSettingsParams, callback?: DiscoveryV2.Callback<DiscoveryV2.ComponentSettingsResponse>): Promise<DiscoveryV2.Response<DiscoveryV2.ComponentSettingsResponse>> {
     const _params = extend({}, params);
     const _callback = callback;
     const requiredParams = ['projectId'];
@@ -355,7 +355,7 @@ class DiscoveryV1 extends BaseService {
         'project_id': _params.projectId
       };
 
-      const sdkHeaders = getSdkHeaders('discovery-data', 'v1', 'getComponentSettings');
+      const sdkHeaders = getSdkHeaders('discovery-data', 'v2', 'getComponentSettings');
 
       const parameters = {
         options: {
@@ -390,14 +390,14 @@ class DiscoveryV1 extends BaseService {
 
 }
 
-DiscoveryV1.prototype.name = 'discovery-data';
-DiscoveryV1.prototype.serviceVersion = 'v1';
+DiscoveryV2.prototype.name = 'discovery-data';
+DiscoveryV2.prototype.serviceVersion = 'v2';
 
 /*************************
  * interfaces
  ************************/
 
-namespace DiscoveryV1 {
+namespace DiscoveryV2 {
 
   /** An operation response. **/
   export interface Response<T = any>  {
@@ -976,4 +976,4 @@ namespace DiscoveryV1 {
 
 }
 
-export = DiscoveryV1;
+export = DiscoveryV2;

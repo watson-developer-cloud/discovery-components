@@ -7,7 +7,7 @@ import collectionsResponse from './fixtures/collectionsResponse';
 import { StoryWrapper, DummySearchClient } from '../../utils/storybookUtils';
 import { createDummyResponsePromise } from '../../utils/testingUtils';
 import { DiscoverySearch, DiscoverySearchProps } from '../DiscoverySearch/DiscoverySearch';
-import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
+import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import { action } from '@storybook/addon-actions';
 
 export const props = () => ({
@@ -25,20 +25,20 @@ export const props = () => ({
 });
 
 class DummySearchClientWithQueryAndCollections extends DummySearchClient {
-  query(params: DiscoveryV1.QueryParams): Promise<DiscoveryV1.Response<DiscoveryV1.QueryResponse>> {
+  query(params: DiscoveryV2.QueryParams): Promise<DiscoveryV2.Response<DiscoveryV2.QueryResponse>> {
     action('query')(params);
     return createDummyResponsePromise(refinementsQueryResponse.result);
   }
   listCollections(
-    params: DiscoveryV1.ListCollectionsParams
-  ): Promise<DiscoveryV1.Response<DiscoveryV1.ListCollectionsResponse>> {
+    params: DiscoveryV2.ListCollectionsParams
+  ): Promise<DiscoveryV2.Response<DiscoveryV2.ListCollectionsResponse>> {
     action('listCollections')(params);
     return createDummyResponsePromise(collectionsResponse.result);
   }
 }
 
 const discoverySearchProps = (
-  queryParams?: Partial<DiscoveryV1.QueryParams>
+  queryParams?: Partial<DiscoveryV2.QueryParams>
 ): DiscoverySearchProps => ({
   searchClient: new DummySearchClientWithQueryAndCollections(),
   projectId: text('Project ID', 'project-id'),

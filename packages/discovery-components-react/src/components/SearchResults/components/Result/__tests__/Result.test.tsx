@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { SearchContextIFC } from '../../../../DiscoverySearch/DiscoverySearch';
-import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
+import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 
 import { wrapWithContext, browserWindow } from '../../../../../utils/testingUtils';
 import { SearchResults } from '../../../SearchResults';
@@ -42,7 +42,7 @@ describe('<Result />', () => {
   describe('on result passage click', () => {
     test('will call onSelectResult with result and passage element and element type as parameters', () => {
       const mockSelectResult = jest.fn();
-      (context.searchResponse as DiscoveryV1.QueryResponse).results = [
+      (context.searchResponse as DiscoveryV2.QueryResponse).results = [
         {
           document_id: 'some document_id',
           document_passages: [
@@ -67,7 +67,7 @@ describe('<Result />', () => {
 
     test('will call onSelectResult with result and table element and element type as parameters', () => {
       const mockSelectResult = jest.fn();
-      (context.searchResponse as DiscoveryV1.QueryResponse).results = [
+      (context.searchResponse as DiscoveryV2.QueryResponse).results = [
         {
           document_id: 'some document_id',
           document_passages: [
@@ -77,7 +77,7 @@ describe('<Result />', () => {
           ]
         }
       ];
-      (context.searchResponse as DiscoveryV1.QueryResponse).table_results = [
+      (context.searchResponse as DiscoveryV2.QueryResponse).table_results = [
         {
           table_id: '558ada041262d5b0aa02a05429d798c7',
           source_document_id: 'some document_id',
@@ -101,7 +101,7 @@ describe('<Result />', () => {
 
   describe('when usePassages is set to true', () => {
     test('will render the first passage if it exists', () => {
-      (context.searchResponse as DiscoveryV1.QueryResponse).results = [
+      (context.searchResponse as DiscoveryV2.QueryResponse).results = [
         {
           document_id: 'some document_id',
           document_passages: [
@@ -121,7 +121,7 @@ describe('<Result />', () => {
     });
 
     test('will render the bodyField if first passage doesnt exist', () => {
-      (context.searchResponse as DiscoveryV1.QueryResponse).results = [
+      (context.searchResponse as DiscoveryV2.QueryResponse).results = [
         {
           document_id: 'some document_id',
           document_passages: [],
@@ -138,7 +138,7 @@ describe('<Result />', () => {
   describe('when usePassages is set to false', () => {
     describe('and there is a value at bodyField', () => {
       it('displays the bodyField text', () => {
-        (context.searchResponse as DiscoveryV1.QueryResponse).results = [
+        (context.searchResponse as DiscoveryV2.QueryResponse).results = [
           {
             document_id: 'some document_id',
             text: 'i am text',
@@ -161,7 +161,7 @@ describe('<Result />', () => {
     });
     describe('and bodyField is undefined', () => {
       beforeEach(() => {
-        (context.searchResponse as DiscoveryV1.QueryResponse).results = [
+        (context.searchResponse as DiscoveryV2.QueryResponse).results = [
           {
             document_id: 'some document_id',
             text: 'i am text'
@@ -180,7 +180,7 @@ describe('<Result />', () => {
 
   describe('when usePassages is null', () => {
     test('will render the first passage if it exists', () => {
-      (context.searchResponse as DiscoveryV1.QueryResponse).results = [
+      (context.searchResponse as DiscoveryV2.QueryResponse).results = [
         {
           document_id: 'some document_id',
           document_passages: [
@@ -200,7 +200,7 @@ describe('<Result />', () => {
     describe('and there are no passages in the result object', () => {
       describe('and there is a value for bodyField', () => {
         it('displays the bodyField text', () => {
-          (context.searchResponse as DiscoveryV1.QueryResponse).results = [
+          (context.searchResponse as DiscoveryV2.QueryResponse).results = [
             {
               document_id: 'some document_id',
               text: 'i am text',
@@ -226,7 +226,7 @@ describe('<Result />', () => {
         const mockResult = {
           document_id: 'some document_id'
         };
-        (context.searchResponse as DiscoveryV1.QueryResponse).results = [mockResult];
+        (context.searchResponse as DiscoveryV2.QueryResponse).results = [mockResult];
         const api = {
           setSelectedResult: jest.fn()
         };
@@ -241,7 +241,7 @@ describe('<Result />', () => {
           browserWindow.open = jest.fn();
           const urlValue = 'https://www.ibm.com';
 
-          (context.searchResponse as DiscoveryV1.QueryResponse).results = [
+          (context.searchResponse as DiscoveryV2.QueryResponse).results = [
             {
               document_id: 'some document_id',
               url: urlValue,
@@ -261,7 +261,7 @@ describe('<Result />', () => {
           browserWindow.open = jest.fn();
           const urlValue = 'https://www.ibm.com';
 
-          (context.searchResponse as DiscoveryV1.QueryResponse).results = [
+          (context.searchResponse as DiscoveryV2.QueryResponse).results = [
             {
               document_id: 'some document_id',
               url: { value: urlValue },
@@ -292,7 +292,7 @@ describe('<Result />', () => {
         const api = {
           setSelectedResult: jest.fn()
         };
-        (context.searchResponse as DiscoveryV1.QueryResponse).results = [mockResult];
+        (context.searchResponse as DiscoveryV2.QueryResponse).results = [mockResult];
         const { getByText } = render(
           wrapWithContext(
             <SearchResults resultLinkTemplate={'https://{{url.firstPart}}.{{url.secondPart}}'} />,
@@ -306,7 +306,7 @@ describe('<Result />', () => {
 
       test('will open a new window with the correct value', () => {
         browserWindow.open = jest.fn();
-        (context.searchResponse as DiscoveryV1.QueryResponse).results = [
+        (context.searchResponse as DiscoveryV2.QueryResponse).results = [
           {
             document_id: 'some document_id',
             url: {
@@ -333,7 +333,7 @@ describe('<Result />', () => {
 
   describe('when there is a value for resultTitleField', () => {
     test('we display the value at that property', () => {
-      (context.searchResponse as DiscoveryV1.QueryResponse).results = [
+      (context.searchResponse as DiscoveryV2.QueryResponse).results = [
         {
           document_id: 'some document_id',
           extracted_metadata: {
@@ -355,7 +355,7 @@ describe('<Result />', () => {
 
   describe('when the result prop has a title and filename property', () => {
     test('we display the title', () => {
-      (context.searchResponse as DiscoveryV1.QueryResponse).results = [
+      (context.searchResponse as DiscoveryV2.QueryResponse).results = [
         {
           document_id: 'some document_id',
           extracted_metadata: {
@@ -374,7 +374,7 @@ describe('<Result />', () => {
 
   describe('when the result prop has a title but no filename property', () => {
     test('we display title only', () => {
-      (context.searchResponse as DiscoveryV1.QueryResponse).results = [
+      (context.searchResponse as DiscoveryV2.QueryResponse).results = [
         {
           document_id: 'some document_id',
           extracted_metadata: {
@@ -390,7 +390,7 @@ describe('<Result />', () => {
 
   describe('when the result prop has a filename but no title property', () => {
     test('we display filename only', () => {
-      (context.searchResponse as DiscoveryV1.QueryResponse).results = [
+      (context.searchResponse as DiscoveryV2.QueryResponse).results = [
         {
           document_id: 'some document_id',
           extracted_metadata: {
@@ -405,7 +405,7 @@ describe('<Result />', () => {
 
   describe('when the result prop has no filename or title property', () => {
     test('we display the document_id once', () => {
-      (context.searchResponse as DiscoveryV1.QueryResponse).results = [
+      (context.searchResponse as DiscoveryV2.QueryResponse).results = [
         {
           document_id: 'some document_id'
         }
@@ -417,7 +417,7 @@ describe('<Result />', () => {
 
   describe('when collectionLabel is passed as a param', () => {
     test('will render', () => {
-      (context.searchResponse as DiscoveryV1.QueryResponse).results = [
+      (context.searchResponse as DiscoveryV2.QueryResponse).results = [
         {
           document_id: 'some document_id',
           collection_id: '123',
@@ -445,7 +445,7 @@ describe('<Result />', () => {
 
   describe('when there are collectionsResults stored in context', () => {
     test('renders the collectionName', () => {
-      (context.searchResponse as DiscoveryV1.QueryResponse).results = [
+      (context.searchResponse as DiscoveryV2.QueryResponse).results = [
         {
           document_id: 'some document_id',
           collection_id: '123',

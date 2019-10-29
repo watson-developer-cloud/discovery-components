@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { QueryResult, QueryResultPassage } from '@disco-widgets/ibm-watson/discovery/v1';
+import { QueryResult, QueryResultPassage } from '@disco-widgets/ibm-watson/discovery/v2';
 import { CellPage, TextMappings } from '../../types';
 
 // React hook for retrieving passage bbox data from document

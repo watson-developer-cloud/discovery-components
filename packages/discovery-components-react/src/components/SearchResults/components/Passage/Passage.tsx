@@ -1,5 +1,5 @@
 import React from 'react';
-import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
+import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import Launch from '@carbon/icons-react/lib/launch/16.js';
 import { ResultElement, SharedElementProps } from '../ResultElement/ResultElement';
 
@@ -11,7 +11,7 @@ interface PassageProps extends SharedElementProps {
   /**
    * If there is a passage,
    */
-  passage?: DiscoveryV1.QueryResultPassage | undefined;
+  passage?: DiscoveryV2.QueryResultPassage | undefined;
   /**
    * Override the default button text for viewing displayed text (either a passage or a defined body field) in the document
    */

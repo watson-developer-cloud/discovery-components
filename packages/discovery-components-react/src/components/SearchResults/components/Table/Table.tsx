@@ -1,5 +1,5 @@
 import React from 'react';
-import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
+import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import TableSplit from '@carbon/icons-react/lib/table--split/16.js';
 import { ResultElement, SharedElementProps } from '../ResultElement/ResultElement';
 
@@ -7,7 +7,7 @@ interface TableProps extends SharedElementProps {
   /**
    * the first table result for the search result
    */
-  table: DiscoveryV1.QueryTableResult;
+  table: DiscoveryV2.QueryTableResult;
   /**
    * Override the default button text for viewing a table in the document
    */

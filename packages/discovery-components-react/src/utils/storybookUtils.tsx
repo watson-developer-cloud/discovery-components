@@ -1,5 +1,5 @@
 import React from 'react';
-import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
+import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import { action } from '@storybook/addon-actions';
 import { createDummyResponsePromise } from './testingUtils';
 
@@ -9,13 +9,13 @@ export const StoryWrapper = (props: any): any => (
 
 export class DummySearchClient {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async query(queryParams: DiscoveryV1.QueryParams): Promise<any> {
+  public async query(queryParams: DiscoveryV2.QueryParams): Promise<any> {
     action('query')(queryParams);
     return createDummyResponsePromise({});
   }
 
   public async getAutocompletion(
-    autocompletionParams: DiscoveryV1.GetAutocompletionParams
+    autocompletionParams: DiscoveryV2.GetAutocompletionParams
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): Promise<any> {
     action('getAutocompletion')(autocompletionParams);
@@ -23,7 +23,7 @@ export class DummySearchClient {
   }
 
   public async listCollections(
-    listCollectionParams: DiscoveryV1.ListCollectionsParams
+    listCollectionParams: DiscoveryV2.ListCollectionsParams
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): Promise<any> {
     action('listCollection')(listCollectionParams);
@@ -31,7 +31,7 @@ export class DummySearchClient {
   }
 
   public async getComponentSettings(
-    getComponentSettingsParams: DiscoveryV1.GetComponentSettingsParams
+    getComponentSettingsParams: DiscoveryV2.GetComponentSettingsParams
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): Promise<any> {
     action('getComponentSettings')(getComponentSettingsParams);

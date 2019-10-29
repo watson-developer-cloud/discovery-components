@@ -1,6 +1,6 @@
 import findIndex from 'lodash/findIndex';
 import SaxesParser, { ParsingError } from './saxesParser';
-import { QueryResult } from '@disco-widgets/ibm-watson/discovery/v1';
+import { QueryResult } from '@disco-widgets/ibm-watson/discovery/v2';
 import { SaxesTag } from 'saxes';
 
 // split HTML into "sections" based on these top level tag(s)

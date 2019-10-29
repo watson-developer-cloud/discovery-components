@@ -1,22 +1,22 @@
-import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
+import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 
-interface Filter extends DiscoveryV1.QueryAggregation {
+interface Filter extends DiscoveryV2.QueryAggregation {
   match?: string;
 }
 
-interface Nested extends DiscoveryV1.QueryAggregation {
+interface Nested extends DiscoveryV2.QueryAggregation {
   path?: string;
 }
 
 // TODO - merge this logic into SDK definition
 interface QueryAggregation
-  extends Omit<DiscoveryV1.QueryAggregation, 'aggregations'>,
-    DiscoveryV1.Term,
+  extends Omit<DiscoveryV2.QueryAggregation, 'aggregations'>,
+    DiscoveryV2.Term,
     Filter,
     Nested {
   aggregations?: QueryAggregation[];
 }
-interface QueryResponse extends Omit<DiscoveryV1.QueryResponse, 'aggregations'> {
+interface QueryResponse extends Omit<DiscoveryV2.QueryResponse, 'aggregations'> {
   aggregations?: QueryAggregation[];
 }
 

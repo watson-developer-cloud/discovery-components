@@ -1,12 +1,12 @@
 import { SearchFilterTransform } from './searchFilterTransform';
 import { QueryTermAggregation, SelectableAggregationResult } from './searchRefinementInterfaces';
 import { findTermAggregations } from './findTermAggregations';
-import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
+import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import get from 'lodash/get';
 import unionBy from 'lodash/unionBy';
 
 export const mergeFilterRefinements = (
-  aggregations: DiscoveryV1.QueryAggregation[],
+  aggregations: DiscoveryV2.QueryAggregation[],
   filter: string,
   configuration: QueryTermAggregation[]
 ) => {
@@ -21,7 +21,7 @@ export const mergeFilterRefinements = (
     })
     .map((aggregation: QueryTermAggregation) => {
       const aggregationField = get(aggregation, 'field', '');
-      const aggregationResults: DiscoveryV1.AggregationResult[] = get(aggregation, 'results', []);
+      const aggregationResults: DiscoveryV2.AggregationResult[] = get(aggregation, 'results', []);
       const filterRefinementsForField = filterRefinements.find(
         aggregation => aggregation.field === aggregationField
       );

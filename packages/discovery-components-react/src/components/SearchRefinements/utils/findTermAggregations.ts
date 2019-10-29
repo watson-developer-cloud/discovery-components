@@ -1,11 +1,11 @@
-import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
+import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import { QueryTermAggregation } from './searchRefinementInterfaces';
 
 export function findTermAggregations(
-  inputAggregations: DiscoveryV1.QueryAggregation[] = [],
+  inputAggregations: DiscoveryV2.QueryAggregation[] = [],
   outputAggregations: QueryTermAggregation[] = []
 ): QueryTermAggregation[] {
-  inputAggregations.forEach((aggregation: DiscoveryV1.QueryAggregation) => {
+  inputAggregations.forEach((aggregation: DiscoveryV2.QueryAggregation) => {
     if (aggregation.type === 'term') {
       outputAggregations.push(aggregation);
     } else {

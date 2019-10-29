@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useRef } from 'react';
 import { settings } from 'carbon-components';
-import { QueryResult, QueryResultPassage } from '@disco-widgets/ibm-watson/discovery/v1';
+import { QueryResult, QueryResultPassage } from '@disco-widgets/ibm-watson/discovery/v2';
 import { clearNodeChildren } from '../../utils/dom';
 import { findOffsetInDOM, createFieldRects } from '../../utils/document';
 

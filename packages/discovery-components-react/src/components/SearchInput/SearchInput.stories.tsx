@@ -5,7 +5,7 @@ import SearchInput from './SearchInput';
 import { DiscoverySearch, DiscoverySearchProps } from '../DiscoverySearch/DiscoverySearch';
 import { StoryWrapper, DummySearchClient } from '../../utils/storybookUtils';
 import { createDummyResponsePromise } from '../../utils/testingUtils';
-import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
+import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import { action } from '@storybook/addon-actions';
 
 const props = () => ({
@@ -43,8 +43,8 @@ const generateCompletionsArray = (length: number) => {
 
 class DummySearchClientWithAutocomplete extends DummySearchClient {
   getAutocompletion(
-    params: DiscoveryV1.GetAutocompletionParams
-  ): Promise<DiscoveryV1.Response<DiscoveryV1.Completions>> {
+    params: DiscoveryV2.GetAutocompletionParams
+  ): Promise<DiscoveryV2.Response<DiscoveryV2.Completions>> {
     action('getAutocompletion')(params);
     currentValue = params.prefix || '';
     autocompletions = generateCompletionsArray(props().completionsCount || 0);

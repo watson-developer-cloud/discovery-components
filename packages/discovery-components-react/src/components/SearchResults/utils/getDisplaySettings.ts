@@ -1,10 +1,10 @@
 import { SearchResultsProps } from '../SearchResults';
-import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
+import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import get from 'lodash/get';
 
 export const getDisplaySettings = (
   params: Pick<SearchResultsProps, 'resultTitleField' | 'bodyField' | 'usePassages'>,
-  componentSettings: DiscoveryV1.ComponentSettingsResponse | null = null
+  componentSettings: DiscoveryV2.ComponentSettingsResponse | null = null
 ): Required<Pick<SearchResultsProps, 'resultTitleField' | 'bodyField' | 'usePassages'>> => {
   return {
     resultTitleField:

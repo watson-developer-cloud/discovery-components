@@ -4,7 +4,7 @@ require('dotenv').config({ path: './.server-env' });
 const path = require('path');
 const express = require('express');
 const app = express();
-const DiscoveryV1 = require('@disco-widgets/ibm-watson/discovery/v1');
+const DiscoveryV2 = require('@disco-widgets/ibm-watson/discovery/v2');
 const { CloudPakForDataAuthenticator } = require('@disco-widgets/ibm-watson/auth');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -18,7 +18,7 @@ const authenticator = new CloudPakForDataAuthenticator({
   password: process.env.CLUSTER_PASSWORD || 'password',
   disableSslVerification: true
 });
-const searchClient = new DiscoveryV1({
+const searchClient = new DiscoveryV2({
   authenticator,
   url: `${BASE_URL}${RELEASE_PATH}`,
   disableSslVerification: true,

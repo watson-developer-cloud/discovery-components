@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { SearchApi, SearchContext } from '../DiscoverySearch/DiscoverySearch';
-import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
+import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import { Result } from './components/Result/Result';
 import { findCollectionName, getDisplaySettings } from './utils';
 
@@ -75,7 +75,7 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
 
   useEffect(() => {
     if (passageLength) {
-      setSearchParameters((currentSearchParameters: DiscoveryV1.QueryParams) => {
+      setSearchParameters((currentSearchParameters: DiscoveryV2.QueryParams) => {
         return {
           ...currentSearchParameters,
           passages: {
@@ -90,8 +90,8 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   if (matchingResults && matchingResults > 0) {
     return (
       <div>
-        {(results as DiscoveryV1.QueryResult[]).map(result => {
-          const documentTableResults: DiscoveryV1.QueryTableResult[] = tableResults.filter(
+        {(results as DiscoveryV2.QueryResult[]).map(result => {
+          const documentTableResults: DiscoveryV2.QueryTableResult[] = tableResults.filter(
             tableResult => {
               return tableResult.source_document_id === result.document_id;
             }

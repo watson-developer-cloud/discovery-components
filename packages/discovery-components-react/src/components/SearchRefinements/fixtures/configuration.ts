@@ -1,13 +1,13 @@
-import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
+import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 
-export const configurationWithOneField: DiscoveryV1.Term[] = [
+export const configurationWithOneField: DiscoveryV2.Term[] = [
   {
     field: 'enriched_text.keywords',
     count: 10
   }
 ];
 
-export const configurationWithTwoFields: DiscoveryV1.Term[] = [
+export const configurationWithTwoFields: DiscoveryV2.Term[] = [
   {
     field: 'enriched_text.keywords',
     count: 10
@@ -18,7 +18,7 @@ export const configurationWithTwoFields: DiscoveryV1.Term[] = [
   }
 ];
 
-export const configurationWithoutCounts: DiscoveryV1.Term[] = [
+export const configurationWithoutCounts: DiscoveryV2.Term[] = [
   {
     field: 'enriched_text.keywords'
   },

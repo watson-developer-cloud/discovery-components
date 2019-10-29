@@ -1,5 +1,5 @@
 import React, { FC, useContext } from 'react';
-import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
+import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import { CloudPakForDataAuthenticator } from '@disco-widgets/ibm-watson/auth';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, text, object } from '@storybook/addon-knobs/react';
@@ -55,7 +55,7 @@ storiesOf('DiscoverySearch', module)
         password: text('Password', 'bar')
       });
       const defaultProps = (): DiscoverySearchProps => ({
-        searchClient: new DiscoveryV1({
+        searchClient: new DiscoveryV2({
           authenticator,
           url: text('Release Path Url', 'http://mycluster.com/my_release'),
           version: text('Version Date', '2019-01-01')

@@ -1,6 +1,6 @@
 import React, { SFC, useEffect } from 'react';
 import get from 'lodash/get';
-import { QueryResultPassage, QueryResult } from '@disco-widgets/ibm-watson/discovery/v1';
+import { QueryResultPassage, QueryResult } from '@disco-widgets/ibm-watson/discovery/v2';
 import { usePassage } from './passages';
 
 interface Props {

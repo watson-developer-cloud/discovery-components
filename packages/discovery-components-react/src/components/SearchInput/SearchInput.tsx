@@ -20,7 +20,7 @@ import { SearchApi, SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import useDebounce from '../../utils/useDebounce';
 import uuid from 'uuid';
 import Search16 from '@carbon/icons-react/lib/search/16.js';
-import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
+import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import { useDeepCompareCallback } from '../../utils/useDeepCompareMemoize';
 
 interface SearchInputProps {
@@ -144,7 +144,7 @@ export const SearchInput: FC<SearchInputProps> = props => {
   };
 
   const prepareFreshSearchParameters = useDeepCompareCallback(
-    (nlq: string): DiscoveryV1.QueryParams => {
+    (nlq: string): DiscoveryV2.QueryParams => {
       return {
         ...searchParameters,
         naturalLanguageQuery: nlq,
@@ -182,7 +182,7 @@ export const SearchInput: FC<SearchInputProps> = props => {
 
   const debouncedSearchTerm = useDebounce(value, 500);
   useEffect(() => {
-    setSearchParameters((currentSearchParameters: DiscoveryV1.QueryParams) => {
+    setSearchParameters((currentSearchParameters: DiscoveryV2.QueryParams) => {
       return {
         ...currentSearchParameters,
         naturalLanguageQuery: debouncedSearchTerm
@@ -213,7 +213,7 @@ export const SearchInput: FC<SearchInputProps> = props => {
   ]);
 
   useEffect(() => {
-    setSearchParameters((currentSearchParameters: DiscoveryV1.QueryParams) => {
+    setSearchParameters((currentSearchParameters: DiscoveryV2.QueryParams) => {
       return { ...currentSearchParameters, spellingSuggestions: !!spellingSuggestions };
     });
   }, [setSearchParameters, spellingSuggestions]);

@@ -1,4 +1,4 @@
-import { Response, ListCollectionsResponse } from '@disco-widgets/ibm-watson/discovery/v1';
+import { Response, ListCollectionsResponse } from '@disco-widgets/ibm-watson/discovery/v2';
 import { createDummyResponse } from '../../../utils/testingUtils';
 
 const collectionsResponse: Response<ListCollectionsResponse> = createDummyResponse({

@@ -2,7 +2,7 @@ import React from 'react';
 import { act, render } from '@testing-library/react';
 import omit from 'lodash/omit';
 import { NoAuthAuthenticator } from '@disco-widgets/ibm-watson/auth';
-import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
+import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import { DiscoverySearch } from '../../DiscoverySearch/DiscoverySearch';
 import DocumentPreview from '../DocumentPreview';
 import { document as doc } from '../__fixtures__/Art Effects.pdf';
@@ -35,7 +35,7 @@ describe('DocumentPreview', () => {
 
   it('renders with data from selected result', async () => {
     const authenticator = new NoAuthAuthenticator();
-    const searchClient = new DiscoveryV1({
+    const searchClient = new DiscoveryV2({
       ur: 'http://mock:3000/api',
       version: '2019-01-01',
       authenticator

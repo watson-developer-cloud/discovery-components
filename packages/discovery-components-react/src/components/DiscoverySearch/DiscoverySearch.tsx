@@ -1,19 +1,19 @@
 import React, { createContext, FC, useEffect, useState, useCallback, useMemo } from 'react';
-import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
+import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import {
   useDeepCompareEffect,
   useDeepCompareCallback,
   useDeepCompareMemo
 } from '../../utils/useDeepCompareMemoize';
 
-export type SearchParams = Omit<DiscoveryV1.QueryParams, 'projectId' | 'headers'>;
+export type SearchParams = Omit<DiscoveryV2.QueryParams, 'projectId' | 'headers'>;
 
 export interface DiscoverySearchProps {
   /**
    * Search client
    */
   searchClient: Pick<
-    DiscoveryV1,
+    DiscoveryV2,
     'query' | 'getAutocompletion' | 'listCollections' | 'getComponentSettings'
   >;
   /**
@@ -23,11 +23,11 @@ export interface DiscoverySearchProps {
   /**
    * Aggregation results used to override internal aggregation search results state
    */
-  overrideAggregationResults?: DiscoveryV1.QueryAggregation;
+  overrideAggregationResults?: DiscoveryV2.QueryAggregation;
   /**
    * Search response used to override internal search results state
    */
-  overrideSearchResults?: DiscoveryV1.QueryResponse;
+  overrideSearchResults?: DiscoveryV2.QueryResponse;
   /**
    * Query parameters used to override internal query parameters state
    */
@@ -39,15 +39,15 @@ export interface DiscoverySearchProps {
   /**
    * Autocompletion suggestions for the searchInput
    */
-  overrideAutocompletionResults?: DiscoveryV1.Completions;
+  overrideAutocompletionResults?: DiscoveryV2.Completions;
   /**
    * overrideCollectionsResults is used to override internal collections result state
    */
-  overrideCollectionsResults?: DiscoveryV1.ListCollectionsResponse;
+  overrideCollectionsResults?: DiscoveryV2.ListCollectionsResponse;
   /**
    * overrideComponentSettings is used to override internal collections result state
    */
-  overrideComponentSettings?: DiscoveryV1.ComponentSettingsResponse;
+  overrideComponentSettings?: DiscoveryV2.ComponentSettingsResponse;
 }
 
 export interface AutocompletionOptions {
@@ -70,8 +70,8 @@ export interface AutocompletionOptions {
 }
 
 export interface SelectedResult {
-  document: DiscoveryV1.QueryResult | null;
-  element?: DiscoveryV1.QueryTableResult | DiscoveryV1.QueryResultPassage | null;
+  document: DiscoveryV2.QueryResult | null;
+  element?: DiscoveryV2.QueryTableResult | DiscoveryV2.QueryResultPassage | null;
   elementType?: 'table' | 'passage' | null;
 }
 
@@ -82,28 +82,28 @@ export const emptySelectedResult = {
 };
 
 export interface SearchContextIFC {
-  aggregationResults: DiscoveryV1.QueryAggregation | null;
-  searchResponse: DiscoveryV1.QueryResponse | null;
-  searchParameters: DiscoveryV1.QueryParams;
-  collectionsResults: DiscoveryV1.ListCollectionsResponse | null;
+  aggregationResults: DiscoveryV2.QueryAggregation | null;
+  searchResponse: DiscoveryV2.QueryResponse | null;
+  searchParameters: DiscoveryV2.QueryParams;
+  collectionsResults: DiscoveryV2.ListCollectionsResponse | null;
   selectedResult: SelectedResult;
-  autocompletionResults: DiscoveryV1.Completions | null;
-  componentSettings: DiscoveryV1.ComponentSettingsResponse | null;
+  autocompletionResults: DiscoveryV2.Completions | null;
+  componentSettings: DiscoveryV2.ComponentSettingsResponse | null;
 }
 
 export interface SearchApiIFC {
   performSearch: (
-    searchParameters: DiscoveryV1.QueryParams,
+    searchParameters: DiscoveryV2.QueryParams,
     resetAggregations?: boolean
   ) => Promise<void>;
   fetchAutocompletions: (nlq: string) => Promise<void>;
-  fetchAggregations: (searchParameters: DiscoveryV1.QueryParams) => Promise<void>;
+  fetchAggregations: (searchParameters: DiscoveryV2.QueryParams) => Promise<void>;
   setSelectedResult: (result: SelectedResult) => void;
   setAutocompletionOptions: (
     autoCompletionOptions: AutocompletionOptions | React.SetStateAction<AutocompletionOptions>
   ) => void;
   setSearchParameters: (
-    searchParameters: DiscoveryV1.QueryParams | React.SetStateAction<DiscoveryV1.QueryParams>
+    searchParameters: DiscoveryV2.QueryParams | React.SetStateAction<DiscoveryV2.QueryParams>
   ) => void;
 }
 
@@ -144,31 +144,31 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
   overrideComponentSettings = null,
   children
 }) => {
-  const [searchResponse, setSearchResponse] = useState<DiscoveryV1.QueryResponse | null>(
+  const [searchResponse, setSearchResponse] = useState<DiscoveryV2.QueryResponse | null>(
     overrideSearchResults
   );
-  const [aggregationResults, setAggregationResults] = useState<DiscoveryV1.QueryAggregation | null>(
+  const [aggregationResults, setAggregationResults] = useState<DiscoveryV2.QueryAggregation | null>(
     overrideAggregationResults
   );
   const [
     collectionsResults,
     setCollectionsResults
-  ] = useState<DiscoveryV1.ListCollectionsResponse | null>(overrideCollectionsResults);
-  const [searchParameters, setSearchParameters] = useState<DiscoveryV1.QueryParams>({
+  ] = useState<DiscoveryV2.ListCollectionsResponse | null>(overrideCollectionsResults);
+  const [searchParameters, setSearchParameters] = useState<DiscoveryV2.QueryParams>({
     projectId,
     ...overrideQueryParameters
   });
   const [
     autocompletionResults,
     setAutocompletionResults
-  ] = useState<DiscoveryV1.Completions | null>(overrideAutocompletionResults);
+  ] = useState<DiscoveryV2.Completions | null>(overrideAutocompletionResults);
   const [autocompletionOptions, setAutocompletionOptions] = useState<AutocompletionOptions>({});
   const [selectedResult, setSelectedResult] = useState<SelectedResult>(overrideSelectedResult);
 
   const [
     componentSettings,
     setComponentSettings
-  ] = useState<DiscoveryV1.ComponentSettingsResponse | null>(overrideComponentSettings);
+  ] = useState<DiscoveryV2.ComponentSettingsResponse | null>(overrideComponentSettings);
 
   useDeepCompareEffect(() => {
     setSearchParameters(currentSearchParameters => {

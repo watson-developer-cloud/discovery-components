@@ -1,5 +1,5 @@
 import React, { FC, useContext, SyntheticEvent } from 'react';
-import DiscoveryV1 from '@disco-widgets/ibm-watson/discovery/v1';
+import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import get from 'lodash/get';
 import findIndex from 'lodash/findIndex';
 import { settings } from 'carbon-components';
@@ -72,7 +72,7 @@ export const FieldRefinements: FC<FieldRefinementsProps> = ({ allRefinements }) 
           return aggregation.results;
         })
         .map((aggregation: QueryTermAggregation, i: number) => {
-          const aggregationResults: DiscoveryV1.AggregationResult[] = get(
+          const aggregationResults: DiscoveryV2.AggregationResult[] = get(
             aggregation,
             'results',
             []
@@ -90,7 +90,7 @@ export const FieldRefinements: FC<FieldRefinementsProps> = ({ allRefinements }) 
               <legend className={`${settings.prefix}--label ${settings.prefix}--refinement_label`}>
                 {aggregationField}
               </legend>
-              {orderedAggregationResults.map((result: DiscoveryV1.AggregationResult) => {
+              {orderedAggregationResults.map((result: DiscoveryV2.AggregationResult) => {
                 const resultKey = result.key;
                 const query = naturalLanguageQuery || '';
                 const buff = new Buffer(query + resultKey);
