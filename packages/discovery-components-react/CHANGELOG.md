@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.46.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.45.0...@disco-widgets/react-components@1.46.0) (2019-10-30)
+
+
+### Features
+
+* Add support for suggested queries ([#288](http:///discovery-components-react/issues/288)) ([c834eab](http:///discovery-components-react/commits/c834eab))
+
+
+
+
+
 # [1.45.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.44.2...@disco-widgets/react-components@1.45.0) (2019-10-29)
 
 

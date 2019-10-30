@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.16.0](http:///discovery-styles/compare/@disco-widgets/styles@1.15.0...@disco-widgets/styles@1.16.0) (2019-10-30)
+
+
+### Features
+
+* Add support for suggested queries ([#288](http:///discovery-styles/issues/288)) ([c834eab](http:///discovery-styles/commits/c834eab))
+
+
+
+
+
 # [1.15.0](http:///discovery-styles/compare/@disco-widgets/styles@1.14.0...@disco-widgets/styles@1.15.0) (2019-10-29)
 
 

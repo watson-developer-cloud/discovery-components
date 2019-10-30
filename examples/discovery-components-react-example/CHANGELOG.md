@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.22.0](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.21.3...discovery-components-react-example@1.22.0) (2019-10-30)
+
+
+### Features
+
+* Add support for suggested queries ([#288](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/288)) ([c834eab](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/c834eab))
+
+
+
+
+
 ## [1.21.3](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.21.2...discovery-components-react-example@1.21.3) (2019-10-29)
 
 **Note:** Version bump only for package discovery-components-react-example
