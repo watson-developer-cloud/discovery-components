@@ -1,8 +1,72 @@
-# Disco Widgets (a.k.a. Search Results Visualization)
+# Discovery Components
 
-[![Build Status](https://travis.ibm.com/Watson-Discovery/disco-widgets.svg?token=p1iBXWqKFC4fGyYjjz9R&branch=master)](https://travis.ibm.com/Watson-Discovery/disco-widgets)
+[![Build Status](https://travis.com/watson-developer-cloud/discovery-components.svg?token=TBD&branch=master)](https://travis.com/watson-developer-cloud/discovery-components)
+[![Apache-2.0 license](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/watson-developer-cloud/discovery-components/blob/master/LICENSE)
+[![Lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/watson-developer-cloud/discovery-components/blob/master/.github/CONTRIBUTING.md)
+[![CLA assistant](https://cla-assistant.io/readme/badge/watson-developer-cloud/discovery-components)](https://cla-assistant.io/watson-developer-cloud/discovery-components)
 
-## Project Setup
+A collection of React components used to interact with the Watson Discovery service on CloudPakForData.
+
+## Quick Start
+
+```
+npm i @ibm-watson/discovery-components-react @ibm-watson/discovery-components-styles ibm-watson
+```
+
+OR
+
+```
+yarn add @ibm-watson/discovery-components-react @ibm-watson/discovery-components-styles ibm-watson
+```
+
+If you haven't already, start with [create react app](https://github.com/facebook/create-react-app) then modify the following in your `src/App.js`
+
+```jsx
+// src/App.js
+import React from 'react';
+import {
+  DiscoverySearch,
+  SearchInput,
+  SearchResults,
+  SearchRefinements,
+  ResultsPagination,
+  DocumentPreview
+} from '@ibm-watson/discovery-components-react';
+import { CloudPackForDataAuthenticator, DiscoveryV2 } from 'ibm-watson';
+
+// optionally import SASS styles
+import '@ibm-watson/discovery-components-styles/scss/index.scss';
+// or load vanilla CSS
+// import '@ibm-watson/discovery-components-styles/css/index.css';
+
+// Replace these values
+const username = '<your cluster username>';
+const password = '<your cluster password>';
+const url = '<your cluster url>';
+const serviceUrl = '<your discovery url>';
+const version = '<YYYY-MM-DD discovery version>';
+const projectId = '<your discovery project id>';
+
+const App = () => {
+  const authenticator = new CloudPakForDataAuthenticator({ username, password, url });
+  const searchClient = new DiscoveryV2({ url: serviceUrl, version, authenticator });
+
+  return (
+    <DiscoverySearch searchClient={searchClient} projectId={'<your discovery project id>'}>
+      <SearchInput />
+      <SearchResults />
+      <SearchRefinements />
+      <ResultsPagination />
+      <DocumentPreview />
+    </DiscoverySearch>
+  );
+};
+```
+
+For more information on how each component can be customized and configured, check out our hosted [storybook](https://pages.github.ibm.com/Watson-Discovery/disco-widgets/storybook)
+
+## Development
 
 ### Prerequisites
 
@@ -13,87 +77,25 @@
 ### Download git repository
 
 ```
-git clone git@github.ibm.com:Watson-Discovery/disco-widgets.git
+git clone git@github.com:watson-developer-cloud/discovery-components.git
 ```
 
 OR
 
 ```
-git clone https://github.ibm.com/Watson-Discovery/disco-widgets.git
+git clone https://github.com/watson-developer-cloud/discovery-components.git
 ```
 
-## Project Structure
+### Project Structure
 
-```
-.
-├── README.md
-├── docs                                     // docs published at pages.github.com
-│   ├── _config.yml
-│   ├── components
-│   │   └── components.md
-│   ├── getting-started
-│   │   ├── contributing.md
-│   │   ├── getting-started.md
-│   │   └── overview.md
-│   ├── index.md
-│   └── storybook                            // static storybook build
-├── examples                                 // examples directory to demo use-cases
-│   └── discovery-components-react-example   // kitchen-sink example application
-│       ├── CHANGELOG.md
-│       ├── README.md
-│       ├── cypress                          // e2e testing suite
-│       ├── cypress.json
-│       ├── package.json
-│       ├── server.js                        // example server
-│       └── src                              // client-side source
-│           ├── App.js
-│           ├── __tests__
-│           │   └── App.test.js
-│           ├── index.js
-│           └── index.scss
-└──  packages                                 // libraries
-    ├── discovery-components-react           // react components package
-    │   ├── src
-    │   │   ├── components
-    │   │   │   ├── DiscoverySearch
-    │   │   │   │   ├── DiscoverySearch.tsx
-    │   │   │   │   └── __stories__          // per-component stories directory
-    │   │   │   │       ├── DiscoverySearch.stories.tsx
-    │   │   │   │       ├── custom_client.md
-    │   │   │   │       └── default.md
-    │   │   │   ├── ExampleComponent
-    │   │   │   │   ├── ExampleComponent.stories.tsx
-    │   │   │   │   ├── ExampleComponent.tsx
-    │   │   │   │   └── __tests__
-    │   │   │   │       └── ExampleComponent.test.tsx
-    │   │   │   └── SearchInput
-    │   │   │       └── SearchInput.tsx
-    │   │   ├── typings.d.ts                // type declarations
-    │   │   └── utils                       // utilities used across components
-    │   ├── tsconfig.json
-    │   └── tsconfig.prod.json
-    └── discovery-styles                    // SASS styles agnostic to JS framework
-        └── scss
-            ├── components
-            │   └── example-component
-            │       └── _example-component.scss
-            └── index.scss
-```
-
-Disco Widgets is setup as a monorepo. At the top level, `packages` contains all of the individual packages that will be offered as part of this library.
+Discovery Components is setup as a monorepo. At the top level, the `packages` directory contains all of the modules that will be offered as part of this repository.
 
 Lerna and Yarn are used to manage shared dependencies across the packages.
 Create React Library was used to generate the library of React components, `discovery-components-react`.
 
-### Lerna
+### Install
 
 To generate the dependencies for all of the packages, run the following at the root directory:
-
-```
-npx lerna bootstrap
-```
-
-OR
 
 ```
 yarn
@@ -103,11 +105,7 @@ This will install and bundle all of the shared dependencies for `packages` and f
 
 See the following for [more info about Lerna](https://github.com/lerna/lerna) or [more info about Yarn Workspaces](https://yarnpkg.com/lang/en/docs/workspaces/).
 
-### Create React Library
-
-Our React package uses [Create React Library](https://www.npmjs.com/package/create-react-library), which in turn uses [Create React App](https://github.com/facebook/create-react-app). This bundles in several frameworks and tools such as Babel, Rollup, Jest, and Typescript support.
-
-## Available Commands
+### Available Commands
 
 | Root Directory                                                | Description                                                                            |
 | ------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
@@ -141,33 +139,32 @@ Our React package uses [Create React Library](https://www.npmjs.com/package/crea
 | `yarn start`              | runs `node-sass` in `watch` mode                  |
 | `yarn build`              | runs `node-sass` to compile `scss` files to `css` |
 
-## Running the Project
+### Running the Project
 
-To start the examples, run the following commands:
+1. Setup your [`.env.local`](#environment-file)
+2. Build the react components
 
-**Note:** Make sure to provide the `project_id` via the [`.env.local`](#environment-file) file before starting the example app.
+   ```
+   yarn workspace @ibm-watson/discovery-components-react run build
+   ```
 
-```
-yarn
-yarn workspace @disco-widgets/ibm-watson build
-yarn workspace @disco-widgets/react-components build
-yarn workspace discovery-components-react-example start
-```
+3. Then, in the **first** terminal window, run:
 
-### Run against live API
+   ```
+   yarn workspace kitchen-sink server
+   ```
 
-In order to query against a deployed instance of Discovery, the server needs to be running. The following describes prerequisites and commands to start the server.
+4. In the **second** terminal window, run:
 
-#### Prerequisites
-When starting the server, a script runs which will attempt to get the path and instance ID of the Discovery instance based on the cluster host, port and cluster credentials, which should be stored in `.env.local`. You will need to create this file yourself as it's ignored by git. [Here](#environment-file) is more information for what should be written to the `.env.local` file.
+   ```
+   yarn workspace kitchen-sink start
+   ```
 
-To configure and start the server run:
-```
-yarn workspace discovery-components-react-example server
-```
+This allows you to run the client and server examples separately (and restart as necessary).
 
-### Environment file
-Running both `App.js` and the `server.js` setup script require additional information to be provided through the environment. This is done via the `examples/discovery-components-react-example/.env.local` file, which is ignored by git. The contents of the file are:
+#### Environment file
+
+Running both example client and server setup script require additional information to be provided through the environment. This is done via the `examples/kitchen-sink/.env.local` file, which is ignored by git due to its sensitive contents. The contents of the file are:
 
 ```
 REACT_APP_PROJECT_ID=<project_id to query>
@@ -177,9 +174,19 @@ CLUSTER_PORT=<cluster port>
 CLUSTER_HOST=<cluster hostname>
 ```
 
+### Running Storybook
+
+Component documentation is done through Storybook.
+
+To run Storybook, run the following command then open your browser to `http://localhost:9002/`:
+
+```
+yarn workspace @ibm-watson/discovery-components-react run storybook
+```
+
 ### Styling
 
-We will be following the [carbon styleguide](https://www.carbondesignsystem.com) for styling principles which follows a slightly modified [BEM](http://getbem.com/naming/) syntax -> i.e. `bx--block__element--modifier` where `bx` is just the prefix to prevent naming collisions. All styles belong in the `discovery-styles` package.
+We follow the [carbon styleguide](https://www.carbondesignsystem.com) for styling principles which follows a slightly modified [BEM](http://getbem.com/naming/) syntax -> i.e. `bx--block__element--modifier` where `bx` is just the prefix to prevent naming collisions. All styles belong in the `discovery-components-styles` package.
 
 Wherever possible, we should be using
 
@@ -189,52 +196,7 @@ Wherever possible, we should be using
 - [color tokens](https://www.carbondesignsystem.com/guidelines/color/usage/#tokens-by-theme)
 - [spacing tokens](https://www.carbondesignsystem.com/guidelines/themes#spacing)
 
-## Generating the `ibm-watson` package
-
-Until the [official IBM Watson node SDK](https://github.com/IBM/node-sdk-core) is published, we are using the generation framework to make changes to the swagger used to generate the SDK so that we:
-
-1. don't have to build a wrapper HTTP library ourselves
-1. can eventually contribute back the changes to the official SDK to be published and maintained by the SDK generation team (found in the slack channel #wcp-sdk-generation)
-
-We can build the customized SDK using 3 pieces:
-
-1. **the swagger definition** at https://github.ibm.com/Watson/developer-cloud--api-definitions - this contains the models/methods in a programming language-agnostic definition that can be used in the SDK generator. **THIS IS WHERE WE WILL MAKE CHANGES**
-1. **the SDK generator** at https://github.ibm.com/CloudEngineering/openapi-sdkgen - this contains the custom logic built on top of the swagger-to-code generation tools provided by OpenAPI that can turn a swagger definition into any of the supported languages
-1. **the node SDK template** at https://github.ibm.com/CloudEngineering/node-sdk-template - this pulls in the various dependencies used to build the typescript project using the typescript compiler. it mirrors the project structure we see at https://github.com/watson-developer-cloud/node-sdk
-
-In order to do this generation, follow these **ONE TIME** setup steps:
-
-1. Clone the [developer-cloud--api-definitions Watson-Discovery fork](https://github.ibm.com/Watson-Discovery/developer-cloud--api-definitions)
-1. Download a `2.1.0` tar file from https://github.ibm.com/CloudEngineering/openapi-sdkgen/releases
-1. Run `tar -xzf openapi-sdkgen-<version>.tar.gz` to extract the generator into your current directory
-
-After the above **ONE TIME** setup steps, these are the **REPEATABLE** steps:
-
-1. **Make changes the swagger** - any API work should only require updating the swagger definition in [developer-cloud--api-definitions](https://github.ibm.com/Watson-Discovery/developer-cloud--api-definitions) for the `apis-private/discovery-data-v1.json` file
-1. **Run the script** `./openapi-sdkgen.sh generate -i <your api def directory>/apis-private/discovery-data-v1.json -g watson-node -o <your widgets directory>/packages/ibm-watson`
-   - This should have overwritten the existing file at `packages/ibm-watson/discovery/v1.ts` with any changes you made
-1. **Build the project** with `yarn run build`. It should generate `.d.ts` and `.js` files for the SDK.
-
-## Running Storybook
-
-Component documentation is done through Storybook.
-
-To run Storybook, run the following commands:
-
-```
-cd packages/discovery-components-react
-yarn storybook
-```
-
-## Developing Storybook
-
-If a component's storybook story isn't correctly including the defined propTypes and description, check in your component definition file that you are importing React with:
-
-```
-import * as React from 'react';
-```
-
-## Unit/Integration Testing
+### Unit/Integration Testing
 
 For our React components, we're using Jest for our unit and integration. Tests are rendered through [react-testing-library](https://testing-library.com/), which also provides some additional functionality.
 
@@ -259,9 +221,9 @@ examples/discovery-components-react-example/cypress
 └── videos           // recorded videos of test failures for review after a test run
 ```
 
-The basic process will be to add a new file/directory (depending on how we want to organize tests) under `cypress/integration` then run `yarn cypress` (from the `discovery-components-react-example` directory) to open up the interactive debugger.
+The basic process is to add a new file/directory under `examples/kitchen-sink/cypress/integration` then run `yarn workspace kitchen-sink cypress` to open up the interactive debugger.
 
-To start up our server and run all Cypress tests, use `yarn test:e2e`, which does the following steps:
+To start up our server and run all Cypress tests, use `yarn workspace kitchen-sink test:e2e`, which does the following steps:
 
 1. starts up a server to host the example application
 2. once the server responds, it moves on to perform the next command `cypress run` (headless version of `cypress open`)
@@ -274,6 +236,16 @@ To start up our server and run all Cypress tests, use `yarn test:e2e`, which doe
 When triggered, Travis will build the project, then run the test scripts, and output the pass/fail to whichever branch/pr triggered the build.
 
 Steps in the automation can be set in `.travis.yml`, located in the root directory.
+
+### Releasing
+
+To perform a release of any changed packages, run
+
+```
+lerna publish
+```
+
+More information about this command can be found in the README for [lerna publish](https://github.com/lerna/lerna/tree/master/commands/publish)
 
 #### A note on versioning
 

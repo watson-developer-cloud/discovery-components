@@ -1,9 +1,11 @@
 {
   "private": true,
-  "name": "discovery-components-react-example",
-  "license": "MIT",
-  "homepage": ".",
+  "name": "kitchen-sink",
   "version": "1.22.5",
+  "description": "Discovery components kitchen sink example application used to showcase components in a full application",
+  "license": "Apache-2.0",
+  "author": "IBM Corp.",
+  "homepage": ".",
   "scripts": {
     "build": "react-scripts build",
     "eject": "react-scripts eject",

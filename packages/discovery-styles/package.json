@@ -1,10 +1,10 @@
 {
   "name": "@disco-widgets/styles",
-  "description": "styles used across all components",
-  "license": "MIT",
-  "author": "",
-  "repository": "/discovery-styles",
   "version": "1.19.0",
+  "description": "Discovery components SASS/CSS styles used with discovery components",
+  "license": "Apache-2.0",
+  "author": "IBM Corp.",
+  "repository": "https://github.com/watson-developer-cloud/discovery-components",
   "main": "scss/index.scss",
   "scripts": {
     "build": "node-sass --importer=../../node_modules/node-sass-tilde-importer --source-map=true scss/index.scss css/index.css",
