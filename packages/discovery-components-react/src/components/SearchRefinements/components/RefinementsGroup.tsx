@@ -33,13 +33,6 @@ export const RefinementsGroup: FC<RefinementGroupProps> = ({
   refinementsLabel,
   onChange
 }) => {
-  // bx--fieldset -> (assuming this is a carbon default)
-  // bx--refinement-> bx--search-refinement__refinement
-  // bx--label -> (assuming this is a carbon default)
-  // bx--refinement_label -> bx--search-refinement__refinement-label
-  // bx--refinement-option_label -> bx--search-refinement__refinement__option-label
-  // bx--refinement-option -> bx--search-refinement__refinement__option`
-
   const baseClass = `${settings.prefix}--search-refinement`;
   const fieldsetClasses = [`${settings.prefix}--fieldset`, baseClass];
   const labelClasses = [`${settings.prefix}--label`, `${baseClass}__refinement_label`];
