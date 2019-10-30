@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.17.0](http:///discovery-styles/compare/@disco-widgets/styles@1.16.0...@disco-widgets/styles@1.17.0) (2019-10-30)
+
+
+### Features
+
+* nav toolbar ([#289](http:///discovery-styles/issues/289)) ([13a8596](http:///discovery-styles/commits/13a8596))
+
+
+
+
+
 # [1.16.0](http:///discovery-styles/compare/@disco-widgets/styles@1.15.0...@disco-widgets/styles@1.16.0) (2019-10-30)
 
 

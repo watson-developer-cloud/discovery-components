@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.47.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.46.0...@disco-widgets/react-components@1.47.0) (2019-10-30)
+
+
+### Features
+
+* nav toolbar ([#289](http:///discovery-components-react/issues/289)) ([13a8596](http:///discovery-components-react/commits/13a8596))
+
+
+
+
+
 # [1.46.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.45.0...@disco-widgets/react-components@1.46.0) (2019-10-30)
 
 
