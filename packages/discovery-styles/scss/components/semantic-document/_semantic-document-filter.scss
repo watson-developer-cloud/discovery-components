@@ -1,0 +1,29 @@
+@import '~carbon-components/scss/components/skeleton/skeleton';
+
+.#{$prefix}--semantic-doc-filter {
+  .resetButton {
+    padding: 0;
+    outline: none;
+    border: none;
+    background-color: initial;
+  }
+
+  .group-title {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.375rem;
+  }
+
+  .label {
+    display: inline;
+    padding-bottom: 0;
+  }
+
+  .input[disabled] + .label {
+    color: $gray-30;
+  }
+
+  .count {
+    margin-left: $spacing-2xs;
+  }
+}

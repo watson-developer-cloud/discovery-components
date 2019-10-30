@@ -1,0 +1,73 @@
+[
+  {
+    "title": "Filter Group A",
+    "id": "FILTER_GROUP_A",
+    "type": "checkbox",
+    "optionsList": [
+      {
+        "displayName": "Filter A-1",
+        "id": "A1",
+        "count": 5
+      },
+      {
+        "displayName": "Filter A-2",
+        "id": "A2",
+        "count": 8
+      },
+      {
+        "displayName": "Filter A-3",
+        "id": "A3",
+        "count": 2
+      }
+    ]
+  },
+  {
+    "title": "Filter Group B",
+    "id": "FILTER_GROUP_B",
+    "type": "radio",
+    "optionsList": [
+      {
+        "displayName": "Filter B-1",
+        "id": "B1",
+        "count": 15
+      },
+      {
+        "displayName": "Filter B-2",
+        "id": "B2",
+        "count": 10
+      },
+      {
+        "displayName": "Filter B-3",
+        "id": "B3",
+        "count": 8
+      },
+      {
+        "displayName": "Filter B-4",
+        "id": "B4",
+        "count": 4
+      },
+      {
+        "displayName": "Filter B-5",
+        "id": "B5",
+        "count": 1
+      }
+    ]
+  },
+  {
+    "title": "Filter Group C",
+    "id": "FILTER_GROUP_C",
+    "type": "checkbox",
+    "optionsList": [
+      {
+        "displayName": "Filter C-1",
+        "id": "C1",
+        "count": 35
+      },
+      {
+        "displayName": "Filter C-2",
+        "id": "C2",
+        "count": 68
+      }
+    ]
+  }
+]
