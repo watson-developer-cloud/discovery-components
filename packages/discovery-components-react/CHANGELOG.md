@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.47.1](http:///discovery-components-react/compare/@disco-widgets/react-components@1.47.0...@disco-widgets/react-components@1.47.1) (2019-10-30)
+
+
+### Bug Fixes
+
+* circular dependency; move constants to own file ([#295](http:///discovery-components-react/issues/295)) ([02e8843](http:///discovery-components-react/commits/02e8843))
+
+
+
+
+
 # [1.47.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.46.0...@disco-widgets/react-components@1.47.0) (2019-10-30)
 
 
