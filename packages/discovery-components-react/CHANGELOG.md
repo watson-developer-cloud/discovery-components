@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.49.1](http:///discovery-components-react/compare/@disco-widgets/react-components@1.49.0...@disco-widgets/react-components@1.49.1) (2019-10-30)
+
+
+### Bug Fixes
+
+* Aggregation models ([#291](http:///discovery-components-react/issues/291)) ([8c39dc1](http:///discovery-components-react/commits/8c39dc1))
+
+
+
+
+
 # [1.49.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.48.0...@disco-widgets/react-components@1.49.0) (2019-10-30)
 
 

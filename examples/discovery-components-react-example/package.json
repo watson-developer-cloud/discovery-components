@@ -3,7 +3,7 @@
   "name": "discovery-components-react-example",
   "license": "MIT",
   "homepage": ".",
-  "version": "1.22.4",
+  "version": "1.22.5",
   "scripts": {
     "build": "react-scripts build",
     "eject": "react-scripts eject",
@@ -18,8 +18,8 @@
   },
   "dependencies": {
     "@carbon/icons": "^10.5.0",
-    "@disco-widgets/ibm-watson": "^1.5.3",
-    "@disco-widgets/react-components": "^1.49.0",
+    "@disco-widgets/ibm-watson": "^1.5.4",
+    "@disco-widgets/react-components": "^1.49.1",
     "@disco-widgets/styles": "^1.19.0",
     "body-parser": "^1.19.0",
     "carbon-components": "^10.6.0",

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.4](http:///ibm-watson/compare/@disco-widgets/ibm-watson@1.5.3...@disco-widgets/ibm-watson@1.5.4) (2019-10-30)
+
+
+### Bug Fixes
+
+* Aggregation models ([#291](http:///ibm-watson/issues/291)) ([8c39dc1](http:///ibm-watson/commits/8c39dc1))
+
+
+
+
+
 ## [1.5.3](http:///ibm-watson/compare/@disco-widgets/ibm-watson@1.5.2...@disco-widgets/ibm-watson@1.5.3) (2019-10-29)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.22.5](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.22.4...discovery-components-react-example@1.22.5) (2019-10-30)
+
+
+### Bug Fixes
+
+* Aggregation models ([#291](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/291)) ([8c39dc1](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/8c39dc1))
+
+
+
+
+
 ## [1.22.4](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.22.3...discovery-components-react-example@1.22.4) (2019-10-30)
 
 **Note:** Version bump only for package discovery-components-react-example
