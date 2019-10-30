@@ -49,7 +49,7 @@ const setup = (filter: string): Setup => {
   };
 };
 
-describe('FieldRefinementsComponent', () => {
+describe('FilterRefinementsComponent', () => {
   describe('legend header elements', () => {
     test('contains first refinement header with author field text', () => {
       const { fieldRefinementsComponent } = setup('');
@@ -92,6 +92,12 @@ describe('FieldRefinementsComponent', () => {
       const animalsCheckbox = fieldRefinementsComponent.getByLabelText('Animals');
       expect(animalsCheckbox['defaultChecked']).toEqual(false);
       expect(animalsCheckbox['checked']).toEqual(false);
+    });
+
+    test('checkboxes are checked when set in filter query', () => {
+      const { fieldRefinementsComponent } = setup('subject:Animals');
+      const animalsCheckbox = fieldRefinementsComponent.getByLabelText('Animals');
+      expect(animalsCheckbox['checked']).toEqual(true);
     });
 
     test('checkboxes can be checked and checkbox is not disabled', () => {
@@ -193,8 +199,6 @@ describe('FieldRefinementsComponent', () => {
     test('it removes correct filter when checkbox within single refinement is unchecked', () => {
       const { fieldRefinementsComponent, performSearchMock } = setup('subject:Animals');
       const animalsCheckbox = fieldRefinementsComponent.getByLabelText('Animals');
-      fireEvent.click(animalsCheckbox);
-      // For the test, have to check the checkbox twice to get it in the 'checked' state to uncheck
       performSearchMock.mockReset();
       fireEvent.click(animalsCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);

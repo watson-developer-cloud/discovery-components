@@ -67,13 +67,15 @@ const weirdFilters =
 
 describe('QueryTermAggregation array to filter string', () => {
   test('it properly handles aggregations with reserved characters', () => {
-    expect(SearchFilterTransform.toString(weirdAggs)).toEqual(weirdFilters);
+    expect(SearchFilterTransform.fieldsToString(weirdAggs)).toEqual(weirdFilters);
   });
 });
 
 describe('Filter string to QueryTermAggregation array', () => {
   test('it properly handles unquoted terms', () => {
-    expect(SearchFilterTransform.fromString('field:term|two words,field2:blah\\"stuff')).toEqual([
+    expect(
+      SearchFilterTransform.fromString('field:term|two words,field2:blah\\"stuff').filterFields
+    ).toEqual([
       {
         field: 'field',
         results: expect.arrayContaining([
@@ -90,7 +92,7 @@ describe('Filter string to QueryTermAggregation array', () => {
     ]);
   });
   test('it properly handles aggregations with reserved characters', () => {
-    expect(SearchFilterTransform.fromString(weirdFilters)).toEqual([
+    expect(SearchFilterTransform.fromString(weirdFilters).filterFields).toEqual([
       {
         field: 'extracted_stuff.weirdAggs',
         results: expect.arrayContaining([

@@ -54,6 +54,17 @@ export const refinementsQueryResponse: DiscoveryV2.Response<
         }
       ]
     }
+  ],
+  suggested_refinements: [
+    {
+      text: 'sharks are dangerous'
+    },
+    {
+      text: 'sloths are slow'
+    },
+    {
+      text: 'people are messy'
+    }
   ]
 });
 
@@ -116,6 +127,26 @@ export const weirdRefinementsQueryResponse: DiscoveryV2.Response<
           matching_results: 8282
         }
       ]
+    }
+  ],
+  suggested_refinements: [
+    {
+      text: 'trust the process'
+    },
+    {
+      text: 'just not the electrician'
+    },
+    {
+      text: 'sam hinkie'
+    },
+    {
+      text: 'this: is'
+    },
+    {
+      text: 'bogus, strings'
+    },
+    {
+      text: 'maybe | not'
     }
   ]
 });

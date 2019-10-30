@@ -59,7 +59,11 @@ function SearchPage() {
         spellingSuggestions={true}
       />
       <SearchResults bodyField={'text'} />
-      <SearchRefinements showCollections={true} configuration={configuration} />
+      <SearchRefinements
+        showCollections={true}
+        showSuggestedRefinements={true}
+        configuration={configuration}
+      />
       <ResultsPagination />
     </>
   );

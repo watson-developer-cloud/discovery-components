@@ -12,6 +12,7 @@ import { action } from '@storybook/addon-actions';
 
 export const props = () => ({
   showCollections: boolean('Show collection refinements', false),
+  showSuggestedRefinements: boolean('Show suggested refinements', false),
   configuration: object('Refinements configuration', [
     {
       field: 'author',
@@ -42,7 +43,10 @@ const discoverySearchProps = (
 ): DiscoverySearchProps => ({
   searchClient: new DummySearchClientWithQueryAndCollections(),
   projectId: text('Project ID', 'project-id'),
-  overrideQueryParameters: queryParams
+  overrideQueryParameters: queryParams,
+  overrideSearchResults: {
+    suggested_refinements: [{ text: 'something else' }, { text: 'this, that, other' }]
+  }
 });
 
 storiesOf('SearchRefinements', module)
@@ -51,7 +55,11 @@ storiesOf('SearchRefinements', module)
     const exampleProps = props();
     return (
       <StoryWrapper>
-        <DiscoverySearch {...discoverySearchProps({ filter: 'subject:"this | that"|"bl:ah"' })}>
+        <DiscoverySearch
+          {...discoverySearchProps({
+            filter: 'author:"editor","this, that, other",subject:"this | that"|"bl:ah"'
+          })}
+        >
           <SearchRefinements {...exampleProps} />
         </DiscoverySearch>
       </StoryWrapper>

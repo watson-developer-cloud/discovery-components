@@ -1,30 +1,26 @@
-import React, { FC, useContext, SyntheticEvent } from 'react';
+import React, { FC, SyntheticEvent } from 'react';
 import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import get from 'lodash/get';
 import findIndex from 'lodash/findIndex';
-import { settings } from 'carbon-components';
-import { Checkbox as CarbonCheckbox } from 'carbon-components-react';
-import { SearchApi, SearchContext } from '../../DiscoverySearch/DiscoverySearch';
-import { SearchFilterTransform } from '../utils/searchFilterTransform';
 import {
   QueryTermAggregation,
+  SearchFilterRefinements,
   SelectableAggregationResult
 } from '../utils/searchRefinementInterfaces';
+import { RefinementsGroup } from './RefinementsGroup';
 
 interface FieldRefinementsProps {
   /**
    * Refinements configuration with fields and results counts
    */
   allRefinements: QueryTermAggregation[];
+  /**
+   * Callback to handle changes in selected refinements
+   */
+  onChange: (updatedRefinement: Partial<SearchFilterRefinements>) => void;
 }
 
-export const FieldRefinements: FC<FieldRefinementsProps> = ({ allRefinements }) => {
-  const {
-    searchParameters,
-    searchParameters: { naturalLanguageQuery: naturalLanguageQuery }
-  } = useContext(SearchContext);
-  const { performSearch } = useContext(SearchApi);
-
+export const FieldRefinements: FC<FieldRefinementsProps> = ({ allRefinements, onChange }) => {
   const handleOnChange = (
     checked: boolean,
     _id: string,
@@ -60,9 +56,7 @@ export const FieldRefinements: FC<FieldRefinementsProps> = ({ allRefinements }) 
 
       allRefinements.splice(index, 1, newrefinementsForField);
     }
-
-    const filter = SearchFilterTransform.toString(allRefinements);
-    performSearch({ ...searchParameters, offset: 0, filter }, false);
+    onChange({ filterFields: allRefinements });
   };
 
   return (
@@ -83,34 +77,13 @@ export const FieldRefinements: FC<FieldRefinementsProps> = ({ allRefinements }) 
           );
 
           return (
-            <fieldset
-              className={`${settings.prefix}--fieldset ${settings.prefix}--refinement`}
-              key={`fieldset-${aggregationField}-${i}`}
-            >
-              <legend className={`${settings.prefix}--label ${settings.prefix}--refinement_label`}>
-                {aggregationField}
-              </legend>
-              {orderedAggregationResults.map((result: DiscoveryV2.AggregationResult) => {
-                const resultKey = result.key;
-                const query = naturalLanguageQuery || '';
-                const buff = new Buffer(query + resultKey);
-                const base64data = buff.toString('base64');
-
-                return (
-                  <CarbonCheckbox
-                    className={`${settings.prefix}--refinement-option_label`}
-                    wrapperClassName={`${settings.prefix}--refinement-option`}
-                    onChange={handleOnChange}
-                    labelText={resultKey}
-                    key={`checkbox-${aggregationField}-${base64data}`}
-                    id={`checkbox-${aggregationField}-${resultKey}`}
-                    data-field={`${aggregationField}`}
-                    data-key={`${resultKey}`}
-                    defaultChecked={false}
-                  />
-                );
-              })}
-            </fieldset>
+            <RefinementsGroup
+              key={`refinement-group-${aggregationField}-${i}`}
+              refinements={orderedAggregationResults}
+              onChange={handleOnChange}
+              refinementsLabel={aggregationField || ''}
+              attributeKeyName="key"
+            />
           );
         })}
     </div>
