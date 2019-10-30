@@ -8,6 +8,7 @@ import TableHighlight from './TableHighlight';
 import PassageHighlight from './PassageHighlight';
 import { isPassage } from './passages';
 import { Bbox, Origin } from '../../types';
+import { PADDING } from './constants';
 
 interface Props {
   /**
@@ -41,14 +42,6 @@ export interface ChildrenProps {
   pageWidth: number;
   pageHeight: number;
 }
-
-// default PDF dimensions
-export const DEFAULT_WIDTH = 612;
-export const DEFAULT_HEIGHT = 792;
-export const DEFAULT_ORIGIN = 'BottomLeft';
-
-// padding to enlarge highlight box
-const PADDING = 5;
 
 export const Highlight: FC<Props> = props => {
   const { highlight, ...rest } = props;

@@ -2,7 +2,7 @@ import { FC, useEffect, ReactElement } from 'react';
 import { QueryResultPassage, QueryResult } from '@disco-widgets/ibm-watson/discovery/v2';
 import get from 'lodash/get';
 import { usePassage } from './passages';
-import { DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_ORIGIN } from './Highlight';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_ORIGIN } from './constants';
 
 interface Props {
   /**
