@@ -513,16 +513,6 @@ namespace DiscoveryV2 {
    * model interfaces
    ************************/
 
-  /** Object containing results of the aggregation query. */
-  export interface AggregationResult {
-    /** Key that matched the aggregation type. */
-    key?: string;
-    /** Number of matching results. */
-    matching_results?: number;
-    /** Aggregations returned in the case of chained aggregations. */
-    aggregations?: QueryAggregation[];
-  }
-
   /** A collection for storing documents. */
   export interface Collection {
     /** The unique identifier of the collection. */
@@ -603,15 +593,21 @@ namespace DiscoveryV2 {
     collections?: Collection[];
   }
 
-  /** An aggregation produced by Discovery to analyze the input provided. */
+  /** An abstract aggregation type produced by Discovery to analyze the input provided. */
   export interface QueryAggregation {
-    /** The type of aggregation command used. For example: term, filter, max, min, etc. */
-    type?: string;
-    /** Array of aggregation results. */
-    results?: AggregationResult[];
-    /** Number of matching results. */
-    matching_results?: number;
-    /** Aggregations returned by Discovery. */
+    /** The type of aggregation command used. Options include: term, histogram, timeslice, nested, filter, min, max,
+     *  sum, average, unique_count, and top_hits.
+     */
+    type: string;
+  }
+
+  /** Histogram numeric interval result. */
+  export interface QueryHistogramAggregationResult {
+    /** The value of the upper bound for the numeric segment. */
+    key: number;
+    /** Number of documents with the specified key as the upper bound. */
+    matching_results: number;
+    /** An array of sub aggregations. */
     aggregations?: QueryAggregation[];
   }
 
@@ -659,7 +655,7 @@ namespace DiscoveryV2 {
     matching_results?: number;
     /** Array of document results for the query. */
     results?: QueryResult[];
-    /** Array of aggregation results for the query. */
+    /** Array of aggregations for the query. */
     aggregations?: QueryAggregation[];
     /** An object contain retrieval type information. */
     retrieval_details?: RetrievalDetails;
@@ -734,6 +730,36 @@ namespace DiscoveryV2 {
     table_html_offset?: number;
     /** Full table object retrieved from Table Understanding Enrichment. */
     table?: TableResultTable;
+  }
+
+  /** Top value result for the term aggregation. */
+  export interface QueryTermAggregationResult {
+    /** Value of the field with a non-zero frequency in the document set. */
+    key: string;
+    /** Number of documents containing the 'key'. */
+    matching_results: number;
+    /** An array of sub aggregations. */
+    aggregations?: QueryAggregation[];
+  }
+
+  /** A timeslice interval segment. */
+  export interface QueryTimesliceAggregationResult {
+    /** String date value of the upper bound for the timeslice interval in ISO-8601 format. */
+    key_as_string: string;
+    /** Numeric date value of the upper bound for the timeslice interval in UNIX miliseconds since epoch. */
+    key: number;
+    /** Number of documents with the specified key as the upper bound. */
+    matching_results: number;
+    /** An array of sub aggregations. */
+    aggregations?: QueryAggregation[];
+  }
+
+  /** A query response containing the matching documents for the preceding aggregations. */
+  export interface QueryTopHitsAggregationResult {
+    /** Number of matching results. */
+    matching_results: number;
+    /** An array of the document results. */
+    hits?: JsonObject[];
   }
 
   /** An object contain retrieval type information. */
@@ -967,11 +993,72 @@ namespace DiscoveryV2 {
     location?: TableElementLocation;
   }
 
-  /** Term. */
-  export interface Term {
-    /** The field where the aggregation is located in the document. */
-    field?: string;
+  /** Returns a scalar calculation across all documents for the field specified. Possible calculations include min, max, sum, average, and unique_count. */
+  export interface QueryCalculationAggregation extends QueryAggregation {
+    /** The field to perform the calculation on. */
+    field: string;
+    /** The value of the calculation. */
+    value: number;
+  }
+
+  /** A modifier that will narrow down the document set of the sub aggregations it precedes. */
+  export interface QueryFilterAggregation extends QueryAggregation {
+    /** The filter written in Discovery Query Language syntax applied to the documents before sub aggregations are
+     *  run.
+     */
+    match: string;
+    /** Number of documents matching the filter. */
+    matching_results: number;
+    /** An array of sub aggregations. */
+    aggregations?: QueryAggregation[];
+  }
+
+  /** Numeric interval segments to categorize documents by using field values from a single numeric field to describe the category. */
+  export interface QueryHistogramAggregation extends QueryAggregation {
+    /** The numeric field name used to create the histogram. */
+    field: string;
+    /** The size of the sections the results are split into. */
+    interval: number;
+    /** Array of numeric intervals. */
+    results?: QueryHistogramAggregationResult[];
+  }
+
+  /** A restriction that alter the document set used for sub aggregations it precedes to nested documents found in the field specified. */
+  export interface QueryNestedAggregation extends QueryAggregation {
+    /** The path to the document field to scope sub aggregations to. */
+    path: string;
+    /** Number of nested documents found in the specified field. */
+    matching_results: number;
+    /** An array of sub aggregations. */
+    aggregations?: QueryAggregation[];
+  }
+
+  /** Returns the top values for the field specified. */
+  export interface QueryTermAggregation extends QueryAggregation {
+    /** The field in the document used to generate top values from. */
+    field: string;
+    /** The number of top values returned. */
     count?: number;
+    /** Array of top values for the field. */
+    results?: QueryTermAggregationResult[];
+  }
+
+  /** A specialized histogram aggregation that uses dates to create interval segments. */
+  export interface QueryTimesliceAggregation extends QueryAggregation {
+    /** The date field name used to create the timeslice. */
+    field: string;
+    /** The date interval value. Valid values are seconds, minutes, hours, days, weeks, and years. */
+    interval: string;
+    /** Array of aggregation results. */
+    results?: QueryTimesliceAggregationResult[];
+  }
+
+  /** Returns the top documents ranked by the score of the query. */
+  export interface QueryTopHitsAggregation extends QueryAggregation {
+    /** The number of documents to return. */
+    size: number;
+    /** A query response containing the matching documents for the preceding aggregations. */
+    hits?: QueryTopHitsAggregationResult;
   }
 
 }

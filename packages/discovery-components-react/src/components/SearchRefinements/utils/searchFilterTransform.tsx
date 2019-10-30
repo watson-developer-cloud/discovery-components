@@ -1,10 +1,10 @@
 import get from 'lodash/get';
 import partition from 'lodash/partition';
 import {
-  QueryTermAggregation,
   SearchFilterRefinements,
-  SelectableAggregationResult,
-  SelectableSuggestedRefinement
+  SelectableQueryTermAggregation,
+  SelectableQueryTermAggregationResult,
+  SelectableQuerySuggestedRefinement
 } from './searchRefinementInterfaces';
 
 export class SearchFilterTransform {
@@ -34,6 +34,7 @@ export class SearchFilterTransform {
         .map(result => {
           const unquotedResult = this.unquoteString(result);
           return {
+            type: 'term',
             key: unquotedResult,
             matching_results: 1,
             selected: true
@@ -41,6 +42,7 @@ export class SearchFilterTransform {
         });
 
       return {
+        type: 'term',
         field: field,
         results: results
       };
@@ -73,7 +75,7 @@ export class SearchFilterTransform {
     return quotedString.replace(/^"(.+)"$/, '$1').replace(/\\"/, '"');
   }
 
-  static fieldsToString(refinements: QueryTermAggregation[]): string {
+  static fieldsToString(refinements: SelectableQueryTermAggregation[]): string {
     const filterStrings: string[] = [];
     refinements.map(refinement => {
       const field = get(refinement, 'field', '');
@@ -87,7 +89,7 @@ export class SearchFilterTransform {
   }
 
   private static quoteSelectedRefinements(
-    refinements: (SelectableAggregationResult | SelectableSuggestedRefinement)[],
+    refinements: (SelectableQueryTermAggregationResult | SelectableQuerySuggestedRefinement)[],
     key: string
   ): string[] {
     return refinements

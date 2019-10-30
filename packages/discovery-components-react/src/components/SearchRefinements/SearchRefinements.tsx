@@ -11,10 +11,10 @@ import {
   noAvailableRefinementsMessage,
   invalidConfigurationMessage
 } from './utils/searchRefinementMessages';
+import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import {
-  QueryTermAggregation,
   SearchFilterRefinements,
-  SelectableSuggestedRefinement
+  SelectableQuerySuggestedRefinement
 } from './utils/searchRefinementInterfaces';
 import get from 'lodash/get';
 import { CollectionRefinements } from './components/CollectionRefinements';
@@ -46,7 +46,7 @@ interface SearchRefinementsProps {
   /**
    * Refinements configuration with fields and results counts
    */
-  configuration: QueryTermAggregation[];
+  configuration: DiscoveryV2.QueryTermAggregation[];
 }
 
 export const SearchRefinements: FC<SearchRefinementsProps> = ({
@@ -65,7 +65,7 @@ export const SearchRefinements: FC<SearchRefinementsProps> = ({
     collectionsResults
   } = useContext(SearchContext);
   const { fetchAggregations, performSearch } = useContext(SearchApi);
-  const aggregations = (aggregationResults && aggregationResults.aggregations) || [];
+  const aggregations = aggregationResults || [];
   const collections = (collectionsResults && collectionsResults.collections) || [];
 
   useDeepCompareEffect(() => {
@@ -79,7 +79,7 @@ export const SearchRefinements: FC<SearchRefinementsProps> = ({
 
   const { filterFields, filterSuggested } = SearchFilterTransform.fromString(filter || '');
   const allFieldRefinements = mergeFilterRefinements(aggregations, filterFields, configuration);
-  const allSuggestedRefinements: SelectableSuggestedRefinement[] = mergeSuggestedRefinements(
+  const allSuggestedRefinements: SelectableQuerySuggestedRefinement[] = mergeSuggestedRefinements(
     get(searchResponse, 'suggested_refinements', []),
     filterSuggested
   );

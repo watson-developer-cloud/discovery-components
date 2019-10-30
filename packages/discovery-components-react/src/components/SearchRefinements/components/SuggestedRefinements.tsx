@@ -1,6 +1,6 @@
 import React, { FC, SyntheticEvent } from 'react';
 import {
-  SelectableSuggestedRefinement,
+  SelectableQuerySuggestedRefinement,
   SearchFilterRefinements
 } from '../utils/searchRefinementInterfaces';
 import get from 'lodash/get';
@@ -10,7 +10,7 @@ interface SuggestedRefinementsProps {
   /**
    * Suggested refinements text and selected flag
    */
-  suggestedRefinements: SelectableSuggestedRefinement[];
+  suggestedRefinements: SelectableQuerySuggestedRefinement[];
   /**
    * Label used for suggested refinements group
    */
@@ -33,7 +33,7 @@ export const SuggestedRefinements: FC<SuggestedRefinementsProps> = ({
   ): void => {
     const target: HTMLInputElement = event.currentTarget;
     const selectedRefinementText = target.getAttribute('data-key');
-    const newSuggestedRefinements: SelectableSuggestedRefinement[] = suggestedRefinements.map(
+    const newSuggestedRefinements: SelectableQuerySuggestedRefinement[] = suggestedRefinements.map(
       suggestion => {
         const text = get(suggestion, 'text', '');
         return text === selectedRefinementText

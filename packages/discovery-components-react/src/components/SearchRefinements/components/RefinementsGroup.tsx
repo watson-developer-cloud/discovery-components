@@ -3,8 +3,8 @@ import { settings } from 'carbon-components';
 import { Checkbox as CarbonCheckbox } from 'carbon-components-react';
 import { SearchContext } from '../../DiscoverySearch/DiscoverySearch';
 import {
-  SelectableSuggestedRefinement,
-  QueryTermAggregation
+  SelectableQuerySuggestedRefinement,
+  SelectableQueryTermAggregationResult
 } from '../utils/searchRefinementInterfaces';
 import get from 'lodash/get';
 
@@ -12,7 +12,7 @@ interface RefinementGroupProps {
   /**
    * Suggested refinements text and selected flag
    */
-  refinements: (SelectableSuggestedRefinement | QueryTermAggregation)[];
+  refinements: (SelectableQuerySuggestedRefinement | SelectableQueryTermAggregationResult)[];
   /**
    * Refinement text field
    */

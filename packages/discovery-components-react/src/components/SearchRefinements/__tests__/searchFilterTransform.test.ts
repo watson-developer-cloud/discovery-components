@@ -77,6 +77,7 @@ describe('Filter string to QueryTermAggregation array', () => {
       SearchFilterTransform.fromString('field:term|two words,field2:blah\\"stuff').filterFields
     ).toEqual([
       {
+        type: 'term',
         field: 'field',
         results: expect.arrayContaining([
           expect.objectContaining({ key: 'term', selected: true }),
@@ -84,6 +85,7 @@ describe('Filter string to QueryTermAggregation array', () => {
         ])
       },
       {
+        type: 'term',
         field: 'field2',
         results: expect.arrayContaining([
           expect.objectContaining({ key: 'blah"stuff', selected: true })
@@ -94,6 +96,7 @@ describe('Filter string to QueryTermAggregation array', () => {
   test('it properly handles aggregations with reserved characters', () => {
     expect(SearchFilterTransform.fromString(weirdFilters).filterFields).toEqual([
       {
+        type: 'term',
         field: 'extracted_stuff.weirdAggs',
         results: expect.arrayContaining([
           expect.objectContaining({ key: 'this | that', selected: true }),
@@ -102,6 +105,7 @@ describe('Filter string to QueryTermAggregation array', () => {
         ])
       },
       {
+        type: 'term',
         field: 'extracted_stuff.oddAggs',
         results: expect.arrayContaining([
           expect.objectContaining({ key: 'something, new', selected: true }),
@@ -109,6 +113,7 @@ describe('Filter string to QueryTermAggregation array', () => {
         ])
       },
       {
+        type: 'term',
         field: 'extracted_stuff.normalAggs',
         results: expect.arrayContaining([
           expect.objectContaining({ key: 'something normal', selected: true }),

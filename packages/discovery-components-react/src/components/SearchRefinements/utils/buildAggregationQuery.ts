@@ -1,6 +1,8 @@
 import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 
-export const buildAggregationQuery = (configuration: DiscoveryV2.Term[]) => {
+export const buildAggregationQuery = (
+  configuration: DiscoveryV2.QueryTermAggregation[]
+): string => {
   const aggregation = configuration.map(term => {
     return term.count
       ? 'term(' + term.field + ',count:' + term.count + ')'

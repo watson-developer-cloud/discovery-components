@@ -40,10 +40,12 @@ function AppView() {
 function SearchPage() {
   const [configuration] = useState([
     {
+      type: 'term',
       field: 'extracted_metadata.title',
       count: 10
     },
     {
+      type: 'term',
       field: 'extracted_metadata.file_type',
       count: 10
     }

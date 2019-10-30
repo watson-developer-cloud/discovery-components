@@ -1,5 +1,5 @@
+import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import { findTermAggregations } from '../utils/findTermAggregations';
-import { QueryTermAggregation } from '../utils/searchRefinementInterfaces';
 import {
   twoTermAggs,
   nestedTermAgg,
@@ -9,7 +9,9 @@ import {
 
 describe('findTermAggregations', () => {
   it('keeps two term aggregations the same', () => {
-    const termAggregations: QueryTermAggregation[] = findTermAggregations(twoTermAggs.aggregations);
+    const termAggregations: DiscoveryV2.QueryTermAggregation[] = findTermAggregations(
+      twoTermAggs.aggregations
+    );
     expect(termAggregations).toEqual([
       {
         type: 'term',
@@ -57,7 +59,7 @@ describe('findTermAggregations', () => {
   });
 
   it('removes a top level nested aggregation to retrieve second level term aggregation', () => {
-    const termAggregations: QueryTermAggregation[] = findTermAggregations(
+    const termAggregations: DiscoveryV2.QueryTermAggregation[] = findTermAggregations(
       nestedTermAgg.aggregations
     );
     expect(termAggregations).toEqual([
@@ -79,7 +81,7 @@ describe('findTermAggregations', () => {
   });
 
   it('removes a top level nested aggregation and second level filter aggregation to retrieve third level term aggrgation', () => {
-    const termAggregations: QueryTermAggregation[] = findTermAggregations(
+    const termAggregations: DiscoveryV2.QueryTermAggregation[] = findTermAggregations(
       nestedFilterTermAgg.aggregations
     );
     expect(termAggregations).toEqual([
@@ -101,7 +103,7 @@ describe('findTermAggregations', () => {
   });
 
   it('removes 2 top level nested aggregation and second level filter aggregation to retrieve both third level term aggrgations', () => {
-    const termAggregations: QueryTermAggregation[] = findTermAggregations(
+    const termAggregations: DiscoveryV2.QueryTermAggregation[] = findTermAggregations(
       twoNestedFilterTermAgg.aggregations
     );
     expect(termAggregations).toEqual([

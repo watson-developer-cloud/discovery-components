@@ -23,7 +23,7 @@ export interface DiscoverySearchProps {
   /**
    * Aggregation results used to override internal aggregation search results state
    */
-  overrideAggregationResults?: DiscoveryV2.QueryAggregation;
+  overrideAggregationResults?: DiscoveryV2.QueryAggregation[];
   /**
    * Search response used to override internal search results state
    */
@@ -82,7 +82,7 @@ export const emptySelectedResult = {
 };
 
 export interface SearchContextIFC {
-  aggregationResults: DiscoveryV2.QueryAggregation | null;
+  aggregationResults: DiscoveryV2.QueryAggregation[] | null;
   searchResponse: DiscoveryV2.QueryResponse | null;
   searchParameters: DiscoveryV2.QueryParams;
   collectionsResults: DiscoveryV2.ListCollectionsResponse | null;
@@ -147,9 +147,9 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
   const [searchResponse, setSearchResponse] = useState<DiscoveryV2.QueryResponse | null>(
     overrideSearchResults
   );
-  const [aggregationResults, setAggregationResults] = useState<DiscoveryV2.QueryAggregation | null>(
-    overrideAggregationResults
-  );
+  const [aggregationResults, setAggregationResults] = useState<
+    DiscoveryV2.QueryAggregation[] | null
+  >(overrideAggregationResults);
   const [
     collectionsResults,
     setCollectionsResults
@@ -261,7 +261,7 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
       const { result } = await searchClient.query(searchParameters);
       if (result) {
         const { aggregations } = result;
-        setAggregationResults({ aggregations });
+        setAggregationResults(aggregations || null);
       }
     },
     [searchClient]
@@ -274,7 +274,7 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
       setSearchResponse(result);
       if (result && resetAggregations) {
         const { aggregations } = result;
-        setAggregationResults({ aggregations });
+        setAggregationResults(aggregations || null);
       }
     },
     [searchClient]

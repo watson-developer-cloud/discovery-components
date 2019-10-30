@@ -1,13 +1,15 @@
 import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 
-function isConfigurationTerm(configuration: any): configuration is DiscoveryV2.Term {
+function isConfigurationTerm(
+  configuration: any
+): configuration is DiscoveryV2.QueryTermAggregation {
   return (
     (typeof configuration.field === 'string') === true &&
     (configuration.count !== undefined && (typeof configuration.count === 'number') === true)
   );
 }
 
-export const validateConfiguration = (configuration: DiscoveryV2.Term[]) => {
+export const validateConfiguration = (configuration: DiscoveryV2.QueryTermAggregation[]) => {
   if (!configuration) {
     return false;
   }

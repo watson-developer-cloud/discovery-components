@@ -1,11 +1,10 @@
 import React, { FC, SyntheticEvent } from 'react';
-import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import get from 'lodash/get';
 import findIndex from 'lodash/findIndex';
 import {
-  QueryTermAggregation,
-  SearchFilterRefinements,
-  SelectableAggregationResult
+  SelectableQueryTermAggregation,
+  SelectableQueryTermAggregationResult,
+  SearchFilterRefinements
 } from '../utils/searchRefinementInterfaces';
 import { RefinementsGroup } from './RefinementsGroup';
 
@@ -13,7 +12,7 @@ interface FieldRefinementsProps {
   /**
    * Refinements configuration with fields and results counts
    */
-  allRefinements: QueryTermAggregation[];
+  allRefinements: SelectableQueryTermAggregation[];
   /**
    * Callback to handle changes in selected refinements
    */
@@ -34,12 +33,12 @@ export const FieldRefinements: FC<FieldRefinementsProps> = ({ allRefinements, on
       refinement => refinement.field === selectedRefinementField
     );
     if (refinementsForField) {
-      const refinementResults: SelectableAggregationResult[] = get(
+      const refinementResults: SelectableQueryTermAggregationResult[] = get(
         refinementsForField,
         'results',
         []
       );
-      const selectedRefinementResults: SelectableAggregationResult[] = refinementResults.map(
+      const selectedRefinementResults: SelectableQueryTermAggregationResult[] = refinementResults.map(
         result => {
           const key = get(result, 'key', '');
           return key === selectedRefinementKey
@@ -65,8 +64,8 @@ export const FieldRefinements: FC<FieldRefinementsProps> = ({ allRefinements, on
         .filter(aggregation => {
           return aggregation.results;
         })
-        .map((aggregation: QueryTermAggregation, i: number) => {
-          const aggregationResults: DiscoveryV2.AggregationResult[] = get(
+        .map((aggregation: SelectableQueryTermAggregation, i: number) => {
+          const aggregationResults: SelectableQueryTermAggregationResult[] = get(
             aggregation,
             'results',
             []

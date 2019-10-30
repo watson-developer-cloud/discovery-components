@@ -29,10 +29,12 @@ const setup = (collectionIds?: string[]): Setup => {
         showCollections={true}
         configuration={[
           {
+            type: 'term',
             field: 'author',
             count: 3
           },
           {
+            type: 'term',
             field: 'subject',
             count: 4
           }

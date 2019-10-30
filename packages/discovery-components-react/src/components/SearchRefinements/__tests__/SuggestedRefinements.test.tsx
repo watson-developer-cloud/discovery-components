@@ -14,9 +14,7 @@ interface Setup {
 const setup = (filter: string): Setup => {
   const performSearchMock = jest.fn();
   const context: Partial<SearchContextIFC> = {
-    aggregationResults: {
-      aggregations: weirdRefinementsQueryResponse.result.aggregations
-    },
+    aggregationResults: weirdRefinementsQueryResponse.result.aggregations,
     searchResponse: {
       suggested_refinements: weirdRefinementsQueryResponse.result.suggested_refinements
     },
@@ -34,10 +32,12 @@ const setup = (filter: string): Setup => {
         showSuggestedRefinements={true}
         configuration={[
           {
+            type: 'term',
             field: 'author',
             count: 3
           },
           {
+            type: 'term',
             field: 'subject',
             count: 4
           }

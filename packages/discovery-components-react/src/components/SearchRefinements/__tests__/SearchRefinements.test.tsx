@@ -24,9 +24,7 @@ const setup = (
 ): Setup => {
   const fetchAggregationsMock = jest.fn();
   const context: Partial<SearchContextIFC> = {
-    aggregationResults: {
-      aggregations: aggregations
-    },
+    aggregationResults: aggregations,
     collectionsResults: collectionsResponse.result,
     searchParameters: {
       projectId: '',
@@ -42,10 +40,12 @@ const setup = (
         showCollections={showCollections}
         configuration={[
           {
+            type: 'term',
             field: 'author',
             count: 3
           },
           {
+            type: 'term',
             field: 'subject',
             count: 4
           }
@@ -138,28 +138,6 @@ describe('SearchRefinementsComponent', () => {
       const { context } = setup('');
       render(wrapWithContext(<SearchRefinements configuration={[]} />, {}, context));
       expect(consoleOutput).toEqual([invalidConfigurationMessage]);
-    });
-
-    test('it provides invalid message in console error when field is missing in provided configuration', () => {
-      const { context } = setup('');
-      render(
-        wrapWithContext(
-          <SearchRefinements
-            configuration={[
-              {
-                field: 'enriched_text.entities.text',
-                count: 10
-              },
-              {
-                count: 5
-              }
-            ]}
-          />,
-          {},
-          context
-        )
-      );
-      expect(consoleOutput).toEqual([invalidConfigurationMessage, invalidConfigurationMessage]);
     });
   });
 });

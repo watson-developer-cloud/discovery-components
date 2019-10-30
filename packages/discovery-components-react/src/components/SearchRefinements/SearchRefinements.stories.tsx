@@ -15,10 +15,12 @@ export const props = () => ({
   showSuggestedRefinements: boolean('Show suggested refinements', false),
   configuration: object('Refinements configuration', [
     {
+      type: 'term',
       field: 'author',
       count: 3
     },
     {
+      type: 'term',
       field: 'subject',
       count: 4
     }
