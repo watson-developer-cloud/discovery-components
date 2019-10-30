@@ -1,0 +1,35 @@
+.#{$prefix}--semantic-doc-metadata {
+  margin: $spacing-sm;
+
+  > h2 {
+    font-size: $spacing-lg;
+  }
+}
+
+.#{$prefix}--semantic-doc-metadata__section {
+  > h3 {
+    font-size: $spacing-md;
+  }
+
+  a {
+    margin-left: $spacing-xs;
+  }
+
+  svg {
+    cursor: help;
+  }
+}
+
+.#{$prefix}--semantic-doc-metadata__selected {
+  font-weight: bold;
+
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+.#{$prefix}--semantic-doc-metadata__party {
+  font-size: $spacing-md;
+  margin-top: $spacing-sm;
+  border-top: 1px solid $gray_70;
+}
