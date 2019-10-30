@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 1.23.0 (2019-10-30)
+
+
+### Bug Fixes
+
+* Aggregation models ([#291](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/291)) ([8c39dc1](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/8c39dc1))
+* Quote selected aggretion terms in filter field ([#271](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/271)) ([ebd9d08](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/ebd9d08))
+* referential equality optimization ([#216](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/216)) ([2c0646e](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/2c0646e))
+* rename DiscoveryV1 to DiscoveryV2 ([#281](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/281)) ([ad3b3ea](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/ad3b3ea))
+* rename richPreview to DocumentPreview ([#254](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/254)) ([71d8fd9](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/71d8fd9))
+* update setSelectedResult in example app ([#272](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/272)) ([1af5039](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/1af5039))
+* updates to SDK ([#275](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/275)) ([36c1f21](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/36c1f21))
+
+
+### Features
+
+* Add support for suggested queries ([#288](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/288)) ([c834eab](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/c834eab))
+* display the collection within each result ([#230](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/230)) ([918a457](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/918a457))
+* pull doc data from context ([#243](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/243)) ([0832793](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/0832793))
+* Search Results Tables and Passages ([#259](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/259)) ([a100ba2](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/a100ba2))
+
+
+
+
+
 ## [1.22.5](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-components-react-example@1.22.4...discovery-components-react-example@1.22.5) (2019-10-30)
 
 

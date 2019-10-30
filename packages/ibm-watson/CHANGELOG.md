@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.5](https://github.com/watson-developer-cloud/node-sdk/compare/@disco-widgets/ibm-watson@1.5.4...@disco-widgets/ibm-watson@1.5.5) (2019-10-30)
+
+**Note:** Version bump only for package @disco-widgets/ibm-watson
+
+
+
+
+
 ## [1.5.4](http:///ibm-watson/compare/@disco-widgets/ibm-watson@1.5.3...@disco-widgets/ibm-watson@1.5.4) (2019-10-30)
 
 

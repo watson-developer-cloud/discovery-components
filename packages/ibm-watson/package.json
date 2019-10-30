@@ -1,6 +1,6 @@
 {
   "name": "@disco-widgets/ibm-watson",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "description": "IBM Cloud Node SDK",
   "license": "Apache-2.0",
   "repository": "https://github.com/watson-developer-cloud/node-sdk",
