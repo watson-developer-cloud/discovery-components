@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.48.0](http:///discovery-components-react/compare/@disco-widgets/react-components@1.47.1...@disco-widgets/react-components@1.48.0) (2019-10-30)
+
+
+### Features
+
+* chewy metadata pane ([#290](http:///discovery-components-react/issues/290)) ([964ca82](http:///discovery-components-react/commits/964ca82))
+
+
+
+
+
 ## [1.47.1](http:///discovery-components-react/compare/@disco-widgets/react-components@1.47.0...@disco-widgets/react-components@1.47.1) (2019-10-30)
 
 

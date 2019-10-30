@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.18.0](http:///discovery-styles/compare/@disco-widgets/styles@1.17.0...@disco-widgets/styles@1.18.0) (2019-10-30)
+
+
+### Features
+
+* chewy metadata pane ([#290](http:///discovery-styles/issues/290)) ([964ca82](http:///discovery-styles/commits/964ca82))
+
+
+
+
+
 # [1.17.0](http:///discovery-styles/compare/@disco-widgets/styles@1.16.0...@disco-widgets/styles@1.17.0) (2019-10-30)
 
 
