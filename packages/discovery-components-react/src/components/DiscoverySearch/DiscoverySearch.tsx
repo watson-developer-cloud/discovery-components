@@ -236,7 +236,8 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
         const prefix = queryArray[queryArray.length - 1];
         const completionParams = {
           projectId,
-          prefix: prefix
+          prefix: prefix,
+          count: completionsCount
         };
 
         if (!!prefix) {

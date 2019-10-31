@@ -217,7 +217,11 @@ describe('DiscoverySearch', () => {
       act(() => {
         fireEvent.click(getByText('Action'));
       });
-      expect(spy).toHaveBeenCalled();
+      expect(spy).toHaveBeenCalledWith({
+        projectId: '',
+        prefix: 'foo',
+        count: 1
+      });
     });
   });
 });
