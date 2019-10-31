@@ -1,6 +1,7 @@
-require('dotenv').config({ path: './.server-env' });
-
 /* eslint-disable @typescript-eslint/no-var-requires */
+const dotenv = require('dotenv');
+dotenv.config({ path: '.env.local' });
+dotenv.config({ path: './.server-env' });
 const path = require('path');
 const express = require('express');
 const app = express();
@@ -34,8 +35,8 @@ app.get('/', async (req, res) => {
 app.post('/api/v2/projects/:projectId/query', cors(), async (req, res) => {
   try {
     const params = Object.assign({}, req.body, req.params);
-    const response = await searchClient.query(params);
-    res.json(response);
+    const { result } = await searchClient.query(params);
+    res.json(result);
   } catch (e) {
     console.error(e);
     res.json({ error: 'something went wrong' });
@@ -44,8 +45,8 @@ app.post('/api/v2/projects/:projectId/query', cors(), async (req, res) => {
 app.get('/api/v2/projects/:projectId/collections', cors(), async (req, res) => {
   try {
     const params = Object.assign({}, req.body, req.params);
-    const response = await searchClient.listCollections(params);
-    res.json(response);
+    const { result } = await searchClient.listCollections(params);
+    res.json(result);
   } catch (e) {
     console.error(e);
     res.json({ error: 'something went wrong' });
@@ -57,8 +58,8 @@ app.get('/api/v2/projects/:projectId/autocompletion', cors(), async (req, res) =
     const query = req.query;
     const params = req.params;
     const combinedParams = Object.assign({}, query, params);
-    const response = await searchClient.getAutocompletion(combinedParams);
-    res.json(response);
+    const { result } = await searchClient.getAutocompletion(combinedParams);
+    res.json(result);
   } catch (e) {
     console.error(e);
     res.json({ error: 'something went wrong' });
