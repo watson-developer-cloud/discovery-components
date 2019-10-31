@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.50.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.49.4...@disco-widgets/react-components@1.50.0) (2019-10-31)
+
+
+### Features
+
+* chewy details pane ([#297](https://github.com/watson-developer-cloud/discovery-components/issues/297)) ([b4c741e](https://github.com/watson-developer-cloud/discovery-components/commit/b4c741e))
+
+
+
+
+
 ## [1.49.4](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.49.3...@disco-widgets/react-components@1.49.4) (2019-10-31)
 
 

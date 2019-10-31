@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.20.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/styles@1.19.1...@disco-widgets/styles@1.20.0) (2019-10-31)
+
+
+### Features
+
+* chewy details pane ([#297](https://github.com/watson-developer-cloud/discovery-components/issues/297)) ([b4c741e](https://github.com/watson-developer-cloud/discovery-components/commit/b4c741e))
+
+
+
+
+
 ## [1.19.1](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/styles@1.19.0...@disco-widgets/styles@1.19.1) (2019-10-30)
 
 **Note:** Version bump only for package @disco-widgets/styles
