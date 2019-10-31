@@ -1,0 +1,43 @@
+@import '~carbon-components/scss/components/link/link';
+
+.#{$prefix}--semantic-doc-details {
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-md;
+
+  .title {
+    font-size: $spacing-md;
+    font-weight: bold;
+    margin-bottom: $spacing-md;
+    padding-bottom: $spacing-md;
+    border-bottom: 1px solid $ui_04;
+  }
+
+  .nothingSelected {
+    color: $gray-30;
+  }
+
+  .section {
+    margin-top: $spacing-md;
+    border-bottom: 1px solid $ui_04;
+    padding-bottom: $spacing-md;
+  }
+
+  .sectionHeader {
+    font-size: $spacing-md;
+    font-weight: bold;
+    margin-bottom: $spacing-sm;
+  }
+
+  .selected {
+    font-weight: bold;
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  .content {
+    margin-bottom: $spacing-sm;
+  }
+}
