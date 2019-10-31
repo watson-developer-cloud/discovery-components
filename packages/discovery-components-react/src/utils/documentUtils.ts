@@ -7,18 +7,27 @@ interface FindOffsetResults {
   endOffset: number;
 }
 
+export interface NodeOffset {
+  textNode: Text;
+  textOffset: number;
+}
+
 /**
  * Find the offsets within the children of the given node
  * @param parentNode DOM node containing children with attributes `data-child-begin` and `data-child-end`
  * @param begin the start offset to search for
  * @param end end offset
+ * @param _getTextNodeAndOffset function for retrieving text node and offset
  * @return begin/end text nodes and offsets within those nodes; for use with DOM `Range`
  */
 export function findOffsetInDOM(
   parentNode: HTMLElement,
   begin: number,
-  end: number
+  end: number,
+  _getTextNodeAndOffset?: (node: Node, offset: number) => NodeOffset
 ): FindOffsetResults {
+  const textNodeAndOffsetFn = _getTextNodeAndOffset || getTextNodeAndOffset;
+
   let beginNode, endNode;
   let node = parentNode.firstElementChild as HTMLElement;
   do {
@@ -38,8 +47,11 @@ export function findOffsetInDOM(
     end > parseInt(node.dataset.childBegin || '0', 10)
   );
 
-  const [beginTextNode, beginOffset] = getTextNodeAndOffset(beginNode, begin);
-  const [endTextNode, endOffset] = getTextNodeAndOffset(endNode, end);
+  const { textNode: beginTextNode, textOffset: beginOffset } = textNodeAndOffsetFn(
+    beginNode,
+    begin
+  );
+  const { textNode: endTextNode, textOffset: endOffset } = textNodeAndOffsetFn(endNode, end);
 
   return {
     beginTextNode: beginTextNode as Text,
@@ -49,7 +61,7 @@ export function findOffsetInDOM(
   };
 }
 
-function getTextNodeAndOffset(node: Node, offset: number): [Node, number] {
+export function getTextNodeAndOffset(node: Node, offset: number): NodeOffset {
   const nodeOffset = parseInt((node as HTMLElement).dataset.childBegin || '0', 10);
   const iterator = document.createNodeIterator(node, NodeFilter.SHOW_TEXT);
 
@@ -68,7 +80,7 @@ function getTextNodeAndOffset(node: Node, offset: number): [Node, number] {
   }
 
   const textOffset = Math.max(0, offset - runningOffset);
-  return [textNode, textOffset];
+  return { textNode, textOffset };
 }
 
 interface CreateFieldRectsProps {
@@ -120,6 +132,7 @@ export function createFieldRects({
   Array.prototype.forEach.call(uniqRects(range.getClientRects() as DOMRectList), rect => {
     const div = document.createElement('div');
     div.className = 'field--rect';
+    div.setAttribute('data-testid', 'field-rect');
     div.setAttribute(
       'style',
       `top: ${rect.top - parentRect.top}px;

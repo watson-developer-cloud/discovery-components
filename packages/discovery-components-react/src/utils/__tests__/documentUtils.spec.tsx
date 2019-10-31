@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render } from '@testing-library/react';
-import { findOffsetInDOM, uniqRects } from '../document';
+import { uniqRects, findOffsetInDOM } from '../documentUtils';
 
 describe('uniqRects', () => {
   it('removes duplicate rects', () => {

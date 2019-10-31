@@ -7,6 +7,21 @@ export const StoryWrapper = (props: any): any => (
   <div style={{ backgroundColor: '#f3f3f3', padding: '1rem' }}>{props.children}</div>
 );
 
+export const DocumentStoryWrapper = (props: any): any => (
+  <>
+    <style>{`
+        .story > * {
+          background-color: #fff;
+        }
+      `}</style>
+    <div style={{ backgroundColor: '#f3f3f3' }}>
+      <div className="story" style={{ maxWidth: '78ch', padding: '2rem' }}>
+        {props.children}
+      </div>
+    </div>
+  </>
+);
+
 export class DummySearchClient {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async query(queryParams: DiscoveryV2.QueryParams): Promise<any> {

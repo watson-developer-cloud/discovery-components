@@ -7,7 +7,7 @@ import {
 } from '@disco-widgets/ibm-watson/discovery/v2';
 import get from 'lodash/get';
 import { clearNodeChildren } from '../../utils/dom';
-import { findOffsetInDOM, createFieldRects } from '../../utils/document';
+import { findOffsetInDOM, createFieldRects } from '../../../../utils/documentUtils';
 import { isPassage } from '../Highlight/passages';
 
 interface Props {
