@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.49.3](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.49.2...@disco-widgets/react-components@1.49.3) (2019-10-31)
+
+
+### Bug Fixes
+
+* fallback font ([#296](https://github.com/watson-developer-cloud/discovery-components/issues/296)) ([ecd237c](https://github.com/watson-developer-cloud/discovery-components/commit/ecd237c))
+
+
+
+
+
 ## [1.49.2](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.49.1...@disco-widgets/react-components@1.49.2) (2019-10-30)
 
 **Note:** Version bump only for package @disco-widgets/react-components
