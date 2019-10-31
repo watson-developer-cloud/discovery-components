@@ -5,6 +5,7 @@ import {
   QueryResultPassage,
   QueryTableResult
 } from '@disco-widgets/ibm-watson/discovery/v2';
+import get from 'lodash/get';
 import { clearNodeChildren } from '../../utils/dom';
 import { findOffsetInDOM, createFieldRects } from '../../utils/document';
 import { isPassage } from '../Highlight/passages';
@@ -25,7 +26,7 @@ export const SimpleDocument: FC<Props> = ({ document, highlight }) => {
   let html,
     passage: QueryResultPassage | null = null;
   if (document) {
-    const text = document.text;
+    const text = get(document, 'text', '');
     html = `<p data-child-begin="0" data-child-end=${text.length - 1}>${text}</p>`;
 
     // TODO handle table highlighting? (or do we? if we have html, will we have structural data, in order to do PdfFallback instead?)
