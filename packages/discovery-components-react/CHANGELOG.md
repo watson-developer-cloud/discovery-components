@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.52.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.51.0...@disco-widgets/react-components@1.52.0) (2019-10-31)
+
+
+### Features
+
+* Handle single selection facets ([#299](https://github.com/watson-developer-cloud/discovery-components/issues/299)) ([b4aaa68](https://github.com/watson-developer-cloud/discovery-components/commit/b4aaa68))
+
+
+
+
+
 # [1.51.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.50.0...@disco-widgets/react-components@1.51.0) (2019-10-31)
 
 
