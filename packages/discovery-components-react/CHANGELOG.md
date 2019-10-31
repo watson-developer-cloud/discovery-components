@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.53.1](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.53.0...@disco-widgets/react-components@1.53.1) (2019-10-31)
+
+
+### Bug Fixes
+
+* pass along completions count to getAutocompletions ([#303](https://github.com/watson-developer-cloud/discovery-components/issues/303)) ([c94ec10](https://github.com/watson-developer-cloud/discovery-components/commit/c94ec10))
+
+
+
+
+
 # [1.53.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.52.0...@disco-widgets/react-components@1.53.0) (2019-10-31)
 
 
