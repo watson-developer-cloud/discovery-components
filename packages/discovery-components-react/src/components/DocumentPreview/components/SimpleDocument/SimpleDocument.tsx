@@ -17,32 +17,44 @@ interface Props {
   document: QueryResult;
 
   highlight?: QueryResultPassage | QueryTableResult;
+
+  cannotPreviewMessage?: string;
 }
 
-export const SimpleDocument: FC<Props> = ({ document, highlight }) => {
+export const SimpleDocument: FC<Props> = ({
+  document,
+  highlight,
+  cannotPreviewMessage = 'Cannot preview document'
+}) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
 
   let html,
     passage: QueryResultPassage | null = null;
   if (document) {
-    const text = get(document, 'text', '');
-    html = `<p data-child-begin="0" data-child-end=${text.length - 1}>${text}</p>`;
+    //Json object usually don't have enough info to allow us to determine which field to display
+    //Unless there is passage pointing to a specific field.
+    const isJsonType = get(document, 'extracted_metadata.file_type') === 'json';
+    if (isJsonType && (!highlight || !isPassage(highlight))) {
+      html = `<p>${cannotPreviewMessage}</p>`;
+    } else {
+      const text = get(document, 'text', '');
+      html = `<p data-child-begin="0" data-child-end=${text.length - 1}>${text}</p>`;
 
-    // TODO handle table highlighting? (or do we? if we have html, will we have structural data, in order to do PdfFallback instead?)
-    if (highlight && isPassage(highlight)) {
-      passage = highlight as QueryResultPassage;
-      const { field } = passage;
-      if (field && field !== 'text') {
-        let rollingStart = 0;
-        html = document[field]
-          .map((val: string) => {
-            const end = rollingStart + val.length - 1;
-            const res = `<p data-child-begin=${rollingStart} data-child-end=${end}>${val}</p>`;
-            rollingStart = end + 1;
-            return res;
-          })
-          .join('\n');
+      if (highlight && isPassage(highlight)) {
+        passage = highlight as QueryResultPassage;
+        const { field } = passage;
+        if (field && field !== 'text') {
+          let rollingStart = 0;
+          html = document[field]
+            .map((val: string) => {
+              const end = rollingStart + val.length - 1;
+              const res = `<p data-child-begin=${rollingStart} data-child-end=${end}>${val}</p>`;
+              rollingStart = end + 1;
+              return res;
+            })
+            .join('\n');
+        }
       }
     }
   }

@@ -15,6 +15,7 @@ import PreviewToolbar, {
 import PdfViewer from './components/PdfViewer/PdfViewer';
 import PdfFallback, { supportsPdfFallback } from './components/PdfFallback/PdfFallback';
 import SimpleDocument from './components/SimpleDocument/SimpleDocument';
+import HtmlView from './components/HtmlView/HtmlView';
 import Highlight from './components/Highlight/Highlight';
 
 interface Props {
@@ -146,20 +147,34 @@ function PreviewDocument({
 }: DocumentProps): ReactElement | null {
   // if we have PDF data, render that
   // otherwise, render fallback document view
-  return file ? (
-    <PdfViewer file={file} page={currentPage} scale={scale} setPageCount={setPdfPageCount} />
-  ) : document ? (
-    supportsPdfFallback(document) ? (
-      <PdfFallback
-        key={document && document.id}
-        document={document}
-        currentPage={currentPage}
-        scale={scale}
-      />
-    ) : (
-      <SimpleDocument document={document} highlight={highlight} />
-    )
-  ) : null;
+  if (file) {
+    return (
+      <PdfViewer file={file} page={currentPage} scale={scale} setPageCount={setPdfPageCount} />
+    );
+  }
+
+  if (document) {
+    if (supportsPdfFallback(document)) {
+      return (
+        <PdfFallback
+          key={document && document.id}
+          document={document}
+          currentPage={currentPage}
+          scale={scale}
+        />
+      );
+    }
+
+    const isHtmlType = get(document, 'extracted_metadata.file_type') === 'html';
+
+    if (isHtmlType) {
+      return <HtmlView document={document} />;
+    }
+
+    return <SimpleDocument document={document} highlight={highlight} />;
+  }
+
+  return null;
 }
 
 export default DocumentPreview;

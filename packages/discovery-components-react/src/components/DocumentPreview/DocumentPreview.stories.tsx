@@ -10,6 +10,9 @@ import docArtEffects from './__fixtures__/Art Effects Koya Creative Base TSA 200
 import docHonda from './__fixtures__/ATLA1919NV.PDF.json';
 import docSOW from './__fixtures__/SOW 4915017574 SAP System Analyst Services for the GSD - v5.pdf.json';
 import passages from './__fixtures__/passages';
+import jsonPassages from './__fixtures__/jsonPassages';
+import jsonDoc from './__fixtures__/Enron.json';
+import htmlDoc from './__fixtures__/MovieHtml.json';
 
 interface WrapperProps {
   style?: any;
@@ -32,7 +35,8 @@ storiesOf('DocumentPreview', module)
   })
   .add('passage highlighting', () => {
     const [file, doc] = docSelection();
-    const docWithPassage = passageSelection(doc);
+    const usedPassage = doc.extracted_metadata.file_type === 'json' ? jsonPassages : passages;
+    const docWithPassage = passageSelection(doc, usedPassage);
     const highlight = ((docWithPassage.document_passages as unknown) as QueryResultPassage[])[0];
 
     return (
@@ -87,7 +91,9 @@ function docSelection(): [string | undefined, QueryResult] {
   const options = {
     PDF: 'pdf',
     'Document with structure data': 'structure',
-    'Document without structure data': 'simple'
+    'Document without structure data': 'simple',
+    'Json Document': 'json',
+    'Html Document': 'html'
   };
   const defaultValue = 'pdf';
   const groupId = 'GROUP-ID1';
@@ -105,6 +111,12 @@ function docSelection(): [string | undefined, QueryResult] {
     case 'simple':
       doc = omit(docArtEffects, 'extracted_metadata.text_mappings');
       break;
+    case 'html':
+      doc = htmlDoc;
+      break;
+    case 'json':
+      doc = jsonDoc;
+      break;
     default:
       throw new Error('Unknown radios option');
   }
@@ -112,7 +124,7 @@ function docSelection(): [string | undefined, QueryResult] {
   return [file, doc];
 }
 
-function passageSelection(doc: QueryResult): QueryResult {
+function passageSelection(doc: QueryResult, passages: object): QueryResult {
   const label = 'Passage Type';
   const options = {
     'Single line': 'single',

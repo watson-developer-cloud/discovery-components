@@ -1,0 +1,1032 @@
+{
+  "id": "1a0a27e86899aab29be0cf8a026f58e8",
+  "result_metadata": {
+    "confidence": 0,
+    "score": 1
+  },
+  "fpath": "enron_mail_20110402/maildir/lay-k/discussion_threads/693.",
+  "mdoc_id": "9020121.1075840249393.JavaMail.evans@thyme",
+  "subject": "AEI Conference Invitation",
+  "ctype": "text/plain; charset=ANSI_X3.4-1968",
+  "recipients": [],
+  "fname": "693.",
+  "text": "Please do not reply to this email.\n------------------------------------------------------------------------------\n-----------------------------\n\nLecture\n\nJiang Zemin's Legacy: Beijing's Latest Policies on Reform, Succession, and \nTaiwan\n\nWednesay, November 29, 2000\nNoon-2:00 p.m.\nWohlstetter Conference Center\nTwelfth Floor, AEI\n\nWilly Wo-lap Lam, former China editor of the South China Morning Post (the \nleading English daily in Hong Kong), will look at the possibilities for a \nmore thorough going economic and political reform after Presdoc_ident Jiang Zemin \nhas retreated from the front line. Lam will examine the traits of the new \ngeneration of leaders and their likely policies toward the United States and \nTaiwan.\n\nFollowing his lecture, Lam will answer questions about his prepared remarks. \nLam has also kindly agreed to discuss with the audience his recent departure \nfrom the South China Morning Post and the climate of press freedom in Hong \nKong.\n\n11:30 a.m.   Registration\n\nNoon  Speaker:  Willy Wo-lap...",
+  "to": [],
+  "replyto": null,
+  "folder": "discussion_threads",
+  "date": "2000-11-15 03:41:00-08:00",
+  "bcc": [],
+  "enriched_text": {
+    "entities": [
+      {
+        "count": 5,
+        "sentiment": {
+          "score": -0.166243,
+          "label": "negative"
+        },
+        "text": "Willy Wo-lap Lam",
+        "relevance": 0.936197,
+        "type": "Person"
+      },
+      {
+        "count": 2,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "South China Morning Post",
+        "relevance": 0.467562,
+        "type": "PrintMedia",
+        "disambiguation": {
+          "subtype": ["Organization", "Company", "Newspaper"],
+          "name": "South China Morning Post",
+          "dbpedia_resource": "http://dbpedia.org/resource/South_China_Morning_Post"
+        }
+      },
+      {
+        "count": 2,
+        "sentiment": {
+          "score": 0.76009,
+          "label": "positive"
+        },
+        "text": "Jiang Zemin",
+        "relevance": 0.41179,
+        "type": "Person",
+        "disambiguation": {
+          "subtype": ["Politician", "President"],
+          "name": "Jiang Zemin",
+          "dbpedia_resource": "http://dbpedia.org/resource/Jiang_Zemin"
+        }
+      },
+      {
+        "count": 2,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "Taiwan",
+        "relevance": 0.286556,
+        "type": "Location",
+        "disambiguation": {
+          "subtype": ["Country"]
+        }
+      },
+      {
+        "count": 1,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "Hong Kong",
+        "relevance": 0.28622,
+        "type": "Location",
+        "disambiguation": {
+          "subtype": [
+            "HumanLanguage",
+            "AdministrativeDivision",
+            "Country",
+            "GovernmentalJurisdiction",
+            "BodyOfWater",
+            "Cuisine",
+            "City"
+          ],
+          "name": "Hong Kong",
+          "dbpedia_resource": "http://dbpedia.org/resource/Hong_Kong"
+        }
+      },
+      {
+        "count": 1,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "AEI",
+        "relevance": 0.236517,
+        "type": "Organization",
+        "disambiguation": {
+          "subtype": ["Company"],
+          "name": "Associated Electrical Industries",
+          "dbpedia_resource": "http://dbpedia.org/resource/Associated_Electrical_Industries"
+        }
+      },
+      {
+        "count": 1,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "China",
+        "relevance": 0.23381,
+        "type": "Location",
+        "disambiguation": {
+          "subtype": [
+            "Region",
+            "AdministrativeDivision",
+            "GovernmentalJurisdiction",
+            "Kingdom",
+            "FilmScreeningVenue",
+            "Country"
+          ],
+          "name": "China",
+          "dbpedia_resource": "http://dbpedia.org/resource/China"
+        }
+      },
+      {
+        "count": 1,
+        "sentiment": {
+          "score": 0.38188,
+          "label": "positive"
+        },
+        "text": "Beijing",
+        "relevance": 0.231335,
+        "type": "Location",
+        "disambiguation": {
+          "subtype": ["City"],
+          "name": "Beijing",
+          "dbpedia_resource": "http://dbpedia.org/resource/Beijing"
+        }
+      },
+      {
+        "count": 1,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "Wohlstetter Conference Center",
+        "relevance": 0.220081,
+        "type": "Organization"
+      },
+      {
+        "count": 1,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "Hong",
+        "relevance": 0.218952,
+        "type": "Location",
+        "disambiguation": {
+          "subtype": [
+            "HumanLanguage",
+            "AdministrativeDivision",
+            "GovernmentalJurisdiction",
+            "BodyOfWater",
+            "CityTown",
+            "Cuisine",
+            "Country"
+          ],
+          "name": "Hong Kong",
+          "dbpedia_resource": "http://dbpedia.org/resource/Hong_Kong"
+        }
+      },
+      {
+        "count": 1,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "United States",
+        "relevance": 0.206704,
+        "type": "Location",
+        "disambiguation": {
+          "subtype": [
+            "Region",
+            "AdministrativeDivision",
+            "GovernmentalJurisdiction",
+            "FilmEditor",
+            "Country"
+          ],
+          "name": "United States",
+          "dbpedia_resource": "http://dbpedia.org/resource/United_States"
+        }
+      },
+      {
+        "count": 1,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "Wednesay",
+        "relevance": 0.200941,
+        "type": "Person"
+      },
+      {
+        "count": 1,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "editor",
+        "relevance": 0.187091,
+        "type": "JobTitle"
+      },
+      {
+        "count": 1,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "seminars@aei.org",
+        "relevance": 0.187091,
+        "type": "EmailAddress"
+      }
+    ],
+    "sentiment": {
+      "document": {
+        "score": -0.548485,
+        "label": "negative"
+      }
+    },
+    "semantic_roles": [
+      {
+        "subject": {
+          "text": "Please"
+        },
+        "sentence": "Please do not reply to this email.",
+        "object": {
+          "text": "not reply to this email"
+        },
+        "action": {
+          "verb": {
+            "text": "do",
+            "tense": "present"
+          },
+          "text": "do",
+          "normalized": "do"
+        }
+      },
+      {
+        "subject": {
+          "text": "leading English daily in Hong Kong)"
+        },
+        "sentence": " leading English daily in Hong Kong), will look at the possibilities for a",
+        "object": {
+          "text": "at the possibilities"
+        },
+        "action": {
+          "verb": {
+            "text": "look",
+            "tense": "future"
+          },
+          "text": "will look",
+          "normalized": "will look"
+        }
+      },
+      {
+        "subject": {
+          "text": "economic and political reform"
+        },
+        "sentence": " more thorough going economic and political reform after Presdoc_ident Jiang Zemin",
+        "object": {
+          "text": "after Presdoc_ident Jiang Zemin"
+        },
+        "action": {
+          "verb": {
+            "text": "go",
+            "tense": "present"
+          },
+          "text": "going",
+          "normalized": "go"
+        }
+      },
+      {
+        "subject": {
+          "text": "Lam"
+        },
+        "sentence": " Lam will examine the traits of the new",
+        "object": {
+          "text": "the traits of the new"
+        },
+        "action": {
+          "verb": {
+            "text": "examine",
+            "tense": "future"
+          },
+          "text": "will examine",
+          "normalized": "will examine"
+        }
+      },
+      {
+        "subject": {
+          "text": "Lam"
+        },
+        "sentence": " Following his lecture, Lam will answer questions about his prepared remarks.",
+        "object": {
+          "text": "questions"
+        },
+        "action": {
+          "verb": {
+            "text": "answer",
+            "tense": "future"
+          },
+          "text": "will answer",
+          "normalized": "will answer"
+        }
+      },
+      {
+        "subject": {
+          "text": "Lam"
+        },
+        "sentence": " Lam has also kindly agreed to discuss with the audience his recent departure",
+        "object": {
+          "text": "to discuss with the audience his recent departure"
+        },
+        "action": {
+          "verb": {
+            "text": "agree",
+            "tense": "past"
+          },
+          "text": "agreed",
+          "normalized": "agree"
+        }
+      },
+      {
+        "subject": {
+          "text": "Lam"
+        },
+        "sentence": " Lam has also kindly agreed to discuss with the audience his recent departure",
+        "object": {
+          "text": "his recent departure"
+        },
+        "action": {
+          "verb": {
+            "text": "discuss",
+            "tense": "future"
+          },
+          "text": "has also kindly agreed to discuss",
+          "normalized": "have also kindly agree to discuss"
+        }
+      },
+      {
+        "subject": {
+          "text": "Willy"
+        },
+        "sentence": " Noon Speaker: Willy Wo-lap Lam",
+        "object": {
+          "text": "Lam"
+        },
+        "action": {
+          "verb": {
+            "text": "Wo-lap",
+            "tense": "present"
+          },
+          "text": "Wo-lap",
+          "normalized": "Wo-lap"
+        }
+      },
+      {
+        "subject": {
+          "text": "I"
+        },
+        "sentence": " I will attend the Lecture.",
+        "object": {
+          "text": "the Lecture"
+        },
+        "action": {
+          "verb": {
+            "text": "attend",
+            "tense": "future"
+          },
+          "text": "will attend",
+          "normalized": "will attend"
+        }
+      },
+      {
+        "subject": {
+          "text": "this"
+        },
+        "sentence": " ? Please check if this is a new address.",
+        "object": {
+          "text": "a new address"
+        },
+        "action": {
+          "verb": {
+            "text": "be",
+            "tense": "present"
+          },
+          "text": "is",
+          "normalized": "be"
+        }
+      },
+      {
+        "subject": {
+          "text": "you"
+        },
+        "sentence": " e-mail. If you do not wish to receive e-mail notifications and invitations",
+        "object": {
+          "text": "not wish to receive e-mail notifications and invitations"
+        },
+        "action": {
+          "verb": {
+            "text": "do",
+            "tense": "present"
+          },
+          "text": "do",
+          "normalized": "do"
+        }
+      },
+      {
+        "subject": {
+          "text": "you"
+        },
+        "sentence": " e-mail. If you do not wish to receive e-mail notifications and invitations",
+        "object": {
+          "text": "to receive e-mail notifications and invitations"
+        },
+        "action": {
+          "verb": {
+            "text": "wish",
+            "tense": "present",
+            "negated": true
+          },
+          "text": "wish",
+          "normalized": "wish"
+        }
+      },
+      {
+        "subject": {
+          "text": "you"
+        },
+        "sentence": " e-mail. If you do not wish to receive e-mail notifications and invitations",
+        "object": {
+          "text": "e-mail notifications and invitations"
+        },
+        "action": {
+          "verb": {
+            "text": "receive",
+            "tense": "future"
+          },
+          "text": "do not wish to receive",
+          "normalized": "do not wish to receive"
+        }
+      }
+    ],
+    "emotion": {
+      "document": {
+        "emotion": {
+          "disgust": 0.056557,
+          "joy": 0.516546,
+          "anger": 0.089037,
+          "fear": 0.059095,
+          "sadness": 0.146919
+        }
+      }
+    },
+    "concepts": [
+      {
+        "text": "People's Republic of China",
+        "relevance": 0.976049,
+        "dbpedia_resource": "http://dbpedia.org/resource/People's_Republic_of_China"
+      },
+      {
+        "text": "Jiang Zemin",
+        "relevance": 0.912715,
+        "dbpedia_resource": "http://dbpedia.org/resource/Jiang_Zemin"
+      },
+      {
+        "text": "South China Sea",
+        "relevance": 0.904479,
+        "dbpedia_resource": "http://dbpedia.org/resource/South_China_Sea"
+      },
+      {
+        "text": "Standard Mandarin",
+        "relevance": 0.748134,
+        "dbpedia_resource": "http://dbpedia.org/resource/Standard_Mandarin"
+      },
+      {
+        "text": "Qing Dynasty",
+        "relevance": 0.712086,
+        "dbpedia_resource": "http://dbpedia.org/resource/Qing_Dynasty"
+      },
+      {
+        "text": "Economy of the People's Republic of China",
+        "relevance": 0.695112,
+        "dbpedia_resource": "http://dbpedia.org/resource/Economy_of_the_People's_Republic_of_China"
+      },
+      {
+        "text": "Hong Kong",
+        "relevance": 0.684596,
+        "dbpedia_resource": "http://dbpedia.org/resource/Hong_Kong"
+      },
+      {
+        "text": "United States",
+        "relevance": 0.679566,
+        "dbpedia_resource": "http://dbpedia.org/resource/United_States"
+      }
+    ],
+    "categories": [
+      {
+        "score": 0.547573,
+        "label": "/law, govt and politics/politics"
+      },
+      {
+        "score": 0.539628,
+        "label": "/health and fitness/men's health"
+      },
+      {
+        "score": 0.531699,
+        "label": "/sports/olympics"
+      }
+    ],
+    "relations": [
+      {
+        "type": "basedIn",
+        "sentence": "Jiang Zemin's Legacy: Beijing's Latest Policies on Reform, Succession, and  Taiwan",
+        "score": 0.934849,
+        "arguments": [
+          {
+            "text": "Latest Policies",
+            "location": [186, 201],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "Latest Policies",
+                "disambiguation": {
+                  "subtype": ["Commercial"]
+                }
+              }
+            ]
+          },
+          {
+            "text": "Beijing",
+            "location": [176, 183],
+            "entities": [
+              {
+                "type": "GeopoliticalEntity",
+                "text": "Beijing"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "timeOf",
+        "sentence": "1:15 p.m                 Discussion",
+        "score": 0.663079,
+        "arguments": [
+          {
+            "text": "1:15 p.m",
+            "location": [1027, 1035],
+            "entities": [
+              {
+                "type": "Time",
+                "text": "1:15 p.m"
+              }
+            ]
+          },
+          {
+            "text": "Discussion",
+            "location": [1052, 1062],
+            "entities": [
+              {
+                "type": "EventMeeting",
+                "text": "Discussion"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "employedBy",
+        "sentence": "Willy Wo-lap Lam, former China editor of the South China Morning Post (the  leading English daily in Hong Kong), will look at the possibilities for a  more thorough going economic and political reform after Presdoc_ident Jiang Zemin  has retreated from the front line.",
+        "score": 0.897872,
+        "arguments": [
+          {
+            "text": "editor",
+            "location": [362, 368],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "Lam"
+              }
+            ]
+          },
+          {
+            "text": "China",
+            "location": [356, 361],
+            "entities": [
+              {
+                "type": "GeopoliticalEntity",
+                "text": "China",
+                "disambiguation": {
+                  "subtype": ["Country"]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "employedBy",
+        "sentence": "Willy Wo-lap Lam, former China editor of the South China Morning Post (the  leading English daily in Hong Kong), will look at the possibilities for a  more thorough going economic and political reform after Presdoc_ident Jiang Zemin  has retreated from the front line.",
+        "score": 0.836134,
+        "arguments": [
+          {
+            "text": "editor",
+            "location": [362, 368],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "Lam"
+              }
+            ]
+          },
+          {
+            "text": "South China Morning Post",
+            "location": [376, 400],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "South China Morning Post"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "locatedAt",
+        "sentence": "Willy Wo-lap Lam, former China editor of the South China Morning Post (the  leading English daily in Hong Kong), will look at the possibilities for a  more thorough going economic and political reform after Presdoc_ident Jiang Zemin  has retreated from the front line.",
+        "score": 0.609702,
+        "arguments": [
+          {
+            "text": "South China Morning Post",
+            "location": [376, 400],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "South China Morning Post"
+              }
+            ]
+          },
+          {
+            "text": "Hong Kong",
+            "location": [432, 441],
+            "entities": [
+              {
+                "type": "GeopoliticalEntity",
+                "text": "Hong Kong"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "agentOf",
+        "sentence": "Following his lecture, Lam will answer questions about his prepared remarks.",
+        "score": 0.966882,
+        "arguments": [
+          {
+            "text": "Lam",
+            "location": [750, 753],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "Lam"
+              }
+            ]
+          },
+          {
+            "text": "answer",
+            "location": [759, 765],
+            "entities": [
+              {
+                "type": "EventCommunication",
+                "text": "answer"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "participantIn",
+        "sentence": "Lam has also kindly agreed to discuss with the audience his recent departure  from the South China Morning Post and the climate of press freedom in Hong  Kong.",
+        "score": 0.782175,
+        "arguments": [
+          {
+            "text": "Lam",
+            "location": [805, 808],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "Lam"
+              }
+            ]
+          },
+          {
+            "text": "discuss",
+            "location": [835, 842],
+            "entities": [
+              {
+                "type": "EventMeeting",
+                "text": "Discussion"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "participantIn",
+        "sentence": "Lam has also kindly agreed to discuss with the audience his recent departure  from the South China Morning Post and the climate of press freedom in Hong  Kong.",
+        "score": 0.944436,
+        "arguments": [
+          {
+            "text": "audience",
+            "location": [852, 860],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "audience"
+              }
+            ]
+          },
+          {
+            "text": "discuss",
+            "location": [835, 842],
+            "entities": [
+              {
+                "type": "EventMeeting",
+                "text": "Discussion"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "affectedBy",
+        "sentence": "Lam has also kindly agreed to discuss with the audience his recent departure  from the South China Morning Post and the climate of press freedom in Hong  Kong.",
+        "score": 0.804683,
+        "arguments": [
+          {
+            "text": "his",
+            "location": [861, 864],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "Willy Wo"
+              }
+            ]
+          },
+          {
+            "text": "departure",
+            "location": [872, 881],
+            "entities": [
+              {
+                "type": "EventPersonnel",
+                "text": "departure"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "agentOf",
+        "sentence": "Lam has also kindly agreed to discuss with the audience his recent departure  from the South China Morning Post and the climate of press freedom in Hong  Kong.",
+        "score": 0.566498,
+        "arguments": [
+          {
+            "text": "South China Morning Post",
+            "location": [892, 916],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "South China Morning Post"
+              }
+            ]
+          },
+          {
+            "text": "departure",
+            "location": [872, 881],
+            "entities": [
+              {
+                "type": "EventPersonnel",
+                "text": "departure"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "keywords": [
+      {
+        "text": "Willy Wo-lap Lam",
+        "relevance": 0.752829,
+        "count": 1
+      },
+      {
+        "text": "ident Jiang Zemin",
+        "relevance": 0.634925,
+        "count": 1
+      },
+      {
+        "text": "political reform",
+        "relevance": 0.619117,
+        "count": 1
+      },
+      {
+        "text": "South China Morning Post",
+        "relevance": 0.590541,
+        "count": 1
+      },
+      {
+        "text": "Hong Kong",
+        "relevance": 0.571397,
+        "count": 1
+      },
+      {
+        "text": "Beijing's Latest Policies",
+        "relevance": 0.563522,
+        "count": 1
+      },
+      {
+        "text": "Lam",
+        "relevance": 0.562955,
+        "count": 3
+      },
+      {
+        "text": "United States",
+        "relevance": 0.556574,
+        "count": 1
+      },
+      {
+        "text": "Wohlstetter Conference Center",
+        "relevance": 0.548786,
+        "count": 1
+      },
+      {
+        "text": "Twelfth Floor",
+        "relevance": 0.543946,
+        "count": 1
+      },
+      {
+        "text": "climate of press freedom",
+        "relevance": 0.535901,
+        "count": 1
+      },
+      {
+        "text": "email",
+        "relevance": 0.534313,
+        "count": 1
+      },
+      {
+        "text": "Reform",
+        "relevance": 0.523543,
+        "count": 1
+      },
+      {
+        "text": "lecture",
+        "relevance": 0.518444,
+        "count": 2
+      },
+      {
+        "text": "e-mail",
+        "relevance": 0.517177,
+        "count": 2
+      },
+      {
+        "text": "Legacy",
+        "relevance": 0.516377,
+        "count": 1
+      },
+      {
+        "text": "likely policies",
+        "relevance": 0.515995,
+        "count": 1
+      },
+      {
+        "text": "leaders",
+        "relevance": 0.515118,
+        "count": 1
+      },
+      {
+        "text": "e-mail notifications",
+        "relevance": 0.510323,
+        "count": 1
+      },
+      {
+        "text": "questions",
+        "relevance": 0.508836,
+        "count": 1
+      },
+      {
+        "text": "audience",
+        "relevance": 0.508836,
+        "count": 1
+      },
+      {
+        "text": "traits",
+        "relevance": 0.507831,
+        "count": 1
+      },
+      {
+        "text": "name",
+        "relevance": 0.507288,
+        "count": 1
+      },
+      {
+        "text": "front line",
+        "relevance": 0.506313,
+        "count": 1
+      },
+      {
+        "text": "new address",
+        "relevance": 0.506313,
+        "count": 1
+      },
+      {
+        "text": "Succession",
+        "relevance": 0.506011,
+        "count": 1
+      },
+      {
+        "text": "November",
+        "relevance": 0.506011,
+        "count": 1
+      },
+      {
+        "text": "possibilities",
+        "relevance": 0.506011,
+        "count": 1
+      },
+      {
+        "text": "Taiwan",
+        "relevance": 0.506011,
+        "count": 1
+      },
+      {
+        "text": "remarks",
+        "relevance": 0.506011,
+        "count": 1
+      },
+      {
+        "text": "Discussion",
+        "relevance": 0.506011,
+        "count": 1
+      },
+      {
+        "text": "Adjournment",
+        "relevance": 0.506011,
+        "count": 1
+      },
+      {
+        "text": "invitations",
+        "relevance": 0.506011,
+        "count": 1
+      },
+      {
+        "text": "State",
+        "relevance": 0.504283,
+        "count": 1
+      },
+      {
+        "text": "recent departure",
+        "relevance": 0.501228,
+        "count": 1
+      },
+      {
+        "text": "e-mail lists",
+        "relevance": 0.499646,
+        "count": 1
+      },
+      {
+        "text": "former China editor of the South China Morning Post",
+        "relevance": 0.492185,
+        "count": 1
+      },
+      {
+        "text": "future",
+        "relevance": 0.477389,
+        "count": 1
+      },
+      {
+        "text": "Presdoc",
+        "relevance": 0.472397,
+        "count": 1
+      },
+      {
+        "text": "www.aei.org",
+        "relevance": 0.467367,
+        "count": 1
+      },
+      {
+        "text": "English",
+        "relevance": 0.466987,
+        "count": 1
+      },
+      {
+        "text": "inv001129.htm",
+        "relevance": 0.46341,
+        "count": 1
+      }
+    ]
+  },
+  "sender": "event@aei.org",
+  "extracted_metadata": {
+    "sha1": "23f3eb2aa2aaa317c754194e4297ee6ffa732917",
+    "filename": "enron_3171.json",
+    "file_type": "json"
+  },
+  "cc": [],
+  "internal_doc_id": {
+    "$odoc_id": "52af48b6d55148fa0c19a2a4"
+  }
+}
