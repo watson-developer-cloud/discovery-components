@@ -212,8 +212,12 @@ function processStyles(styles: string): string {
       .replace(/(\W)color:/g, '$1fill:')
       // add fallback fonts
       .replace(/font-family:\s*([^;]+)/g, (_, p1) => {
-        const { fontFamily } = computeFontFamilyAndWeight(p1);
-        return `font-family: ${p1}, ${fontFamily}`;
+        const { fontFamily, fontWeight } = computeFontFamilyAndWeight(p1);
+        let res = `font-family: ${fontFamily}`;
+        if (fontWeight !== 400) {
+          res += `; font-weight: ${fontWeight}`;
+        }
+        return res;
       })
   );
 }

@@ -311,6 +311,57 @@ const monoSpace = [
   'Vera Sans Mono'
 ];
 
+const cursive = [
+  'AMS Euler',
+  'American Scribe',
+  'Andy',
+  'Apple Chancery',
+  'Ashley Script',
+  'Balloon',
+  'Brush Script',
+  'Chalkboard',
+  'Choc',
+  'Comic Sans MS',
+  'Coronet',
+  'Curlz',
+  'Cézanne',
+  'Dom Casual',
+  'Dom Casual',
+  'Forte',
+  'French Script',
+  'Gravura',
+  'ITC Zapf Chancery',
+  'Kristen',
+  'Kuenstler Script',
+  'Lucida Handwriting',
+  'Mistral',
+  'Monotype Corsiva',
+  'Old English Text MT',
+  'Papyrus',
+  'Script',
+  'Segoe Script',
+  'Utopia',
+  'Wiesbaden Swing',
+  'Zapfino'
+];
+
+const dingbat = [
+  'Apple Symbols',
+  'Asana-Math',
+  'Blackboard bold',
+  'Bookshelf Symbol 7',
+  'Cambria Math',
+  'Computer Modern',
+  'Lucida Math',
+  'Marlett',
+  'Symbol',
+  'Webdings',
+  'Wingdings',
+  'Wingdings 2',
+  'Wingdings 3',
+  'Zapf Dingbats'
+];
+
 //source: https://www.npmjs.com/package/css-font-weight-names
 const weightsMap = {
   Thin: 100,
@@ -336,4 +387,4 @@ const weightsMap = {
   Heavy: 900
 };
 
-export { serif, sansSerif, semiSerif, monoSpace, weightsMap };
+export { serif, sansSerif, semiSerif, monoSpace, cursive, dingbat, weightsMap };
