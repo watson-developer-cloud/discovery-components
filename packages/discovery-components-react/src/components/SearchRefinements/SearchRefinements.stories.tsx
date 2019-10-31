@@ -12,7 +12,23 @@ import { action } from '@storybook/addon-actions';
 
 export const props = () => ({
   showCollections: boolean('Show collection refinements', false),
+  collectionSelectTitleText: text('Label for collections refinement', 'Collections'),
+  collectionSelectLabel: text(
+    'Collections refinement select placeholder text',
+    'Available collections'
+  ),
   showSuggestedRefinements: boolean('Show suggested refinements', false),
+  suggestedRefinementsLabel: text('Label for suggested refinement', 'Suggested Enrichments'),
+  componentSettingsAggregations: object('Aggregation component settings', [
+    {
+      label: 'Writers',
+      multiple_selections_allowed: false
+    },
+    {
+      label: 'Talking Points',
+      multiple_selections_allowed: true
+    }
+  ]),
   configuration: object('Refinements configuration', [
     {
       type: 'term',

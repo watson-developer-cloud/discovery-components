@@ -1,14 +1,19 @@
 import React, { FC, useContext, SyntheticEvent } from 'react';
-import { settings } from 'carbon-components';
+import {
+  fieldsetClasses,
+  labelClasses,
+  optionClass,
+  optionLabelClass
+} from './refinementGroupClasses';
 import { Checkbox as CarbonCheckbox } from 'carbon-components-react';
-import { SearchContext } from '../../DiscoverySearch/DiscoverySearch';
+import { SearchContext } from '../../../DiscoverySearch/DiscoverySearch';
 import {
   SelectableQuerySuggestedRefinement,
   SelectableQueryTermAggregationResult
-} from '../utils/searchRefinementInterfaces';
+} from '../../utils/searchRefinementInterfaces';
 import get from 'lodash/get';
 
-interface RefinementGroupProps {
+interface MultiSelectRefinementsGroupProps {
   /**
    * Suggested refinements text and selected flag
    */
@@ -24,25 +29,35 @@ interface RefinementGroupProps {
   /**
    * Callback to handle changes in selected refinements
    */
-  onChange: (checked: boolean, _id: string, event: SyntheticEvent<HTMLInputElement>) => void;
+  onChange: (
+    selectedRefinementField: string,
+    selectedRefinementKey: string,
+    checked: boolean
+  ) => void;
 }
 
-export const RefinementsGroup: FC<RefinementGroupProps> = ({
+export const MultiSelectRefinementsGroup: FC<MultiSelectRefinementsGroupProps> = ({
   refinements,
   attributeKeyName,
   refinementsLabel,
   onChange
 }) => {
-  const baseClass = `${settings.prefix}--search-refinement`;
-  const fieldsetClasses = [`${settings.prefix}--fieldset`, baseClass];
-  const labelClasses = [`${settings.prefix}--label`, `${baseClass}__refinement_label`];
-  const optionClass = `${baseClass}__refinement__option`;
-  const optionLabelClass = `${baseClass}__refinement__option-label`;
-
   const {
     searchParameters: { naturalLanguageQuery }
   } = useContext(SearchContext);
   const escapedLabel = refinementsLabel.replace(/\s+/g, '_');
+
+  const handleOnChange = (
+    checked: boolean,
+    _id: string,
+    event: SyntheticEvent<HTMLInputElement>
+  ): void => {
+    const target: HTMLInputElement = event.currentTarget;
+    const selectedRefinementField = target.getAttribute('data-field') || '';
+    const selectedRefinementKey = target.getAttribute('data-key') || '';
+
+    onChange(selectedRefinementField, selectedRefinementKey, checked);
+  };
 
   return (
     <fieldset className={fieldsetClasses.join(' ')}>
@@ -57,7 +72,7 @@ export const RefinementsGroup: FC<RefinementGroupProps> = ({
           <CarbonCheckbox
             className={optionLabelClass}
             wrapperClassName={optionClass}
-            onChange={onChange}
+            onChange={handleOnChange}
             labelText={text}
             key={`checkbox-${escapedLabel}-${base64data}`}
             id={`checkbox-${escapedLabel}-${text.replace(/\s+/g, '_')}`}

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { render, fireEvent, RenderResult } from '@testing-library/react';
+import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import { wrapWithContext } from '../../../utils/testingUtils';
 import { SearchContextIFC, SearchApiIFC } from '../../DiscoverySearch/DiscoverySearch';
 import { SearchRefinements } from '../SearchRefinements';
@@ -11,13 +12,42 @@ interface Setup {
   fieldRefinementsComponent: RenderResult;
 }
 
-const setup = (filter: string): Setup => {
+const aggregationComponentSettings: DiscoveryV2.ComponentSettingsAggregation[] = [
+  {
+    name: 'author',
+    label: 'Writers',
+    multiple_selections_allowed: true
+  },
+  {
+    name: 'subject',
+    label: 'Talking Points',
+    multiple_selections_allowed: true
+  }
+];
+
+const updateSelectionSettings = (
+  singleSelectFields: string[]
+): DiscoveryV2.ComponentSettingsAggregation[] => {
+  return aggregationComponentSettings.map(setting => {
+    return setting.name && singleSelectFields.includes(setting.name)
+      ? Object.assign({}, setting, { multiple_selections_allowed: false })
+      : setting;
+  });
+};
+
+const setup = (
+  filter: string,
+  componentSettingsAggregations: DiscoveryV2.ComponentSettingsAggregation[] = aggregationComponentSettings
+): Setup => {
   const performSearchMock = jest.fn();
   const context: Partial<SearchContextIFC> = {
     aggregationResults: weirdRefinementsQueryResponse.result.aggregations,
     searchParameters: {
       projectId: '',
       filter: filter
+    },
+    componentSettings: {
+      aggregations: componentSettingsAggregations
     }
   };
   const api: Partial<SearchApiIFC> = {
@@ -38,6 +68,7 @@ const setup = (filter: string): Setup => {
             count: 4
           }
         ]}
+        componentSettingsAggregations={componentSettingsAggregations}
       />,
       api,
       context
@@ -205,6 +236,114 @@ describe('FilterRefinementsComponent', () => {
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
           filter: '',
+          offset: 0
+        }),
+        false
+      );
+    });
+  });
+
+  describe('when multiple_selections_allowed is false', () => {
+    test('radiobuttons are selected when set in filter query', () => {
+      const { fieldRefinementsComponent } = setup(
+        'subject:Animals',
+        updateSelectionSettings(['subject'])
+      );
+      const animalRadioButton = fieldRefinementsComponent.getAllByLabelText('Animals');
+      expect(animalRadioButton[0]['checked']).toEqual(true);
+    });
+
+    test('it only allows one element selected at a time', () => {
+      const { fieldRefinementsComponent, performSearchMock } = setup(
+        '',
+        updateSelectionSettings(['subject'])
+      );
+      //Carbon uses a Label element that also has @aria-label, which matches twice
+      const animalRadioButton = fieldRefinementsComponent.getAllByLabelText('Animals');
+      fireEvent.click(animalRadioButton[0]);
+      performSearchMock.mockReset();
+      const peopleRadioButton = fieldRefinementsComponent.getAllByLabelText('People');
+      fireEvent.click(peopleRadioButton[0]);
+      expect(performSearchMock).toBeCalledTimes(1);
+      expect(performSearchMock).toBeCalledWith(
+        expect.objectContaining({
+          filter: 'subject:"People"',
+          offset: 0
+        }),
+        false
+      );
+    });
+
+    test('it allows unselecting term', () => {
+      const { fieldRefinementsComponent, performSearchMock } = setup(
+        '',
+        updateSelectionSettings(['subject'])
+      );
+      //Carbon uses a Label element that also has @aria-label, which matches twice
+      const animalRadioButton = fieldRefinementsComponent.getAllByLabelText('Animals');
+      fireEvent.click(animalRadioButton[0]);
+      performSearchMock.mockReset();
+      fireEvent.click(animalRadioButton[0]);
+      expect(performSearchMock).toBeCalledTimes(1);
+      expect(performSearchMock).toBeCalledWith(
+        expect.objectContaining({
+          filter: '',
+          offset: 0
+        }),
+        false
+      );
+    });
+
+    test('it allows other fields to still be multiselect', () => {
+      const { fieldRefinementsComponent, performSearchMock } = setup(
+        '',
+        updateSelectionSettings(['subject'])
+      );
+      //Carbon uses a Label element that also has @aria-label, which matches twice
+      const animalRadioButton = fieldRefinementsComponent.getAllByLabelText('Animals');
+      fireEvent.click(animalRadioButton[0]);
+
+      const ABMNStaffCheckbox = fieldRefinementsComponent.getByLabelText('ABMN Staff');
+      fireEvent.click(ABMNStaffCheckbox);
+
+      const newsStaffCheckbox = fieldRefinementsComponent.getByLabelText('News Staff');
+      fireEvent.click(newsStaffCheckbox);
+
+      performSearchMock.mockReset();
+      const peopleRadioButton = fieldRefinementsComponent.getAllByLabelText('People');
+      fireEvent.click(peopleRadioButton[0]);
+      expect(performSearchMock).toBeCalledTimes(1);
+      expect(performSearchMock).toBeCalledWith(
+        expect.objectContaining({
+          filter: 'author:"ABMN Staff"|"News Staff",subject:"People"',
+          offset: 0
+        }),
+        false
+      );
+    });
+
+    test('it handles multiple, single select fields', () => {
+      const { fieldRefinementsComponent, performSearchMock } = setup(
+        '',
+        updateSelectionSettings(['author', 'subject'])
+      );
+      //Carbon uses a Label element that also has @aria-label, which matches twice
+      const animalRadioButton = fieldRefinementsComponent.getAllByLabelText('Animals');
+      fireEvent.click(animalRadioButton[0]);
+
+      const ABMNStaffRadioButton = fieldRefinementsComponent.getAllByLabelText('ABMN Staff');
+      fireEvent.click(ABMNStaffRadioButton[0]);
+
+      const newsStaffRadioButton = fieldRefinementsComponent.getAllByLabelText('News Staff');
+      fireEvent.click(newsStaffRadioButton[0]);
+
+      performSearchMock.mockReset();
+      const peopleRadioButton = fieldRefinementsComponent.getAllByLabelText('People');
+      fireEvent.click(peopleRadioButton[0]);
+      expect(performSearchMock).toBeCalledTimes(1);
+      expect(performSearchMock).toBeCalledWith(
+        expect.objectContaining({
+          filter: 'author:"News Staff",subject:"People"',
           offset: 0
         }),
         false

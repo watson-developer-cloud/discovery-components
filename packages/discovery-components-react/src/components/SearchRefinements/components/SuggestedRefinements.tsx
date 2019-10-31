@@ -1,10 +1,10 @@
-import React, { FC, SyntheticEvent } from 'react';
+import React, { FC } from 'react';
 import {
   SelectableQuerySuggestedRefinement,
   SearchFilterRefinements
 } from '../utils/searchRefinementInterfaces';
 import get from 'lodash/get';
-import { RefinementsGroup } from './RefinementsGroup';
+import { MultiSelectRefinementsGroup } from './RefinementsGroups/MultiSelectRefinementsGroup';
 
 interface SuggestedRefinementsProps {
   /**
@@ -27,16 +27,14 @@ export const SuggestedRefinements: FC<SuggestedRefinementsProps> = ({
   onChange
 }) => {
   const handleOnChange = (
-    checked: boolean,
-    _id: string,
-    event: SyntheticEvent<HTMLInputElement>
+    _selectedRefinementField: string,
+    selectedRefinementKey: string,
+    checked: boolean
   ): void => {
-    const target: HTMLInputElement = event.currentTarget;
-    const selectedRefinementText = target.getAttribute('data-key');
     const newSuggestedRefinements: SelectableQuerySuggestedRefinement[] = suggestedRefinements.map(
       suggestion => {
         const text = get(suggestion, 'text', '');
-        return text === selectedRefinementText
+        return text === selectedRefinementKey
           ? Object.assign({}, suggestion, { selected: checked })
           : suggestion;
       }
@@ -45,7 +43,7 @@ export const SuggestedRefinements: FC<SuggestedRefinementsProps> = ({
   };
 
   return (
-    <RefinementsGroup
+    <MultiSelectRefinementsGroup
       refinements={suggestedRefinements}
       onChange={handleOnChange}
       refinementsLabel={suggestedRefinementsLabel}

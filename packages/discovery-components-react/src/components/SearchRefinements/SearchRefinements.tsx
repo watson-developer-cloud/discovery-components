@@ -1,4 +1,5 @@
 import React, { FC, useContext } from 'react';
+import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import { SearchContext, SearchApi } from '../DiscoverySearch/DiscoverySearch';
 import { buildAggregationQuery } from './utils/buildAggregationQuery';
 import { mergeFilterRefinements } from './utils/mergeFilterRefinements';
@@ -11,7 +12,6 @@ import {
   noAvailableRefinementsMessage,
   invalidConfigurationMessage
 } from './utils/searchRefinementMessages';
-import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import {
   SearchFilterRefinements,
   SelectableQuerySuggestedRefinement
@@ -44,6 +44,10 @@ interface SearchRefinementsProps {
    */
   suggestedRefinementsLabel?: string;
   /**
+   * Override aggregation component settings
+   */
+  componentSettingsAggregations?: DiscoveryV2.ComponentSettingsAggregation[];
+  /**
    * Refinements configuration with fields and results counts
    */
   configuration: DiscoveryV2.QueryTermAggregation[];
@@ -55,6 +59,7 @@ export const SearchRefinements: FC<SearchRefinementsProps> = ({
   collectionSelectTitleText = 'Collections',
   showSuggestedRefinements,
   suggestedRefinementsLabel = 'Suggested Enrichments',
+  componentSettingsAggregations,
   configuration
 }) => {
   const {
@@ -107,7 +112,11 @@ export const SearchRefinements: FC<SearchRefinementsProps> = ({
           />
         )}
         {shouldShowFields && (
-          <FieldRefinements allRefinements={allFieldRefinements} onChange={handleOnChange} />
+          <FieldRefinements
+            allRefinements={allFieldRefinements}
+            onChange={handleOnChange}
+            componentSettingsAggregations={componentSettingsAggregations}
+          />
         )}
         {shouldShowSuggested && (
           <SuggestedRefinements
