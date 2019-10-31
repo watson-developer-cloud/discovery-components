@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.53.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.52.0...@disco-widgets/react-components@1.53.0) (2019-10-31)
+
+
+### Features
+
+* Feat/101 support json html ([#284](https://github.com/watson-developer-cloud/discovery-components/issues/284)) ([1bee72b](https://github.com/watson-developer-cloud/discovery-components/commit/1bee72b))
+
+
+
+
+
 # [1.52.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.51.0...@disco-widgets/react-components@1.52.0) (2019-10-31)
 
 

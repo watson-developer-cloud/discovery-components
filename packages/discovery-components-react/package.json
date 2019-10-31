@@ -1,6 +1,6 @@
 {
   "name": "@disco-widgets/react-components",
-  "version": "1.52.0",
+  "version": "1.53.0",
   "description": "Discovery components built with the React framework and IBM Carbon components",
   "license": "Apache-2.0",
   "author": "IBM Corp.",
@@ -41,8 +41,8 @@
   },
   "dependencies": {
     "classnames": "^2.2.6",
-    "dompurify": "^2.0.7",
     "debounce": "^1.2.0",
+    "dompurify": "^2.0.7",
     "lodash": "^4.17.15",
     "mustache": "^3.1.0",
     "pdfjs-dist": "^2.1.266"
