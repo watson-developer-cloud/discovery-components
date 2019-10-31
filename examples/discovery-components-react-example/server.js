@@ -26,6 +26,15 @@ const searchClient = new DiscoveryV2({
   version: '2019-01-01'
 });
 
+const toCamel = s => {
+  return s.replace(/([-_][a-z])/gi, $1 => {
+    return $1
+      .toUpperCase()
+      .replace('-', '')
+      .replace('_', '');
+  });
+};
+
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.json());
 app.options('*', cors());
@@ -35,7 +44,11 @@ app.get('/', async (req, res) => {
 app.post('/api/v2/projects/:projectId/query', cors(), async (req, res) => {
   try {
     const params = Object.assign({}, req.body, req.params);
-    const { result } = await searchClient.query(params);
+    const camelCaseParams = {};
+    Object.keys(params).forEach(key => {
+      camelCaseParams[toCamel(key)] = params[key];
+    });
+    const { result } = await searchClient.query(camelCaseParams);
     res.json(result);
   } catch (e) {
     console.error(e);
@@ -45,7 +58,11 @@ app.post('/api/v2/projects/:projectId/query', cors(), async (req, res) => {
 app.get('/api/v2/projects/:projectId/collections', cors(), async (req, res) => {
   try {
     const params = Object.assign({}, req.body, req.params);
-    const { result } = await searchClient.listCollections(params);
+    const camelCaseParams = {};
+    Object.keys(params).forEach(key => {
+      camelCaseParams[toCamel(key)] = params[key];
+    });
+    const { result } = await searchClient.listCollections(camelCaseParams);
     res.json(result);
   } catch (e) {
     console.error(e);
@@ -58,7 +75,11 @@ app.get('/api/v2/projects/:projectId/autocompletion', cors(), async (req, res) =
     const query = req.query;
     const params = req.params;
     const combinedParams = Object.assign({}, query, params);
-    const { result } = await searchClient.getAutocompletion(combinedParams);
+    const camelCaseParams = {};
+    Object.keys(combinedParams).forEach(key => {
+      camelCaseParams[toCamel(key)] = params[key];
+    });
+    const { result } = await searchClient.getAutocompletion(camelCaseParams);
     res.json(result);
   } catch (e) {
     console.error(e);
