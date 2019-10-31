@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.51.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.50.0...@disco-widgets/react-components@1.51.0) (2019-10-31)
+
+
+### Features
+
+* Move Semantic Document Section component from discovery-tooling ([#283](https://github.com/watson-developer-cloud/discovery-components/issues/283)) ([064d698](https://github.com/watson-developer-cloud/discovery-components/commit/064d698)), closes [Watson-Discovery/docviz-squad-issue-tracker#58](https://github.com/Watson-Discovery/docviz-squad-issue-tracker/issues/58)
+
+
+
+
+
 # [1.50.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.49.4...@disco-widgets/react-components@1.50.0) (2019-10-31)
 
 
