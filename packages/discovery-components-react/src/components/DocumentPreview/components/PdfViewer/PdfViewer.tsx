@@ -25,9 +25,13 @@ interface Props {
    * Callback invoked with page count, once `file` has been parsed
    */
   setPageCount?: (count: number) => void;
+  /**
+   * Check if document is loading
+   */
+  setLoading: (loading: boolean) => void;
 }
 
-const PdfViewer: SFC<Props> = ({ file, page, scale, setPageCount }) => {
+const PdfViewer: SFC<Props> = ({ file, page, scale, setPageCount, setLoading }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // In order to prevent unnecessary re-loading, loaded file and page are stored in state
@@ -76,8 +80,9 @@ const PdfViewer: SFC<Props> = ({ file, page, scale, setPageCount }) => {
   useEffect(() => {
     if (loadedPage && !loadedPage.then) {
       _renderPage(loadedPage, canvasRef.current!, scale);
+      setLoading(false);
     }
-  }, [loadedPage, scale]);
+  }, [loadedPage, scale, setLoading]);
 
   return (
     <canvas

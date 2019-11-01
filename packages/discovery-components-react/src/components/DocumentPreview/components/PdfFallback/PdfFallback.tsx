@@ -22,6 +22,10 @@ interface Props {
    * Zoom factor, where `1` is equal to 100%
    */
   scale?: number;
+  /**
+   * Check if document is loading
+   */
+  setLoading: (loading: boolean) => void;
 }
 
 type State = {
@@ -81,7 +85,7 @@ export interface StyledCell extends CellPage {
   content: string;
 }
 
-export const PdfFallback: FC<Props> = ({ document, currentPage, scale = 1 }) => {
+export const PdfFallback: FC<Props> = ({ document, currentPage, scale = 1, setLoading }) => {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
   const { pages, page, pagesHaveFonts } = state;
 
@@ -151,7 +155,11 @@ export const PdfFallback: FC<Props> = ({ document, currentPage, scale = 1 }) => 
     }
   }, [processedDoc, pages]);
 
-  const doRender = (document.html && pagesHaveFonts) || !document.html;
+  const doRender = !document.html || (document.html && pagesHaveFonts);
+
+  useEffect(() => {
+    setLoading(!doRender);
+  }, [doRender, setLoading]);
 
   const docStyles = useMemo(() => {
     if (doRender && processedDoc && processedDoc.styles) {
@@ -165,22 +173,18 @@ export const PdfFallback: FC<Props> = ({ document, currentPage, scale = 1 }) => 
       style={{ transform: `scale(${scale})` }}
       className={`${settings.prefix}--document-preview-pdf-fallback`}
     >
-      {doRender ? (
-        <>
-          <style>{docStyles}</style>
-          <svg
-            viewBox={`0 0 ${page.width} ${page.height}`}
-            preserveAspectRatio="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            {page.cells.map(cell => (
-              <CellComponent key={cell.id} page={page} cell={cell} />
-            ))}
-          </svg>
-        </>
-      ) : (
-        <div>Loading...{/* TODO proper loading view */}</div>
-      )}
+      <>
+        <style>{docStyles}</style>
+        <svg
+          viewBox={`0 0 ${page.width} ${page.height}`}
+          preserveAspectRatio="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          {page.cells.map(cell => (
+            <CellComponent key={cell.id} page={page} cell={cell} />
+          ))}
+        </svg>
+      </>
     </div>
   );
 };

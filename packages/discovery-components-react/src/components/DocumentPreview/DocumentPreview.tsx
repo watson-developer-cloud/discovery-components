@@ -1,4 +1,5 @@
 import React, { FC, ReactElement, useContext, useEffect, useState } from 'react';
+import { SkeletonText } from 'carbon-components-react';
 import get from 'lodash/get';
 import { settings } from 'carbon-components';
 import {
@@ -45,13 +46,16 @@ export const DocumentPreview: FC<Props> = ({ document, file, highlight }) => {
   highlight = highlight || selectedResult.element || undefined;
 
   const [scale, setScale] = useState(1);
-
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [disabledToolbar, setDisabledToolbar] = useState(false);
+
   useEffect(() => {
     // reset state if document changes
     setCurrentPage(1);
     //reset scale if document changes
     setScale(1);
+    setLoading(true);
   }, [doc]);
 
   // If highlight, initialize first page to that of highlight; otherwise
@@ -78,8 +82,6 @@ export const DocumentPreview: FC<Props> = ({ document, file, highlight }) => {
     }
   }, [textMappings, file, pdfPageCount]);
 
-  const loading = !doc || !(currentPage > 0) || !(pageCount > 0);
-
   const base = `${settings.prefix}--document-preview`;
   const previewBase = `${settings.prefix}--preview`;
 
@@ -88,9 +90,9 @@ export const DocumentPreview: FC<Props> = ({ document, file, highlight }) => {
       {doc || file ? (
         <>
           <PreviewToolbar
-            loading={loading}
+            loading={disabledToolbar || loading}
             current={currentPage}
-            total={pageCount}
+            total={loading ? 0 : pageCount}
             onChange={setCurrentPage}
             onZoom={(zoom): void => {
               if (zoom === ZOOM_IN || zoom === ZOOM_OUT) {
@@ -108,6 +110,8 @@ export const DocumentPreview: FC<Props> = ({ document, file, highlight }) => {
               document={doc}
               highlight={highlight}
               setPdfPageCount={setPdfPageCount}
+              setLoading={setLoading}
+              setDisabledToolbar={setDisabledToolbar}
             />
             {/* highlight on top of document view */}
             <div className={`${base}__highlight-overlay`}>
@@ -120,6 +124,11 @@ export const DocumentPreview: FC<Props> = ({ document, file, highlight }) => {
               />
             </div>
           </div>
+          {loading && (
+            <div className={`${previewBase}__skeleton`}>
+              <SkeletonText paragraph={true} lineCount={40} />
+            </div>
+          )}
         </>
       ) : (
         <div>No document data</div>
@@ -135,6 +144,8 @@ interface DocumentProps {
   currentPage: number;
   scale: number;
   setPdfPageCount?: (count: number) => void;
+  setLoading: (loading: boolean) => void;
+  setDisabledToolbar: (disabled: boolean) => void;
 }
 
 function PreviewDocument({
@@ -142,14 +153,22 @@ function PreviewDocument({
   currentPage,
   scale,
   document,
-  highlight,
-  setPdfPageCount
+  setPdfPageCount,
+  setLoading,
+  setDisabledToolbar,
+  highlight
 }: DocumentProps): ReactElement | null {
   // if we have PDF data, render that
   // otherwise, render fallback document view
   if (file) {
     return (
-      <PdfViewer file={file} page={currentPage} scale={scale} setPageCount={setPdfPageCount} />
+      <PdfViewer
+        file={file}
+        page={currentPage}
+        scale={scale}
+        setPageCount={setPdfPageCount}
+        setLoading={setLoading}
+      />
     );
   }
 
@@ -161,6 +180,7 @@ function PreviewDocument({
           document={document}
           currentPage={currentPage}
           scale={scale}
+          setLoading={setLoading}
         />
       );
     }
@@ -171,7 +191,14 @@ function PreviewDocument({
       return <HtmlView document={document} />;
     }
 
-    return <SimpleDocument document={document} highlight={highlight} />;
+    return (
+      <SimpleDocument
+        document={document}
+        highlight={highlight}
+        setDisabledToolbar={setDisabledToolbar}
+        setLoading={setLoading}
+      />
+    );
   }
 
   return null;

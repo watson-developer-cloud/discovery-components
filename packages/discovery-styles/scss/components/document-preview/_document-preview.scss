@@ -1,7 +1,21 @@
+@import '~carbon-components/scss/components/skeleton/skeleton';
+
 .#{$prefix}--document-preview {
+  position: relative;
   display: flex;
   flex-flow: column nowrap;
   height: 100%;
+}
+
+.#{$prefix}--preview__skeleton {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: $spacing-2xl;
+  margin-top: $layout-lg;
+  background-color: white;
 }
 
 .#{$prefix}--preview__document {

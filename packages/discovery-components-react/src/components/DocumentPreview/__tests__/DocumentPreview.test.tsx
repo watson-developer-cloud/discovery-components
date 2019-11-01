@@ -10,6 +10,24 @@ import docJson from '../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf
 import passages from '../__fixtures__/passages';
 
 describe('DocumentPreview', () => {
+  const mockedBbox = {
+    x: 0,
+    y: 0,
+    width: 10,
+    height: 12
+  };
+
+  // this is added since JSDOM does not support the getBBox function
+  const originalGetBBox = (SVGElement.prototype as SVGTextElement).getBBox;
+  beforeEach(
+    () =>
+      ((SVGElement.prototype as SVGTextElement).getBBox = (): any => {
+        return mockedBbox;
+      })
+  );
+
+  afterEach(() => ((SVGElement.prototype as SVGTextElement).getBBox = originalGetBBox));
+
   it('renders with file data without crashing', () => {
     act(() => {
       render(<DocumentPreview document={docJson} file={atob(doc)} />);

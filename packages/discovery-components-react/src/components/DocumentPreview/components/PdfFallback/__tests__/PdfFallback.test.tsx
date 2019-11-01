@@ -33,7 +33,9 @@ describe('PdfFallback', () => {
   it('Verify number of line generated is accurate', async () => {
     let container: HTMLElement;
     act(() => {
-      ({ container } = render(<PdfFallback document={docJson} currentPage={1} />));
+      ({ container } = render(
+        <PdfFallback document={docJson} currentPage={1} setLoading={(): void => {}} />
+      ));
     });
 
     const svgTag = await waitForElement<SVGElement>(() => {
@@ -57,7 +59,9 @@ describe('PdfFallback', () => {
     };
 
     act(() => {
-      ({ getByText } = render(<PdfFallback document={docJson} currentPage={1} />));
+      ({ getByText } = render(
+        <PdfFallback document={docJson} currentPage={1} setLoading={(): void => {}} />
+      ));
     });
 
     await waitForElement(() => getByText('1.0 Definitions'));
@@ -69,7 +73,9 @@ describe('PdfFallback', () => {
   });
 
   it('loads text, title, and table field names', () => {
-    const wrapper = render(<PdfFallback document={fieldNameTest} currentPage={1} />);
+    const wrapper = render(
+      <PdfFallback document={fieldNameTest} currentPage={1} setLoading={(): void => {}} />
+    );
 
     wrapper.getByText('Technical');
     wrapper.getByText('Party');

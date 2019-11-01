@@ -15,8 +15,15 @@ interface Props {
    * Document data returned by query
    */
   document: QueryResult;
-
   highlight?: QueryResultPassage | QueryTableResult;
+  /**
+   * Check to disable toolbar in parent
+   */
+  setLoading: (loading: boolean) => void;
+  /**
+   * Check to disable toolbar in parent
+   */
+  setDisabledToolbar: (disabled: boolean) => void;
 
   cannotPreviewMessage?: string;
 }
@@ -24,6 +31,8 @@ interface Props {
 export const SimpleDocument: FC<Props> = ({
   document,
   highlight,
+  setLoading,
+  setDisabledToolbar,
   cannotPreviewMessage = 'Cannot preview document'
 }) => {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -57,6 +66,10 @@ export const SimpleDocument: FC<Props> = ({
         }
       }
     }
+
+    // set parent states
+    setLoading(false);
+    setDisabledToolbar(true);
   }
 
   // highlight passage and scroll into view

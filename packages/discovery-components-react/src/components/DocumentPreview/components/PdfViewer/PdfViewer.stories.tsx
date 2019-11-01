@@ -33,5 +33,5 @@ storiesOf('DocumentPreview/components/PdfViewer', module)
     const zoom = radios(zoomKnob.label, zoomKnob.options, zoomKnob.defaultValue);
     const scale = parseFloat(zoom);
 
-    return <PdfViewer file={atob(doc)} page={page} scale={scale} />;
+    return <PdfViewer file={atob(doc)} page={page} scale={scale} setLoading={(): void => {}} />;
   });

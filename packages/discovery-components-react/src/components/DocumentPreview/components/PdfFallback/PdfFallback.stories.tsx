@@ -7,7 +7,7 @@ import docJson from '../../__fixtures__/Art Effects Koya Creative Base TSA 2008.
 storiesOf('DocumentPreview/components/PdfFallback', module).add('default', () => {
   return (
     <div style={{ height: '100%' }}>
-      <PdfFallback document={docJson} currentPage={1} />
+      <PdfFallback document={docJson} currentPage={1} setLoading={(): void => {}} />
     </div>
   );
 });

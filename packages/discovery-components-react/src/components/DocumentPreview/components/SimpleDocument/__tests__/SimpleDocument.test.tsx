@@ -12,7 +12,13 @@ describe('SimpleDocument', () => {
 
   it('renders a very minimal document', () => {
     act(() => {
-      render(<SimpleDocument document={minimalDoc} />);
+      render(
+        <SimpleDocument
+          document={minimalDoc}
+          setDisabledToolbar={(): void => {}}
+          setLoading={(): void => {}}
+        />
+      );
     });
   });
 });
