@@ -24,6 +24,21 @@ const expectNoCompletionsDropdown = (container: HTMLElement): void => {
   expect(queryByTestId(container, 'completions-dropdown-test-id')).toBeNull();
 };
 
+function findCompletionWrappers(
+  completionsDropdown: HTMLElement,
+  inputValue: string
+): HTMLElement[] {
+  return getAllByText(completionsDropdown, (_, element) => {
+    const found =
+      element &&
+      typeof element.className === 'string' &&
+      element.className.includes('__term') &&
+      element.textContent &&
+      element.textContent.includes(inputValue);
+    return !!found;
+  });
+}
+
 describe('<SearchInput />', () => {
   describe('When we type "so" into the SearchInput', () => {
     let input: HTMLInputElement;
@@ -195,12 +210,10 @@ describe('<SearchInput />', () => {
             });
 
             test('renders list of completions', () => {
-              // since current value is in a <strong>, look for all iterations of that, then each of the suffixes separately
-              expect(getAllByText(completionsDropdown, SEARCHINPUTVALUE).length).toBe(
-                COMPLETIONS.length
-              );
+              const completions = findCompletionWrappers(completionsDropdown, SEARCHINPUTVALUE);
+              expect(completions.length).toBe(COMPLETIONS.length);
               COMPLETIONS.forEach(completion => {
-                const suffix = completion.slice(SEARCHINPUTVALUE.length); // everything after 'so'
+                const suffix = completion.slice(SEARCHINPUTVALUE.length);
                 expect(getByText(container, suffix)).toBeTruthy();
               });
             });
@@ -256,10 +269,8 @@ describe('<SearchInput />', () => {
         });
 
         test('renders list of completions', () => {
-          // since current value is in a <strong>, look for all iterations of that, then each of the suffixes separately
-          expect(getAllByText(completionsDropdown, SEARCHINPUTVALUE).length).toBe(
-            COMPLETIONS.length
-          );
+          const completions = findCompletionWrappers(completionsDropdown, SEARCHINPUTVALUE);
+          expect(completions.length).toBe(COMPLETIONS.length);
           COMPLETIONS.forEach(completion => {
             const suffix = completion.slice(2); // everything after 'so'
             expect(getByText(container, suffix)).toBeTruthy();
@@ -321,14 +332,14 @@ describe('<SearchInput />', () => {
         });
 
         test('the completions all start with "this is so"', () => {
-          const thisIsArray = getAllByText(completionsDropdown, 'this is so');
-          expect(thisIsArray.length).toBe(5);
+          const completions = findCompletionWrappers(completionsDropdown, 'this is so');
+          expect(completions.length).toBe(COMPLETIONS.length);
         });
 
         test('the completions end with the correct suggestions', () => {
           COMPLETIONS.forEach(completion => {
-            const suffix = completion.slice(2);
-            expect(getByText(completionsDropdown, suffix)).toBeTruthy();
+            const completions = findCompletionWrappers(completionsDropdown, completion);
+            expect(completions.length).toBeGreaterThanOrEqual(1);
           });
         });
       });

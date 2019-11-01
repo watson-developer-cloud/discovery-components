@@ -250,6 +250,7 @@ export const SearchInput: FC<SearchInputProps> = props => {
   const shouldShowCompletions =
     lastWordOfValue !== '' && displaySettings.showAutocomplete && focused;
   const autocompletionsList = completions.map((completion, i) => {
+    const valueWithoutLastWord = value.slice(0, value.length - (lastWordOfValue as string).length);
     const suffix = completion.slice((lastWordOfValue as string).length);
     return (
       <ListBox key={`autocompletion_${i}`} className={`${autocompletionClassName}__wrapper`}>
@@ -265,7 +266,8 @@ export const SearchInput: FC<SearchInputProps> = props => {
             <Search16 />
           </div>
           <div className={`${autocompletionClassName}__term`}>
-            <strong>{value}</strong>
+            {valueWithoutLastWord}
+            <strong>{lastWordOfValue}</strong>
             {suffix}
           </div>
         </ListBox.Field>
