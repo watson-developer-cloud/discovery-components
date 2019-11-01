@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.26.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/styles@1.25.0...@disco-widgets/styles@1.26.0) (2019-11-01)
+
+
+### Features
+
+* add loading indicator to document preview ([#285](https://github.com/watson-developer-cloud/discovery-components/issues/285)) ([adc2f52](https://github.com/watson-developer-cloud/discovery-components/commit/adc2f52))
+
+
+
+
+
 # [1.25.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/styles@1.24.0...@disco-widgets/styles@1.25.0) (2019-11-01)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.57.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.56.0...@disco-widgets/react-components@1.57.0) (2019-11-01)
+
+
+### Features
+
+* add loading indicator to document preview ([#285](https://github.com/watson-developer-cloud/discovery-components/issues/285)) ([adc2f52](https://github.com/watson-developer-cloud/discovery-components/commit/adc2f52))
+
+
+
+
+
 # [1.56.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.55.0...@disco-widgets/react-components@1.56.0) (2019-11-01)
 
 
