@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.56.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.55.0...@disco-widgets/react-components@1.56.0) (2019-11-01)
+
+
+### Features
+
+* Move SemanticDocument and VirtualScroll components from discove… ([#311](https://github.com/watson-developer-cloud/discovery-components/issues/311)) ([408fdb7](https://github.com/watson-developer-cloud/discovery-components/commit/408fdb7)), closes [Watson-Discovery/docviz-squad-issue-tracker#58](https://github.com/Watson-Discovery/docviz-squad-issue-tracker/issues/58) [Watson-Discovery/docviz-squad-issue-tracker#58](https://github.com/Watson-Discovery/docviz-squad-issue-tracker/issues/58)
+
+
+
+
+
 # [1.55.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.54.1...@disco-widgets/react-components@1.55.0) (2019-11-01)
 
 
