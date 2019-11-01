@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "kitchen-sink",
-  "version": "1.23.10",
+  "version": "1.23.11",
   "description": "Discovery components kitchen sink example application used to showcase components in a full application",
   "license": "Apache-2.0",
   "author": "IBM Corp.",
@@ -21,8 +21,8 @@
   "dependencies": {
     "@carbon/icons": "^10.5.0",
     "@disco-widgets/ibm-watson": "^1.5.5",
-    "@disco-widgets/react-components": "^1.54.1",
-    "@disco-widgets/styles": "^1.23.0",
+    "@disco-widgets/react-components": "^1.55.0",
+    "@disco-widgets/styles": "^1.24.0",
     "body-parser": "^1.19.0",
     "carbon-components": "^10.6.0",
     "carbon-components-react": "^7.6.0",
