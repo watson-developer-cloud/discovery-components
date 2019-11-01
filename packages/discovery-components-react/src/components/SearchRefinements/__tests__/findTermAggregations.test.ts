@@ -8,7 +8,7 @@ import {
 } from '../fixtures/aggregationResponses';
 
 describe('findTermAggregations', () => {
-  it('keeps two term aggregations the same', () => {
+  test('keeps two term aggregations the same', () => {
     const termAggregations: DiscoveryV2.QueryTermAggregation[] = findTermAggregations(
       twoTermAggs.aggregations
     );
@@ -58,7 +58,7 @@ describe('findTermAggregations', () => {
     ]);
   });
 
-  it('removes a top level nested aggregation to retrieve second level term aggregation', () => {
+  test('removes a top level nested aggregation to retrieve second level term aggregation', () => {
     const termAggregations: DiscoveryV2.QueryTermAggregation[] = findTermAggregations(
       nestedTermAgg.aggregations
     );
@@ -80,7 +80,7 @@ describe('findTermAggregations', () => {
     ]);
   });
 
-  it('removes a top level nested aggregation and second level filter aggregation to retrieve third level term aggrgation', () => {
+  test('removes a top level nested aggregation and second level filter aggregation to retrieve third level term aggrgation', () => {
     const termAggregations: DiscoveryV2.QueryTermAggregation[] = findTermAggregations(
       nestedFilterTermAgg.aggregations
     );
@@ -102,7 +102,7 @@ describe('findTermAggregations', () => {
     ]);
   });
 
-  it('removes 2 top level nested aggregation and second level filter aggregation to retrieve both third level term aggrgations', () => {
+  test('removes 2 top level nested aggregation and second level filter aggregation to retrieve both third level term aggrgations', () => {
     const termAggregations: DiscoveryV2.QueryTermAggregation[] = findTermAggregations(
       twoNestedFilterTermAgg.aggregations
     );

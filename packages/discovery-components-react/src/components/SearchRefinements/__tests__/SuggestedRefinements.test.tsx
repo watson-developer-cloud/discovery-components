@@ -80,7 +80,6 @@ describe('SuggestedRefinementsComponent', () => {
     test('checkboxes are unchecked when initially rendered', () => {
       const { refinementsComponent } = setup('');
       const embiidCheckbox = refinementsComponent.getByLabelText('trust the process');
-      expect(embiidCheckbox['defaultChecked']).toEqual(false);
       expect(embiidCheckbox['checked']).toEqual(false);
     });
 
@@ -89,13 +88,78 @@ describe('SuggestedRefinementsComponent', () => {
       const saviorCheckbox = refinementsComponent.getByLabelText('sam hinkie');
       expect(saviorCheckbox['checked']).toEqual(true);
     });
+  });
 
-    test('checkboxes can be checked and checkbox is not disabled', () => {
-      const { refinementsComponent } = setup('');
-      const embiidCheckbox = refinementsComponent.getByLabelText('trust the process');
-      expect(embiidCheckbox['checked']).toEqual(false);
-      fireEvent.click(embiidCheckbox);
-      expect(embiidCheckbox['checked']).toEqual(true);
+  describe('clear all button', () => {
+    let setupData: Setup;
+
+    describe('when no selections are made', () => {
+      beforeEach(() => {
+        setupData = setup('');
+      });
+
+      test('the clear button does not appear', () => {
+        const { refinementsComponent } = setupData;
+        expect(refinementsComponent.queryAllByTitle('Clear all selected items')).toHaveLength(0);
+      });
+    });
+
+    describe('when 1 selection is made', () => {
+      beforeEach(() => {
+        setupData = setup('"trust the process"');
+      });
+
+      test('the clear button appears once', () => {
+        const { refinementsComponent } = setupData;
+        expect(refinementsComponent.queryAllByTitle('Clear all selected items')).toHaveLength(1);
+      });
+
+      describe('and the clear button is clicked', () => {
+        beforeEach(() => {
+          const { refinementsComponent } = setupData;
+          const clearButton = refinementsComponent.getByTitle('Clear all selected items');
+          fireEvent.click(clearButton);
+        });
+
+        test('calls performSearch with filters removed', () => {
+          const { performSearchMock } = setupData;
+          expect(performSearchMock).toHaveBeenCalledWith(
+            expect.objectContaining({
+              filter: ''
+            }),
+            false
+          );
+        });
+      });
+    });
+
+    describe('when 2 selections are made', () => {
+      beforeEach(() => {
+        setupData = setup('"trust the process","just not the electrician"');
+      });
+
+      test('the clear button appears once', () => {
+        const { refinementsComponent } = setupData;
+        expect(refinementsComponent.queryAllByTitle('Clear all selected items')).toHaveLength(1);
+      });
+
+      describe('and the clear button is clicked', () => {
+        beforeEach(() => {
+          const { refinementsComponent } = setupData;
+          const clearButton = refinementsComponent.getByTitle('Clear all selected items');
+          fireEvent.click(clearButton);
+        });
+
+        test('calls performSearch with filters removed', () => {
+          const { performSearchMock } = setupData;
+          expect(performSearchMock).toHaveBeenCalledWith(
+            expect.objectContaining({
+              filter: ''
+            }),
+            false
+          );
+        });
+      });
     });
   });
 

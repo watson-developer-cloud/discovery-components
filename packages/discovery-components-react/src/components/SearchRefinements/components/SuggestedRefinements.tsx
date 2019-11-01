@@ -5,6 +5,7 @@ import {
 } from '../utils/searchRefinementInterfaces';
 import get from 'lodash/get';
 import { MultiSelectRefinementsGroup } from './RefinementsGroups/MultiSelectRefinementsGroup';
+import { Messages } from '../messages';
 
 interface SuggestedRefinementsProps {
   /**
@@ -16,6 +17,10 @@ interface SuggestedRefinementsProps {
    */
   suggestedRefinementsLabel: string;
   /**
+   * i18n messages for the component
+   */
+  messages: Messages;
+  /**
    * Callback to handle changes in selected refinements
    */
   onChange: (updatedRefinement: Partial<SearchFilterRefinements>) => void;
@@ -24,6 +29,7 @@ interface SuggestedRefinementsProps {
 export const SuggestedRefinements: FC<SuggestedRefinementsProps> = ({
   suggestedRefinements,
   suggestedRefinementsLabel,
+  messages,
   onChange
 }) => {
   const handleOnChange = (
@@ -42,12 +48,21 @@ export const SuggestedRefinements: FC<SuggestedRefinementsProps> = ({
     onChange({ filterSuggested: newSuggestedRefinements });
   };
 
+  const handleOnClear = (): void => {
+    const filterSuggested = suggestedRefinements.map(refinement => {
+      return { ...refinement, selected: false };
+    });
+    onChange({ filterSuggested });
+  };
+
   return (
     <MultiSelectRefinementsGroup
       refinements={suggestedRefinements}
       onChange={handleOnChange}
+      onClear={handleOnClear}
       refinementsLabel={suggestedRefinementsLabel}
       attributeKeyName="text"
+      messages={messages}
     />
   );
 };

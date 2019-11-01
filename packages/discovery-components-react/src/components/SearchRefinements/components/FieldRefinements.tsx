@@ -3,6 +3,7 @@ import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import get from 'lodash/get';
 import filter from 'lodash/filter';
 import findIndex from 'lodash/findIndex';
+
 import {
   SelectableQueryTermAggregation,
   SelectableQueryTermAggregationResult,
@@ -10,6 +11,7 @@ import {
 } from '../utils/searchRefinementInterfaces';
 import { MultiSelectRefinementsGroup } from './RefinementsGroups/MultiSelectRefinementsGroup';
 import { SingleSelectRefinementsGroup } from './RefinementsGroups/SingleSelectRefinementsGroup';
+import { Messages } from '../messages';
 
 interface FieldRefinementsProps {
   /**
@@ -21,6 +23,10 @@ interface FieldRefinementsProps {
    */
   componentSettingsAggregations?: DiscoveryV2.ComponentSettingsAggregation[];
   /**
+   * i18n messages for the component
+   */
+  messages: Messages;
+  /**
    * Callback to handle changes in selected refinements
    */
   onChange: (updatedRefinement: Partial<SearchFilterRefinements>) => void;
@@ -29,6 +35,7 @@ interface FieldRefinementsProps {
 export const FieldRefinements: FC<FieldRefinementsProps> = ({
   allRefinements,
   componentSettingsAggregations,
+  messages,
   onChange
 }) => {
   const areMultipleSelectionsAllowed = (aggregationIndex: number) => {
@@ -88,6 +95,21 @@ export const FieldRefinements: FC<FieldRefinementsProps> = ({
     onChange({ filterFields: allRefinements });
   };
 
+  const handleOnClear = (field: string): void => {
+    const refinementsForFieldIndex = allRefinements.findIndex(
+      // TODO: switch this to an identifier
+      refinement => refinement.field === field
+    );
+    if (refinementsForFieldIndex > -1) {
+      const results = allRefinements[refinementsForFieldIndex].results || [];
+      const deselectedResults = (results as SelectableQueryTermAggregationResult[]).map(result => {
+        return { ...result, selected: false };
+      });
+      allRefinements[refinementsForFieldIndex].results = deselectedResults;
+      onChange({ filterFields: allRefinements });
+    }
+  };
+
   return (
     <div>
       {allRefinements.map((aggregation: SelectableQueryTermAggregation, i: number) => {
@@ -113,7 +135,9 @@ export const FieldRefinements: FC<FieldRefinementsProps> = ({
               key={`refinement-group-${aggregationField}-${i}`}
               refinements={orderedAggregationResults}
               onChange={handleOnChange}
+              onClear={handleOnClear}
               refinementsLabel={aggregationField || ''}
+              messages={messages}
               attributeKeyName="key"
             />
           );

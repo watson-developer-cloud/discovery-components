@@ -121,21 +121,12 @@ describe('FilterRefinementsComponent', () => {
     test('checkboxes are unchecked when initially rendered', () => {
       const { fieldRefinementsComponent } = setup('');
       const animalsCheckbox = fieldRefinementsComponent.getByLabelText('Animals');
-      expect(animalsCheckbox['defaultChecked']).toEqual(false);
       expect(animalsCheckbox['checked']).toEqual(false);
     });
 
     test('checkboxes are checked when set in filter query', () => {
       const { fieldRefinementsComponent } = setup('subject:Animals');
       const animalsCheckbox = fieldRefinementsComponent.getByLabelText('Animals');
-      expect(animalsCheckbox['checked']).toEqual(true);
-    });
-
-    test('checkboxes can be checked and checkbox is not disabled', () => {
-      const { fieldRefinementsComponent } = setup('');
-      const animalsCheckbox = fieldRefinementsComponent.getByLabelText('Animals');
-      expect(animalsCheckbox['checked']).toEqual(false);
-      fireEvent.click(animalsCheckbox);
       expect(animalsCheckbox['checked']).toEqual(true);
     });
   });
@@ -240,6 +231,121 @@ describe('FilterRefinementsComponent', () => {
         }),
         false
       );
+    });
+  });
+
+  describe('clear all button', () => {
+    let setupData: Setup;
+
+    describe('when no selections are made', () => {
+      beforeEach(() => {
+        setupData = setup('');
+      });
+
+      test('the clear button does not appear', () => {
+        const { fieldRefinementsComponent } = setupData;
+        expect(fieldRefinementsComponent.queryAllByTitle('Clear all selected items')).toHaveLength(
+          0
+        );
+      });
+    });
+
+    describe('when 1 selection is made', () => {
+      beforeEach(() => {
+        setupData = setup('author:"ABMN Staff"');
+      });
+
+      test('the clear button appears once', () => {
+        const { fieldRefinementsComponent } = setupData;
+        expect(fieldRefinementsComponent.queryAllByTitle('Clear all selected items')).toHaveLength(
+          1
+        );
+      });
+
+      describe('and the clear button is clicked', () => {
+        beforeEach(() => {
+          const { fieldRefinementsComponent } = setupData;
+          const clearButton = fieldRefinementsComponent.getByTitle('Clear all selected items');
+          fireEvent.click(clearButton);
+        });
+
+        test('calls performSearch with filters removed', () => {
+          const { performSearchMock } = setupData;
+          expect(performSearchMock).toHaveBeenCalledWith(
+            expect.objectContaining({
+              filter: '',
+              offset: 0
+            }),
+            false
+          );
+        });
+      });
+    });
+
+    describe('when 2 selections are made in the same category', () => {
+      beforeEach(() => {
+        setupData = setup('author:"ABMN Staff"|"News Staff"');
+      });
+
+      test('the clear button appears once', () => {
+        const { fieldRefinementsComponent } = setupData;
+        expect(fieldRefinementsComponent.queryAllByTitle('Clear all selected items')).toHaveLength(
+          1
+        );
+      });
+
+      describe('and the clear button is clicked', () => {
+        beforeEach(() => {
+          const { fieldRefinementsComponent } = setupData;
+          const clearButton = fieldRefinementsComponent.getByTitle('Clear all selected items');
+          fireEvent.click(clearButton);
+        });
+
+        test('calls performSearch with filters removed', () => {
+          const { performSearchMock } = setupData;
+          expect(performSearchMock).toHaveBeenCalledWith(
+            expect.objectContaining({
+              filter: '',
+              offset: 0
+            }),
+            false
+          );
+        });
+      });
+    });
+
+    describe('when 2 selections are made in different categories', () => {
+      beforeEach(() => {
+        setupData = setup('author:"ABMN Staff",subject:"Animals"');
+      });
+
+      test('the clear button appears twice', () => {
+        const { fieldRefinementsComponent } = setupData;
+        expect(fieldRefinementsComponent.queryAllByTitle('Clear all selected items')).toHaveLength(
+          2
+        );
+      });
+
+      describe('and the first clear button is clicked', () => {
+        beforeEach(() => {
+          const { fieldRefinementsComponent } = setupData;
+          const clearButtons = fieldRefinementsComponent.queryAllByTitle(
+            'Clear all selected items'
+          );
+          fireEvent.click(clearButtons[0]);
+        });
+
+        test('calls performSearch with filters removed', () => {
+          const { performSearchMock } = setupData;
+          expect(performSearchMock).toHaveBeenCalledWith(
+            expect.objectContaining({
+              filter: 'subject:"Animals"',
+              offset: 0
+            }),
+            false
+          );
+        });
+      });
     });
   });
 

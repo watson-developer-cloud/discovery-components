@@ -1,5 +1,6 @@
 import React, { FC, useContext } from 'react';
 import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
+import { Button } from 'carbon-components-react';
 import { SearchContext, SearchApi } from '../DiscoverySearch/DiscoverySearch';
 import { buildAggregationQuery } from './utils/buildAggregationQuery';
 import { mergeFilterRefinements } from './utils/mergeFilterRefinements';
@@ -21,6 +22,7 @@ import { CollectionRefinements } from './components/CollectionRefinements';
 import { FieldRefinements } from './components/FieldRefinements';
 import { useDeepCompareEffect } from '../../utils/useDeepCompareMemoize';
 import { SuggestedRefinements } from './components/SuggestedRefinements';
+import defaultMessages, { Messages } from './messages';
 
 interface SearchRefinementsProps {
   /**
@@ -44,6 +46,10 @@ interface SearchRefinementsProps {
    */
   suggestedRefinementsLabel?: string;
   /**
+   * i18n messages for the component
+   */
+  messages?: Messages;
+  /**
    * Override aggregation component settings
    */
   componentSettingsAggregations?: DiscoveryV2.ComponentSettingsAggregation[];
@@ -59,6 +65,7 @@ export const SearchRefinements: FC<SearchRefinementsProps> = ({
   collectionSelectTitleText = 'Collections',
   showSuggestedRefinements,
   suggestedRefinementsLabel = 'Suggested Enrichments',
+  messages = defaultMessages,
   componentSettingsAggregations,
   configuration
 }) => {
@@ -72,6 +79,7 @@ export const SearchRefinements: FC<SearchRefinementsProps> = ({
   const { fetchAggregations, performSearch } = useContext(SearchApi);
   const aggregations = aggregationResults || [];
   const collections = (collectionsResults && collectionsResults.collections) || [];
+  const mergedMessages = { ...defaultMessages, ...messages };
 
   useDeepCompareEffect(() => {
     if (validateConfiguration(configuration)) {
@@ -102,9 +110,18 @@ export const SearchRefinements: FC<SearchRefinementsProps> = ({
     performSearch({ ...searchParameters, offset: 0, filter }, false);
   };
 
+  const handleOnClear = (): void => {
+    performSearch({ ...searchParameters, collectionIds: [], offset: 0, filter: '' }, false);
+  };
+
   if (shouldShowFields || shouldShowCollections) {
     return (
       <div>
+        {filter && (
+          <Button kind="ghost" size="small" onClick={handleOnClear}>
+            {messages.clearAllButtonText}
+          </Button>
+        )}
         {shouldShowCollections && (
           <CollectionRefinements
             label={collectionSelectLabel}
@@ -116,12 +133,14 @@ export const SearchRefinements: FC<SearchRefinementsProps> = ({
             allRefinements={allFieldRefinements}
             onChange={handleOnChange}
             componentSettingsAggregations={componentSettingsAggregations}
+            messages={mergedMessages}
           />
         )}
         {shouldShowSuggested && (
           <SuggestedRefinements
             suggestedRefinements={allSuggestedRefinements}
             suggestedRefinementsLabel={suggestedRefinementsLabel}
+            messages={mergedMessages}
             onChange={handleOnChange}
           />
         )}

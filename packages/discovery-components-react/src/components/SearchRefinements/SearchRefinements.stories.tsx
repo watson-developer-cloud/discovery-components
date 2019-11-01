@@ -9,6 +9,7 @@ import { createDummyResponsePromise } from '../../utils/testingUtils';
 import { DiscoverySearch, DiscoverySearchProps } from '../DiscoverySearch/DiscoverySearch';
 import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import { action } from '@storybook/addon-actions';
+import defaultMessages from './messages';
 
 export const props = () => ({
   showCollections: boolean('Show collection refinements', false),
@@ -19,6 +20,7 @@ export const props = () => ({
   ),
   showSuggestedRefinements: boolean('Show suggested refinements', false),
   suggestedRefinementsLabel: text('Label for suggested refinement', 'Suggested Enrichments'),
+  messages: object('I18n messages', defaultMessages),
   componentSettingsAggregations: object('Aggregation component settings', [
     {
       label: 'Writers',

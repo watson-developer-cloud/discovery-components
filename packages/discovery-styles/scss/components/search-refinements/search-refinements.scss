@@ -9,6 +9,13 @@
 .#{$prefix}--search-refinement__refinement__label {
   color: $ui-05;
   font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  height: 1.5rem;
+
+  .#{$prefix}--list-box__selection {
+    margin-left: $spacing-xs;
+  }
 }
 
 .#{$prefix}--form-item.#{$prefix}--checkbox-wrapper.#{$prefix}--search-refinement__refinement__option {
