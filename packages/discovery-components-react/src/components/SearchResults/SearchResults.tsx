@@ -1,6 +1,7 @@
-import React, { useContext, useEffect } from 'react';
+import * as React from 'react';
 import { SearchApi, SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
+import { TablesOnlyToggle } from './components/TablesOnlyToggle/TablesOnlyToggle';
 import { Result } from './components/Result/Result';
 import { findCollectionName, getDisplaySettings } from './utils';
 
@@ -22,7 +23,7 @@ export interface SearchResultsProps {
    */
   bodyField?: string;
   /**
-   * specify whether or not the Result component should display passages
+   * specify whether or not passages should be displayed in the search results
    */
   usePassages?: boolean;
   /**
@@ -35,17 +36,25 @@ export interface SearchResultsProps {
    */
   passageHighlightsClassName?: string;
   /**
-   * specify a label to display instead of 'Collection Name:' on each search Result
+   * specify a label to display instead of 'Collection Name:' on each search result
    */
   collectionLabel?: string;
   /**
-   * Override the default button text for viewing displayed text (either a passage or a defined body field) in the document
+   * override the default button text for viewing displayed text (either a passage or a defined bodyfield) in the document
    */
   displayedTextInDocumentButtonText?: string;
   /**
-   * Override the default button text for viewing a table in the document
+   * override the default button text for viewing a table in the document
    */
   tableInDocumentButtonText?: string;
+  /**
+   * specify whether to display a toggle for showing table search results only
+   */
+  showTablesOnlyToggle?: boolean;
+  /**
+   * override the default label text for the show tables only toggle
+   */
+  tablesOnlyToggleLabelText?: string;
 }
 
 export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
@@ -58,22 +67,25 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   passageHighlightsClassName,
   collectionLabel = 'Collection Name:',
   displayedTextInDocumentButtonText = 'View passage in document',
-  tableInDocumentButtonText = 'View table in document'
+  tableInDocumentButtonText = 'View table in document',
+  showTablesOnlyToggle = false,
+  tablesOnlyToggleLabelText = 'Show table results only'
 }) => {
-  const { searchResponse, collectionsResults, componentSettings } = useContext(SearchContext);
+  const { searchResponse, collectionsResults, componentSettings } = React.useContext(SearchContext);
+  const [showTablesOnlyResults, setShowTablesOnlyResults] = React.useState(false);
 
   const displaySettings = getDisplaySettings(
     { resultTitleField, bodyField, usePassages },
     componentSettings
   );
 
-  const { setSearchParameters } = useContext(SearchApi);
+  const { setSearchParameters } = React.useContext(SearchApi);
   const matchingResults = (searchResponse && searchResponse.matching_results) || 0;
   const results = (searchResponse && searchResponse.results) || [];
   const tableResults = (searchResponse && searchResponse.table_results) || [];
   const querySubmitted = false; // TODO replace this with whatever value tells our component if a query has been submitted
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (passageLength) {
       setSearchParameters((currentSearchParameters: DiscoveryV2.QueryParams) => {
         return {
@@ -90,33 +102,59 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   if (matchingResults && matchingResults > 0) {
     return (
       <div>
-        {(results as DiscoveryV2.QueryResult[]).map(result => {
-          const documentTableResults: DiscoveryV2.QueryTableResult[] = tableResults.filter(
-            tableResult => {
-              return tableResult.source_document_id === result.document_id;
-            }
-          );
+        <TablesOnlyToggle
+          setShowTablesOnlyResults={setShowTablesOnlyResults}
+          showTablesOnlyToggle={showTablesOnlyToggle}
+          showTablesOnlyResults={showTablesOnlyResults}
+          tablesOnlyToggleLabelText={tablesOnlyToggleLabelText}
+        />
+        {showTablesOnlyResults &&
+          (tableResults as DiscoveryV2.QueryTableResult[]).map(table => {
+            const collectionName = findCollectionName(collectionsResults, table);
 
-          const collectionName = findCollectionName(collectionsResults, result.collection_id);
+            return (
+              <Result
+                key={table.table_id}
+                bodyField={displaySettings.bodyField}
+                collectionLabel={collectionLabel}
+                collectionName={collectionName}
+                displayedTextInDocumentButtonText={displayedTextInDocumentButtonText}
+                resultLinkField={resultLinkField}
+                resultLinkTemplate={resultLinkTemplate}
+                resultTitleField={displaySettings.resultTitleField}
+                showTablesOnlyResults={showTablesOnlyResults}
+                table={table}
+                tableInDocumentButtonText={tableInDocumentButtonText}
+              />
+            );
+          })}
+        {!showTablesOnlyResults &&
+          (results as DiscoveryV2.QueryResult[]).map(result => {
+            const documentTableResult: DiscoveryV2.QueryTableResult | undefined = tableResults.find(
+              tableResult => {
+                return tableResult.source_document_id === result.document_id;
+              }
+            );
+            const collectionName = findCollectionName(collectionsResults, result);
 
-          return (
-            <Result
-              key={result.document_id}
-              result={result}
-              resultLinkField={resultLinkField}
-              resultLinkTemplate={resultLinkTemplate}
-              passageHighlightsClassName={passageHighlightsClassName}
-              tableResults={documentTableResults}
-              collectionName={collectionName}
-              collectionLabel={collectionLabel}
-              displayedTextInDocumentButtonText={displayedTextInDocumentButtonText}
-              tableInDocumentButtonText={tableInDocumentButtonText}
-              bodyField={displaySettings.bodyField}
-              usePassages={displaySettings.usePassages}
-              resultTitleField={displaySettings.resultTitleField}
-            />
-          );
-        })}
+            return (
+              <Result
+                key={result.document_id}
+                bodyField={displaySettings.bodyField}
+                collectionLabel={collectionLabel}
+                collectionName={collectionName}
+                displayedTextInDocumentButtonText={displayedTextInDocumentButtonText}
+                passageHighlightsClassName={passageHighlightsClassName}
+                result={result}
+                resultLinkField={resultLinkField}
+                resultLinkTemplate={resultLinkTemplate}
+                resultTitleField={displaySettings.resultTitleField}
+                table={documentTableResult}
+                tableInDocumentButtonText={tableInDocumentButtonText}
+                usePassages={displaySettings.usePassages}
+              />
+            );
+          })}
       </div>
     );
   } else if (searchResponse && matchingResults === 0) {

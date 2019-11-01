@@ -89,6 +89,7 @@ export interface SearchContextIFC {
   selectedResult: SelectedResult;
   autocompletionResults: DiscoveryV2.Completions | null;
   componentSettings: DiscoveryV2.ComponentSettingsResponse | null;
+  isResultsPaginationComponentHidden: boolean | undefined;
 }
 
 export interface SearchApiIFC {
@@ -105,6 +106,9 @@ export interface SearchApiIFC {
   setSearchParameters: (
     searchParameters: DiscoveryV2.QueryParams | React.SetStateAction<DiscoveryV2.QueryParams>
   ) => void;
+  setIsResultsPaginationComponentHidden: (
+    isResultsPaginationComponentHidden: boolean | React.SetStateAction<boolean | undefined>
+  ) => void;
 }
 
 export const searchApiDefaults = {
@@ -114,7 +118,8 @@ export const searchApiDefaults = {
   fetchComponentSettings: (): Promise<void> => Promise.resolve(),
   setSelectedResult: (): void => {},
   setAutocompletionOptions: (): void => {},
-  setSearchParameters: (): void => {}
+  setSearchParameters: (): void => {},
+  setIsResultsPaginationComponentHidden: (): void => {}
 };
 
 export const searchContextDefaults = {
@@ -126,7 +131,8 @@ export const searchContextDefaults = {
   selectedResult: emptySelectedResult,
   autocompletionResults: null,
   collectionsResults: null,
-  componentSettings: null
+  componentSettings: null,
+  isResultsPaginationComponentHidden: false
 };
 
 export const SearchApi = createContext<SearchApiIFC>(searchApiDefaults);
@@ -164,11 +170,13 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
   ] = useState<DiscoveryV2.Completions | null>(overrideAutocompletionResults);
   const [autocompletionOptions, setAutocompletionOptions] = useState<AutocompletionOptions>({});
   const [selectedResult, setSelectedResult] = useState<SelectedResult>(overrideSelectedResult);
-
   const [
     componentSettings,
     setComponentSettings
   ] = useState<DiscoveryV2.ComponentSettingsResponse | null>(overrideComponentSettings);
+  const [isResultsPaginationComponentHidden, setIsResultsPaginationComponentHidden] = useState<
+    boolean
+  >();
 
   useDeepCompareEffect(() => {
     setSearchParameters(currentSearchParameters => {
@@ -301,7 +309,8 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
       fetchAutocompletions: handleFetchAutocompletions,
       setSelectedResult: handleSetSelectedResult,
       setAutocompletionOptions,
-      setSearchParameters
+      setSearchParameters,
+      setIsResultsPaginationComponentHidden
     };
   }, [handleFetchAggregations, handleFetchAutocompletions, handleSearch]);
 
@@ -313,7 +322,8 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
       searchResponse,
       selectedResult,
       collectionsResults,
-      componentSettings
+      componentSettings,
+      isResultsPaginationComponentHidden
     };
   }, [
     autocompletionResults,
@@ -323,7 +333,8 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
     searchParameters,
     searchResponse,
     selectedResult,
-    componentSettings
+    componentSettings,
+    isResultsPaginationComponentHidden
   ]);
 
   return (

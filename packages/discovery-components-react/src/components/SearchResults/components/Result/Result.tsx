@@ -1,111 +1,123 @@
 import React, { useContext } from 'react';
-import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import get from 'lodash/get';
 import isEqual from 'lodash.isequal';
-import { settings } from 'carbon-components';
-import { SearchApi, SearchContext, SelectedResult } from '../../../DiscoverySearch/DiscoverySearch';
 import mustache from 'mustache';
-import { Passage } from '../Passage/Passage';
-import { Table } from '../Table/Table';
+import { settings } from 'carbon-components';
+import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
+import { SearchApi, SearchContext, SelectedResult } from '../../../DiscoverySearch/DiscoverySearch';
+import { ResultElement } from '../ResultElement/ResultElement';
 
-interface ResultProps {
-  result: DiscoveryV2.QueryResult;
-  /**
-   * specify a field on the result object to pull the result title from
-   */
-  resultTitleField: string;
-  /**
-   * specify a field on the result object to pull the result link from
-   */
-  resultLinkField?: string;
-  /**
-   * specify a string template using mustache templating syntax https://github.com/janl/mustache.js to pull the result link from
-   */
-  resultLinkTemplate?: string;
+export interface ResultProps {
   /**
    * specify a field on the result object to pull the displayed text from
    */
   bodyField: string;
   /**
-   * specify whether or not the Result component should display passages
+   * specify a label to display instead of 'Collection Name:' on each search result
    */
-  usePassages: boolean;
+  collectionLabel?: string;
+  /**
+   * collection name to render on each search result
+   */
+  collectionName?: string;
+  /**
+   * override the default button text for viewing displayed text (either a passage or a specified bodyfied) in the document
+   */
+  displayedTextInDocumentButtonText: string;
   /**
    * specify a className for styling <em> tags within passages
    */
   passageHighlightsClassName?: string;
   /**
-   * table results for the result object
+   * the query result document associated with the search result
+   * TODO: Once the tables only results are also linked to their documents, this will no longer be optional
    */
-  tableResults: DiscoveryV2.QueryTableResult[];
-  /** specify a label to display instead of 'Collection Name:' on each search Result
-   */
-  collectionLabel: string;
+  result?: DiscoveryV2.QueryResult;
   /**
-   * collection name to render
+   * specify a field on the result object to pull the result link from
    */
-  collectionName: string;
+  resultLinkField?: string;
   /**
-   * Override the default button text for viewing displayed text (either a passage or a defined body field) in the document
+   * specify a string template using mustache templating syntax https://github.com/janl/mustache.js to create the title from each result object
    */
-  displayedTextInDocumentButtonText: string;
+  resultLinkTemplate?: string;
   /**
-   * Override the default button text for viewing a table in the document
+   * specify a field on the result object to pull the result title from
+   */
+  resultTitleField: string;
+  /**
+   * specifies whether to show tables only results or regular search results
+   */
+  showTablesOnlyResults?: boolean;
+  /**
+   * the table result element for the search result
+   */
+  table?: DiscoveryV2.QueryTableResult;
+  /**
+   * override the default button text for viewing a table in the document
    */
   tableInDocumentButtonText: string;
+  /**
+   * specify whether or not passages should be displayed in the search results
+   */
+  usePassages?: boolean;
 }
 export const Result: React.FunctionComponent<ResultProps> = ({
-  result,
-  resultTitleField,
-  resultLinkField,
-  resultLinkTemplate,
   bodyField,
-  usePassages,
-  passageHighlightsClassName,
-  tableResults,
   collectionLabel,
   collectionName,
   displayedTextInDocumentButtonText,
-  tableInDocumentButtonText
+  passageHighlightsClassName,
+  result,
+  resultLinkField,
+  resultLinkTemplate,
+  resultTitleField,
+  showTablesOnlyResults,
+  table,
+  tableInDocumentButtonText,
+  usePassages
 }) => {
-  const { document_id: documentId } = result;
   const { setSelectedResult } = useContext(SearchApi);
   const { selectedResult } = useContext(SearchContext);
-  const title: string | undefined = get(result, resultTitleField);
-  const filename: string | undefined = get(result, 'extracted_metadata.filename');
+
   const firstPassage: DiscoveryV2.QueryResultPassage | undefined = get(
     result,
     'document_passages[0]'
   );
-  const firstPassageText: string | undefined = get(firstPassage, 'passage_text');
-  const firstTableHtml: string | undefined = get(tableResults, '[0].table_html');
+  let displayedText: string | undefined;
+  if (usePassages) {
+    displayedText = get(firstPassage, 'passage_text') || get(result, bodyField);
+  } else {
+    displayedText = get(result, bodyField);
+  }
+  const displayedTextElement = usePassages && firstPassage ? firstPassage : null;
+  const displayedTextElementType = usePassages && firstPassage ? 'passage' : null;
+  const tableHtml: string | undefined = get(table, 'table_html');
 
+  // TODO: This if to look for result can go away once that's being passed through with the tables only results
+  let documentId;
+  if (result) {
+    documentId = result.document_id;
+  }
+  const title = get(result, resultTitleField);
+  const filename: string | undefined = get(result, 'extracted_metadata.filename');
+
+  const baseClassName = `${settings.prefix}--search-result`;
+  const searchResultClasses = [baseClassName];
+  if (isEqual(result, selectedResult.document)) {
+    searchResultClasses.push(`${baseClassName}--selected`);
+  }
   const documentRetrievalSource: string | undefined = get(
     result,
     'result_metadata.document_retrieval_source'
   );
-
-  let displayedText: string | undefined;
-  if (usePassages) {
-    displayedText = firstPassageText || get(result, bodyField);
-  } else {
-    displayedText = get(result, bodyField);
-  }
-
-  const baseClassName = `${settings.prefix}--search-result`;
-  const bodyClassName = `${baseClassName}__element__body`;
-  const searchResultClasses = [baseClassName];
   if (documentRetrievalSource === 'curation') {
     searchResultClasses.push(`${baseClassName}_curation`);
   }
-  if (isEqual(result, selectedResult.document)) {
-    searchResultClasses.push(`${baseClassName}--selected`);
+  const searchResultContentWrapperClasses = [`${baseClassName}__content-wrapper`];
+  if (displayedText && tableHtml && !showTablesOnlyResults) {
+    searchResultContentWrapperClasses.push(`${baseClassName}__content-wrapper--half`);
   }
-  const searchResultContentClassNames = [`${baseClassName}__element`];
-  if (displayedText && firstTableHtml) {
-    searchResultContentClassNames.push(`${baseClassName}__element--half`);
-  }
-
   const footerClassName = `${baseClassName}__footer`;
   const titleClassName = `${baseClassName}__footer__title`;
   const collectionNameClassName = `${baseClassName}__footer__collection-name`;
@@ -122,7 +134,8 @@ export const Result: React.FunctionComponent<ResultProps> = ({
           ? get(result, resultLinkField)
           : mustache.render(resultLinkTemplate as string, result);
         window.open(url);
-      } else {
+        // TODO: This if can go away once tables are linked to their documents and results are always passed through
+      } else if (result) {
         setSelectedResult({ document: result, element, elementType });
       }
     };
@@ -130,34 +143,43 @@ export const Result: React.FunctionComponent<ResultProps> = ({
 
   return (
     <div className={searchResultClasses.join(' ')}>
-      <div className={searchResultContentClassNames.join(' ')}>
-        {displayedText && (
-          <Passage
+      <div className={searchResultContentWrapperClasses.join(' ')}>
+        {displayedText && !showTablesOnlyResults && (
+          <ResultElement
+            baseClassName={baseClassName}
             body={displayedText}
-            bodyClassName={bodyClassName}
+            buttonText={displayedTextInDocumentButtonText}
+            element={displayedTextElement}
+            elementType={displayedTextElementType}
             handleSelectResult={handleSelectResult}
             passageHighlightsClassName={passageHighlightsClassName}
-            displayedTextInDocumentButtonText={displayedTextInDocumentButtonText}
-            passage={firstPassage}
-            usePassages={usePassages}
+            showTablesOnlyResults={showTablesOnlyResults}
           />
         )}
-        {firstTableHtml && (
-          <Table
-            body={firstTableHtml}
-            bodyClassName={bodyClassName}
+        {tableHtml && (
+          <ResultElement
+            baseClassName={baseClassName}
+            body={tableHtml}
+            buttonText={tableInDocumentButtonText}
+            element={table}
+            elementType="table"
             handleSelectResult={handleSelectResult}
-            table={tableResults[0]}
-            tableInDocumentButtonText={tableInDocumentButtonText}
+            showTablesOnlyResults={showTablesOnlyResults}
           />
         )}
       </div>
-      <div className={footerClassName}>
-        <div className={titleClassName}>{title || filename || documentId}</div>
-        <div className={collectionNameClassName}>
-          {collectionLabel} {collectionName}
+      {/* TODO: This check can go away once documents are linked to show only tables results */}
+      {(collectionName || result) && (
+        <div className={footerClassName}>
+          {/* TODO: This result check can go away once documents are linked to show only tables results */}
+          {result && <div className={titleClassName}>{title || filename || documentId}</div>}
+          {collectionName && (
+            <div className={collectionNameClassName}>
+              {collectionLabel} {collectionName}
+            </div>
+          )}
         </div>
-      </div>
+      )}
     </div>
   );
 };

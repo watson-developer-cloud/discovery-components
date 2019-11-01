@@ -420,7 +420,9 @@ describe('<Result />', () => {
       (context.searchResponse as DiscoveryV2.QueryResponse).results = [
         {
           document_id: 'some document_id',
-          collection_id: '123',
+          result_metadata: {
+            collection_id: '123'
+          },
           document_passages: [
             {
               passage_text: 'this is the first passage text'
@@ -448,7 +450,9 @@ describe('<Result />', () => {
       (context.searchResponse as DiscoveryV2.QueryResponse).results = [
         {
           document_id: 'some document_id',
-          collection_id: '123',
+          result_metadata: {
+            collection_id: '123'
+          },
           document_passages: [
             {
               passage_text: 'this is the first passage text'

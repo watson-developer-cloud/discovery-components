@@ -1,3 +1,5 @@
+@import '~carbon-components/scss/components/toggle/_toggle.scss';
+
 $result-background: white;
 $result-element-max-height: 100px;
 $result-table-fade-size: 40px;
@@ -20,7 +22,23 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   }
 }
 
-.#{$prefix}--search-result__element {
+.#{$prefix}--search-result--toggle {
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.#{$prefix}--toggle__switch {
+  margin: $spacing-xs $spacing-2xl $spacing-xs $spacing-xs;
+}
+
+.#{$prefix}--toggle-input__label {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  padding: $spacing-xs;
+}
+
+.#{$prefix}--search-result__content-wrapper {
   display: flex;
   .#{$prefix}--tile {
     display: flex;
@@ -29,13 +47,13 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   }
 }
 
-.#{$prefix}--search-result__element--half {
+.#{$prefix}--search-result__content-wrapper--half {
   .#{$prefix}--tile {
     width: 50%;
   }
 }
 
-.#{$prefix}--search-result__element__body {
+.#{$prefix}--search-result__content-wrapper__body {
   flex-grow: 2;
   max-height: $result-element-max-height;
   overflow: hidden;
@@ -45,7 +63,7 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   @include type-style('body-short-01');
 }
 
-.#{$prefix}--search-result__element__body--passage {
+.#{$prefix}--search-result__content-wrapper__body--passage {
   &:before {
     content: open-quote;
   }
@@ -54,7 +72,7 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   }
 }
 
-.#{$prefix}--search-result__element__body--passage__highlights {
+.#{$prefix}--search-result__content-wrapper__body--passage__highlights {
   em {
     color: $text-04;
     background-color: $support-02;
@@ -64,7 +82,7 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   }
 }
 
-.#{$prefix}--search-result__element__body--table {
+.#{$prefix}--search-result__content-wrapper__body--table {
   &:before {
     content: '';
     position: absolute;
@@ -97,7 +115,7 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   }
 }
 
-.#{$prefix}--search-result__element__body__button {
+.#{$prefix}--search-result__content-wrapper__body__button {
   display: flex;
   flex-direction: row-reverse;
   padding: 0;
@@ -111,7 +129,7 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   }
 }
 
-.bx--btn--ghost .bx--btn__icon path {
+.#{$prefix}--btn--ghost .#{$prefix}--btn__icon path {
   fill: $link-01;
 }
 

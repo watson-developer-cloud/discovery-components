@@ -25,7 +25,12 @@ interface ResultsPaginationEvent {
 
 export const ResultsPagination: FC<ResultsPaginationProps> = ({ page, pageSizes, pageSize }) => {
   const { performSearch } = useContext(SearchApi);
-  const { searchParameters, searchResponse, componentSettings } = useContext(SearchContext);
+  const {
+    searchParameters,
+    searchResponse,
+    componentSettings,
+    isResultsPaginationComponentHidden
+  } = useContext(SearchContext);
   const matchingResults = (searchResponse && searchResponse.matching_results) || 0;
   const displaySettings = {
     pageSize: pageSize || get(componentSettings, 'results_per_page')
@@ -44,13 +49,17 @@ export const ResultsPagination: FC<ResultsPaginationProps> = ({ page, pageSizes,
   };
 
   return (
-    <CarbonPagination
-      page={page}
-      totalItems={matchingResults}
-      pageSizes={pageSizes}
-      pageSize={displaySettings.pageSize}
-      onChange={handleOnChange}
-    />
+    <>
+      {!isResultsPaginationComponentHidden && (
+        <CarbonPagination
+          page={page}
+          totalItems={matchingResults}
+          pageSizes={pageSizes}
+          pageSize={displaySettings.pageSize}
+          onChange={handleOnChange}
+        />
+      )}
+    </>
   );
 };
 

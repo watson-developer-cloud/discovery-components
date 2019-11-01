@@ -1,70 +1,88 @@
 import React from 'react';
 import { SelectedResult } from '../../../DiscoverySearch/DiscoverySearch';
-import { Tile } from 'carbon-components-react';
-import { Button } from 'carbon-components-react';
+import { Button, Tile } from 'carbon-components-react';
+import Launch from '@carbon/icons-react/lib/launch/16.js';
+import TableSplit from '@carbon/icons-react/lib/table--split/16.js';
 
-export interface SharedElementProps {
+interface ResultElementProps {
   /**
-   * Body of the result element. First passage text or bodyField if a passage element. Table html if a table element.
+   * className for base class styles
+   */
+  baseClassName: string;
+  /**
+   * body of the result element. Table html if a table element. Otherwise, first passage text or bodyField.
    */
   body: string;
   /**
-   * className for body styles
+   * CTA text for viewing the result element in the document
    */
-  bodyClassName: string;
+  buttonText: string;
   /**
-   * Handler for selecting the passage to view in document
+   * the result element object
+   */
+  element: SelectedResult['element'];
+  /**
+   * type of result element
+   */
+  elementType: SelectedResult['elementType'];
+  /**
+   * handler for selecting the result element to view in the document
    */
   handleSelectResult: (
     element: SelectedResult['element'],
     elementType: SelectedResult['elementType']
   ) => (event: React.MouseEvent<HTMLButtonElement>) => void;
-}
-
-interface ResultElementProps extends SharedElementProps {
   /**
-   * classNames for body styles
+   * specifies a className for styling <em> tags within passages
    */
-  elementBodyClassNames: string[];
+  passageHighlightsClassName?: string;
   /**
-   * The result element object
+   * specifies whether to show tables only results or regular search results
+   * TODO: This won't need to be passed through once tables are linked to documents and selecting the result works
    */
-  element: SelectedResult['element'];
-  /**
-   * Type of result element
-   */
-  elementType: SelectedResult['elementType'];
-  /**
-   * CTA text to use for button
-   */
-  buttonText: string;
-  /**
-   * Icon to render in ghost button
-   */
-  icon: object;
+  showTablesOnlyResults?: boolean;
 }
 
 export const ResultElement: React.FunctionComponent<ResultElementProps> = ({
+  baseClassName,
   body,
-  bodyClassName,
-  elementBodyClassNames,
-  handleSelectResult,
+  buttonText,
   element,
   elementType,
-  buttonText,
-  icon
+  handleSelectResult,
+  passageHighlightsClassName,
+  showTablesOnlyResults
 }) => {
+  const bodyClassName = `${baseClassName}__content-wrapper__body`;
+  const elementBodyClassNames: string[] = [bodyClassName];
+  if (elementType) {
+    elementBodyClassNames.push(`${bodyClassName}--${elementType}`);
+  }
+  if (elementType === 'passage') {
+    passageHighlightsClassName
+      ? elementBodyClassNames.push(`${passageHighlightsClassName}`)
+      : elementBodyClassNames.push(`${bodyClassName}--passage__highlights`);
+  }
+  const icon = elementType === 'table' ? TableSplit : Launch;
+
   return (
     <Tile>
-      <div className={elementBodyClassNames.join(' ')} dangerouslySetInnerHTML={{ __html: body }} />
-      <Button
-        className={`${bodyClassName}__button`}
-        onClick={handleSelectResult(element, elementType)}
-        kind="ghost"
-        renderIcon={icon}
-      >
-        <span>{buttonText}</span>
-      </Button>
+      <div
+        className={elementBodyClassNames.join(' ')}
+        dangerouslySetInnerHTML={{ __html: body }}
+        data-testid={`search-result-element-body-${elementType}`}
+      />
+      {/* TODO: This check can go away once documents are linked to tables only results */}
+      {!showTablesOnlyResults && (
+        <Button
+          className={`${bodyClassName}__button`}
+          onClick={handleSelectResult(element, elementType)}
+          kind="ghost"
+          renderIcon={icon}
+        >
+          <span>{buttonText}</span>
+        </Button>
+      )}
     </Tile>
   );
 };
