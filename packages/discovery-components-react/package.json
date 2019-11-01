@@ -45,9 +45,11 @@
     "dompurify": "^2.0.7",
     "lodash": "^4.17.15",
     "mustache": "^3.1.0",
-    "pdfjs-dist": "^2.1.266"
+    "pdfjs-dist": "^2.1.266",
+    "react-virtualized": "^9.21.1"
   },
   "devDependencies": {
-    "@types/classnames": "^2.2.9"
+    "lorem-ipsum": "^2.0.3",
+    "seedrandom": "^3.0.5"
   }
 }

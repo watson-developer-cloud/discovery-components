@@ -24,3 +24,8 @@ export interface Field {
   type: string | undefined;
   id: string | undefined;
 }
+
+export interface ItemMap {
+  byItem: any;
+  bySection: any;
+}
