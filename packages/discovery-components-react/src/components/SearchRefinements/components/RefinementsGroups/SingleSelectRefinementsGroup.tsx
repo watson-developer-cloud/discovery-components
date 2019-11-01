@@ -60,7 +60,11 @@ export const SingleSelectRefinementsGroup: FC<SingleSelectRefinementsGroupProps>
   return (
     <fieldset className={fieldsetClasses.join(' ')}>
       <legend className={labelClasses.join(' ')}>{refinementsLabel}</legend>
-      <CarbonRadioButtonGroup name={`${refinementsLabel}`} valueSelected={selectedRefinement}>
+      <CarbonRadioButtonGroup
+        name={`${refinementsLabel}`}
+        valueSelected={selectedRefinement}
+        orientation={'vertical'}
+      >
         {refinements.map(refinement => {
           const text = get(refinement, attributeKeyName, '');
           const query = naturalLanguageQuery || '';
