@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.22.1](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/styles@1.22.0...@disco-widgets/styles@1.22.1) (2019-11-01)
+
+
+### Bug Fixes
+
+* add radio button group styles ([#309](https://github.com/watson-developer-cloud/discovery-components/issues/309)) ([87dde9d](https://github.com/watson-developer-cloud/discovery-components/commit/87dde9d))
+
+
+
+
+
 # [1.22.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/styles@1.21.0...@disco-widgets/styles@1.22.0) (2019-10-31)
 
 
