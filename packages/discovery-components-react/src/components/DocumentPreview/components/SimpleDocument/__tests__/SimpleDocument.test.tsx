@@ -1,6 +1,7 @@
 import React from 'react';
-import { act, render } from '@testing-library/react';
+import { act, render, BoundFunction, GetByText } from '@testing-library/react';
 import SimpleDocument from '../SimpleDocument';
+import docArrayJson from '../../../__fixtures__/ArtEffectsTextArray.json';
 
 describe('SimpleDocument', () => {
   const minimalDoc = {
@@ -20,5 +21,26 @@ describe('SimpleDocument', () => {
         />
       );
     });
+  });
+
+  it('renders with array wrapped text', () => {
+    let getByText: BoundFunction<GetByText> = () => {
+      throw new Error();
+    };
+
+    act(() => {
+      ({ getByText } = render(
+        <SimpleDocument
+          document={docArrayJson}
+          setLoading={(): void => {}}
+          setDisabledToolbar={(): void => {}}
+        />
+      ));
+    });
+
+    getByText(
+      'services) for its business operations and to meet obligations in connection with transactions under the Prime-Contract. This',
+      { exact: false }
+    );
   });
 });

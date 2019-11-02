@@ -47,7 +47,10 @@ export const SimpleDocument: FC<Props> = ({
     if (isJsonType && (!highlight || !isPassage(highlight))) {
       html = `<p>${cannotPreviewMessage}</p>`;
     } else {
-      const text = get(document, 'text', '');
+      let text = get(document, 'text', '');
+      if (Array.isArray(text)) {
+        text = text[0];
+      }
       html = `<p data-child-begin="0" data-child-end=${text.length - 1}>${text}</p>`;
 
       if (highlight && isPassage(highlight)) {

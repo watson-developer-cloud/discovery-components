@@ -9,6 +9,7 @@ import {
 } from '@testing-library/react';
 import PdfFallback from '../PdfFallback';
 import docJson from '../../../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
+import docArrayJson from '../../../__fixtures__/ArtEffectsTextArray.json';
 import fieldNameTest from '../../../__fixtures__/FieldNameTest.json';
 
 describe('PdfFallback', () => {
@@ -82,5 +83,28 @@ describe('PdfFallback', () => {
     wrapper.getByText(
       'On 22 December 2008 ART EFFECTS LIMITED and Customer entered into an Framework Agreement'
     );
+  });
+
+  it('loads when text is wrapped in array', async () => {
+    let container: HTMLElement;
+    act(() => {
+      ({ container } = render(
+        <PdfFallback document={docArrayJson} currentPage={1} setLoading={(): void => {}} />
+      ));
+    });
+
+    const svgTag = await waitForElement<SVGElement>(() => {
+      const svgTag = container.querySelector('svg');
+      if (!svgTag) {
+        throw new Error();
+      }
+      return svgTag;
+    });
+
+    if (svgTag !== null) {
+      expect(svgTag.children.length).toEqual(31);
+    } else {
+      throw new Error('expected to find 31 elements');
+    }
   });
 });
