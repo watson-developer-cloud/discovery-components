@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.58.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.57.1...@disco-widgets/react-components@1.58.0) (2019-11-02)
+
+
+### Features
+
+* add component settings to aggregations ([#306](https://github.com/watson-developer-cloud/discovery-components/issues/306)) ([5fa3ba7](https://github.com/watson-developer-cloud/discovery-components/commit/5fa3ba7))
+
+
+
+
+
 ## [1.57.1](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.57.0...@disco-widgets/react-components@1.57.1) (2019-11-02)
 
 

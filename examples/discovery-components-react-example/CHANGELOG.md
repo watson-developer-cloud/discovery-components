@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.24.0](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/kitchen-sink@1.23.14...kitchen-sink@1.24.0) (2019-11-02)
+
+
+### Features
+
+* add component settings to aggregations ([#306](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/306)) ([5fa3ba7](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/5fa3ba7))
+
+
+
+
+
 ## [1.23.14](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/kitchen-sink@1.23.13...kitchen-sink@1.23.14) (2019-11-02)
 
 **Note:** Version bump only for package kitchen-sink
