@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.24.1](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/kitchen-sink@1.24.0...kitchen-sink@1.24.1) (2019-11-02)
+
+**Note:** Version bump only for package kitchen-sink
+
+
+
+
+
 # [1.24.0](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/kitchen-sink@1.23.14...kitchen-sink@1.24.0) (2019-11-02)
 
 

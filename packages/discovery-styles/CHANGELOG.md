@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.27.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/styles@1.26.0...@disco-widgets/styles@1.27.0) (2019-11-02)
+
+
+### Features
+
+* SemanticDocumentView ([#307](https://github.com/watson-developer-cloud/discovery-components/issues/307)) ([397c888](https://github.com/watson-developer-cloud/discovery-components/commit/397c888))
+
+
+
+
+
 # [1.26.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/styles@1.25.0...@disco-widgets/styles@1.26.0) (2019-11-01)
 
 
