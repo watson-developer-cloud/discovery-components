@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.57.1](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.57.0...@disco-widgets/react-components@1.57.1) (2019-11-02)
+
+
+### Bug Fixes
+
+* update text handling for pdfFallback and simpleDoc views ([#313](https://github.com/watson-developer-cloud/discovery-components/issues/313)) ([5f65ccd](https://github.com/watson-developer-cloud/discovery-components/commit/5f65ccd))
+
+
+
+
+
 # [1.57.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.56.0...@disco-widgets/react-components@1.57.0) (2019-11-01)
 
 
