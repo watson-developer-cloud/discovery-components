@@ -4,16 +4,23 @@ import cx from 'classnames';
 import { Link } from 'carbon-components-react';
 import { documentDisplayNames } from '../../utils/documentDisplayNames';
 import { Item, ItemLink, ItemLabel, OnActiveLinkChangeFn } from './types';
+import { defaultMessages, Messages } from './messages';
 
 interface DetailsProps {
   title: string;
   items: Item[];
   selectedLink?: string;
-  noneLabel?: string;
+  messages?: Messages;
   onClick: OnActiveLinkChangeFn;
 }
 
-const Details: FC<DetailsProps> = ({ title, items, selectedLink, noneLabel = 'None', onClick }) => {
+const Details: FC<DetailsProps> = ({
+  title,
+  items,
+  selectedLink,
+  messages = defaultMessages,
+  onClick
+}) => {
   const renderItems = (): ReactElement => {
     return (
       <ul>
@@ -29,7 +36,7 @@ const Details: FC<DetailsProps> = ({ title, items, selectedLink, noneLabel = 'No
   return (
     <div className="section">
       <h3 className="sectionHeader">{capitalize(title)}</h3>
-      {items && items.length > 0 ? renderItems() : noneLabel}
+      {items && items.length > 0 ? renderItems() : messages.noneLabel}
     </div>
   );
 };

@@ -5,6 +5,7 @@ import { Button, SkeletonText } from 'carbon-components-react';
 import { isFilterEmpty, filterContains } from '../../utils/filterUtils';
 import { displayNames } from './displayNames';
 import { FilterGroup, Filter, FilterChangeArgs } from './types';
+import { defaultMessages, Messages } from './messages';
 
 const base = `${settings.prefix}--semantic-doc-filter`;
 
@@ -15,7 +16,7 @@ interface FilterPanelProps {
   className?: string;
   filter: Filter | null;
   filterGroups: FilterGroup[] | null;
-  resetFilterLabel?: string;
+  messages?: Messages;
   onFilterChange?: OnFilterChangeFn;
   onFilterClear?: OnFilterClearFn;
 }
@@ -24,7 +25,7 @@ const FilterPanel: FC<FilterPanelProps> = ({
   className,
   filter,
   filterGroups,
-  resetFilterLabel = 'Reset filters',
+  messages = defaultMessages,
   onFilterChange,
   onFilterClear
 }) => (
@@ -40,7 +41,7 @@ const FilterPanel: FC<FilterPanelProps> = ({
           onClick={onFilterClear}
           disabled={isFilterEmpty(filter)}
         >
-          {resetFilterLabel}
+          {messages.resetFilterLabel}
         </Button>
         {filterGroups.map(group => (
           <div key={group.id}>

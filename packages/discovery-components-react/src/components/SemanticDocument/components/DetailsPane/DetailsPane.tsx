@@ -2,27 +2,26 @@ import React, { FC } from 'react';
 import { settings } from 'carbon-components';
 import { Items, OnActiveLinkChangeFn } from './types';
 import Details from './Details';
+import { defaultMessages, Messages } from './messages';
 
 const base = `${settings.prefix}--semantic-doc-details`;
 
 interface DetailsPaneProps {
   items: Items[];
   selectedLink?: string;
-  detailsTitle?: string;
-  noneSelectedMessage?: string;
+  messages?: Messages;
   onActiveLinkChange: OnActiveLinkChangeFn;
 }
 
 const DetailsPane: FC<DetailsPaneProps> = ({
   items,
   selectedLink,
-  detailsTitle = 'Details',
-  noneSelectedMessage = 'Nothing selected',
+  messages = defaultMessages,
   onActiveLinkChange
 }) => {
   return (
     <div className={base}>
-      <h2 className="title">{detailsTitle}</h2>
+      <h2 className="title">{messages.detailsTitle}</h2>
       {items.length > 0 ? (
         items.map(({ heading, items }) => (
           <Details
@@ -31,10 +30,11 @@ const DetailsPane: FC<DetailsPaneProps> = ({
             onClick={onActiveLinkChange}
             key={heading}
             selectedLink={selectedLink}
+            messages={messages}
           />
         ))
       ) : (
-        <span className="nothingSelected">{noneSelectedMessage}</span>
+        <span className="nothingSelected">{messages.noneSelectedMessage}</span>
       )}
     </div>
   );

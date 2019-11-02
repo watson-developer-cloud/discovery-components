@@ -18,8 +18,8 @@ import difference from 'lodash/difference';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import DetailsPane from '../DetailsPane/DetailsPane';
-import MetadataPane from '../MetadataPane/MetadataPane';
 import FilterPanel from '../FilterPanel/FilterPanel';
+import MetadataPane from '../MetadataPane/MetadataPane';
 import NavigationToolbar from '../NavigationToolbar/NavigationToolbar';
 import SemanticDocument from '../SemanticDocument/SemanticDocument';
 import processDoc from '../../../../utils/document/processDoc';
@@ -38,7 +38,40 @@ import { EnrichedHtml, Contract } from '../../types';
 import { MetadataData, Address, Mention } from '../MetadataPane/types';
 import { Items } from '../DetailsPane/types';
 import { Item, Field } from '../../types';
-import { defaultMessages, Messages } from './messages';
+import {
+  defaultMessages as detailsPaneDefaultMsgs,
+  Messages as DetailsPaneMessages
+} from '../DetailsPane/messages';
+import {
+  defaultMessages as filterPanelDefaultMsgs,
+  Messages as FilterPanelMessages
+} from '../FilterPanel/messages';
+import {
+  defaultMessages as metadataPaneDefaultMsgs,
+  Messages as MetadataPaneMessages
+} from '../MetadataPane/messages';
+import {
+  defaultMessages as navigationToolbarDefaultMsgs,
+  Messages as NavigationToolbarMessages
+} from '../NavigationToolbar/messages';
+import {
+  defaultMessages as semanticDocumentViewDefaultMsgs,
+  Messages as SemanticDocumentViewMessages
+} from './messages';
+
+export type Messages = DetailsPaneMessages &
+  FilterPanelMessages &
+  MetadataPaneMessages &
+  NavigationToolbarMessages &
+  SemanticDocumentViewMessages;
+
+const defaultMessages = {
+  ...detailsPaneDefaultMsgs,
+  ...filterPanelDefaultMsgs,
+  ...metadataPaneDefaultMsgs,
+  ...navigationToolbarDefaultMsgs,
+  ...semanticDocumentViewDefaultMsgs
+};
 
 interface State {
   isError: boolean;
@@ -262,7 +295,8 @@ const SemanticDocumentView: FC<SemanticDocProps> = ({
                     currentFilter,
                     nonContractFilterGroups,
                     setCurrentFilter,
-                    resetStates
+                    resetStates,
+                    messages
                   )}
               </Tab>
             ))}
@@ -276,13 +310,20 @@ const SemanticDocumentView: FC<SemanticDocProps> = ({
             }
           >
             <Tab tabIndex={0} label={messages.filtersTabLabel}>
-              {renderFilterPanel(currentFilter, filterGroups, setCurrentFilter, resetStates)}
+              {renderFilterPanel(
+                currentFilter,
+                filterGroups,
+                setCurrentFilter,
+                resetStates,
+                messages
+              )}
             </Tab>
             <Tab tabIndex={0} label={messages.metadataTabLabel}>
               <MetadataPane
                 metadata={metadata}
                 activeMetadataId={activeMetadataIds[0]}
                 parties={parties}
+                messages={messages}
                 onActiveMetadataChange={({ metadataId, data }): void =>
                   onActiveMetadataChange({
                     metadataId,
@@ -328,6 +369,7 @@ const SemanticDocumentView: FC<SemanticDocProps> = ({
                   className={`${base}__nav`}
                   index={activeIndex + 1}
                   max={highlightedList.length}
+                  messages={messages}
                   onChange={onNavigationChange({
                     setActiveIds:
                       selectedContractFilter === METADATA ? setActiveMetadataIds : setActiveIds,
@@ -362,8 +404,9 @@ const SemanticDocumentView: FC<SemanticDocProps> = ({
             <aside className={`${base}__details`}>
               <DetailsPane
                 items={activeDetails}
-                onActiveLinkChange={onDetailsLink({ activeElement, setActivePartIds })}
                 selectedLink={getSelectedLink({ activeElement, activePartIds })}
+                messages={messages}
+                onActiveLinkChange={onDetailsLink({ activeElement, setActivePartIds })}
               />
             </aside>
           </div>
@@ -394,12 +437,14 @@ function renderFilterPanel(
   currentFilter: Filter,
   filterGroups: FilterGroup[],
   setCurrentFilter: Dispatch<SetStateAction<Filter>>,
-  resetStates: () => void
+  resetStates: () => void,
+  messages: Messages
 ): ReactElement {
   return (
     <FilterPanel
       filter={currentFilter}
       filterGroups={filterGroups}
+      messages={messages}
       onFilterChange={onFilterChange({ currentFilter, setCurrentFilter })}
       onFilterClear={resetStates}
     />

@@ -3,12 +3,13 @@ import { settings } from 'carbon-components';
 import { Metadata, Party, OnActiveMetadataChangeFn, OnActivePartyChangeFn } from './types';
 import MetadataRow from './components/MetadataRow';
 import PartyRow from './components/PartyRow';
+import { defaultMessages, Messages } from './messages';
 
 interface MetadataPaneProps {
   metadata?: Metadata[];
   parties?: Party[];
   activeMetadataId?: string;
-  partiesHeading?: string;
+  messages?: Messages;
   onActiveMetadataChange: OnActiveMetadataChangeFn;
   onActivePartyChange: OnActivePartyChangeFn;
 }
@@ -17,7 +18,7 @@ const MetadataPane: FC<MetadataPaneProps> = ({
   metadata = [],
   parties = [],
   activeMetadataId,
-  partiesHeading = 'Parties',
+  messages = defaultMessages,
   onActiveMetadataChange,
   onActivePartyChange
 }) => {
@@ -34,7 +35,7 @@ const MetadataPane: FC<MetadataPaneProps> = ({
           onActiveMetadataChange={onActiveMetadataChange}
         />
       ))}
-      <h3 className={`${base}__party`}>{partiesHeading}</h3>
+      <h3 className={`${base}__party`}>{messages.partiesHeading}</h3>
       {filteredParties.map((party, index) => (
         <PartyRow
           key={index}
