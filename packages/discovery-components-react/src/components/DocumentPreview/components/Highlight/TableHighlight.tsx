@@ -1,7 +1,7 @@
 import { FC, useEffect, useState, ReactElement } from 'react';
 import get from 'lodash/get';
 import { QueryResult, QueryTableResult } from '@disco-widgets/ibm-watson/discovery/v2';
-import processDoc, { ProcessedDoc, Table } from '../../utils/processDoc';
+import processDoc, { ProcessedDoc, Table } from '../../../../utils/document/processDoc';
 import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from './constants';
 
 interface Props {

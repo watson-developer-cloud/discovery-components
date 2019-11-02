@@ -8,7 +8,13 @@ import React, {
   ReactElement
 } from 'react';
 import { findDOMNode } from 'react-dom';
-import { AutoSizer, CellMeasurer, CellMeasurerCache, List } from 'react-virtualized';
+import {
+  AutoSizer,
+  CellMeasurer,
+  CellMeasurerCache,
+  List,
+  AutoSizerProps
+} from 'react-virtualized';
 import { settings } from 'carbon-components';
 import uniqueId from 'lodash/uniqueId';
 
@@ -19,11 +25,17 @@ interface RowRenderArgs {
 interface VirtualScrollProps {
   children: (args: RowRenderArgs) => ReactElement;
   rowCount: number;
+  // dimensions for overriding auto-sizing; useful for testing
+  width?: number;
+  height?: number;
 }
 
 const baseClassName = `${settings.prefix}--semantic-doc-virtual-scroll`;
 
-const VirtualScroll: FC<VirtualScrollProps> = ({ children: rowRenderer, rowCount }, ref) => {
+const VirtualScroll: FC<VirtualScrollProps> = (
+  { children: rowRenderer, rowCount, width, height },
+  ref
+) => {
   const listRef = useRef<any>();
   const instanceRef = useRef<any>();
   useState(initInstance.bind(null, listRef, instanceRef));
@@ -39,8 +51,18 @@ const VirtualScroll: FC<VirtualScrollProps> = ({ children: rowRenderer, rowCount
   } = instanceRef.current;
   useImperativeHandle(ref, () => ({ scrollIntoView, scrollToRow, getElementById, listRef }));
 
-  return (
+  let Sizer = ({ children }: AutoSizerProps): ReactElement => (
     <AutoSizer className={baseClassName} onResize={onResize}>
+      {children}
+    </AutoSizer>
+  );
+  if (width && height) {
+    Sizer = ({ children }: AutoSizerProps): ReactElement =>
+      children({ width, height }) as ReactElement;
+  }
+
+  return (
+    <Sizer>
       {({ width, height }): ReactElement => (
         <List
           ref={listRef}
@@ -60,7 +82,7 @@ const VirtualScroll: FC<VirtualScrollProps> = ({ children: rowRenderer, rowCount
           )}
         />
       )}
-    </AutoSizer>
+    </Sizer>
   );
 };
 

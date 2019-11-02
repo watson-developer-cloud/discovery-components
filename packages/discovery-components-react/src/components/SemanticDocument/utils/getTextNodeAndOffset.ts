@@ -1,4 +1,4 @@
-import { NodeOffset } from '../../../utils/documentUtils';
+import { NodeOffset } from '../../../utils/document/documentUtils';
 import get from 'lodash/get';
 
 export function getTextNodeAndOffset(node: Node, offset: number): NodeOffset {

@@ -2,6 +2,8 @@ import findIndex from 'lodash/findIndex';
 import SaxesParser, { ParsingError } from './saxesParser';
 import { QueryResult } from '@disco-widgets/ibm-watson/discovery/v2';
 import { SaxesTag } from 'saxes';
+import { isRelationObject } from './nonContractUtils';
+import { getId } from './idUtils';
 
 // split HTML into "sections" based on these top level tag(s)
 const SECTION_NAMES = ['p', 'ul', 'table'];
@@ -317,7 +319,13 @@ function sortFields(_enrichments: any, doc: ProcessedDoc): void {
     if (doc.sections) {
       const sectionIdx = 0;
       for (const field of fields) {
-        sortFieldsBySection(field, doc.sections, sectionIdx, fieldType);
+        if (isRelationObject(field)) {
+          for (const attribute of field.attributes) {
+            sortFieldsBySection(attribute, doc.sections, sectionIdx, fieldType);
+          }
+        } else {
+          sortFieldsBySection(field, doc.sections, sectionIdx, fieldType);
+        }
       }
     }
   }
@@ -373,7 +381,7 @@ function addItemMap(doc: ProcessedDoc): void {
     );
 
     for (const item of itemsInSection) {
-      const itemId = item.location && item.location.begin + '';
+      const itemId = getId(item);
       bySection[sectionNum].push(itemId);
       byItem[itemId] = sectionNum;
     }

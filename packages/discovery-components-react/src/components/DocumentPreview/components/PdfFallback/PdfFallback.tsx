@@ -5,7 +5,7 @@ import { QueryResult } from '@disco-widgets/ibm-watson/discovery/v2';
 import { Cell, CellPage, CellField, Page, Bbox } from '../../types';
 import CellComponent from './Cell';
 import { computeFontFamilyAndWeight } from './utils/fallbackFonts';
-import processDoc, { ProcessedDoc, ProcessedBbox } from '../../utils/processDoc';
+import processDoc, { ProcessedDoc, ProcessedBbox } from '../../../../utils/document/processDoc';
 import { intersects } from './utils/box';
 import shortid from '../../../../utils/shortid';
 

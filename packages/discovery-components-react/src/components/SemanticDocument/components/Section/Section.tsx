@@ -16,10 +16,10 @@ import cx from 'classnames';
 import debounce from 'debounce';
 import { settings } from 'carbon-components';
 import { SectionType, Field, Item } from '../../types';
-import { getId } from '../../utils/idUtils';
+import { getId } from '../../../../utils/document/idUtils';
 import elementFromPoint from '../../utils/elementFromPoint';
 import { getTextNodeAndOffset } from '../../utils/getTextNodeAndOffset';
-import { createFieldRects } from '../../../../utils/documentUtils';
+import { createFieldRects } from '../../../../utils/document/documentUtils';
 
 export type OnFieldClickFn = (field: Field) => void;
 

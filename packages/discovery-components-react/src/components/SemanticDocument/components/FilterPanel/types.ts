@@ -9,9 +9,9 @@ export interface FilterOption {
 }
 
 export interface FilterGroup {
-  title: string;
   id: string;
-  optionsList: FilterOption[];
+  title: string;
+  optionsList?: FilterOption[];
   type: 'checkbox' | 'radio';
 }
 

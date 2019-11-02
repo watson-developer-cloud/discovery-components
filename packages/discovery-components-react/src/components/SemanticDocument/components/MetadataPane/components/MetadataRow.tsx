@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { settings } from 'carbon-components';
 import { Link, Tooltip } from 'carbon-components-react';
 import { Metadata, MetadataData, OnActiveMetadataChangeFn } from '../types';
-import { getId } from '../../../utils/idUtils';
+import { getId } from '../../../../../utils/document/idUtils';
 import { ReactComponent as HighConfidence } from './icons/Confidence_high.svg';
 import { ReactComponent as LowConfidence } from './icons/Confidence_low.svg';
 import { ReactComponent as MediumConfidence } from './icons/Confidence_medium.svg';

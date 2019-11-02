@@ -29,19 +29,23 @@ interface SemanticDocumentProps {
   activePartIds?: string[];
   allClickableIds?: string[];
   activeMetadataIds?: string[];
+  width?: number;
+  height?: number;
   onItemClick?: OnFieldClickFn;
 }
 
 const SemanticDocument: FC<SemanticDocumentProps> = ({
   className,
   sections = [],
-  styles: docStyles = [],
+  styles: docStyles = '',
   highlightedIds = [],
   activeIds = [],
   activePartIds = [],
   allClickableIds = [],
   activeMetadataIds = [],
   itemMap,
+  width,
+  height,
   onItemClick = (): void => {}
 }) => {
   const virtualScrollRef = useRef<any>();
@@ -62,11 +66,7 @@ const SemanticDocument: FC<SemanticDocumentProps> = ({
         <SkeletonText paragraph={true} lineCount={80} />
       ) : (
         <>
-          {docStyles.map((style, index) => (
-            <style data-testid="style" key={`${index}-${docStyles.length}-${style.length}`}>
-              {style}
-            </style>
-          ))}
+          <style data-testid="style">{docStyles}</style>
           {highlightedIds.length > 0 && (
             <style>
               {createStyleRules(highlightedIds, [
@@ -99,6 +99,8 @@ const SemanticDocument: FC<SemanticDocumentProps> = ({
             <VirtualScroll
               key={`${sections.length}-${sections[0].html.length}`}
               rowCount={sections.length}
+              width={width}
+              height={height}
               ref={virtualScrollRef}
             >
               {({ index }): ReactElement => (

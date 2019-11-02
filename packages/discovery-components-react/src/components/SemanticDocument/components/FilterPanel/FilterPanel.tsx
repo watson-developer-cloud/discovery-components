@@ -28,7 +28,7 @@ const FilterPanel: FC<FilterPanelProps> = ({
   onFilterChange,
   onFilterClear
 }) => (
-  <div className={cx(base, className)}>
+  <div className={cx(base, className)} data-testid="Filters">
     {!filter || !filterGroups || filterGroups.length === 0 ? (
       <SkeletonText paragraph={true} lineCount={6} />
     ) : (
@@ -45,23 +45,24 @@ const FilterPanel: FC<FilterPanelProps> = ({
         {filterGroups.map(group => (
           <div key={group.id}>
             <h3 className="group-title">{group.title}</h3>
-            {group.optionsList.map(({ id, count, displayName }) => (
-              <div key={id}>
-                <input
-                  className="input"
-                  id={id}
-                  type={group.type}
-                  name={group.id}
-                  disabled={!count}
-                  checked={filterContains(filter, group.id, id)}
-                  onChange={handleChange(id, group.id, group.type, onFilterChange)}
-                />
-                <label className="label" htmlFor={id}>
-                  {displayNames[displayName] || displayName}
-                  {!!count && <span className="count">({count})</span>}
-                </label>
-              </div>
-            ))}
+            {group.optionsList &&
+              group.optionsList.map(({ id, count, displayName }) => (
+                <div key={id}>
+                  <input
+                    className="input"
+                    id={id}
+                    type={group.type}
+                    name={group.id}
+                    disabled={!count}
+                    checked={filterContains(filter, group.id, id)}
+                    onChange={handleChange(id, group.id, group.type, onFilterChange)}
+                  />
+                  <label className="label" htmlFor={id}>
+                    {displayNames[displayName] || displayName}
+                    {!!count && <span className="count">({count})</span>}
+                  </label>
+                </div>
+              ))}
           </div>
         ))}
       </div>

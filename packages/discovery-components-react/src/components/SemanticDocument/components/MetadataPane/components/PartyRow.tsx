@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import cx from 'classnames';
 import { settings } from 'carbon-components';
 import { Link } from 'carbon-components-react';
-import { getId } from '../../../utils/idUtils';
+import { getId } from '../../../../../utils/document/idUtils';
 import { Party, Address, Mention, OnActivePartyChangeFn } from '../types';
 
 const HIDDEN_ROLES = ['Unknown'];

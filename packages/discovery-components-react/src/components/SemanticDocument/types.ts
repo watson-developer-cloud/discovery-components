@@ -9,6 +9,10 @@ export interface Item {
   location: Location;
 }
 
+export interface RelationItem extends Item {
+  allAttributeIds: string[];
+}
+
 export interface Enrichment {
   __type: string;
   location: Location;

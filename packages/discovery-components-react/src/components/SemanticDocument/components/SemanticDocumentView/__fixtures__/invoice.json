@@ -1,0 +1,320 @@
+{
+  "id": "903461f8843ef9f10daecd2a14994308",
+  "result_metadata": {
+    "confidence": 0.08408220853860772,
+    "score": 1
+  },
+  "enriched_html_elements": {
+    "attributes": [
+      {
+        "id": "attribute_1801_1804_currencies",
+        "type": "currencies",
+        "text": "EUR",
+        "location": {
+          "begin": 1801,
+          "end": 1804,
+          "__typename": "AttributeObjectLocation"
+        },
+        "__typename": "AttributeObject"
+      },
+      {
+        "id": "attribute_7539_7542_currencies",
+        "type": "currencies",
+        "text": "EUR",
+        "location": {
+          "begin": 7539,
+          "end": 7542,
+          "__typename": "AttributeObjectLocation"
+        },
+        "__typename": "AttributeObject"
+      },
+      {
+        "id": "attribute_8495_8505_purchase_order_numbers",
+        "type": "purchase_order_numbers",
+        "text": "4620257561",
+        "location": {
+          "begin": 8495,
+          "end": 8505,
+          "__typename": "AttributeObjectLocation"
+        },
+        "__typename": "AttributeObject"
+      },
+      {
+        "id": "attribute_8924_8931_invoice_numbers",
+        "type": "invoice_numbers",
+        "text": "1844956",
+        "location": {
+          "begin": 8924,
+          "end": 8931,
+          "__typename": "AttributeObjectLocation"
+        },
+        "__typename": "AttributeObject"
+      },
+      {
+        "id": "attribute_8993_9017_suppliers",
+        "type": "suppliers",
+        "text": "INVOICE BNP Paribas S.A.",
+        "location": {
+          "begin": 8993,
+          "end": 9017,
+          "__typename": "AttributeObjectLocation"
+        },
+        "__typename": "AttributeObject"
+      }
+    ],
+    "relations": [
+      {
+        "type": "totals_due",
+        "attributes": [
+          {
+            "id": "attribute_7786_7794_amount",
+            "type": "amount",
+            "text": "5,841.00",
+            "location": {
+              "begin": 7786,
+              "end": 7794,
+              "__typename": "AttributeObjectLocation"
+            },
+            "__typename": "AttributeObject"
+          },
+          {
+            "id": "attribute_1801_1804_currency",
+            "type": "currency",
+            "text": "EUR",
+            "location": {
+              "begin": 1801,
+              "end": 1804,
+              "__typename": "AttributeObjectLocation"
+            },
+            "__typename": "AttributeObject"
+          }
+        ],
+        "__typename": "RelationObject",
+        "allAttributeIds": ["7786_7794", "1801_1804"],
+        "id": "b2734576-2b3d-494f-8975-4e05f5b5b7ff"
+      },
+      {
+        "type": "invoice_parts",
+        "attributes": [
+          {
+            "id": "attribute_2059_2062_quantity_ordered",
+            "type": "quantity_ordered",
+            "text": "252",
+            "location": {
+              "begin": 2059,
+              "end": 2062,
+              "__typename": "AttributeObjectLocation"
+            },
+            "__typename": "AttributeObject"
+          },
+          {
+            "id": "attribute_2309_2378_part_description",
+            "type": "part_description",
+            "text": "New Zealand - BOC New Zealand Ltd - Weekly - Service Fee Per Employee",
+            "location": {
+              "begin": 2309,
+              "end": 2378,
+              "__typename": "AttributeObjectLocation"
+            },
+            "__typename": "AttributeObject"
+          },
+          {
+            "id": "attribute_2618_2623_amount",
+            "type": "amount",
+            "text": "11.80",
+            "location": {
+              "begin": 2618,
+              "end": 2623,
+              "__typename": "AttributeObjectLocation"
+            },
+            "__typename": "AttributeObject"
+          },
+          {
+            "id": "attribute_1801_1804_currency",
+            "type": "currency",
+            "text": "EUR",
+            "location": {
+              "begin": 1801,
+              "end": 1804,
+              "__typename": "AttributeObjectLocation"
+            },
+            "__typename": "AttributeObject"
+          }
+        ],
+        "__typename": "RelationObject",
+        "allAttributeIds": ["2059_2062", "2309_2378", "2618_2623", "1801_1804"],
+        "id": "242985cf-e20c-4a1b-9e92-3a36ae2cc830"
+      },
+      {
+        "type": "invoice_parts",
+        "attributes": [
+          {
+            "id": "attribute_3132_3134_quantity_ordered",
+            "type": "quantity_ordered",
+            "text": "36",
+            "location": {
+              "begin": 3132,
+              "end": 3134,
+              "__typename": "AttributeObjectLocation"
+            },
+            "__typename": "AttributeObject"
+          },
+          {
+            "id": "attribute_3380_3451_part_description",
+            "type": "part_description",
+            "text": "New Zealand - Elgas New Zealand Ltd - Weekly - Service Fee Per Employee",
+            "location": {
+              "begin": 3380,
+              "end": 3451,
+              "__typename": "AttributeObjectLocation"
+            },
+            "__typename": "AttributeObject"
+          },
+          {
+            "id": "attribute_3691_3696_amount",
+            "type": "amount",
+            "text": "11.80",
+            "location": {
+              "begin": 3691,
+              "end": 3696,
+              "__typename": "AttributeObjectLocation"
+            },
+            "__typename": "AttributeObject"
+          },
+          {
+            "id": "attribute_1801_1804_currency",
+            "type": "currency",
+            "text": "EUR",
+            "location": {
+              "begin": 1801,
+              "end": 1804,
+              "__typename": "AttributeObjectLocation"
+            },
+            "__typename": "AttributeObject"
+          }
+        ],
+        "__typename": "RelationObject",
+        "allAttributeIds": ["1801_1804", "3132_3134", "3380_3451", "3691_3696"],
+        "id": "f08c0b5a-4ab7-4f6d-aa7e-f25368e00eef"
+      },
+      {
+        "type": "invoice_parts",
+        "attributes": [
+          {
+            "id": "attribute_4201_4204_quantity_ordered",
+            "type": "quantity_ordered",
+            "text": "177",
+            "location": {
+              "begin": 4201,
+              "end": 4204,
+              "__typename": "AttributeObjectLocation"
+            },
+            "__typename": "AttributeObject"
+          },
+          {
+            "id": "attribute_4450_4529_part_description",
+            "type": "part_description",
+            "text": "New Zealand - Linde NZ - 800 New Zealand Ltd - Monthly Service Fee Per Employee",
+            "location": {
+              "begin": 4450,
+              "end": 4529,
+              "__typename": "AttributeObjectLocation"
+            },
+            "__typename": "AttributeObject"
+          },
+          {
+            "id": "attribute_4768_4773_amount",
+            "type": "amount",
+            "text": "11.80",
+            "location": {
+              "begin": 4768,
+              "end": 4773,
+              "__typename": "AttributeObjectLocation"
+            },
+            "__typename": "AttributeObject"
+          },
+          {
+            "id": "attribute_1801_1804_currency",
+            "type": "currency",
+            "text": "EUR",
+            "location": {
+              "begin": 1801,
+              "end": 1804,
+              "__typename": "AttributeObjectLocation"
+            },
+            "__typename": "AttributeObject"
+          }
+        ],
+        "__typename": "RelationObject",
+        "allAttributeIds": ["1801_1804", "4201_4204", "4450_4529", "4768_4773"],
+        "id": "396a0f28-92a8-4587-a508-82b18f9ffbf8"
+      },
+      {
+        "type": "invoice_parts",
+        "attributes": [
+          {
+            "id": "attribute_5280_5282_quantity_ordered",
+            "type": "quantity_ordered",
+            "text": "30",
+            "location": {
+              "begin": 5280,
+              "end": 5282,
+              "__typename": "AttributeObjectLocation"
+            },
+            "__typename": "AttributeObject"
+          },
+          {
+            "id": "attribute_5527_5610_part_description",
+            "type": "part_description",
+            "text": "New Zealand - Linde NZ - Elgas New Zealand Ltd - Monthly - Service Fee Per Employee",
+            "location": {
+              "begin": 5527,
+              "end": 5610,
+              "__typename": "AttributeObjectLocation"
+            },
+            "__typename": "AttributeObject"
+          },
+          {
+            "id": "attribute_5849_5854_amount",
+            "type": "amount",
+            "text": "11.80",
+            "location": {
+              "begin": 5849,
+              "end": 5854,
+              "__typename": "AttributeObjectLocation"
+            },
+            "__typename": "AttributeObject"
+          },
+          {
+            "id": "attribute_1801_1804_currency",
+            "type": "currency",
+            "text": "EUR",
+            "location": {
+              "begin": 1801,
+              "end": 1804,
+              "__typename": "AttributeObjectLocation"
+            },
+            "__typename": "AttributeObject"
+          }
+        ],
+        "__typename": "RelationObject",
+        "allAttributeIds": ["1801_1804", "5280_5282", "5527_5610", "5849_5854"],
+        "id": "00658175-3c37-44be-9467-8f455bbf208c"
+      }
+    ],
+    "document": {
+      "title": "Invoices.pdf",
+      "html": "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><html>\n<head>\n    <meta content=\"text/html; charset=UTF-8\" http-equiv=\"Content-Type\"/><meta content=\"2018-11-02\" name=\"publicationdate\"/><meta content=\"1\" name=\"numPages\"/><title>no title</title><style>/**/\n .Times_Bold_Black_16_0_bold{font-size: 16.0pt; font-family: Times-Bold; color: Black; font-weight: bold;} .Times_Roman_Black_16_0{font-size: 16.0pt; font-family: Times-Roman; color: Black; }\n/**/</style></head>\n<body><table border=\"1\" data-max-height=\"218.08241271972656\" data-max-width=\"661.8939208984375\" data-max-x=\"29.001121520996094\" data-max-y=\"60.62809371948242\" data-min-height=\"218.08241271972656\" data-min-width=\"661.8939208984375\" data-min-x=\"29.001121520996094\" data-min-y=\"60.62809371948242\" data-page=\"1\"><tbody><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"1\"><p indentation=\"0\"><span class=\"Times_Bold_Black_16_0_bold\"><bbox height=\"8.111161231994629\" page=\"1\" width=\"19.334335327148438\" x=\"40.7528076171875\" y=\"74.65092468261719\">Qty </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"1\"><p indentation=\"1\"><span class=\"Times_Bold_Black_16_0_bold\"><bbox height=\"8.111161231994629\" page=\"1\" width=\"59.33922576904297\" x=\"73.0099105834961\" y=\"74.65092468261719\">Description </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"1\"><p indentation=\"2\"><span class=\"Times_Bold_Black_16_0_bold\"><bbox height=\"8.111161231994629\" page=\"1\" width=\"52.32403564453125\" x=\"519.358154296875\" y=\"74.65092468261719\">Unit Price </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"1\"><p indentation=\"3\"><span class=\"Times_Bold_Black_16_0_bold\"><bbox height=\"8.111161231994629\" page=\"1\" width=\"94.344970703125\" x=\"584.62255859375\" y=\"74.65092468261719\">Line Price in EUR\n</bbox></span></p></td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"18.00395965576172\" x=\"40.7528076171875\" y=\"101.07662200927734\">252 </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"1\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"369.32154083251953\" x=\"73.0099105834961\" y=\"101.07662200927734\">New Zealand - BOC New Zealand Ltd - Weekly - Service Fee Per Employee </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"2\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"26.56640625\" x=\"519.358154296875\" y=\"101.07662200927734\">11.80 </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"42.00921630859375\" x=\"584.62255859375\" y=\"101.07662200927734\">2,973.60\n</bbox></span></p></td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"12.002639770507812\" x=\"40.7528076171875\" y=\"127.33235931396484\">36 </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"1\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"371.3083267211914\" x=\"73.0099105834961\" y=\"127.33235931396484\">New Zealand - Elgas New Zealand Ltd - Weekly - Service Fee Per Employee </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"2\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"26.56640625\" x=\"519.358154296875\" y=\"127.33235931396484\">11.80 </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"33.00726318359375\" x=\"584.62255859375\" y=\"127.33235931396484\">424.80\n</bbox></span></p></td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"4\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"18.00395965576172\" x=\"40.7528076171875\" y=\"153.5882110595703\">177 </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"4\"><p indentation=\"1\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"417.62516021728516\" x=\"73.0099105834961\" y=\"153.5882110595703\">New Zealand - Linde NZ - 800 New Zealand Ltd - Monthly Service Fee Per Employee </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"4\"><p indentation=\"2\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"26.56640625\" x=\"519.358154296875\" y=\"153.5882110595703\">11.80 </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"4\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"42.00921630859375\" x=\"584.62255859375\" y=\"153.5882110595703\">2,088.60\n</bbox></span></p></td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"5\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"12.002639770507812\" x=\"40.7528076171875\" y=\"179.8439483642578\">30 </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"5\"><p indentation=\"1\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"433.2848587036133\" x=\"73.0099105834961\" y=\"179.8439483642578\">New Zealand - Linde NZ - Elgas New Zealand Ltd - Monthly - Service Fee Per Employee </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"5\"><p indentation=\"2\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"26.56640625\" x=\"519.358154296875\" y=\"179.8439483642578\">11.80 </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"5\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"33.00726318359375\" x=\"584.62255859375\" y=\"179.8439483642578\">354.00\n</bbox></span></p></td></tr><tr><td colspan=\"2\" colstart=\"1\" rowspan=\"1\" rowstart=\"6\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"98.78736877441406\" x=\"40.7528076171875\" y=\"206.0996856689453\">Subtotal (excl. VAT) </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"6\"> </td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"6\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"42.00921630859375\" x=\"584.62255859375\" y=\"206.0996856689453\">5,841.00\n</bbox></span></p></td></tr><tr><td colspan=\"3\" colstart=\"1\" rowspan=\"1\" rowstart=\"7\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"389.42364501953125\" x=\"40.7528076171875\" y=\"232.3555450439453\">V.A.T_ Reverse charge mechanism applies (article 44 of Directive 2006/112/EC) </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"7\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"21.004638671875\" x=\"584.62255859375\" y=\"232.3555450439453\">0.00\n</bbox></span></p></td></tr><tr><td colspan=\"3\" colstart=\"1\" rowspan=\"1\" rowstart=\"8\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"481.60601806640625\" x=\"40.7528076171875\" y=\"258.6112976074219\">Total Amount in EUR </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"8\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"42.00921630859375\" x=\"584.62255859375\" y=\"258.6112976074219\">5,841.00\n</bbox></span></p></td></tr></tbody></table><p text-alignment=\"left\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"33.44681692123413\" page=\"1\" width=\"475.3234176635742\" x=\"34.001319885253906\" y=\"290.8684997558594\">ADP lnte rnational Se rvices BV Lylantse Baan 1 2908 LG Capelle aan den IJssel The Netherlands Tax Registration No. NL8161.09.436.BO1\n</bbox></span></p><p text-alignment=\"left\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"33.44681692123413\" page=\"1\" width=\"510.94454193115234\" x=\"34.001319885253906\" y=\"341.8797302246094\">705/1663 ZOOPURFU 1 00705 IBM Deutschland GmbH (Linde) IBM-Allee 1 71139 Ehningen Germany Customer No.: ISO11247 VAT Number: DE145178813 Purchase Order: 4620257561\n</bbox></span></p><p text-alignment=\"left\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"33.44681692123413\" page=\"1\" width=\"68.99761199951172\" x=\"34.001319885253906\" y=\"392.8909606933594\">Period: March 2018\n</bbox></span></p><p text-alignment=\"left\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"160.974862575531\" page=\"1\" width=\"108.0062026977539\" x=\"34.001319885253906\" y=\"443.9021911621094\">Invoice No. : 1844956 Date: 27.04.18 Payment Terms: Net Due in 60 Days Payable to: INVOICE BNP Paribas S.A.\n</bbox></span></p><p text-alignment=\"left\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"33.44681692123413\" page=\"1\" width=\"500.8817367553711\" x=\"34.001319885253906\" y=\"622.4414672851562\">IBAN: NL398NPA0227674162 Account Number: 0227674162 SWIFT/BIC number: BNPANL2AXXX Contact: Billing Department\n</bbox></span></p><p text-alignment=\"left\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"58.95243215560913\" page=\"1\" width=\"382.98274993896484\" x=\"34.001319885253906\" y=\"673.45263671875\">Remittance Advice should be sent to: sl-remittance.advices@adp.com Billing Queries should be sent to: Streamline.Billing@adpstream|ine.com Reoistered at the Chamber of Commerce r KVK'I under file number: 24399098\n</bbox></span></p></body></html>"
+    },
+    "model_id": "invoices"
+  },
+  "text": "",
+  "extracted_metadata": {
+    "publicationdate": "2018-10-24",
+    "sha1": "754836ffd690207d39b9f8db08b8099e787c61fa",
+    "filename": "Invoices.pdf",
+    "file_type": "pdf",
+    "title": "Invoices.pdf"
+  },
+  "html": "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><html>\n<head>\n    <meta content=\"text/html; charset=UTF-8\" http-equiv=\"Content-Type\"/><meta content=\"2018-11-02\" name=\"publicationdate\"/><meta content=\"1\" name=\"numPages\"/><title>no title</title><style>/**/\n .Times_Bold_Black_16_0_bold{font-size: 16.0pt; font-family: Times-Bold; color: Black; font-weight: bold;} .Times_Roman_Black_16_0{font-size: 16.0pt; font-family: Times-Roman; color: Black; }\n/**/</style></head>\n<body><table border=\"1\" data-max-height=\"218.08241271972656\" data-max-width=\"661.8939208984375\" data-max-x=\"29.001121520996094\" data-max-y=\"60.62809371948242\" data-min-height=\"218.08241271972656\" data-min-width=\"661.8939208984375\" data-min-x=\"29.001121520996094\" data-min-y=\"60.62809371948242\" data-page=\"1\"><tbody><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"1\"><p indentation=\"0\"><span class=\"Times_Bold_Black_16_0_bold\"><bbox height=\"8.111161231994629\" page=\"1\" width=\"19.334335327148438\" x=\"40.7528076171875\" y=\"74.65092468261719\">Qty </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"1\"><p indentation=\"1\"><span class=\"Times_Bold_Black_16_0_bold\"><bbox height=\"8.111161231994629\" page=\"1\" width=\"59.33922576904297\" x=\"73.0099105834961\" y=\"74.65092468261719\">Description </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"1\"><p indentation=\"2\"><span class=\"Times_Bold_Black_16_0_bold\"><bbox height=\"8.111161231994629\" page=\"1\" width=\"52.32403564453125\" x=\"519.358154296875\" y=\"74.65092468261719\">Unit Price </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"1\"><p indentation=\"3\"><span class=\"Times_Bold_Black_16_0_bold\"><bbox height=\"8.111161231994629\" page=\"1\" width=\"94.344970703125\" x=\"584.62255859375\" y=\"74.65092468261719\">Line Price in EUR\n</bbox></span></p></td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"18.00395965576172\" x=\"40.7528076171875\" y=\"101.07662200927734\">252 </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"1\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"369.32154083251953\" x=\"73.0099105834961\" y=\"101.07662200927734\">New Zealand - BOC New Zealand Ltd - Weekly - Service Fee Per Employee </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"2\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"26.56640625\" x=\"519.358154296875\" y=\"101.07662200927734\">11.80 </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"42.00921630859375\" x=\"584.62255859375\" y=\"101.07662200927734\">2,973.60\n</bbox></span></p></td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"12.002639770507812\" x=\"40.7528076171875\" y=\"127.33235931396484\">36 </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"1\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"371.3083267211914\" x=\"73.0099105834961\" y=\"127.33235931396484\">New Zealand - Elgas New Zealand Ltd - Weekly - Service Fee Per Employee </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"2\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"26.56640625\" x=\"519.358154296875\" y=\"127.33235931396484\">11.80 </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"33.00726318359375\" x=\"584.62255859375\" y=\"127.33235931396484\">424.80\n</bbox></span></p></td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"4\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"18.00395965576172\" x=\"40.7528076171875\" y=\"153.5882110595703\">177 </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"4\"><p indentation=\"1\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"417.62516021728516\" x=\"73.0099105834961\" y=\"153.5882110595703\">New Zealand - Linde NZ - 800 New Zealand Ltd - Monthly Service Fee Per Employee </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"4\"><p indentation=\"2\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"26.56640625\" x=\"519.358154296875\" y=\"153.5882110595703\">11.80 </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"4\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"42.00921630859375\" x=\"584.62255859375\" y=\"153.5882110595703\">2,088.60\n</bbox></span></p></td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"5\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"12.002639770507812\" x=\"40.7528076171875\" y=\"179.8439483642578\">30 </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"5\"><p indentation=\"1\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"433.2848587036133\" x=\"73.0099105834961\" y=\"179.8439483642578\">New Zealand - Linde NZ - Elgas New Zealand Ltd - Monthly - Service Fee Per Employee </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"5\"><p indentation=\"2\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"26.56640625\" x=\"519.358154296875\" y=\"179.8439483642578\">11.80 </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"5\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"33.00726318359375\" x=\"584.62255859375\" y=\"179.8439483642578\">354.00\n</bbox></span></p></td></tr><tr><td colspan=\"2\" colstart=\"1\" rowspan=\"1\" rowstart=\"6\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"98.78736877441406\" x=\"40.7528076171875\" y=\"206.0996856689453\">Subtotal (excl. VAT) </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"6\"> </td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"6\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"42.00921630859375\" x=\"584.62255859375\" y=\"206.0996856689453\">5,841.00\n</bbox></span></p></td></tr><tr><td colspan=\"3\" colstart=\"1\" rowspan=\"1\" rowstart=\"7\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"389.42364501953125\" x=\"40.7528076171875\" y=\"232.3555450439453\">V.A.T_ Reverse charge mechanism applies (article 44 of Directive 2006/112/EC) </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"7\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"21.004638671875\" x=\"584.62255859375\" y=\"232.3555450439453\">0.00\n</bbox></span></p></td></tr><tr><td colspan=\"3\" colstart=\"1\" rowspan=\"1\" rowstart=\"8\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"481.60601806640625\" x=\"40.7528076171875\" y=\"258.6112976074219\">Total Amount in EUR </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"8\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"42.00921630859375\" x=\"584.62255859375\" y=\"258.6112976074219\">5,841.00\n</bbox></span></p></td></tr></tbody></table><p text-alignment=\"left\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"33.44681692123413\" page=\"1\" width=\"475.3234176635742\" x=\"34.001319885253906\" y=\"290.8684997558594\">ADP lnte rnational Se rvices BV Lylantse Baan 1 2908 LG Capelle aan den IJssel The Netherlands Tax Registration No. NL8161.09.436.BO1\n</bbox></span></p><p text-alignment=\"left\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"33.44681692123413\" page=\"1\" width=\"510.94454193115234\" x=\"34.001319885253906\" y=\"341.8797302246094\">705/1663 ZOOPURFU 1 00705 IBM Deutschland GmbH (Linde) IBM-Allee 1 71139 Ehningen Germany Customer No.: ISO11247 VAT Number: DE145178813 Purchase Order: 4620257561\n</bbox></span></p><p text-alignment=\"left\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"33.44681692123413\" page=\"1\" width=\"68.99761199951172\" x=\"34.001319885253906\" y=\"392.8909606933594\">Period: March 2018\n</bbox></span></p><p text-alignment=\"left\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"160.974862575531\" page=\"1\" width=\"108.0062026977539\" x=\"34.001319885253906\" y=\"443.9021911621094\">Invoice No. : 1844956 Date: 27.04.18 Payment Terms: Net Due in 60 Days Payable to: INVOICE BNP Paribas S.A.\n</bbox></span></p><p text-alignment=\"left\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"33.44681692123413\" page=\"1\" width=\"500.8817367553711\" x=\"34.001319885253906\" y=\"622.4414672851562\">IBAN: NL398NPA0227674162 Account Number: 0227674162 SWIFT/BIC number: BNPANL2AXXX Contact: Billing Department\n</bbox></span></p><p text-alignment=\"left\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"58.95243215560913\" page=\"1\" width=\"382.98274993896484\" x=\"34.001319885253906\" y=\"673.45263671875\">Remittance Advice should be sent to: sl-remittance.advices@adp.com Billing Queries should be sent to: Streamline.Billing@adpstream|ine.com Reoistered at the Chamber of Commerce r KVK'I under file number: 24399098\n</bbox></span></p></body></html>"
+}

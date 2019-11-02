@@ -34,6 +34,7 @@ const NavigationToolbar: FC<NavToolbarProps> = ({
         kind="ghost"
         size="small"
         renderIcon={ChevronLeft16}
+        iconDescription={previousLabel}
         onClick={handleChange(onChange, index, max, -1)}
       />
       <span className={`${base}__text`}>
@@ -47,6 +48,7 @@ const NavigationToolbar: FC<NavToolbarProps> = ({
         kind="ghost"
         size="small"
         renderIcon={ChevronRight16}
+        iconDescription={nextLabel}
         onClick={handleChange(onChange, index, max, 1)}
       />
     </nav>
