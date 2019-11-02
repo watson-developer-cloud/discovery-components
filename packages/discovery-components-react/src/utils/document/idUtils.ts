@@ -1,6 +1,7 @@
 import { Item, RelationItem } from '../../components/SemanticDocument/types';
 import isEqual from 'lodash/isEqual';
 import { isRelationObject } from './nonContractUtils';
+
 /**
  * Creates an id string for the given item, based on the location.begin field
  *

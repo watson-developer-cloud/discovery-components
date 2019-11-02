@@ -31,18 +31,18 @@ const nonContractDetailsFromItem = (item: any): Items[] => {
 };
 
 const modelMapping = {
-  contracts: contractDetailsFromItem,
-  invoices: nonContractDetailsFromItem,
-  purchase_orders: nonContractDetailsFromItem
+  contract: contractDetailsFromItem,
+  invoice: nonContractDetailsFromItem,
+  purchase_order: nonContractDetailsFromItem
 };
 
 /**
  *
- * @param modelId
+ * @param enrichmentName
  * @return
  */
-function getDetailsFromItem(modelId: string): (item: any) => Items[] {
-  return modelMapping[modelId];
+function getDetailsFromItem(enrichmentName: string): (item: any) => Items[] {
+  return modelMapping[enrichmentName];
 }
 
 function getContractAttributes(attributes: any): Item[] {

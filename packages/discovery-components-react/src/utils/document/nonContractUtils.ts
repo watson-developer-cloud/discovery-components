@@ -1,11 +1,14 @@
 /**
- * Checks if model is eithr invoices or purchaseOrder
+ * Checks if document type is either invoice or purchase order.
  *
- * @param {string} modelId modelId takes the id of model
- * @returns {boolean} true if modelId is invoice or purchase_orders
+ * @param {string} enrichmentName enrichmentName is the type of document
+ * @returns {boolean} true if enrichmentName is either Invoice or Purchase order
  */
-export const isNonContract = (modelId: string): boolean =>
-  modelId === 'invoices' || modelId === 'purchase_orders';
+
+import { ENRICHMENTS } from '../../components/SemanticDocument/utils/enrichmentUtils';
+
+export const isInvoiceOrPurchaseOrder = (enrichmentName: string): boolean =>
+  enrichmentName === ENRICHMENTS.INVOICE || enrichmentName === ENRICHMENTS.PURCHASE_ORDER;
 
 /**
  * Checks if object is of type RelationObject

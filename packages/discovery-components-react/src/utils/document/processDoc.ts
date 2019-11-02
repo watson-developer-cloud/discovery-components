@@ -4,6 +4,8 @@ import { QueryResult } from '@disco-widgets/ibm-watson/discovery/v2';
 import { SaxesTag } from 'saxes';
 import { isRelationObject } from './nonContractUtils';
 import { getId } from './idUtils';
+import transformEnrichment from './transformEnrichment';
+import { getEnrichmentName } from '../../components/SemanticDocument/utils/enrichmentUtils';
 
 // split HTML into "sections" based on these top level tag(s)
 const SECTION_NAMES = ['p', 'ul', 'table'];
@@ -75,13 +77,18 @@ export interface Table {
  */
 export default async function processDoc(
   // eslint-disable-next-line @typescript-eslint/camelcase
-  { html, enriched_html_elements }: QueryResult,
+  { html, enriched_html }: QueryResult,
   options?: Options
 ): Promise<ProcessedDoc> {
   options = {
     ...DEFAULT_OPTIONS,
     ...(options || {})
   };
+  const enrichedHtmlArray = transformEnrichment(enriched_html);
+
+  //enriched_html is a singlton array.
+  const enrichedHtml = enrichedHtmlArray && enrichedHtmlArray[0];
+  const enrichment = enrichedHtml ? enrichedHtml[getEnrichmentName(enrichedHtml)] : [];
 
   const doc: ProcessedDoc = {
     styles: ''
@@ -101,10 +108,12 @@ export default async function processDoc(
   // setup initial parsing handling
   setupDocParser(parser, doc);
 
-  // kick off parsing
-  await parser.parse(html);
+  const htmlContent = Array.isArray(html) ? html[0] : html;
 
-  sortFields(enriched_html_elements, doc);
+  // kick off parsing
+  await parser.parse(htmlContent);
+
+  sortFields(enrichment, doc);
   if (options && options.sections && options.itemMap) {
     addItemMap(doc);
   }

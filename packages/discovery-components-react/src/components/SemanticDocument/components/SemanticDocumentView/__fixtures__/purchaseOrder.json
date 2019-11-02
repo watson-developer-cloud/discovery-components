@@ -1,250 +1,348 @@
 {
-  "id": "903461f8843ef9f10daecd2a14994308",
-  "result_metadata": {
-    "confidence": 0.08408220853860772,
-    "score": 1
+  "document_id": "97cd2f303e967da07475a232728fd76b",
+  "metadata": {
+    "parent_document_id": "97cd2f303e967da07475a232728fd76b"
   },
-  "enriched_html_elements": {
-    "attributes": [
-      {
-        "id": "attribute_1801_1804_currencies",
-        "type": "currencies",
-        "text": "EUR",
-        "location": {
-          "begin": 1801,
-          "end": 1804,
-          "__typename": "AttributeObjectLocation"
-        },
-        "__typename": "AttributeObject"
-      },
-      {
-        "id": "attribute_7539_7542_currencies",
-        "type": "currencies",
-        "text": "EUR",
-        "location": {
-          "begin": 7539,
-          "end": 7542,
-          "__typename": "AttributeObjectLocation"
-        },
-        "__typename": "AttributeObject"
-      },
-      {
-        "id": "attribute_7786_7794_total_amounts",
-        "type": "total_amounts",
-        "text": "5,841.00",
-        "location": {
-          "begin": 7786,
-          "end": 7794,
-          "__typename": "AttributeObjectLocation"
-        },
-        "__typename": "AttributeObject"
-      },
-      {
-        "id": "attribute_8495_8505_purchase_order_numbers",
-        "type": "purchase_order_numbers",
-        "text": "4620257561",
-        "location": {
-          "begin": 8495,
-          "end": 8505,
-          "__typename": "AttributeObjectLocation"
-        },
-        "__typename": "AttributeObject"
-      },
-      {
-        "id": "attribute_8993_9014_suppliers",
-        "type": "suppliers",
-        "text": "INVOICE BNP Paribas S",
-        "location": {
-          "begin": 8993,
-          "end": 9014,
-          "__typename": "AttributeObjectLocation"
-        },
-        "__typename": "AttributeObject"
+  "enriched_html": [
+    {
+      "purchase_order": {
+        "bill_to": [
+          {
+            "provenance_ids": [
+              "PW4/tFNPzjTC3LVXh+cDsu8Q7fwwnMm5TuQurI1cKa/Z5ZNCFE7BvfqW8s1Gf5oc8iUE+MUVxYQZu65BTE9BFsw=="
+            ],
+            "location": {
+              "end": 13768,
+              "begin": 13748
+            },
+            "text": "BMS Puerto Rico Inc."
+          },
+          {
+            "provenance_ids": [
+              "PW4/tFNPzjTC3LVXh+cDsu8Q7fwwnMm5TuQurI1cKa/Z5ZNCFE7BvfqW8s1Gf5oc8iUE+MUVxYQZu65BTE9BFsw=="
+            ],
+            "location": {
+              "end": 14840,
+              "begin": 14809
+            },
+            "text": "Calle Tabonuco #6, Caparra Dev."
+          },
+          {
+            "provenance_ids": [
+              "PW4/tFNPzjTC3LVXh+cDsu8Q7fwwnMm5TuQurI1cKa/Z5ZNCFE7BvfqW8s1Gf5oc8iUE+MUVxYQZu65BTE9BFsw=="
+            ],
+            "location": {
+              "end": 15696,
+              "begin": 15678
+            },
+            "text": "GUAYNABO, PR 00968"
+          },
+          {
+            "provenance_ids": [
+              "PW4/tFNPzjTC3LVXh+cDsu8Q7fwwnMm5TuQurI1cKa/Z5ZNCFE7BvfqW8s1Gf5oc8iUE+MUVxYQZu65BTE9BFsw=="
+            ],
+            "location": {
+              "end": 16344,
+              "begin": 16331
+            },
+            "text": "United States"
+          }
+        ],
+        "suppliers": [
+          {
+            "provenance_ids": [
+              "P26MesS+ehxdy7HQQ4VyOcE5XEYo+zz8dIinyS4s62EoLN/bqsElqEXwy1bxqa5oTx4u2o3Xj3tzeKKaTWKN9eg=="
+            ],
+            "location": {
+              "end": 11978,
+              "begin": 11975
+            },
+            "text": "IBM"
+          }
+        ],
+        "buyers": [],
+        "line_items": [
+          {
+            "quantity_ordered": {
+              "provenance_ids": [
+                "PBilxdBixbv/tHnmoiZcTnG2ySc/gBs2cEfXdgnvfTr0YqN+xIXk/oqFIfjtiJH7U"
+              ],
+              "location": {
+                "end": 23486,
+                "begin": 23485
+              },
+              "text": "1"
+            },
+            "item_description": {
+              "provenance_ids": [
+                "PaPNA/REjJWBW7VFbjals4Xrh6M9+M4tjyL6S9f4L3SwmRtEgR7TgD/71ney9BLTFpgBbkpF64WWGyGyy/Si11A=="
+              ],
+              "location": {
+                "end": 22936,
+                "begin": 22931
+              },
+              "text": "00001"
+            },
+            "unit_price": {
+              "provenance_ids": [
+                "P6Gcvc/0Wvxc1+U5DtzesGCrwcih5Zyli4I/frE8zeod0T/9bUZJX0mMcPDkjr608ke3rbrviHftbOEYD/6UbaQ=="
+              ],
+              "location": {
+                "end": 24036,
+                "begin": 24030
+              },
+              "text": "360.00"
+            }
+          },
+          {
+            "quantity_ordered": {
+              "provenance_ids": [
+                "PBilxdBixbv/tHnmoiZcTnG2ySc/gBs2cEfXdgnvfTr0YqN+xIXk/oqFIfjtiJH7U"
+              ],
+              "location": {
+                "end": 23486,
+                "begin": 23485
+              },
+              "text": "1"
+            },
+            "item_description": {
+              "provenance_ids": [
+                "PaPNA/REjJWBW7VFbjals4Xrh6M9+M4tjyL6S9f4L3SwmRtEgR7TgD/71ney9BLTFpgBbkpF64WWGyGyy/Si11A=="
+              ],
+              "location": {
+                "end": 23217,
+                "begin": 23204
+              },
+              "text": "Not Available"
+            },
+            "unit_price": {
+              "provenance_ids": [
+                "P6Gcvc/0Wvxc1+U5DtzesGCrwcih5Zyli4I/frE8zeod0T/9bUZJX0mMcPDkjr608ke3rbrviHftbOEYD/6UbaQ=="
+              ],
+              "location": {
+                "end": 24036,
+                "begin": 24030
+              },
+              "text": "360.00"
+            }
+          },
+          {
+            "quantity_ordered": {
+              "provenance_ids": [
+                "PBilxdBixbv/tHnmoiZcTnG2ySc/gBs2cEfXdgnvfTr0YqN+xIXk/oqFIfjtiJH7U"
+              ],
+              "location": {
+                "end": 23486,
+                "begin": 23485
+              },
+              "text": "1"
+            },
+            "item_description": {
+              "provenance_ids": [
+                "PaPNA/REjJWBW7VFbjals4Xrh6M9+M4tjyL6S9f4L3SwmRtEgR7TgD/71ney9BLTFQF5YV8X33w5hCI9hWIPbIg=="
+              ],
+              "location": {
+                "end": 23486,
+                "begin": 23485
+              },
+              "text": "1"
+            },
+            "unit_price": {
+              "provenance_ids": [
+                "P6Gcvc/0Wvxc1+U5DtzesGCrwcih5Zyli4I/frE8zeod0T/9bUZJX0mMcPDkjr608ke3rbrviHftbOEYD/6UbaQ=="
+              ],
+              "location": {
+                "end": 24036,
+                "begin": 24030
+              },
+              "text": "360.00"
+            }
+          }
+        ],
+        "purchase_order_dates": [
+          {
+            "provenance_ids": ["PfKKLYl92UT6bhFjMjzZY8AKHBCug3kH7kA1ZhIwEkYc="],
+            "location": {
+              "end": 5060,
+              "begin": 5050
+            },
+            "text": "2017-02-14",
+            "text_normalized": "2017-02-14"
+          }
+        ],
+        "payment_terms": [
+          {
+            "provenance_ids": ["PhPDuPEhnF0aKegona4THYDi9LTOz3zJs5Q0llBBRjGJ/N9XuZUmjSqzhrDWv7/kH"],
+            "location": {
+              "end": 9052,
+              "begin": 9041
+            },
+            "text": "Net Days 50"
+          },
+          {
+            "provenance_ids": ["PhPDuPEhnF0aKegona4THYHC/Q59EaASpVdP5dx2RqhI="],
+            "location": {
+              "end": 19777,
+              "begin": 18763
+            },
+            "text": "** PLEASE NOTE: ALL INVOICES MUST REFERENCE A PURCHASE OR SERVICE ORDER NUMBER IN ORDER TO BE PROCESSED FOR PAYMENT. **\n** To ensure timely processing, please ensure that the unit of measure (UOM) quoted on all delivery notes and invoices matches the UOM of the Purchase Order, otherwise provide a conversion factor. ***\nVendor Terms: FB5 FOB Origin Freight Prepaid\nNotes: 2/13/2017 11:44 AM Marcia Rosenberg (rosenbm2): IBM Quotation#17509437"
+          }
+        ],
+        "quote_numbers": [
+          {
+            "provenance_ids": ["PvsqytYq0wSLCcI7qNwHSewmpIHq/pH0SNw7iY/PbmVYZ7CmcTiMeMCWMB0l9ujHB"],
+            "location": {
+              "end": 19777,
+              "begin": 19769
+            },
+            "text": "17509437"
+          }
+        ],
+        "purchase_order_numbers": [
+          {
+            "provenance_ids": ["PZvtElZpmwGwJM9LKSYTV/UYjzknIEhkUIeVec/Fuc6jPu152BpHNO/xEe/mQQ+Oi"],
+            "location": {
+              "end": 4542,
+              "begin": 4532
+            },
+            "text": "0081754901"
+          }
+        ],
+        "total_amounts": [
+          {
+            "provenance_ids": ["PPi0mseo5LfuVtrXyLXHiWT6K1VsUMmOzgNanRc/ytzuwqWOFaRuu6r9TswSHgJvl"],
+            "location": {
+              "end": 27617,
+              "begin": 27611
+            },
+            "text": "360.00"
+          }
+        ],
+        "invoice_to": [],
+        "supplier_ids": [
+          {
+            "provenance_ids": ["Pllmn58trTHttkaC5hIJzM9kTNOCngS4Ek+0ZE5tiRHxbgO2ffW0EAStMKYpxm6rq"],
+            "location": {
+              "end": 10416,
+              "begin": 10403
+            },
+            "text": "AN01000002938"
+          }
+        ],
+        "ship_to": [
+          {
+            "provenance_ids": [
+              "Peyf/bgZIPY2BCQlICaklJsQ7fwwnMm5TuQurI1cKa/ZUl2Eux017lkvRkK1zlZ1SAlEd90mWt18I82o7SxHVjg=="
+            ],
+            "location": {
+              "end": 14293,
+              "begin": 14272
+            },
+            "text": "BMS Puerto Rico, Inc."
+          },
+          {
+            "provenance_ids": [
+              "Peyf/bgZIPY2BCQlICaklJsQ7fwwnMm5TuQurI1cKa/ZUl2Eux017lkvRkK1zlZ1SAlEd90mWt18I82o7SxHVjg=="
+            ],
+            "location": {
+              "end": 15359,
+              "begin": 15345
+            },
+            "text": "#6 Tobonuco St"
+          },
+          {
+            "provenance_ids": [
+              "Peyf/bgZIPY2BCQlICaklJsQ7fwwnMm5TuQurI1cKa/ZUl2Eux017lkvRkK1zlZ1SAlEd90mWt18I82o7SxHVjg=="
+            ],
+            "location": {
+              "end": 16014,
+              "begin": 16002
+            },
+            "text": "San Patricio"
+          },
+          {
+            "provenance_ids": [
+              "Peyf/bgZIPY2BCQlICaklJsQ7fwwnMm5TuQurI1cKa/ZUl2Eux017lkvRkK1zlZ1SAlEd90mWt18I82o7SxHVjg=="
+            ],
+            "location": {
+              "end": 16668,
+              "begin": 16650
+            },
+            "text": "Guaynabo, PR 00968"
+          },
+          {
+            "provenance_ids": [
+              "Peyf/bgZIPY2BCQlICaklJsQ7fwwnMm5TuQurI1cKa/ZUl2Eux017lkvRkK1zlZ1SAlEd90mWt18I82o7SxHVjg=="
+            ],
+            "location": {
+              "end": 17118,
+              "begin": 17105
+            },
+            "text": "United States"
+          },
+          {
+            "provenance_ids": [
+              "Peyf/bgZIPY2BCQlICaklJsQ7fwwnMm5TuQurI1cKa/ZUl2Eux017lkvRkK1zlZ1SAlEd90mWt18I82o7SxHVjg=="
+            ],
+            "location": {
+              "end": 17783,
+              "begin": 17752
+            },
+            "text": "Email: Marcia.Rosenberg@bms.com"
+          }
+        ],
+        "currencies": [
+          {
+            "provenance_ids": ["PrT6rW6/e782dIM1dR7IiGdDuL43l8Epamsp2VgkuD/c="],
+            "location": {
+              "end": 7663,
+              "begin": 7660
+            },
+            "text": "USD"
+          },
+          {
+            "provenance_ids": ["PhTdCcIc/rTLLOZPcledQRl/q0c33AlT2EhpUcZJPzcdsno+eYYxJB6UMD0tL6Yim"],
+            "location": {
+              "end": 7676,
+              "begin": 7665
+            },
+            "text": "U.S. Dollar"
+          },
+          {
+            "provenance_ids": [
+              "PaRgv+JasUJYkgcSTzB1Ae4kiw6cwWAoTJK3bfzrxze0=",
+              "PnXvIHs/VR90fjFaLeU9jkAX60G2AcD7kwLv2tdXSsgr7fVCWOlcl+XJHo5AWesep"
+            ],
+            "location": {
+              "end": 24310,
+              "begin": 24307
+            },
+            "text": "USD"
+          }
+        ],
+        "due_dates": [
+          {
+            "provenance_ids": [
+              "PQVnCzF3RGPi7cRwYtCAIypaMt8KYlSQTH1I//iCps7+s+IlY1OM2DAmSTqpNyQDp",
+              "PQVnCzF3RGPi7cRwYtCAIypaMt8KYlSQTH1I//iCps78k3Xn/D8XhUBGzpPV6xma8"
+            ],
+            "location": {
+              "end": 26279,
+              "begin": 26269
+            },
+            "text": "2017-02-16",
+            "text_normalized": "2017-02-16"
+          }
+        ]
       }
-    ],
-    "relations": [
-      {
-        "type": "line_items",
-        "attributes": [
-          {
-            "id": "attribute_2309_2378_item_description",
-            "type": "item_description",
-            "text": "New Zealand - BOC New Zealand Ltd - Weekly - Service Fee Per Employee",
-            "location": {
-              "begin": 2309,
-              "end": 2378,
-              "__typename": "AttributeObjectLocation"
-            },
-            "__typename": "AttributeObject"
-          },
-          {
-            "id": "attribute_2059_2062_quantity_ordered",
-            "type": "quantity_ordered",
-            "text": "252",
-            "location": {
-              "begin": 2059,
-              "end": 2062,
-              "__typename": "AttributeObjectLocation"
-            },
-            "__typename": "AttributeObject"
-          },
-          {
-            "id": "attribute_2618_2623_unit_price",
-            "type": "unit_price",
-            "text": "11.80",
-            "location": {
-              "begin": 2618,
-              "end": 2623,
-              "__typename": "AttributeObjectLocation"
-            },
-            "__typename": "AttributeObject"
-          }
-        ],
-        "__typename": "RelationObject",
-        "relations": [],
-        "allAttributeIds": ["2059_2062", "2309_2378", "2618_2623"],
-        "id": "deefe26c-e78b-426c-9919-837277b07c57"
-      },
-      {
-        "type": "line_items",
-        "attributes": [
-          {
-            "id": "attribute_3380_3451_item_description",
-            "type": "item_description",
-            "text": "New Zealand - Elgas New Zealand Ltd - Weekly - Service Fee Per Employee",
-            "location": {
-              "begin": 3380,
-              "end": 3451,
-              "__typename": "AttributeObjectLocation"
-            },
-            "__typename": "AttributeObject"
-          },
-          {
-            "id": "attribute_3132_3134_quantity_ordered",
-            "type": "quantity_ordered",
-            "text": "36",
-            "location": {
-              "begin": 3132,
-              "end": 3134,
-              "__typename": "AttributeObjectLocation"
-            },
-            "__typename": "AttributeObject"
-          },
-          {
-            "id": "attribute_3691_3696_unit_price",
-            "type": "unit_price",
-            "text": "11.80",
-            "location": {
-              "begin": 3691,
-              "end": 3696,
-              "__typename": "AttributeObjectLocation"
-            },
-            "__typename": "AttributeObject"
-          }
-        ],
-        "__typename": "RelationObject",
-        "relations": [],
-        "allAttributeIds": ["3132_3134", "3380_3451", "3691_3696"],
-        "id": "b7f42da2-6618-4241-b81e-bb9cf1a74d70"
-      },
-      {
-        "type": "line_items",
-        "attributes": [
-          {
-            "id": "attribute_4450_4529_item_description",
-            "type": "item_description",
-            "text": "New Zealand - Linde NZ - 800 New Zealand Ltd - Monthly Service Fee Per Employee",
-            "location": {
-              "begin": 4450,
-              "end": 4529,
-              "__typename": "AttributeObjectLocation"
-            },
-            "__typename": "AttributeObject"
-          },
-          {
-            "id": "attribute_4201_4204_quantity_ordered",
-            "type": "quantity_ordered",
-            "text": "177",
-            "location": {
-              "begin": 4201,
-              "end": 4204,
-              "__typename": "AttributeObjectLocation"
-            },
-            "__typename": "AttributeObject"
-          },
-          {
-            "id": "attribute_4768_4773_unit_price",
-            "type": "unit_price",
-            "text": "11.80",
-            "location": {
-              "begin": 4768,
-              "end": 4773,
-              "__typename": "AttributeObjectLocation"
-            },
-            "__typename": "AttributeObject"
-          }
-        ],
-        "__typename": "RelationObject",
-        "relations": [],
-        "allAttributeIds": ["4201_4204", "4450_4529", "4768_4773"],
-        "id": "d2f85aa1-5c29-4e06-87fc-a92c8cfe7680"
-      },
-      {
-        "type": "line_items",
-        "attributes": [
-          {
-            "id": "attribute_5527_5610_item_description",
-            "type": "item_description",
-            "text": "New Zealand - Linde NZ - Elgas New Zealand Ltd - Monthly - Service Fee Per Employee",
-            "location": {
-              "begin": 5527,
-              "end": 5610,
-              "__typename": "AttributeObjectLocation"
-            },
-            "__typename": "AttributeObject"
-          },
-          {
-            "id": "attribute_5280_5282_quantity_ordered",
-            "type": "quantity_ordered",
-            "text": "30",
-            "location": {
-              "begin": 5280,
-              "end": 5282,
-              "__typename": "AttributeObjectLocation"
-            },
-            "__typename": "AttributeObject"
-          },
-          {
-            "id": "attribute_5849_5854_unit_price",
-            "type": "unit_price",
-            "text": "11.80",
-            "location": {
-              "begin": 5849,
-              "end": 5854,
-              "__typename": "AttributeObjectLocation"
-            },
-            "__typename": "AttributeObject"
-          }
-        ],
-        "__typename": "RelationObject",
-        "relations": [],
-        "allAttributeIds": ["5280_5282", "5849_5854", "5527_5610"],
-        "id": "0722d055-1a61-4de1-9af7-4cf418e3f35f"
-      }
-    ],
-    "document": {
-      "title": "PO.pdf",
-      "html": "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><html>\n<head>\n    <meta content=\"text/html; charset=UTF-8\" http-equiv=\"Content-Type\"/><meta content=\"2018-11-02\" name=\"publicationdate\"/><meta content=\"1\" name=\"numPages\"/><title>no title</title><style>/**/\n .Times_Bold_Black_16_0_bold{font-size: 16.0pt; font-family: Times-Bold; color: Black; font-weight: bold;} .Times_Roman_Black_16_0{font-size: 16.0pt; font-family: Times-Roman; color: Black; }\n/**/</style></head>\n<body><table border=\"1\" data-max-height=\"218.08241271972656\" data-max-width=\"661.8939208984375\" data-max-x=\"29.001121520996094\" data-max-y=\"60.62809371948242\" data-min-height=\"218.08241271972656\" data-min-width=\"661.8939208984375\" data-min-x=\"29.001121520996094\" data-min-y=\"60.62809371948242\" data-page=\"1\"><tbody><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"1\"><p indentation=\"0\"><span class=\"Times_Bold_Black_16_0_bold\"><bbox height=\"8.111161231994629\" page=\"1\" width=\"19.334335327148438\" x=\"40.7528076171875\" y=\"74.65092468261719\">Qty </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"1\"><p indentation=\"1\"><span class=\"Times_Bold_Black_16_0_bold\"><bbox height=\"8.111161231994629\" page=\"1\" width=\"59.33922576904297\" x=\"73.0099105834961\" y=\"74.65092468261719\">Description </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"1\"><p indentation=\"2\"><span class=\"Times_Bold_Black_16_0_bold\"><bbox height=\"8.111161231994629\" page=\"1\" width=\"52.32403564453125\" x=\"519.358154296875\" y=\"74.65092468261719\">Unit Price </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"1\"><p indentation=\"3\"><span class=\"Times_Bold_Black_16_0_bold\"><bbox height=\"8.111161231994629\" page=\"1\" width=\"94.344970703125\" x=\"584.62255859375\" y=\"74.65092468261719\">Line Price in EUR\n</bbox></span></p></td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"18.00395965576172\" x=\"40.7528076171875\" y=\"101.07662200927734\">252 </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"1\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"369.32154083251953\" x=\"73.0099105834961\" y=\"101.07662200927734\">New Zealand - BOC New Zealand Ltd - Weekly - Service Fee Per Employee </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"2\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"26.56640625\" x=\"519.358154296875\" y=\"101.07662200927734\">11.80 </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"42.00921630859375\" x=\"584.62255859375\" y=\"101.07662200927734\">2,973.60\n</bbox></span></p></td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"12.002639770507812\" x=\"40.7528076171875\" y=\"127.33235931396484\">36 </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"1\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"371.3083267211914\" x=\"73.0099105834961\" y=\"127.33235931396484\">New Zealand - Elgas New Zealand Ltd - Weekly - Service Fee Per Employee </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"2\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"26.56640625\" x=\"519.358154296875\" y=\"127.33235931396484\">11.80 </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"33.00726318359375\" x=\"584.62255859375\" y=\"127.33235931396484\">424.80\n</bbox></span></p></td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"4\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"18.00395965576172\" x=\"40.7528076171875\" y=\"153.5882110595703\">177 </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"4\"><p indentation=\"1\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"417.62516021728516\" x=\"73.0099105834961\" y=\"153.5882110595703\">New Zealand - Linde NZ - 800 New Zealand Ltd - Monthly Service Fee Per Employee </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"4\"><p indentation=\"2\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"26.56640625\" x=\"519.358154296875\" y=\"153.5882110595703\">11.80 </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"4\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"42.00921630859375\" x=\"584.62255859375\" y=\"153.5882110595703\">2,088.60\n</bbox></span></p></td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"5\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"12.002639770507812\" x=\"40.7528076171875\" y=\"179.8439483642578\">30 </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"5\"><p indentation=\"1\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"433.2848587036133\" x=\"73.0099105834961\" y=\"179.8439483642578\">New Zealand - Linde NZ - Elgas New Zealand Ltd - Monthly - Service Fee Per Employee </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"5\"><p indentation=\"2\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"26.56640625\" x=\"519.358154296875\" y=\"179.8439483642578\">11.80 </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"5\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"33.00726318359375\" x=\"584.62255859375\" y=\"179.8439483642578\">354.00\n</bbox></span></p></td></tr><tr><td colspan=\"2\" colstart=\"1\" rowspan=\"1\" rowstart=\"6\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"98.78736877441406\" x=\"40.7528076171875\" y=\"206.0996856689453\">Subtotal (excl. VAT) </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"6\"> </td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"6\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"42.00921630859375\" x=\"584.62255859375\" y=\"206.0996856689453\">5,841.00\n</bbox></span></p></td></tr><tr><td colspan=\"3\" colstart=\"1\" rowspan=\"1\" rowstart=\"7\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"389.42364501953125\" x=\"40.7528076171875\" y=\"232.3555450439453\">V.A.T_ Reverse charge mechanism applies (article 44 of Directive 2006/112/EC) </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"7\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"21.004638671875\" x=\"584.62255859375\" y=\"232.3555450439453\">0.00\n</bbox></span></p></td></tr><tr><td colspan=\"3\" colstart=\"1\" rowspan=\"1\" rowstart=\"8\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"481.60601806640625\" x=\"40.7528076171875\" y=\"258.6112976074219\">Total Amount in EUR </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"8\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"42.00921630859375\" x=\"584.62255859375\" y=\"258.6112976074219\">5,841.00\n</bbox></span></p></td></tr></tbody></table><p text-alignment=\"left\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"33.44681692123413\" page=\"1\" width=\"475.3234176635742\" x=\"34.001319885253906\" y=\"290.8684997558594\">ADP lnte rnational Se rvices BV Lylantse Baan 1 2908 LG Capelle aan den IJssel The Netherlands Tax Registration No. NL8161.09.436.BO1\n</bbox></span></p><p text-alignment=\"left\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"33.44681692123413\" page=\"1\" width=\"510.94454193115234\" x=\"34.001319885253906\" y=\"341.8797302246094\">705/1663 ZOOPURFU 1 00705 IBM Deutschland GmbH (Linde) IBM-Allee 1 71139 Ehningen Germany Customer No.: ISO11247 VAT Number: DE145178813 Purchase Order: 4620257561\n</bbox></span></p><p text-alignment=\"left\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"33.44681692123413\" page=\"1\" width=\"68.99761199951172\" x=\"34.001319885253906\" y=\"392.8909606933594\">Period: March 2018\n</bbox></span></p><p text-alignment=\"left\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"160.974862575531\" page=\"1\" width=\"108.0062026977539\" x=\"34.001319885253906\" y=\"443.9021911621094\">Invoice No. : 1844956 Date: 27.04.18 Payment Terms: Net Due in 60 Days Payable to: INVOICE BNP Paribas S.A.\n</bbox></span></p><p text-alignment=\"left\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"33.44681692123413\" page=\"1\" width=\"500.8817367553711\" x=\"34.001319885253906\" y=\"622.4414672851562\">IBAN: NL398NPA0227674162 Account Number: 0227674162 SWIFT/BIC number: BNPANL2AXXX Contact: Billing Department\n</bbox></span></p><p text-alignment=\"left\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"58.95243215560913\" page=\"1\" width=\"382.98274993896484\" x=\"34.001319885253906\" y=\"673.45263671875\">Remittance Advice should be sent to: sl-remittance.advices@adp.com Billing Queries should be sent to: Streamline.Billing@adpstream|ine.com Reoistered at the Chamber of Commerce r KVK'I under file number: 24399098\n</bbox></span></p></body></html>"
-    },
-    "model_id": "purchase_orders"
-  },
-  "text": "",
+    }
+  ],
   "extracted_metadata": {
-    "publicationdate": "2018-10-24",
-    "sha1": "754836ffd690207d39b9f8db08b8099e787c61fas",
-    "filename": "PO.pdf",
-    "file_type": "pdf",
-    "title": "purchaseOrder.pdf"
+    "sha1": "C20FE86BEBBB049BBD0F7B09ABF96FEED2C4AAF2",
+    "filename": "po-sample.json",
+    "file_type": "json"
   },
-  "html": "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><html>\n<head>\n    <meta content=\"text/html; charset=UTF-8\" http-equiv=\"Content-Type\"/><meta content=\"2018-11-02\" name=\"publicationdate\"/><meta content=\"1\" name=\"numPages\"/><title>no title</title><style>/**/\n .Times_Bold_Black_16_0_bold{font-size: 16.0pt; font-family: Times-Bold; color: Black; font-weight: bold;} .Times_Roman_Black_16_0{font-size: 16.0pt; font-family: Times-Roman; color: Black; }\n/**/</style></head>\n<body><table border=\"1\" data-max-height=\"218.08241271972656\" data-max-width=\"661.8939208984375\" data-max-x=\"29.001121520996094\" data-max-y=\"60.62809371948242\" data-min-height=\"218.08241271972656\" data-min-width=\"661.8939208984375\" data-min-x=\"29.001121520996094\" data-min-y=\"60.62809371948242\" data-page=\"1\"><tbody><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"1\"><p indentation=\"0\"><span class=\"Times_Bold_Black_16_0_bold\"><bbox height=\"8.111161231994629\" page=\"1\" width=\"19.334335327148438\" x=\"40.7528076171875\" y=\"74.65092468261719\">Qty </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"1\"><p indentation=\"1\"><span class=\"Times_Bold_Black_16_0_bold\"><bbox height=\"8.111161231994629\" page=\"1\" width=\"59.33922576904297\" x=\"73.0099105834961\" y=\"74.65092468261719\">Description </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"1\"><p indentation=\"2\"><span class=\"Times_Bold_Black_16_0_bold\"><bbox height=\"8.111161231994629\" page=\"1\" width=\"52.32403564453125\" x=\"519.358154296875\" y=\"74.65092468261719\">Unit Price </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"1\"><p indentation=\"3\"><span class=\"Times_Bold_Black_16_0_bold\"><bbox height=\"8.111161231994629\" page=\"1\" width=\"94.344970703125\" x=\"584.62255859375\" y=\"74.65092468261719\">Line Price in EUR\n</bbox></span></p></td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"18.00395965576172\" x=\"40.7528076171875\" y=\"101.07662200927734\">252 </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"1\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"369.32154083251953\" x=\"73.0099105834961\" y=\"101.07662200927734\">New Zealand - BOC New Zealand Ltd - Weekly - Service Fee Per Employee </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"2\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"26.56640625\" x=\"519.358154296875\" y=\"101.07662200927734\">11.80 </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"42.00921630859375\" x=\"584.62255859375\" y=\"101.07662200927734\">2,973.60\n</bbox></span></p></td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"12.002639770507812\" x=\"40.7528076171875\" y=\"127.33235931396484\">36 </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"1\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"371.3083267211914\" x=\"73.0099105834961\" y=\"127.33235931396484\">New Zealand - Elgas New Zealand Ltd - Weekly - Service Fee Per Employee </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"2\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"26.56640625\" x=\"519.358154296875\" y=\"127.33235931396484\">11.80 </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"33.00726318359375\" x=\"584.62255859375\" y=\"127.33235931396484\">424.80\n</bbox></span></p></td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"4\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"18.00395965576172\" x=\"40.7528076171875\" y=\"153.5882110595703\">177 </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"4\"><p indentation=\"1\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"417.62516021728516\" x=\"73.0099105834961\" y=\"153.5882110595703\">New Zealand - Linde NZ - 800 New Zealand Ltd - Monthly Service Fee Per Employee </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"4\"><p indentation=\"2\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"26.56640625\" x=\"519.358154296875\" y=\"153.5882110595703\">11.80 </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"4\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"42.00921630859375\" x=\"584.62255859375\" y=\"153.5882110595703\">2,088.60\n</bbox></span></p></td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"5\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"12.002639770507812\" x=\"40.7528076171875\" y=\"179.8439483642578\">30 </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"5\"><p indentation=\"1\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"433.2848587036133\" x=\"73.0099105834961\" y=\"179.8439483642578\">New Zealand - Linde NZ - Elgas New Zealand Ltd - Monthly - Service Fee Per Employee </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"5\"><p indentation=\"2\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"26.56640625\" x=\"519.358154296875\" y=\"179.8439483642578\">11.80 </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"5\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"33.00726318359375\" x=\"584.62255859375\" y=\"179.8439483642578\">354.00\n</bbox></span></p></td></tr><tr><td colspan=\"2\" colstart=\"1\" rowspan=\"1\" rowstart=\"6\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"98.78736877441406\" x=\"40.7528076171875\" y=\"206.0996856689453\">Subtotal (excl. VAT) </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"6\"> </td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"6\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"42.00921630859375\" x=\"584.62255859375\" y=\"206.0996856689453\">5,841.00\n</bbox></span></p></td></tr><tr><td colspan=\"3\" colstart=\"1\" rowspan=\"1\" rowstart=\"7\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"389.42364501953125\" x=\"40.7528076171875\" y=\"232.3555450439453\">V.A.T_ Reverse charge mechanism applies (article 44 of Directive 2006/112/EC) </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"7\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"21.004638671875\" x=\"584.62255859375\" y=\"232.3555450439453\">0.00\n</bbox></span></p></td></tr><tr><td colspan=\"3\" colstart=\"1\" rowspan=\"1\" rowstart=\"8\"><p indentation=\"0\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"481.60601806640625\" x=\"40.7528076171875\" y=\"258.6112976074219\">Total Amount in EUR </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"8\"><p indentation=\"3\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"7.941201686859131\" page=\"1\" width=\"42.00921630859375\" x=\"584.62255859375\" y=\"258.6112976074219\">5,841.00\n</bbox></span></p></td></tr></tbody></table><p text-alignment=\"left\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"33.44681692123413\" page=\"1\" width=\"475.3234176635742\" x=\"34.001319885253906\" y=\"290.8684997558594\">ADP lnte rnational Se rvices BV Lylantse Baan 1 2908 LG Capelle aan den IJssel The Netherlands Tax Registration No. NL8161.09.436.BO1\n</bbox></span></p><p text-alignment=\"left\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"33.44681692123413\" page=\"1\" width=\"510.94454193115234\" x=\"34.001319885253906\" y=\"341.8797302246094\">705/1663 ZOOPURFU 1 00705 IBM Deutschland GmbH (Linde) IBM-Allee 1 71139 Ehningen Germany Customer No.: ISO11247 VAT Number: DE145178813 Purchase Order: 4620257561\n</bbox></span></p><p text-alignment=\"left\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"33.44681692123413\" page=\"1\" width=\"68.99761199951172\" x=\"34.001319885253906\" y=\"392.8909606933594\">Period: March 2018\n</bbox></span></p><p text-alignment=\"left\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"160.974862575531\" page=\"1\" width=\"108.0062026977539\" x=\"34.001319885253906\" y=\"443.9021911621094\">Invoice No. : 1844956 Date: 27.04.18 Payment Terms: Net Due in 60 Days Payable to: INVOICE BNP Paribas S.A.\n</bbox></span></p><p text-alignment=\"left\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"33.44681692123413\" page=\"1\" width=\"500.8817367553711\" x=\"34.001319885253906\" y=\"622.4414672851562\">IBAN: NL398NPA0227674162 Account Number: 0227674162 SWIFT/BIC number: BNPANL2AXXX Contact: Billing Department\n</bbox></span></p><p text-alignment=\"left\"><span class=\"Times_Roman_Black_16_0\"><bbox height=\"58.95243215560913\" page=\"1\" width=\"382.98274993896484\" x=\"34.001319885253906\" y=\"673.45263671875\">Remittance Advice should be sent to: sl-remittance.advices@adp.com Billing Queries should be sent to: Streamline.Billing@adpstream|ine.com Reoistered at the Chamber of Commerce r KVK'I under file number: 24399098\n</bbox></span></p></body></html>"
+  "html": [
+    "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><html>\n<head>\n    <meta content=\"text/html; charset=UTF-8\" http-equiv=\"Content-Type\"/><meta content=\"2017-02-14\" name=\"publicationdate\"/><meta content=\"1\" name=\"numPages\"/><title>Purchase Order</title><style>/**/\n .RobotoRegular_Black_16_0{font-size: 16.0pt; font-family: RobotoRegular; color: Black; } .RobotoRegular_Grey_16_0{font-size: 16.0pt; font-family: RobotoRegular; color: Grey; } .RobotoRegular_Black_18_0{font-size: 18.0pt; font-family: RobotoRegular; color: Black; } .RobotoRegular_Black_19_0{font-size: 19.0pt; font-family: RobotoRegular; color: Black; } .RobotoRegular_Black_23_0{font-size: 23.0pt; font-family: RobotoRegular; color: Black; } .RobotoRegular_Black_24_0{font-size: 24.0pt; font-family: RobotoRegular; color: Black; } .RobotoRegular_Blue_24_0{font-size: 24.0pt; font-family: RobotoRegular; color: Blue; } .RobotoRegular_Black_26_0{font-size: 26.0pt; font-family: RobotoRegular; color: Black; } .RobotoRegular_Black_29_0{font-size: 29.0pt; font-family: RobotoRegular; color: Black; }\n/**/</style></head>\n<body><p text-alignment=\"right\"><span class=\"RobotoRegular_Grey_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"81.368896484375\" x=\"479.11407470703125\" y=\"32.42057800292969\">This is an electronic order.\n</bbox></span></p><section data-level=\"1\" id=\"1\"><p text-alignment=\"center\"><span class=\"title\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"1.6878814697265625\" x=\"81.93106079101562\" y=\"53.74967956542969\"></bbox></span><span class=\"RobotoRegular_Black_24_0\"><bbox height=\"9.969721794128418\" page=\"1\" width=\"386.98365783691406\" x=\"85.96629333496094\" y=\"47.173404693603516\">Bristol-Myers Squibb Company - United States </bbox></span><span class=\"RobotoRegular_Black_29_0\"><bbox height=\"8.240352630615234\" page=\"1\" width=\"87.22341918945312\" x=\"472.7729797363281\" y=\"47.173404693603516\">Purchase Order\n</bbox></span></span></p><table border=\"1\" data-max-height=\"141.1036376953125\" data-max-width=\"536.398681640625\" data-max-x=\"29.084468841552734\" data-max-y=\"66.39920806884766\" data-min-height=\"141.1036376953125\" data-min-width=\"536.398681640625\" data-min-x=\"29.084468841552734\" data-min-y=\"66.39920806884766\" data-page=\"1\"><tbody><tr><td colspan=\"2\" colstart=\"1\" rowspan=\"1\" rowstart=\"1\"><p indentation=\"0\"><span class=\"RobotoRegular_Grey_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"104.29829025268555\" x=\"34.08462905883789\" y=\"75.65525817871094\">Dates formatted as YYYY-MM-DD </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"1\"> </td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"1\"><p indentation=\"3\"><span class=\"RobotoRegular_Blue_24_0\"><bbox height=\"8.005202293395996\" page=\"1\" width=\"284.4429626464844\" x=\"275.9108581542969\" y=\"75.65525817871094\">*** Received *** </bbox></span></p></td><td colspan=\"1\" colstart=\"5\" rowspan=\"1\" rowstart=\"1\"> </td><td colspan=\"1\" colstart=\"6\" rowspan=\"1\" rowstart=\"1\"> </td></tr><tr><td colspan=\"2\" colstart=\"1\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"0\"><span class=\"RobotoRegular_Grey_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"55.85696029663086\" x=\"34.08462905883789\" y=\"84.87870788574219\">Time Zone is GMT\n</bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"2\"> </td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"2\"> </td><td colspan=\"1\" colstart=\"5\" rowspan=\"1\" rowstart=\"2\"> </td><td colspan=\"1\" colstart=\"6\" rowspan=\"1\" rowstart=\"2\"> </td></tr><tr><td bg_color=\"LightGrey\" colspan=\"2\" colstart=\"1\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"0\"><span class=\"RobotoRegular_Black_26_0\"><bbox height=\"7.38790225982666\" page=\"1\" width=\"96.76969146728516\" x=\"34.661094665527344\" y=\"98.17813873291016\">Header Information\n</bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"3\"> </td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"3\"> </td><td colspan=\"1\" colstart=\"5\" rowspan=\"1\" rowstart=\"3\"> </td><td colspan=\"1\" colstart=\"6\" rowspan=\"1\" rowstart=\"3\"> </td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"4\"><p indentation=\"0\"><span class=\"RobotoRegular_Black_18_0\"><bbox height=\"5.114701271057129\" page=\"1\" width=\"42.251277923583984\" x=\"34.08462905883789\" y=\"114.86289978027344\">PO Number: </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"4\"><p indentation=\"1\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"40.135650634765625\" x=\"113.06005859375\" y=\"114.85478210449219\">0081754901 </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"4\"><p indentation=\"2\"><span class=\"RobotoRegular_Black_18_0\"><bbox height=\"5.114701271057129\" page=\"1\" width=\"31.87493896484375\" x=\"208.17645263671875\" y=\"114.86289978027344\">PO Date: </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"4\"><p indentation=\"4\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"35.523956298828125\" x=\"287.1518859863281\" y=\"114.85478210449219\">2017-02-14 </bbox></span></p></td><td colspan=\"1\" colstart=\"5\" rowspan=\"1\" rowstart=\"4\"><p indentation=\"5\"><span class=\"RobotoRegular_Black_18_0\"><bbox height=\"5.114701271057129\" page=\"1\" width=\"31.87493896484375\" x=\"382.2682800292969\" y=\"114.86289978027344\">PO Type: </bbox></span></p></td><td colspan=\"1\" colstart=\"6\" rowspan=\"1\" rowstart=\"4\"><p indentation=\"6\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"96.80426025390625\" x=\"461.24371337890625\" y=\"114.85478210449219\">New Order </bbox></span></p></td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"5\"><p indentation=\"0\"><span class=\"RobotoRegular_Black_18_0\"><bbox height=\"5.114701271057129\" page=\"1\" width=\"49.1688346862793\" x=\"34.08462905883789\" y=\"127.54508972167969\">Receive Date: </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"5\"><p indentation=\"1\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"35.523956298828125\" x=\"113.06005859375\" y=\"127.53697204589844\">2017-02-14 </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"5\"><p indentation=\"2\"><span class=\"RobotoRegular_Black_18_0\"><bbox height=\"5.114701271057129\" page=\"1\" width=\"49.1688232421875\" x=\"208.17645263671875\" y=\"127.54508972167969\">Receive Time: </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"5\"><p indentation=\"4\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"27.453460693359375\" x=\"287.1518859863281\" y=\"127.53697204589844\">19:58:28 </bbox></span></p></td><td colspan=\"1\" colstart=\"5\" rowspan=\"1\" rowstart=\"5\"><p indentation=\"5\"><span class=\"RobotoRegular_Black_18_0\"><bbox height=\"5.114701271057129\" page=\"1\" width=\"43.404205322265625\" x=\"382.2682800292969\" y=\"127.54508972167969\">PO Purpose: </bbox></span></p></td><td colspan=\"1\" colstart=\"6\" rowspan=\"1\" rowstart=\"5\"><p indentation=\"6\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"96.80426025390625\" x=\"461.24371337890625\" y=\"127.53697204589844\">Original </bbox></span></p></td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"6\"><p indentation=\"0\"><span class=\"RobotoRegular_Black_18_0\"><bbox height=\"5.114701271057129\" page=\"1\" width=\"56.08639144897461\" x=\"34.08462905883789\" y=\"140.22727966308594\">Buyer Currency: </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"6\"><p indentation=\"1\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"51.85400390625\" x=\"113.06005859375\" y=\"140.21910095214844\">USD (U.S. Dollar) </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"6\"><p indentation=\"2\"><span class=\"RobotoRegular_Black_18_0\"><bbox height=\"5.114701271057129\" page=\"1\" width=\"61.85101318359375\" x=\"208.17645263671875\" y=\"140.22727966308594\">Contract Number: </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"6\"> </td><td colspan=\"1\" colstart=\"5\" rowspan=\"1\" rowstart=\"6\"><p indentation=\"5\"><span class=\"RobotoRegular_Black_18_0\"><bbox height=\"5.114701271057129\" page=\"1\" width=\"41.098358154296875\" x=\"382.2682800292969\" y=\"140.22727966308594\">Order Type: </bbox></span></p></td><td colspan=\"1\" colstart=\"6\" rowspan=\"1\" rowstart=\"6\"><p indentation=\"6\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"96.80426025390625\" x=\"461.24371337890625\" y=\"140.21910095214844\">Standard </bbox></span></p></td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"7\"><p indentation=\"0\"><span class=\"RobotoRegular_Black_18_0\"><bbox height=\"5.114701271057129\" page=\"1\" width=\"57.239315032958984\" x=\"34.08462905883789\" y=\"152.9094696044922\">Payment Terms: </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"7\"><p indentation=\"1\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"444.9879150390625\" x=\"113.06005859375\" y=\"152.90135192871094\">Net Days 50 </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"7\"> </td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"7\"> </td><td colspan=\"1\" colstart=\"5\" rowspan=\"1\" rowstart=\"7\"> </td><td colspan=\"1\" colstart=\"6\" rowspan=\"1\" rowstart=\"7\"> </td></tr><tr><td bg_color=\"Lavender\" colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"8\"><p indentation=\"0\"><span class=\"RobotoRegular_Black_19_0\"><bbox height=\"5.3988518714904785\" page=\"1\" width=\"41.78030776977539\" x=\"34.08462905883789\" y=\"165.8839874267578\">References </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"8\"> </td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"8\"> </td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"8\"> </td><td colspan=\"1\" colstart=\"5\" rowspan=\"1\" rowstart=\"8\"> </td><td colspan=\"1\" colstart=\"6\" rowspan=\"1\" rowstart=\"8\"> </td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"9\"><p indentation=\"0\"><span class=\"RobotoRegular_Black_18_0\"><bbox height=\"5.114701271057129\" page=\"1\" width=\"68.19211959838867\" x=\"34.08462905883789\" y=\"179.4268035888672\">Vendor's Supplier #: </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"9\"><p indentation=\"1\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"53.97076416015625\" x=\"113.06005859375\" y=\"179.4186248779297\">AN01000002938 </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"9\"><p indentation=\"2\"><span class=\"RobotoRegular_Black_18_0\"><bbox height=\"5.114701271057129\" page=\"1\" width=\"46.286529541015625\" x=\"208.17645263671875\" y=\"179.4268035888672\">Customer ID: </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"9\"><p indentation=\"4\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"53.970794677734375\" x=\"287.1518859863281\" y=\"179.4186248779297\">AN01012185122 </bbox></span></p></td><td colspan=\"1\" colstart=\"5\" rowspan=\"1\" rowstart=\"9\"><p indentation=\"5\"><span class=\"RobotoRegular_Black_18_0\"><bbox height=\"5.114701271057129\" page=\"1\" width=\"59.545166015625\" x=\"382.2682800292969\" y=\"179.4268035888672\">Attachment Flag: </bbox></span></p></td><td colspan=\"1\" colstart=\"6\" rowspan=\"1\" rowstart=\"9\"><p indentation=\"6\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"96.80426025390625\" x=\"461.24371337890625\" y=\"179.4186248779297\">NO </bbox></span></p></td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"10\"><p indentation=\"0\"><span class=\"RobotoRegular_Black_18_0\"><bbox height=\"5.114701271057129\" page=\"1\" width=\"64.1568717956543\" x=\"34.08462905883789\" y=\"192.1089324951172\">Supplier Company: </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"10\"><p indentation=\"1\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"96.80429077148438\" x=\"113.06005859375\" y=\"192.10081481933594\">IBM </bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"10\"> </td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"10\"> </td><td colspan=\"1\" colstart=\"5\" rowspan=\"1\" rowstart=\"10\"> </td><td colspan=\"1\" colstart=\"6\" rowspan=\"1\" rowstart=\"10\"> </td></tr></tbody></table><table border=\"1\" data-max-height=\"193.26535034179688\" data-max-width=\"536.398681640625\" data-max-x=\"29.084468841552734\" data-max-y=\"207.50283813476562\" data-min-height=\"193.26535034179688\" data-min-width=\"536.398681640625\" data-min-x=\"29.084468841552734\" data-min-y=\"207.50283813476562\" data-page=\"1\"><tbody><tr><td bg_color=\"Gainsboro\" colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"1\"><p indentation=\"0\"><span class=\"RobotoRegular_Black_23_0\"><bbox height=\"6.535452365875244\" page=\"1\" width=\"28.600635528564453\" x=\"36.96694564819336\" y=\"217.78199768066406\">Bill To\n</bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"1\"> </td><td bg_color=\"Gainsboro\" colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"1\"><p indentation=\"2\"><span class=\"RobotoRegular_Black_23_0\"><bbox height=\"6.535452365875244\" page=\"1\" width=\"34.365264892578125\" x=\"300.98699951171875\" y=\"217.78199768066406\">Ship To\n</bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"1\"> </td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"0\"><span class=\"RobotoRegular_Black_18_0\"><bbox height=\"5.114701271057129\" page=\"1\" width=\"23.804462432861328\" x=\"36.390480041503906\" y=\"233.03782653808594\">Name: </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"1\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"65.80440521240234\" x=\"115.36591339111328\" y=\"233.02964782714844\">BMS Puerto Rico Inc.\n</bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"2\"><span class=\"RobotoRegular_Black_18_0\"><bbox height=\"5.114701271057129\" page=\"1\" width=\"23.804473876953125\" x=\"300.4105224609375\" y=\"233.03782653808594\">Name: </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"3\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"66.95733642578125\" x=\"379.3859558105469\" y=\"233.02964782714844\">BMS Puerto Rico, Inc.\n</bbox></span></p></td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"0\"><span class=\"RobotoRegular_Black_18_0\"><bbox height=\"5.114701271057129\" page=\"1\" width=\"31.87494659423828\" x=\"36.390480041503906\" y=\"245.7200164794922\">Address: </bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"1\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"102.12157440185547\" x=\"115.36591339111328\" y=\"245.7118377685547\">Calle Tabonuco #6, Caparra Dev.\n</bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"2\"><span class=\"RobotoRegular_Black_18_0\"><bbox height=\"5.114701271057129\" page=\"1\" width=\"31.874969482421875\" x=\"300.4105224609375\" y=\"245.7200164794922\">Address: </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"3\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"49.61273193359375\" x=\"379.3859558105469\" y=\"245.7118377685547\">#6 Tobonuco St\n</bbox></span></p></td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"4\"> </td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"4\"><p indentation=\"1\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"70.68819427490234\" x=\"115.36591339111328\" y=\"254.93528747558594\">GUAYNABO, PR 00968\n</bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"4\"> </td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"4\"><p indentation=\"3\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"37.86669921875\" x=\"379.3859558105469\" y=\"254.93528747558594\">San Patricio\n</bbox></span></p></td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"5\"> </td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"5\"><p indentation=\"1\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"41.597557067871094\" x=\"115.36591339111328\" y=\"264.15869140625\">United States\n</bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"5\"> </td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"5\"><p indentation=\"3\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"66.07650756835938\" x=\"379.3859558105469\" y=\"264.15869140625\">Guaynabo, PR 00968\n</bbox></span></p></td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"6\"> </td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"6\"> </td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"6\"> </td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"6\"><p indentation=\"3\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"41.597564697265625\" x=\"379.3859558105469\" y=\"273.382080078125\">United States\n</bbox></span></p></td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"7\"> </td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"7\"> </td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"7\"><p indentation=\"2\"><span class=\"RobotoRegular_Black_18_0\"><bbox height=\"5.114701271057129\" page=\"1\" width=\"30.7220458984375\" x=\"300.4105224609375\" y=\"284.9194641113281\">Contact: </bbox></span></p></td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"7\"><p indentation=\"3\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"112.57632446289062\" x=\"379.3859558105469\" y=\"286.06427001953125\">Email: Marcia.Rosenberg@bms.com\n</bbox></span></p></td></tr><tr><td bg_color=\"LightGrey\" colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"8\"><p indentation=\"0\"><span class=\"RobotoRegular_Black_26_0\"><bbox height=\"7.38790225982666\" page=\"1\" width=\"50.73450469970703\" x=\"35.23755645751953\" y=\"311.4694519042969\">Messages\n</bbox></span></p></td><td colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"8\"> </td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"8\"> </td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"8\"> </td></tr><tr><td colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"9\"><p indentation=\"0\"><span class=\"RobotoRegular_Black_18_0\"><bbox height=\"5.114701271057129\" page=\"1\" width=\"36.48664474487305\" x=\"36.96694564819336\" y=\"330.4600524902344\">Comment: </bbox></span></p></td><td colspan=\"3\" colstart=\"2\" rowspan=\"1\" rowstart=\"9\"><p indentation=\"1\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"13.769790172576904\" page=\"1\" width=\"245.5040512084961\" x=\"116.51883697509766\" y=\"330.4519348144531\">** PLEASE NOTE: ALL INVOICES MUST REFERENCE A PURCHASE OR SERVICE ORDER NUMBER IN ORDER TO BE PROCESSED FOR PAYMENT. **\n</bbox></span></p><p indentation=\"1\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"22.99320936203003\" page=\"1\" width=\"224.94969940185547\" x=\"116.51883697509766\" y=\"348.89874267578125\">** To ensure timely processing, please ensure that the unit of measure (UOM) quoted on all delivery notes and invoices matches the UOM of the Purchase Order, otherwise provide a conversion factor. ***\n</bbox></span></p><p indentation=\"1\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"143.93587493896484\" x=\"116.51883697509766\" y=\"376.5689697265625\">Vendor Terms: FB5 FOB Origin Freight Prepaid\n</bbox></span></p><p indentation=\"1\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"269.56795501708984\" x=\"116.51883697509766\" y=\"385.7923889160156\">Notes: 2/13/2017 11:44 AM Marcia Rosenberg (rosenbm2): IBM Quotation#17509437\n</bbox></span></p></td></tr></tbody></table><table border=\"1\" data-max-height=\"51.86126708984375\" data-max-width=\"536.398681640625\" data-max-x=\"29.084468841552734\" data-max-y=\"400.7681884765625\" data-min-height=\"51.86126708984375\" data-min-width=\"536.398681640625\" data-min-x=\"29.084468841552734\" data-min-y=\"400.7681884765625\" data-page=\"1\"><tbody><tr><td bg_color=\"LightGrey\" colspan=\"2\" colstart=\"1\" rowspan=\"1\" rowstart=\"1\"><p indentation=\"0\"><span class=\"RobotoRegular_Black_26_0\"><bbox height=\"7.38790225982666\" page=\"1\" width=\"51.887428283691406\" x=\"34.661094665527344\" y=\"411.1975402832031\">Line Items\n</bbox></span></p></td><td colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"1\"> </td><td colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"1\"> </td><td colspan=\"1\" colstart=\"5\" rowspan=\"1\" rowstart=\"1\"> </td><td colspan=\"1\" colstart=\"6\" rowspan=\"1\" rowstart=\"1\"> </td><td colspan=\"1\" colstart=\"7\" rowspan=\"1\" rowstart=\"1\"> </td></tr><tr><td bg_color=\"Lavender\" colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"1\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"12.81131362915039\" x=\"43.884498596191406\" y=\"429.60357666015625\">Line </bbox></span></p></td><td bg_color=\"Lavender\" colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"3\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"51.494285583496094\" x=\"82.7957534790039\" y=\"429.60357666015625\">Customer Item # </bbox></span></p></td><td bg_color=\"Lavender\" colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"4\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"112.94064331054688\" x=\"168.97695922851562\" y=\"429.60357666015625\">Supplier Item # Quantity </bbox></span></p></td><td bg_color=\"Lavender\" colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"6\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"15.181732177734375\" x=\"324.91021728515625\" y=\"429.60357666015625\">UOM </bbox></span></p></td><td bg_color=\"Lavender\" colspan=\"1\" colstart=\"5\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"7\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"30.105224609375\" x=\"380.53887939453125\" y=\"429.60357666015625\">Unit Price </bbox></span></p></td><td bg_color=\"Lavender\" colspan=\"1\" colstart=\"6\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"9\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"27.624114990234375\" x=\"447.120361328125\" y=\"429.60357666015625\">Currency </bbox></span></p></td><td bg_color=\"Lavender\" colspan=\"1\" colstart=\"7\" rowspan=\"1\" rowstart=\"2\"><p indentation=\"11\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"10.4132080078125\" x=\"521.1958618164062\" y=\"429.60357666015625\">Net\n</bbox></span></p></td></tr><tr><td bg_color=\"GhostWhite\" colspan=\"1\" colstart=\"1\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"1\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"19.959457397460938\" x=\"40.137489318847656\" y=\"442.8622131347656\">00001 </bbox></span></p></td><td bg_color=\"GhostWhite\" colspan=\"1\" colstart=\"2\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"2\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"42.21092224121094\" x=\"68.095947265625\" y=\"442.8622131347656\">Not Available </bbox></span></p></td><td bg_color=\"GhostWhite\" colspan=\"1\" colstart=\"3\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"5\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"3.8184814453125\" x=\"266.9756774902344\" y=\"442.8622131347656\">1 </bbox></span></p></td><td bg_color=\"GhostWhite\" colspan=\"1\" colstart=\"4\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"6\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"8.628509521484375\" x=\"328.08074951171875\" y=\"442.8622131347656\">SU </bbox></span></p></td><td bg_color=\"GhostWhite\" colspan=\"1\" colstart=\"5\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"8\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"25.322845458984375\" x=\"402.4444885253906\" y=\"442.8622131347656\">360.00 </bbox></span></p></td><td bg_color=\"GhostWhite\" colspan=\"1\" colstart=\"6\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"10\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"13.12030029296875\" x=\"454.3261413574219\" y=\"442.8622131347656\">USD </bbox></span></p></td><td bg_color=\"GhostWhite\" colspan=\"1\" colstart=\"7\" rowspan=\"1\" rowstart=\"3\"><p indentation=\"12\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"25.3228759765625\" x=\"533.3015747070312\" y=\"442.8622131347656\">360.00 </bbox></span></p></td></tr></tbody></table><p text-alignment=\"left\"><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"1.6878814697265625\" x=\"35.81401824951172\" y=\"455.5444030761719\"></bbox></span><span class=\"RobotoRegular_Black_18_0\"><bbox height=\"5.114701271057129\" page=\"1\" width=\"60.12163543701172\" x=\"86.54276275634766\" y=\"457.8583679199219\">Item Description: </bbox></span><sup><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"136.8892059326172\" x=\"149.9536895751953\" y=\"457.8502502441406\">IBM PR for SH321 Mailbox. EDI Communica\n</bbox></span></sup></p><p text-alignment=\"center\"><span class=\"RobotoRegular_Black_18_0\"><bbox height=\"5.114701271057129\" page=\"1\" width=\"36.486656188964844\" x=\"110.17774200439453\" y=\"471.6934814453125\">Item Text: </bbox></span><sup><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"292.93540954589844\" x=\"149.9536895751953\" y=\"471.68536376953125\">IBM PR for SH321 Mailbox. EDI Communications Usage - Electronic Mail&amp; Messaging Services\n</bbox></span></sup></p><p text-alignment=\"left\"><span class=\"RobotoRegular_Black_19_0\"><bbox height=\"5.3988518714904785\" page=\"1\" width=\"22.75702667236328\" x=\"46.766815185546875\" y=\"485.8209228515625\">Dates </bbox></span></p><p text-alignment=\"left\"><span class=\"RobotoRegular_Black_18_0\"><bbox height=\"5.114701271057129\" page=\"1\" width=\"71.65089416503906\" x=\"75.01350402832031\" y=\"500.5166320800781\">Requested Delivery: </bbox></span><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"35.52394104003906\" x=\"149.9536895751953\" y=\"501.66143798828125\">2017-02-16\n</bbox></span></p><section data-level=\"2\" id=\"1.1\"><p text-alignment=\"left\"><span class=\"title\"><span class=\"RobotoRegular_Black_26_0\"><bbox height=\"7.38790225982666\" page=\"1\" width=\"93.39276885986328\" x=\"34.661094665527344\" y=\"528.2195434570312\">Transaction Totals\n</bbox></span></span></p><p text-alignment=\"right\"><span class=\"RobotoRegular_Black_18_0\"><bbox height=\"5.114701271057129\" page=\"1\" width=\"57.81578063964844\" x=\"53.68437194824219\" y=\"544.904296875\">Total Line Items: </bbox></span><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"31.375732421875\" x=\"136.9832763671875\" y=\"544.8961791992188\">1 </bbox></span><span class=\"RobotoRegular_Black_18_0\"><bbox height=\"5.114701271057129\" page=\"1\" width=\"51.474700927734375\" x=\"272.1638488769531\" y=\"544.904296875\">Total Quantity: </bbox></span><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"31.375732421875\" x=\"349.12164306640625\" y=\"544.8961791992188\">1 </bbox></span><span class=\"RobotoRegular_Black_18_0\"><bbox height=\"5.114701271057129\" page=\"1\" width=\"48.592376708984375\" x=\"459.5143127441406\" y=\"544.904296875\">Total Amount: </bbox></span><span class=\"RobotoRegular_Black_16_0\"><bbox height=\"4.546401500701904\" page=\"1\" width=\"25.3228759765625\" x=\"535.0309448242188\" y=\"544.8961791992188\">360.00 </bbox></span></p></section></section></body></html>"
+  ]
 }

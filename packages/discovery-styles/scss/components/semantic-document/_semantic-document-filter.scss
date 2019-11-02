@@ -2,10 +2,13 @@
 
 .#{$prefix}--semantic-doc-filter {
   .resetButton {
-    padding: 0;
+    padding: $spacing-sm;
     outline: none;
     border: none;
     background-color: initial;
+    &:focus {
+      outline: 1px solid;
+    }
   }
 
   .group-title {

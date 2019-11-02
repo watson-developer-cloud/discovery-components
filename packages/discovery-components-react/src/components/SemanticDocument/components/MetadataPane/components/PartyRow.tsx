@@ -24,9 +24,10 @@ const PartyRow: FC<PartyRowProps> = ({
 }) => {
   const base = `${settings.prefix}--semantic-doc-metadata`;
   return (
-    <div className="PartyRow">
+    <>
       {party.mentions ? (
         <Link
+          className={`${base}__link`}
           onClick={(evt: MouseEvent): void => {
             onLinkClick(evt, party.mentions, onActivePartyChange);
           }}
@@ -60,9 +61,9 @@ const PartyRow: FC<PartyRowProps> = ({
             <h3>{addressesHeading}</h3>
             {party.addresses.map(address => {
               return (
-                <div className="PartyRow__sub-container" key={getId(address)}>
+                <div key={getId(address)}>
                   <Link
-                    className="PartyRow__Link"
+                    className={`${base}__link`}
                     href="#"
                     onClick={(evt: MouseEvent): void => {
                       onLinkClick(evt, party.addresses, onActivePartyChange);
@@ -93,7 +94,7 @@ const PartyRow: FC<PartyRowProps> = ({
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 };
 

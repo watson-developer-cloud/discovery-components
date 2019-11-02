@@ -12,17 +12,18 @@ export interface ProcessFilter {
 function getFilterHelper({
   knownFilterGroups,
   itemList,
-  modelId,
+  enrichmentName,
   messages
 }: {
   knownFilterGroups?: FilterGroup[];
   itemList: any;
-  modelId: string;
+  enrichmentName: string;
   messages: Record<string, string>;
 }): { processFilter: HelperFilterFn } {
   const filterGroups = knownFilterGroups
     ? _processFilter(itemList, knownFilterGroups)(itemList).filterGroups
-    : _processFilter(itemList, getBaseFilterGroups(modelId, messages))(itemList).filterGroups;
+    : _processFilter(itemList, getBaseFilterGroups(enrichmentName, messages))(itemList)
+        .filterGroups;
 
   return {
     processFilter: _processFilter(itemList, filterGroups)

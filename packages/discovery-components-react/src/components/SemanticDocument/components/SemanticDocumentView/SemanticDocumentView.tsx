@@ -16,12 +16,14 @@ import get from 'lodash/get';
 import flattenDeep from 'lodash/flattenDeep';
 import difference from 'lodash/difference';
 import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
 import DetailsPane from '../DetailsPane/DetailsPane';
 import MetadataPane from '../MetadataPane/MetadataPane';
 import FilterPanel from '../FilterPanel/FilterPanel';
 import NavigationToolbar from '../NavigationToolbar/NavigationToolbar';
 import SemanticDocument from '../SemanticDocument/SemanticDocument';
 import processDoc from '../../../../utils/document/processDoc';
+import { getEnrichmentName } from '../../utils/enrichmentUtils';
 import { getDetailsFromItem, getDetailsFromMetadata } from '../../utils/details';
 import { getFilterHelper, ProcessFilter } from '../../utils/filterHelper';
 import { isFilterEmpty, updateFilter } from '../../utils/filterUtils';
@@ -29,9 +31,10 @@ import { getId, findElement, findElementIndex } from '../../../../utils/document
 import {
   hasRelation,
   isRelationObject,
-  isNonContract
+  isInvoiceOrPurchaseOrder
 } from '../../../../utils/document/nonContractUtils';
 import { Filter, FilterGroup, FilterChangeArgs } from '../FilterPanel/types';
+import { EnrichedHtml, Contract } from '../../types';
 import { MetadataData, Address, Mention } from '../MetadataPane/types';
 import { Items } from '../DetailsPane/types';
 import { Item, Field } from '../../types';
@@ -75,9 +78,9 @@ const nonContractTabs = [ATTRIBUTES, RELATIONS];
 export function canRenderSemanticDocument(document: QueryResult): boolean {
   return (
     !!document.html &&
-    (!!get(document, 'enriched_html_elements.elements') ||
-      !!get(document, 'enriched_html_elements.invoices') ||
-      !!get(document, 'enriched_html_elements.purchase_orders'))
+    (!!get(document, 'enriched_html[0].contract') ||
+      !!get(document, 'enriched_html[0].invoice') ||
+      !!get(document, 'enriched_html[0].purchase_order'))
   );
 }
 
@@ -111,19 +114,18 @@ const SemanticDocumentView: FC<SemanticDocProps> = ({
   const [state, dispatch] = useReducer<Reducer<State, Action>>(docStateReducer, INITIAL_STATE);
 
   const filename = get(document, 'extracted_metadata.filename', messages.defaultDocumentName);
-  const modelId = get(document, 'enriched_html_elements.model_id', '');
-  // Needs to be externalized, and based on the current modelId
-  let itemList: any[] = get(document, ['enriched_html_elements', 'elements'], []);
-  const metadata: any[] = get(document, ['enriched_html_elements', 'metadata'], []);
-  const parties: any[] = get(document, ['enriched_html_elements', 'parties'], []);
+  const enrichedHtml: EnrichedHtml = get(document, ['enriched_html', '0'], {});
+  const enrichmentName = getEnrichmentName(enrichedHtml);
 
   const [selectedType, setSelectedType] = useState(ATTRIBUTES);
   const [selectedContractFilter, setSelectedContractFilter] = useState(FILTERS);
 
-  let highlightedItem = get(document, 'enriched_html_elements.elements');
-  if (isNonContract(modelId)) {
-    itemList = get(document, ['enriched_html_elements', selectedType], []);
-    highlightedItem = document.enriched_html_elements[selectedType];
+  const enrichment = get(enrichedHtml, enrichmentName, {});
+  const { elements = [], metadata = [], parties = [] }: Contract = enrichment;
+
+  let itemList = elements;
+  if (isInvoiceOrPurchaseOrder(enrichmentName)) {
+    itemList = get(enrichment, selectedType, []);
   }
 
   const resetTabs = (): void => {
@@ -161,9 +163,9 @@ const SemanticDocumentView: FC<SemanticDocProps> = ({
   const [filterGroups, setFilterGroups] = useState<FilterGroup[]>([]);
 
   useEffect(() => {
-    if (document) {
+    if (!isEmpty(document)) {
       const helper = getFilterHelper({
-        modelId,
+        enrichmentName,
         itemList,
         messages: messages as Record<string, string>
       });
@@ -171,7 +173,7 @@ const SemanticDocumentView: FC<SemanticDocProps> = ({
       setCurrentFilter({});
       setFilterGroups(helper.processFilter({}).filterGroups);
     }
-  }, [modelId, document, itemList, messages]);
+  }, [enrichmentName, document, itemList, messages]);
 
   const [highlightedList, setHighlightedList] = useState<any[]>([]);
 
@@ -219,7 +221,7 @@ const SemanticDocumentView: FC<SemanticDocProps> = ({
   // generate render variables from state
   const activeElement = getActiveElement(activeIds, itemList);
   let activeIndex = getActiveIndex(activeIds, highlightedList);
-  let activeDetails = getActiveDetails(activeElement, getDetailsFromItem(modelId));
+  let activeDetails = getActiveDetails(activeElement, getDetailsFromItem(enrichmentName));
 
   if (selectedContractFilter === METADATA) {
     activeIndex = getActiveIndex(activeMetadataIds, highlightedList);
@@ -247,7 +249,7 @@ const SemanticDocumentView: FC<SemanticDocProps> = ({
 
     return (
       <>
-        {isNonContract(modelId) ? (
+        {isInvoiceOrPurchaseOrder(enrichmentName) ? (
           <Tabs
             className={`${base}__tabs`}
             selected={nonContractTabs.indexOf(selectedType)}
@@ -306,7 +308,7 @@ const SemanticDocumentView: FC<SemanticDocProps> = ({
 
   const allClickableIds = getAllClickableIds(itemList);
   let nonContractProps = {};
-  if (isNonContract(modelId)) {
+  if (isInvoiceOrPurchaseOrder(enrichmentName)) {
     nonContractProps = {
       activeIds: difference(activeIds, allClickableIds).length === 0 ? activeIds : []
     };
@@ -314,57 +316,59 @@ const SemanticDocumentView: FC<SemanticDocProps> = ({
 
   return (
     <div className={base}>
-      <nav className={`${base}__toolbar`}>
-        <div className={`${base}__title`}>{filename}</div>
-        {highlightedList.length > 0 && (
-          <>
-            <NavigationToolbar
-              className={`${base}__nav`}
-              index={activeIndex + 1}
-              max={highlightedList.length}
-              onChange={onNavigationChange({
-                setActiveIds:
-                  selectedContractFilter === METADATA ? setActiveMetadataIds : setActiveIds,
-                highlightedList
-              })}
-            />
-            <div className={`${base}__rightGutter`} />
-          </>
-        )}
-      </nav>
-      <div className={`${base}__main`}>
-        <aside className={`${base}__filters`}>{renderFilterPane()}</aside>
-        <article className={`${base}__doc`}>
-          {state.isError ? (
-            <p className={`${base}__docError`}>{messages.parseErrorMessage}</p>
-          ) : (
-            <SemanticDocument
-              styles={state.styles}
-              sections={state.sections}
-              itemMap={state.itemMap}
-              highlightedIds={highlightedIds}
-              activeIds={activeIds}
-              activePartIds={activePartIds}
-              onItemClick={onItemClick({
-                setActiveIds,
-                elementList: highlightedItem
-              })}
-              allClickableIds={allClickableIds}
-              activeMetadataIds={activeMetadataIds}
-              width={overrideDocWidth}
-              height={overrideDocHeight}
-              {...nonContractProps}
-            />
-          )}
-        </article>
-        <aside className={`${base}__details`}>
-          <DetailsPane
-            items={activeDetails}
-            onActiveLinkChange={onDetailsLink({ activeElement, setActivePartIds })}
-            selectedLink={getSelectedLink({ activeElement, activePartIds })}
-          />
-        </aside>
-      </div>
+      {state.isError ? (
+        <p className={`${base}__docError`}>{messages.parseErrorMessage}</p>
+      ) : (
+        <>
+          <nav className={`${base}__toolbar`}>
+            <div className={`${base}__title`}>{filename}</div>
+            {highlightedList.length > 0 && (
+              <>
+                <NavigationToolbar
+                  className={`${base}__nav`}
+                  index={activeIndex + 1}
+                  max={highlightedList.length}
+                  onChange={onNavigationChange({
+                    setActiveIds:
+                      selectedContractFilter === METADATA ? setActiveMetadataIds : setActiveIds,
+                    highlightedList
+                  })}
+                />
+                <div className={`${base}__rightGutter`} />
+              </>
+            )}
+          </nav>
+          <div className={`${base}__main`}>
+            <aside className={`${base}__filters`}>{renderFilterPane()}</aside>
+            <article className={`${base}__doc`}>
+              <SemanticDocument
+                styles={state.styles}
+                sections={state.sections}
+                itemMap={state.itemMap}
+                highlightedIds={highlightedIds}
+                activeIds={activeIds}
+                activePartIds={activePartIds}
+                onItemClick={onItemClick({
+                  setActiveIds,
+                  elementList: itemList
+                })}
+                allClickableIds={allClickableIds}
+                activeMetadataIds={activeMetadataIds}
+                width={overrideDocWidth}
+                height={overrideDocHeight}
+                {...nonContractProps}
+              />
+            </article>
+            <aside className={`${base}__details`}>
+              <DetailsPane
+                items={activeDetails}
+                onActiveLinkChange={onDetailsLink({ activeElement, setActivePartIds })}
+                selectedLink={getSelectedLink({ activeElement, activePartIds })}
+              />
+            </aside>
+          </div>
+        </>
+      )}
     </div>
   );
 };
@@ -526,16 +530,7 @@ function getActiveDetails(activeElement: any, getDetailsFn: (item: any) => Items
 }
 
 function getAllClickableIds(itemList: any[]): string[] {
-  const attributeIds: string[] = [];
-
-  itemList.forEach(itm => {
-    if (itm.allAttributeIds) {
-      attributeIds.push(itm.allAttributeIds);
-    } else {
-      attributeIds.push(getId(itm));
-    }
-  });
-  return flattenDeep(attributeIds);
+  return flattenDeep(itemList.map(item => item.allAttributeIds || getId(item)));
 }
 
 function getSelectedLink({

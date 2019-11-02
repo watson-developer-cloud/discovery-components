@@ -13,6 +13,7 @@
 
   a {
     margin-left: $spacing-xs;
+    display: inline-block;
   }
 
   svg {
@@ -32,4 +33,8 @@
   font-size: $spacing-md;
   margin-top: $spacing-sm;
   border-top: 1px solid $gray_70;
+}
+
+.#{$prefix}--semantic-doc-metadata__link {
+  display: inline-block;
 }

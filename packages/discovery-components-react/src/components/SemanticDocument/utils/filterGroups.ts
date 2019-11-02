@@ -52,9 +52,9 @@ const nonContractFilterGroups: FilterGroupWithFns[] = [
 ];
 
 const modelMapping: { [key: string]: FilterGroupWithFns[] } = {
-  contracts: contractFilterGroups,
-  invoices: nonContractFilterGroups,
-  purchase_orders: nonContractFilterGroups
+  contract: contractFilterGroups,
+  invoice: nonContractFilterGroups,
+  purchase_order: nonContractFilterGroups
 };
 
 const messagesMap = {
@@ -69,13 +69,16 @@ const messagesMap = {
 /**
  * Get the filter groups for the given model type
  *
- * @param {string} modelId id of current model
+ * @param {string} enrichmentName id of current model
  * @param {function} formatMessage intl formatMessage function
  * @param {string} selectedType selected type. (used for sharedDomains)
  * @returns a list of filter groups
  */
-function getBaseFilterGroups(modelId: string, messages: { [key: string]: string }): FilterGroup[] {
-  const groups = modelMapping[modelId] || [];
+function getBaseFilterGroups(
+  enrichmentName: string,
+  messages: Record<string, string>
+): FilterGroup[] {
+  const groups = modelMapping[enrichmentName] || [];
 
   return groups.map(group => ({
     ...group,

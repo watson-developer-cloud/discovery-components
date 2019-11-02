@@ -11,7 +11,7 @@ describe('filterHelper', () => {
     filterHelper = getFilterHelper({
       knownFilterGroups: (mockFilterGroups as unknown) as FilterGroup[],
       itemList: mockFilterElements,
-      modelId: 'foobar',
+      enrichmentName: 'foobar',
       messages: {
         FILTER_GROUP_A: 'Filter Group A',
         FILTER_GROUP_B: 'Filter Group B',
