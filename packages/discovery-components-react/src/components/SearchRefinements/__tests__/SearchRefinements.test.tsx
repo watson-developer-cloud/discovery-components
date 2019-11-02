@@ -6,10 +6,9 @@ import { SearchRefinements } from '../SearchRefinements';
 import { SearchContextIFC, SearchApiIFC } from '../../DiscoverySearch/DiscoverySearch';
 import { refinementsQueryResponse } from '../fixtures/refinementsQueryResponse';
 import collectionsResponse from '../fixtures/collectionsResponse';
-import {
-  noAvailableRefinementsMessage,
-  invalidConfigurationMessage
-} from '../utils/searchRefinementMessages';
+import { noAvailableRefinementsMessage } from '../utils/searchRefinementMessages';
+import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
+import '@testing-library/jest-dom/extend-expect';
 
 interface Setup {
   context: Partial<SearchContextIFC>;
@@ -23,7 +22,8 @@ interface Setup {
 const setup = (
   filter: string,
   showCollections = false,
-  aggregations = refinementsQueryResponse.result.aggregations
+  aggregations = refinementsQueryResponse.result.aggregations,
+  componentSettingsAggregations?: DiscoveryV2.ComponentSettingsAggregation[]
 ): Setup => {
   const fetchAggregationsMock = jest.fn();
   const performSearchMock = jest.fn();
@@ -32,7 +32,11 @@ const setup = (
     collectionsResults: collectionsResponse.result,
     searchParameters: {
       projectId: '',
-      filter: filter
+      filter: filter,
+      aggregation: '[term(author,count:3),term(subject,count:4)]'
+    },
+    componentSettings: {
+      aggregations: componentSettingsAggregations
     }
   };
   const api: Partial<SearchApiIFC> = {
@@ -40,25 +44,7 @@ const setup = (
     fetchAggregations: fetchAggregationsMock
   };
   const searchRefinementsComponent = render(
-    wrapWithContext(
-      <SearchRefinements
-        showCollections={showCollections}
-        configuration={[
-          {
-            type: 'term',
-            field: 'author',
-            count: 3
-          },
-          {
-            type: 'term',
-            field: 'subject',
-            count: 4
-          }
-        ]}
-      />,
-      api,
-      context
-    )
+    wrapWithContext(<SearchRefinements showCollections={showCollections} />, api, context)
   );
   return {
     context,
@@ -70,7 +56,7 @@ const setup = (
 
 describe('SearchRefinementsComponent', () => {
   describe('component load', () => {
-    test('it calls fetchAggregations with configuration', () => {
+    test('it calls fetch aggregations with aggregation string', () => {
       const { fetchAggregationsMock } = setup('');
       expect(fetchAggregationsMock).toBeCalledTimes(1);
       expect(fetchAggregationsMock).toBeCalledWith(
@@ -84,16 +70,42 @@ describe('SearchRefinementsComponent', () => {
   describe('field refinements', () => {
     describe('when aggregations exist', () => {
       describe('legend header elements', () => {
-        test('contains first refinement header with author field text', () => {
-          const { searchRefinementsComponent } = setup('');
-          const headerAuthorField = searchRefinementsComponent.getByText('author');
-          expect(headerAuthorField).toBeDefined();
+        describe('When there are no aggregation component settings', () => {
+          test('contains first refinement header with author field text', () => {
+            const { searchRefinementsComponent } = setup('');
+            const headerAuthorField = searchRefinementsComponent.getByText('author');
+            expect(headerAuthorField).toBeDefined();
+          });
+
+          test('contains second refinement header with subject field text', () => {
+            const { searchRefinementsComponent } = setup('');
+            const headerSubjectField = searchRefinementsComponent.getByText('subject');
+            expect(headerSubjectField).toBeDefined();
+          });
         });
 
-        test('contains second refinement header with subject field text', () => {
-          const { searchRefinementsComponent } = setup('');
-          const headerSubjectField = searchRefinementsComponent.getByText('subject');
-          expect(headerSubjectField).toBeDefined();
+        describe('When there are aggregation component settings', () => {
+          test('should render the labels contained in aggregation component settings', () => {
+            const { searchRefinementsComponent } = setup('', undefined, undefined, [
+              { label: 'label1' },
+              { label: 'label2' }
+            ]);
+            expect(searchRefinementsComponent.getByText('label1')).toBeInTheDocument();
+            expect(searchRefinementsComponent.getByText('label2')).toBeInTheDocument();
+          });
+
+          describe('And there is a filter string also', () => {
+            test('should render the labels contained in aggregation component settings', () => {
+              const { searchRefinementsComponent } = setup(
+                'author:"editor"',
+                undefined,
+                undefined,
+                [{ label: 'label1' }, { label: 'label2' }]
+              );
+              expect(searchRefinementsComponent.getByText('label1')).toBeInTheDocument();
+              expect(searchRefinementsComponent.getByText('label2')).toBeInTheDocument();
+            });
+          });
         });
       });
     });
@@ -191,7 +203,7 @@ describe('SearchRefinementsComponent', () => {
       beforeEach(() => {
         result = render(
           wrapWithContext(
-            <SearchRefinements configuration={[{ field: 'one', type: 'term' }]} />,
+            <SearchRefinements />,
             {},
             {
               aggregationResults: [termAgg],
@@ -214,10 +226,7 @@ describe('SearchRefinementsComponent', () => {
       beforeEach(() => {
         result = render(
           wrapWithContext(
-            <SearchRefinements
-              configuration={[{ field: 'one', type: 'term' }]}
-              messages={{ clearAllButtonText: 'different text' }}
-            />,
+            <SearchRefinements messages={{ clearAllButtonText: 'different text' }} />,
             {},
             {
               aggregationResults: [termAgg],
@@ -234,22 +243,6 @@ describe('SearchRefinementsComponent', () => {
         expect(result.queryAllByText('different text')).toHaveLength(1);
         expect(result.queryAllByTitle('Clear all selected items')).toHaveLength(1);
       });
-    });
-  });
-
-  describe('provides invalid error message in console when invalid configuration is provided', () => {
-    const originalError = console.error;
-    afterEach(() => (console.error = originalError));
-    const consoleOutput: string[] = [];
-    const mockedError = (output: string): any => {
-      consoleOutput.push(output);
-    };
-    beforeEach(() => (console.error = mockedError));
-
-    test('it provides invalid message in console error when empty array is provided for configuration', () => {
-      const { context } = setup('');
-      render(wrapWithContext(<SearchRefinements configuration={[]} />, {}, context));
-      expect(consoleOutput).toEqual([invalidConfigurationMessage]);
     });
   });
 });

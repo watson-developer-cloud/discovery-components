@@ -10,17 +10,32 @@ import unionBy from 'lodash/unionBy';
 export const mergeFilterRefinements = (
   aggregations: DiscoveryV2.QueryAggregation[],
   filterFields: SelectableQueryTermAggregation[],
-  configuration: DiscoveryV2.QueryTermAggregation[]
+  componentSettingsAggregations: DiscoveryV2.ComponentSettingsAggregation[]
 ): SelectableQueryTermAggregation[] => {
   if (!aggregations) {
     return [];
   }
+  const termAggreations = findTermAggregations(aggregations);
+  // add component settings label if it exist's
+  const labeledTermAggregtions: SelectableQueryTermAggregation[] = termAggreations.map(
+    (termAggregation, i) => {
+      if (componentSettingsAggregations[i]) {
+        return {
+          ...termAggregation,
+          label: componentSettingsAggregations[i].label,
+          field: termAggregation.field
+        };
+      } else {
+        return termAggregation;
+      }
+    }
+  );
 
-  return findTermAggregations(aggregations)
+  return labeledTermAggregtions
     .filter(aggregation => {
       return aggregation.results;
     })
-    .map((aggregation: DiscoveryV2.QueryTermAggregation) => {
+    .map((aggregation: SelectableQueryTermAggregation) => {
       const aggregationField = get(aggregation, 'field', '');
       const aggregationResults: DiscoveryV2.QueryTermAggregationResult[] = get(
         aggregation,
@@ -55,12 +70,9 @@ export const mergeFilterRefinements = (
           filterRefinementResults,
           'key'
         );
-        const fieldConfigurationCount = configuration.find(
-          config => config.field === aggregationField
-        );
+
         const unselectedResultsToSlice =
-          get(fieldConfigurationCount, 'count', 10) -
-          selectedNewAggAndFilterRefinementResults.length;
+          get(aggregation, 'count', 10) - selectedNewAggAndFilterRefinementResults.length;
         const unselectedNewAggResults = newAggResults
           .filter(result => !result.selected)
           .slice(0, unselectedResultsToSlice);
@@ -68,6 +80,7 @@ export const mergeFilterRefinements = (
         return {
           type: 'term',
           field: aggregationField,
+          label: aggregation.label,
           results: unionBy(unselectedNewAggResults, selectedNewAggAndFilterRefinementResults, 'key')
         };
       } else {

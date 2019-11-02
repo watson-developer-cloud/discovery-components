@@ -20,32 +20,15 @@ const setup = (filter: string): Setup => {
     },
     searchParameters: {
       projectId: '',
-      filter: filter
+      filter: filter,
+      aggregation: '[term(author,count:3),term(subject,count:4)]'
     }
   };
   const api: Partial<SearchApiIFC> = {
     performSearch: performSearchMock
   };
   const refinementsComponent = render(
-    wrapWithContext(
-      <SearchRefinements
-        showSuggestedRefinements={true}
-        configuration={[
-          {
-            type: 'term',
-            field: 'author',
-            count: 3
-          },
-          {
-            type: 'term',
-            field: 'subject',
-            count: 4
-          }
-        ]}
-      />,
-      api,
-      context
-    )
+    wrapWithContext(<SearchRefinements showSuggestedRefinements={true} />, api, context)
   );
   return {
     performSearchMock,

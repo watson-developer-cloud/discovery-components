@@ -8,6 +8,7 @@ export interface SelectableQueryTermAggregationResult
 export interface SelectableQueryTermAggregation
   extends Omit<DiscoveryV2.QueryTermAggregation, 'results'> {
   results?: SelectableQueryTermAggregationResult[];
+  label?: string;
 }
 
 export interface SearchFilterRefinements {

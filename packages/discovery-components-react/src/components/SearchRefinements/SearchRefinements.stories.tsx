@@ -1,9 +1,10 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, object, boolean } from '@storybook/addon-knobs/react';
+import { withKnobs, text, boolean, object } from '@storybook/addon-knobs/react';
 import { SearchRefinements } from './SearchRefinements';
 import { refinementsQueryResponse } from './fixtures/refinementsQueryResponse';
 import collectionsResponse from './fixtures/collectionsResponse';
+import aggregationComponentSettingsResponse from './fixtures/componentSettingsResponse';
 import { StoryWrapper, DummySearchClient } from '../../utils/storybookUtils';
 import { createDummyResponsePromise } from '../../utils/testingUtils';
 import { DiscoverySearch, DiscoverySearchProps } from '../DiscoverySearch/DiscoverySearch';
@@ -30,18 +31,6 @@ export const props = () => ({
       label: 'Talking Points',
       multiple_selections_allowed: true
     }
-  ]),
-  configuration: object('Refinements configuration', [
-    {
-      type: 'term',
-      field: 'author',
-      count: 3
-    },
-    {
-      type: 'term',
-      field: 'subject',
-      count: 4
-    }
   ])
 });
 
@@ -55,6 +44,12 @@ class DummySearchClientWithQueryAndCollections extends DummySearchClient {
   ): Promise<DiscoveryV2.Response<DiscoveryV2.ListCollectionsResponse>> {
     action('listCollections')(params);
     return createDummyResponsePromise(collectionsResponse.result);
+  }
+  getComponentSettings(
+    params: DiscoveryV2.GetComponentSettingsParams
+  ): Promise<DiscoveryV2.Response<DiscoveryV2.ComponentSettingsResponse>> {
+    action('getComponentSettings')(params);
+    return createDummyResponsePromise(aggregationComponentSettingsResponse.result);
   }
 }
 

@@ -13,7 +13,7 @@ import get from 'lodash/get';
 
 interface SingleSelectRefinementsGroupProps {
   /**
-   * Suggested refinements text and selected flag
+   * refinements text and selected flag
    */
   refinements: (SelectableQuerySuggestedRefinement | SelectableQueryTermAggregationResult)[];
   /**
@@ -21,7 +21,7 @@ interface SingleSelectRefinementsGroupProps {
    */
   attributeKeyName: 'key' | 'text';
   /**
-   * Label used for suggested refinements group
+   * Label used for refinements group
    */
   refinementsLabel: string;
   /**
@@ -36,6 +36,10 @@ interface SingleSelectRefinementsGroupProps {
     selectedRefinementKey: string,
     checked: boolean
   ) => void;
+  /**
+   * Field used for refinements group
+   */
+  refinementsField: string;
 }
 
 export const SingleSelectRefinementsGroup: FC<SingleSelectRefinementsGroupProps> = ({
@@ -43,6 +47,7 @@ export const SingleSelectRefinementsGroup: FC<SingleSelectRefinementsGroupProps>
   attributeKeyName,
   refinementsLabel,
   selectedRefinement,
+  refinementsField,
   onChange
 }) => {
   const {
@@ -61,7 +66,7 @@ export const SingleSelectRefinementsGroup: FC<SingleSelectRefinementsGroupProps>
     <fieldset className={fieldsetClasses.join(' ')}>
       <legend className={labelClasses.join(' ')}>{refinementsLabel}</legend>
       <CarbonRadioButtonGroup
-        name={`${refinementsLabel}`}
+        name={`${refinementsField}`}
         valueSelected={selectedRefinement}
         orientation={'vertical'}
       >

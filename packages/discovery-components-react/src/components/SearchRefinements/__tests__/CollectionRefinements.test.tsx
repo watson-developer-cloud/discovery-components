@@ -20,29 +20,12 @@ const setup = (collectionIds?: string[]): Setup => {
     collectionsResults: collectionsResponse.result,
     searchParameters: {
       projectId: '',
-      collectionIds
+      collectionIds,
+      aggregation: '[term(author,count:3),term(subject,count:4)]'
     }
   };
   const collectionRefinementsComponent = render(
-    wrapWithContext(
-      <SearchRefinements
-        showCollections={true}
-        configuration={[
-          {
-            type: 'term',
-            field: 'author',
-            count: 3
-          },
-          {
-            type: 'term',
-            field: 'subject',
-            count: 4
-          }
-        ]}
-      />,
-      api,
-      context
-    )
+    wrapWithContext(<SearchRefinements showCollections={true} />, api, context)
   );
   return {
     performSearchMock,

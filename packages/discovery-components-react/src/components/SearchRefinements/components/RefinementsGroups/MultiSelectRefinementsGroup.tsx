@@ -25,13 +25,17 @@ interface MultiSelectRefinementsGroupProps {
    */
   attributeKeyName: 'key' | 'text';
   /**
-   * Label used for suggested refinements group
+   * Label used for refinements group
    */
   refinementsLabel: string;
   /**
    * i18n messages for the component
    */
   messages: Messages;
+  /**
+   * Field used for refinements group
+   */
+  refinementsField: string;
   /**
    * Callback to handle changes in selected refinements
    */
@@ -52,7 +56,8 @@ export const MultiSelectRefinementsGroup: FC<MultiSelectRefinementsGroupProps> =
   refinementsLabel,
   messages,
   onChange,
-  onClear
+  onClear,
+  refinementsField
 }) => {
   const {
     searchParameters: { naturalLanguageQuery }
@@ -68,12 +73,10 @@ export const MultiSelectRefinementsGroup: FC<MultiSelectRefinementsGroupProps> =
     const target: HTMLInputElement = event.currentTarget;
     const selectedRefinementField = target.getAttribute('data-field') || '';
     const selectedRefinementKey = target.getAttribute('data-key') || '';
-
     onChange(selectedRefinementField, selectedRefinementKey, checked);
   };
   const handleClearRefinements = (): void => {
-    // TODO this should be refinementsField
-    onClear(refinementsLabel);
+    onClear(refinementsField);
   };
   const translateWithId = (id: string): string => {
     const mapping = {
@@ -109,7 +112,7 @@ export const MultiSelectRefinementsGroup: FC<MultiSelectRefinementsGroupProps> =
             labelText={text}
             key={`checkbox-${escapedLabel}-${base64data}`}
             id={`checkbox-${escapedLabel}-${text.replace(/\s+/g, '_')}`}
-            data-field={refinementsLabel}
+            data-field={refinementsField}
             data-key={text}
             checked={!!refinement.selected}
           />

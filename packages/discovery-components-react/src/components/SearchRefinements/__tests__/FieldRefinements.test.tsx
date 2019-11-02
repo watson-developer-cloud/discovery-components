@@ -20,7 +20,7 @@ const aggregationComponentSettings: DiscoveryV2.ComponentSettingsAggregation[] =
   },
   {
     name: 'subject',
-    label: 'Talking Points',
+    label: 'Topics',
     multiple_selections_allowed: true
   }
 ];
@@ -55,21 +55,7 @@ const setup = (
   };
   const fieldRefinementsComponent = render(
     wrapWithContext(
-      <SearchRefinements
-        configuration={[
-          {
-            type: 'term',
-            field: 'author',
-            count: 3
-          },
-          {
-            type: 'term',
-            field: 'subject',
-            count: 4
-          }
-        ]}
-        componentSettingsAggregations={componentSettingsAggregations}
-      />,
+      <SearchRefinements overrideComponentSettingsAggregations={componentSettingsAggregations} />,
       api,
       context
     )
@@ -84,13 +70,13 @@ describe('FilterRefinementsComponent', () => {
   describe('legend header elements', () => {
     test('contains first refinement header with author field text', () => {
       const { fieldRefinementsComponent } = setup('');
-      const headerAuthorField = fieldRefinementsComponent.getByText('author');
+      const headerAuthorField = fieldRefinementsComponent.getByText('Writers');
       expect(headerAuthorField).toBeDefined();
     });
 
     test('contains second refinement header with subject field text', () => {
       const { fieldRefinementsComponent } = setup('');
-      const headerSubjectField = fieldRefinementsComponent.getByText('subject');
+      const headerSubjectField = fieldRefinementsComponent.getByText('Topics');
       expect(headerSubjectField).toBeDefined();
     });
   });

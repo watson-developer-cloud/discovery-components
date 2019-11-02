@@ -61,6 +61,7 @@ export const SuggestedRefinements: FC<SuggestedRefinementsProps> = ({
       onChange={handleOnChange}
       onClear={handleOnClear}
       refinementsLabel={suggestedRefinementsLabel}
+      refinementsField={''}
       attributeKeyName="text"
       messages={messages}
     />

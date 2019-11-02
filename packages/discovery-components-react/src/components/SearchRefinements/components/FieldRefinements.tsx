@@ -119,7 +119,8 @@ export const FieldRefinements: FC<FieldRefinementsProps> = ({
           'results',
           []
         );
-        const aggregationField = aggregation.field;
+
+        const { field: aggregationField, label: aggregationLabel } = aggregation;
         const orderedAggregationResults = aggregationResults.sort(
           (a, b) => (b.matching_results || 0) - (a.matching_results || 0)
         );
@@ -136,7 +137,8 @@ export const FieldRefinements: FC<FieldRefinementsProps> = ({
               refinements={orderedAggregationResults}
               onChange={handleOnChange}
               onClear={handleOnClear}
-              refinementsLabel={aggregationField || ''}
+              refinementsField={aggregationField}
+              refinementsLabel={aggregationLabel || aggregationField || ''}
               messages={messages}
               attributeKeyName="key"
             />
@@ -148,7 +150,8 @@ export const FieldRefinements: FC<FieldRefinementsProps> = ({
               key={`refinement-group-${aggregationField}-${i}`}
               refinements={orderedAggregationResults}
               onChange={handleOnChange}
-              refinementsLabel={aggregationField || ''}
+              refinementsField={aggregationField}
+              refinementsLabel={aggregationLabel || aggregationField || ''}
               selectedRefinement={selectedRefinementText}
               attributeKeyName="key"
             />

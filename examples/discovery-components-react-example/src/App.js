@@ -22,9 +22,17 @@ const App = () => {
     version: '2019-01-01',
     authenticator
   });
+  const [overrideQueryParameters] = useState({
+    aggregation:
+      '[term(extracted_metadata.title,count:10),term(extracted_metadata.file_type,count:10)]'
+  });
 
   return (
-    <DiscoverySearch searchClient={searchClient} projectId={process.env.REACT_APP_PROJECT_ID}>
+    <DiscoverySearch
+      searchClient={searchClient}
+      projectId={process.env.REACT_APP_PROJECT_ID}
+      overrideQueryParameters={overrideQueryParameters}
+    >
       <AppView />
     </DiscoverySearch>
   );
@@ -38,18 +46,6 @@ function AppView() {
 }
 
 function SearchPage() {
-  const [configuration] = useState([
-    {
-      type: 'term',
-      field: 'extracted_metadata.title',
-      count: 10
-    },
-    {
-      type: 'term',
-      field: 'extracted_metadata.file_type',
-      count: 10
-    }
-  ]);
   return (
     <>
       <SearchInput
@@ -61,11 +57,7 @@ function SearchPage() {
         spellingSuggestions={true}
       />
       <SearchResults bodyField={'text'} />
-      <SearchRefinements
-        showCollections={true}
-        showSuggestedRefinements={true}
-        configuration={configuration}
-      />
+      <SearchRefinements showCollections={true} showSuggestedRefinements={true} />
       <ResultsPagination />
     </>
   );

@@ -1,18 +1,11 @@
-import React, { FC, useContext } from 'react';
+import React, { FC, useContext, useEffect } from 'react';
 import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import { Button } from 'carbon-components-react';
 import { SearchContext, SearchApi } from '../DiscoverySearch/DiscoverySearch';
-import { buildAggregationQuery } from './utils/buildAggregationQuery';
 import { mergeFilterRefinements } from './utils/mergeFilterRefinements';
 import { mergeSuggestedRefinements } from './utils/mergeSuggestedRefinements';
-import { validateConfiguration } from './utils/validateConfiguration';
 import { SearchFilterTransform } from './utils/searchFilterTransform';
-import {
-  displayMessage,
-  consoleErrorMessage,
-  noAvailableRefinementsMessage,
-  invalidConfigurationMessage
-} from './utils/searchRefinementMessages';
+import { displayMessage, noAvailableRefinementsMessage } from './utils/searchRefinementMessages';
 import {
   SearchFilterRefinements,
   SelectableQuerySuggestedRefinement
@@ -20,7 +13,6 @@ import {
 import get from 'lodash/get';
 import { CollectionRefinements } from './components/CollectionRefinements';
 import { FieldRefinements } from './components/FieldRefinements';
-import { useDeepCompareEffect } from '../../utils/useDeepCompareMemoize';
 import { SuggestedRefinements } from './components/SuggestedRefinements';
 import defaultMessages, { Messages } from './messages';
 
@@ -52,11 +44,7 @@ interface SearchRefinementsProps {
   /**
    * Override aggregation component settings
    */
-  componentSettingsAggregations?: DiscoveryV2.ComponentSettingsAggregation[];
-  /**
-   * Refinements configuration with fields and results counts
-   */
-  configuration: DiscoveryV2.QueryTermAggregation[];
+  overrideComponentSettingsAggregations?: DiscoveryV2.ComponentSettingsAggregation[];
 }
 
 export const SearchRefinements: FC<SearchRefinementsProps> = ({
@@ -66,32 +54,36 @@ export const SearchRefinements: FC<SearchRefinementsProps> = ({
   showSuggestedRefinements,
   suggestedRefinementsLabel = 'Suggested Enrichments',
   messages = defaultMessages,
-  componentSettingsAggregations,
-  configuration
+  overrideComponentSettingsAggregations
 }) => {
   const {
     aggregationResults,
     searchParameters,
     searchParameters: { filter },
     searchResponse,
-    collectionsResults
+    collectionsResults,
+    componentSettings
   } = useContext(SearchContext);
   const { fetchAggregations, performSearch } = useContext(SearchApi);
   const aggregations = aggregationResults || [];
   const collections = (collectionsResults && collectionsResults.collections) || [];
   const mergedMessages = { ...defaultMessages, ...messages };
+  const componentSettingsAggregations =
+    overrideComponentSettingsAggregations ||
+    (componentSettings && componentSettings.aggregations) ||
+    [];
 
-  useDeepCompareEffect(() => {
-    if (validateConfiguration(configuration)) {
-      const aggregation = buildAggregationQuery(configuration);
-      fetchAggregations({ ...searchParameters, aggregation });
-    } else {
-      consoleErrorMessage(invalidConfigurationMessage);
-    }
-  }, [configuration]);
+  useEffect(() => {
+    fetchAggregations(searchParameters);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParameters.aggregation]);
 
   const { filterFields, filterSuggested } = SearchFilterTransform.fromString(filter || '');
-  const allFieldRefinements = mergeFilterRefinements(aggregations, filterFields, configuration);
+  const allFieldRefinements = mergeFilterRefinements(
+    aggregations,
+    filterFields,
+    componentSettingsAggregations
+  );
   const allSuggestedRefinements: SelectableQuerySuggestedRefinement[] = mergeSuggestedRefinements(
     get(searchResponse, 'suggested_refinements', []),
     filterSuggested
