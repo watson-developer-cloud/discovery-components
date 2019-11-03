@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.28.1](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/styles@1.28.0...@disco-widgets/styles@1.28.1) (2019-11-03)
+
+
+### Bug Fixes
+
+* center nav in toolbar ([#321](https://github.com/watson-developer-cloud/discovery-components/issues/321)) ([3fbdae5](https://github.com/watson-developer-cloud/discovery-components/commit/3fbdae5))
+
+
+
+
+
 # [1.28.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/styles@1.27.1...@disco-widgets/styles@1.28.0) (2019-11-03)
 
 
