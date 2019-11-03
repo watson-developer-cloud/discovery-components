@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, boolean, object } from '@storybook/addon-knobs/react';
+import { withKnobs, text, object, boolean, number } from '@storybook/addon-knobs/react';
 import { SearchRefinements } from './SearchRefinements';
 import { refinementsQueryResponse } from './fixtures/refinementsQueryResponse';
 import collectionsResponse from './fixtures/collectionsResponse';
@@ -14,27 +14,17 @@ import defaultMessages from './messages';
 
 export const props = () => ({
   showCollections: boolean('Show collection refinements', false),
-  collectionSelectTitleText: text('Label for collections refinement', 'Collections'),
-  collectionSelectLabel: text(
-    'Collections refinement select placeholder text',
-    'Available collections'
-  ),
   showSuggestedRefinements: boolean('Show suggested refinements', false),
-  suggestedRefinementsLabel: text('Label for suggested refinement', 'Suggested Enrichments'),
+  collapsedRefinementsCount: number('Number of refinement terms to show when list is collapsed', 5),
   messages: object('I18n messages', defaultMessages),
-  componentSettingsAggregations: object('Aggregation component settings', [
-    {
-      label: 'Writers',
-      multiple_selections_allowed: false
-    },
-    {
-      label: 'Talking Points',
-      multiple_selections_allowed: true
-    }
-  ])
+  componentSettingsAggregations: object(
+    'Aggregation component settings',
+    aggregationComponentSettingsResponse.result
+  )
 });
 
 class DummySearchClientWithQueryAndCollections extends DummySearchClient {
+  exampleProps = props();
   query(params: DiscoveryV2.QueryParams): Promise<DiscoveryV2.Response<DiscoveryV2.QueryResponse>> {
     action('query')(params);
     return createDummyResponsePromise(refinementsQueryResponse.result);
@@ -49,7 +39,7 @@ class DummySearchClientWithQueryAndCollections extends DummySearchClient {
     params: DiscoveryV2.GetComponentSettingsParams
   ): Promise<DiscoveryV2.Response<DiscoveryV2.ComponentSettingsResponse>> {
     action('getComponentSettings')(params);
-    return createDummyResponsePromise(aggregationComponentSettingsResponse.result);
+    return createDummyResponsePromise(this.exampleProps.componentSettingsAggregations);
   }
 }
 
@@ -72,7 +62,7 @@ storiesOf('SearchRefinements', module)
       <StoryWrapper>
         <DiscoverySearch
           {...discoverySearchProps({
-            filter: 'author:"editor","this, that, other",subject:"this | that"|"bl:ah"'
+            filter: 'author:"editor","this, that, other",subject:"this | that"'
           })}
         >
           <SearchRefinements {...exampleProps} />

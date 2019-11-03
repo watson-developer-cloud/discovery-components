@@ -1,13 +1,14 @@
 import React, { FC, useContext, SyntheticEvent } from 'react';
-import { fieldsetClasses, labelClasses, optionLabelClass } from './refinementGroupClasses';
 import {
   RadioButtonGroup as CarbonRadioButtonGroup,
   RadioButton as CarbonRadioButton
 } from 'carbon-components-react';
 import { SearchContext } from '../../../DiscoverySearch/DiscoverySearch';
+import { optionLabelClass, singleSelectGroupClass } from './refinementGroupClasses';
 import {
   SelectableQuerySuggestedRefinement,
-  SelectableQueryTermAggregationResult
+  SelectableQueryTermAggregationResult,
+  AggregationSettings
 } from '../../utils/searchRefinementInterfaces';
 import get from 'lodash/get';
 
@@ -17,13 +18,13 @@ interface SingleSelectRefinementsGroupProps {
    */
   refinements: (SelectableQuerySuggestedRefinement | SelectableQueryTermAggregationResult)[];
   /**
+   * Aggregation component settings
+   */
+  aggregationSettings: AggregationSettings;
+  /**
    * Refinement text field
    */
-  attributeKeyName: 'key' | 'text';
-  /**
-   * Label used for refinements group
-   */
-  refinementsLabel: string;
+  refinementsTextField: 'key' | 'text';
   /**
    * Text of selected refinement
    */
@@ -36,23 +37,19 @@ interface SingleSelectRefinementsGroupProps {
     selectedRefinementKey: string,
     checked: boolean
   ) => void;
-  /**
-   * Field used for refinements group
-   */
-  refinementsField: string;
 }
 
 export const SingleSelectRefinementsGroup: FC<SingleSelectRefinementsGroupProps> = ({
   refinements,
-  attributeKeyName,
-  refinementsLabel,
+  refinementsTextField,
   selectedRefinement,
-  refinementsField,
+  aggregationSettings,
   onChange
 }) => {
   const {
     searchParameters: { naturalLanguageQuery }
   } = useContext(SearchContext);
+  const refinementsLabel = aggregationSettings.label || aggregationSettings.field;
   const escapedLabel = refinementsLabel.replace(/\s+/g, '_');
 
   const handleOnClick = (event: SyntheticEvent<HTMLInputElement>): void => {
@@ -63,31 +60,29 @@ export const SingleSelectRefinementsGroup: FC<SingleSelectRefinementsGroupProps>
   };
 
   return (
-    <fieldset className={fieldsetClasses.join(' ')}>
-      <legend className={labelClasses.join(' ')}>{refinementsLabel}</legend>
-      <CarbonRadioButtonGroup
-        name={`${refinementsField}`}
-        valueSelected={selectedRefinement}
-        orientation={'vertical'}
-      >
-        {refinements.map(refinement => {
-          const text = get(refinement, attributeKeyName, '');
-          const query = naturalLanguageQuery || '';
-          const buff = new Buffer(query + text);
-          const base64data = buff.toString('base64');
+    <CarbonRadioButtonGroup
+      name={aggregationSettings.field}
+      valueSelected={selectedRefinement}
+      orientation={'vertical'}
+      className={singleSelectGroupClass}
+    >
+      {refinements.map(refinement => {
+        const text = get(refinement, refinementsTextField, '');
+        const query = naturalLanguageQuery || '';
+        const buff = new Buffer(query + text);
+        const base64data = buff.toString('base64');
 
-          return (
-            <CarbonRadioButton
-              className={optionLabelClass}
-              labelText={text}
-              key={`checkbox-${escapedLabel}-${base64data}`}
-              id={`checkbox-${escapedLabel}-${text.replace(/\s+/g, '_')}`}
-              value={text}
-              onClick={handleOnClick}
-            />
-          );
-        })}
-      </CarbonRadioButtonGroup>
-    </fieldset>
+        return (
+          <CarbonRadioButton
+            className={optionLabelClass}
+            labelText={text}
+            key={`checkbox-${escapedLabel}-${base64data}`}
+            id={`checkbox-${escapedLabel}-${text.replace(/\s+/g, '_')}`}
+            value={text}
+            onClick={handleOnClick}
+          />
+        );
+      })}
+    </CarbonRadioButtonGroup>
   );
 };

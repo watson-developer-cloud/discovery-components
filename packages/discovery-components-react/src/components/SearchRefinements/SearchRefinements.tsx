@@ -22,39 +22,29 @@ interface SearchRefinementsProps {
    */
   showCollections?: boolean;
   /**
-   * label shown above the collection selection refinement control
-   */
-  collectionSelectLabel?: string;
-  /**
-   * tooltip text for collection selection refinement control
-   */
-  collectionSelectTitleText?: string;
-  /**
    * Show list of suggested refinements
    */
   showSuggestedRefinements?: boolean;
   /**
-   * Label used for suggested refinements group
-   */
-  suggestedRefinementsLabel?: string;
-  /**
    * i18n messages for the component
    */
-  messages?: Messages;
+  messages?: Partial<Messages>;
   /**
    * Override aggregation component settings
    */
   overrideComponentSettingsAggregations?: DiscoveryV2.ComponentSettingsAggregation[];
+  /**
+   * Number of refinement terms to show when list is collapsed
+   */
+  collapsedRefinementsCount?: number;
 }
 
 export const SearchRefinements: FC<SearchRefinementsProps> = ({
   showCollections,
-  collectionSelectLabel = 'Available collections',
-  collectionSelectTitleText = 'Collections',
   showSuggestedRefinements,
-  suggestedRefinementsLabel = 'Suggested Enrichments',
   messages = defaultMessages,
-  overrideComponentSettingsAggregations
+  overrideComponentSettingsAggregations,
+  collapsedRefinementsCount = 5
 }) => {
   const {
     aggregationResults,
@@ -114,26 +104,21 @@ export const SearchRefinements: FC<SearchRefinementsProps> = ({
             {messages.clearAllButtonText}
           </Button>
         )}
-        {shouldShowCollections && (
-          <CollectionRefinements
-            label={collectionSelectLabel}
-            titleText={collectionSelectTitleText}
-          />
-        )}
+        {shouldShowCollections && <CollectionRefinements messages={mergedMessages} />}
         {shouldShowFields && (
           <FieldRefinements
             allRefinements={allFieldRefinements}
             onChange={handleOnChange}
-            componentSettingsAggregations={componentSettingsAggregations}
+            collapsedRefinementsCount={collapsedRefinementsCount}
             messages={mergedMessages}
           />
         )}
         {shouldShowSuggested && (
           <SuggestedRefinements
             suggestedRefinements={allSuggestedRefinements}
-            suggestedRefinementsLabel={suggestedRefinementsLabel}
             messages={mergedMessages}
             onChange={handleOnChange}
+            collapsedRefinementsCount={collapsedRefinementsCount}
           />
         )}
       </div>

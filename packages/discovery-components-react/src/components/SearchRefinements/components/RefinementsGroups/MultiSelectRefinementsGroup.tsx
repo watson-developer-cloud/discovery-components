@@ -1,18 +1,12 @@
 import React, { FC, useContext, SyntheticEvent } from 'react';
-import ListBox from 'carbon-components-react/lib/components/ListBox';
-import {
-  fieldsetClasses,
-  labelClasses,
-  optionClass,
-  optionLabelClass
-} from './refinementGroupClasses';
+import { optionClass, optionLabelClass } from './refinementGroupClasses';
 import { Checkbox as CarbonCheckbox } from 'carbon-components-react';
 import { SearchContext } from '../../../DiscoverySearch/DiscoverySearch';
 import {
   SelectableQuerySuggestedRefinement,
-  SelectableQueryTermAggregationResult
+  SelectableQueryTermAggregationResult,
+  AggregationSettings
 } from '../../utils/searchRefinementInterfaces';
-import { Messages } from '../../messages';
 import get from 'lodash/get';
 
 interface MultiSelectRefinementsGroupProps {
@@ -23,19 +17,11 @@ interface MultiSelectRefinementsGroupProps {
   /**
    * Refinement text field
    */
-  attributeKeyName: 'key' | 'text';
+  refinementsTextField: 'key' | 'text';
   /**
-   * Label used for refinements group
+   * Aggregation component settings
    */
-  refinementsLabel: string;
-  /**
-   * i18n messages for the component
-   */
-  messages: Messages;
-  /**
-   * Field used for refinements group
-   */
-  refinementsField: string;
+  aggregationSettings: AggregationSettings;
   /**
    * Callback to handle changes in selected refinements
    */
@@ -44,26 +30,19 @@ interface MultiSelectRefinementsGroupProps {
     selectedRefinementKey: string,
     checked: boolean
   ) => void;
-  /**
-   * Callback to reset selected refinements
-   */
-  onClear: (field: string) => void;
 }
 
 export const MultiSelectRefinementsGroup: FC<MultiSelectRefinementsGroupProps> = ({
   refinements,
-  attributeKeyName,
-  refinementsLabel,
-  messages,
-  onChange,
-  onClear,
-  refinementsField
+  refinementsTextField,
+  aggregationSettings,
+  onChange
 }) => {
   const {
     searchParameters: { naturalLanguageQuery }
   } = useContext(SearchContext);
+  const refinementsLabel = aggregationSettings.label || aggregationSettings.field;
   const escapedLabel = refinementsLabel.replace(/\s+/g, '_');
-  const selectedRefinements = refinements.filter(refinement => refinement.selected);
 
   const handleOnChange = (
     checked: boolean,
@@ -75,31 +54,11 @@ export const MultiSelectRefinementsGroup: FC<MultiSelectRefinementsGroupProps> =
     const selectedRefinementKey = target.getAttribute('data-key') || '';
     onChange(selectedRefinementField, selectedRefinementKey, checked);
   };
-  const handleClearRefinements = (): void => {
-    onClear(refinementsField);
-  };
-  const translateWithId = (id: string): string => {
-    const mapping = {
-      'clear.all': messages.clearRefinementTitle,
-      'clear.selection': messages.clearRefinementSelectionTitle
-    };
-    return mapping[id];
-  };
 
   return (
-    <fieldset className={fieldsetClasses.join(' ')}>
-      <legend className={labelClasses.join(' ')}>
-        {refinementsLabel}
-        {selectedRefinements.length > 0 && (
-          <ListBox.Selection
-            clearSelection={handleClearRefinements}
-            selectionCount={selectedRefinements.length}
-            translateWithId={translateWithId}
-          />
-        )}
-      </legend>
+    <>
       {refinements.map(refinement => {
-        const text = get(refinement, attributeKeyName, '');
+        const text = get(refinement, refinementsTextField, '');
         const query = naturalLanguageQuery || '';
         const buff = new Buffer(query + text);
         const base64data = buff.toString('base64');
@@ -112,12 +71,12 @@ export const MultiSelectRefinementsGroup: FC<MultiSelectRefinementsGroupProps> =
             labelText={text}
             key={`checkbox-${escapedLabel}-${base64data}`}
             id={`checkbox-${escapedLabel}-${text.replace(/\s+/g, '_')}`}
-            data-field={refinementsField}
+            data-field={aggregationSettings.field}
             data-key={text}
             checked={!!refinement.selected}
           />
         );
       })}
-    </fieldset>
+    </>
   );
 };

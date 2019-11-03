@@ -18,6 +18,21 @@
   }
 }
 
+.#{$prefix}--search-refinement__refinement__toggle__more {
+  border-width: 0;
+
+  &:hover,
+  &:focus,
+  &:active {
+    outline-style: none;
+    background: transparent;
+  }
+}
+
+.#{$prefix}--search-refinement__refinement__single__select__group {
+  margin-bottom: 0.5rem;
+}
+
 .#{$prefix}--form-item.#{$prefix}--checkbox-wrapper.#{$prefix}--search-refinement__refinement__option {
   margin-bottom: rem(6px);
 }

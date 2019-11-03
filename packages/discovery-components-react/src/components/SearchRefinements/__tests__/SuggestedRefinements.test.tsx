@@ -11,7 +11,18 @@ interface Setup {
   refinementsComponent: RenderResult;
 }
 
-const setup = (filter: string): Setup => {
+interface SetupConfig {
+  filter: string;
+  collapsedRefinementsCount: number;
+}
+
+const defaultSetupConfig: SetupConfig = {
+  filter: '',
+  collapsedRefinementsCount: 5
+};
+
+const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
+  const mergedSetupConfig = { ...defaultSetupConfig, ...setupConfig };
   const performSearchMock = jest.fn();
   const context: Partial<SearchContextIFC> = {
     aggregationResults: weirdRefinementsQueryResponse.result.aggregations,
@@ -20,15 +31,22 @@ const setup = (filter: string): Setup => {
     },
     searchParameters: {
       projectId: '',
-      filter: filter,
-      aggregation: '[term(author,count:3),term(subject,count:4)]'
+      aggregation: '[term(author,count:3),term(subject,count:4)]',
+      filter: mergedSetupConfig.filter
     }
   };
   const api: Partial<SearchApiIFC> = {
     performSearch: performSearchMock
   };
   const refinementsComponent = render(
-    wrapWithContext(<SearchRefinements showSuggestedRefinements={true} />, api, context)
+    wrapWithContext(
+      <SearchRefinements
+        showSuggestedRefinements={true}
+        collapsedRefinementsCount={mergedSetupConfig.collapsedRefinementsCount}
+      />,
+      api,
+      context
+    )
   );
   return {
     performSearchMock,
@@ -39,7 +57,7 @@ const setup = (filter: string): Setup => {
 describe('SuggestedRefinementsComponent', () => {
   describe('legend header elements', () => {
     test('contains placeholder text', () => {
-      const { refinementsComponent } = setup('');
+      const { refinementsComponent } = setup();
       const headerAuthorField = refinementsComponent.getByText('Suggested Enrichments');
       expect(headerAuthorField).toBeDefined();
     });
@@ -47,7 +65,7 @@ describe('SuggestedRefinementsComponent', () => {
 
   describe('checkbox elements', () => {
     test('contains refinement checkboxes with correct labels', () => {
-      const { refinementsComponent } = setup('');
+      const { refinementsComponent } = setup({ collapsedRefinementsCount: 10 });
       const embiidCheckbox = refinementsComponent.getByLabelText('trust the process');
       const saviorCheckbox = refinementsComponent.getByLabelText('sam hinkie');
       const colonCheckbox = refinementsComponent.getByLabelText('this: is');
@@ -61,13 +79,13 @@ describe('SuggestedRefinementsComponent', () => {
     });
 
     test('checkboxes are unchecked when initially rendered', () => {
-      const { refinementsComponent } = setup('');
+      const { refinementsComponent } = setup();
       const embiidCheckbox = refinementsComponent.getByLabelText('trust the process');
       expect(embiidCheckbox['checked']).toEqual(false);
     });
 
     test('checkboxes are checked when set in filter query', () => {
-      const { refinementsComponent } = setup('"sam hinkie"');
+      const { refinementsComponent } = setup({ filter: '"sam hinkie"' });
       const saviorCheckbox = refinementsComponent.getByLabelText('sam hinkie');
       expect(saviorCheckbox['checked']).toEqual(true);
     });
@@ -78,7 +96,7 @@ describe('SuggestedRefinementsComponent', () => {
 
     describe('when no selections are made', () => {
       beforeEach(() => {
-        setupData = setup('');
+        setupData = setup();
       });
 
       test('the clear button does not appear', () => {
@@ -89,7 +107,7 @@ describe('SuggestedRefinementsComponent', () => {
 
     describe('when 1 selection is made', () => {
       beforeEach(() => {
-        setupData = setup('"trust the process"');
+        setupData = setup({ filter: '"trust the process"' });
       });
 
       test('the clear button appears once', () => {
@@ -118,7 +136,7 @@ describe('SuggestedRefinementsComponent', () => {
 
     describe('when 2 selections are made', () => {
       beforeEach(() => {
-        setupData = setup('"trust the process","just not the electrician"');
+        setupData = setup({ filter: '"trust the process","just not the electrician"' });
       });
 
       test('the clear button appears once', () => {
@@ -148,7 +166,7 @@ describe('SuggestedRefinementsComponent', () => {
 
   describe('checkboxes apply filters', () => {
     test('it adds correct filter when checkbox is checked', () => {
-      const { refinementsComponent, performSearchMock } = setup('');
+      const { refinementsComponent, performSearchMock } = setup();
       const embiidCheckbox = refinementsComponent.getByLabelText('trust the process');
       performSearchMock.mockReset();
       fireEvent.click(embiidCheckbox);
@@ -162,7 +180,7 @@ describe('SuggestedRefinementsComponent', () => {
     });
 
     test('it adds correct filter when aggregation contains `|`', () => {
-      const { refinementsComponent, performSearchMock } = setup('');
+      const { refinementsComponent, performSearchMock } = setup({ collapsedRefinementsCount: 10 });
       const pipeCheckbox = refinementsComponent.getByLabelText('maybe | not');
       performSearchMock.mockReset();
       fireEvent.click(pipeCheckbox);
@@ -176,7 +194,7 @@ describe('SuggestedRefinementsComponent', () => {
     });
 
     test('it adds correct filter when aggregation contains `,`', () => {
-      const { refinementsComponent, performSearchMock } = setup('');
+      const { refinementsComponent, performSearchMock } = setup();
       const commaCheckbox = refinementsComponent.getByLabelText('bogus, strings');
       performSearchMock.mockReset();
       fireEvent.click(commaCheckbox);
@@ -190,7 +208,7 @@ describe('SuggestedRefinementsComponent', () => {
     });
 
     test('it adds correct filter when aggregation contains `:`', () => {
-      const { refinementsComponent, performSearchMock } = setup('');
+      const { refinementsComponent, performSearchMock } = setup();
       const colonCheckbox = refinementsComponent.getByLabelText('this: is');
       performSearchMock.mockReset();
       fireEvent.click(colonCheckbox);
@@ -204,7 +222,7 @@ describe('SuggestedRefinementsComponent', () => {
     });
 
     test('it adds correct filters when second checkbox is checked', () => {
-      const { refinementsComponent, performSearchMock } = setup('"sam hinkie"');
+      const { refinementsComponent, performSearchMock } = setup({ filter: '"sam hinkie"' });
       const embiidCheckbox = refinementsComponent.getByLabelText('trust the process');
       performSearchMock.mockReset();
       fireEvent.click(embiidCheckbox);
@@ -220,7 +238,7 @@ describe('SuggestedRefinementsComponent', () => {
 
   describe('checkboxes remove filters', () => {
     test('it removes correct filter when checkbox within single refinement is unchecked', () => {
-      const { refinementsComponent, performSearchMock } = setup('"sam hinkie"');
+      const { refinementsComponent, performSearchMock } = setup({ filter: '"sam hinkie"' });
       const saviorCheckbox = refinementsComponent.getByLabelText('sam hinkie');
       performSearchMock.mockReset();
       fireEvent.click(saviorCheckbox);

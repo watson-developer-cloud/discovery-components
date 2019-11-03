@@ -29,7 +29,7 @@ export const refinementsQueryResponse: DiscoveryV2.Response<
     {
       type: 'term',
       field: 'subject',
-      count: 4,
+      count: 6,
       results: [
         {
           key: 'Animals',
@@ -42,6 +42,14 @@ export const refinementsQueryResponse: DiscoveryV2.Response<
         {
           key: 'Places',
           matching_results: 129139
+        },
+        {
+          key: 'Mumford & Sons',
+          matching_results: 96403
+        },
+        {
+          key: 'Gritty',
+          matching_results: 95303
         },
         {
           key: 'Things',
@@ -91,7 +99,7 @@ export const weirdRefinementsQueryResponse: DiscoveryV2.Response<
     {
       type: 'term',
       field: 'subject',
-      count: 4,
+      count: 7,
       results: [
         {
           key: 'Animals',

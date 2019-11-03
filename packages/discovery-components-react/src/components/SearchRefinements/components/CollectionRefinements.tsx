@@ -1,5 +1,6 @@
 import React, { FC, useContext } from 'react';
 import get from 'lodash/get';
+import { Messages } from '../messages';
 import { SearchContext, SearchApi } from '../../DiscoverySearch/DiscoverySearch';
 import { MultiSelect as CarbonMultiSelect } from 'carbon-components-react';
 import { settings } from 'carbon-components';
@@ -15,11 +16,10 @@ interface CollectionItem {
 }
 
 interface CollectionRefinementsProps {
-  label: string;
-  titleText: string;
+  messages: Messages;
 }
 
-export const CollectionRefinements: FC<CollectionRefinementsProps> = ({ label, titleText }) => {
+export const CollectionRefinements: FC<CollectionRefinementsProps> = ({ messages }) => {
   const idPrefix = 'collection-refinement-';
   const {
     collectionsResults,
@@ -66,8 +66,8 @@ export const CollectionRefinements: FC<CollectionRefinementsProps> = ({ label, t
           id={`${idPrefix}select`}
           items={collectionItems}
           initialSelectedItems={selectedCollections}
-          label={label}
-          titleText={titleText}
+          label={messages.collectionSelectLabel}
+          titleText={messages.collectionSelectTitleText}
           onChange={handleCollectionToggle}
         />
       </fieldset>

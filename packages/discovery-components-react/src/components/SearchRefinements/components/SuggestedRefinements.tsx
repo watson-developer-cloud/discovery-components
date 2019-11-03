@@ -4,8 +4,8 @@ import {
   SearchFilterRefinements
 } from '../utils/searchRefinementInterfaces';
 import get from 'lodash/get';
-import { MultiSelectRefinementsGroup } from './RefinementsGroups/MultiSelectRefinementsGroup';
 import { Messages } from '../messages';
+import { CollapsableRefinementsGroup } from './RefinementsGroups/CollapsableRefinementsGroup';
 
 interface SuggestedRefinementsProps {
   /**
@@ -13,13 +13,13 @@ interface SuggestedRefinementsProps {
    */
   suggestedRefinements: SelectableQuerySuggestedRefinement[];
   /**
-   * Label used for suggested refinements group
-   */
-  suggestedRefinementsLabel: string;
-  /**
    * i18n messages for the component
    */
   messages: Messages;
+  /**
+   * Number of refinement terms to show when list is collapsed
+   */
+  collapsedRefinementsCount: number;
   /**
    * Callback to handle changes in selected refinements
    */
@@ -28,8 +28,8 @@ interface SuggestedRefinementsProps {
 
 export const SuggestedRefinements: FC<SuggestedRefinementsProps> = ({
   suggestedRefinements,
-  suggestedRefinementsLabel,
   messages,
+  collapsedRefinementsCount,
   onChange
 }) => {
   const handleOnChange = (
@@ -55,14 +55,20 @@ export const SuggestedRefinements: FC<SuggestedRefinementsProps> = ({
     onChange({ filterSuggested });
   };
 
+  const aggregationSettings = {
+    label: messages.suggestedRefinementsLabel,
+    multiple_selections_allowed: true,
+    field: ''
+  };
+
   return (
-    <MultiSelectRefinementsGroup
+    <CollapsableRefinementsGroup
+      aggregationSettings={aggregationSettings}
+      collapsedRefinementsCount={collapsedRefinementsCount}
       refinements={suggestedRefinements}
+      refinementsTextField="text"
       onChange={handleOnChange}
       onClear={handleOnClear}
-      refinementsLabel={suggestedRefinementsLabel}
-      refinementsField={''}
-      attributeKeyName="text"
       messages={messages}
     />
   );

@@ -1,17 +1,15 @@
 import React, { FC } from 'react';
-import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import get from 'lodash/get';
 import filter from 'lodash/filter';
 import findIndex from 'lodash/findIndex';
-
 import {
   SelectableQueryTermAggregation,
   SelectableQueryTermAggregationResult,
-  SearchFilterRefinements
+  SearchFilterRefinements,
+  AggregationSettings
 } from '../utils/searchRefinementInterfaces';
-import { MultiSelectRefinementsGroup } from './RefinementsGroups/MultiSelectRefinementsGroup';
-import { SingleSelectRefinementsGroup } from './RefinementsGroups/SingleSelectRefinementsGroup';
 import { Messages } from '../messages';
+import { CollapsableRefinementsGroup } from './RefinementsGroups/CollapsableRefinementsGroup';
 
 interface FieldRefinementsProps {
   /**
@@ -19,13 +17,13 @@ interface FieldRefinementsProps {
    */
   allRefinements: SelectableQueryTermAggregation[];
   /**
-   * Override aggregation component settings
-   */
-  componentSettingsAggregations?: DiscoveryV2.ComponentSettingsAggregation[];
-  /**
    * i18n messages for the component
    */
   messages: Messages;
+  /**
+   * Number of refinement terms to show when list is collapsed
+   */
+  collapsedRefinementsCount: number;
   /**
    * Callback to handle changes in selected refinements
    */
@@ -34,18 +32,10 @@ interface FieldRefinementsProps {
 
 export const FieldRefinements: FC<FieldRefinementsProps> = ({
   allRefinements,
-  componentSettingsAggregations,
   messages,
+  collapsedRefinementsCount,
   onChange
 }) => {
-  const areMultipleSelectionsAllowed = (aggregationIndex: number) => {
-    return get(
-      componentSettingsAggregations,
-      `[${aggregationIndex}].multiple_selections_allowed`,
-      true
-    );
-  };
-
   const handleOnChange = (
     selectedRefinementField: string,
     selectedRefinementKey: string,
@@ -56,7 +46,7 @@ export const FieldRefinements: FC<FieldRefinementsProps> = ({
     );
     if (refinementsForFieldIndex > -1) {
       const refinementsForField = allRefinements[refinementsForFieldIndex];
-      const multiselect = areMultipleSelectionsAllowed(refinementsForFieldIndex);
+      const multiselect = get(refinementsForField, 'multiple_selections_allowed', true);
       const refinementResults: SelectableQueryTermAggregationResult[] = get(
         refinementsForField,
         'results',
@@ -113,50 +103,36 @@ export const FieldRefinements: FC<FieldRefinementsProps> = ({
   return (
     <div>
       {allRefinements.map((aggregation: SelectableQueryTermAggregation, i: number) => {
-        const multiselect = areMultipleSelectionsAllowed(i);
         const aggregationResults: SelectableQueryTermAggregationResult[] = get(
           aggregation,
           'results',
           []
         );
-
-        const { field: aggregationField, label: aggregationLabel } = aggregation;
         const orderedAggregationResults = aggregationResults.sort(
           (a, b) => (b.matching_results || 0) - (a.matching_results || 0)
         );
-        const selectedRefinements = filter(orderedAggregationResults, ['selected', true]);
+        const aggregationSettings: AggregationSettings = {
+          label: aggregation.label,
+          field: aggregation.field,
+          multiple_selections_allowed: aggregation.multiple_selections_allowed
+        };
 
         if (aggregationResults.length === 0) {
           return;
         }
 
-        if (multiselect || selectedRefinements.length > 1) {
-          return (
-            <MultiSelectRefinementsGroup
-              key={`refinement-group-${aggregationField}-${i}`}
-              refinements={orderedAggregationResults}
-              onChange={handleOnChange}
-              onClear={handleOnClear}
-              refinementsField={aggregationField}
-              refinementsLabel={aggregationLabel || aggregationField || ''}
-              messages={messages}
-              attributeKeyName="key"
-            />
-          );
-        } else {
-          const selectedRefinementText = get(selectedRefinements[0], 'key', '');
-          return (
-            <SingleSelectRefinementsGroup
-              key={`refinement-group-${aggregationField}-${i}`}
-              refinements={orderedAggregationResults}
-              onChange={handleOnChange}
-              refinementsField={aggregationField}
-              refinementsLabel={aggregationLabel || aggregationField || ''}
-              selectedRefinement={selectedRefinementText}
-              attributeKeyName="key"
-            />
-          );
-        }
+        return (
+          <CollapsableRefinementsGroup
+            key={`collapsable-refinement-group-${i}`}
+            collapsedRefinementsCount={collapsedRefinementsCount}
+            messages={messages}
+            aggregationSettings={aggregationSettings}
+            refinements={orderedAggregationResults}
+            refinementsTextField="key"
+            onClear={handleOnClear}
+            onChange={handleOnChange}
+          />
+        );
       })}
     </div>
   );

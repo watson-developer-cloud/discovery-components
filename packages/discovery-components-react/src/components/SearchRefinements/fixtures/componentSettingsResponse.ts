@@ -6,7 +6,8 @@ const aggregationComponentSettingsResponse: Response<
 > = createDummyResponse({
   aggregations: [
     {
-      label: 'Author (label created in component settings)'
+      label: 'Author (label created in component settings)',
+      multiple_selections_allowed: false
     }
   ]
 });

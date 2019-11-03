@@ -15,6 +15,7 @@ export const mergeFilterRefinements = (
   if (!aggregations) {
     return [];
   }
+
   const termAggreations = findTermAggregations(aggregations);
   // add component settings label if it exist's
   const labeledTermAggregtions: SelectableQueryTermAggregation[] = termAggreations.map(
@@ -23,10 +24,11 @@ export const mergeFilterRefinements = (
         return {
           ...termAggregation,
           label: componentSettingsAggregations[i].label,
+          multiple_selections_allowed: componentSettingsAggregations[i].multiple_selections_allowed,
           field: termAggregation.field
         };
       } else {
-        return termAggregation;
+        return { ...termAggregation, ...{ multiple_selections_allowed: true } };
       }
     }
   );
@@ -37,7 +39,7 @@ export const mergeFilterRefinements = (
     })
     .map((aggregation: SelectableQueryTermAggregation) => {
       const aggregationField = get(aggregation, 'field', '');
-      const aggregationResults: DiscoveryV2.QueryTermAggregationResult[] = get(
+      const aggregationResults: SelectableQueryTermAggregationResult[] = get(
         aggregation,
         'results',
         []
@@ -53,7 +55,7 @@ export const mergeFilterRefinements = (
           []
         );
         const newAggResults: SelectableQueryTermAggregationResult[] = aggregationResults.map(
-          (result: DiscoveryV2.QueryTermAggregationResult) => {
+          (result: SelectableQueryTermAggregationResult) => {
             const key = get(result, 'key', '');
             const filterRefinement = filterRefinementResults.find(
               (filterRefinement: SelectableQueryTermAggregationResult) => {
@@ -81,6 +83,7 @@ export const mergeFilterRefinements = (
           type: 'term',
           field: aggregationField,
           label: aggregation.label,
+          multiple_selections_allowed: aggregation.multiple_selections_allowed,
           results: unionBy(unselectedNewAggResults, selectedNewAggAndFilterRefinementResults, 'key')
         };
       } else {
