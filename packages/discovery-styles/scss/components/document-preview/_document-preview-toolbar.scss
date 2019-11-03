@@ -11,7 +11,7 @@
 
 .#{$prefix}--preview-toolbar__nav {
   display: flex;
-  flex: 0 1 auto;
+  flex: 0 0 auto;
   justify-content: center;
   align-items: center;
   user-select: none;
@@ -48,7 +48,7 @@ input[type='number'] {
 
 .#{$prefix}--preview-toolbar__spacer,
 .#{$prefix}--preview-toolbar__zoom {
-  flex: 1 1 auto;
+  flex: 1 1 50%;
 }
 
 .#{$prefix}--preview-toolbar__zoom {
