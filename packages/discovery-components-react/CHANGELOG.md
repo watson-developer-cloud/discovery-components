@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.61.1](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.61.0...@disco-widgets/react-components@1.61.1) (2019-11-03)
+
+
+### Bug Fixes
+
+* disable loading resest due to timing issue ([#322](https://github.com/watson-developer-cloud/discovery-components/issues/322)) ([74d6627](https://github.com/watson-developer-cloud/discovery-components/commit/74d6627))
+
+
+
+
+
 # [1.61.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.60.0...@disco-widgets/react-components@1.61.0) (2019-11-03)
 
 
