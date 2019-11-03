@@ -55,7 +55,8 @@ export const DocumentPreview: FC<Props> = ({ document, file, highlight }) => {
     setCurrentPage(1);
     //reset scale if document changes
     setScale(1);
-    setLoading(true);
+    // TODO disable for now, until we can properly fix https://github.ibm.com/Watson-Discovery/docviz-squad-issue-tracker/issues/143
+    // setLoading(true);
   }, [doc]);
 
   // If highlight, initialize first page to that of highlight; otherwise
