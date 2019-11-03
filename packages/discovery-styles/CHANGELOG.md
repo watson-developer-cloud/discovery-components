@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.28.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/styles@1.27.1...@disco-widgets/styles@1.28.0) (2019-11-03)
+
+
+### Features
+
+* Make refinements collapsable ([#317](https://github.com/watson-developer-cloud/discovery-components/issues/317)) ([bb835fa](https://github.com/watson-developer-cloud/discovery-components/commit/bb835fa))
+
+
+
+
+
 ## [1.27.1](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/styles@1.27.0...@disco-widgets/styles@1.27.1) (2019-11-02)
 
 **Note:** Version bump only for package @disco-widgets/styles

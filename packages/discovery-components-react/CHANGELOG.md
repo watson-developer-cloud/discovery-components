@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.61.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.60.0...@disco-widgets/react-components@1.61.0) (2019-11-03)
+
+
+### Features
+
+* Make refinements collapsable ([#317](https://github.com/watson-developer-cloud/discovery-components/issues/317)) ([bb835fa](https://github.com/watson-developer-cloud/discovery-components/commit/bb835fa))
+
+
+
+
+
 # [1.60.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.59.1...@disco-widgets/react-components@1.60.0) (2019-11-03)
 
 
