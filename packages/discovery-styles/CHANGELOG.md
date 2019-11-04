@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.29.2](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/styles@1.29.1...@disco-widgets/styles@1.29.2) (2019-11-04)
+
+
+### Bug Fixes
+
+* carbon-component-scss-import ([#324](https://github.com/watson-developer-cloud/discovery-components/issues/324)) ([c5775b6](https://github.com/watson-developer-cloud/discovery-components/commit/c5775b6))
+
+
+
+
+
 ## [1.29.1](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/styles@1.29.0...@disco-widgets/styles@1.29.1) (2019-11-04)
 
 **Note:** Version bump only for package @disco-widgets/styles
