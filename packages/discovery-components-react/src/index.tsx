@@ -16,3 +16,9 @@ export {
   ZOOM_RESET
 } from './components/DocumentPreview/DocumentPreview';
 export { SearchResults } from './components/SearchResults/SearchResults';
+export {
+  canRenderCIDocument,
+  CIDocument,
+  CIDocumentContent,
+  CINavigationToolbar
+} from './components/CIDocument/CIDocument';

@@ -138,7 +138,7 @@ export interface CIDocumentProps {
   overrideDocHeight?: number;
 }
 
-const CIDocument: FC<CIDocumentProps> = ({
+export const CIDocument: FC<CIDocumentProps> = ({
   document,
   messages = defaultMessages,
   overrideDocWidth,
