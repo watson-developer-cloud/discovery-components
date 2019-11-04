@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { render, fireEvent, RenderResult } from '@testing-library/react';
 import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
-import { wrapWithContext } from '../../../utils/testingUtils';
-import { SearchContextIFC, SearchApiIFC } from '../../DiscoverySearch/DiscoverySearch';
-import { SearchRefinements } from '../SearchRefinements';
-import { weirdRefinementsQueryResponse } from '../fixtures/refinementsQueryResponse';
+import { wrapWithContext } from '../../../../utils/testingUtils';
+import { SearchContextIFC, SearchApiIFC } from '../../../DiscoverySearch/DiscoverySearch';
+import { SearchRefinements } from '../../SearchRefinements';
+import { weirdRefinementsQueryResponse } from '../../__fixtures__/refinementsQueryResponse';
 
 interface Setup {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

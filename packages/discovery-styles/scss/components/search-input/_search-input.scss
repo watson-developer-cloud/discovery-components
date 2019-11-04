@@ -1,7 +1,7 @@
 // Component styles
-@import '~carbon-components/scss/components/search/_search.scss';
-@import '~carbon-components/scss/components/button/_button.scss';
-@import '~carbon-components/scss/components/list-box/_list-box.scss';
+@import '~carbon-components/scss/components/search/search';
+@import '~carbon-components/scss/components/button/button';
+@import '~carbon-components/scss/components/list-box/list-box';
 
 .#{$prefix}--search-autocompletion {
   @include layer('overlay');

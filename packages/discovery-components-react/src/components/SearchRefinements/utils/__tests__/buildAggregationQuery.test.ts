@@ -1,9 +1,9 @@
-import { buildAggregationQuery } from '../utils/buildAggregationQuery';
+import { buildAggregationQuery } from '../buildAggregationQuery';
 import {
   configurationWithOneField,
   configurationWithTwoFields,
   configurationWithoutCounts
-} from '../fixtures/configuration';
+} from '../../__fixtures__/configuration';
 
 describe('BuildAggregationQuery', () => {
   test('it converts configuration with one term to expected aggregation parameter', () => {

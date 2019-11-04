@@ -1,4 +1,4 @@
-import { computeFontFamilyAndWeight, normalizeFontName } from '../utils/fallbackFonts';
+import { computeFontFamilyAndWeight, normalizeFontName } from '../fallbackFonts';
 
 describe('Fallback Font', () => {
   it('Verify that text is being normalized correctly', () => {

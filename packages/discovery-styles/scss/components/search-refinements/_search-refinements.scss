@@ -1,6 +1,6 @@
-@import '~carbon-components/scss/components/checkbox/_checkbox.scss';
-@import '~carbon-components/scss/components/multi-select/_multi-select.scss';
-@import '~carbon-components/scss/components/radio-button/_radio-button.scss';
+@import '~carbon-components/scss/components/checkbox/checkbox';
+@import '~carbon-components/scss/components/multi-select/multi-select';
+@import '~carbon-components/scss/components/radio-button/radio-button';
 
 .#{$prefix}--search-refinement {
   margin-bottom: $spacing-md;

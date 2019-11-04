@@ -1,4 +1,4 @@
-import { intersects } from '../utils/box';
+import { intersects } from '../box';
 
 describe('box', () => {
   it('returns that boxes intersect', () => {

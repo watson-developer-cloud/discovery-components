@@ -1,11 +1,11 @@
 import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
-import { findTermAggregations } from '../utils/findTermAggregations';
+import { findTermAggregations } from '../findTermAggregations';
 import {
   twoTermAggs,
   nestedTermAgg,
   nestedFilterTermAgg,
   twoNestedFilterTermAgg
-} from '../fixtures/aggregationResponses';
+} from '../../__fixtures__/aggregationResponses';
 
 describe('findTermAggregations', () => {
   test('keeps two term aggregations the same', () => {

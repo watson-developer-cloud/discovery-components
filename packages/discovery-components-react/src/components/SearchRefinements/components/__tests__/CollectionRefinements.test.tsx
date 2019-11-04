@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { render, getNodeText, fireEvent, RenderResult } from '@testing-library/react';
-import { wrapWithContext } from '../../../utils/testingUtils';
-import { SearchContextIFC, SearchApiIFC } from '../../DiscoverySearch/DiscoverySearch';
-import { SearchRefinements } from '../SearchRefinements';
-import collectionsResponse from '../fixtures/collectionsResponse';
+import { wrapWithContext } from '../../../../utils/testingUtils';
+import { SearchContextIFC, SearchApiIFC } from '../../../DiscoverySearch/DiscoverySearch';
+import { SearchRefinements } from '../../SearchRefinements';
+import collectionsResponse from '../../__fixtures__/collectionsResponse';
 
 interface Setup {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
