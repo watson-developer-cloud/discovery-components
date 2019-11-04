@@ -1,4 +1,3 @@
-export { ExampleComponent } from './components/ExampleComponent/ExampleComponent';
 export {
   DiscoverySearch,
   SearchApi,
