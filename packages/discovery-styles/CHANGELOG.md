@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.29.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/styles@1.28.1...@disco-widgets/styles@1.29.0) (2019-11-04)
+
+
+### Features
+
+* rename to CIDocument ([#318](https://github.com/watson-developer-cloud/discovery-components/issues/318)) ([c653251](https://github.com/watson-developer-cloud/discovery-components/commit/c653251))
+
+
+
+
+
 ## [1.28.1](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/styles@1.28.0...@disco-widgets/styles@1.28.1) (2019-11-03)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.62.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.61.1...@disco-widgets/react-components@1.62.0) (2019-11-04)
+
+
+### Features
+
+* rename to CIDocument ([#318](https://github.com/watson-developer-cloud/discovery-components/issues/318)) ([c653251](https://github.com/watson-developer-cloud/discovery-components/commit/c653251))
+
+
+
+
+
 ## [1.61.1](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.61.0...@disco-widgets/react-components@1.61.1) (2019-11-03)
 
 
