@@ -1,0 +1,32 @@
+@import '~carbon-components/scss/components/skeleton/skeleton';
+
+.#{$prefix}--ci-doc-filter {
+  .resetButton {
+    padding: $spacing-sm;
+    outline: none;
+    border: none;
+    background-color: initial;
+    &:focus {
+      outline: 1px solid;
+    }
+  }
+
+  .group-title {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.375rem;
+  }
+
+  .label {
+    display: inline;
+    padding-bottom: 0;
+  }
+
+  .input[disabled] + .label {
+    color: $gray-30;
+  }
+
+  .count {
+    margin-left: $spacing-2xs;
+  }
+}

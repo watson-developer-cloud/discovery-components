@@ -2,17 +2,9 @@ import invoiceOntology from './ontology/invoices';
 import purchaseOrderOntology from './ontology/purchase_orders';
 import flattenDeep from 'lodash/flattenDeep';
 import { getId } from './idUtils';
-import { Metadata } from '../../components/SemanticDocument/components/MetadataPane/types';
-import {
-  ENRICHMENTS,
-  getEnrichmentName
-} from '../../components/SemanticDocument/utils/enrichmentUtils';
-import {
-  EnrichedHtml,
-  Contract,
-  Attributes,
-  Relations
-} from '../../components/SemanticDocument/types';
+import { Metadata } from '../../components/CIDocument/components/MetadataPane/types';
+import { ENRICHMENTS, getEnrichmentName } from '../../components/CIDocument/utils/enrichmentUtils';
+import { EnrichedHtml, Contract, Attributes, Relations } from '../../components/CIDocument/types';
 import { Ontology } from './ontology/types';
 
 const modelMapping = {

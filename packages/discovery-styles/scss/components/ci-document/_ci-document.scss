@@ -1,0 +1,62 @@
+@import '~carbon-components/scss/components/tabs/tabs';
+
+.#{$prefix}--ci-doc {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
+.#{$prefix}--ci-doc__toolbar {
+  flex: 0 0;
+  width: 100%;
+  display: flex;
+}
+
+.#{$prefix}--ci-doc__title {
+  font-size: 1.2em;
+  line-height: 2;
+  display: inline-block;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.#{$prefix}--ci-doc__nav {
+  display: inline-block;
+  min-width: 200px;
+  text-align: center;
+}
+
+.#{$prefix}--ci-doc__title,
+.#{$prefix}--ci-doc__rightGutter {
+  flex: 1 0 0;
+  min-width: 0;
+}
+
+.#{$prefix}--ci-doc__main {
+  flex: 1 1 auto;
+  display: flex;
+  flex-flow: row nowrap;
+  height: 100%;
+  overflow: hidden;
+}
+
+.#{$prefix}--ci-doc__filters,
+.#{$prefix}--ci-doc__details {
+  width: 12rem;
+}
+
+.#{$prefix}--ci-doc__filters {
+  overflow-y: auto;
+}
+
+.#{$prefix}--ci-doc__doc {
+  flex: 1 1 auto;
+}
+
+.#{$prefix}--ci-doc__tabs a,
+.#{$prefix}--ci-doc__tabs a:active,
+.#{$prefix}--ci-doc__tabs a:focus {
+  width: auto;
+}

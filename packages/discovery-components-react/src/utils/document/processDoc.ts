@@ -5,7 +5,7 @@ import { SaxesTag } from 'saxes';
 import { isRelationObject } from './nonContractUtils';
 import { getId } from './idUtils';
 import transformEnrichment from './transformEnrichment';
-import { getEnrichmentName } from '../../components/SemanticDocument/utils/enrichmentUtils';
+import { getEnrichmentName } from '../../components/CIDocument/utils/enrichmentUtils';
 
 // split HTML into "sections" based on these top level tag(s)
 const SECTION_NAMES = ['p', 'ul', 'table'];
@@ -65,7 +65,7 @@ export interface Table {
 
 /**
  * Convert document data into structure that is more palatable for use by
- * SemanticDocument.
+ * CIDocument
  *
  * @param {Object} data Discovery document data
  * @param {Object} options

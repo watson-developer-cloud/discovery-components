@@ -1,0 +1,40 @@
+.#{$prefix}--ci-doc-metadata {
+  margin: $spacing-sm;
+
+  > h2 {
+    font-size: $spacing-lg;
+  }
+}
+
+.#{$prefix}--ci-doc-metadata__section {
+  > h3 {
+    font-size: $spacing-md;
+  }
+
+  a {
+    margin-left: $spacing-xs;
+    display: inline-block;
+  }
+
+  svg {
+    cursor: help;
+  }
+}
+
+.#{$prefix}--ci-doc-metadata__selected {
+  font-weight: bold;
+
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+.#{$prefix}--ci-doc-metadata__party {
+  font-size: $spacing-md;
+  margin-top: $spacing-sm;
+  border-top: 1px solid $gray_70;
+}
+
+.#{$prefix}--ci-doc-metadata__link {
+  display: inline-block;
+}
