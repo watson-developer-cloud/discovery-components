@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.24.11](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/kitchen-sink@1.24.10...kitchen-sink@1.24.11) (2019-11-05)
+
+
+### Bug Fixes
+
+* proxy example app ([#333](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/333)) ([7d94974](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/7d94974))
+
+
+
+
+
 ## [1.24.10](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/kitchen-sink@1.24.9...kitchen-sink@1.24.10) (2019-11-04)
 
 **Note:** Version bump only for package kitchen-sink
