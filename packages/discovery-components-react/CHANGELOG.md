@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.63.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.62.4...@disco-widgets/react-components@1.63.0) (2019-11-05)
+
+
+### Features
+
+* Style semantic document components ([#320](https://github.com/watson-developer-cloud/discovery-components/issues/320)) ([ec9e44c](https://github.com/watson-developer-cloud/discovery-components/commit/ec9e44c)), closes [Watson-Discovery/docviz-squad-issue-tracker#75](https://github.com/Watson-Discovery/docviz-squad-issue-tracker/issues/75) [Watson-Discovery/docviz-squad-issue-tracker#75](https://github.com/Watson-Discovery/docviz-squad-issue-tracker/issues/75) [Watson-Discovery/docviz-squad-issue-tracker#75](https://github.com/Watson-Discovery/docviz-squad-issue-tracker/issues/75) [Watson-Discovery/docviz-squad-issue-tracker#75](https://github.com/Watson-Discovery/docviz-squad-issue-tracker/issues/75) [Watson-Discovery/docviz-squad-issue-tracker#75](https://github.com/Watson-Discovery/docviz-squad-issue-tracker/issues/75) [Watson-Discovery/docviz-squad-issue-tracker#75](https://github.com/Watson-Discovery/docviz-squad-issue-tracker/issues/75)
+
+
+
+
+
 ## [1.62.4](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.62.3...@disco-widgets/react-components@1.62.4) (2019-11-05)
 
 
