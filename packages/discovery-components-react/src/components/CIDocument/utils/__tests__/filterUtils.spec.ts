@@ -4,29 +4,25 @@ import { Filter } from '../../components/FilterPanel/types';
 const filterPartA1 = {
   optionId: 'Filter A-1',
   groupId: 'FILTER_GROUP_A',
-  type: 'checkbox',
-  checked: true
+  type: 'checkbox'
 };
 
 const filterPartA2 = {
   optionId: 'Filter A-2',
   groupId: 'FILTER_GROUP_A',
-  type: 'checkbox',
-  checked: true
+  type: 'checkbox'
 };
 
 const filterPartB1 = {
   optionId: 'Filter B-1',
   groupId: 'FILTER_GROUP_B',
-  type: 'radio',
-  checked: true
+  type: 'radio'
 };
 
 const filterPartB2 = {
   optionId: 'Filter B-2',
   groupId: 'FILTER_GROUP_B',
-  type: 'radio',
-  checked: true
+  type: 'radio'
 };
 
 describe('filterUtils', () => {

@@ -1,40 +1,57 @@
 .#{$prefix}--ci-doc-metadata {
-  margin: $spacing-sm;
+  .section {
+    padding: $spacing-sm $spacing-lg;
 
-  > h2 {
-    font-size: $spacing-lg;
+    &:first-child {
+      padding-top: $spacing-lg;
+    }
+
+    &:not(:first-child) {
+      border-top: 1px solid $ui-03;
+    }
+
+    &:last-child {
+      padding-bottom: $spacing-lg;
+    }
   }
-}
 
-.#{$prefix}--ci-doc-metadata__section {
-  > h3 {
-    font-size: $spacing-md;
+  .group {
+    &:not(:first-child) {
+      margin-top: $spacing-sm;
+    }
+
+    .group-title {
+      font-size: 0.75rem;
+      font-weight: bold;
+      color: $text-02;
+      line-height: 1rem;
+      margin-bottom: $spacing-2xs;
+    }
+
+    li {
+      &:not(:first-child) {
+        margin-top: $spacing-2xs;
+      }
+
+      a,
+      .link {
+        font-size: 0.875rem;
+        display: inline-block;
+        vertical-align: bottom;
+      }
+
+      svg {
+        margin-right: $spacing-xs;
+        cursor: help;
+      }
+
+      .selected {
+        font-weight: bold;
+
+        &:focus {
+          box-shadow: none;
+        }
+      }
+    }
   }
-
-  a {
-    margin-left: $spacing-xs;
-    display: inline-block;
-  }
-
-  svg {
-    cursor: help;
-  }
-}
-
-.#{$prefix}--ci-doc-metadata__selected {
-  font-weight: bold;
-
-  &:focus {
-    box-shadow: none;
-  }
-}
-
-.#{$prefix}--ci-doc-metadata__party {
-  font-size: $spacing-md;
-  margin-top: $spacing-sm;
-  border-top: 1px solid $gray_70;
-}
-
-.#{$prefix}--ci-doc-metadata__link {
-  display: inline-block;
 }

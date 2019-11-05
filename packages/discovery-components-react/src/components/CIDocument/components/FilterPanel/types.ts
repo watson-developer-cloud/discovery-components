@@ -19,5 +19,5 @@ export interface FilterChangeArgs {
   optionId: string;
   groupId: string;
   type: string;
-  checked: boolean;
+  checked?: boolean;
 }

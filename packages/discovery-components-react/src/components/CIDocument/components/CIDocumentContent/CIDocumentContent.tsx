@@ -27,7 +27,7 @@ export interface CIDocumentContentProps {
   highlightedIds?: string[];
   activeIds?: string[];
   activePartIds?: string[];
-  allClickableIds?: string[];
+  selectableIds?: string[];
   activeMetadataIds?: string[];
   width?: number;
   height?: number;
@@ -41,7 +41,7 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
   highlightedIds = [],
   activeIds = [],
   activePartIds = [],
-  allClickableIds = [],
+  selectableIds = [],
   activeMetadataIds = [],
   itemMap,
   width,
@@ -60,9 +60,10 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
     }
   }, [activeIds, activeMetadataIds, activePartIds, itemMap]);
 
+  const loading = !sections || sections.length === 0;
   return (
-    <div className={cx(baseClassName, className)}>
-      {!sections || sections.length === 0 ? (
+    <div className={cx(baseClassName, className, { skeleton: loading })}>
+      {loading ? (
         <SkeletonText paragraph={true} lineCount={80} />
       ) : (
         <>
@@ -87,8 +88,8 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
           {activePartIds.length > 0 && (
             <style>{createStyleRules(activePartIds, [backgroundColorRule(activePartColor)])}</style>
           )}
-          {allClickableIds && allClickableIds.length > 0 && (
-            <style>{createStyleRules(allClickableIds, [underlineRule(clickableItemColor)])}</style>
+          {selectableIds && selectableIds.length > 0 && (
+            <style>{createStyleRules(selectableIds, [underlineRule(clickableItemColor)])}</style>
           )}
           {activeMetadataIds.length > 0 && (
             <style>

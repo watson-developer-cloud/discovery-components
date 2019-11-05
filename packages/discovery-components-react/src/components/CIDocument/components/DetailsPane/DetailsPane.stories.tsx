@@ -25,7 +25,7 @@ const mockData: Items[] = [
 
 storiesOf('CIDocument/components/DetailsPane', module).add('DetailsPane', () => {
   return (
-    <div style={{ width: '30%' }}>
+    <div style={{ maxWidth: '30%', minWidth: '200px' }}>
       <DetailsPane items={mockData} onActiveLinkChange={action('active-link-change')} />
     </div>
   );

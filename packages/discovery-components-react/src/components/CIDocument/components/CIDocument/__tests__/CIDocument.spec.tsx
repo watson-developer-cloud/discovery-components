@@ -5,6 +5,7 @@ import {
   fireEvent,
   waitForElement,
   getByText as globalGetByText,
+  getByLabelText as globalGetByLabelText,
   BoundFunction,
   GetAllBy,
   GetByText
@@ -40,7 +41,10 @@ describe('<CIDocument />', () => {
   });
 
   it('filters and navigates forward through the list of elements', async () => {
-    const filterCheckbox = await waitForElement(() => getByText('Confidentiality'));
+    const filterCheckbox = await waitForElement(() => {
+      const filters = getByTestId('Filters');
+      return globalGetByLabelText(filters, 'Confidentiality(16)');
+    });
     fireEvent.click(filterCheckbox);
 
     const nextButton = getByTitle('Next', { selector: 'button' });
@@ -56,7 +60,10 @@ describe('<CIDocument />', () => {
   });
 
   it('filters and navigates backward through the list of elements', async () => {
-    const filterCheckbox = await waitForElement(() => getByText('Communication'));
+    const filterCheckbox = await waitForElement(() => {
+      const filters = getByTestId('Filters');
+      return globalGetByLabelText(filters, 'Communication(96)');
+    });
     fireEvent.click(filterCheckbox);
 
     const previousButton = getByTitle('Previous', { selector: 'button' });

@@ -6,22 +6,18 @@
   // potentially showing a vertical scrollbar. The following "fixes" it.
   overflow-y: hidden;
 
+  &.hasTable {
+    // allow scrolling horizontally, for wide tables
+    overflow-x: auto;
+  }
+
   .field > * {
     position: absolute;
   }
 
   .field.hover > *,
   .field:hover > * {
-    background-color: rgba(128, 128, 128, 0.25);
-  }
-
-  .hasTable {
-    // allow scrolling horizontally, for wide tables
-    overflow-x: auto;
-  }
-
-  .content {
-    position: relative;
+    background-color: $selected-ui;
   }
 
   // css--reset removes the default styling for some components; set those up again
@@ -111,16 +107,21 @@
       padding-right: $spacing-03;
     }
 
-    /* stylelint-disable-next-line selector-type-no-unknown */
-    bbox {
-      // increase font size in order to better match original document
-      font-size: 115%;
-    }
-
     p,
     table,
     li {
       margin-bottom: $spacing-01;
+    }
+  }
+
+  .content {
+    position: relative;
+
+    * {
+      @include carbon--type-style('body-long-02');
+
+      font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+      margin-bottom: $spacing-md;
     }
   }
 }

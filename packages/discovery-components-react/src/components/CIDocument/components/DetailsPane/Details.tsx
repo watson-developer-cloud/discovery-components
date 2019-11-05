@@ -48,8 +48,8 @@ function renderLinks(
   sectionTitle: string
 ): ReactElement {
   return (
-    <li key={type}>
-      {value && <div>{documentDisplayNames[type]}</div>}
+    <li key={type} className="content">
+      {value && <div className="display-name">{documentDisplayNames[type]}</div>}
       <Link
         className={cx({ selected: selectedLink === type })}
         href="#"

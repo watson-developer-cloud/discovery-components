@@ -5,7 +5,7 @@ import MetadataPane from './MetadataPane';
 import { mockMetadata } from './__fixtures__/metadata';
 import { mockParties } from './__fixtures__/parties';
 
-storiesOf('MetadataPane', module).add('MetadataPane', () => {
+storiesOf('CIDocument/components/MetadataPane', module).add('default', () => {
   return (
     <>
       <div style={{ width: '30%' }}>

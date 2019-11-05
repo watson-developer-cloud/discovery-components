@@ -1,4 +1,8 @@
 .#{$prefix}--ci-doc-virtual-scroll {
+  .ReactVirtualized__Grid {
+    padding: $spacing-3xl;
+  }
+
   .ReactVirtualized__Grid__innerScrollContainer {
     margin: 0 $spacing-md $layout-xl;
   }

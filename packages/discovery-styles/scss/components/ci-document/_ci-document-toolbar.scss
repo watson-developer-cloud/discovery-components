@@ -1,19 +1,28 @@
-.#{$prefix}--ci-doc-toolbar__text {
-  margin: $spacing-xs $spacing-xs 0 $spacing-xs;
-  text-align: center;
-  display: inline-block;
-  min-width: 70px; // To prevent shifting of buttons when number change
-}
+.#{$prefix}--ci-doc-toolbar {
+  height: 100%;
 
-.#{$prefix}--ci-doc-toolbar__button {
-  border: 1px solid $ui-04;
-
-  .#{$prefix}--btn__icon {
-    // override carbon
-    margin: 0;
+  .text {
+    display: inline-block;
+    min-width: 70px; // To prevent shifting of buttons when number change
+    text-align: center;
+    vertical-align: text-top;
   }
 
-  &:focus {
-    outline: none;
+  .button {
+    padding: 0;
+    height: 100%;
+
+    .#{$prefix}--btn__icon {
+      // override carbon
+      margin: 0;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    svg {
+      margin: 0;
+    }
   }
 }

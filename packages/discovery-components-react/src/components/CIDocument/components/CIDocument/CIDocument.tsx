@@ -270,7 +270,7 @@ export const CIDocument: FC<CIDocumentProps> = ({
     highlightedIds = highlightedList.map(getId) ? highlightedList.map(getId) : [];
   }
 
-  const renderFilterPane = (): ReactElement => {
+  const renderSidebar = (): ReactElement => {
     const nonContractFilterGroups = filterGroups.filter(group => group.id === selectedType);
 
     const tabLabels = {
@@ -351,7 +351,8 @@ export const CIDocument: FC<CIDocumentProps> = ({
   let nonContractProps = {};
   if (isInvoiceOrPurchaseOrder(enrichmentName)) {
     nonContractProps = {
-      activeIds: difference(activeIds, allClickableIds).length === 0 ? activeIds : []
+      activeIds: difference(activeIds, allClickableIds).length === 0 ? activeIds : [],
+      selectableIds: allClickableIds
     };
   }
 
@@ -381,7 +382,7 @@ export const CIDocument: FC<CIDocumentProps> = ({
             )}
           </nav>
           <div className={`${base}__main`}>
-            <aside className={`${base}__filters`}>{renderFilterPane()}</aside>
+            <aside className={`${base}__sidebar`}>{renderSidebar()}</aside>
             <article className={`${base}__doc`}>
               <CIDocumentContent
                 styles={state.styles}
@@ -394,7 +395,6 @@ export const CIDocument: FC<CIDocumentProps> = ({
                   setActiveIds,
                   elementList: itemList
                 })}
-                allClickableIds={allClickableIds}
                 activeMetadataIds={activeMetadataIds}
                 width={overrideDocWidth}
                 height={overrideDocHeight}

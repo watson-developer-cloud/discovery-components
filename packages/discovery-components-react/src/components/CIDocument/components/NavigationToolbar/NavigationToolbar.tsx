@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import cx from 'classnames';
 import { settings } from 'carbon-components';
 import { Button } from 'carbon-components-react';
 import ChevronLeft16 from '@carbon/icons-react/lib/chevron--left/16';
@@ -24,9 +25,9 @@ const NavigationToolbar: FC<NavigationToolbarProps> = ({
 }) => {
   const base = `${settings.prefix}--ci-doc-toolbar`;
   return (
-    <nav className={className}>
+    <nav className={cx(base, className)}>
       <Button
-        className={`${base}__button`}
+        className="button"
         title={messages.previousLabel}
         kind="ghost"
         size="small"
@@ -34,13 +35,13 @@ const NavigationToolbar: FC<NavigationToolbarProps> = ({
         iconDescription={messages.previousLabel}
         onClick={handleChange(onChange, index, max, -1)}
       />
-      <span className={`${base}__text`}>
+      <span className="text">
         {messages
           .counterPattern!.replace('{index}', index > 0 ? String(index) : '-')
           .replace('{max}', String(max))}
       </span>
       <Button
-        className={`${base}__button`}
+        className="button"
         title={messages.nextLabel}
         kind="ghost"
         size="small"

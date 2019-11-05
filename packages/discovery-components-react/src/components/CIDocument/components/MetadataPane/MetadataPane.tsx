@@ -27,23 +27,32 @@ const MetadataPane: FC<MetadataPaneProps> = ({
 
   return (
     <div className={base}>
-      {metadata.map((data, index) => (
-        <MetadataRow
-          key={index}
-          metadata={data}
-          activeMetadataId={activeMetadataId}
-          onActiveMetadataChange={onActiveMetadataChange}
-        />
-      ))}
-      <h3 className={`${base}__party`}>{messages.partiesHeading}</h3>
-      {filteredParties.map((party, index) => (
-        <PartyRow
-          key={index}
-          party={party}
-          activeMetadataId={activeMetadataId}
-          onActivePartyChange={onActivePartyChange}
-        />
-      ))}
+      <div className="section">
+        {metadata.map((data, index) => (
+          <MetadataRow
+            key={index}
+            metadata={data}
+            activeMetadataId={activeMetadataId}
+            onActiveMetadataChange={onActiveMetadataChange}
+          />
+        ))}
+      </div>
+      <div className="section">
+        <div className="group">
+          <h3 className="group-title">{messages.partiesHeading}</h3>
+          <ul>
+            {filteredParties.map((party, index) => (
+              <li key={index}>
+                <PartyRow
+                  party={party}
+                  activeMetadataId={activeMetadataId}
+                  onActivePartyChange={onActivePartyChange}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 };

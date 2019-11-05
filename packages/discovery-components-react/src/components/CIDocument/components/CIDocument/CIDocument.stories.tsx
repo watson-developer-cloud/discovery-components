@@ -23,6 +23,10 @@ const defaultValue = 'contracts';
 const groupId = 'GROUP-DOCUMENTS';
 
 const STYLE = `
+#root {
+  overflow: hidden;
+}
+
 .story {
   height: 100vh;
 }`;
@@ -32,19 +36,19 @@ storiesOf('CIDocument', module)
   .add('default', () => {
     const modelId = radios(label, options, defaultValue, groupId);
     return (
-      <>
+      <div style={{ overflow: 'hidden' }}>
         <style>{STYLE}</style>
         <div className="story">{<CIDocument document={docs[modelId]} />}</div>
-      </>
+      </div>
     );
   })
   .add('parse error', () => {
     const badDoc = {};
 
     return (
-      <>
+      <div style={{ overflow: 'hidden' }}>
         <style>{STYLE}</style>
         <div className="story">{<CIDocument document={badDoc} />}</div>
-      </>
+      </div>
     );
   });

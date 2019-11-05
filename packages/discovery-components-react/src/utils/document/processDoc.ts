@@ -326,55 +326,46 @@ function sortFields(_enrichments: any, doc: ProcessedDoc): void {
     // - location data in JSON is sorted
 
     if (doc.sections) {
-      const sectionIdx = 0;
       for (const field of fields) {
         if (isRelationObject(field)) {
           for (const attribute of field.attributes) {
-            sortFieldsBySection(attribute, doc.sections, sectionIdx, fieldType);
+            sortFieldsBySection(attribute, doc.sections, fieldType);
           }
         } else {
-          sortFieldsBySection(field, doc.sections, sectionIdx, fieldType);
+          sortFieldsBySection(field, doc.sections, fieldType);
         }
       }
     }
   }
 }
 
-function sortFieldsBySection(
-  field: any,
-  sections: any[],
-  sectionIdx: number,
-  fieldType: string
-): void {
+function sortFieldsBySection(field: any, sections: any[], fieldType: string): void {
   const { begin, end } = field.location;
 
-  const newSectionIdx = findIndex(
+  const sectionIdx = findIndex(
     sections,
-    item => begin >= item.location.begin && end <= item.location.end,
-    sectionIdx
+    item => begin >= item.location.begin && end <= item.location.end
   );
-  if (newSectionIdx === -1) {
+  if (sectionIdx === -1) {
     // notify of error, but keep going
     // eslint-disable-next-line no-console
     console.error('Failed to find doc section which contains given field');
   }
 
-  sections[newSectionIdx].enrichments.push({
+  sections[sectionIdx].enrichments.push({
     ...field,
     __type: fieldType
   });
 
   // 'elements' contain 'attributes', which also contain location data
   if (fieldType === 'elements' && field.attributes && field.attributes.length) {
-    sections[newSectionIdx].enrichments.push(
+    sections[sectionIdx].enrichments.push(
       ...field.attributes.map((attr: any) => ({
         ...attr,
         __type: 'attributes'
       }))
     );
   }
-
-  sectionIdx = newSectionIdx;
 }
 
 function addItemMap(doc: ProcessedDoc): void {

@@ -3,28 +3,31 @@
 .#{$prefix}--ci-doc-details {
   align-items: center;
   justify-content: center;
-  padding: $spacing-md;
+  height: 100%;
+  color: $text-02;
+
+  * {
+    font-size: 0.875rem;
+    line-height: 1;
+  }
 
   .title {
-    font-size: $spacing-md;
     font-weight: bold;
-    margin-bottom: $spacing-md;
-    padding-bottom: $spacing-md;
-    border-bottom: 1px solid $ui_04;
+    padding: $spacing-md;
   }
 
   .nothingSelected {
-    color: $gray-30;
+    padding-left: $spacing-md;
+    color: $text-03;
   }
 
   .section {
-    margin-top: $spacing-md;
-    border-bottom: 1px solid $ui_04;
-    padding-bottom: $spacing-md;
+    padding: $spacing-md;
+    border-top: 1px solid $ui-03;
   }
 
   .sectionHeader {
-    font-size: $spacing-md;
+    font-size: 0.75rem;
     font-weight: bold;
     margin-bottom: $spacing-sm;
   }
@@ -38,6 +41,18 @@
   }
 
   .content {
-    margin-bottom: $spacing-sm;
+    margin-bottom: $spacing-xs;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .display-name {
+      margin-bottom: $spacing-2xs;
+    }
+  }
+
+  .bx--link {
+    color: $link-01;
   }
 }

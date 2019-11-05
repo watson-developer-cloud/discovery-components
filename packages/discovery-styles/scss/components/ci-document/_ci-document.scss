@@ -8,59 +8,88 @@
   display: flex;
   flex-flow: column;
   height: 100%;
-}
+  min-width: 800px;
 
-.#{$prefix}--ci-doc__toolbar {
-  flex: 0 0;
-  width: 100%;
-  display: flex;
-}
+  .#{$prefix}--ci-doc__toolbar {
+    width: 100%;
+    flex: 0 0 auto;
+    display: flex;
+    height: $spacing-3xl;
+    min-height: $spacing-3xl;
+    align-items: center;
+    justify-content: space-between;
+    background-color: $ui-01;
 
-.#{$prefix}--ci-doc__title {
-  font-size: 1.2em;
-  line-height: 2;
-  display: inline-block;
-  font-weight: bold;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+    .#{$prefix}--ci-doc__title {
+      padding: 0 $spacing-md;
+      font-size: 1.2em;
+      line-height: 2;
+      display: inline-block;
+      font-weight: lighter;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
 
-.#{$prefix}--ci-doc__nav {
-  display: inline-block;
-  min-width: 200px;
-  text-align: center;
-}
+  .#{$prefix}--ci-doc__nav {
+    display: inline-block;
+    min-width: 150px;
+    text-align: center;
+  }
 
-.#{$prefix}--ci-doc__title,
-.#{$prefix}--ci-doc__rightGutter {
-  flex: 1 0 0;
-  min-width: 0;
-}
+  .#{$prefix}--ci-doc__title,
+  .#{$prefix}--ci-doc__rightGutter {
+    flex: 1 0 0;
+    min-width: 0;
+  }
 
-.#{$prefix}--ci-doc__main {
-  flex: 1 1 auto;
-  display: flex;
-  flex-flow: row nowrap;
-  height: 100%;
-  overflow: hidden;
-}
+  .#{$prefix}--ci-doc__main {
+    position: relative;
+    flex: 1 1 auto;
+    display: flex;
+    flex-flow: row nowrap;
+    height: 100%;
+    overflow: hidden;
+  }
 
-.#{$prefix}--ci-doc__filters,
-.#{$prefix}--ci-doc__details {
-  width: 12rem;
-}
+  .#{$prefix}--ci-doc__sidebar,
+  .#{$prefix}--ci-doc__details {
+    width: 14rem;
+  }
 
-.#{$prefix}--ci-doc__filters {
-  overflow-y: auto;
-}
+  .#{$prefix}--ci-doc__sidebar {
+    display: flex;
+    flex-direction: column;
 
-.#{$prefix}--ci-doc__doc {
-  flex: 1 1 auto;
-}
+    & > *:not(.#{$prefix}--ci-doc__tabs) {
+      flex: 1;
+      overflow-y: auto;
+    }
 
-.#{$prefix}--ci-doc__tabs a,
-.#{$prefix}--ci-doc__tabs a:active,
-.#{$prefix}--ci-doc__tabs a:focus {
-  width: auto;
+    .bx--tabs__nav {
+      width: 100%;
+
+      .bx--tabs__nav-item {
+        flex: 1;
+
+        .bx--tabs__nav-link {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  .#{$prefix}--ci-doc__doc {
+    flex: 1 1 auto;
+    border-left: 1px solid $ui-03;
+    border-right: 1px solid $ui-03;
+  }
+
+  .#{$prefix}--ci-doc__tabs a,
+  .#{$prefix}--ci-doc__tabs a:active,
+  .#{$prefix}--ci-doc__tabs a:focus {
+    width: auto;
+  }
 }

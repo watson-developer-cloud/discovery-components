@@ -24,7 +24,7 @@ export function filterContains(filter: Filter, groupId: string, optionId: string
 
 export function updateFilter(
   filter: Filter,
-  { type, checked, groupId, optionId }: FilterChangeArgs
+  { type, checked = true, groupId, optionId }: FilterChangeArgs
 ): Filter {
   const updatedList = [];
   if (type === 'checkbox' && filter[groupId]) {

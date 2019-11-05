@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import cx from 'classnames';
-import { settings } from 'carbon-components';
 import { Link, Tooltip } from 'carbon-components-react';
 import { Metadata, MetadataData, OnActiveMetadataChangeFn } from '../types';
 import { getId } from '../../../../../utils/document/idUtils';
@@ -57,10 +56,9 @@ const MetadataRow: FC<MetadataRowProps> = ({
     }
   };
 
-  const base = `${settings.prefix}--ci-doc-metadata`;
   return (
-    <div className={`${base}__section`}>
-      <h3>{headings[metadataType]} </h3>
+    <div className="group">
+      <h3 className="group-title">{headings[metadataType]} </h3>
       <ul>
         {data.map(dt => {
           const metadataId = getId(dt);
@@ -79,8 +77,7 @@ const MetadataRow: FC<MetadataRowProps> = ({
               </Tooltip>
               <Link
                 className={cx({
-                  [`${base}__selected`]:
-                    getMetadataTypeId(activeMetadataId, metadataType) === metadataTypeId
+                  selected: getMetadataTypeId(activeMetadataId, metadataType) === metadataTypeId
                 })}
                 href="#"
                 onClick={(evt: MouseEvent): void => {

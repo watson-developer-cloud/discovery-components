@@ -34,7 +34,7 @@ const DetailsPane: FC<DetailsPaneProps> = ({
           />
         ))
       ) : (
-        <span className="nothingSelected">{messages.noneSelectedMessage}</span>
+        <div className="nothingSelected">{messages.noneSelectedMessage}</div>
       )}
     </div>
   );

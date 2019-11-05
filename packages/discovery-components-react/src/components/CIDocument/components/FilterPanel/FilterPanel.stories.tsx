@@ -8,11 +8,17 @@ import { FilterGroup } from './types';
 
 storiesOf('CIDocument/components/FilterPanel', module)
   .add('default', () => (
-    <FilterPanel
-      filter={filter}
-      filterGroups={filterGroups as FilterGroup[]}
-      onFilterChange={action('filter-change')}
-      onFilterClear={action('filter-clear')}
-    />
+    <div style={{ maxWidth: '30%', minWidth: '200px' }}>
+      <FilterPanel
+        filter={filter}
+        filterGroups={filterGroups as FilterGroup[]}
+        onFilterChange={action('filter-change')}
+        onFilterClear={action('filter-clear')}
+      />
+    </div>
   ))
-  .add('loading', () => <FilterPanel filter={null} filterGroups={null} />);
+  .add('loading', () => (
+    <div style={{ maxWidth: '30%', minWidth: '200px' }}>
+      <FilterPanel filter={null} filterGroups={null} />
+    </div>
+  ));

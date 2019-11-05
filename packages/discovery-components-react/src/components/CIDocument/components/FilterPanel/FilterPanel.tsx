@@ -1,7 +1,12 @@
-import React, { FC, ChangeEvent } from 'react';
+import React, { FC } from 'react';
 import cx from 'classnames';
 import { settings } from 'carbon-components';
-import { Button, SkeletonText } from 'carbon-components-react';
+import {
+  Button,
+  SkeletonText,
+  Checkbox as CarbonCheckbox,
+  RadioButton as CarbonRadio
+} from 'carbon-components-react';
 import { isFilterEmpty, filterContains } from '../../utils/filterUtils';
 import { displayNames } from './displayNames';
 import { FilterGroup, Filter, FilterChangeArgs } from './types';
@@ -12,6 +17,11 @@ const base = `${settings.prefix}--ci-doc-filter`;
 export type OnFilterChangeFn = (args: FilterChangeArgs) => void;
 export type OnFilterClearFn = () => void;
 
+const inputTagTypes = {
+  checkbox: CarbonCheckbox,
+  radio: CarbonRadio
+};
+
 interface FilterPanelProps {
   className?: string;
   filter: Filter | null;
@@ -19,6 +29,7 @@ interface FilterPanelProps {
   messages?: Messages;
   onFilterChange?: OnFilterChangeFn;
   onFilterClear?: OnFilterClearFn;
+  title?: string;
 }
 
 const FilterPanel: FC<FilterPanelProps> = ({
@@ -28,59 +39,78 @@ const FilterPanel: FC<FilterPanelProps> = ({
   messages = defaultMessages,
   onFilterChange,
   onFilterClear
-}) => (
-  <div className={cx(base, className)} data-testid="Filters">
-    {!filter || !filterGroups || filterGroups.length === 0 ? (
-      <SkeletonText paragraph={true} lineCount={6} />
-    ) : (
-      <div>
-        <Button
-          className="resetButton"
-          kind="ghost"
-          size="small"
-          onClick={onFilterClear}
-          disabled={isFilterEmpty(filter)}
-        >
-          {messages.resetFilterLabel}
-        </Button>
-        {filterGroups.map(group => (
-          <div key={group.id}>
-            <h3 className="group-title">{group.title}</h3>
-            {group.optionsList &&
-              group.optionsList.map(({ id, count, displayName }) => (
-                <div key={id}>
-                  <input
-                    className="input"
-                    id={id}
-                    type={group.type}
-                    name={group.id}
-                    disabled={!count}
-                    checked={filterContains(filter, group.id, id)}
-                    onChange={handleChange(id, group.id, group.type, onFilterChange)}
-                  />
-                  <label className="label" htmlFor={id}>
-                    {displayNames[displayName] || displayName}
-                    {!!count && <span className="count">({count})</span>}
-                  </label>
+}) => {
+  const loading = !filter || !filterGroups || filterGroups.length === 0;
+  return (
+    <div
+      className={cx(base, className, {
+        skeletons: loading
+      })}
+      data-testid="Filters"
+    >
+      {loading ? (
+        <SkeletonText paragraph={true} lineCount={6} />
+      ) : (
+        <div>
+          <div className="filterTitle">{messages.filterTitle}</div>
+          <Button
+            className="resetButton"
+            kind="ghost"
+            size="small"
+            onClick={onFilterClear}
+            disabled={filter && isFilterEmpty(filter)}
+          >
+            {messages.resetFilterLabel}
+          </Button>
+          <div className="groups">
+            {filterGroups &&
+              filterGroups.map(group => (
+                <div key={group.id} className="group">
+                  <h3 className="group-title">{group.title}</h3>
+                  {group.optionsList &&
+                    group.optionsList.map(({ id, count, displayName }) => {
+                      const InputTag = inputTagTypes[group.type];
+                      const labelText = (
+                        <>
+                          {displayNames[displayName] || displayName}
+                          {!!count && <span className="count">({count})</span>}
+                        </>
+                      );
+                      return (
+                        InputTag && (
+                          <InputTag
+                            key={`${group.id}-${id}`}
+                            id={`${group.id}-${id}`}
+                            className="group-option input"
+                            labelText={labelText}
+                            name={group.id}
+                            disabled={!count}
+                            checked={filter && filterContains(filter, group.id, id)}
+                            onChange={handleChange(id, group.id, group.type, onFilterChange)}
+                          />
+                        )
+                      );
+                    })}
                 </div>
               ))}
           </div>
-        ))}
-      </div>
-    )}
-  </div>
-);
+        </div>
+      )}
+    </div>
+  );
+};
 
 function handleChange(
   id: string,
   name: string,
   type: string,
   onFilterChange?: OnFilterChangeFn
-): ((event: ChangeEvent<HTMLInputElement>) => void) | undefined {
+): ((value: boolean | string) => void) | undefined {
   if (onFilterChange) {
-    return function(event): void {
-      const { checked } = event.target;
-
+    return function(value): void {
+      // value is string for radio buttons, boolean for checkbox
+      // Always send true for radio buttons; otherwise, send along checkbox boolean
+      const checked: boolean = typeof value === 'string' || value;
       onFilterChange({
         optionId: id,
         groupId: name,

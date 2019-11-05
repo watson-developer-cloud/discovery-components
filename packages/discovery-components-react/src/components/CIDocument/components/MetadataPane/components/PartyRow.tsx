@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import cx from 'classnames';
-import { settings } from 'carbon-components';
 import { Link } from 'carbon-components-react';
 import { getId } from '../../../../../utils/document/idUtils';
 import { Party, Address, Mention, OnActivePartyChangeFn } from '../types';
@@ -21,82 +20,71 @@ const PartyRow: FC<PartyRowProps> = ({
   addressesHeading = 'Addresses',
   contactsHeading = 'Contacts',
   onActivePartyChange
-}) => {
-  const base = `${settings.prefix}--ci-doc-metadata`;
-  return (
-    <>
-      {party.mentions ? (
-        <Link
-          className={`${base}__link`}
-          onClick={(evt: MouseEvent): void => {
-            onLinkClick(evt, party.mentions, onActivePartyChange);
-          }}
-          href="#"
-        >
-          <p
-            className={cx({
-              [`${base}__selected`]: party.mentions.some(
-                mention => getId(mention) === activeMetadataId
-              )
-            })}
-          >
-            {getNameRoleDisplayString({
-              name: party.party,
-              role: party.role
-            })}
-            &nbsp;({party.mentions.length})
-          </p>
-        </Link>
-      ) : (
-        <p>
-          {getNameRoleDisplayString({
-            name: party.party,
-            role: party.role
-          })}
-        </p>
-      )}
-      <div>
-        {party.addresses.length > 0 && (
-          <div>
-            <h3>{addressesHeading}</h3>
+}) => (
+  <>
+    {party.mentions ? (
+      <Link
+        className={cx('link', {
+          selected: party.mentions.some(mention => getId(mention) === activeMetadataId)
+        })}
+        onClick={(evt: MouseEvent): void => {
+          onLinkClick(evt, party.mentions, onActivePartyChange);
+        }}
+        href="#"
+      >
+        {getNameRoleDisplayString({
+          name: party.party,
+          role: party.role
+        })}
+        &nbsp;({party.mentions.length})
+      </Link>
+    ) : (
+      <p>
+        {getNameRoleDisplayString({
+          name: party.party,
+          role: party.role
+        })}
+      </p>
+    )}
+    <div>
+      {party.addresses.length > 0 && (
+        <div>
+          <h3>{addressesHeading}</h3>
+          <ul>
             {party.addresses.map(address => {
               return (
-                <div key={getId(address)}>
+                <li key={getId(address)}>
                   <Link
-                    className={`${base}__link`}
+                    className={cx('link', {
+                      selected: party.addresses.some(adrs => getId(adrs) === activeMetadataId)
+                    })}
                     href="#"
                     onClick={(evt: MouseEvent): void => {
                       onLinkClick(evt, party.addresses, onActivePartyChange);
                     }}
                   >
-                    <p
-                      className={cx({
-                        [`${base}__selected`]: party.addresses.some(
-                          adrs => getId(adrs) === activeMetadataId
-                        )
-                      })}
-                    >
-                      {address.text}
-                    </p>
+                    {address.text}
                   </Link>
-                </div>
+                </li>
               );
             })}
-          </div>
-        )}
+          </ul>
+        </div>
+      )}
 
-        {party.contacts.length > 0 && (
-          <div>
-            <h3>{contactsHeading}</h3>
+      {party.contacts.length > 0 && (
+        <div>
+          <h3>{contactsHeading}</h3>
+          <ul>
             {party.contacts.map(contact => (
-              <p key={`${contact.name}-${contact.role}`}>{getNameRoleDisplayString(contact)}</p>
+              <li key={`${contact.name}-${contact.role}`}>{getNameRoleDisplayString(contact)}</li>
             ))}
-          </div>
-        )}
-      </div>
-    </>
-  );
-};
+          </ul>
+        </div>
+      )}
+    </div>
+  </>
+);
 
 function getNameRoleDisplayString({ name, role }: { name: string; role: string }): string {
   if (role && !HIDDEN_ROLES.includes(role)) {
