@@ -18,8 +18,9 @@ import PdfFallback, { supportsPdfFallback } from './components/PdfFallback/PdfFa
 import SimpleDocument from './components/SimpleDocument/SimpleDocument';
 import HtmlView from './components/HtmlView/HtmlView';
 import Highlight from './components/Highlight/Highlight';
+import withErrorBoundary, { WithErrorBoundaryProps } from '../../utils/hoc/withErrorBoundary';
 
-interface Props {
+interface Props extends WithErrorBoundaryProps {
   /**
    * Document data, as that returned by a query. Overrides result from SearchContext
    */
@@ -39,7 +40,7 @@ interface Props {
 
 const SCALE_FACTOR = 1.2;
 
-export const DocumentPreview: FC<Props> = ({ document, file, highlight }) => {
+export const DocumentPreview: FC<Props> = ({ document, file, highlight, didCatch }) => {
   const { selectedResult } = useContext(SearchContext);
   // document prop takes precedence over that in context
   const doc = document || selectedResult.document;
@@ -84,11 +85,10 @@ export const DocumentPreview: FC<Props> = ({ document, file, highlight }) => {
   }, [textMappings, file, pdfPageCount]);
 
   const base = `${settings.prefix}--document-preview`;
-  const previewBase = `${settings.prefix}--preview`;
 
   return (
     <div className={`${base}`}>
-      {doc || file ? (
+      {(doc || file) && !didCatch ? (
         <>
           <PreviewToolbar
             loading={disabledToolbar || loading}
@@ -103,7 +103,7 @@ export const DocumentPreview: FC<Props> = ({ document, file, highlight }) => {
               }
             }}
           />
-          <div className={`${previewBase}__document`}>
+          <div className={`${base}__document`}>
             <PreviewDocument
               file={file}
               currentPage={currentPage}
@@ -126,13 +126,15 @@ export const DocumentPreview: FC<Props> = ({ document, file, highlight }) => {
             </div>
           </div>
           {loading && (
-            <div className={`${previewBase}__skeleton`}>
+            <div className={`${base}__skeleton`}>
               <SkeletonText paragraph={true} lineCount={40} />
             </div>
           )}
         </>
+      ) : didCatch ? (
+        <div className={`${base}__error`}>Error previewing document</div>
       ) : (
-        <div>No document data</div>
+        <div className={`${base}__error`}>No document data</div>
       )}
     </div>
   );
@@ -205,5 +207,5 @@ function PreviewDocument({
   return null;
 }
 
-export default DocumentPreview;
+export default withErrorBoundary(DocumentPreview);
 export { PreviewToolbar, PreviewDocument, ZOOM_IN, ZOOM_OUT, ZOOM_RESET };

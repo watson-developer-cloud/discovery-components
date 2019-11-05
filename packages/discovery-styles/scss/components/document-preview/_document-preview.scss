@@ -7,7 +7,7 @@
   height: 100%;
 }
 
-.#{$prefix}--preview__skeleton {
+.#{$prefix}--document-preview__skeleton {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -18,12 +18,12 @@
   background-color: white;
 }
 
-.#{$prefix}--preview__document {
+.#{$prefix}--document-preview__document {
   position: relative;
   overflow: scroll;
 }
 
-.#{$prefix}--preview__document > * {
+.#{$prefix}--document-preview__document > * {
   width: 100%;
 }
 
@@ -39,4 +39,9 @@
 .#{$prefix}--document-preview__highlight {
   fill: yellow;
   fill-opacity: 0.25;
+}
+
+.#{$prefix}--document-preview__error {
+  text-align: center;
+  margin: $spacing-2xl;
 }
