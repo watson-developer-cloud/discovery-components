@@ -78,79 +78,25 @@ describe('<SearchInput />', () => {
   });
 
   describe('When spelling suggestions enabled', () => {
-    let searchComponent: RenderResult;
-    let input: HTMLElement;
-    const performSearchMock = jest.fn();
     const setSearchParametersMock = jest.fn();
-    const fetchAutocompletionsMock = jest.fn();
 
-    const context: Partial<SearchContextIFC> = {
-      searchResponse: {
-        suggested_query: 'cunningham'
-      }
-    };
     const api: Partial<SearchApiIFC> = {
-      performSearch: performSearchMock,
-      setSearchParameters: setSearchParametersMock,
-      fetchAutocompletions: fetchAutocompletionsMock
+      setSearchParameters: setSearchParametersMock
     };
 
     beforeEach(() => {
-      searchComponent = render(
+      render(
         wrapWithContext(
           <SearchInput placeHolderText={PLACE_HOLDER_TEXT} spellingSuggestions={true} />,
           api,
-          context
+          {}
         )
       );
-      input = searchComponent.getByPlaceholderText(PLACE_HOLDER_TEXT);
     });
 
-    test('renders suggestion message', () => {
-      const correctionMessage = searchComponent.getByText('Did you mean:');
-      expect(correctionMessage).toBeDefined();
-    });
-
-    test('renders spelling suggestion', () => {
-      const spellingCorrection = searchComponent.getByText('cunningham');
-      expect(spellingCorrection).toBeDefined();
-    });
-
-    describe('clicking on suggestion', () => {
-      let spellingCorrection: HTMLElement;
-      beforeEach(() => {
-        // set the input value
-        fireEvent.change(input, { target: { value: 'cunnigham' } });
-        expect((input as HTMLInputElement).value).toBe('cunnigham');
-
-        // reset the mock methods
-        performSearchMock.mockReset();
-        fetchAutocompletionsMock.mockReset();
-
-        // click on the suggestion
-        spellingCorrection = searchComponent.getByText('cunningham');
-        fireEvent.focus(spellingCorrection);
-        fireEvent.click(spellingCorrection);
-      });
-
-      test('updates query', () => {
-        expect((input as HTMLInputElement).value).toBe('cunningham');
-      });
-
-      test('calls performSearch', () => {
-        expect(performSearchMock).toBeCalledTimes(1);
-        expect(performSearchMock).toBeCalledWith(
-          expect.objectContaining({
-            naturalLanguageQuery: 'cunningham',
-            filter: '',
-            offset: 0
-          })
-        );
-      });
-
-      test('does not call fetchAutocompletionsMock', () => {
-        expect(fetchAutocompletionsMock).not.toBeCalled();
-      });
+    test('calls setSearchParameters with spelling suggestions enabled', () => {
+      expect(setSearchParametersMock).toBeCalledWith(expect.any(Function));
+      // TODO how to assert anonymous function call return value?
     });
   });
 

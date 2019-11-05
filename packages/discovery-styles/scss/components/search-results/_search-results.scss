@@ -1,9 +1,15 @@
 @import '~carbon-components/scss/components/toggle/toggle';
+@import '~carbon-components/scss/components/button/button';
 
 $result-background: white;
 $result-element-max-height: 100px;
 $result-table-fade-size: 40px;
 $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-fade-size});
+
+.#{$prefix}--search-results__header {
+  display: flex;
+  align-items: center;
+}
 
 .#{$prefix}--search-result {
   @include layer('overlay');
@@ -22,6 +28,26 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   }
 }
 
+.#{$prefix}--spelling-suggestion__wrapper {
+  padding: 0 $spacing-md;
+}
+
+.#{$prefix}--spelling-suggestion {
+  color: $text-01;
+  text-decoration: underline;
+  border-width: 0;
+
+  @include type-style('body-short-02');
+
+  &:hover,
+  &:focus,
+  &:active {
+    outline-style: none;
+    color: $text-01;
+    background: transparent;
+  }
+}
+
 .#{$prefix}--search-result--toggle {
   flex-direction: row;
   justify-content: flex-end;
@@ -35,7 +61,6 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   align-items: center;
   display: flex;
   flex-direction: row;
-  padding: $spacing-xs;
 }
 
 .#{$prefix}--search-result__content-wrapper {

@@ -14,7 +14,7 @@ import React, {
   KeyboardEvent
 } from 'react';
 import { settings } from 'carbon-components';
-import { Search as CarbonSearchInput, Button as CarbonButton } from 'carbon-components-react';
+import { Search as CarbonSearchInput } from 'carbon-components-react';
 import ListBox from 'carbon-components-react/lib/components/ListBox';
 import { SearchApi, SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import useDebounce from '../../utils/useDebounce';
@@ -72,10 +72,6 @@ interface SearchInputProps {
    * True to return spelling suggestion with results
    */
   spellingSuggestions?: boolean;
-  /**
-   * Message prefix used when displaying spelling suggestion
-   */
-  spellingSuggestionsPrefix?: string;
 }
 
 export const SearchInput: FC<SearchInputProps> = props => {
@@ -91,17 +87,12 @@ export const SearchInput: FC<SearchInputProps> = props => {
     completionsCount = 5,
     showAutocomplete,
     minCharsToAutocomplete = 0,
-    spellingSuggestions,
-    spellingSuggestionsPrefix = 'Did you mean:'
+    spellingSuggestions
   } = props;
 
   const inputId = id || `search-input__${uuid.v4()}`;
   const autocompletionClassName = `${settings.prefix}--search-autocompletion`;
-  const spellingSuggestionClassName = `${settings.prefix}--spelling-suggestion`;
-  const spellingSuggestionWrapperClassName = `${settings.prefix}--spelling-suggestion__wrapper`;
-  const { searchParameters, searchResponse, autocompletionResults, componentSettings } = useContext(
-    SearchContext
-  );
+  const { searchParameters, autocompletionResults, componentSettings } = useContext(SearchContext);
   const displaySettings = {
     showAutocomplete:
       showAutocomplete === undefined
@@ -119,9 +110,12 @@ export const SearchInput: FC<SearchInputProps> = props => {
   const completions = (autocompletionResults && autocompletionResults.completions) || [];
   const lastWordOfValue = value.split(splitSearchQuerySelector).pop();
   const [skipFetchAutoCompletions, setSkipFetchAutoCompletions] = useState(false);
-  const suggestedQuery = searchResponse && searchResponse.suggested_query;
   const [focused, setFocused] = useState(false);
   let focusTimeout: ReturnType<typeof setTimeout>;
+
+  useEffect(() => {
+    setValue(searchParameters.naturalLanguageQuery || '');
+  }, [searchParameters.naturalLanguageQuery]);
 
   const handleOnChange = (evt: SyntheticEvent<EventTarget>): void => {
     const target = evt.currentTarget as HTMLInputElement;
@@ -238,15 +232,6 @@ export const SearchInput: FC<SearchInputProps> = props => {
     }, 0);
   };
 
-  const selectSuggestion = (evt: SyntheticEvent<EventTarget>): void => {
-    evt.preventDefault();
-    if (!!suggestedQuery) {
-      setSkipFetchAutoCompletions(true);
-      setValue(suggestedQuery);
-      searchAndBlur(suggestedQuery);
-    }
-  };
-
   const shouldShowCompletions =
     lastWordOfValue !== '' && displaySettings.showAutocomplete && focused;
   const autocompletionsList = completions.map((completion, i) => {
@@ -300,19 +285,6 @@ export const SearchInput: FC<SearchInputProps> = props => {
           </div>
         )}
       </div>
-      {!!suggestedQuery && (
-        <div className={spellingSuggestionWrapperClassName}>
-          {spellingSuggestionsPrefix}
-          <CarbonButton
-            className={spellingSuggestionClassName}
-            onClick={selectSuggestion}
-            kind="ghost"
-            size="small"
-          >
-            {suggestedQuery}
-          </CarbonButton>
-        </div>
-      )}
     </div>
   );
 };

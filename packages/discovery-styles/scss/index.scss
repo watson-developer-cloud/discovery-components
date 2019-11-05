@@ -9,6 +9,7 @@ $css--use-layer: true !default;
 
 // Component styles
 @import 'components/search-input/search-input';
+@import 'components/search-results/search-results';
 @import 'components/search-refinements/search-refinements';
 @import 'components/results-pagination/results-pagination';
 @import 'components/document-preview/document-preview';
@@ -16,7 +17,6 @@ $css--use-layer: true !default;
 @import 'components/document-preview/document-preview-pdf-fallback';
 @import 'components/document-preview/document-preview-pdf-viewer';
 @import 'components/document-preview/simple-document';
-@import 'components/search-results/search-results';
 @import 'components/ci-document/ci-document-content';
 @import 'components/ci-document/ci-document-details';
 @import 'components/ci-document/ci-document-filter';

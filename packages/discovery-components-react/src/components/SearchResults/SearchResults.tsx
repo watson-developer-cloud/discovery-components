@@ -1,8 +1,10 @@
 import * as React from 'react';
+import { settings } from 'carbon-components';
 import { SearchApi, SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import { TablesOnlyToggle } from './components/TablesOnlyToggle/TablesOnlyToggle';
 import { Result } from './components/Result/Result';
+import { SpellingSuggestion } from './components/SpellingSuggestion/SpellingSuggestion';
 import { findCollectionName, getDisplaySettings } from './utils';
 
 export interface SearchResultsProps {
@@ -55,6 +57,10 @@ export interface SearchResultsProps {
    * override the default label text for the show tables only toggle
    */
   tablesOnlyToggleLabelText?: string;
+  /**
+   * Message prefix used when displaying spelling suggestion
+   */
+  spellingSuggestionsPrefix?: string;
 }
 
 export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
@@ -69,7 +75,8 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   displayedTextInDocumentButtonText = 'View passage in document',
   tableInDocumentButtonText = 'View table in document',
   showTablesOnlyToggle = false,
-  tablesOnlyToggleLabelText = 'Show table results only'
+  tablesOnlyToggleLabelText = 'Show table results only',
+  spellingSuggestionsPrefix = 'Did you mean:'
 }) => {
   const { searchResponse, collectionsResults, componentSettings } = React.useContext(SearchContext);
   const [showTablesOnlyResults, setShowTablesOnlyResults] = React.useState(false);
@@ -83,6 +90,8 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   const matchingResults = (searchResponse && searchResponse.matching_results) || 0;
   const results = (searchResponse && searchResponse.results) || [];
   const tableResults = (searchResponse && searchResponse.table_results) || [];
+  const baseClass = `${settings.prefix}--search-results`;
+  const searchResultHeaderClass = `${baseClass}__header`;
   const querySubmitted = false; // TODO replace this with whatever value tells our component if a query has been submitted
 
   React.useEffect(() => {
@@ -102,12 +111,15 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   if (matchingResults && matchingResults > 0) {
     return (
       <div>
-        <TablesOnlyToggle
-          setShowTablesOnlyResults={setShowTablesOnlyResults}
-          showTablesOnlyToggle={showTablesOnlyToggle}
-          showTablesOnlyResults={showTablesOnlyResults}
-          tablesOnlyToggleLabelText={tablesOnlyToggleLabelText}
-        />
+        <div className={searchResultHeaderClass}>
+          <SpellingSuggestion spellingSuggestionPrefix={spellingSuggestionsPrefix} />
+          <TablesOnlyToggle
+            setShowTablesOnlyResults={setShowTablesOnlyResults}
+            showTablesOnlyToggle={showTablesOnlyToggle}
+            showTablesOnlyResults={showTablesOnlyResults}
+            tablesOnlyToggleLabelText={tablesOnlyToggleLabelText}
+          />
+        </div>
         {showTablesOnlyResults &&
           (tableResults as DiscoveryV2.QueryTableResult[]).map(table => {
             const collectionName = findCollectionName(collectionsResults, table);

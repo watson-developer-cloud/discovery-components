@@ -1,31 +1,10 @@
 // Component styles
 @import '~carbon-components/scss/components/search/search';
-@import '~carbon-components/scss/components/button/button';
 @import '~carbon-components/scss/components/list-box/list-box';
 
 .#{$prefix}--search-autocompletion {
   @include layer('overlay');
   padding: 0 $spacing-md;
-}
-
-.#{$prefix}--spelling-suggestion__wrapper {
-  margin: $spacing-sm 0 $spacing-sm $spacing-md;
-}
-
-.#{$prefix}--spelling-suggestion {
-  color: $text-01;
-  text-decoration: underline;
-  border-width: 0;
-
-  @include type-style('body-short-02');
-
-  &:hover,
-  &:focus,
-  &:active {
-    outline-style: none;
-    color: $text-01;
-    background: transparent;
-  }
 }
 
 .#{$prefix}--search-autocompletion__wrapper {
