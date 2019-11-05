@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.63.1](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.63.0...@disco-widgets/react-components@1.63.1) (2019-11-05)
+
+
+### Bug Fixes
+
+* add error boundaries around top-level components ([#334](https://github.com/watson-developer-cloud/discovery-components/issues/334)) ([85e6266](https://github.com/watson-developer-cloud/discovery-components/commit/85e6266))
+
+
+
+
+
 # [1.63.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.62.4...@disco-widgets/react-components@1.63.0) (2019-11-05)
 
 
