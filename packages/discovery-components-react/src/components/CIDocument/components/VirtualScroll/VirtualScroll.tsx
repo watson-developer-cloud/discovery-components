@@ -51,19 +51,15 @@ const VirtualScroll: FC<VirtualScrollProps> = (
   } = instanceRef.current;
   useImperativeHandle(ref, () => ({ scrollIntoView, scrollToRow, getElementById, listRef }));
 
-  let Sizer = ({ children }: AutoSizerProps): ReactElement => (
-    <AutoSizer className={baseClassName} onResize={onResize}>
-      {children}
-    </AutoSizer>
-  );
+  let Sizer: any = AutoSizer;
   if (width && height) {
     Sizer = ({ children }: AutoSizerProps): ReactElement =>
       children({ width, height }) as ReactElement;
   }
 
   return (
-    <Sizer>
-      {({ width, height }): ReactElement => (
+    <Sizer className={baseClassName} onResize={onResize}>
+      {({ width, height }: { width: number; height: number }): ReactElement => (
         <List
           ref={listRef}
           width={width}
