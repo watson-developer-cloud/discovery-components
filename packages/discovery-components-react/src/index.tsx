@@ -4,7 +4,7 @@ export {
   SearchContext
 } from './components/DiscoverySearch/DiscoverySearch';
 export { SearchInput } from './components/SearchInput/SearchInput';
-export { SearchRefinements } from './components/SearchRefinements/SearchRefinements';
+export { SearchFacets } from './components/SearchFacets/SearchFacets';
 export { ResultsPagination } from './components/ResultsPagination/ResultsPagination';
 export {
   DocumentPreview,

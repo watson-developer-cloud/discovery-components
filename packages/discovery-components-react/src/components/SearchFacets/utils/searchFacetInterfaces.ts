@@ -5,8 +5,7 @@ export interface SelectableQueryTermAggregationResult
   selected?: boolean;
 }
 
-// Maybe there's a better name for this now?
-export interface SelectableQueryTermAggregation
+export interface InternalQueryTermAggregation
   extends Omit<DiscoveryV2.QueryTermAggregation, 'results'> {
   results?: SelectableQueryTermAggregationResult[];
   label?: string;
@@ -15,12 +14,12 @@ export interface SelectableQueryTermAggregation
   multiple_selections_allowed?: boolean;
 }
 
-export interface SearchFilterRefinements {
-  filterFields: SelectableQueryTermAggregation[];
-  filterSuggested: DiscoveryV2.QuerySuggestedRefinement[];
+export interface SearchFilterFacets {
+  filterFields: InternalQueryTermAggregation[];
+  filterDynamic: DiscoveryV2.QuerySuggestedRefinement[];
 }
 
-export interface SelectableQuerySuggestedRefinement extends DiscoveryV2.QuerySuggestedRefinement {
+export interface SelectableDynamicFacets extends DiscoveryV2.QuerySuggestedRefinement {
   selected?: boolean;
 }
 

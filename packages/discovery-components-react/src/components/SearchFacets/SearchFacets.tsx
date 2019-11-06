@@ -2,29 +2,26 @@ import React, { FC, useContext, useEffect } from 'react';
 import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import { Button } from 'carbon-components-react';
 import { SearchContext, SearchApi } from '../DiscoverySearch/DiscoverySearch';
-import { mergeFilterRefinements } from './utils/mergeFilterRefinements';
-import { mergeSuggestedRefinements } from './utils/mergeSuggestedRefinements';
+import { mergeFilterFacets } from './utils/mergeFilterFacets';
+import { mergeDynamicFacets } from './utils/mergeDynamicFacets';
 import { SearchFilterTransform } from './utils/searchFilterTransform';
-import { displayMessage, noAvailableRefinementsMessage } from './utils/searchRefinementMessages';
-import {
-  SearchFilterRefinements,
-  SelectableQuerySuggestedRefinement
-} from './utils/searchRefinementInterfaces';
+import { displayMessage, noAvailableFacetsMessage } from './utils/searchFacetMessages';
+import { SearchFilterFacets, SelectableDynamicFacets } from './utils/searchFacetInterfaces';
 import get from 'lodash/get';
-import { CollectionRefinements } from './components/CollectionRefinements';
-import { FieldRefinements } from './components/FieldRefinements';
-import { SuggestedRefinements } from './components/SuggestedRefinements';
+import { CollectionFacets } from './components/CollectionFacets';
+import { FieldFacets } from './components/FieldFacets';
+import { DynamicFacets } from './components/DynamicFacets';
 import defaultMessages, { Messages } from './messages';
 
-interface SearchRefinementsProps {
+interface SearchFacetsProps {
   /**
-   * Show list of collections as refinements
+   * Show list of collections as facets
    */
   showCollections?: boolean;
   /**
-   * Show list of suggested refinements
+   * Show list of dynamic facets
    */
-  showSuggestedRefinements?: boolean;
+  showDynamicFacets?: boolean;
   /**
    * i18n messages for the component
    */
@@ -34,17 +31,17 @@ interface SearchRefinementsProps {
    */
   overrideComponentSettingsAggregations?: DiscoveryV2.ComponentSettingsAggregation[];
   /**
-   * Number of refinement terms to show when list is collapsed
+   * Number of facets terms to show when list is collapsed
    */
-  collapsedRefinementsCount?: number;
+  collapsedFacetsCount?: number;
 }
 
-export const SearchRefinements: FC<SearchRefinementsProps> = ({
+export const SearchFacets: FC<SearchFacetsProps> = ({
   showCollections,
-  showSuggestedRefinements,
+  showDynamicFacets,
   messages = defaultMessages,
   overrideComponentSettingsAggregations,
-  collapsedRefinementsCount = 5
+  collapsedFacetsCount = 5
 }) => {
   const {
     aggregationResults,
@@ -68,26 +65,26 @@ export const SearchRefinements: FC<SearchRefinementsProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParameters.aggregation]);
 
-  const { filterFields, filterSuggested } = SearchFilterTransform.fromString(filter || '');
-  const allFieldRefinements = mergeFilterRefinements(
+  const { filterFields, filterDynamic } = SearchFilterTransform.fromString(filter || '');
+  const allFieldFacets = mergeFilterFacets(
     aggregations,
     filterFields,
     componentSettingsAggregations
   );
-  const allSuggestedRefinements: SelectableQuerySuggestedRefinement[] = mergeSuggestedRefinements(
+  const allDynamicFacets: SelectableDynamicFacets[] = mergeDynamicFacets(
     get(searchResponse, 'suggested_refinements', []),
-    filterSuggested
+    filterDynamic
   );
   const shouldShowCollections = showCollections && !!collections;
-  const shouldShowFields = !!allFieldRefinements && allFieldRefinements.length > 0;
-  const shouldShowSuggested = showSuggestedRefinements && !!allSuggestedRefinements;
+  const shouldShowFields = !!allFieldFacets && allFieldFacets.length > 0;
+  const shouldShowDynamic = showDynamicFacets && !!allDynamicFacets;
   const originalFilters = {
-    filterFields: allFieldRefinements,
-    filterSuggested: allSuggestedRefinements
+    filterFields: allFieldFacets,
+    filterDynamic: allDynamicFacets
   };
 
-  const handleOnChange = (updatedRefinements: Partial<SearchFilterRefinements>): void => {
-    const newFilters = { ...originalFilters, ...updatedRefinements };
+  const handleOnChange = (updatedFacets: Partial<SearchFilterFacets>): void => {
+    const newFilters = { ...originalFilters, ...updatedFacets };
     const filter = SearchFilterTransform.toString(newFilters);
     performSearch({ ...searchParameters, offset: 0, filter }, false);
   };
@@ -104,26 +101,26 @@ export const SearchRefinements: FC<SearchRefinementsProps> = ({
             {messages.clearAllButtonText}
           </Button>
         )}
-        {shouldShowCollections && <CollectionRefinements messages={mergedMessages} />}
+        {shouldShowCollections && <CollectionFacets messages={mergedMessages} />}
         {shouldShowFields && (
-          <FieldRefinements
-            allRefinements={allFieldRefinements}
+          <FieldFacets
+            allFacets={allFieldFacets}
             onChange={handleOnChange}
-            collapsedRefinementsCount={collapsedRefinementsCount}
+            collapsedFacetsCount={collapsedFacetsCount}
             messages={mergedMessages}
           />
         )}
-        {shouldShowSuggested && (
-          <SuggestedRefinements
-            suggestedRefinements={allSuggestedRefinements}
+        {shouldShowDynamic && (
+          <DynamicFacets
+            dynamicFacets={allDynamicFacets}
             messages={mergedMessages}
             onChange={handleOnChange}
-            collapsedRefinementsCount={collapsedRefinementsCount}
+            collapsedFacetsCount={collapsedFacetsCount}
           />
         )}
       </div>
     );
   } else {
-    return displayMessage(noAvailableRefinementsMessage);
+    return displayMessage(noAvailableFacetsMessage);
   }
 };

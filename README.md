@@ -29,7 +29,7 @@ import {
   DiscoverySearch,
   SearchInput,
   SearchResults,
-  SearchRefinements,
+  SearchFacets,
   ResultsPagination,
   DocumentPreview
 } from '@ibm-watson/discovery-components-react';
@@ -56,7 +56,7 @@ const App = () => {
     <DiscoverySearch searchClient={searchClient} projectId={'<your discovery project id>'}>
       <SearchInput />
       <SearchResults />
-      <SearchRefinements />
+      <SearchFacets />
       <ResultsPagination />
       <DocumentPreview />
     </DiscoverySearch>

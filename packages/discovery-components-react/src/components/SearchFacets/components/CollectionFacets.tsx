@@ -15,12 +15,12 @@ interface CollectionItem {
   label: string;
 }
 
-interface CollectionRefinementsProps {
+interface CollectionFacetsProps {
   messages: Messages;
 }
 
-export const CollectionRefinements: FC<CollectionRefinementsProps> = ({ messages }) => {
-  const idPrefix = 'collection-refinement-';
+export const CollectionFacets: FC<CollectionFacetsProps> = ({ messages }) => {
+  const idPrefix = 'collection-facet-';
   const {
     collectionsResults,
     searchParameters,

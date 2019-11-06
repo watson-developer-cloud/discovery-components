@@ -2,11 +2,11 @@ import * as React from 'react';
 import { render, RenderResult, fireEvent } from '@testing-library/react';
 import { QueryTermAggregation } from '@disco-widgets/ibm-watson/discovery/v2';
 import { wrapWithContext } from '../../../utils/testingUtils';
-import { SearchRefinements } from '../SearchRefinements';
+import { SearchFacets } from '../SearchFacets';
 import { SearchContextIFC, SearchApiIFC } from '../../DiscoverySearch/DiscoverySearch';
-import { refinementsQueryResponse } from '../__fixtures__/refinementsQueryResponse';
+import { facetsQueryResponse } from '../__fixtures__/facetsQueryResponse';
 import collectionsResponse from '../__fixtures__/collectionsResponse';
-import { noAvailableRefinementsMessage } from '../utils/searchRefinementMessages';
+import { noAvailableFacetsMessage } from '../utils/searchFacetMessages';
 import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import '@testing-library/jest-dom/extend-expect';
 
@@ -16,13 +16,13 @@ interface Setup {
   fetchAggregationsMock: jest.Mock<any, any>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   performSearchMock: jest.Mock<any, any>;
-  searchRefinementsComponent: RenderResult;
+  searchFacetsComponent: RenderResult;
 }
 
 const setup = (
   filter: string,
   showCollections = false,
-  aggregations = refinementsQueryResponse.result.aggregations,
+  aggregations = facetsQueryResponse.result.aggregations,
   componentSettingsAggregations?: DiscoveryV2.ComponentSettingsAggregation[]
 ): Setup => {
   const fetchAggregationsMock = jest.fn();
@@ -43,18 +43,18 @@ const setup = (
     performSearch: performSearchMock,
     fetchAggregations: fetchAggregationsMock
   };
-  const searchRefinementsComponent = render(
-    wrapWithContext(<SearchRefinements showCollections={showCollections} />, api, context)
+  const searchFacetsComponent = render(
+    wrapWithContext(<SearchFacets showCollections={showCollections} />, api, context)
   );
   return {
     context,
     performSearchMock,
     fetchAggregationsMock,
-    searchRefinementsComponent
+    searchFacetsComponent: searchFacetsComponent
   };
 };
 
-describe('SearchRefinementsComponent', () => {
+describe('SearchFacetsComponent', () => {
   describe('component load', () => {
     test('it calls fetch aggregations with aggregation string', () => {
       const { fetchAggregationsMock } = setup('');
@@ -67,43 +67,41 @@ describe('SearchRefinementsComponent', () => {
     });
   });
 
-  describe('field refinements', () => {
+  describe('field facets', () => {
     describe('when aggregations exist', () => {
       describe('legend header elements', () => {
         describe('When there are no aggregation component settings', () => {
-          test('contains first refinement header with author field text', () => {
-            const { searchRefinementsComponent } = setup('');
-            const headerAuthorField = searchRefinementsComponent.getByText('author');
+          test('contains first facet header with author field text', () => {
+            const { searchFacetsComponent } = setup('');
+            const headerAuthorField = searchFacetsComponent.getByText('author');
             expect(headerAuthorField).toBeDefined();
           });
 
-          test('contains second refinement header with subject field text', () => {
-            const { searchRefinementsComponent } = setup('');
-            const headerSubjectField = searchRefinementsComponent.getByText('subject');
+          test('contains second facet header with subject field text', () => {
+            const { searchFacetsComponent } = setup('');
+            const headerSubjectField = searchFacetsComponent.getByText('subject');
             expect(headerSubjectField).toBeDefined();
           });
         });
 
         describe('When there are aggregation component settings', () => {
           test('should render the labels contained in aggregation component settings', () => {
-            const { searchRefinementsComponent } = setup('', undefined, undefined, [
+            const { searchFacetsComponent } = setup('', undefined, undefined, [
               { label: 'label1' },
               { label: 'label2' }
             ]);
-            expect(searchRefinementsComponent.getByText('label1')).toBeInTheDocument();
-            expect(searchRefinementsComponent.getByText('label2')).toBeInTheDocument();
+            expect(searchFacetsComponent.getByText('label1')).toBeInTheDocument();
+            expect(searchFacetsComponent.getByText('label2')).toBeInTheDocument();
           });
 
           describe('And there is a filter string also', () => {
             test('should render the labels contained in aggregation component settings', () => {
-              const { searchRefinementsComponent } = setup(
-                'author:"editor"',
-                undefined,
-                undefined,
-                [{ label: 'label1' }, { label: 'label2' }]
-              );
-              expect(searchRefinementsComponent.getByText('label1')).toBeInTheDocument();
-              expect(searchRefinementsComponent.getByText('label2')).toBeInTheDocument();
+              const { searchFacetsComponent } = setup('author:"editor"', undefined, undefined, [
+                { label: 'label1' },
+                { label: 'label2' }
+              ]);
+              expect(searchFacetsComponent.getByText('label1')).toBeInTheDocument();
+              expect(searchFacetsComponent.getByText('label2')).toBeInTheDocument();
             });
           });
         });
@@ -112,32 +110,32 @@ describe('SearchRefinementsComponent', () => {
 
     describe('when no aggregations exist', () => {
       test('shows empty aggregations message', () => {
-        const { searchRefinementsComponent } = setup('', false, []);
-        const emptyMessage = searchRefinementsComponent.getByText(noAvailableRefinementsMessage);
+        const { searchFacetsComponent } = setup('', false, []);
+        const emptyMessage = searchFacetsComponent.getByText(noAvailableFacetsMessage);
         expect(emptyMessage).toBeDefined();
       });
     });
   });
 
-  describe('collection refinements', () => {
+  describe('collection facet', () => {
     describe('when collections exists', () => {
       test('can be shown', () => {
-        const { searchRefinementsComponent } = setup('subject:Animals', true);
-        const collectionSelect = searchRefinementsComponent.getByText('Available collections');
+        const { searchFacetsComponent } = setup('subject:Animals', true);
+        const collectionSelect = searchFacetsComponent.getByText('Available collections');
         expect(collectionSelect).toBeDefined();
       });
 
       test('can be hidden', () => {
-        const { searchRefinementsComponent } = setup('subject:Animals');
-        const collectionSelect = searchRefinementsComponent.queryByText('Available collections');
+        const { searchFacetsComponent } = setup('subject:Animals');
+        const collectionSelect = searchFacetsComponent.queryByText('Available collections');
         expect(collectionSelect).toBeNull();
       });
     });
 
     describe('when no collections exits', () => {
       test('is not shown', () => {
-        const { searchRefinementsComponent } = setup('subject:Animals');
-        const collectionSelect = searchRefinementsComponent.queryByText('Available collections');
+        const { searchFacetsComponent } = setup('subject:Animals');
+        const collectionSelect = searchFacetsComponent.queryByText('Available collections');
         expect(collectionSelect).toBeNull();
       });
     });
@@ -151,8 +149,8 @@ describe('SearchRefinementsComponent', () => {
       });
 
       test('does not show the root clear all button', () => {
-        const { searchRefinementsComponent } = setupData;
-        expect(searchRefinementsComponent.queryAllByText('Clear all')).toHaveLength(0);
+        const { searchFacetsComponent } = setupData;
+        expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(0);
       });
     });
 
@@ -162,14 +160,14 @@ describe('SearchRefinementsComponent', () => {
       });
 
       test('does show the root clear all button', () => {
-        const { searchRefinementsComponent } = setupData;
-        expect(searchRefinementsComponent.queryAllByText('Clear all')).toHaveLength(1);
+        const { searchFacetsComponent } = setupData;
+        expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(1);
       });
 
       describe('and the clear all button is clicked', () => {
         beforeEach(() => {
-          const { searchRefinementsComponent } = setupData;
-          fireEvent.click(searchRefinementsComponent.getByText('Clear all'));
+          const { searchFacetsComponent } = setupData;
+          fireEvent.click(searchFacetsComponent.getByText('Clear all'));
         });
 
         test('resets all the filters', () => {
@@ -203,7 +201,7 @@ describe('SearchRefinementsComponent', () => {
       beforeEach(() => {
         result = render(
           wrapWithContext(
-            <SearchRefinements />,
+            <SearchFacets />,
             {},
             {
               aggregationResults: [termAgg],
@@ -226,7 +224,7 @@ describe('SearchRefinementsComponent', () => {
       beforeEach(() => {
         result = render(
           wrapWithContext(
-            <SearchRefinements messages={{ clearAllButtonText: 'different text' }} />,
+            <SearchFacets messages={{ clearAllButtonText: 'different text' }} />,
             {},
             {
               aggregationResults: [termAgg],

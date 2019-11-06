@@ -1,7 +1,7 @@
 import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import { createDummyResponse } from '../../../utils/testingUtils';
 
-export const refinementsQueryResponse: DiscoveryV2.Response<
+export const facetsQueryResponse: DiscoveryV2.Response<
   DiscoveryV2.QueryResponse
 > = createDummyResponse({
   matching_results: 123456,
@@ -71,7 +71,7 @@ export const refinementsQueryResponse: DiscoveryV2.Response<
   ]
 });
 
-export const weirdRefinementsQueryResponse: DiscoveryV2.Response<
+export const weirdFacetsQueryResponse: DiscoveryV2.Response<
   DiscoveryV2.QueryResponse
 > = createDummyResponse({
   matching_results: 123456,
@@ -154,4 +154,4 @@ export const weirdRefinementsQueryResponse: DiscoveryV2.Response<
   ]
 });
 
-export default refinementsQueryResponse;
+export default facetsQueryResponse;

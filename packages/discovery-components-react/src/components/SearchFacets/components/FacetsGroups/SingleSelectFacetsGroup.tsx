@@ -4,53 +4,49 @@ import {
   RadioButton as CarbonRadioButton
 } from 'carbon-components-react';
 import { SearchContext } from '../../../DiscoverySearch/DiscoverySearch';
-import { optionLabelClass, singleSelectGroupClass } from './refinementGroupClasses';
+import { optionLabelClass, singleSelectGroupClass } from './facetGroupClasses';
 import {
-  SelectableQuerySuggestedRefinement,
+  SelectableDynamicFacets,
   SelectableQueryTermAggregationResult,
   AggregationSettings
-} from '../../utils/searchRefinementInterfaces';
+} from '../../utils/searchFacetInterfaces';
 import get from 'lodash/get';
 
-interface SingleSelectRefinementsGroupProps {
+interface SingleSelectFacetsGroupProps {
   /**
-   * refinements text and selected flag
+   * Facets text and selected flag
    */
-  refinements: (SelectableQuerySuggestedRefinement | SelectableQueryTermAggregationResult)[];
+  facets: (SelectableDynamicFacets | SelectableQueryTermAggregationResult)[];
   /**
    * Aggregation component settings
    */
   aggregationSettings: AggregationSettings;
   /**
-   * Refinement text field
+   * Facet text field
    */
-  refinementsTextField: 'key' | 'text';
+  facetsTextField: 'key' | 'text';
   /**
-   * Text of selected refinement
+   * Text of selected facet
    */
-  selectedRefinement: string;
+  selectedFacet: string;
   /**
-   * Callback to handle changes in selected refinements
+   * Callback to handle changes in selected facets
    */
-  onChange: (
-    selectedRefinementField: string,
-    selectedRefinementKey: string,
-    checked: boolean
-  ) => void;
+  onChange: (selectedFacetField: string, selectedFacetKey: string, checked: boolean) => void;
 }
 
-export const SingleSelectRefinementsGroup: FC<SingleSelectRefinementsGroupProps> = ({
-  refinements,
-  refinementsTextField,
-  selectedRefinement,
+export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
+  facets,
+  facetsTextField,
+  selectedFacet,
   aggregationSettings,
   onChange
 }) => {
   const {
     searchParameters: { naturalLanguageQuery }
   } = useContext(SearchContext);
-  const refinementsLabel = aggregationSettings.label || aggregationSettings.field;
-  const escapedLabel = refinementsLabel.replace(/\s+/g, '_');
+  const facetsLabel = aggregationSettings.label || aggregationSettings.field;
+  const escapedLabel = facetsLabel.replace(/\s+/g, '_');
 
   const handleOnClick = (event: SyntheticEvent<HTMLInputElement>): void => {
     const target: HTMLInputElement = event.currentTarget;
@@ -62,12 +58,12 @@ export const SingleSelectRefinementsGroup: FC<SingleSelectRefinementsGroupProps>
   return (
     <CarbonRadioButtonGroup
       name={aggregationSettings.field}
-      valueSelected={selectedRefinement}
+      valueSelected={selectedFacet}
       orientation={'vertical'}
       className={singleSelectGroupClass}
     >
-      {refinements.map(refinement => {
-        const text = get(refinement, refinementsTextField, '');
+      {facets.map(facet => {
+        const text = get(facet, facetsTextField, '');
         const query = naturalLanguageQuery || '';
         const buff = new Buffer(query + text);
         const base64data = buff.toString('base64');

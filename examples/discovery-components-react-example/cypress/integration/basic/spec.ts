@@ -25,7 +25,7 @@ describe('basic test', () => {
         .should('eq', 'abil');
     });
   });
-  describe('search refinements filters test', () => {
+  describe('search facets filters test', () => {
     it('clears previous filters when a new natural language query is made', () => {
       cy.get('#checkbox-subject-Animals').click({ force: true });
       cy.wait('@postQuery')

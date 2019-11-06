@@ -1,8 +1,8 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, text, object, boolean, number } from '@storybook/addon-knobs/react';
-import { SearchRefinements } from './SearchRefinements';
-import { refinementsQueryResponse } from './__fixtures__/refinementsQueryResponse';
+import { SearchFacets } from './SearchFacets';
+import { facetsQueryResponse } from './__fixtures__/facetsQueryResponse';
 import collectionsResponse from './__fixtures__/collectionsResponse';
 import aggregationComponentSettingsResponse from './__fixtures__/componentSettingsResponse';
 import { StoryWrapper, DummySearchClient } from '../../utils/storybookUtils';
@@ -13,9 +13,9 @@ import { action } from '@storybook/addon-actions';
 import defaultMessages from './messages';
 
 export const props = () => ({
-  showCollections: boolean('Show collection refinements', false),
-  showSuggestedRefinements: boolean('Show suggested refinements', false),
-  collapsedRefinementsCount: number('Number of refinement terms to show when list is collapsed', 5),
+  showCollections: boolean('Show collection facets', false),
+  showDynamicFacets: boolean('Show dynamic facets', false),
+  collapsedFacetsCount: number('Number of facets terms to show when list is collapsed', 5),
   messages: object('I18n messages', defaultMessages),
   componentSettingsAggregations: object(
     'Aggregation component settings',
@@ -27,7 +27,7 @@ class DummySearchClientWithQueryAndCollections extends DummySearchClient {
   exampleProps = props();
   query(params: DiscoveryV2.QueryParams): Promise<DiscoveryV2.Response<DiscoveryV2.QueryResponse>> {
     action('query')(params);
-    return createDummyResponsePromise(refinementsQueryResponse.result);
+    return createDummyResponsePromise(facetsQueryResponse.result);
   }
   listCollections(
     params: DiscoveryV2.ListCollectionsParams
@@ -54,7 +54,7 @@ const discoverySearchProps = (
   }
 });
 
-storiesOf('SearchRefinements', module)
+storiesOf('SearchFacets', module)
   .addDecorator(withKnobs)
   .add('default', () => {
     const exampleProps = props();
@@ -65,7 +65,7 @@ storiesOf('SearchRefinements', module)
             filter: 'author:"editor","this, that, other",subject:"this | that"'
           })}
         >
-          <SearchRefinements {...exampleProps} />
+          <SearchFacets {...exampleProps} />
         </DiscoverySearch>
       </StoryWrapper>
     );
@@ -75,7 +75,7 @@ storiesOf('SearchRefinements', module)
     return (
       <StoryWrapper>
         <DiscoverySearch {...discoverySearchProps({ collectionIds: ['deadspin9876'] })}>
-          <SearchRefinements {...exampleProps} showCollections={true} />
+          <SearchFacets {...exampleProps} showCollections={true} />
         </DiscoverySearch>
       </StoryWrapper>
     );

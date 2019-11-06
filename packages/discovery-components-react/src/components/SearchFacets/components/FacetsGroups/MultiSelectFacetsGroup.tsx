@@ -1,48 +1,44 @@
 import React, { FC, useContext, SyntheticEvent } from 'react';
-import { optionClass, optionLabelClass } from './refinementGroupClasses';
+import { optionClass, optionLabelClass } from './facetGroupClasses';
 import { Checkbox as CarbonCheckbox } from 'carbon-components-react';
 import { SearchContext } from '../../../DiscoverySearch/DiscoverySearch';
 import {
-  SelectableQuerySuggestedRefinement,
+  SelectableDynamicFacets,
   SelectableQueryTermAggregationResult,
   AggregationSettings
-} from '../../utils/searchRefinementInterfaces';
+} from '../../utils/searchFacetInterfaces';
 import get from 'lodash/get';
 
-interface MultiSelectRefinementsGroupProps {
+interface MultiSelectFacetsGroupProps {
   /**
-   * Suggested refinements text and selected flag
+   * Dynamic facets text and selected flag
    */
-  refinements: (SelectableQuerySuggestedRefinement | SelectableQueryTermAggregationResult)[];
+  facets: (SelectableDynamicFacets | SelectableQueryTermAggregationResult)[];
   /**
-   * Refinement text field
+   * Facet text field
    */
-  refinementsTextField: 'key' | 'text';
+  facetsTextField: 'key' | 'text';
   /**
    * Aggregation component settings
    */
   aggregationSettings: AggregationSettings;
   /**
-   * Callback to handle changes in selected refinements
+   * Callback to handle changes in selected facets
    */
-  onChange: (
-    selectedRefinementField: string,
-    selectedRefinementKey: string,
-    checked: boolean
-  ) => void;
+  onChange: (selectedFacetField: string, selectedFacetKey: string, checked: boolean) => void;
 }
 
-export const MultiSelectRefinementsGroup: FC<MultiSelectRefinementsGroupProps> = ({
-  refinements,
-  refinementsTextField,
+export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
+  facets,
+  facetsTextField,
   aggregationSettings,
   onChange
 }) => {
   const {
     searchParameters: { naturalLanguageQuery }
   } = useContext(SearchContext);
-  const refinementsLabel = aggregationSettings.label || aggregationSettings.field;
-  const escapedLabel = refinementsLabel.replace(/\s+/g, '_');
+  const facetsLabel = aggregationSettings.label || aggregationSettings.field;
+  const escapedLabel = facetsLabel.replace(/\s+/g, '_');
 
   const handleOnChange = (
     checked: boolean,
@@ -50,15 +46,15 @@ export const MultiSelectRefinementsGroup: FC<MultiSelectRefinementsGroupProps> =
     event: SyntheticEvent<HTMLInputElement>
   ): void => {
     const target: HTMLInputElement = event.currentTarget;
-    const selectedRefinementField = target.getAttribute('data-field') || '';
-    const selectedRefinementKey = target.getAttribute('data-key') || '';
-    onChange(selectedRefinementField, selectedRefinementKey, checked);
+    const selectedFacetField = target.getAttribute('data-field') || '';
+    const selectedFacetKey = target.getAttribute('data-key') || '';
+    onChange(selectedFacetField, selectedFacetKey, checked);
   };
 
   return (
     <>
-      {refinements.map(refinement => {
-        const text = get(refinement, refinementsTextField, '');
+      {facets.map(facet => {
+        const text = get(facet, facetsTextField, '');
         const query = naturalLanguageQuery || '';
         const buff = new Buffer(query + text);
         const base64data = buff.toString('base64');
@@ -73,7 +69,7 @@ export const MultiSelectRefinementsGroup: FC<MultiSelectRefinementsGroupProps> =
             id={`checkbox-${escapedLabel}-${text.replace(/\s+/g, '_')}`}
             data-field={aggregationSettings.field}
             data-key={text}
-            checked={!!refinement.selected}
+            checked={!!facet.selected}
           />
         );
       })}

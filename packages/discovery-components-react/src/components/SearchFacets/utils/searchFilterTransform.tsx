@@ -1,34 +1,34 @@
 import get from 'lodash/get';
 import partition from 'lodash/partition';
 import {
-  SearchFilterRefinements,
-  SelectableQueryTermAggregation,
+  SearchFilterFacets,
+  InternalQueryTermAggregation,
   SelectableQueryTermAggregationResult,
-  SelectableQuerySuggestedRefinement
-} from './searchRefinementInterfaces';
+  SelectableDynamicFacets
+} from './searchFacetInterfaces';
 
 export class SearchFilterTransform {
   static SPLIT_UNQUOTED_COMMAS = /,(?=(?:(?:[^"\\"]*["\\"]){2})*[^"\\"]*$)/;
   static SPLIT_UNQUOTED_COLONS = /:(?=(?:(?:[^"\\"]*["\\"]){2})*[^"\\"]*$)/;
   static SPLIT_UNQUOTED_PIPES = /\|(?=(?:(?:[^"\\"]*["\\"]){2})*[^"\\"]*$)/;
 
-  static fromString(filterString: string): SearchFilterRefinements {
+  static fromString(filterString: string): SearchFilterFacets {
     if (filterString === '') {
       return {
         filterFields: [],
-        filterSuggested: []
+        filterDynamic: []
       };
     }
 
     const colonRegex = RegExp(SearchFilterTransform.SPLIT_UNQUOTED_COLONS);
-    const filterRefinements = partition(
+    const filterFacets = partition(
       filterString.split(SearchFilterTransform.SPLIT_UNQUOTED_COMMAS),
       filter => colonRegex.test(filter)
     );
-    const fields = filterRefinements[0].map(refinementField => {
-      const refinementSplit = refinementField.split(SearchFilterTransform.SPLIT_UNQUOTED_COLONS);
-      const field = refinementSplit[0];
-      const results = refinementSplit[1]
+    const fields = filterFacets[0].map(facetField => {
+      const facetSplit = facetField.split(SearchFilterTransform.SPLIT_UNQUOTED_COLONS);
+      const field = facetSplit[0];
+      const results = facetSplit[1]
         .split(SearchFilterTransform.SPLIT_UNQUOTED_PIPES)
         .sort()
         .map(result => {
@@ -48,7 +48,7 @@ export class SearchFilterTransform {
       };
     });
 
-    const suggestions = filterRefinements[1].map(suggestion => {
+    const suggestions = filterFacets[1].map(suggestion => {
       const unquotedSuggestion = this.unquoteString(suggestion);
       return {
         text: unquotedSuggestion,
@@ -58,29 +58,26 @@ export class SearchFilterTransform {
 
     return {
       filterFields: fields,
-      filterSuggested: suggestions
+      filterDynamic: suggestions
     };
   }
 
-  static toString(refinements: SearchFilterRefinements): string {
-    const fieldFilters = this.fieldsToString(refinements.filterFields);
-    const suggestedFilters = this.quoteSelectedRefinements(
-      refinements.filterSuggested,
-      'text'
-    ).join(',');
-    return [fieldFilters, suggestedFilters].filter(Boolean).join(',');
+  static toString(facets: SearchFilterFacets): string {
+    const fieldFilters = this.fieldsToString(facets.filterFields);
+    const dynamicFilters = this.quoteSelectedFacets(facets.filterDynamic, 'text').join(',');
+    return [fieldFilters, dynamicFilters].filter(Boolean).join(',');
   }
 
   private static unquoteString(quotedString: string): string {
     return quotedString.replace(/^"(.+)"$/, '$1').replace(/\\"/, '"');
   }
 
-  static fieldsToString(refinements: SelectableQueryTermAggregation[]): string {
+  static fieldsToString(facets: InternalQueryTermAggregation[]): string {
     const filterStrings: string[] = [];
-    refinements.map(refinement => {
-      const field = get(refinement, 'field', '');
-      const results = get(refinement, 'results', []);
-      const keys = this.quoteSelectedRefinements(results, 'key');
+    facets.map(facet => {
+      const field = get(facet, 'field', '');
+      const results = get(facet, 'results', []);
+      const keys = this.quoteSelectedFacets(results, 'key');
       if (keys.length) {
         filterStrings.push(`${field}:${keys.join('|')}`);
       }
@@ -88,11 +85,11 @@ export class SearchFilterTransform {
     return filterStrings.join(',');
   }
 
-  private static quoteSelectedRefinements(
-    refinements: (SelectableQueryTermAggregationResult | SelectableQuerySuggestedRefinement)[],
+  private static quoteSelectedFacets(
+    facets: (SelectableQueryTermAggregationResult | SelectableDynamicFacets)[],
     key: string
   ): string[] {
-    return refinements
+    return facets
       .filter(result => result.selected)
       .map(result => {
         const text = get(result, key, '');

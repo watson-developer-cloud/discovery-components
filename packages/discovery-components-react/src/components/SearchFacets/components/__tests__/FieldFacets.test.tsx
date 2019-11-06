@@ -3,19 +3,19 @@ import { render, fireEvent, RenderResult } from '@testing-library/react';
 import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import { wrapWithContext } from '../../../../utils/testingUtils';
 import { SearchContextIFC, SearchApiIFC } from '../../../DiscoverySearch/DiscoverySearch';
-import { SearchRefinements } from '../../SearchRefinements';
-import { weirdRefinementsQueryResponse } from '../../__fixtures__/refinementsQueryResponse';
+import { SearchFacets } from '../../SearchFacets';
+import { weirdFacetsQueryResponse } from '../../__fixtures__/facetsQueryResponse';
 
 interface Setup {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   performSearchMock: jest.Mock<any, any>;
-  fieldRefinementsComponent: RenderResult;
+  fieldFacetsComponent: RenderResult;
 }
 
 interface SetupConfig {
   filter: string;
   componentSettingsAggregations: DiscoveryV2.ComponentSettingsAggregation[];
-  collapsedRefinementsCount: number;
+  collapsedFacetsCount: number;
 }
 
 const aggregationComponentSettings: DiscoveryV2.ComponentSettingsAggregation[] = [
@@ -34,7 +34,7 @@ const aggregationComponentSettings: DiscoveryV2.ComponentSettingsAggregation[] =
 const defaultSetupConfig: SetupConfig = {
   filter: '',
   componentSettingsAggregations: aggregationComponentSettings,
-  collapsedRefinementsCount: 5
+  collapsedFacetsCount: 5
 };
 
 const updateSelectionSettings = (
@@ -51,7 +51,7 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
   const mergedSetupConfig = { ...defaultSetupConfig, ...setupConfig };
   const performSearchMock = jest.fn();
   const context: Partial<SearchContextIFC> = {
-    aggregationResults: weirdRefinementsQueryResponse.result.aggregations,
+    aggregationResults: weirdFacetsQueryResponse.result.aggregations,
     searchParameters: {
       projectId: '',
       filter: mergedSetupConfig.filter
@@ -63,10 +63,10 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
   const api: Partial<SearchApiIFC> = {
     performSearch: performSearchMock
   };
-  const fieldRefinementsComponent = render(
+  const fieldFacetsComponent = render(
     wrapWithContext(
-      <SearchRefinements
-        collapsedRefinementsCount={mergedSetupConfig.collapsedRefinementsCount}
+      <SearchFacets
+        collapsedFacetsCount={mergedSetupConfig.collapsedFacetsCount}
         overrideComponentSettingsAggregations={mergedSetupConfig.componentSettingsAggregations}
       />,
       api,
@@ -75,42 +75,42 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
   );
   return {
     performSearchMock,
-    fieldRefinementsComponent
+    fieldFacetsComponent
   };
 };
 
-describe('FilterRefinementsComponent', () => {
+describe('FilterFacetsComponent', () => {
   describe('legend header elements', () => {
-    test('contains first refinement header with author field text', () => {
-      const { fieldRefinementsComponent } = setup();
-      const headerAuthorField = fieldRefinementsComponent.getByText('Writers');
+    test('contains first facet header with author field text', () => {
+      const { fieldFacetsComponent } = setup();
+      const headerAuthorField = fieldFacetsComponent.getByText('Writers');
       expect(headerAuthorField).toBeDefined();
     });
 
-    test('contains second refinement header with subject field text', () => {
-      const { fieldRefinementsComponent } = setup();
-      const headerSubjectField = fieldRefinementsComponent.getByText('Topics');
+    test('contains second facet header with subject field text', () => {
+      const { fieldFacetsComponent } = setup();
+      const headerSubjectField = fieldFacetsComponent.getByText('Topics');
       expect(headerSubjectField).toBeDefined();
     });
   });
 
   describe('checkbox elements', () => {
-    test('contains first refinement checkboxes with correct labels', () => {
-      const { fieldRefinementsComponent } = setup();
-      const ABMNStaffCheckbox = fieldRefinementsComponent.getByLabelText('ABMN Staff');
-      const newsStaffCheckbox = fieldRefinementsComponent.getByLabelText('News Staff');
-      const editorCheckbox = fieldRefinementsComponent.getByLabelText('editor');
+    test('contains first facet checkboxes with correct labels', () => {
+      const { fieldFacetsComponent } = setup();
+      const ABMNStaffCheckbox = fieldFacetsComponent.getByLabelText('ABMN Staff');
+      const newsStaffCheckbox = fieldFacetsComponent.getByLabelText('News Staff');
+      const editorCheckbox = fieldFacetsComponent.getByLabelText('editor');
       expect(ABMNStaffCheckbox).toBeDefined();
       expect(newsStaffCheckbox).toBeDefined();
       expect(editorCheckbox).toBeDefined();
     });
 
-    test('contains second refinement checkboxes with correct labels', () => {
-      const { fieldRefinementsComponent } = setup();
-      const animalsCheckbox = fieldRefinementsComponent.getByLabelText('Animals');
-      const peopleCheckbox = fieldRefinementsComponent.getByLabelText('People');
-      const placesCheckbox = fieldRefinementsComponent.getByLabelText('Places');
-      const thingsCheckbox = fieldRefinementsComponent.getByLabelText('Things');
+    test('contains second facet checkboxes with correct labels', () => {
+      const { fieldFacetsComponent } = setup();
+      const animalsCheckbox = fieldFacetsComponent.getByLabelText('Animals');
+      const peopleCheckbox = fieldFacetsComponent.getByLabelText('People');
+      const placesCheckbox = fieldFacetsComponent.getByLabelText('Places');
+      const thingsCheckbox = fieldFacetsComponent.getByLabelText('Things');
       expect(animalsCheckbox).toBeDefined();
       expect(peopleCheckbox).toBeDefined();
       expect(placesCheckbox).toBeDefined();
@@ -118,22 +118,22 @@ describe('FilterRefinementsComponent', () => {
     });
 
     test('checkboxes are unchecked when initially rendered', () => {
-      const { fieldRefinementsComponent } = setup();
-      const animalsCheckbox = fieldRefinementsComponent.getByLabelText('Animals');
+      const { fieldFacetsComponent } = setup();
+      const animalsCheckbox = fieldFacetsComponent.getByLabelText('Animals');
       expect(animalsCheckbox['checked']).toEqual(false);
     });
 
     test('checkboxes are checked when set in filter query', () => {
-      const { fieldRefinementsComponent } = setup({ filter: 'subject:Animals' });
-      const animalsCheckbox = fieldRefinementsComponent.getByLabelText('Animals');
+      const { fieldFacetsComponent } = setup({ filter: 'subject:Animals' });
+      const animalsCheckbox = fieldFacetsComponent.getByLabelText('Animals');
       expect(animalsCheckbox['checked']).toEqual(true);
     });
   });
 
   describe('checkboxes apply filters', () => {
-    test('it adds correct filter when one checkbox within single refinement is checked', () => {
-      const { fieldRefinementsComponent, performSearchMock } = setup();
-      const animalsCheckbox = fieldRefinementsComponent.getByLabelText('Animals');
+    test('it adds correct filter when one checkbox within single facet is checked', () => {
+      const { fieldFacetsComponent, performSearchMock } = setup();
+      const animalsCheckbox = fieldFacetsComponent.getByLabelText('Animals');
       performSearchMock.mockReset();
       fireEvent.click(animalsCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);
@@ -146,10 +146,10 @@ describe('FilterRefinementsComponent', () => {
     });
 
     test('it adds correct filter when aggregation contains `|`', () => {
-      const { fieldRefinementsComponent, performSearchMock } = setup({
-        collapsedRefinementsCount: 10
+      const { fieldFacetsComponent, performSearchMock } = setup({
+        collapsedFacetsCount: 10
       });
-      const animalsCheckbox = fieldRefinementsComponent.getByLabelText('This | that');
+      const animalsCheckbox = fieldFacetsComponent.getByLabelText('This | that');
       performSearchMock.mockReset();
       fireEvent.click(animalsCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);
@@ -162,10 +162,10 @@ describe('FilterRefinementsComponent', () => {
     });
 
     test('it adds correct filter when aggregation contains `,`', () => {
-      const { fieldRefinementsComponent, performSearchMock } = setup({
-        collapsedRefinementsCount: 10
+      const { fieldFacetsComponent, performSearchMock } = setup({
+        collapsedFacetsCount: 10
       });
-      const animalsCheckbox = fieldRefinementsComponent.getByLabelText('hey, you');
+      const animalsCheckbox = fieldFacetsComponent.getByLabelText('hey, you');
       performSearchMock.mockReset();
       fireEvent.click(animalsCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);
@@ -178,8 +178,8 @@ describe('FilterRefinementsComponent', () => {
     });
 
     test('it adds correct filter when aggregation contains `:`', () => {
-      const { fieldRefinementsComponent, performSearchMock } = setup();
-      const animalsCheckbox = fieldRefinementsComponent.getByLabelText('something: else');
+      const { fieldFacetsComponent, performSearchMock } = setup();
+      const animalsCheckbox = fieldFacetsComponent.getByLabelText('something: else');
       performSearchMock.mockReset();
       fireEvent.click(animalsCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);
@@ -191,9 +191,9 @@ describe('FilterRefinementsComponent', () => {
       );
     });
 
-    test('it adds correct filters when second checkbox within single refinement is checked', () => {
-      const { fieldRefinementsComponent, performSearchMock } = setup({ filter: 'subject:Animals' });
-      const peopleCheckbox = fieldRefinementsComponent.getByLabelText('People');
+    test('it adds correct filters when second checkbox within single facet is checked', () => {
+      const { fieldFacetsComponent, performSearchMock } = setup({ filter: 'subject:Animals' });
+      const peopleCheckbox = fieldFacetsComponent.getByLabelText('People');
       performSearchMock.mockReset();
       fireEvent.click(peopleCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);
@@ -205,11 +205,11 @@ describe('FilterRefinementsComponent', () => {
       );
     });
 
-    test('it adds correct filter when checkboxes from multiple refinements are checked', () => {
-      const { fieldRefinementsComponent, performSearchMock } = setup({
+    test('it adds correct filter when checkboxes from multiple facets are checked', () => {
+      const { fieldFacetsComponent, performSearchMock } = setup({
         filter: 'subject:"Animals"'
       });
-      const newsStaffCheckbox = fieldRefinementsComponent.getByLabelText('News Staff');
+      const newsStaffCheckbox = fieldFacetsComponent.getByLabelText('News Staff');
       performSearchMock.mockReset();
       fireEvent.click(newsStaffCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);
@@ -223,9 +223,9 @@ describe('FilterRefinementsComponent', () => {
   });
 
   describe('checkboxes remove filters', () => {
-    test('it removes correct filter when checkbox within single refinement is unchecked', () => {
-      const { fieldRefinementsComponent, performSearchMock } = setup({ filter: 'subject:Animals' });
-      const animalsCheckbox = fieldRefinementsComponent.getByLabelText('Animals');
+    test('it removes correct filter when checkbox within single facet is unchecked', () => {
+      const { fieldFacetsComponent, performSearchMock } = setup({ filter: 'subject:Animals' });
+      const animalsCheckbox = fieldFacetsComponent.getByLabelText('Animals');
       performSearchMock.mockReset();
       fireEvent.click(animalsCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);
@@ -248,10 +248,8 @@ describe('FilterRefinementsComponent', () => {
       });
 
       test('the clear button does not appear', () => {
-        const { fieldRefinementsComponent } = setupData;
-        expect(fieldRefinementsComponent.queryAllByTitle('Clear all selected items')).toHaveLength(
-          0
-        );
+        const { fieldFacetsComponent } = setupData;
+        expect(fieldFacetsComponent.queryAllByTitle('Clear all selected items')).toHaveLength(0);
       });
     });
 
@@ -261,16 +259,14 @@ describe('FilterRefinementsComponent', () => {
       });
 
       test('the clear button appears once', () => {
-        const { fieldRefinementsComponent } = setupData;
-        expect(fieldRefinementsComponent.queryAllByTitle('Clear all selected items')).toHaveLength(
-          1
-        );
+        const { fieldFacetsComponent } = setupData;
+        expect(fieldFacetsComponent.queryAllByTitle('Clear all selected items')).toHaveLength(1);
       });
 
       describe('and the clear button is clicked', () => {
         beforeEach(() => {
-          const { fieldRefinementsComponent } = setupData;
-          const clearButton = fieldRefinementsComponent.getByTitle('Clear all selected items');
+          const { fieldFacetsComponent } = setupData;
+          const clearButton = fieldFacetsComponent.getByTitle('Clear all selected items');
           fireEvent.click(clearButton);
         });
 
@@ -293,16 +289,14 @@ describe('FilterRefinementsComponent', () => {
       });
 
       test('the clear button appears once', () => {
-        const { fieldRefinementsComponent } = setupData;
-        expect(fieldRefinementsComponent.queryAllByTitle('Clear all selected items')).toHaveLength(
-          1
-        );
+        const { fieldFacetsComponent } = setupData;
+        expect(fieldFacetsComponent.queryAllByTitle('Clear all selected items')).toHaveLength(1);
       });
 
       describe('and the clear button is clicked', () => {
         beforeEach(() => {
-          const { fieldRefinementsComponent } = setupData;
-          const clearButton = fieldRefinementsComponent.getByTitle('Clear all selected items');
+          const { fieldFacetsComponent } = setupData;
+          const clearButton = fieldFacetsComponent.getByTitle('Clear all selected items');
           fireEvent.click(clearButton);
         });
 
@@ -325,18 +319,14 @@ describe('FilterRefinementsComponent', () => {
       });
 
       test('the clear button appears twice', () => {
-        const { fieldRefinementsComponent } = setupData;
-        expect(fieldRefinementsComponent.queryAllByTitle('Clear all selected items')).toHaveLength(
-          2
-        );
+        const { fieldFacetsComponent } = setupData;
+        expect(fieldFacetsComponent.queryAllByTitle('Clear all selected items')).toHaveLength(2);
       });
 
       describe('and the first clear button is clicked', () => {
         beforeEach(() => {
-          const { fieldRefinementsComponent } = setupData;
-          const clearButtons = fieldRefinementsComponent.queryAllByTitle(
-            'Clear all selected items'
-          );
+          const { fieldFacetsComponent } = setupData;
+          const clearButtons = fieldFacetsComponent.queryAllByTitle('Clear all selected items');
           fireEvent.click(clearButtons[0]);
         });
 
@@ -356,23 +346,23 @@ describe('FilterRefinementsComponent', () => {
 
   describe('when multiple_selections_allowed is false', () => {
     test('radiobuttons are selected when set in filter query', () => {
-      const { fieldRefinementsComponent } = setup({
+      const { fieldFacetsComponent } = setup({
         filter: 'subject:Animals',
         componentSettingsAggregations: updateSelectionSettings(['subject'])
       });
-      const animalRadioButton = fieldRefinementsComponent.getAllByLabelText('Animals');
+      const animalRadioButton = fieldFacetsComponent.getAllByLabelText('Animals');
       expect(animalRadioButton[0]['checked']).toEqual(true);
     });
 
     test('it only allows one element selected at a time', () => {
-      const { fieldRefinementsComponent, performSearchMock } = setup({
+      const { fieldFacetsComponent, performSearchMock } = setup({
         componentSettingsAggregations: updateSelectionSettings(['subject'])
       });
       //Carbon uses a Label element that also has @aria-label, which matches twice
-      const animalRadioButton = fieldRefinementsComponent.getAllByLabelText('Animals');
+      const animalRadioButton = fieldFacetsComponent.getAllByLabelText('Animals');
       fireEvent.click(animalRadioButton[0]);
       performSearchMock.mockReset();
-      const peopleRadioButton = fieldRefinementsComponent.getAllByLabelText('People');
+      const peopleRadioButton = fieldFacetsComponent.getAllByLabelText('People');
       fireEvent.click(peopleRadioButton[0]);
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
@@ -385,11 +375,11 @@ describe('FilterRefinementsComponent', () => {
     });
 
     test('it allows unselecting term', () => {
-      const { fieldRefinementsComponent, performSearchMock } = setup({
+      const { fieldFacetsComponent, performSearchMock } = setup({
         componentSettingsAggregations: updateSelectionSettings(['subject'])
       });
       //Carbon uses a Label element that also has @aria-label, which matches twice
-      const animalRadioButton = fieldRefinementsComponent.getAllByLabelText('Animals');
+      const animalRadioButton = fieldFacetsComponent.getAllByLabelText('Animals');
       fireEvent.click(animalRadioButton[0]);
       performSearchMock.mockReset();
       fireEvent.click(animalRadioButton[0]);
@@ -404,21 +394,21 @@ describe('FilterRefinementsComponent', () => {
     });
 
     test('it allows other fields to still be multiselect', () => {
-      const { fieldRefinementsComponent, performSearchMock } = setup({
+      const { fieldFacetsComponent, performSearchMock } = setup({
         componentSettingsAggregations: updateSelectionSettings(['subject'])
       });
       //Carbon uses a Label element that also has @aria-label, which matches twice
-      const animalRadioButton = fieldRefinementsComponent.getAllByLabelText('Animals');
+      const animalRadioButton = fieldFacetsComponent.getAllByLabelText('Animals');
       fireEvent.click(animalRadioButton[0]);
 
-      const ABMNStaffCheckbox = fieldRefinementsComponent.getByLabelText('ABMN Staff');
+      const ABMNStaffCheckbox = fieldFacetsComponent.getByLabelText('ABMN Staff');
       fireEvent.click(ABMNStaffCheckbox);
 
-      const newsStaffCheckbox = fieldRefinementsComponent.getByLabelText('News Staff');
+      const newsStaffCheckbox = fieldFacetsComponent.getByLabelText('News Staff');
       fireEvent.click(newsStaffCheckbox);
 
       performSearchMock.mockReset();
-      const peopleRadioButton = fieldRefinementsComponent.getAllByLabelText('People');
+      const peopleRadioButton = fieldFacetsComponent.getAllByLabelText('People');
       fireEvent.click(peopleRadioButton[0]);
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
@@ -431,21 +421,21 @@ describe('FilterRefinementsComponent', () => {
     });
 
     test('it handles multiple, single select fields', () => {
-      const { fieldRefinementsComponent, performSearchMock } = setup({
+      const { fieldFacetsComponent, performSearchMock } = setup({
         componentSettingsAggregations: updateSelectionSettings(['author', 'subject'])
       });
       //Carbon uses a Label element that also has @aria-label, which matches twice
-      const animalRadioButton = fieldRefinementsComponent.getAllByLabelText('Animals');
+      const animalRadioButton = fieldFacetsComponent.getAllByLabelText('Animals');
       fireEvent.click(animalRadioButton[0]);
 
-      const ABMNStaffRadioButton = fieldRefinementsComponent.getAllByLabelText('ABMN Staff');
+      const ABMNStaffRadioButton = fieldFacetsComponent.getAllByLabelText('ABMN Staff');
       fireEvent.click(ABMNStaffRadioButton[0]);
 
-      const newsStaffRadioButton = fieldRefinementsComponent.getAllByLabelText('News Staff');
+      const newsStaffRadioButton = fieldFacetsComponent.getAllByLabelText('News Staff');
       fireEvent.click(newsStaffRadioButton[0]);
 
       performSearchMock.mockReset();
-      const peopleRadioButton = fieldRefinementsComponent.getAllByLabelText('People');
+      const peopleRadioButton = fieldFacetsComponent.getAllByLabelText('People');
       fireEvent.click(peopleRadioButton[0]);
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(

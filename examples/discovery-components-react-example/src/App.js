@@ -9,7 +9,7 @@ import {
   SearchApi,
   SearchInput,
   SearchResults,
-  SearchRefinements,
+  SearchFacets,
   ResultsPagination,
   DocumentPreview
 } from '@disco-widgets/react-components';
@@ -57,7 +57,7 @@ function SearchPage() {
         spellingSuggestions={true}
       />
       <SearchResults bodyField={'text'} />
-      <SearchRefinements showCollections={true} showSuggestedRefinements={true} />
+      <SearchFacets showCollections={true} showDynamicFacets={true} />
       <ResultsPagination />
     </>
   );

@@ -1,24 +1,24 @@
 import {
-  SelectableQueryTermAggregation,
+  InternalQueryTermAggregation,
   SelectableQueryTermAggregationResult
-} from './searchRefinementInterfaces';
+} from './searchFacetInterfaces';
 import { findTermAggregations } from './findTermAggregations';
 import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import get from 'lodash/get';
 import unionBy from 'lodash/unionBy';
 
-export const mergeFilterRefinements = (
+export const mergeFilterFacets = (
   aggregations: DiscoveryV2.QueryAggregation[],
-  filterFields: SelectableQueryTermAggregation[],
+  filterFields: InternalQueryTermAggregation[],
   componentSettingsAggregations: DiscoveryV2.ComponentSettingsAggregation[]
-): SelectableQueryTermAggregation[] => {
+): InternalQueryTermAggregation[] => {
   if (!aggregations) {
     return [];
   }
 
   const termAggreations = findTermAggregations(aggregations);
   // add component settings label if it exist's
-  const labeledTermAggregtions: SelectableQueryTermAggregation[] = termAggreations.map(
+  const labeledTermAggregtions: InternalQueryTermAggregation[] = termAggreations.map(
     (termAggregation, i) => {
       if (componentSettingsAggregations[i]) {
         return {
@@ -37,44 +37,44 @@ export const mergeFilterRefinements = (
     .filter(aggregation => {
       return aggregation.results;
     })
-    .map((aggregation: SelectableQueryTermAggregation) => {
+    .map((aggregation: InternalQueryTermAggregation) => {
       const aggregationField = get(aggregation, 'field', '');
       const aggregationResults: SelectableQueryTermAggregationResult[] = get(
         aggregation,
         'results',
         []
       );
-      const filterRefinementsForField = filterFields.find(
+      const filterFacetsForField = filterFields.find(
         aggregation => aggregation.field === aggregationField
       );
 
-      if (!!filterRefinementsForField) {
-        const filterRefinementResults: SelectableQueryTermAggregationResult[] = get(
-          filterRefinementsForField,
+      if (!!filterFacetsForField) {
+        const filterFacetResults: SelectableQueryTermAggregationResult[] = get(
+          filterFacetsForField,
           'results',
           []
         );
         const newAggResults: SelectableQueryTermAggregationResult[] = aggregationResults.map(
           (result: SelectableQueryTermAggregationResult) => {
             const key = get(result, 'key', '');
-            const filterRefinement = filterRefinementResults.find(
-              (filterRefinement: SelectableQueryTermAggregationResult) => {
-                return filterRefinement.key === key;
+            const filterFacet = filterFacetResults.find(
+              (filterFacet: SelectableQueryTermAggregationResult) => {
+                return filterFacet.key === key;
               }
             );
-            return filterRefinement ? Object.assign({}, result, { selected: true }) : result;
+            return filterFacet ? Object.assign({}, result, { selected: true }) : result;
           }
         );
 
         const selectedNewAggResults = newAggResults.filter(result => result.selected);
-        const selectedNewAggAndFilterRefinementResults = unionBy(
+        const selectedNewAggAndFilterFacetResults = unionBy(
           selectedNewAggResults,
-          filterRefinementResults,
+          filterFacetResults,
           'key'
         );
 
         const unselectedResultsToSlice =
-          get(aggregation, 'count', 10) - selectedNewAggAndFilterRefinementResults.length;
+          get(aggregation, 'count', 10) - selectedNewAggAndFilterFacetResults.length;
         const unselectedNewAggResults = newAggResults
           .filter(result => !result.selected)
           .slice(0, unselectedResultsToSlice);
@@ -84,7 +84,7 @@ export const mergeFilterRefinements = (
           field: aggregationField,
           label: aggregation.label,
           multiple_selections_allowed: aggregation.multiple_selections_allowed,
-          results: unionBy(unselectedNewAggResults, selectedNewAggAndFilterRefinementResults, 'key')
+          results: unionBy(unselectedNewAggResults, selectedNewAggAndFilterFacetResults, 'key')
         };
       } else {
         return aggregation;

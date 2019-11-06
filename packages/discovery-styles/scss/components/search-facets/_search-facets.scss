@@ -2,11 +2,11 @@
 @import '~carbon-components/scss/components/multi-select/multi-select';
 @import '~carbon-components/scss/components/radio-button/radio-button';
 
-.#{$prefix}--search-refinement {
+.#{$prefix}--search-facet {
   margin-bottom: $spacing-md;
 }
 
-.#{$prefix}--search-refinement__refinement__label {
+.#{$prefix}--search-facet__facet__label {
   color: $ui-05;
   font-size: 0.75rem;
   display: flex;
@@ -18,7 +18,7 @@
   }
 }
 
-.#{$prefix}--search-refinement__refinement__toggle__more {
+.#{$prefix}--search-facet__facet__toggle__more {
   border-width: 0;
 
   &:hover,
@@ -29,15 +29,15 @@
   }
 }
 
-.#{$prefix}--search-refinement__refinement__single__select__group {
+.#{$prefix}--search-facet__facet__single__select__group {
   margin-bottom: 0.5rem;
 }
 
-.#{$prefix}--form-item.#{$prefix}--checkbox-wrapper.#{$prefix}--search-refinement__refinement__option {
+.#{$prefix}--form-item.#{$prefix}--checkbox-wrapper.#{$prefix}--search-facet__facet__option {
   margin-bottom: rem(6px);
 }
 
-.#{$prefix}--search-refinement__refinement__option-label {
+.#{$prefix}--search-facet__facet__option-label {
   @include type-style('body-short-02');
   color: $ui-05;
 }
