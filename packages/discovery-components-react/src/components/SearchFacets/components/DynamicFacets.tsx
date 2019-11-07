@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { SelectableDynamicFacets, SearchFilterFacets } from '../utils/searchFacetInterfaces';
 import get from 'lodash/get';
 import { Messages } from '../messages';
-import { CollapsableFacetsGroup } from './FacetsGroups/CollapsableFacetsGroup';
+import { CollapsibleFacetsGroup } from './FacetsGroups/CollapsibleFacetsGroup';
 
 interface DynamicFacetsProps {
   /**
@@ -57,7 +57,7 @@ export const DynamicFacets: FC<DynamicFacetsProps> = ({
   };
 
   return (
-    <CollapsableFacetsGroup
+    <CollapsibleFacetsGroup
       aggregationSettings={aggregationSettings}
       collapsedFacetsCount={collapsedFacetsCount}
       facets={dynamicFacets}

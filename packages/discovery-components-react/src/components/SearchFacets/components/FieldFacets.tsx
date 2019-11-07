@@ -9,7 +9,7 @@ import {
   AggregationSettings
 } from '../utils/searchFacetInterfaces';
 import { Messages } from '../messages';
-import { CollapsableFacetsGroup } from './FacetsGroups/CollapsableFacetsGroup';
+import { CollapsibleFacetsGroup } from './FacetsGroups/CollapsibleFacetsGroup';
 
 interface FieldFacetsProps {
   /**
@@ -120,8 +120,8 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
         }
 
         return (
-          <CollapsableFacetsGroup
-            key={`collapsable-facet-group-${i}`}
+          <CollapsibleFacetsGroup
+            key={`collapsible-facet-group-${i}`}
             collapsedFacetsCount={collapsedFacetsCount}
             messages={messages}
             aggregationSettings={aggregationSettings}

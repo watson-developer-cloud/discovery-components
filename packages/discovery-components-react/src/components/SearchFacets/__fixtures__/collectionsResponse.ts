@@ -4,12 +4,12 @@ import { createDummyResponse } from '../../../utils/testingUtils';
 const collectionsResponse: Response<ListCollectionsResponse> = createDummyResponse({
   collections: [
     {
-      name: 'deadspin',
-      collection_id: 'deadspin9876'
+      name: 'Machine Learning',
+      collection_id: 'machine-learning'
     },
     {
-      name: 'espn',
-      collection_id: 'espn1234'
+      name: 'AI Strategy',
+      collection_id: 'ai-strategy'
     }
   ]
 });

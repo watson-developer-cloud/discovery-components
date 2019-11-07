@@ -31,7 +31,7 @@ interface SearchFacetsProps {
    */
   overrideComponentSettingsAggregations?: DiscoveryV2.ComponentSettingsAggregation[];
   /**
-   * Number of facets terms to show when list is collapsed
+   * Number of facet terms to show when list is collapsed
    */
   collapsedFacetsCount?: number;
 }

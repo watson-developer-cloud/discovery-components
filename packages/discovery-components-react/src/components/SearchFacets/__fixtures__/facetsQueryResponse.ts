@@ -9,64 +9,64 @@ export const facetsQueryResponse: DiscoveryV2.Response<
   aggregations: [
     {
       type: 'term',
-      field: 'author',
+      field: 'category',
       count: 3,
       results: [
         {
-          key: 'ABMN Staff',
+          key: 'Research',
           matching_results: 138993
         },
         {
-          key: 'News Staff',
+          key: 'Analytics',
           matching_results: 57158
         },
         {
-          key: 'editor',
+          key: 'Documentation',
           matching_results: 32444
         }
       ]
     },
     {
       type: 'term',
-      field: 'subject',
-      count: 6,
+      field: 'machine_learning_terms',
+      count: 5,
       results: [
         {
-          key: 'Animals',
+          key: 'Neural network',
           matching_results: 138993
         },
         {
-          key: 'People',
-          matching_results: 133760
+          key: 'Reinforced learning',
+          matching_results: 57158
         },
         {
-          key: 'Places',
-          matching_results: 129139
+          key: 'CIFAR-10',
+          matching_results: 32444
         },
         {
-          key: 'Mumford & Sons',
-          matching_results: 96403
+          key: 'MNIST',
+          matching_results: 32444
         },
         {
-          key: 'Gritty',
-          matching_results: 95303
+          key: 'Recommender systems',
+          matching_results: 32444
         },
         {
-          key: 'Things',
-          matching_results: 76403
+          key: 'Decision trees',
+          matching_results: 32444
         }
       ]
     }
   ],
   suggested_refinements: [
     {
-      text: 'sharks are dangerous'
+      text: 'regression'
     },
     {
-      text: 'sloths are slow'
+      text: 'classification'
     },
     {
-      text: 'people are messy'
+      text: 'naive bayes'
     }
   ]
 });

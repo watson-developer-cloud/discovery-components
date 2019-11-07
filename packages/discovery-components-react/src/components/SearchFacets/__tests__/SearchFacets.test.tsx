@@ -71,16 +71,18 @@ describe('SearchFacetsComponent', () => {
     describe('when aggregations exist', () => {
       describe('legend header elements', () => {
         describe('When there are no aggregation component settings', () => {
-          test('contains first facet header with author field text', () => {
+          test('contains first facet header with category field text', () => {
             const { searchFacetsComponent } = setup('');
-            const headerAuthorField = searchFacetsComponent.getByText('author');
-            expect(headerAuthorField).toBeDefined();
+            const headerCategoryField = searchFacetsComponent.getByText('category');
+            expect(headerCategoryField).toBeDefined();
           });
 
-          test('contains second facet header with subject field text', () => {
+          test('contains second facet header with machine_learning_terms field text', () => {
             const { searchFacetsComponent } = setup('');
-            const headerSubjectField = searchFacetsComponent.getByText('subject');
-            expect(headerSubjectField).toBeDefined();
+            const headerMachineLearningTermsField = searchFacetsComponent.getByText(
+              'machine_learning_terms'
+            );
+            expect(headerMachineLearningTermsField).toBeDefined();
           });
         });
 
