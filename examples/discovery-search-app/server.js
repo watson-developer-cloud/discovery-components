@@ -51,5 +51,5 @@ app.get('/', async (req, res) => {
 
 const port = 4000;
 app.listen(port, () => {
-  console.log('Kitchen sink app running at http://localhost:%s/', port);
+  console.log('Discovery components example application running at http://localhost:%s/', port);
 });

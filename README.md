@@ -111,9 +111,9 @@ See the following for [more info about Lerna](https://github.com/lerna/lerna) or
 | ------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | `yarn`                                                        | installs yarn dependencies in all of the packages                                      |
 | `npx lerna bootstrap`                                         | (effectively the same as `yarn`) installs dependencies in all of the packages          |
-| `yarn workspace discovery-components-react-example <command>` | runs the specified `yarn` script in the `discovery-components-react-example` workspace |
+| `yarn workspace discovery-search-app <command>` | runs the specified `yarn` script in the `discovery-search-app` workspace |
 
-| examples/discovery-components-react-example | Description                                       |
+| examples/discovery-search-app | Description                                       |
 | ------------------------------------------- | ------------------------------------------------- |
 | `yarn start`                                | runs the client at http://localhost:3000/         |
 | `yarn build`                                | creates a production build of the example project |
@@ -151,20 +151,20 @@ See the following for [more info about Lerna](https://github.com/lerna/lerna) or
 3. Then, in the **first** terminal window, run:
 
    ```
-   yarn workspace kitchen-sink server
+   yarn workspace discovery-search-app server
    ```
 
 4. In the **second** terminal window, run:
 
    ```
-   yarn workspace kitchen-sink start
+   yarn workspace discovery-search-app start
    ```
 
 This allows you to run the client and server examples separately (and restart as necessary).
 
 #### Environment file
 
-Running both example client and server setup script require additional information to be provided through the environment. This is done via the `examples/kitchen-sink/.env.local` file, which is ignored by git due to its sensitive contents. The contents of the file are:
+Running both example client and server setup script require additional information to be provided through the environment. This is done via the `examples/discovery-search-app/.env.local` file, which is ignored by git due to its sensitive contents. The contents of the file are:
 
 ```
 REACT_APP_PROJECT_ID=<project_id to query>
@@ -207,7 +207,7 @@ For our React components, we're using Jest for our unit and integration. Tests a
 The directory structure for adding feature tests in cypress looks like:
 
 ```
-examples/discovery-components-react-example/cypress
+examples/discovery-search-app/cypress
 ├── fixtures         // mock data or other static assets
 │   └── example.json
 ├── integration      // top-level directory for feature tests
@@ -221,9 +221,9 @@ examples/discovery-components-react-example/cypress
 └── videos           // recorded videos of test failures for review after a test run
 ```
 
-The basic process is to add a new file/directory under `examples/kitchen-sink/cypress/integration` then run `yarn workspace kitchen-sink cypress` to open up the interactive debugger.
+The basic process is to add a new file/directory under `examples/discovery-search-app/cypress/integration` then run `yarn workspace discovery-search-app cypress` to open up the interactive debugger.
 
-To start up our server and run all Cypress tests, use `yarn workspace kitchen-sink test:e2e`, which does the following steps:
+To start up our server and run all Cypress tests, use `yarn workspace discovery-search-app test:e2e`, which does the following steps:
 
 1. starts up a server to host the example application
 2. once the server responds, it moves on to perform the next command `cypress run` (headless version of `cypress open`)
