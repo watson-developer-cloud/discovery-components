@@ -16,7 +16,6 @@ import get from 'lodash/get';
 import flattenDeep from 'lodash/flattenDeep';
 import difference from 'lodash/difference';
 import isEqual from 'lodash/isEqual';
-import isEmpty from 'lodash/isEmpty';
 import DetailsPane from '../DetailsPane/DetailsPane';
 import FilterPanel from '../FilterPanel/FilterPanel';
 import MetadataPane from '../MetadataPane/MetadataPane';
@@ -207,7 +206,7 @@ const CIDocument: FC<CIDocumentProps> = ({
   const [filterGroups, setFilterGroups] = useState<FilterGroup[]>([]);
 
   useEffect(() => {
-    if (!isEmpty(document) && !didCatch) {
+    if (canRenderCIDocument(document) && !didCatch) {
       const helper = getFilterHelper({
         enrichmentName,
         itemList,
@@ -281,6 +280,8 @@ const CIDocument: FC<CIDocumentProps> = ({
     highlightedIds = highlightedList.map(getId) ? highlightedList.map(getId) : [];
   }
 
+  const hasError = state.isError || didCatch;
+
   const renderSidebar = (): ReactElement => {
     const nonContractFilterGroups = filterGroups.filter(group => group.id === selectedType);
 
@@ -301,7 +302,8 @@ const CIDocument: FC<CIDocumentProps> = ({
           >
             {nonContractTabs.map(tab => (
               <Tab tabIndex={0} label={tabLabels[tab]} key={tab}>
-                {tab === selectedType &&
+                {!hasError &&
+                  tab === selectedType &&
                   renderFilterPanel(
                     currentFilter,
                     nonContractFilterGroups,
@@ -321,36 +323,39 @@ const CIDocument: FC<CIDocumentProps> = ({
             }
           >
             <Tab tabIndex={0} label={messages.filtersTabLabel}>
-              {renderFilterPanel(
-                currentFilter,
-                filterGroups,
-                setCurrentFilter,
-                resetStates,
-                messages
-              )}
+              {!hasError &&
+                renderFilterPanel(
+                  currentFilter,
+                  filterGroups,
+                  setCurrentFilter,
+                  resetStates,
+                  messages
+                )}
             </Tab>
             <Tab tabIndex={0} label={messages.metadataTabLabel}>
-              <MetadataPane
-                metadata={metadata}
-                activeMetadataId={activeMetadataIds[0]}
-                parties={parties}
-                messages={messages}
-                onActiveMetadataChange={({ metadataId, data }): void =>
-                  onActiveMetadataChange({
-                    metadataId,
-                    data,
-                    setHighlightedList,
-                    setActiveMetadataIds
-                  })
-                }
-                onActivePartyChange={(party): void =>
-                  onActivePartyChange({
-                    party,
-                    setHighlightedList,
-                    setActiveMetadataIds
-                  })
-                }
-              />
+              {!hasError && (
+                <MetadataPane
+                  metadata={metadata}
+                  activeMetadataId={activeMetadataIds[0]}
+                  parties={parties}
+                  messages={messages}
+                  onActiveMetadataChange={({ metadataId, data }): void =>
+                    onActiveMetadataChange({
+                      metadataId,
+                      data,
+                      setHighlightedList,
+                      setActiveMetadataIds
+                    })
+                  }
+                  onActivePartyChange={(party): void =>
+                    onActivePartyChange({
+                      party,
+                      setHighlightedList,
+                      setActiveMetadataIds
+                    })
+                  }
+                />
+              )}
             </Tab>
           </Tabs>
         )}
@@ -369,60 +374,58 @@ const CIDocument: FC<CIDocumentProps> = ({
 
   return (
     <div className={base}>
-      {state.isError || didCatch ? (
-        <p className={`${base}__docError`}>{messages.parseErrorMessage}</p>
-      ) : (
-        <>
-          <nav className={`${base}__toolbar`}>
-            <div className={`${base}__title`}>{filename}</div>
-            {highlightedList.length > 0 && (
-              <>
-                <NavigationToolbar
-                  className={`${base}__nav`}
-                  index={activeIndex + 1}
-                  max={highlightedList.length}
-                  messages={messages}
-                  onChange={onNavigationChange({
-                    setActiveIds:
-                      selectedContractFilter === METADATA ? setActiveMetadataIds : setActiveIds,
-                    highlightedList
-                  })}
-                />
-                <div className={`${base}__rightGutter`} />
-              </>
-            )}
-          </nav>
-          <div className={`${base}__main`}>
-            <aside className={`${base}__sidebar`}>{renderSidebar()}</aside>
-            <article className={`${base}__doc`}>
-              <CIDocumentContent
-                styles={state.styles}
-                sections={state.sections}
-                itemMap={state.itemMap}
-                highlightedIds={highlightedIds}
-                activeIds={activeIds}
-                activePartIds={activePartIds}
-                onItemClick={onItemClick({
-                  setActiveIds,
-                  elementList: itemList
-                })}
-                activeMetadataIds={activeMetadataIds}
-                width={overrideDocWidth}
-                height={overrideDocHeight}
-                {...nonContractProps}
-              />
-            </article>
-            <aside className={`${base}__details`}>
-              <DetailsPane
-                items={activeDetails}
-                selectedLink={getSelectedLink({ activeElement, activePartIds })}
-                messages={messages}
-                onActiveLinkChange={onDetailsLink({ activeElement, setActivePartIds })}
-              />
-            </aside>
-          </div>
-        </>
-      )}
+      <nav className={`${base}__toolbar`}>
+        <div className={`${base}__title`}>{filename}</div>
+        {highlightedList.length > 0 && (
+          <>
+            <NavigationToolbar
+              className={`${base}__nav`}
+              index={activeIndex + 1}
+              max={highlightedList.length}
+              messages={messages}
+              onChange={onNavigationChange({
+                setActiveIds:
+                  selectedContractFilter === METADATA ? setActiveMetadataIds : setActiveIds,
+                highlightedList
+              })}
+            />
+            <div className={`${base}__rightGutter`} />
+          </>
+        )}
+      </nav>
+      <div className={`${base}__main`}>
+        <aside className={`${base}__sidebar`}>{renderSidebar()}</aside>
+        <article className={`${base}__doc`}>
+          {state.isError || didCatch ? (
+            <p className={`${base}__docError`}>{messages.parseErrorMessage}</p>
+          ) : (
+            <CIDocumentContent
+              styles={state.styles}
+              sections={state.sections}
+              itemMap={state.itemMap}
+              highlightedIds={highlightedIds}
+              activeIds={activeIds}
+              activePartIds={activePartIds}
+              onItemClick={onItemClick({
+                setActiveIds,
+                elementList: itemList
+              })}
+              activeMetadataIds={activeMetadataIds}
+              width={overrideDocWidth}
+              height={overrideDocHeight}
+              {...nonContractProps}
+            />
+          )}
+        </article>
+        <aside className={`${base}__details`}>
+          <DetailsPane
+            items={activeDetails}
+            selectedLink={getSelectedLink({ activeElement, activePartIds })}
+            messages={messages}
+            onActiveLinkChange={onDetailsLink({ activeElement, setActivePartIds })}
+          />
+        </aside>
+      </div>
     </div>
   );
 };

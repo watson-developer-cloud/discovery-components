@@ -93,3 +93,8 @@
     width: auto;
   }
 }
+
+.#{$prefix}--ci-doc__docError {
+  text-align: center;
+  margin: $spacing-2xl;
+}

@@ -43,7 +43,15 @@ storiesOf('CIDocument', module)
     );
   })
   .add('parse error', () => {
-    const badDoc = {};
+    const badDoc = {
+      extracted_metadata: {
+        publicationdate: '2018-10-24',
+        sha1: '754836ffd690207d39b9f8db08b8099e787c61fa',
+        filename: 'Art Effects Koya Creative Base TSA 2008.pdf',
+        file_type: 'pdf',
+        title: 'Microsoft Word - Art Effects Koya Creative Base TSA 2008.doc'
+      }
+    };
 
     return (
       <div style={{ overflow: 'hidden' }}>
