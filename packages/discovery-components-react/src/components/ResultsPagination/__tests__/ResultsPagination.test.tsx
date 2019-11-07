@@ -109,4 +109,12 @@ describe('ResultsPaginationComponent', () => {
       });
     });
   });
+
+  describe('itemRangeText', () => {
+    test('itemRangeText uses the word results instead of the word items', () => {
+      const { getByText } = setup({}, { componentSettings: { results_per_page: 25 } });
+      const itemRangeText = getByText('1–25 of 55 results');
+      expect(itemRangeText).toBeInTheDocument();
+    });
+  });
 });

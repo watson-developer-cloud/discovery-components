@@ -48,6 +48,10 @@ export const ResultsPagination: FC<ResultsPaginationProps> = ({ page, pageSizes,
     performSearch({ ...searchParameters, offset }, false);
   };
 
+  const handleItemRangeText = (min: number, max: number, total: number) => {
+    return `${min}–${max} of ${total} results`;
+  };
+
   return (
     <>
       {!isResultsPaginationComponentHidden && (
@@ -57,6 +61,7 @@ export const ResultsPagination: FC<ResultsPaginationProps> = ({ page, pageSizes,
           pageSizes={pageSizes}
           pageSize={displaySettings.pageSize}
           onChange={handleOnChange}
+          itemRangeText={handleItemRangeText}
         />
       )}
     </>
