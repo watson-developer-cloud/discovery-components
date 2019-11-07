@@ -1,4 +1,4 @@
-import React, { Component, ComponentClass, ComponentType, ReactNode } from 'react';
+import React, { ComponentClass, ComponentType, ReactNode, PureComponent } from 'react';
 
 /**
  * Ideas for improvements:
@@ -24,7 +24,7 @@ export function withErrorBoundary<P extends {}>(
 ): ComponentClass<Omit<P, keyof WithErrorBoundaryProps>, WithErrorBoundaryState> {
   type Props = Omit<P, keyof WithErrorBoundaryProps>;
 
-  return class WithErrorBoundary extends Component<Props, WithErrorBoundaryState> {
+  return class WithErrorBoundary extends PureComponent<Props, WithErrorBoundaryState> {
     constructor(props: Props) {
       super(props);
       this.state = { didCatch: false };

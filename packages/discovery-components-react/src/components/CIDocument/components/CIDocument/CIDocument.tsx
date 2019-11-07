@@ -33,6 +33,7 @@ import {
   isRelationObject,
   isInvoiceOrPurchaseOrder
 } from '../../../../utils/document/nonContractUtils';
+import { withErrorBoundary, WithErrorBoundaryProps } from '../../../../utils/hoc/withErrorBoundary';
 import { Filter, FilterGroup, FilterChangeArgs } from '../FilterPanel/types';
 import { EnrichedHtml, Contract } from '../../types';
 import { MetadataData, Address, Mention } from '../MetadataPane/types';
@@ -110,7 +111,7 @@ const nonContractTabs = [ATTRIBUTES, RELATIONS];
 
 export function canRenderCIDocument(document: QueryResult): boolean {
   return (
-    !!document.html &&
+    !!get(document, 'html') &&
     (!!get(document, 'enriched_html[0].contract') ||
       !!get(document, 'enriched_html[0].invoice') ||
       !!get(document, 'enriched_html[0].purchase_order'))
@@ -119,7 +120,7 @@ export function canRenderCIDocument(document: QueryResult): boolean {
 
 const base = `${settings.prefix}--ci-doc`;
 
-export interface CIDocumentProps {
+export interface CIDocumentProps extends WithErrorBoundaryProps {
   /**
    * Document data, as that returned by a query. Overrides result from SearchContext
    */
@@ -138,11 +139,12 @@ export interface CIDocumentProps {
   overrideDocHeight?: number;
 }
 
-export const CIDocument: FC<CIDocumentProps> = ({
+const CIDocument: FC<CIDocumentProps> = ({
   document,
   messages = defaultMessages,
   overrideDocWidth,
-  overrideDocHeight
+  overrideDocHeight,
+  didCatch
 }) => {
   const [state, dispatch] = useReducer<Reducer<State, Action>>(docStateReducer, INITIAL_STATE);
 
@@ -175,28 +177,37 @@ export const CIDocument: FC<CIDocumentProps> = ({
   };
 
   useEffect(() => {
+    let didCancel = false;
+
     async function process(): Promise<void> {
-      try {
-        const doc = await processDoc(document, { sections: true, itemMap: true });
-        dispatch({
-          type: ActionType.SET,
-          data: { styles: doc.styles, sections: doc.sections, itemMap: doc.itemMap }
-        });
-      } catch (err) {
-        dispatch({ type: ActionType.ERROR, data: err });
+      if (!didCancel) {
+        try {
+          const doc = await processDoc(document, { sections: true, itemMap: true });
+          dispatch({
+            type: ActionType.SET,
+            data: { styles: doc.styles, sections: doc.sections, itemMap: doc.itemMap }
+          });
+        } catch (err) {
+          dispatch({ type: ActionType.ERROR, data: err });
+        }
       }
     }
+
     resetStates();
     resetTabs();
     process();
-  }, [document]);
+
+    return (): void => {
+      didCancel = true;
+    };
+  }, [didCatch, document]);
 
   const [filterHelper, setFilterHelper] = useState<ProcessFilter | null>(null);
   const [currentFilter, setCurrentFilter] = useState<Filter>({});
   const [filterGroups, setFilterGroups] = useState<FilterGroup[]>([]);
 
   useEffect(() => {
-    if (!isEmpty(document)) {
+    if (!isEmpty(document) && !didCatch) {
       const helper = getFilterHelper({
         enrichmentName,
         itemList,
@@ -206,12 +217,12 @@ export const CIDocument: FC<CIDocumentProps> = ({
       setCurrentFilter({});
       setFilterGroups(helper.processFilter({}).filterGroups);
     }
-  }, [enrichmentName, document, itemList, messages]);
+  }, [enrichmentName, document, itemList, messages, didCatch]);
 
   const [highlightedList, setHighlightedList] = useState<any[]>([]);
 
   useEffect(() => {
-    if (filterHelper) {
+    if (filterHelper && !didCatch) {
       if (isFilterEmpty(currentFilter)) {
         setHighlightedList([]);
         setFilterGroups(filterHelper.processFilter(currentFilter).filterGroups);
@@ -221,7 +232,7 @@ export const CIDocument: FC<CIDocumentProps> = ({
         setFilterGroups(groups);
       }
     }
-  }, [filterHelper, currentFilter, itemList]);
+  }, [filterHelper, currentFilter, itemList, didCatch]);
 
   const [activeIds, setActiveIds] = useState<string[]>([]);
   useEffect(() => {
@@ -358,7 +369,7 @@ export const CIDocument: FC<CIDocumentProps> = ({
 
   return (
     <div className={base}>
-      {state.isError ? (
+      {state.isError || didCatch ? (
         <p className={`${base}__docError`}>{messages.parseErrorMessage}</p>
       ) : (
         <>
@@ -596,4 +607,4 @@ function getSelectedLink({
   return undefined;
 }
 
-export default CIDocument;
+export default withErrorBoundary(CIDocument);

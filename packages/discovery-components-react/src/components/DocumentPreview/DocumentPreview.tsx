@@ -19,28 +19,37 @@ import SimpleDocument from './components/SimpleDocument/SimpleDocument';
 import HtmlView from './components/HtmlView/HtmlView';
 import Highlight from './components/Highlight/Highlight';
 import withErrorBoundary, { WithErrorBoundaryProps } from '../../utils/hoc/withErrorBoundary';
+import { defaultMessages, Messages } from './messages';
 
 interface Props extends WithErrorBoundaryProps {
   /**
    * Document data, as that returned by a query. Overrides result from SearchContext
    */
   document?: QueryResult;
-
   /**
    * PDF file data as base64-encoded string
    */
   file?: string;
-
   /**
    * Passage or table to highlight in document. Reference to item with
    * `document.document_passages` or `document.table_results`
    */
   highlight?: QueryResultPassage | QueryTableResult;
+  /**
+   * i18n messages for the component
+   */
+  messages?: Messages;
 }
 
 const SCALE_FACTOR = 1.2;
 
-export const DocumentPreview: FC<Props> = ({ document, file, highlight, didCatch }) => {
+const DocumentPreview: FC<Props> = ({
+  document,
+  file,
+  highlight,
+  messages = defaultMessages,
+  didCatch
+}) => {
   const { selectedResult } = useContext(SearchContext);
   // document prop takes precedence over that in context
   const doc = document || selectedResult.document;
@@ -132,9 +141,9 @@ export const DocumentPreview: FC<Props> = ({ document, file, highlight, didCatch
           )}
         </>
       ) : didCatch ? (
-        <div className={`${base}__error`}>Error previewing document</div>
+        <div className={`${base}__error`}>{messages.errorMessage}</div>
       ) : (
-        <div className={`${base}__error`}>No document data</div>
+        <div className={`${base}__error`}>{messages.noDataMessage}</div>
       )}
     </div>
   );
@@ -207,5 +216,13 @@ function PreviewDocument({
   return null;
 }
 
-export default withErrorBoundary(DocumentPreview);
-export { PreviewToolbar, PreviewDocument, ZOOM_IN, ZOOM_OUT, ZOOM_RESET };
+const ErrorBoundDocumentPreview = withErrorBoundary(DocumentPreview);
+export default ErrorBoundDocumentPreview;
+export {
+  ErrorBoundDocumentPreview as DocumentPreview,
+  PreviewToolbar,
+  PreviewDocument,
+  ZOOM_IN,
+  ZOOM_OUT,
+  ZOOM_RESET
+};
