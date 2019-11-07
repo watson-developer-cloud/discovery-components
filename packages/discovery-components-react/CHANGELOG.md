@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.63.6](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.63.5...@disco-widgets/react-components@1.63.6) (2019-11-07)
+
+
+### Bug Fixes
+
+* show parse error only on document section. ([#330](https://github.com/watson-developer-cloud/discovery-components/issues/330)) ([926fcfe](https://github.com/watson-developer-cloud/discovery-components/commit/926fcfe))
+
+
+
+
+
 ## [1.63.5](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.63.4...@disco-widgets/react-components@1.63.5) (2019-11-07)
 
 
