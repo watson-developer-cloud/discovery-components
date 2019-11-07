@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.63.4](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.63.3...@disco-widgets/react-components@1.63.4) (2019-11-07)
+
+**Note:** Version bump only for package @disco-widgets/react-components
+
+
+
+
+
 ## [1.63.3](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.63.2...@disco-widgets/react-components@1.63.3) (2019-11-06)
 
 **Note:** Version bump only for package @disco-widgets/react-components
