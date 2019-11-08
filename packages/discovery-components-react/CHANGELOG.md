@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.63.8](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.63.7...@disco-widgets/react-components@1.63.8) (2019-11-08)
+
+
+### Bug Fixes
+
+* Add prop for show/hide pageSizesSelector on pagination component ([#360](https://github.com/watson-developer-cloud/discovery-components/issues/360)) ([b5f69ad](https://github.com/watson-developer-cloud/discovery-components/commit/b5f69ad))
+
+
+
+
+
 ## [1.63.7](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.63.6...@disco-widgets/react-components@1.63.7) (2019-11-07)
 
 **Note:** Version bump only for package @disco-widgets/react-components

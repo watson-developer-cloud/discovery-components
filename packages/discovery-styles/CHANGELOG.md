@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.30.5](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/styles@1.30.4...@disco-widgets/styles@1.30.5) (2019-11-08)
+
+
+### Bug Fixes
+
+* Add prop for show/hide pageSizesSelector on pagination component ([#360](https://github.com/watson-developer-cloud/discovery-components/issues/360)) ([b5f69ad](https://github.com/watson-developer-cloud/discovery-components/commit/b5f69ad))
+
+
+
+
+
 ## [1.30.4](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/styles@1.30.3...@disco-widgets/styles@1.30.4) (2019-11-07)
 
 
