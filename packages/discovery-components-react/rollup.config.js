@@ -56,7 +56,7 @@ export default {
       modules: true
     }),
     url(),
-    svgr(),
+    svgr({ ref: true }),
     string({
       include: [pdfWorkerRegex]
     }),

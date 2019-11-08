@@ -4,8 +4,8 @@ import { Link, Tooltip } from 'carbon-components-react';
 import { Metadata, MetadataData, OnActiveMetadataChangeFn } from '../types';
 import { getId } from '../../../../../utils/document/idUtils';
 import { ReactComponent as HighConfidence } from './icons/Confidence_high.svg';
-import { ReactComponent as LowConfidence } from './icons/Confidence_low.svg';
 import { ReactComponent as MediumConfidence } from './icons/Confidence_medium.svg';
+import { ReactComponent as LowConfidence } from './icons/Confidence_low.svg';
 
 interface MetadataRowProps {
   metadata: Metadata;
