@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.63.9](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.63.8...@disco-widgets/react-components@1.63.9) (2019-11-08)
+
+
+### Bug Fixes
+
+* icon tooltip in MetadataPane in tooling ([#346](https://github.com/watson-developer-cloud/discovery-components/issues/346)) ([09ae143](https://github.com/watson-developer-cloud/discovery-components/commit/09ae143))
+
+
+
+
+
 ## [1.63.8](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.63.7...@disco-widgets/react-components@1.63.8) (2019-11-08)
 
 
