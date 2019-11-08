@@ -2,6 +2,7 @@ import React, { FC, useContext } from 'react';
 import { Pagination as CarbonPagination } from 'carbon-components-react';
 import { SearchApi, SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import get from 'lodash/get';
+import { settings } from 'carbon-components';
 
 interface ResultsPaginationProps {
   /**
@@ -13,9 +14,13 @@ interface ResultsPaginationProps {
    */
   pageSize?: number;
   /**
-   * Array of available result counts to show per page
+   * Array of available result items to show per page
    */
   pageSizes: Array<number>;
+  /**
+   * specify whether to show the selector for dynamically changing the available result items to show per page
+   */
+  showPageSizeSelector?: boolean;
 }
 
 interface ResultsPaginationEvent {
@@ -23,7 +28,12 @@ interface ResultsPaginationEvent {
   pageSize: number;
 }
 
-export const ResultsPagination: FC<ResultsPaginationProps> = ({ page, pageSizes, pageSize }) => {
+export const ResultsPagination: FC<ResultsPaginationProps> = ({
+  page = 1,
+  pageSizes = [10, 20, 30, 40, 50],
+  pageSize,
+  showPageSizeSelector = true
+}) => {
   const { performSearch } = useContext(SearchApi);
   const {
     searchParameters,
@@ -42,6 +52,11 @@ export const ResultsPagination: FC<ResultsPaginationProps> = ({ page, pageSizes,
     pageSizes = pageSizes.sort();
   }
 
+  const classNames = [`${settings.prefix}--pagination`];
+  if (!showPageSizeSelector) {
+    classNames.push(`${settings.prefix}--pagination__page-size-selector--hidden`);
+  }
+
   const handleOnChange = (evt: ResultsPaginationEvent): void => {
     const { page, pageSize } = evt;
     const offset = (page - 1) * pageSize;
@@ -56,6 +71,7 @@ export const ResultsPagination: FC<ResultsPaginationProps> = ({ page, pageSizes,
     <>
       {!isResultsPaginationComponentHidden && (
         <CarbonPagination
+          className={classNames.join(' ')}
           page={page}
           totalItems={matchingResults}
           pageSizes={pageSizes}
@@ -66,11 +82,6 @@ export const ResultsPagination: FC<ResultsPaginationProps> = ({ page, pageSizes,
       )}
     </>
   );
-};
-
-ResultsPagination.defaultProps = {
-  page: 1,
-  pageSizes: [10, 20, 30, 40, 50]
 };
 
 export default ResultsPagination;
