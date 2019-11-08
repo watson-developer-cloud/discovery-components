@@ -61,6 +61,10 @@ export interface SearchResultsProps {
    * Message prefix used when displaying spelling suggestion
    */
   spellingSuggestionsPrefix?: string;
+  /**
+   * override the default text to show when no search results are found
+   */
+  noResultsFoundText?: string;
 }
 
 export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
@@ -76,7 +80,8 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   tableInDocumentButtonText = 'View table in document',
   showTablesOnlyToggle = false,
   tablesOnlyToggleLabelText = 'Show table results only',
-  spellingSuggestionsPrefix = 'Did you mean:'
+  spellingSuggestionsPrefix = 'Did you mean:',
+  noResultsFoundText = 'There were no results found'
 }) => {
   const { searchResponse, collectionsResults, componentSettings } = React.useContext(SearchContext);
   const [showTablesOnlyResults, setShowTablesOnlyResults] = React.useState(false);
@@ -91,8 +96,10 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   const results = (searchResponse && searchResponse.results) || [];
   const tableResults = (searchResponse && searchResponse.table_results) || [];
   const baseClass = `${settings.prefix}--search-results`;
-  const searchResultHeaderClass = `${baseClass}__header`;
-  const querySubmitted = false; // TODO replace this with whatever value tells our component if a query has been submitted
+  const searchResultsListClass = `${baseClass}__list`;
+  const searchResultsListEmptyClass = `${searchResultsListClass}--empty`;
+  const searchResultsHeaderClass = `${baseClass}__header`;
+  const emptySearch = searchResponse ? noResultsFoundText : '';
 
   React.useEffect(() => {
     if (passageLength) {
@@ -108,72 +115,68 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
     }
   }, [passageLength, setSearchParameters]);
 
-  if (matchingResults && matchingResults > 0) {
-    return (
-      <div>
-        <div className={searchResultHeaderClass}>
-          <SpellingSuggestion spellingSuggestionPrefix={spellingSuggestionsPrefix} />
-          <TablesOnlyToggle
-            setShowTablesOnlyResults={setShowTablesOnlyResults}
-            showTablesOnlyToggle={showTablesOnlyToggle}
-            showTablesOnlyResults={showTablesOnlyResults}
-            tablesOnlyToggleLabelText={tablesOnlyToggleLabelText}
-          />
-        </div>
-        {showTablesOnlyResults &&
-          (tableResults as DiscoveryV2.QueryTableResult[]).map(table => {
-            const collectionName = findCollectionName(collectionsResults, table);
-
-            return (
-              <Result
-                key={table.table_id}
-                bodyField={displaySettings.bodyField}
-                collectionLabel={collectionLabel}
-                collectionName={collectionName}
-                displayedTextInDocumentButtonText={displayedTextInDocumentButtonText}
-                resultLinkField={resultLinkField}
-                resultLinkTemplate={resultLinkTemplate}
-                resultTitleField={displaySettings.resultTitleField}
-                showTablesOnlyResults={showTablesOnlyResults}
-                table={table}
-                tableInDocumentButtonText={tableInDocumentButtonText}
-              />
-            );
-          })}
-        {!showTablesOnlyResults &&
-          (results as DiscoveryV2.QueryResult[]).map(result => {
-            const documentTableResult: DiscoveryV2.QueryTableResult | undefined = tableResults.find(
-              tableResult => {
-                return tableResult.source_document_id === result.document_id;
-              }
-            );
-            const collectionName = findCollectionName(collectionsResults, result);
-
-            return (
-              <Result
-                key={result.document_id}
-                bodyField={displaySettings.bodyField}
-                collectionLabel={collectionLabel}
-                collectionName={collectionName}
-                displayedTextInDocumentButtonText={displayedTextInDocumentButtonText}
-                passageHighlightsClassName={passageHighlightsClassName}
-                result={result}
-                resultLinkField={resultLinkField}
-                resultLinkTemplate={resultLinkTemplate}
-                resultTitleField={displaySettings.resultTitleField}
-                table={documentTableResult}
-                tableInDocumentButtonText={tableInDocumentButtonText}
-                usePassages={displaySettings.usePassages}
-              />
-            );
-          })}
+  return (
+    <div className={baseClass}>
+      <div className={searchResultsHeaderClass} data-testid="search_results_header">
+        <SpellingSuggestion spellingSuggestionPrefix={spellingSuggestionsPrefix} />
+        <TablesOnlyToggle
+          setShowTablesOnlyResults={setShowTablesOnlyResults}
+          showTablesOnlyToggle={showTablesOnlyToggle}
+          showTablesOnlyResults={showTablesOnlyResults}
+          tablesOnlyToggleLabelText={tablesOnlyToggleLabelText}
+        />
       </div>
-    );
-  } else if (searchResponse && matchingResults === 0) {
-    return <div>There were no results found</div>;
-  } else if (!matchingResults && querySubmitted) {
-    return <div>Loading spinner</div>;
-  } else {
-    return null;
-  }
+      {matchingResults && matchingResults > 0 ? (
+        <div className={searchResultsListClass}>
+          {showTablesOnlyResults
+            ? (tableResults as DiscoveryV2.QueryTableResult[]).map(table => {
+                const collectionName = findCollectionName(collectionsResults, table);
+
+                return (
+                  <Result
+                    key={table.table_id}
+                    bodyField={displaySettings.bodyField}
+                    collectionLabel={collectionLabel}
+                    collectionName={collectionName}
+                    displayedTextInDocumentButtonText={displayedTextInDocumentButtonText}
+                    resultLinkField={resultLinkField}
+                    resultLinkTemplate={resultLinkTemplate}
+                    resultTitleField={displaySettings.resultTitleField}
+                    showTablesOnlyResults={showTablesOnlyResults}
+                    table={table}
+                    tableInDocumentButtonText={tableInDocumentButtonText}
+                  />
+                );
+              })
+            : (results as DiscoveryV2.QueryResult[]).map(result => {
+                const documentTableResult:
+                  | DiscoveryV2.QueryTableResult
+                  | undefined = tableResults.find(tableResult => {
+                  return tableResult.source_document_id === result.document_id;
+                });
+                const collectionName = findCollectionName(collectionsResults, result);
+                return (
+                  <Result
+                    key={result.document_id}
+                    bodyField={displaySettings.bodyField}
+                    collectionLabel={collectionLabel}
+                    collectionName={collectionName}
+                    displayedTextInDocumentButtonText={displayedTextInDocumentButtonText}
+                    passageHighlightsClassName={passageHighlightsClassName}
+                    result={result}
+                    resultLinkField={resultLinkField}
+                    resultLinkTemplate={resultLinkTemplate}
+                    resultTitleField={displaySettings.resultTitleField}
+                    table={documentTableResult}
+                    tableInDocumentButtonText={tableInDocumentButtonText}
+                    usePassages={displaySettings.usePassages}
+                  />
+                );
+              })}
+        </div>
+      ) : (
+        emptySearch && <div className={searchResultsListEmptyClass}>{emptySearch}</div>
+      )}
+    </div>
+  );
 };

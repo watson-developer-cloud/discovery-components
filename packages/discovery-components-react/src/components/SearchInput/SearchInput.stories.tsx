@@ -80,7 +80,6 @@ storiesOf('SearchInput', module)
         naturalLanguageQuery: 'Philadlphia'
       },
       overrideSearchResults: {
-        matching_results: 1,
         suggested_query: 'Philadelphia'
       }
     };

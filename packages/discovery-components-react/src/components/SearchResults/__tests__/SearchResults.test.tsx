@@ -35,6 +35,21 @@ describe('<SearchResults />', () => {
         const { getByText } = render(wrapWithContext(<SearchResults />, {}, context));
         expect(getByText('There were no results found')).toBeInTheDocument();
       });
+
+      describe('and we have a spelling suggestion', () => {
+        beforeEach(() => {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          context.searchResponse!.suggested_query = 'suggested';
+        });
+        test('renders the spelling suggestion', () => {
+          const { getByText } = render(wrapWithContext(<SearchResults />, {}, context));
+          expect(
+            getByText((_, element) => {
+              return element.textContent === 'suggested';
+            })
+          ).toBeInTheDocument();
+        });
+      });
     });
   });
 
@@ -47,9 +62,9 @@ describe('<SearchResults />', () => {
     //   test('renders the loading spinner', () => {});
     // });
     describe('And we are not in the middle of fetching query_results', () => {
-      test('renders nothing', () => {
-        const { container } = render(wrapWithContext(<SearchResults />, {}, context));
-        expect(container.children).toHaveLength(0);
+      test('renders only the header', () => {
+        const { getAllByTestId } = render(wrapWithContext(<SearchResults />, {}, context));
+        expect(getAllByTestId('search_results_header')).toHaveLength(1);
       });
     });
   });
