@@ -1,6 +1,10 @@
 import React from 'react';
 import { render, fireEvent, RenderResult } from '@testing-library/react';
-import { SearchContextIFC, SearchApiIFC } from '../../../../DiscoverySearch/DiscoverySearch';
+import {
+  SearchContextIFC,
+  SearchApiIFC,
+  searchResponseStoreDefaults
+} from '../../../../DiscoverySearch/DiscoverySearch';
 import { SearchResults } from '../../../SearchResults';
 import { wrapWithContext } from '../../../../../utils/testingUtils';
 import overrideSearchResults from '../../../__fixtures__/searchResults';
@@ -13,7 +17,10 @@ describe('<TablesOnlyToggle />', () => {
   const setIsResultsPaginationComponentHiddenMock = jest.fn();
   beforeEach(() => {
     context = {
-      searchResponse: overrideSearchResults
+      searchResponseStore: {
+        ...searchResponseStoreDefaults,
+        data: overrideSearchResults
+      }
     };
     api = {
       setIsResultsPaginationComponentHidden: setIsResultsPaginationComponentHiddenMock

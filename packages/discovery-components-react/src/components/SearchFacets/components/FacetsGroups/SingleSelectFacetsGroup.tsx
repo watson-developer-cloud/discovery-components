@@ -43,7 +43,9 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
   onChange
 }) => {
   const {
-    searchParameters: { naturalLanguageQuery }
+    searchResponseStore: {
+      parameters: { naturalLanguageQuery }
+    }
   } = useContext(SearchContext);
   const facetsLabel = aggregationSettings.label || aggregationSettings.field;
   const escapedLabel = facetsLabel.replace(/\s+/g, '_');

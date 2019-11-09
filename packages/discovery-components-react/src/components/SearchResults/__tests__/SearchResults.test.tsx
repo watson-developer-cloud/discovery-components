@@ -1,7 +1,11 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { SearchContextIFC, SearchApiIFC } from '../../DiscoverySearch/DiscoverySearch';
+import {
+  SearchContextIFC,
+  SearchApiIFC,
+  searchResponseStoreDefaults
+} from '../../DiscoverySearch/DiscoverySearch';
 import { wrapWithContext } from '../../../utils/testingUtils';
 import { SearchResults } from '../SearchResults';
 
@@ -9,13 +13,16 @@ describe('<SearchResults />', () => {
   describe('When we have a value for matching_results', () => {
     describe('which is greater than 0', () => {
       const context: Partial<SearchContextIFC> = {
-        searchResponse: {
-          matching_results: 1,
-          results: [
-            {
-              document_id: 'some document_id'
-            }
-          ]
+        searchResponseStore: {
+          ...searchResponseStoreDefaults,
+          data: {
+            matching_results: 1,
+            results: [
+              {
+                document_id: 'some document_id'
+              }
+            ]
+          }
         }
       };
       test('renders the results', () => {
@@ -26,9 +33,12 @@ describe('<SearchResults />', () => {
 
     describe('which is equal to 0', () => {
       const context: Partial<SearchContextIFC> = {
-        searchResponse: {
-          matching_results: 0,
-          results: []
+        searchResponseStore: {
+          ...searchResponseStoreDefaults,
+          data: {
+            matching_results: 0,
+            results: []
+          }
         }
       };
       test('renders the no results found message', () => {
@@ -39,7 +49,7 @@ describe('<SearchResults />', () => {
       describe('and we have a spelling suggestion', () => {
         beforeEach(() => {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          context.searchResponse!.suggested_query = 'suggested';
+          context.searchResponseStore!.data!.suggested_query = 'suggested';
         });
         test('renders the spelling suggestion', () => {
           const { getByText } = render(wrapWithContext(<SearchResults />, {}, context));
@@ -55,7 +65,7 @@ describe('<SearchResults />', () => {
 
   describe('When we do not have results', () => {
     const context: Partial<SearchContextIFC> = {
-      searchResponse: null
+      searchResponseStore: { ...searchResponseStoreDefaults, data: null }
     };
     // TODO: include when we have loading states in our repo
     // describe('And we are in the middle of fetching query_results', () => {
@@ -110,21 +120,24 @@ describe('<SearchResults />', () => {
           }
         }
       },
-      searchResponse: {
-        matching_results: 1,
-        results: [
-          {
-            document_id: 'document_id',
-            titleField: 'this title comes from the titleField',
-            document_passages: [
-              {
-                passage_text: 'this is the first passage text'
-              }
-            ],
-            overwrittenTitleField: 'this title comes from the overwritten title field',
-            overwrittenBodyField: 'this body text comes from the overwritten body field'
-          }
-        ]
+      searchResponseStore: {
+        ...searchResponseStoreDefaults,
+        data: {
+          matching_results: 1,
+          results: [
+            {
+              document_id: 'document_id',
+              titleField: 'this title comes from the titleField',
+              document_passages: [
+                {
+                  passage_text: 'this is the first passage text'
+                }
+              ],
+              overwrittenTitleField: 'this title comes from the overwritten title field',
+              overwrittenBodyField: 'this body text comes from the overwritten body field'
+            }
+          ]
+        }
       }
     };
     const api: Partial<SearchApiIFC> = {};

@@ -15,7 +15,9 @@ interface SpellingSuggestionProps {
 export const SpellingSuggestion: FC<SpellingSuggestionProps> = ({ spellingSuggestionPrefix }) => {
   const spellingSuggestionClassName = `${settings.prefix}--spelling-suggestion`;
   const spellingSuggestionWrapperClassName = `${settings.prefix}--spelling-suggestion__wrapper`;
-  const { searchParameters, searchResponse } = useContext(SearchContext);
+  const {
+    searchResponseStore: { parameters: searchParameters, data: searchResponse }
+  } = useContext(SearchContext);
   const { performSearch } = useContext(SearchApi);
   const suggestedQuery = searchResponse && searchResponse.suggested_query;
 

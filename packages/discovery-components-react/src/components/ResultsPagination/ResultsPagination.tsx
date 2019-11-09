@@ -36,8 +36,7 @@ export const ResultsPagination: FC<ResultsPaginationProps> = ({
 }) => {
   const { performSearch } = useContext(SearchApi);
   const {
-    searchParameters,
-    searchResponse,
+    searchResponseStore: { data: searchResponse, parameters: searchParameters },
     componentSettings,
     isResultsPaginationComponentHidden
   } = useContext(SearchContext);

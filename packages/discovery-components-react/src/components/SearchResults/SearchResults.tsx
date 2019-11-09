@@ -83,7 +83,11 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   spellingSuggestionsPrefix = 'Did you mean:',
   noResultsFoundText = 'There were no results found'
 }) => {
-  const { searchResponse, collectionsResults, componentSettings } = React.useContext(SearchContext);
+  const {
+    searchResponseStore: { data: searchResponse },
+    collectionsResults,
+    componentSettings
+  } = React.useContext(SearchContext);
   const [showTablesOnlyResults, setShowTablesOnlyResults] = React.useState(false);
 
   const displaySettings = getDisplaySettings(

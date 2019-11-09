@@ -45,9 +45,11 @@ export const SearchFacets: FC<SearchFacetsProps> = ({
 }) => {
   const {
     aggregationResults,
-    searchParameters,
-    searchParameters: { filter },
-    searchResponse,
+    searchResponseStore: {
+      parameters: searchParameters,
+      parameters: { filter },
+      data: searchResponse
+    },
     collectionsResults,
     componentSettings
   } = useContext(SearchContext);

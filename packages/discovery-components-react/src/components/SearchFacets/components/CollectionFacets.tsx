@@ -23,8 +23,10 @@ export const CollectionFacets: FC<CollectionFacetsProps> = ({ messages }) => {
   const idPrefix = 'collection-facet-';
   const {
     collectionsResults,
-    searchParameters,
-    searchParameters: { collectionIds }
+    searchResponseStore: {
+      parameters: searchParameters,
+      parameters: { collectionIds }
+    }
   } = useContext(SearchContext);
   const { performSearch } = useContext(SearchApi);
   const collections: Collection[] = get(collectionsResults, 'collections', []);

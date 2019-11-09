@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { render, fireEvent, RenderResult } from '@testing-library/react';
 import { wrapWithContext } from '../../../../utils/testingUtils';
-import { SearchContextIFC, SearchApiIFC } from '../../../DiscoverySearch/DiscoverySearch';
+import {
+  SearchContextIFC,
+  SearchApiIFC,
+  searchResponseStoreDefaults
+} from '../../../DiscoverySearch/DiscoverySearch';
 import { SearchFacets } from '../../SearchFacets';
 import { weirdFacetsQueryResponse } from '../../__fixtures__/facetsQueryResponse';
 
@@ -26,13 +30,16 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
   const performSearchMock = jest.fn();
   const context: Partial<SearchContextIFC> = {
     aggregationResults: weirdFacetsQueryResponse.result.aggregations,
-    searchResponse: {
-      suggested_refinements: weirdFacetsQueryResponse.result.suggested_refinements
-    },
-    searchParameters: {
-      projectId: '',
-      aggregation: '[term(author,count:3),term(subject,count:4)]',
-      filter: mergedSetupConfig.filter
+    searchResponseStore: {
+      ...searchResponseStoreDefaults,
+      parameters: {
+        projectId: '',
+        aggregation: '[term(author,count:3),term(subject,count:4)]',
+        filter: mergedSetupConfig.filter
+      },
+      data: {
+        suggested_refinements: weirdFacetsQueryResponse.result.suggested_refinements
+      }
     }
   };
   const api: Partial<SearchApiIFC> = {

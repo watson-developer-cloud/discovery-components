@@ -1,7 +1,11 @@
 import React from 'react';
 import { render, fireEvent, RenderResult } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { SearchContextIFC, SearchApiIFC } from '../../../../DiscoverySearch/DiscoverySearch';
+import {
+  SearchContextIFC,
+  SearchApiIFC,
+  searchResponseStoreDefaults
+} from '../../../../DiscoverySearch/DiscoverySearch';
 import { wrapWithContext } from '../../../../../utils/testingUtils';
 import { SpellingSuggestion } from '../SpellingSuggestion';
 
@@ -13,8 +17,11 @@ describe('SpellingSuggestion', () => {
     const fetchAutocompletionsMock = jest.fn();
 
     const context: Partial<SearchContextIFC> = {
-      searchResponse: {
-        suggested_query: 'cunningham'
+      searchResponseStore: {
+        ...searchResponseStoreDefaults,
+        data: {
+          suggested_query: 'cunningham'
+        }
       }
     };
     const api: Partial<SearchApiIFC> = {

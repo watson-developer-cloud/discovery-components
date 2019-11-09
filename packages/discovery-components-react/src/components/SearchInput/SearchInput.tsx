@@ -92,7 +92,11 @@ export const SearchInput: FC<SearchInputProps> = props => {
 
   const inputId = id || `search-input__${uuid.v4()}`;
   const autocompletionClassName = `${settings.prefix}--search-autocompletion`;
-  const { searchParameters, autocompletionResults, componentSettings } = useContext(SearchContext);
+  const {
+    searchResponseStore: { parameters: searchParameters },
+    autocompletionResults,
+    componentSettings
+  } = useContext(SearchContext);
   const displaySettings = {
     showAutocomplete:
       showAutocomplete === undefined

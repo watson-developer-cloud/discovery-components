@@ -2,7 +2,11 @@ import * as React from 'react';
 import { render, fireEvent, RenderResult } from '@testing-library/react';
 import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import { wrapWithContext } from '../../../../utils/testingUtils';
-import { SearchContextIFC, SearchApiIFC } from '../../../DiscoverySearch/DiscoverySearch';
+import {
+  SearchContextIFC,
+  SearchApiIFC,
+  searchResponseStoreDefaults
+} from '../../../DiscoverySearch/DiscoverySearch';
 import { SearchFacets } from '../../SearchFacets';
 import { weirdFacetsQueryResponse } from '../../__fixtures__/facetsQueryResponse';
 
@@ -52,9 +56,12 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
   const performSearchMock = jest.fn();
   const context: Partial<SearchContextIFC> = {
     aggregationResults: weirdFacetsQueryResponse.result.aggregations,
-    searchParameters: {
-      projectId: '',
-      filter: mergedSetupConfig.filter
+    searchResponseStore: {
+      ...searchResponseStoreDefaults,
+      parameters: {
+        projectId: '',
+        filter: mergedSetupConfig.filter
+      }
     },
     componentSettings: {
       aggregations: mergedSetupConfig.componentSettingsAggregations

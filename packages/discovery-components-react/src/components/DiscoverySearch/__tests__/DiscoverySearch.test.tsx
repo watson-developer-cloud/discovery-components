@@ -48,7 +48,7 @@ describe('DiscoverySearch', () => {
     it('can override searchResponse', () => {
       const tree = (
         <SearchContext.Consumer>
-          {({ searchResponse }) => (
+          {({ searchResponseStore: { data: searchResponse } }) => (
             <span data-testid="value">{searchResponse && searchResponse.matching_results}</span>
           )}
         </SearchContext.Consumer>
@@ -65,8 +65,8 @@ describe('DiscoverySearch', () => {
     it('can override searchParameters', () => {
       const tree = (
         <SearchContext.Consumer>
-          {({ searchParameters }) => (
-            <span data-testid="value">{searchParameters.naturalLanguageQuery}</span>
+          {({ searchResponseStore: { parameters } }) => (
+            <span data-testid="value">{parameters.naturalLanguageQuery}</span>
           )}
         </SearchContext.Consumer>
       );
@@ -76,7 +76,9 @@ describe('DiscoverySearch', () => {
       } = setup({ overrideQueryParameters: { naturalLanguageQuery: 'foo' } }, tree);
       expect(getByTestId('value').textContent).toEqual('foo');
       rerender(
-        cloneElement(fullTree, { overrideQueryParameters: { naturalLanguageQuery: 'bar' } })
+        cloneElement(fullTree, {
+          overrideQueryParameters: { naturalLanguageQuery: 'bar', count: 1 }
+        })
       );
       expect(getByTestId('value').textContent).toEqual('bar');
     });

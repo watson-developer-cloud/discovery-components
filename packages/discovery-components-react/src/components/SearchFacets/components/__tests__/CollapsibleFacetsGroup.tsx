@@ -2,7 +2,11 @@ import * as React from 'react';
 import { render, RenderResult, fireEvent } from '@testing-library/react';
 import { wrapWithContext } from '../../../../utils/testingUtils';
 import { SearchFacets } from '../../SearchFacets';
-import { SearchContextIFC, SearchApiIFC } from '../../../DiscoverySearch/DiscoverySearch';
+import {
+  SearchContextIFC,
+  SearchApiIFC,
+  searchResponseStoreDefaults
+} from '../../../DiscoverySearch/DiscoverySearch';
 import { facetsQueryResponse } from '../../__fixtures__/facetsQueryResponse';
 import '@testing-library/jest-dom/extend-expect';
 
@@ -31,10 +35,13 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
   const performSearchMock = jest.fn();
   const context: Partial<SearchContextIFC> = {
     aggregationResults: facetsQueryResponse.result.aggregations,
-    searchParameters: {
-      projectId: '',
-      filter: mergedSetupConfig.filter,
-      aggregation: '[term(author,count:3),term(subject,count:4)]'
+    searchResponseStore: {
+      ...searchResponseStoreDefaults,
+      parameters: {
+        projectId: '',
+        filter: mergedSetupConfig.filter,
+        aggregation: '[term(author,count:3),term(subject,count:4)]'
+      }
     }
   };
   const api: Partial<SearchApiIFC> = {

@@ -1,5 +1,9 @@
 import * as React from 'react';
-import { SearchApiIFC, SearchContextIFC } from '../../DiscoverySearch/DiscoverySearch';
+import {
+  SearchApiIFC,
+  SearchContextIFC,
+  searchResponseStoreDefaults
+} from '../../DiscoverySearch/DiscoverySearch';
 import { render, fireEvent, RenderResult } from '@testing-library/react';
 import { ResultsPagination } from '../ResultsPagination';
 import { wrapWithContext } from '../../../utils/testingUtils';
@@ -16,8 +20,11 @@ interface Setup extends RenderResult {
 const setup = (propUpdates: any = {}, contextOverrides?: Partial<SearchContextIFC>): Setup => {
   const context: Partial<SearchContextIFC> = {
     ...contextOverrides,
-    searchResponse: {
-      matching_results: 55
+    searchResponseStore: {
+      ...searchResponseStoreDefaults,
+      data: {
+        matching_results: 55
+      }
     }
   };
 
@@ -82,7 +89,13 @@ describe('ResultsPaginationComponent', () => {
       test('will render the component settings', () => {
         const { performSearchMock, pageNumberSelect } = setup(
           {},
-          { componentSettings: { results_per_page: 30 }, searchResponse: { matching_results: 180 } }
+          {
+            componentSettings: { results_per_page: 30 },
+            searchResponseStore: {
+              ...searchResponseStoreDefaults,
+              data: { matching_results: 180 }
+            }
+          }
         );
         fireEvent.change(pageNumberSelect, { target: { value: 2 } });
         expect(performSearchMock).toBeCalledWith(

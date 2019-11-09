@@ -18,10 +18,15 @@ const setup = (collectionIds?: string[]): Setup => {
   };
   const context: Partial<SearchContextIFC> = {
     collectionsResults: collectionsResponse.result,
-    searchParameters: {
-      projectId: '',
-      collectionIds,
-      aggregation: '[term(author,count:3),term(subject,count:4)]'
+    searchResponseStore: {
+      parameters: {
+        projectId: '',
+        collectionIds,
+        aggregation: '[term(author,count:3),term(subject,count:4)]'
+      },
+      data: null,
+      isLoading: false,
+      isError: false
     }
   };
   const collectionFacetsComponent = render(

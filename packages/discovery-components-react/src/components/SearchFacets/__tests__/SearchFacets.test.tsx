@@ -3,7 +3,11 @@ import { render, RenderResult, fireEvent } from '@testing-library/react';
 import { QueryTermAggregation } from '@disco-widgets/ibm-watson/discovery/v2';
 import { wrapWithContext } from '../../../utils/testingUtils';
 import { SearchFacets } from '../SearchFacets';
-import { SearchContextIFC, SearchApiIFC } from '../../DiscoverySearch/DiscoverySearch';
+import {
+  SearchContextIFC,
+  SearchApiIFC,
+  searchResponseStoreDefaults
+} from '../../DiscoverySearch/DiscoverySearch';
 import { facetsQueryResponse } from '../__fixtures__/facetsQueryResponse';
 import collectionsResponse from '../__fixtures__/collectionsResponse';
 import { noAvailableFacetsMessage } from '../utils/searchFacetMessages';
@@ -30,10 +34,13 @@ const setup = (
   const context: Partial<SearchContextIFC> = {
     aggregationResults: aggregations,
     collectionsResults: collectionsResponse.result,
-    searchParameters: {
-      projectId: '',
-      filter: filter,
-      aggregation: '[term(author,count:3),term(subject,count:4)]'
+    searchResponseStore: {
+      ...searchResponseStoreDefaults,
+      parameters: {
+        projectId: '',
+        filter,
+        aggregation: '[term(author,count:3),term(subject,count:4)]'
+      }
     },
     componentSettings: {
       aggregations: componentSettingsAggregations
@@ -207,9 +214,12 @@ describe('SearchFacetsComponent', () => {
             {},
             {
               aggregationResults: [termAgg],
-              searchParameters: {
-                projectId: '',
-                filter: 'one:"two"'
+              searchResponseStore: {
+                ...searchResponseStoreDefaults,
+                parameters: {
+                  projectId: '',
+                  filter: 'one:"two"'
+                }
               }
             }
           )
@@ -230,9 +240,12 @@ describe('SearchFacetsComponent', () => {
             {},
             {
               aggregationResults: [termAgg],
-              searchParameters: {
-                projectId: '',
-                filter: 'one:"two"'
+              searchResponseStore: {
+                ...searchResponseStoreDefaults,
+                parameters: {
+                  projectId: '',
+                  filter: 'one:"two"'
+                }
               }
             }
           )

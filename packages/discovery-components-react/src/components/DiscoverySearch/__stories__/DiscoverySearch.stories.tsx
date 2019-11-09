@@ -16,7 +16,9 @@ import {
 import { DummySearchClient } from '../../../utils/storybookUtils';
 
 const MyComponent: FC<{}> = () => {
-  const { searchParameters } = useContext(SearchContext);
+  const {
+    searchResponseStore: { parameters: searchParameters }
+  } = useContext(SearchContext);
   const { performSearch } = useContext(SearchApi);
 
   return <button onClick={() => performSearch(searchParameters)}>Perform Search</button>;
@@ -83,7 +85,7 @@ storiesOf('DiscoverySearch', module)
           <SearchApi.Consumer>
             {({ performSearch }): React.ReactNode => (
               <SearchContext.Consumer>
-                {({ searchParameters }): React.ReactNode => (
+                {({ searchResponseStore: { parameters: searchParameters } }): React.ReactNode => (
                   <button onClick={() => performSearch(searchParameters)}>Perform Search</button>
                 )}
               </SearchContext.Consumer>

@@ -5,6 +5,8 @@ import {
   useDeepCompareCallback,
   useDeepCompareMemo
 } from '../../utils/useDeepCompareMemoize';
+import { useSearchResultsApi, SearchResponseStore } from '../../utils/useDataApi';
+import { SearchClient } from './types';
 
 export type SearchParams = Omit<DiscoveryV2.QueryParams, 'projectId' | 'headers'>;
 
@@ -12,10 +14,7 @@ export interface DiscoverySearchProps {
   /**
    * Search client
    */
-  searchClient: Pick<
-    DiscoveryV2,
-    'query' | 'getAutocompletion' | 'listCollections' | 'getComponentSettings'
-  >;
+  searchClient: SearchClient;
   /**
    * Project ID
    */
@@ -83,8 +82,7 @@ export const emptySelectedResult = {
 
 export interface SearchContextIFC {
   aggregationResults: DiscoveryV2.QueryAggregation[] | null;
-  searchResponse: DiscoveryV2.QueryResponse | null;
-  searchParameters: DiscoveryV2.QueryParams;
+  searchResponseStore: SearchResponseStore;
   collectionsResults: DiscoveryV2.ListCollectionsResponse | null;
   selectedResult: SelectedResult;
   autocompletionResults: DiscoveryV2.Completions | null;
@@ -93,10 +91,7 @@ export interface SearchContextIFC {
 }
 
 export interface SearchApiIFC {
-  performSearch: (
-    searchParameters: DiscoveryV2.QueryParams,
-    resetAggregations?: boolean
-  ) => Promise<void>;
+  performSearch: (searchParameters: DiscoveryV2.QueryParams, resetAggregations?: boolean) => void;
   fetchAutocompletions: (nlq: string) => Promise<void>;
   fetchAggregations: (searchParameters: DiscoveryV2.QueryParams) => Promise<void>;
   setSelectedResult: (result: SelectedResult) => void;
@@ -122,12 +117,18 @@ export const searchApiDefaults = {
   setIsResultsPaginationComponentHidden: (): void => {}
 };
 
-export const searchContextDefaults = {
-  aggregationResults: null,
-  searchResponse: null,
-  searchParameters: {
+export const searchResponseStoreDefaults: SearchResponseStore = {
+  parameters: {
     projectId: ''
   },
+  data: null,
+  isLoading: false,
+  isError: false
+};
+
+export const searchContextDefaults = {
+  aggregationResults: null,
+  searchResponseStore: searchResponseStoreDefaults,
   selectedResult: emptySelectedResult,
   autocompletionResults: null,
   collectionsResults: null,
@@ -150,9 +151,6 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
   overrideComponentSettings = null,
   children
 }) => {
-  const [searchResponse, setSearchResponse] = useState<DiscoveryV2.QueryResponse | null>(
-    overrideSearchResults
-  );
   const [aggregationResults, setAggregationResults] = useState<
     DiscoveryV2.QueryAggregation[] | null
   >(overrideAggregationResults);
@@ -160,10 +158,6 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
     collectionsResults,
     setCollectionsResults
   ] = useState<DiscoveryV2.ListCollectionsResponse | null>(overrideCollectionsResults);
-  const [searchParameters, setSearchParameters] = useState<DiscoveryV2.QueryParams>({
-    projectId,
-    ...overrideQueryParameters
-  });
   const [
     autocompletionResults,
     setAutocompletionResults
@@ -178,6 +172,30 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
     boolean
   >();
 
+  const [
+    searchResponseStore,
+    { setSearchParameters, setSearchResponse, performSearch }
+  ] = useSearchResultsApi(
+    { projectId, ...overrideQueryParameters },
+    overrideSearchResults,
+    searchClient
+  );
+  const handleSearch = useCallback(
+    (searchParameters, resetAggregations = true): void => {
+      setSearchParameters(searchParameters);
+      performSearch((result: DiscoveryV2.QueryResponse) => {
+        if (resetAggregations && result && result.aggregations) {
+          setAggregationResults(result.aggregations);
+        }
+      });
+    },
+    [performSearch, setSearchParameters]
+  );
+
+  useDeepCompareEffect(() => {
+    setSearchResponse(overrideSearchResults);
+  }, [overrideSearchResults]);
+
   useDeepCompareEffect(() => {
     setSearchParameters(currentSearchParameters => {
       return {
@@ -187,10 +205,6 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
       };
     });
   }, [projectId, overrideQueryParameters]);
-
-  useDeepCompareEffect(() => {
-    setSearchResponse(overrideSearchResults);
-  }, [overrideSearchResults]);
 
   useDeepCompareEffect(() => {
     setAggregationResults(overrideAggregationResults);
@@ -273,20 +287,7 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
         setAggregationResults(aggregations || null);
       }
     },
-    [searchClient]
-  );
-
-  const handleSearch = useCallback(
-    async (searchParameters, resetAggregations = true): Promise<void> => {
-      setSearchParameters(searchParameters);
-      const { result } = await searchClient.query(searchParameters);
-      setSearchResponse(result);
-      if (result && resetAggregations) {
-        const { aggregations } = result;
-        setAggregationResults(aggregations || null);
-      }
-    },
-    [searchClient]
+    [searchClient, setSearchParameters]
   );
 
   const handleSetSelectedResult = (overrideSelectedResult: SelectedResult) => {
@@ -312,14 +313,13 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
       setSearchParameters,
       setIsResultsPaginationComponentHidden
     };
-  }, [handleFetchAggregations, handleFetchAutocompletions, handleSearch]);
+  }, [handleFetchAggregations, handleFetchAutocompletions, handleSearch, setSearchParameters]);
 
   const state = useDeepCompareMemo(() => {
     return {
       aggregationResults,
       autocompletionResults,
-      searchParameters,
-      searchResponse,
+      searchResponseStore,
       selectedResult,
       collectionsResults,
       componentSettings,
@@ -330,8 +330,7 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
     aggregationResults,
     collectionsResults,
     autocompletionResults,
-    searchParameters,
-    searchResponse,
+    searchResponseStore,
     selectedResult,
     componentSettings,
     isResultsPaginationComponentHidden
