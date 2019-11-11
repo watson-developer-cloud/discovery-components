@@ -206,6 +206,20 @@ describe('<SearchInput />', () => {
         input = getByPlaceholderText(container, PLACE_HOLDER_TEXT) as HTMLInputElement;
       });
 
+      describe('when we type "som" into the input', () => {
+        let completionsDropdown: HTMLElement;
+        beforeEach(() => {
+          fireEvent.focus(input);
+          fireEvent.change(input, { target: { value: 'som' } });
+          completionsDropdown = getByTestId(container, 'completions-dropdown-test-id');
+        });
+
+        test('limits the list of completions', () => {
+          const completions = findCompletionWrappers(completionsDropdown, 'som');
+          expect(completions.length).toBe(3);
+        });
+      });
+
       describe('when we type "so" into the input', () => {
         let completionsDropdown: HTMLElement;
         beforeEach(() => {

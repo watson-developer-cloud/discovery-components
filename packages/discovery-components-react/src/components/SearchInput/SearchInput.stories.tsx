@@ -30,14 +30,13 @@ const props = () => ({
   )
 });
 
-let currentValue = ''; // used for autocomplete suggestions
 let autocompletions: string[] = [];
 
 const generateCompletionsArray = (length: number) => {
   const completionsArray = [];
   for (let i = 0; i < length; i++) {
     const defaultText = `autocomplete-suggestion-${i + 1}`;
-    completionsArray.push(currentValue + defaultText.slice(currentValue.length));
+    completionsArray.push(defaultText);
   }
   return completionsArray;
 };
@@ -47,7 +46,6 @@ class DummySearchClientWithAutocomplete extends DummySearchClient {
     params: DiscoveryV2.GetAutocompletionParams
   ): Promise<DiscoveryV2.Response<DiscoveryV2.Completions>> {
     action('getAutocompletion')(params);
-    currentValue = params.prefix || '';
     autocompletions = generateCompletionsArray(props().completionsCount || 0);
     return createDummyResponsePromise({ completions: autocompletions });
   }

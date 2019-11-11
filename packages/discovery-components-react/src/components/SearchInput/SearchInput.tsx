@@ -240,28 +240,31 @@ export const SearchInput: FC<SearchInputProps> = props => {
     lastWordOfValue !== '' && displaySettings.showAutocomplete && focused;
   const autocompletionsList = completions.map((completion, i) => {
     const valueWithoutLastWord = value.slice(0, value.length - (lastWordOfValue as string).length);
-    const suffix = completion.slice((lastWordOfValue as string).length);
-    return (
-      <ListBox key={`autocompletion_${i}`} className={`${autocompletionClassName}__wrapper`}>
-        <ListBox.Field
-          role="listitem"
-          id={`autocompletion_${i}_field`}
-          tabIndex="0"
-          className={`${autocompletionClassName}__item`}
-          onClick={setupHandleAutocompletionOnClick(i)}
-          onKeyUp={setupHandleAutocompletionKeyUp(i)}
-        >
-          <div className={`${autocompletionClassName}__icon`}>
-            <Search16 />
-          </div>
-          <div className={`${autocompletionClassName}__term`}>
-            {valueWithoutLastWord}
-            <strong>{lastWordOfValue}</strong>
-            {suffix}
-          </div>
-        </ListBox.Field>
-      </ListBox>
-    );
+    if (completion.startsWith(lastWordOfValue as string)) {
+      const suffix = completion.slice((lastWordOfValue as string).length);
+      return (
+        <ListBox key={`autocompletion_${i}`} className={`${autocompletionClassName}__wrapper`}>
+          <ListBox.Field
+            role="listitem"
+            id={`autocompletion_${i}_field`}
+            tabIndex="0"
+            className={`${autocompletionClassName}__item`}
+            onClick={setupHandleAutocompletionOnClick(i)}
+            onKeyUp={setupHandleAutocompletionKeyUp(i)}
+          >
+            <div className={`${autocompletionClassName}__icon`}>
+              <Search16 />
+            </div>
+            <div className={`${autocompletionClassName}__term`}>
+              {valueWithoutLastWord}
+              <strong>{lastWordOfValue}</strong>
+              {suffix}
+            </div>
+          </ListBox.Field>
+        </ListBox>
+      );
+    }
+    return null;
   });
 
   return (
