@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.31.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/styles@1.30.6...@disco-widgets/styles@1.31.0) (2019-11-11)
+
+
+### Features
+
+* color theme, update CIDocument/DocPrev highlight colors ([#368](https://github.com/watson-developer-cloud/discovery-components/issues/368)) ([d86b089](https://github.com/watson-developer-cloud/discovery-components/commit/d86b089))
+
+
+
+
+
 ## [1.30.6](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/styles@1.30.5...@disco-widgets/styles@1.30.6) (2019-11-08)
 
 **Note:** Version bump only for package @disco-widgets/styles
