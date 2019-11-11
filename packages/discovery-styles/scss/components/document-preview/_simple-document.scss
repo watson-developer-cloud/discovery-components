@@ -1,11 +1,13 @@
+@import '../../vars';
+
 .#{$prefix}--simple-document {
   display: flex;
   justify-content: center;
 
   .field--rect {
     position: absolute;
-    background-color: yellow;
-    opacity: 0.25;
+    background-color: $disco-highlight-background-with-opacity;
+    opacity: $disco-highlight-background-opacity;
   }
 }
 

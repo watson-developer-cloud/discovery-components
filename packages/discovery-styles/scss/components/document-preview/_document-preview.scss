@@ -1,3 +1,4 @@
+@import '../../vars';
 @import '~carbon-components/scss/components/skeleton/skeleton';
 
 .#{$prefix}--document-preview {
@@ -37,8 +38,8 @@
 }
 
 .#{$prefix}--document-preview__highlight {
-  fill: yellow;
-  fill-opacity: 0.25;
+  fill: $disco-highlight-background-with-opacity;
+  fill-opacity: $disco-highlight-background-opacity;
 }
 
 .#{$prefix}--document-preview__error {

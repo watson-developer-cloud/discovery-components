@@ -38,6 +38,7 @@ import { EnrichedHtml, Contract } from '../../types';
 import { MetadataData, Address, Mention } from '../MetadataPane/types';
 import { Items } from '../DetailsPane/types';
 import { Item, Field } from '../../types';
+import { defaultTheme, Theme } from '../../../../utils/theme';
 import {
   defaultMessages as detailsPaneDefaultMsgs,
   Messages as DetailsPaneMessages
@@ -129,6 +130,10 @@ export interface CIDocumentProps extends WithErrorBoundaryProps {
    */
   messages?: Messages;
   /**
+   * Color theme, for select areas which cannot be specified in CSS
+   */
+  theme?: Theme;
+  /**
    * Override autosizing of document content with specified width. Useful for testing.
    */
   overrideDocWidth?: number;
@@ -141,6 +146,7 @@ export interface CIDocumentProps extends WithErrorBoundaryProps {
 const CIDocument: FC<CIDocumentProps> = ({
   document,
   messages = defaultMessages,
+  theme = defaultTheme,
   overrideDocWidth,
   overrideDocHeight,
   didCatch
@@ -411,6 +417,7 @@ const CIDocument: FC<CIDocumentProps> = ({
                 elementList: itemList
               })}
               activeMetadataIds={activeMetadataIds}
+              theme={theme}
               width={overrideDocWidth}
               height={overrideDocHeight}
               {...nonContractProps}

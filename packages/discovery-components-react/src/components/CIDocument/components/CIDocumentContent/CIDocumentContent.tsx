@@ -9,15 +9,10 @@ import { settings } from 'carbon-components';
 import { SkeletonText } from 'carbon-components-react';
 import Section, { OnFieldClickFn } from '../Section/Section';
 import VirtualScroll from '../VirtualScroll/VirtualScroll';
+import { defaultTheme, Theme } from '../../../../utils/theme';
 import { SectionType, ItemMap } from '../../types';
 
 const baseClassName = `${settings.prefix}--ci-doc-content`;
-
-const highlightedColor = '#deedf7'; //$cerulean_01;
-const activeColor = '#afcdef';
-const activePartColor = '#eb9500';
-const clickableItemColor = '#bebebe'; //$gray_30;
-const activeMetadataColor = '#eb9500';
 
 export interface CIDocumentContentProps {
   className?: string;
@@ -31,6 +26,7 @@ export interface CIDocumentContentProps {
   activeMetadataIds?: string[];
   width?: number;
   height?: number;
+  theme?: Theme;
   onItemClick?: OnFieldClickFn;
 }
 
@@ -46,6 +42,7 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
   itemMap,
   width,
   height,
+  theme = defaultTheme,
   onItemClick = (): void => {}
 }) => {
   const virtualScrollRef = useRef<any>();
@@ -71,7 +68,7 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
           {highlightedIds.length > 0 && (
             <style>
               {createStyleRules(highlightedIds, [
-                backgroundColorRule(highlightedColor),
+                backgroundColorRule(theme.highlightBackground),
                 // Set z-index to -1 in order to push non-active fields back
                 zIndexRule(-1)
               ])}
@@ -81,19 +78,30 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
             <>
               <style>
                 {/*Set z-index to 0 to pull active element in front of overlapping fields */}
-                {createStyleRules(activeIds, [backgroundColorRule(activeColor), zIndexRule(0)])}
+                {createStyleRules(activeIds, [
+                  backgroundColorRule(theme.activeHighlightBackground),
+                  zIndexRule(0)
+                ])}
               </style>
             </>
           )}
           {activePartIds.length > 0 && (
-            <style>{createStyleRules(activePartIds, [backgroundColorRule(activePartColor)])}</style>
+            <style>
+              {createStyleRules(activePartIds, [
+                backgroundColorRule(theme.highlightWithinActiveHighlightBackground)
+              ])}
+            </style>
           )}
           {selectableIds && selectableIds.length > 0 && (
-            <style>{createStyleRules(selectableIds, [underlineRule(clickableItemColor)])}</style>
+            <style>
+              {createStyleRules(selectableIds, [underlineRule(theme.textHoverBackground)])}
+            </style>
           )}
           {activeMetadataIds.length > 0 && (
             <style>
-              {createStyleRules(activeMetadataIds, [backgroundColorRule(activeMetadataColor)])}
+              {createStyleRules(activeMetadataIds, [
+                backgroundColorRule(theme.highlightWithinActiveHighlightBackground)
+              ])}
             </style>
           )}
           {sections.length > 0 && (
