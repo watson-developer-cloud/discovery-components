@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.24.29](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-search-app@1.24.28...discovery-search-app@1.24.29) (2019-11-12)
+
+**Note:** Version bump only for package discovery-search-app
+
+
+
+
+
 ## [1.24.28](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-search-app@1.24.27...discovery-search-app@1.24.28) (2019-11-12)
 
 **Note:** Version bump only for package discovery-search-app
