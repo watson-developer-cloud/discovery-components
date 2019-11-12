@@ -1,11 +1,18 @@
 import * as React from 'react';
-import { settings } from 'carbon-components';
+import { SkeletonText } from 'carbon-components-react';
 import { SearchApi, SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import { TablesOnlyToggle } from './components/TablesOnlyToggle/TablesOnlyToggle';
 import { Result } from './components/Result/Result';
 import { SpellingSuggestion } from './components/SpellingSuggestion/SpellingSuggestion';
 import { findCollectionName, getDisplaySettings } from './utils';
+import {
+  baseClass,
+  searchResultClass,
+  searchResultLoadingClass,
+  searchResultsHeaderClass,
+  searchResultsListClass
+} from './cssClasses';
 
 export interface SearchResultsProps {
   /**
@@ -83,8 +90,9 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   spellingSuggestionsPrefix = 'Did you mean:',
   noResultsFoundText = 'There were no results found'
 }) => {
+  const DEFAULT_LOADING_COUNT = 3;
   const {
-    searchResponseStore: { data: searchResponse },
+    searchResponseStore: { data: searchResponse, isLoading, parameters },
     collectionsResults,
     componentSettings
   } = React.useContext(SearchContext);
@@ -99,10 +107,7 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   const matchingResults = (searchResponse && searchResponse.matching_results) || 0;
   const results = (searchResponse && searchResponse.results) || [];
   const tableResults = (searchResponse && searchResponse.table_results) || [];
-  const baseClass = `${settings.prefix}--search-results`;
-  const searchResultsListClass = `${baseClass}__list`;
-  const searchResultsListEmptyClass = `${searchResultsListClass}--empty`;
-  const searchResultsHeaderClass = `${baseClass}__header`;
+  const searchResultLoadingClasses = [searchResultClass, searchResultLoadingClass];
   const emptySearch = searchResponse ? noResultsFoundText : '';
 
   React.useEffect(() => {
@@ -130,7 +135,19 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
           tablesOnlyToggleLabelText={tablesOnlyToggleLabelText}
         />
       </div>
-      {matchingResults && matchingResults > 0 ? (
+      {isLoading ? (
+        [...new Array(Math.min(parameters.count || DEFAULT_LOADING_COUNT))].map((_, i) => {
+          return (
+            <div
+              className={searchResultLoadingClasses.join(' ')}
+              data-testid="skeleton_text"
+              key={`skeleton_${i}`}
+            >
+              <SkeletonText paragraph width={'85%'} />
+            </div>
+          );
+        })
+      ) : matchingResults && matchingResults > 0 ? (
         <div className={searchResultsListClass}>
           {showTablesOnlyResults
             ? (tableResults as DiscoveryV2.QueryTableResult[]).map(table => {
@@ -179,7 +196,7 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
               })}
         </div>
       ) : (
-        emptySearch && <div className={searchResultsListEmptyClass}>{emptySearch}</div>
+        emptySearch && <div className={searchResultClass}>{emptySearch}</div>
       )}
     </div>
   );

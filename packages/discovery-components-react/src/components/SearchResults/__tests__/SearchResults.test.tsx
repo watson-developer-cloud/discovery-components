@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
@@ -48,7 +49,6 @@ describe('<SearchResults />', () => {
 
       describe('and we have a spelling suggestion', () => {
         beforeEach(() => {
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           context.searchResponseStore!.data!.suggested_query = 'suggested';
         });
         test('renders the spelling suggestion', () => {
@@ -67,11 +67,34 @@ describe('<SearchResults />', () => {
     const context: Partial<SearchContextIFC> = {
       searchResponseStore: { ...searchResponseStoreDefaults, data: null }
     };
-    // TODO: include when we have loading states in our repo
-    // describe('And we are in the middle of fetching query_results', () => {
-    //   test('renders the loading spinner', () => {});
-    // });
+
+    describe('and results are loading', () => {
+      beforeEach(() => {
+        context.searchResponseStore!.isLoading = true;
+      });
+
+      test('renders the skeleton text', () => {
+        const { getAllByTestId } = render(wrapWithContext(<SearchResults />, {}, context));
+        expect(getAllByTestId('skeleton_text')).toHaveLength(3);
+      });
+
+      describe('and count has been set lower than 5', () => {
+        beforeEach(() => {
+          context.searchResponseStore!.parameters!.count = 2;
+        });
+
+        test('renders fewer skeleton text', () => {
+          const { getAllByTestId } = render(wrapWithContext(<SearchResults />, {}, context));
+          expect(getAllByTestId('skeleton_text')).toHaveLength(2);
+        });
+      });
+    });
+
     describe('And we are not in the middle of fetching query_results', () => {
+      beforeEach(() => {
+        context.searchResponseStore!.isLoading = false;
+      });
+
       test('renders only the header', () => {
         const { getAllByTestId } = render(wrapWithContext(<SearchResults />, {}, context));
         expect(getAllByTestId('search_results_header')).toHaveLength(1);

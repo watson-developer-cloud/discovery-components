@@ -2,10 +2,19 @@ import React, { useContext } from 'react';
 import get from 'lodash/get';
 import isEqual from 'lodash.isequal';
 import mustache from 'mustache';
-import { settings } from 'carbon-components';
 import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import { SearchApi, SearchContext, SelectedResult } from '../../../DiscoverySearch/DiscoverySearch';
 import { ResultElement } from '../ResultElement/ResultElement';
+import {
+  searchResultClass,
+  searchResultSelectedClass,
+  searchResultCurationClass,
+  searchResultContentWrapperClass,
+  searchResultContentWrapperHalfClass,
+  searchResultFooterClass,
+  searchResultFooterTitleClass,
+  searchResultFooterCollectionNameClass
+} from '../../cssClasses';
 
 export interface ResultProps {
   /**
@@ -102,25 +111,21 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   const title = get(result, resultTitleField);
   const filename: string | undefined = get(result, 'extracted_metadata.filename');
 
-  const baseClassName = `${settings.prefix}--search-result`;
-  const searchResultClasses = [baseClassName];
+  const searchResultClasses = [searchResultClass];
   if (isEqual(result, selectedResult.document)) {
-    searchResultClasses.push(`${baseClassName}--selected`);
+    searchResultClasses.push(searchResultSelectedClass);
   }
   const documentRetrievalSource: string | undefined = get(
     result,
     'result_metadata.document_retrieval_source'
   );
   if (documentRetrievalSource === 'curation') {
-    searchResultClasses.push(`${baseClassName}_curation`);
+    searchResultClasses.push(searchResultCurationClass);
   }
-  const searchResultContentWrapperClasses = [`${baseClassName}__content-wrapper`];
+  const searchResultContentWrapperClasses = [searchResultContentWrapperClass];
   if (displayedText && tableHtml && !showTablesOnlyResults) {
-    searchResultContentWrapperClasses.push(`${baseClassName}__content-wrapper--half`);
+    searchResultContentWrapperClasses.push(searchResultContentWrapperHalfClass);
   }
-  const footerClassName = `${baseClassName}__footer`;
-  const titleClassName = `${baseClassName}__footer__title`;
-  const collectionNameClassName = `${baseClassName}__footer__collection-name`;
 
   const handleSelectResult = (
     element: SelectedResult['element'],
@@ -146,7 +151,6 @@ export const Result: React.FunctionComponent<ResultProps> = ({
       <div className={searchResultContentWrapperClasses.join(' ')}>
         {displayedText && !showTablesOnlyResults && (
           <ResultElement
-            baseClassName={baseClassName}
             body={displayedText}
             buttonText={displayedTextInDocumentButtonText}
             element={displayedTextElement}
@@ -158,7 +162,6 @@ export const Result: React.FunctionComponent<ResultProps> = ({
         )}
         {tableHtml && (
           <ResultElement
-            baseClassName={baseClassName}
             body={tableHtml}
             buttonText={tableInDocumentButtonText}
             element={table}
@@ -170,11 +173,13 @@ export const Result: React.FunctionComponent<ResultProps> = ({
       </div>
       {/* TODO: This check can go away once documents are linked to show only tables results */}
       {(collectionName || result) && (
-        <div className={footerClassName}>
+        <div className={searchResultFooterClass}>
           {/* TODO: This result check can go away once documents are linked to show only tables results */}
-          {result && <div className={titleClassName}>{title || filename || documentId}</div>}
+          {result && (
+            <div className={searchResultFooterTitleClass}>{title || filename || documentId}</div>
+          )}
           {collectionName && (
-            <div className={collectionNameClassName}>
+            <div className={searchResultFooterCollectionNameClass}>
               {collectionLabel} {collectionName}
             </div>
           )}

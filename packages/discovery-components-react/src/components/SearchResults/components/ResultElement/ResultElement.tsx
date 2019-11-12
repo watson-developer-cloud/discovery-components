@@ -3,12 +3,13 @@ import { SelectedResult } from '../../../DiscoverySearch/DiscoverySearch';
 import { Button, Tile } from 'carbon-components-react';
 import Launch from '@carbon/icons-react/lib/launch/16.js';
 import TableSplit from '@carbon/icons-react/lib/table--split/16.js';
+import {
+  searchResultContentWrapperBodyClass,
+  searchResultContentWrapperBodyButtonClass,
+  searchResultContentWrapperBodyPassageHighlightsClass
+} from '../../cssClasses';
 
 interface ResultElementProps {
-  /**
-   * className for base class styles
-   */
-  baseClassName: string;
   /**
    * body of the result element. Table html if a table element. Otherwise, first passage text or bodyField.
    */
@@ -44,7 +45,6 @@ interface ResultElementProps {
 }
 
 export const ResultElement: React.FunctionComponent<ResultElementProps> = ({
-  baseClassName,
   body,
   buttonText,
   element,
@@ -53,15 +53,14 @@ export const ResultElement: React.FunctionComponent<ResultElementProps> = ({
   passageHighlightsClassName,
   showTablesOnlyResults
 }) => {
-  const bodyClassName = `${baseClassName}__content-wrapper__body`;
-  const elementBodyClassNames: string[] = [bodyClassName];
+  const elementBodyClassNames: string[] = [searchResultContentWrapperBodyClass];
   if (elementType) {
-    elementBodyClassNames.push(`${bodyClassName}--${elementType}`);
+    elementBodyClassNames.push(`${searchResultContentWrapperBodyClass}--${elementType}`);
   }
   if (elementType === 'passage') {
     passageHighlightsClassName
-      ? elementBodyClassNames.push(`${passageHighlightsClassName}`)
-      : elementBodyClassNames.push(`${bodyClassName}--passage__highlights`);
+      ? elementBodyClassNames.push(passageHighlightsClassName)
+      : elementBodyClassNames.push(searchResultContentWrapperBodyPassageHighlightsClass);
   }
   const icon = elementType === 'table' ? TableSplit : Launch;
 
@@ -75,7 +74,7 @@ export const ResultElement: React.FunctionComponent<ResultElementProps> = ({
       {/* TODO: This check can go away once documents are linked to tables only results */}
       {!showTablesOnlyResults && (
         <Button
-          className={`${bodyClassName}__button`}
+          className={searchResultContentWrapperBodyButtonClass}
           onClick={handleSelectResult(element, elementType)}
           kind="ghost"
           renderIcon={icon}

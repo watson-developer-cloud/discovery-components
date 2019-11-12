@@ -11,8 +11,19 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   align-items: center;
 }
 
-.#{$prefix}--search-result,
-.#{$prefix}--search-results__list--empty {
+.#{$prefix}--search-result--loading {
+  padding: $spacing-lg;
+
+  .#{$prefix}--skeleton__text {
+    height: $spacing-sm;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.#{$prefix}--search-result {
   @include layer('overlay');
   background-color: $result-background;
   padding: $spacing-05;
