@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.66.3](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.66.2...@disco-widgets/react-components@1.66.3) (2019-11-12)
+
+
+### Bug Fixes
+
+* replace saxes with htmlparser2 ([#366](https://github.com/watson-developer-cloud/discovery-components/issues/366)) ([bec2ce7](https://github.com/watson-developer-cloud/discovery-components/commit/bec2ce7))
+
+
+
+
+
 ## [1.66.2](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.66.1...@disco-widgets/react-components@1.66.2) (2019-11-12)
 
 **Note:** Version bump only for package @disco-widgets/react-components
