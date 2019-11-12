@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.32.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/styles@1.31.1...@disco-widgets/styles@1.32.0) (2019-11-12)
+
+
+### Features
+
+* show loading skeleton for search results ([#372](https://github.com/watson-developer-cloud/discovery-components/issues/372)) ([ab5b55c](https://github.com/watson-developer-cloud/discovery-components/commit/ab5b55c))
+
+
+
+
+
 ## [1.31.1](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/styles@1.31.0...@disco-widgets/styles@1.31.1) (2019-11-11)
 
 
