@@ -56,7 +56,7 @@ describe('<TablesOnlyToggle />', () => {
     test('all regular search results are shown', () => {
       expect(searchResults.getAllByTestId('search-result-element-body-table').length).toBe(1);
       expect(searchResults.getAllByTestId('search-result-element-body-passage').length).toBe(2);
-      expect(searchResults.getAllByTestId('search-result-element-body-null').length).toBe(1);
+      expect(searchResults.getAllByTestId('search-result-element-body-null').length).toBe(2);
     });
     test('it sets the ResultsPagination component to be not hidden', () => {
       expect(setIsResultsPaginationComponentHiddenMock.mock.calls.length).toBe(2);

@@ -17,15 +17,15 @@ interface ResultElementProps {
   /**
    * CTA text for viewing the result element in the document
    */
-  buttonText: string;
+  buttonText?: string;
   /**
    * the result element object
    */
-  element: SelectedResult['element'];
+  element?: SelectedResult['element'];
   /**
    * type of result element
    */
-  elementType: SelectedResult['elementType'];
+  elementType?: SelectedResult['elementType'];
   /**
    * handler for selecting the result element to view in the document
    */
@@ -46,9 +46,9 @@ interface ResultElementProps {
 
 export const ResultElement: React.FunctionComponent<ResultElementProps> = ({
   body,
-  buttonText,
-  element,
-  elementType,
+  buttonText = 'View result',
+  element = null,
+  elementType = null,
   handleSelectResult,
   passageHighlightsClassName,
   showTablesOnlyResults

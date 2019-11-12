@@ -34,6 +34,10 @@ export interface ResultProps {
    */
   displayedTextInDocumentButtonText: string;
   /**
+   * override the default text to show for a search result when no excerpt text (either a passage, defined bodyfield, or text field) is found for the document
+   */
+  emptyResultContentBodyText: string;
+  /**
    * specify a className for styling <em> tags within passages
    */
   passageHighlightsClassName?: string;
@@ -76,6 +80,7 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   collectionLabel,
   collectionName,
   displayedTextInDocumentButtonText,
+  emptyResultContentBodyText,
   passageHighlightsClassName,
   result,
   resultLinkField,
@@ -102,6 +107,9 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   const displayedTextElement = usePassages && firstPassage ? firstPassage : null;
   const displayedTextElementType = usePassages && firstPassage ? 'passage' : null;
   const tableHtml: string | undefined = get(table, 'table_html');
+  // Need to check that showTablesOnlyResults isn't enabled to ensure text for a linked result isn't displayed in a tables only results view
+  const hasText = displayedText && !showTablesOnlyResults;
+  const emptyResultContent = !(hasText || tableHtml);
 
   // TODO: This if to look for result can go away once that's being passed through with the tables only results
   let documentId;
@@ -149,26 +157,35 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   return (
     <div className={searchResultClasses.join(' ')}>
       <div className={searchResultContentWrapperClasses.join(' ')}>
-        {displayedText && !showTablesOnlyResults && (
+        {emptyResultContent ? (
           <ResultElement
-            body={displayedText}
-            buttonText={displayedTextInDocumentButtonText}
-            element={displayedTextElement}
-            elementType={displayedTextElementType}
+            body={emptyResultContentBodyText}
             handleSelectResult={handleSelectResult}
-            passageHighlightsClassName={passageHighlightsClassName}
-            showTablesOnlyResults={showTablesOnlyResults}
           />
-        )}
-        {tableHtml && (
-          <ResultElement
-            body={tableHtml}
-            buttonText={tableInDocumentButtonText}
-            element={table}
-            elementType="table"
-            handleSelectResult={handleSelectResult}
-            showTablesOnlyResults={showTablesOnlyResults}
-          />
+        ) : (
+          <>
+            {displayedText && !showTablesOnlyResults && (
+              <ResultElement
+                body={displayedText}
+                buttonText={displayedTextInDocumentButtonText}
+                element={displayedTextElement}
+                elementType={displayedTextElementType}
+                handleSelectResult={handleSelectResult}
+                passageHighlightsClassName={passageHighlightsClassName}
+                showTablesOnlyResults={showTablesOnlyResults}
+              />
+            )}
+            {tableHtml && (
+              <ResultElement
+                body={tableHtml}
+                buttonText={tableInDocumentButtonText}
+                element={table}
+                elementType="table"
+                handleSelectResult={handleSelectResult}
+                showTablesOnlyResults={showTablesOnlyResults}
+              />
+            )}
+          </>
         )}
       </div>
       {/* TODO: This check can go away once documents are linked to show only tables results */}

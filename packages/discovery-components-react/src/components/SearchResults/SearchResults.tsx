@@ -69,6 +69,10 @@ export interface SearchResultsProps {
    */
   spellingSuggestionsPrefix?: string;
   /**
+   * override the default text to show for a search result when no excerpt text (either a passage, defined bodyfield, or text field) is found for the document
+   */
+  emptyResultContentBodyText?: string;
+  /**
    * override the default text to show when no search results are found
    */
   noResultsFoundText?: string;
@@ -82,12 +86,13 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   usePassages,
   passageLength,
   passageHighlightsClassName,
-  collectionLabel = 'Collection Name:',
+  collectionLabel = 'Collection name:',
   displayedTextInDocumentButtonText = 'View passage in document',
   tableInDocumentButtonText = 'View table in document',
   showTablesOnlyToggle = false,
   tablesOnlyToggleLabelText = 'Show table results only',
   spellingSuggestionsPrefix = 'Did you mean:',
+  emptyResultContentBodyText = 'Excerpt unavailable.',
   noResultsFoundText = 'There were no results found'
 }) => {
   const DEFAULT_LOADING_COUNT = 3;
@@ -109,6 +114,9 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   const tableResults = (searchResponse && searchResponse.table_results) || [];
   const searchResultLoadingClasses = [searchResultClass, searchResultLoadingClass];
   const emptySearch = searchResponse ? noResultsFoundText : '';
+  const resultsFound = showTablesOnlyResults
+    ? tableResults && tableResults.length > 0
+    : matchingResults && matchingResults > 0;
 
   React.useEffect(() => {
     if (passageLength) {
@@ -147,7 +155,7 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
             </div>
           );
         })
-      ) : matchingResults && matchingResults > 0 ? (
+      ) : resultsFound ? (
         <div className={searchResultsListClass}>
           {showTablesOnlyResults
             ? (tableResults as DiscoveryV2.QueryTableResult[]).map(table => {
@@ -160,6 +168,7 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
                     collectionLabel={collectionLabel}
                     collectionName={collectionName}
                     displayedTextInDocumentButtonText={displayedTextInDocumentButtonText}
+                    emptyResultContentBodyText={emptyResultContentBodyText}
                     resultLinkField={resultLinkField}
                     resultLinkTemplate={resultLinkTemplate}
                     resultTitleField={displaySettings.resultTitleField}
@@ -183,6 +192,7 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
                     collectionLabel={collectionLabel}
                     collectionName={collectionName}
                     displayedTextInDocumentButtonText={displayedTextInDocumentButtonText}
+                    emptyResultContentBodyText={emptyResultContentBodyText}
                     passageHighlightsClassName={passageHighlightsClassName}
                     result={result}
                     resultLinkField={resultLinkField}

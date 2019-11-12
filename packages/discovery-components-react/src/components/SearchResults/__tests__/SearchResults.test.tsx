@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent, RenderResult } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import {
   SearchContextIFC,
@@ -58,6 +58,65 @@ describe('<SearchResults />', () => {
               return element.textContent === 'suggested';
             })
           ).toBeInTheDocument();
+        });
+      });
+    });
+  });
+
+  describe('when we have table_results', () => {
+    describe('and showTablesOnlyResults is enabled', () => {
+      describe('and the number of table_results is greater than 0', () => {
+        const context: Partial<SearchContextIFC> = {
+          searchResponseStore: {
+            ...searchResponseStoreDefaults,
+            data: {
+              matching_results: 1,
+              results: [
+                {
+                  document_id: 'some document_id'
+                }
+              ],
+              table_results: [
+                {
+                  table_id: '558ada041262d5b0aa02a05429d798c9',
+                  source_document_id: 'some document_id',
+                  collection_id: '8713a92b-28aa-b291-0000-016ddc68aa2a',
+                  table_html: '<html>I am table.</html>'
+                }
+              ]
+            }
+          }
+        };
+        test('the table results are rendered', () => {
+          const { getByText } = render(
+            wrapWithContext(<SearchResults showTablesOnlyToggle={true} />, {}, context)
+          );
+          fireEvent.click(getByText('Show table results only'));
+          expect(getByText('I am table.')).toBeInTheDocument();
+        });
+      });
+
+      describe('and table_results is empty', () => {
+        const context: Partial<SearchContextIFC> = {
+          searchResponseStore: {
+            ...searchResponseStoreDefaults,
+            data: {
+              matching_results: 1,
+              results: [
+                {
+                  document_id: 'some document_id'
+                }
+              ],
+              table_results: []
+            }
+          }
+        };
+        test('renders the no results found message', () => {
+          const { getByText } = render(
+            wrapWithContext(<SearchResults showTablesOnlyToggle={true} />, {}, context)
+          );
+          fireEvent.click(getByText('Show table results only'));
+          expect(getByText('There were no results found')).toBeInTheDocument();
         });
       });
     });
@@ -190,6 +249,212 @@ describe('<SearchResults />', () => {
         expect(
           getByText('this body text comes from the overwritten body field')
         ).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('the empty result state', () => {
+    describe('when there is no table result, no passage, bodyField is not specified, and there is no text field but there is a result for a document', () => {
+      let context: Partial<SearchContextIFC>;
+      beforeEach(() => {
+        context = {
+          searchResponseStore: {
+            ...searchResponseStoreDefaults,
+            data: {
+              matching_results: 1,
+              results: [
+                {
+                  document_id: 'some document_id'
+                }
+              ],
+              table_results: []
+            }
+          }
+        };
+      });
+
+      describe('and showTablesOnlyResults is disabled', () => {
+        let searchResults: RenderResult;
+        beforeEach(() => {
+          searchResults = render(wrapWithContext(<SearchResults />, {}, context));
+        });
+        test('the empty state text is displayed for the body result content', () => {
+          expect(searchResults.getByText('Excerpt unavailable.')).toBeInTheDocument();
+        });
+        test('the empty state button text is displayed for the CTA button', () => {
+          expect(searchResults.getByText('View result')).toBeInTheDocument();
+        });
+      });
+
+      describe('and showTablesOnlyResults is enabled', () => {
+        let searchResults: RenderResult;
+        beforeEach(() => {
+          searchResults = render(
+            wrapWithContext(<SearchResults showTablesOnlyToggle={true} />, {}, context)
+          );
+          const toggle = searchResults.getByText('Show table results only');
+          fireEvent.click(toggle);
+        });
+        test('the empty state text is not displayed for the body result content', () => {
+          expect(searchResults.queryByText('Excerpt unavailable.')).toBe(null);
+        });
+        test('the empty state button text is not displayed for the CTA button', () => {
+          expect(searchResults.queryByText('View result')).toBe(null);
+        });
+        test('noResultsFound text is displayed instead of the empty state', () => {
+          expect(searchResults.getByText('There were no results found')).toBeInTheDocument();
+        });
+      });
+    });
+
+    describe('when displayedText only is present and no table results', () => {
+      let context: Partial<SearchContextIFC>;
+      beforeEach(() => {
+        context = {
+          searchResponseStore: {
+            ...searchResponseStoreDefaults,
+            data: {
+              matching_results: 1,
+              results: [
+                {
+                  document_id: 'some document_id',
+                  text: 'I am text field.'
+                }
+              ],
+              table_results: []
+            }
+          }
+        };
+      });
+
+      describe('and showTablesOnlyResults is disabled', () => {
+        test('displayedText and not empty state text should be displayed', () => {
+          const { getByText, queryByText } = render(
+            wrapWithContext(<SearchResults />, {}, context)
+          );
+          expect(getByText('I am text field.')).toBeInTheDocument();
+          expect(queryByText('Excerpt unavailable.')).toBe(null);
+          expect(queryByText('View result')).toBe(null);
+        });
+      });
+
+      describe('and showTablesOnlyResults is enabled', () => {
+        test('neither displayedText nor empty state should render but noResultsFound text should', () => {
+          const { getByText, queryByText } = render(
+            wrapWithContext(<SearchResults showTablesOnlyToggle={true} />, {}, context)
+          );
+          const toggle = getByText('Show table results only');
+          fireEvent.click(toggle);
+          expect(queryByText('I am text field.')).toBe(null);
+          expect(queryByText('Excerpt unavailable.')).toBe(null);
+          expect(queryByText('View result')).toBe(null);
+          expect(getByText('There were no results found')).toBeInTheDocument();
+        });
+      });
+    });
+
+    describe('when displayedText and tableHtml is present', () => {
+      let context: Partial<SearchContextIFC>;
+      beforeEach(() => {
+        context = {
+          searchResponseStore: {
+            ...searchResponseStoreDefaults,
+            data: {
+              matching_results: 1,
+              results: [
+                {
+                  document_id: 'some document_id',
+                  text: 'I am text field.'
+                }
+              ],
+              table_results: [
+                {
+                  table_id: '558ada041262d5b0aa02a05429d798c9',
+                  source_document_id: 'some document_id',
+                  collection_id: '8713a92b-28aa-b291-0000-016ddc68aa2a',
+                  table_html: '<html>I am table.</html>'
+                }
+              ]
+            }
+          }
+        };
+      });
+
+      describe('when showTablesOnlyResults is disabled', () => {
+        test('displayedText and tableHtml and not empty state text should be displayed', () => {
+          const { getByText, queryByText } = render(
+            wrapWithContext(<SearchResults />, {}, context)
+          );
+          expect(getByText('I am text field.')).toBeInTheDocument();
+          expect(getByText('I am table.')).toBeInTheDocument();
+          expect(queryByText('Excerpt unavailable.')).toBe(null);
+          expect(queryByText('View result')).toBe(null);
+        });
+      });
+
+      describe('when showTablesOnlyResults is enabled', () => {
+        test('tableHtml and not displayedText or empty state text should be displayed', () => {
+          const { getByText, queryByText } = render(
+            wrapWithContext(<SearchResults showTablesOnlyToggle={true} />, {}, context)
+          );
+          const toggle = getByText('Show table results only');
+          fireEvent.click(toggle);
+          expect(queryByText('I am text field.')).toBe(null);
+          expect(getByText('I am table.')).toBeInTheDocument();
+          expect(queryByText('Excerpt unavailable.')).toBe(null);
+          expect(queryByText('View result')).toBe(null);
+        });
+      });
+    });
+
+    describe('when tableHtml only is present', () => {
+      let context: Partial<SearchContextIFC>;
+      beforeEach(() => {
+        context = {
+          searchResponseStore: {
+            ...searchResponseStoreDefaults,
+            data: {
+              matching_results: 1,
+              results: [
+                {
+                  document_id: 'some document_id'
+                }
+              ],
+              table_results: [
+                {
+                  table_id: '558ada041262d5b0aa02a05429d798c9',
+                  source_document_id: 'some document_id',
+                  collection_id: '8713a92b-28aa-b291-0000-016ddc68aa2a',
+                  table_html: '<html>I am table.</html>'
+                }
+              ]
+            }
+          }
+        };
+      });
+
+      describe('and showTablesOnlyResults is disabled', () => {
+        test('tableHtml and not empty state text should be displayed', () => {
+          const { getByText, queryByText } = render(
+            wrapWithContext(<SearchResults />, {}, context)
+          );
+          expect(getByText('I am table.')).toBeInTheDocument();
+          expect(queryByText('Excerpt unavailable.')).toBe(null);
+          expect(queryByText('View result')).toBe(null);
+        });
+      });
+
+      describe('and showTablesOnlyResults is enabled', () => {
+        test('tableHtml and not empty state text should be displayed', () => {
+          const { getByText, queryByText } = render(
+            wrapWithContext(<SearchResults showTablesOnlyToggle={true} />, {}, context)
+          );
+          const toggle = getByText('Show table results only');
+          fireEvent.click(toggle);
+          expect(getByText('I am table.')).toBeInTheDocument();
+          expect(queryByText('Excerpt unavailable.')).toBe(null);
+          expect(queryByText('View result')).toBe(null);
+        });
       });
     });
   });
