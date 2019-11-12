@@ -18,8 +18,10 @@ import PdfFallback, { supportsPdfFallback } from './components/PdfFallback/PdfFa
 import SimpleDocument from './components/SimpleDocument/SimpleDocument';
 import HtmlView from './components/HtmlView/HtmlView';
 import Highlight from './components/Highlight/Highlight';
+import { getTextMappings } from './utils/documentData';
 import withErrorBoundary, { WithErrorBoundaryProps } from '../../utils/hoc/withErrorBoundary';
 import { defaultMessages, Messages } from './messages';
+import { TextMappings } from './types';
 
 interface Props extends WithErrorBoundaryProps {
   /**
@@ -80,9 +82,16 @@ const DocumentPreview: FC<Props> = ({
     }
   }, [highlight, highlightFirstPage]);
 
+  const [textMappings, setTextMappings] = useState<TextMappings | null>(null);
+  useEffect(() => {
+    const mappings = getTextMappings(doc);
+    if (mappings) {
+      setTextMappings(mappings);
+    }
+  }, [doc]);
+
   // Pull total page count from either the PDF file or the structural
   // data list
-  const textMappings = get(doc, 'extracted_metadata.text_mappings');
   const [pageCount, setPageCount] = useState(0);
   const [pdfPageCount, setPdfPageCount] = useState(pageCount);
   useEffect(() => {
@@ -121,18 +130,20 @@ const DocumentPreview: FC<Props> = ({
               highlight={highlight}
               setPdfPageCount={setPdfPageCount}
               setLoading={setLoading}
-              setDisabledToolbar={setDisabledToolbar}
+              disableToolbar={setDisabledToolbar}
             />
-            {/* highlight on top of document view */}
-            <div className={`${base}__highlight-overlay`}>
-              <Highlight
-                highlightClassname={`${base}__highlight`}
-                document={doc}
-                currentPage={currentPage}
-                highlight={highlight}
-                setHighlightFirstPage={setHighlightFirstPage}
-              />
-            </div>
+            {/* highlight on top of document view */
+            (file || supportsPdfFallback(doc)) && (
+              <div className={`${base}__highlight-overlay`}>
+                <Highlight
+                  highlightClassname={`${base}__highlight`}
+                  document={doc}
+                  currentPage={currentPage}
+                  highlight={highlight}
+                  setHighlightFirstPage={setHighlightFirstPage}
+                />
+              </div>
+            )}
           </div>
           {loading && (
             <div className={`${base}__skeleton`}>
@@ -149,7 +160,7 @@ const DocumentPreview: FC<Props> = ({
   );
 };
 
-interface DocumentProps {
+interface PreviewDocumentProps {
   document?: QueryResult | null;
   file?: string;
   highlight?: any;
@@ -157,7 +168,7 @@ interface DocumentProps {
   scale: number;
   setPdfPageCount?: (count: number) => void;
   setLoading: (loading: boolean) => void;
-  setDisabledToolbar: (disabled: boolean) => void;
+  disableToolbar?: (disabled: boolean) => void;
 }
 
 function PreviewDocument({
@@ -167,9 +178,9 @@ function PreviewDocument({
   document,
   setPdfPageCount,
   setLoading,
-  setDisabledToolbar,
+  disableToolbar,
   highlight
-}: DocumentProps): ReactElement | null {
+}: PreviewDocumentProps): ReactElement | null {
   // if we have PDF data, render that
   // otherwise, render fallback document view
   if (file) {
@@ -180,6 +191,7 @@ function PreviewDocument({
         scale={scale}
         setPageCount={setPdfPageCount}
         setLoading={setLoading}
+        disableToolbar={disableToolbar}
       />
     );
   }
@@ -193,6 +205,7 @@ function PreviewDocument({
           currentPage={currentPage}
           scale={scale}
           setLoading={setLoading}
+          disableToolbar={disableToolbar}
         />
       );
     }
@@ -200,14 +213,14 @@ function PreviewDocument({
     const isHtmlType = get(document, 'extracted_metadata.file_type') === 'html';
 
     if (isHtmlType) {
-      return <HtmlView document={document} />;
+      return <HtmlView document={document} disableToolbar={disableToolbar} />;
     }
 
     return (
       <SimpleDocument
         document={document}
         highlight={highlight}
-        setDisabledToolbar={setDisabledToolbar}
+        disableToolbar={disableToolbar}
         setLoading={setLoading}
       />
     );

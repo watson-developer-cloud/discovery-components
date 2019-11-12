@@ -8,6 +8,7 @@ import { computeFontFamilyAndWeight } from './utils/fallbackFonts';
 import processDoc, { ProcessedDoc, ProcessedBbox } from '../../../../utils/document/processDoc';
 import { intersects } from './utils/box';
 import shortid from '../../../../utils/shortid';
+import { getTextMappings } from '../../utils/documentData';
 
 interface Props {
   /**
@@ -26,6 +27,10 @@ interface Props {
    * Check if document is loading
    */
   setLoading: (loading: boolean) => void;
+  /**
+   * Callback to disable toolbar in parent
+   */
+  disableToolbar?: (disabled: boolean) => void;
 }
 
 type State = {
@@ -81,22 +86,28 @@ export interface PageWithCells extends Page {
 
 export interface StyledCell extends CellPage {
   id: string;
-  className: string;
+  className?: string;
   content: string;
 }
 
-export const PdfFallback: FC<Props> = ({ document, currentPage, scale = 1, setLoading }) => {
+export const PdfFallback: FC<Props> = ({
+  document,
+  currentPage,
+  scale = 1,
+  setLoading,
+  disableToolbar
+}) => {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
   const { pages, page, pagesHaveFonts } = state;
 
   // combine text_mappings with text from appropriate field
   useEffect(() => {
-    const textMappings = get(document, 'extracted_metadata.text_mappings', []);
+    const textMappings = getTextMappings(document);
     if (!textMappings) {
       return;
     }
 
-    const newPages = [
+    const newPages: PageWithCells[] = [
       EMPTY_PAGE, // add "zeroth" page (unused; makes this array 1-based)
       ...textMappings.pages
     ].map(page => ({ ...page, cells: [] }));
@@ -105,7 +116,12 @@ export const PdfFallback: FC<Props> = ({ document, currentPage, scale = 1, setLo
       const textValue = getFieldText(document, field);
       const content = textValue.substring(field.span[0], field.span[1]);
       const cellPageNumber = page.page_number;
-      const cellData = { id: shortid(), bbox: page.bbox, content: content };
+      const cellData = {
+        id: shortid(),
+        bbox: page.bbox,
+        content: content,
+        page_number: cellPageNumber
+      };
 
       // add new cell to the page array
       newPages[cellPageNumber].cells.push(cellData);
@@ -161,6 +177,12 @@ export const PdfFallback: FC<Props> = ({ document, currentPage, scale = 1, setLo
     setLoading(!doRender);
   }, [doRender, setLoading]);
 
+  useEffect(() => {
+    if (disableToolbar) {
+      disableToolbar(false);
+    }
+  }, [disableToolbar]);
+
   const docStyles = useMemo(() => {
     if (doRender && processedDoc && processedDoc.styles) {
       return processStyles(processedDoc.styles);
@@ -194,7 +216,7 @@ export const PdfFallback: FC<Props> = ({ document, currentPage, scale = 1, setLo
  * @param document query result
  * @returns {boolean}
  */
-export const supportsPdfFallback = (document: QueryResult): boolean => {
+export const supportsPdfFallback = (document?: QueryResult | null): boolean => {
   return !!get(document, 'extracted_metadata.text_mappings');
 };
 

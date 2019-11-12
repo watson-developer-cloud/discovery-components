@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { QueryResult, QueryResultPassage } from '@disco-widgets/ibm-watson/discovery/v2';
-import get from 'lodash/get';
+import { getTextMappings } from '../../utils/documentData';
 import { CellPage, TextMappings } from '../../types';
 
 // React hook for retrieving passage bbox data from document
@@ -11,7 +11,7 @@ export function usePassage(
   const [pageInfo, setPageInfo] = useState<ReadonlyArray<CellPage> | null>(null);
 
   useEffect((): void => {
-    const textMappings = get(document, 'extracted_metadata.text_mappings');
+    const textMappings = getTextMappings(document);
     if (!passage || !textMappings) {
       return;
     }

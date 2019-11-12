@@ -16,7 +16,7 @@ describe('SimpleDocument', () => {
       render(
         <SimpleDocument
           document={minimalDoc}
-          setDisabledToolbar={(): void => {}}
+          disableToolbar={(): void => {}}
           setLoading={(): void => {}}
         />
       );
@@ -33,7 +33,7 @@ describe('SimpleDocument', () => {
         <SimpleDocument
           document={docArrayJson}
           setLoading={(): void => {}}
-          setDisabledToolbar={(): void => {}}
+          disableToolbar={(): void => {}}
         />
       ));
     });

@@ -1,10 +1,10 @@
 let id = 0;
 
-function shortid(): number {
+function shortid(): string {
   if (id === Number.MAX_SAFE_INTEGER) {
     id = 0;
   }
-  return id++;
+  return String(id++);
 }
 
 export default shortid;

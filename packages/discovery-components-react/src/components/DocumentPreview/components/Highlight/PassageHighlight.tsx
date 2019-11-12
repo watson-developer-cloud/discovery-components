@@ -1,8 +1,10 @@
-import { FC, useEffect, ReactElement } from 'react';
+import { FC, ReactElement, useEffect, useState } from 'react';
 import { QueryResultPassage, QueryResult } from '@disco-widgets/ibm-watson/discovery/v2';
 import get from 'lodash/get';
+import { getTextMappings } from '../../utils/documentData';
 import { usePassage } from './passages';
 import { DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_ORIGIN } from './constants';
+import { Page } from '../../types';
 
 interface Props {
   /**
@@ -47,11 +49,18 @@ export const PassageHighlight: FC<Props> = ({
     bboxes = pageInfo.filter(page => page.page_number === currentPage).map(page => page.bbox);
   }
 
+  const [pages, setPages] = useState<Page[] | null>(null);
+  useEffect(() => {
+    const pages = get(getTextMappings(document), 'pages');
+    if (pages) {
+      setPages(pages);
+    }
+  }, [document]);
+
   // get page info
   let width = DEFAULT_WIDTH;
   let height = DEFAULT_HEIGHT;
   let origin = DEFAULT_ORIGIN;
-  const pages = get(document, 'extracted_metadata.text_mappings.pages');
   if (pages && pages[currentPage - 1]) {
     const page = pages[currentPage - 1];
     ({ width, height, origin } = page);

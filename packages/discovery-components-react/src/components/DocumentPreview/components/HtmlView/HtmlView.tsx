@@ -8,10 +8,17 @@ interface Props {
    * Document data returned by query
    */
   document: QueryResult;
+  /**
+   * Callback to disable toolbar in parent
+   */
+  disableToolbar?: (disabled: boolean) => void;
 }
 
-export const HtmlView: FC<Props> = ({ document }) => {
+export const HtmlView: FC<Props> = ({ document, disableToolbar }) => {
   const html = document ? DOMPurify.sanitize(get(document, 'html')) : '';
+  if (disableToolbar) {
+    disableToolbar(true);
+  }
 
   return <div dangerouslySetInnerHTML={{ __html: html }} />;
 };

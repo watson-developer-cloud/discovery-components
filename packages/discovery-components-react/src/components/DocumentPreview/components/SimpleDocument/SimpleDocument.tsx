@@ -21,9 +21,9 @@ interface Props {
    */
   setLoading: (loading: boolean) => void;
   /**
-   * Check to disable toolbar in parent
+   * Callback to disable toolbar in parent
    */
-  setDisabledToolbar: (disabled: boolean) => void;
+  disableToolbar?: (disabled: boolean) => void;
 
   cannotPreviewMessage?: string;
 }
@@ -32,7 +32,7 @@ export const SimpleDocument: FC<Props> = ({
   document,
   highlight,
   setLoading,
-  setDisabledToolbar,
+  disableToolbar,
   cannotPreviewMessage = 'Cannot preview document'
 }) => {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -72,7 +72,9 @@ export const SimpleDocument: FC<Props> = ({
 
     // set parent states
     setLoading(false);
-    setDisabledToolbar(true);
+    if (disableToolbar) {
+      disableToolbar(true);
+    }
   }
 
   // highlight passage and scroll into view

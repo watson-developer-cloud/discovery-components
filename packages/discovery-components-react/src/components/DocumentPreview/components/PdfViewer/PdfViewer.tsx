@@ -29,9 +29,13 @@ interface Props {
    * Check if document is loading
    */
   setLoading: (loading: boolean) => void;
+  /**
+   * Callback to disable toolbar in parent
+   */
+  disableToolbar?: (disabled: boolean) => void;
 }
 
-const PdfViewer: SFC<Props> = ({ file, page, scale, setPageCount, setLoading }) => {
+const PdfViewer: SFC<Props> = ({ file, page, scale, setPageCount, setLoading, disableToolbar }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // In order to prevent unnecessary re-loading, loaded file and page are stored in state
@@ -83,6 +87,12 @@ const PdfViewer: SFC<Props> = ({ file, page, scale, setPageCount, setLoading }) 
       setLoading(false);
     }
   }, [loadedPage, scale, setLoading]);
+
+  useEffect(() => {
+    if (disableToolbar) {
+      disableToolbar(false);
+    }
+  }, [disableToolbar]);
 
   return (
     <canvas

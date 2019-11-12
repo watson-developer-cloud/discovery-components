@@ -2,7 +2,9 @@ import { FC, useEffect, useState, ReactElement } from 'react';
 import get from 'lodash/get';
 import { QueryResult, QueryTableResult } from '@disco-widgets/ibm-watson/discovery/v2';
 import processDoc, { ProcessedDoc, Table } from '../../../../utils/document/processDoc';
+import { getTextMappings } from '../../utils/documentData';
 import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from './constants';
+import { Page } from '../../types';
 
 interface Props {
   /**
@@ -78,12 +80,19 @@ export const TableHighlight: FC<Props> = ({
       .map(({ left, right, top, bottom }) => [left, top, right, bottom]);
   }
 
+  const [pages, setPages] = useState<Page[] | null>(null);
+  useEffect(() => {
+    const pages = get(getTextMappings(document), 'pages');
+    if (pages) {
+      setPages(pages);
+    }
+  }, [document]);
+
   // get page info; if available
   let width = DEFAULT_WIDTH;
   let height = DEFAULT_HEIGHT;
   // when using `html`, origin is always top-left
   let origin = 'TopLeft';
-  const pages = get(document, 'extracted_metadata.text_mappings.pages');
   if (pages && pages[currentPage - 1]) {
     const page = pages[currentPage - 1];
     ({ width, height, origin } = page);
