@@ -29,9 +29,7 @@ const setup = (collectionIds?: string[]): Setup => {
       isError: false
     }
   };
-  const collectionFacetsComponent = render(
-    wrapWithContext(<SearchFacets showCollections={true} />, api, context)
-  );
+  const collectionFacetsComponent = render(wrapWithContext(<SearchFacets />, api, context));
   return {
     performSearchMock,
     collectionFacetsComponent

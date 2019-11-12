@@ -37,8 +37,8 @@ interface SearchFacetsProps {
 }
 
 export const SearchFacets: FC<SearchFacetsProps> = ({
-  showCollections,
-  showDynamicFacets,
+  showCollections = true,
+  showDynamicFacets = true,
   messages = defaultMessages,
   overrideComponentSettingsAggregations,
   collapsedFacetsCount = 5
@@ -79,7 +79,7 @@ export const SearchFacets: FC<SearchFacetsProps> = ({
   );
   const shouldShowCollections = showCollections && !!collections;
   const shouldShowFields = !!allFieldFacets && allFieldFacets.length > 0;
-  const shouldShowDynamic = showDynamicFacets && !!allDynamicFacets;
+  const shouldShowDynamic = showDynamicFacets && !!allDynamicFacets && allDynamicFacets.length > 0;
   const originalFilters = {
     filterFields: allFieldFacets,
     filterDynamic: allDynamicFacets

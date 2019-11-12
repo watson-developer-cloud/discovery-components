@@ -17,8 +17,8 @@ import { action } from '@storybook/addon-actions';
 import defaultMessages from '../messages';
 
 export const props = () => ({
-  showCollections: boolean('Show collection facets', false),
-  showDynamicFacets: boolean('Show dynamic facets', false),
+  showCollections: boolean('Show collection facets', true),
+  showDynamicFacets: boolean('Show dynamic facets', true),
   collapsedFacetsCount: number('Number of facet terms to show when list is collapsed', 5),
   messages: object('I18n messages', defaultMessages),
   componentSettingsAggregations: object(

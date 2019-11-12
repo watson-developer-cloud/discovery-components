@@ -57,7 +57,7 @@ function SearchPage() {
         spellingSuggestions={true}
       />
       <SearchResults bodyField={'text'} />
-      <SearchFacets showCollections={true} showDynamicFacets={true} />
+      <SearchFacets />
       <ResultsPagination />
     </>
   );

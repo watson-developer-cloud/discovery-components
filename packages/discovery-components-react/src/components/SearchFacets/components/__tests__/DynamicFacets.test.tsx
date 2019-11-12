@@ -47,10 +47,7 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
   };
   const searchFacetsComponent = render(
     wrapWithContext(
-      <SearchFacets
-        showDynamicFacets={true}
-        collapsedFacetsCount={mergedSetupConfig.collapsedFacetsCount}
-      />,
+      <SearchFacets collapsedFacetsCount={mergedSetupConfig.collapsedFacetsCount} />,
       api,
       context
     )
