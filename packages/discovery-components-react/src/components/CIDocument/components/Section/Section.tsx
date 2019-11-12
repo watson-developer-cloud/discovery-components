@@ -15,11 +15,11 @@ import React, {
 import cx from 'classnames';
 import debounce from 'debounce';
 import { settings } from 'carbon-components';
-import { SectionType, Field, Item } from '../../types';
 import { getId } from '../../../../utils/document/idUtils';
+import { createFieldRects, findOffsetInDOM } from '../../../../utils/document/documentUtils';
+import { clearNodeChildren } from '../../../../utils/dom';
 import elementFromPoint from '../../utils/elementFromPoint';
-import { getTextNodeAndOffset } from '../../utils/getTextNodeAndOffset';
-import { createFieldRects } from '../../../../utils/document/documentUtils';
+import { SectionType, Field, Item } from '../../types';
 
 export type OnFieldClickFn = (field: Field) => void;
 
@@ -171,21 +171,14 @@ function renderSectionFields(
   }
 
   // Clear out any existing field nodes (from previous creations)
-  while (fieldsNode.firstChild) {
-    fieldsNode.removeChild(fieldsNode.firstChild);
-  }
+  clearNodeChildren(fieldsNode);
 
   if (!section.enrichments) {
     return;
   }
 
-  const allNodes = Array.from(contentNode.querySelectorAll('*')) as HTMLElement[];
-
-  const fieldRanges = [];
-
   // Keep track of the last begin index and sort the enrichments array by begin
   // This brings the function down from O(m * n) to O(m + n)
-  let beginIndex = 0;
   section.enrichments.sort((a, b) => {
     // Sort based on begin, and then by end (if begins are equal)
     return a.location.begin !== b.location.begin
@@ -193,71 +186,25 @@ function renderSectionFields(
       : a.location.end - b.location.end;
   });
 
+  const sectionRect = sectionNode.getBoundingClientRect();
+  // Store all changes in fragment then add them at the end (to prevent unnecessary reflow)
+  const fragment = document.createDocumentFragment();
+
   for (const field of section.enrichments) {
     const fieldType = field.__type;
     const { begin, end } = field.location;
 
-    // find begin node
-    let beginNode;
-    // Start at the previous begin node index (for performance)
-    let idx = beginIndex;
-    do {
-      beginNode = allNodes[idx];
-    } while (
-      ++idx &&
-      idx < allNodes.length &&
-      begin >= parseInt(allNodes[idx].dataset.childBegin as string, 10)
-    );
+    const offsets = findOffsetInDOM(contentNode, begin, end);
 
-    // get begin TEXT node and offset
-    const { textNode: beginTextNode, textOffset: beginOffset } = getTextNodeAndOffset(
-      beginNode,
-      begin
-    );
-
-    idx--; // reset to index of `beginNode`
-    beginIndex = idx;
-
-    // find end node
-    // start with index of `beginNode`
-    let endNode;
-    do {
-      endNode = allNodes[idx];
-    } while (
-      ++idx &&
-      idx < allNodes.length &&
-      end > parseInt(allNodes[idx].dataset.childBegin as string, 10)
-    );
-
-    const { textNode: endTextNode, textOffset: endOffset } = getTextNodeAndOffset(endNode, end);
-
-    fieldRanges.push({
+    createFieldRects({
+      fragment,
+      parentRect: sectionRect as DOMRect,
       fieldType,
       fieldId: getId((field as unknown) as Item),
-      beginTextNode,
-      beginOffset,
-      endTextNode,
-      endOffset
+      ...offsets
     });
   }
 
-  const sectionRect = sectionNode.getBoundingClientRect();
-  // Store all changes in fragment then add them at the end (to prevent unnecessary reflow)
-  const fragment = document.createDocumentFragment();
-  fieldRanges.forEach(
-    ({ fieldType, fieldId, beginTextNode, beginOffset, endTextNode, endOffset }) => {
-      createFieldRects({
-        fragment,
-        parentRect: sectionRect as DOMRect,
-        fieldType,
-        fieldId,
-        beginTextNode,
-        beginOffset,
-        endTextNode,
-        endOffset
-      });
-    }
-  );
   fieldsNode.appendChild(fragment);
 }
 

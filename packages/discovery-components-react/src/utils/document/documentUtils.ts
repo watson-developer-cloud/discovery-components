@@ -1,4 +1,5 @@
 import uniqWith from 'lodash/uniqWith';
+import { getEncodedTextNodeLength } from '../dom';
 
 interface FindOffsetResults {
   beginTextNode: Text;
@@ -23,35 +24,37 @@ export interface NodeOffset {
 export function findOffsetInDOM(
   parentNode: HTMLElement,
   begin: number,
-  end: number,
-  _getTextNodeAndOffset?: (node: Node, offset: number) => NodeOffset
+  end: number
 ): FindOffsetResults {
-  const textNodeAndOffsetFn = _getTextNodeAndOffset || getTextNodeAndOffset;
+  const allNodes = Array.from(parentNode.querySelectorAll('[data-child-begin]')) as HTMLElement[];
 
-  let beginNode, endNode;
-  let node = parentNode.firstElementChild as HTMLElement;
+  let beginNode,
+    endNode,
+    idx = 0;
+
   do {
-    beginNode = node;
+    beginNode = allNodes[idx];
   } while (
-    (node = node.nextElementSibling as HTMLElement) &&
-    node &&
-    begin >= parseInt(node.dataset.childBegin || '0', 10)
+    ++idx &&
+    idx < allNodes.length &&
+    begin >= parseInt(allNodes[idx].dataset.childBegin || '0', 10)
   );
 
-  node = beginNode;
+  idx--; // reset to index of `beginNode`
+
   do {
-    endNode = node;
+    endNode = allNodes[idx];
   } while (
-    (node = node.nextElementSibling as HTMLElement) &&
-    node &&
-    end > parseInt(node.dataset.childBegin || '0', 10)
+    ++idx &&
+    idx < allNodes.length &&
+    end > parseInt(allNodes[idx].dataset.childBegin as string, 10)
   );
 
-  const { textNode: beginTextNode, textOffset: beginOffset } = textNodeAndOffsetFn(
+  const { textNode: beginTextNode, textOffset: beginOffset } = getTextNodeAndOffset(
     beginNode,
     begin
   );
-  const { textNode: endTextNode, textOffset: endOffset } = textNodeAndOffsetFn(endNode, end);
+  const { textNode: endTextNode, textOffset: endOffset } = getTextNodeAndOffset(endNode, end);
 
   return {
     beginTextNode: beginTextNode as Text,
@@ -65,14 +68,16 @@ export function getTextNodeAndOffset(node: Node, offset: number): NodeOffset {
   const nodeOffset = parseInt((node as HTMLElement).dataset.childBegin || '0', 10);
   const iterator = document.createNodeIterator(node, NodeFilter.SHOW_TEXT);
 
-  let textNode: Text;
-  let runningOffset = nodeOffset;
+  let textNode: Text,
+    runningOffset = nodeOffset,
+    len: number;
   do {
     textNode = iterator.nextNode() as Text;
   } while (
     textNode &&
-    offset > runningOffset + textNode.length &&
-    (runningOffset += textNode.length)
+    (len = getEncodedTextNodeLength(textNode)) &&
+    offset > runningOffset + len &&
+    (runningOffset += len)
   );
 
   if (textNode === null) {

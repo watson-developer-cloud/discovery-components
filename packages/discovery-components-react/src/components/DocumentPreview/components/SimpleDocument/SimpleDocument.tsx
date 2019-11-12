@@ -6,7 +6,7 @@ import {
   QueryTableResult
 } from '@disco-widgets/ibm-watson/discovery/v2';
 import get from 'lodash/get';
-import { clearNodeChildren } from '../../utils/dom';
+import { clearNodeChildren } from '../../../../utils/dom';
 import { findOffsetInDOM, createFieldRects } from '../../../../utils/document/documentUtils';
 import { isPassage } from '../Highlight/passages';
 

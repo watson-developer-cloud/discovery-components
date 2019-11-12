@@ -1,7 +1,6 @@
 import findIndex from 'lodash/findIndex';
-import SaxesParser, { ParsingError } from './saxesParser';
+import { SaxParser, Parser, ParsingError, Attributes } from './saxParser';
 import { QueryResult } from '@disco-widgets/ibm-watson/discovery/v2';
-import { SaxesTag } from 'saxes';
 import { isRelationObject } from './nonContractUtils';
 import { getId } from './idUtils';
 import transformEnrichment from './transformEnrichment';
@@ -103,7 +102,7 @@ export default async function processDoc(
     doc.bboxes = [];
   }
 
-  const parser = new SaxesParser();
+  const parser = new SaxParser();
 
   // setup initial parsing handling
   setupDocParser(parser, doc);
@@ -121,11 +120,11 @@ export default async function processDoc(
   return doc;
 }
 
-function setupDocParser(parser: SaxesParser, doc: ProcessedDoc): void {
+function setupDocParser(parser: SaxParser, doc: ProcessedDoc): void {
   parser.pushState({
-    onopentag: function(tag: SaxesTag) {
+    onopentag: (_: Parser, tagName: string): void => {
       /* eslint-disable-next-line default-case */
-      switch (tag.name) {
+      switch (tagName) {
         case 'style': {
           setupStyleParser(parser, doc);
           break;
@@ -139,21 +138,21 @@ function setupDocParser(parser: SaxesParser, doc: ProcessedDoc): void {
   });
 }
 
-function setupStyleParser(parser: SaxesParser, doc: ProcessedDoc): void {
+function setupStyleParser(parser: SaxParser, doc: ProcessedDoc): void {
   let styleText = '';
 
   parser.pushState({
-    onopentag: function(tag: SaxesTag) {
-      throw new ParsingError(`Unexpected open tag (${tag.name}) in <style>`);
+    onopentag: (_: Parser, tagName: string): void => {
+      throw new ParsingError(`Unexpected open tag (${tagName}) in <style>`);
     },
 
-    ontext: function(text: string) {
+    ontext: (_: Parser, text: string): void => {
       styleText += text;
     },
 
-    onclosetag: function(tag: SaxesTag) {
-      if (tag.name !== 'style') {
-        throw new ParsingError(`Unexpected close tag (${tag.name}); expected </style>`);
+    onclosetag: (_: Parser, tagName: string): void => {
+      if (tagName !== 'style') {
+        throw new ParsingError(`Unexpected close tag (${tagName}); expected </style>`);
       }
 
       // finish
@@ -165,46 +164,47 @@ function setupStyleParser(parser: SaxesParser, doc: ProcessedDoc): void {
   });
 }
 
-function setupBodyParser(parser: SaxesParser, doc: ProcessedDoc): void {
+function setupBodyParser(parser: SaxParser, doc: ProcessedDoc): void {
   parser.pushState({
-    onopentag: function(tag: SaxesTag) {
-      if (SECTION_NAMES.includes(tag.name)) {
-        setupSectionParser(parser, doc, tag, this.position);
+    onopentag: (p: Parser, tagName: string, attributes: Attributes): void => {
+      if (SECTION_NAMES.includes(tagName)) {
+        setupSectionParser(
+          parser,
+          doc,
+          tagName,
+          attributes,
+          p.startIndex,
+          getChildBeginFromOpenTag(p)
+        );
       }
-    },
-
-    ontext: function() {
-      // Don't throw error; just keep parsing
-      // eslint-disable-next-line no-console
-      console.error('Unexpected text while parsing body');
     }
   });
 }
 
 function setupSectionParser(
-  parser: SaxesParser,
+  parser: SaxParser,
   doc: ProcessedDoc,
-  sectionTag: SaxesTag,
-  sectionPosition: number
+  sectionTagName: string,
+  sectionTagAttrs: Attributes,
+  sectionStartIndex: number,
+  sectionChildBegin: number
 ): void {
-  const { name: sectionTagName } = sectionTag;
   let lastClassName = '';
   let currentTable: Table | null = null;
 
   // track nested nodes of same tag name
   let stackCount = 1;
   const openTagIndices = [0];
-  const sectionHtml = [openTagToString(sectionTag, sectionPosition)];
+  const sectionHtml = [openTagToString(sectionTagName, sectionTagAttrs, sectionChildBegin)];
 
   parser.pushState({
-    onopentag: function(tag: SaxesTag) {
-      const { attributes } = tag;
+    onopentag: (p: Parser, tagName: string, attributes: Attributes): void => {
       if (attributes.class) {
         lastClassName = attributes.class as string;
       }
 
-      if (tag.name !== BBOX_TAG || !SKIP_BBOX) {
-        sectionHtml.push(openTagToString(tag, this.position));
+      if (tagName !== BBOX_TAG || !SKIP_BBOX) {
+        sectionHtml.push(openTagToString(tagName, attributes, getChildBeginFromOpenTag(p)));
         openTagIndices.push(sectionHtml.length - 1);
       }
 
@@ -212,10 +212,10 @@ function setupSectionParser(
       //    data-max-x="48.999847412109375" data-max-y="72.62348937988281"
       //    data-min-height="78.36000061035156" data-min-width="514.1761474609375"
       //    data-min-x="48.999847412109375" data-min-y="72.62348937988281" data-page="39">
-      if (tag.name === TABLE_TAG && doc.tables) {
+      if (tagName === TABLE_TAG && doc.tables) {
         currentTable = {
           location: {
-            begin: this.position,
+            begin: p.startIndex,
             end: 0
           },
           bboxes: []
@@ -224,7 +224,7 @@ function setupSectionParser(
       }
 
       // <bbox height="6.056159973144531" page="1" width="150.52044677734375" x="72.0" y="116.10381317138672">
-      if (tag.name === BBOX_TAG && (doc.bboxes || currentTable)) {
+      if (tagName === BBOX_TAG && (doc.bboxes || currentTable)) {
         const left = Number(attributes.x);
         const top = Number(attributes.y);
         const bbox = {
@@ -243,33 +243,33 @@ function setupSectionParser(
         }
       }
 
-      if (tag.name === sectionTagName) {
+      if (tagName === sectionTagName) {
         stackCount++;
       }
     },
 
-    ontext: function(text: string) {
+    ontext: (_: Parser, text: string): void => {
       sectionHtml.push(text);
     },
 
-    onclosetag: function(tag: SaxesTag) {
-      if (tag.name !== BBOX_TAG || !SKIP_BBOX) {
-        sectionHtml.push(closeTagToString(tag));
+    onclosetag: (p: Parser, tagName: string): void => {
+      if (tagName !== BBOX_TAG || !SKIP_BBOX) {
+        sectionHtml.push(closeTagToString(tagName));
 
         // update opening tag with location of closing tag
         const openTagIdx = openTagIndices.pop() as number;
         sectionHtml[openTagIdx] = sectionHtml[openTagIdx].replace(
-          '>',
-          ` data-child-end="${this.position}">`
+          />$/,
+          ` data-child-end="${getChildEndFromCloseTag(p)}">`
         );
       }
 
-      if (doc.tables && tag.name === TABLE_TAG && currentTable) {
-        currentTable.location.end = this.position;
+      if (doc.tables && tagName === TABLE_TAG && currentTable) {
+        currentTable.location.end = p.endIndex || p.startIndex;
         currentTable = null;
       }
 
-      if (tag.name === sectionTagName) {
+      if (tagName === sectionTagName) {
         stackCount--;
 
         if (stackCount === 0) {
@@ -278,8 +278,8 @@ function setupSectionParser(
             doc.sections.push({
               html: sectionHtml.join(''),
               location: {
-                begin: sectionPosition,
-                end: this.position
+                begin: sectionStartIndex,
+                end: p.endIndex || p.startIndex
               },
               enrichments: []
             });
@@ -293,9 +293,19 @@ function setupSectionParser(
   });
 }
 
-function openTagToString(tag: SaxesTag, position: number): string {
-  const { name, attributes, isSelfClosing } = tag;
-  const text = [`<${name}`];
+function getChildBeginFromOpenTag(p: Parser): number {
+  // For an open tag, `p.endIndex` will be the ">". Add one to get
+  // offset for child content.
+  // (Default to `startIndex` since `endIndex` is marked as possibly null)
+  return (p.endIndex || p.startIndex) + 1;
+}
+
+function getChildEndFromCloseTag(p: Parser): number {
+  return p.startIndex;
+}
+
+function openTagToString(tagName: string, attributes: Attributes, position: number): string {
+  const text = [`<${tagName}`];
 
   if (attributes) {
     for (const [attr, val] of Object.entries(attributes)) {
@@ -304,12 +314,12 @@ function openTagToString(tag: SaxesTag, position: number): string {
   }
 
   text.push(` data-child-begin="${position}"`);
-  text.push(isSelfClosing ? '/>' : '>');
+  text.push('>');
   return text.join('');
 }
 
-function closeTagToString(tag: SaxesTag): string {
-  return `</${tag.name}>`;
+function closeTagToString(tagName: string): string {
+  return `</${tagName}>`;
 }
 
 function sortFields(_enrichments: any, doc: ProcessedDoc): void {
