@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.24.27](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-search-app@1.24.26...discovery-search-app@1.24.27) (2019-11-12)
+
+
+### Bug Fixes
+
+* default showDynamicFacets & showCollections to true ([#374](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/374)) ([41115ff](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/41115ff))
+
+
+
+
+
 ## [1.24.26](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-search-app@1.24.25...discovery-search-app@1.24.26) (2019-11-11)
 
 **Note:** Version bump only for package discovery-search-app
