@@ -17,9 +17,8 @@ export type CINavigationToolbarProps = NavigationToolbarProps;
 export type Messages = Messages;
 
 // export components
-export {
-  canRenderCIDocument,
-  CIDocument,
-  CIDocumentContent,
-  NavigationToolbar as CINavigationToolbar
-};
+const CIDoc: any = CIDocument;
+CIDoc.CIDocumentContent = CIDocumentContent;
+CIDoc.CINavigationToolbar = NavigationToolbar;
+
+export { CIDoc as CIDocument, canRenderCIDocument };

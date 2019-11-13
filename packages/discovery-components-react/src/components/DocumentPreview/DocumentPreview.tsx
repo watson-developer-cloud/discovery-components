@@ -8,11 +8,7 @@ import {
   QueryTableResult
 } from '@disco-widgets/ibm-watson/discovery/v2';
 import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
-import PreviewToolbar, {
-  ZOOM_IN,
-  ZOOM_OUT,
-  ZOOM_RESET
-} from './components/PreviewToolbar/PreviewToolbar';
+import { PreviewToolbar } from './components/PreviewToolbar/PreviewToolbar';
 import PdfViewer from './components/PdfViewer/PdfViewer';
 import PdfFallback, { supportsPdfFallback } from './components/PdfFallback/PdfFallback';
 import SimpleDocument from './components/SimpleDocument/SimpleDocument';
@@ -22,6 +18,8 @@ import { getTextMappings } from './utils/documentData';
 import withErrorBoundary, { WithErrorBoundaryProps } from '../../utils/hoc/withErrorBoundary';
 import { defaultMessages, Messages } from './messages';
 import { TextMappings } from './types';
+
+const { ZOOM_IN, ZOOM_OUT } = PreviewToolbar;
 
 interface Props extends WithErrorBoundaryProps {
   /**
@@ -113,7 +111,7 @@ const DocumentPreview: FC<Props> = ({
             current={currentPage}
             total={loading ? 0 : pageCount}
             onChange={setCurrentPage}
-            onZoom={(zoom): void => {
+            onZoom={(zoom: any): void => {
               if (zoom === ZOOM_IN || zoom === ZOOM_OUT) {
                 setScale(zoom === ZOOM_IN ? scale * SCALE_FACTOR : scale / SCALE_FACTOR);
               } else {
@@ -231,13 +229,10 @@ function PreviewDocument({
   return null;
 }
 
-const ErrorBoundDocumentPreview = withErrorBoundary(DocumentPreview);
+//Replace any with a proper TS check
+const ErrorBoundDocumentPreview: any = withErrorBoundary(DocumentPreview);
+ErrorBoundDocumentPreview.PreviewToolbar = PreviewToolbar;
+ErrorBoundDocumentPreview.PreviewDocument = PreviewDocument;
+
 export default ErrorBoundDocumentPreview;
-export {
-  ErrorBoundDocumentPreview as DocumentPreview,
-  PreviewToolbar,
-  PreviewDocument,
-  ZOOM_IN,
-  ZOOM_OUT,
-  ZOOM_RESET
-};
+export { ErrorBoundDocumentPreview as DocumentPreview };

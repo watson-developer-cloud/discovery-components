@@ -147,4 +147,9 @@ function currentPageChanged(e: Event, onChange: (page: number) => void, inputRef
   onChange(pageInput);
 }
 
-export default PreviewToolbar;
+const PrevToolbar: any = PreviewToolbar;
+PrevToolbar.ZOOM_IN = ZOOM_IN;
+PrevToolbar.ZOOM_OUT = ZOOM_OUT;
+PrevToolbar.ZOOM_RESET = ZOOM_RESET;
+
+export { PrevToolbar as PreviewToolbar };
