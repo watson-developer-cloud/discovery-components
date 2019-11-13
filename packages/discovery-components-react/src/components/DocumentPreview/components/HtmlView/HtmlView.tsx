@@ -9,16 +9,21 @@ interface Props {
    */
   document: QueryResult;
   /**
+   * Check to disable toolbar in parent
+   */
+  setLoading: (loading: boolean) => void;
+  /**
    * Callback to disable toolbar in parent
    */
   disableToolbar?: (disabled: boolean) => void;
 }
 
-export const HtmlView: FC<Props> = ({ document, disableToolbar }) => {
+export const HtmlView: FC<Props> = ({ document, disableToolbar, setLoading }) => {
   const html = document ? DOMPurify.sanitize(get(document, 'html')) : '';
   if (disableToolbar) {
     disableToolbar(true);
   }
+  setLoading(false);
 
   return <div dangerouslySetInnerHTML={{ __html: html }} />;
 };

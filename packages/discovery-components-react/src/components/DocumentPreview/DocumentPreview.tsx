@@ -213,7 +213,9 @@ function PreviewDocument({
     const isHtmlType = get(document, 'extracted_metadata.file_type') === 'html';
 
     if (isHtmlType) {
-      return <HtmlView document={document} disableToolbar={disableToolbar} />;
+      return (
+        <HtmlView document={document} setLoading={setLoading} disableToolbar={disableToolbar} />
+      );
     }
 
     return (
