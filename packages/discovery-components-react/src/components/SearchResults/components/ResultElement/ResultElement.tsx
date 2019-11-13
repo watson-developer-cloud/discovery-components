@@ -3,6 +3,7 @@ import { SelectedResult } from '../../../DiscoverySearch/DiscoverySearch';
 import { Button, Tile } from 'carbon-components-react';
 import Launch from '@carbon/icons-react/lib/launch/16.js';
 import TableSplit from '@carbon/icons-react/lib/table--split/16.js';
+import DOMPurify from 'dompurify';
 import {
   searchResultContentWrapperBodyClass,
   searchResultContentWrapperBodyButtonClass,
@@ -42,6 +43,10 @@ interface ResultElementProps {
    * TODO: This won't need to be passed through once tables are linked to documents and selecting the result works
    */
   showTablesOnlyResults?: boolean;
+  /**
+   * specifies whether to use dangerouslySetInnerHtml when rendering this result element
+   */
+  dangerouslyRenderHtml?: boolean;
 }
 
 export const ResultElement: React.FunctionComponent<ResultElementProps> = ({
@@ -51,7 +56,8 @@ export const ResultElement: React.FunctionComponent<ResultElementProps> = ({
   elementType = null,
   handleSelectResult,
   passageHighlightsClassName,
-  showTablesOnlyResults
+  showTablesOnlyResults,
+  dangerouslyRenderHtml
 }) => {
   const elementBodyClassNames: string[] = [searchResultContentWrapperBodyClass];
   if (elementType) {
@@ -64,13 +70,18 @@ export const ResultElement: React.FunctionComponent<ResultElementProps> = ({
   }
   const icon = elementType === 'table' ? TableSplit : Launch;
 
+  const elementBodyProps = {
+    className: elementBodyClassNames.join(' '),
+    'data-testid': `search-result-element-body-${elementType}`
+  };
+
   return (
     <Tile>
-      <div
-        className={elementBodyClassNames.join(' ')}
-        dangerouslySetInnerHTML={{ __html: body }}
-        data-testid={`search-result-element-body-${elementType}`}
-      />
+      {dangerouslyRenderHtml ? (
+        <div {...elementBodyProps} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(body) }} />
+      ) : (
+        <div {...elementBodyProps}>{body}</div>
+      )}
       {/* TODO: This check can go away once documents are linked to tables only results */}
       {!showTablesOnlyResults && (
         <Button

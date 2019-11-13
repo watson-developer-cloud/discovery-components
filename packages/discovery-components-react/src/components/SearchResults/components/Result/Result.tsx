@@ -71,6 +71,10 @@ export interface ResultProps {
    */
   tableInDocumentButtonText: string;
   /**
+   * specify whether or not any html in passages should be cleaned of html element tags
+   */
+  dangerouslyRenderHtml?: boolean;
+  /**
    * specify whether or not passages should be displayed in the search results
    */
   usePassages?: boolean;
@@ -89,6 +93,7 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   showTablesOnlyResults,
   table,
   tableInDocumentButtonText,
+  dangerouslyRenderHtml,
   usePassages
 }) => {
   const { setSelectedResult } = useContext(SearchApi);
@@ -98,12 +103,13 @@ export const Result: React.FunctionComponent<ResultProps> = ({
     result,
     'document_passages[0]'
   );
-  let displayedText: string | undefined;
-  if (usePassages) {
-    displayedText = get(firstPassage, 'passage_text') || get(result, bodyField);
-  } else {
-    displayedText = get(result, bodyField);
+  const firstPassageText = get(firstPassage, 'passage_text');
+  const hasPassage = usePassages && !!firstPassageText;
+  let displayedText: string | undefined = get(result, bodyField);
+  if (hasPassage) {
+    displayedText = firstPassageText;
   }
+  const shouldDangerouslyRenderHtml = hasPassage || dangerouslyRenderHtml;
   const displayedTextElement = usePassages && firstPassage ? firstPassage : null;
   const displayedTextElementType = usePassages && firstPassage ? 'passage' : null;
   const tableHtml: string | undefined = get(table, 'table_html');
@@ -173,6 +179,7 @@ export const Result: React.FunctionComponent<ResultProps> = ({
                 handleSelectResult={handleSelectResult}
                 passageHighlightsClassName={passageHighlightsClassName}
                 showTablesOnlyResults={showTablesOnlyResults}
+                dangerouslyRenderHtml={shouldDangerouslyRenderHtml}
               />
             )}
             {tableHtml && (
@@ -183,6 +190,7 @@ export const Result: React.FunctionComponent<ResultProps> = ({
                 elementType="table"
                 handleSelectResult={handleSelectResult}
                 showTablesOnlyResults={showTablesOnlyResults}
+                dangerouslyRenderHtml={true}
               />
             )}
           </>

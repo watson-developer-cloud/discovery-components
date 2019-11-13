@@ -21,7 +21,8 @@ const props = () => ({
   tablesOnlyToggleLabelText: text(
     'Label text for the toggle for showing table results only',
     'Show table results only'
-  )
+  ),
+  dangerouslyRenderHtml: boolean('Render passages as HTML', false)
 });
 
 const discoverySearchProps = (): DiscoverySearchProps => ({

@@ -32,6 +32,10 @@ export interface SearchResultsProps {
    */
   bodyField?: string;
   /**
+   * specify whether or not any html in passages should be cleaned of html element tags
+   */
+  dangerouslyRenderHtml?: boolean;
+  /**
    * specify whether or not passages should be displayed in the search results
    */
   usePassages?: boolean;
@@ -83,6 +87,7 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   resultLinkTemplate,
   resultTitleField,
   bodyField,
+  dangerouslyRenderHtml = false,
   usePassages,
   passageLength,
   passageHighlightsClassName,
@@ -201,6 +206,7 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
                     table={documentTableResult}
                     tableInDocumentButtonText={tableInDocumentButtonText}
                     usePassages={displaySettings.usePassages}
+                    dangerouslyRenderHtml={dangerouslyRenderHtml}
                   />
                 );
               })}

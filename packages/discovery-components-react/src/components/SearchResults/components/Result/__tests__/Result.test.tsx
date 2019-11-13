@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, RenderResult } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import {
   SearchContextIFC,
@@ -144,6 +144,67 @@ describe('<Result />', () => {
       );
       expect(getByText('this is the bodyField text')).toBeInTheDocument();
     });
+
+    it('will dangerously render the passages if they exist', () => {
+      (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
+        {
+          document_id: 'some document_id',
+          document_passages: [
+            {
+              passage_text: '<div><h1>This is a header</h1><p>This is some text</p></div>'
+            }
+          ]
+        }
+      ];
+      const resultsWithPassages = render(
+        wrapWithContext(
+          <SearchResults usePassages={true} dangerouslyRenderHtml={true} />,
+          {},
+          context
+        )
+      );
+
+      expect(resultsWithPassages.getByText('This is a header')).toBeInTheDocument;
+      expect(resultsWithPassages.getByText('This is some text')).toBeInTheDocument;
+      expect(
+        resultsWithPassages.queryByText(
+          '<div><h1>This is a header</h1><p>This is some text</p></div>'
+        )
+      ).toBe(null);
+    });
+
+    describe('and dangerouslyRenderHtml is set to false', () => {
+      let resultsWithPassages: RenderResult;
+      beforeEach(() => {
+        (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
+          {
+            document_id: 'some document_id',
+            document_passages: [
+              {
+                passage_text: '<div><h1>This is a header</h1><p>This is some text</p></div>'
+              }
+            ]
+          }
+        ];
+        resultsWithPassages = render(
+          wrapWithContext(
+            <SearchResults usePassages={true} dangerouslyRenderHtml={false} />,
+            {},
+            context
+          )
+        );
+      });
+
+      it('will render the passage as cleaned html', () => {
+        expect(resultsWithPassages.getByText('This is a header')).toBeInTheDocument;
+        expect(resultsWithPassages.getByText('This is some text')).toBeInTheDocument;
+        expect(
+          resultsWithPassages.queryByText(
+            '<div><h1>This is a header</h1><p>This is some text</p></div>'
+          )
+        ).toBe(null);
+      });
+    });
   });
 
   describe('when usePassages is set to false', () => {
@@ -166,10 +227,77 @@ describe('<Result />', () => {
           )
         );
         expect(
-          getByText((_, element) => element.textContent === 'i am other text')
+          getByText((_, element) => element.textContent === 'i <em>am</em> other text')
         ).toBeInTheDocument();
       });
+
+      describe('and dangerouslyRenderHtml is set to true', () => {
+        let results: RenderResult;
+
+        beforeEach(() => {
+          (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
+            {
+              document_id: 'some document_id',
+              text: 'i am text',
+              highlight: {
+                text: ['<div><h1>This is a header</h1><p>This is some text</p></div>']
+              }
+            }
+          ];
+          results = render(
+            wrapWithContext(
+              <SearchResults
+                bodyField={'highlight.text[0]'}
+                usePassages={false}
+                dangerouslyRenderHtml={true}
+              />,
+              {},
+              context
+            )
+          );
+        });
+
+        it('renders the bodyField as cleaned html elements', () => {
+          expect(results.getByText('This is a header')).toBeInTheDocument;
+          expect(results.getByText('This is some text')).toBeInTheDocument;
+          expect(
+            results.queryByText('<div><h1>This is a header</h1><p>This is some text</p></div>')
+          ).toBe(null);
+        });
+      });
+
+      describe('and dangerouslyRenderHtml is set to false', () => {
+        let results: RenderResult;
+
+        beforeEach(() => {
+          (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
+            {
+              document_id: 'some document_id',
+              text: 'i am text',
+              highlight: {
+                text: ['i <em>am</em> other text']
+              }
+            }
+          ];
+          results = render(
+            wrapWithContext(
+              <SearchResults
+                bodyField={'highlight.text[0]'}
+                usePassages={false}
+                dangerouslyRenderHtml={false}
+              />,
+              {},
+              context
+            )
+          );
+        });
+
+        it('renders the bodyField text as the original string', () => {
+          expect(results.getByText('i <em>am</em> other text')).toBeInTheDocument();
+        });
+      });
     });
+
     describe('and bodyField is undefined', () => {
       beforeEach(() => {
         (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
@@ -224,7 +352,7 @@ describe('<Result />', () => {
             wrapWithContext(<SearchResults bodyField={'highlight.text[0]'} />, {}, context)
           );
           expect(
-            getByText((_, element) => element.textContent === 'i am other text')
+            getByText((_, element) => element.textContent === 'i <em>am</em> other text')
           ).toBeInTheDocument();
         });
       });
