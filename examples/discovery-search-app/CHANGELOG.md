@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.24.32](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-search-app@1.24.31...discovery-search-app@1.24.32) (2019-11-13)
+
+
+### Bug Fixes
+
+* Handle setting query count parameter ([#365](https://github.ibm.com/Watson-Discovery/disco-widgets/issues/365)) ([d930f7c](https://github.ibm.com/Watson-Discovery/disco-widgets/commit/d930f7c))
+
+
+
+
+
 ## [1.24.31](https://github.ibm.com/Watson-Discovery/disco-widgets/compare/discovery-search-app@1.24.30...discovery-search-app@1.24.31) (2019-11-12)
 
 **Note:** Version bump only for package discovery-search-app

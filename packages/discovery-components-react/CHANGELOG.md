@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.66.4](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.66.3...@disco-widgets/react-components@1.66.4) (2019-11-13)
+
+
+### Bug Fixes
+
+* Handle setting query count parameter ([#365](https://github.com/watson-developer-cloud/discovery-components/issues/365)) ([d930f7c](https://github.com/watson-developer-cloud/discovery-components/commit/d930f7c))
+
+
+
+
+
 ## [1.66.3](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.66.2...@disco-widgets/react-components@1.66.3) (2019-11-12)
 
 
