@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.67.1](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.67.0...@disco-widgets/react-components@1.67.1) (2019-11-13)
+
+
+### Bug Fixes
+
+* Revert usedata api ([#384](https://github.com/watson-developer-cloud/discovery-components/issues/384)) ([6d1e76b](https://github.com/watson-developer-cloud/discovery-components/commit/6d1e76b))
+
+
+
+
+
 # [1.67.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.66.5...@disco-widgets/react-components@1.67.0) (2019-11-13)
 
 
