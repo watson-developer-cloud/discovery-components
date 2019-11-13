@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.67.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.66.5...@disco-widgets/react-components@1.67.0) (2019-11-13)
+
+
+### Features
+
+* only dangerously render sanitized html passages ([#362](https://github.com/watson-developer-cloud/discovery-components/issues/362)) ([0187037](https://github.com/watson-developer-cloud/discovery-components/commit/0187037))
+
+
+
+
+
 ## [1.66.5](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.66.4...@disco-widgets/react-components@1.66.5) (2019-11-13)
 
 
