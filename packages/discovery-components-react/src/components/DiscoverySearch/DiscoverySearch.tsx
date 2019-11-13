@@ -5,7 +5,7 @@ import {
   useDeepCompareCallback,
   useDeepCompareMemo
 } from '../../utils/useDeepCompareMemoize';
-import { useSearchResultsApi, SearchResponseStore } from '../../utils/useDataApi';
+import { SearchResponseStore } from '../../utils/useDataApi';
 import { SearchClient } from './types';
 
 export type SearchParams = Omit<DiscoveryV2.QueryParams, 'projectId' | 'headers'>;
@@ -172,24 +172,22 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
     boolean
   >();
 
-  const [
-    searchResponseStore,
-    { setSearchParameters, setSearchResponse, performSearch }
-  ] = useSearchResultsApi(
-    { projectId, ...overrideQueryParameters },
-    overrideSearchResults,
-    searchClient
-  );
+  const [searchResponse, setSearchResponse] = useState(overrideSearchResults);
+  const [searchParameters, setSearchParameters] = useState({
+    projectId,
+    ...overrideQueryParameters
+  });
+
   const handleSearch = useCallback(
-    (searchParameters, resetAggregations = true): void => {
+    async (searchParameters, resetAggregations = true): Promise<void> => {
       setSearchParameters(searchParameters);
-      performSearch((result: DiscoveryV2.QueryResponse) => {
-        if (resetAggregations && result && result.aggregations) {
-          setAggregationResults(result.aggregations);
-        }
-      });
+      const { result } = await searchClient.query(searchParameters);
+      setSearchResponse(result);
+      if (resetAggregations && result && result.aggregations) {
+        setAggregationResults(result.aggregations);
+      }
     },
-    [performSearch, setSearchParameters]
+    [searchClient]
   );
 
   useDeepCompareEffect(() => {
@@ -319,7 +317,12 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
     return {
       aggregationResults,
       autocompletionResults,
-      searchResponseStore,
+      searchResponseStore: {
+        data: searchResponse,
+        parameters: searchParameters,
+        isLoading: false,
+        isError: false
+      },
       selectedResult,
       collectionsResults,
       componentSettings,
@@ -330,7 +333,8 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
     aggregationResults,
     collectionsResults,
     autocompletionResults,
-    searchResponseStore,
+    searchResponse,
+    searchParameters,
     selectedResult,
     componentSettings,
     isResultsPaginationComponentHidden
