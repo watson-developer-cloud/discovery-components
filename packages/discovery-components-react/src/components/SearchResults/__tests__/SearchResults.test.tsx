@@ -171,10 +171,13 @@ describe('<SearchResults />', () => {
       render(wrapWithContext(<SearchResults passageLength={20} />, api, context));
       expect(setSearchParametersMock).toBeCalledTimes(1);
       expect(setSearchParametersMock).toBeCalledWith(expect.any(Function));
-      // TODO: how to assert an anonymous function's return value?
-      // expect.objectContaining({
-      //   passages: { characters: 20, enabled: true }
-      // })
+      const returnFunc = setSearchParametersMock.mock.calls[0][0];
+      const returnValue = returnFunc();
+      expect(returnValue).toEqual(
+        expect.objectContaining({
+          passages: { characters: 20, enabled: true }
+        })
+      );
     });
   });
 

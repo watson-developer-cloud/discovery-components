@@ -23,6 +23,7 @@ const App = () => {
     authenticator
   });
   const [overrideQueryParameters] = useState({
+    count: 10,
     aggregation:
       '[term(extracted_metadata.title,count:10),term(extracted_metadata.file_type,count:10)]'
   });

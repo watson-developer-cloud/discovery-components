@@ -96,7 +96,13 @@ describe('<SearchInput />', () => {
 
     test('calls setSearchParameters with spelling suggestions enabled', () => {
       expect(setSearchParametersMock).toBeCalledWith(expect.any(Function));
-      // TODO how to assert anonymous function call return value?
+      const returnFunc = setSearchParametersMock.mock.calls[1][0];
+      const returnValue = returnFunc();
+      expect(returnValue).toEqual(
+        expect.objectContaining({
+          spellingSuggestions: true
+        })
+      );
     });
   });
 

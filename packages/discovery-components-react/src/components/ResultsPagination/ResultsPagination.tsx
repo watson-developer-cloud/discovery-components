@@ -1,14 +1,15 @@
-import React, { FC, useContext } from 'react';
+import React, { FC, useContext, useEffect } from 'react';
 import { Pagination as CarbonPagination } from 'carbon-components-react';
 import { SearchApi, SearchContext } from '../DiscoverySearch/DiscoverySearch';
+import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import get from 'lodash/get';
 import { settings } from 'carbon-components';
 
-interface ResultsPaginationProps {
+export interface ResultsPaginationProps {
   /**
    * Current page displayed
    */
-  page: number;
+  page?: number;
   /**
    * page size to use
    */
@@ -16,7 +17,7 @@ interface ResultsPaginationProps {
   /**
    * Array of available result items to show per page
    */
-  pageSizes: Array<number>;
+  pageSizes?: Array<number>;
   /**
    * specify whether to show the selector for dynamically changing the available result items to show per page
    */
@@ -34,21 +35,29 @@ export const ResultsPagination: FC<ResultsPaginationProps> = ({
   pageSize,
   showPageSizeSelector = true
 }) => {
-  const { performSearch } = useContext(SearchApi);
+  const { performSearch, setSearchParameters } = useContext(SearchApi);
   const {
     searchResponseStore: { data: searchResponse, parameters: searchParameters },
     componentSettings,
     isResultsPaginationComponentHidden
   } = useContext(SearchContext);
+
+  const resultsPerPage = get(componentSettings, 'results_per_page', 10);
+  useEffect(() => {
+    if (!!pageSize || !!resultsPerPage) {
+      setSearchParameters((currentSearchParameters: DiscoveryV2.QueryParams) => {
+        return { ...currentSearchParameters, count: pageSize || resultsPerPage };
+      });
+    }
+  }, [setSearchParameters, pageSize, resultsPerPage]);
+
   const matchingResults = (searchResponse && searchResponse.matching_results) || 0;
-  const displaySettings = {
-    pageSize: pageSize || get(componentSettings, 'results_per_page')
-  };
+  const actualPageSize = searchParameters.count || 10;
   // the default behavior of Carbon is to discard pageSize if it is not included in pageSizes,
   // we instead choose to make it so that pageSize is appended to pageSizes if it is not already included.
-  if (displaySettings.pageSize && !pageSizes.includes(displaySettings.pageSize)) {
-    pageSizes.push(displaySettings.pageSize);
-    pageSizes = pageSizes.sort();
+  if (!pageSizes.includes(actualPageSize)) {
+    pageSizes.push(actualPageSize);
+    pageSizes = pageSizes.sort((a, b) => a - b);
   }
 
   const classNames = [`${settings.prefix}--pagination`];
@@ -59,28 +68,39 @@ export const ResultsPagination: FC<ResultsPaginationProps> = ({
   const handleOnChange = (evt: ResultsPaginationEvent): void => {
     const { page, pageSize } = evt;
     const offset = (page - 1) * pageSize;
-    performSearch({ ...searchParameters, offset }, false);
+    performSearch(
+      {
+        ...searchParameters,
+        count: pageSize,
+        offset
+      },
+      false
+    );
   };
 
   const handleItemRangeText = (min: number, max: number, total: number) => {
     return `${min}–${max} of ${total} results`;
   };
 
-  return (
-    <>
-      {!isResultsPaginationComponentHidden && (
-        <CarbonPagination
-          className={classNames.join(' ')}
-          page={page}
-          totalItems={matchingResults}
-          pageSizes={pageSizes}
-          pageSize={displaySettings.pageSize}
-          onChange={handleOnChange}
-          itemRangeText={handleItemRangeText}
-        />
-      )}
-    </>
-  );
+  if (!!componentSettings) {
+    return (
+      <>
+        {!isResultsPaginationComponentHidden && (
+          <CarbonPagination
+            className={classNames.join(' ')}
+            page={page}
+            totalItems={matchingResults}
+            pageSize={actualPageSize}
+            pageSizes={pageSizes}
+            onChange={handleOnChange}
+            itemRangeText={handleItemRangeText}
+          />
+        )}
+      </>
+    );
+  }
+
+  return null;
 };
 
 export default ResultsPagination;
