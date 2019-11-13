@@ -13,8 +13,7 @@ const props = () => ({
   className: text('ClassName', ''),
   small: boolean('Small', false),
   light: boolean('Light', true),
-  placeHolderText: text('Placeholder', 'Placeholder text'),
-  labelText: text('Label', 'Label text'),
+  placeHolderText: text('Placeholder', 'Search'),
   closeButtonLabelText: text('Close button label', 'Close button label text'),
   id: text('ID', ''),
   splitSearchQuerySelector: text(

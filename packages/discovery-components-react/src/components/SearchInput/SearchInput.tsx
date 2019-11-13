@@ -4,15 +4,7 @@ import get from 'lodash/get';
  * @class SearchInput
  */
 
-import React, {
-  FC,
-  useContext,
-  useEffect,
-  useState,
-  ReactNode,
-  SyntheticEvent,
-  KeyboardEvent
-} from 'react';
+import React, { FC, useContext, useEffect, useState, SyntheticEvent, KeyboardEvent } from 'react';
 import { settings } from 'carbon-components';
 import { Search as CarbonSearchInput } from 'carbon-components-react';
 import ListBox from 'carbon-components-react/lib/components/ListBox';
@@ -36,10 +28,6 @@ interface SearchInputProps {
    * className to style SearchInput
    */
   className?: string;
-  /**
-   * Label text for the SearchInput
-   */
-  labelText?: ReactNode;
   /**
    * True to use the light theme
    */
@@ -77,9 +65,8 @@ interface SearchInputProps {
 export const SearchInput: FC<SearchInputProps> = props => {
   const {
     small,
-    placeHolderText,
+    placeHolderText = 'Search',
     className,
-    labelText = 'Search',
     light,
     closeButtonLabelText,
     id,
@@ -280,7 +267,6 @@ export const SearchInput: FC<SearchInputProps> = props => {
           placeHolderText={placeHolderText}
           onKeyUp={handleOnKeyUp}
           onChange={handleOnChange}
-          labelText={labelText}
           light={light}
           closeButtonLabelText={closeButtonLabelText}
           value={value}
