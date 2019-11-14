@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.67.4](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.67.3...@disco-widgets/react-components@1.67.4) (2019-11-14)
+
+
+### Bug Fixes
+
+* Table Only View Title, Selection, and CTA link ([#348](https://github.com/watson-developer-cloud/discovery-components/issues/348)) ([6f46aaa](https://github.com/watson-developer-cloud/discovery-components/commit/6f46aaa))
+
+
+
+
+
 ## [1.67.3](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.67.2...@disco-widgets/react-components@1.67.3) (2019-11-13)
 
 
