@@ -69,12 +69,12 @@ storiesOf('DiscoverySearch', module)
           <MyComponent />
         </DiscoverySearch>
       );
-    },
-    {
-      info: {
-        text: marked(defaultReadme)
-      }
     }
+    // {
+    //   info: {
+    //     text: marked(defaultReadme)
+    //   }
+    // }
   )
   .add(
     'custom search client',
@@ -93,10 +93,10 @@ storiesOf('DiscoverySearch', module)
           </SearchApi.Consumer>
         </DiscoverySearch>
       );
-    },
-    {
-      info: {
-        text: marked(customClientReadme)
-      }
     }
+    // {
+    //   info: {
+    //     text: marked(customClientReadme)
+    //   }
+    // }
   );
