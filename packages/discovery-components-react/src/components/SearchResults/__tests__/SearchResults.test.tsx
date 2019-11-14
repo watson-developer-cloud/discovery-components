@@ -255,6 +255,123 @@ describe('<SearchResults />', () => {
       });
     });
   });
+  describe('when showTablesOnlyResults is true', () => {
+    const context: Partial<SearchContextIFC> = {
+      searchResponseStore: {
+        ...searchResponseStoreDefaults
+      }
+    };
+    describe('And we are trying to render a table which does not have a corresponding result document', () => {
+      beforeEach(() => {
+        context.searchResponseStore!.data = {
+          matching_results: 1,
+          results: [
+            {
+              document_id: '456'
+            }
+          ],
+          table_results: [
+            {
+              table_id: 'table id',
+              source_document_id: '123',
+              collection_id: 'collection_id',
+              table_html: '<div>table html</div>',
+              table_html_offset: 5,
+              table: {}
+            }
+          ]
+        };
+      });
+      test('fetchDocuments should be fired with the correct params', () => {
+        const mockFetchDocuments = jest.fn();
+        const api = {
+          fetchDocuments: mockFetchDocuments
+        };
+        const { getByText } = render(
+          wrapWithContext(<SearchResults showTablesOnlyToggle={true} />, api, context)
+        );
+        const toggle = getByText('Show table results only');
+        fireEvent.click(toggle);
+        expect(mockFetchDocuments).toBeCalledTimes(1);
+        expect(mockFetchDocuments).toBeCalledWith('document_id::123', expect.any(Object));
+      });
+
+      describe('and the naturalLanguageQuery changes', () => {
+        test('fetchDocuments should be called twice', () => {
+          const mockFetchDocuments = jest.fn();
+          const api = {
+            fetchDocuments: mockFetchDocuments
+          };
+          const fullTree = wrapWithContext(
+            <SearchResults showTablesOnlyToggle={true} />,
+            api,
+            context
+          );
+          const { getByText, rerender } = render(fullTree);
+          const toggle = getByText('Show table results only');
+          fireEvent.click(toggle);
+          rerender(
+            wrapWithContext(<SearchResults showTablesOnlyToggle={true} />, api, {
+              ...context,
+              searchResponseStore: {
+                ...context.searchResponseStore!,
+                parameters: {
+                  ...context.searchResponseStore!.parameters,
+                  naturalLanguageQuery: 'foo'
+                }
+              }
+            })
+          );
+          expect(mockFetchDocuments).toBeCalledTimes(2);
+          expect(mockFetchDocuments.mock.calls[0][0]).toEqual('document_id::123');
+          expect(mockFetchDocuments.mock.calls[1][0]).toEqual('document_id::123');
+        });
+      });
+    });
+    describe('And we are trying to render multiple tables which do not have a corresponding result document', () => {
+      beforeEach(() => {
+        context.searchResponseStore!.data = {
+          matching_results: 1,
+          results: [
+            {
+              document_id: '789'
+            }
+          ],
+          table_results: [
+            {
+              table_id: 'table id',
+              source_document_id: '123',
+              collection_id: 'collection_id',
+              table_html: '<div>table html</div>',
+              table_html_offset: 5,
+              table: {}
+            },
+            {
+              table_id: 'table id',
+              source_document_id: '456',
+              collection_id: 'collection_id',
+              table_html: '<div>table html</div>',
+              table_html_offset: 5,
+              table: {}
+            }
+          ]
+        };
+      });
+      test('searchClient.query should be fired with the correct params', () => {
+        const mockFetchDocuments = jest.fn();
+        const api = {
+          fetchDocuments: mockFetchDocuments
+        };
+        const { getByText } = render(
+          wrapWithContext(<SearchResults showTablesOnlyToggle={true} />, api, context)
+        );
+        const toggle = getByText('Show table results only');
+        fireEvent.click(toggle);
+        expect(mockFetchDocuments).toBeCalledTimes(1);
+        expect(mockFetchDocuments).toBeCalledWith('document_id::123|456', expect.any(Object));
+      });
+    });
+  });
 
   describe('the empty result state', () => {
     describe('when there is no table result, no passage, bodyField is not specified, and there is no text field but there is a result for a document', () => {

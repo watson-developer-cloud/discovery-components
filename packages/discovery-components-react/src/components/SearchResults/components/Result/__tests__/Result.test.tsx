@@ -4,7 +4,8 @@ import { render, fireEvent, RenderResult } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import {
   SearchContextIFC,
-  searchResponseStoreDefaults
+  searchResponseStoreDefaults,
+  fetchDocumentsResponseStoreDefaults
 } from '../../../../DiscoverySearch/DiscoverySearch';
 import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 
@@ -21,6 +22,9 @@ describe('<Result />', () => {
           matching_results: 1,
           results: []
         }
+      },
+      fetchDocumentsResponseStore: {
+        ...fetchDocumentsResponseStoreDefaults
       }
     };
   });
@@ -609,6 +613,115 @@ describe('<Result />', () => {
       };
       const { getByText } = render(wrapWithContext(<SearchResults />, {}, context));
       expect(getByText(/.*test collection/)).toBeInTheDocument();
+    });
+  });
+
+  describe('when rendering a table Result', () => {
+    beforeEach(() => {
+      (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).table_results = [
+        {
+          table_id: '558ada041262d5b0aa02a05429d798c7',
+          source_document_id: '123',
+          collection_id: '8713a92b-28aa-b291-0000-016ddc68aa2a',
+          table_html:
+            '<table style="width:100%"><tr><th>Firstname</th><th>Lastname</th><th>Age</th></tr><tr><td>Jane</td><td>Smith</td><td>50</td></tr><tr><td>Eve</td><td>Jackson</td><td>94</td></tr></table>'
+        }
+      ];
+    });
+
+    describe('and there is a corresponding QueryResult', () => {
+      beforeEach(() => {
+        (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
+          {
+            document_id: '123',
+            result_metadata: {
+              collection_id: '123'
+            },
+            document_passages: [
+              {
+                passage_text: 'this is the first passage text'
+              }
+            ],
+            extracted_metadata: {
+              title: 'document title'
+            }
+          }
+        ];
+      });
+
+      test('renders result title', () => {
+        const api = {};
+        const { getByText } = render(
+          wrapWithContext(<SearchResults showTablesOnlyToggle />, api, context)
+        );
+        expect(getByText('document title')).toBeInTheDocument();
+      });
+
+      describe('and showOnlyTables is enabled', () => {
+        let renderResult: RenderResult;
+        beforeEach(() => {
+          const api = {};
+          renderResult = render(
+            wrapWithContext(<SearchResults showTablesOnlyToggle />, api, context)
+          );
+          const toggle = renderResult.getByText('Show table results only');
+          fireEvent.click(toggle);
+        });
+
+        test('renders result title', () => {
+          const { getByText } = renderResult;
+          expect(getByText('document title')).toBeInTheDocument();
+        });
+
+        test('renders "View table in document" button', () => {
+          const { getByText } = renderResult;
+          expect(getByText('View table in document')).toBeInTheDocument();
+        });
+      });
+    });
+
+    describe('and there is no corresponding QueryResult', () => {
+      beforeEach(() => {
+        (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
+          {
+            document_id: 'some document_id',
+            result_metadata: {
+              collection_id: '123'
+            },
+            document_passages: [
+              {
+                passage_text: 'this is the first passage text'
+              }
+            ]
+          }
+        ];
+      });
+
+      test('renders the skeleton loading text', () => {
+        const api = {};
+        const { getByTestId, getByText } = render(
+          wrapWithContext(<SearchResults showTablesOnlyToggle />, api, context)
+        );
+        const toggle = getByText('Show table results only');
+        fireEvent.click(toggle);
+        expect(getByTestId('result-title-skeleton')).toBeInTheDocument();
+      });
+
+      describe('and the documents are being fetched', () => {
+        beforeEach(() => {
+          context.fetchDocumentsResponseStore!.isLoading = true;
+        });
+
+        test('will render the Skeleton loading text', () => {
+          const api = {};
+          const { getByTestId, getByText } = render(
+            wrapWithContext(<SearchResults showTablesOnlyToggle />, api, context)
+          );
+          const toggle = getByText('Show table results only');
+          fireEvent.click(toggle);
+          expect(getByTestId('result-title-skeleton')).toBeInTheDocument();
+        });
+      });
     });
   });
 });

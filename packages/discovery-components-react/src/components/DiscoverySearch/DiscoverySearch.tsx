@@ -5,7 +5,7 @@ import {
   useDeepCompareCallback,
   useDeepCompareMemo
 } from '../../utils/useDeepCompareMemoize';
-import { SearchResponseStore } from '../../utils/useDataApi';
+import { FetchDocumentsResponseStore, SearchResponseStore } from '../../utils/useDataApi';
 import { SearchClient } from './types';
 
 export type SearchParams = Omit<DiscoveryV2.QueryParams, 'projectId' | 'headers'>;
@@ -83,6 +83,7 @@ export const emptySelectedResult = {
 export interface SearchContextIFC {
   aggregationResults: DiscoveryV2.QueryAggregation[] | null;
   searchResponseStore: SearchResponseStore;
+  fetchDocumentsResponseStore: FetchDocumentsResponseStore;
   collectionsResults: DiscoveryV2.ListCollectionsResponse | null;
   selectedResult: SelectedResult;
   autocompletionResults: DiscoveryV2.Completions | null;
@@ -94,6 +95,7 @@ export interface SearchApiIFC {
   performSearch: (searchParameters: DiscoveryV2.QueryParams, resetAggregations?: boolean) => void;
   fetchAutocompletions: (nlq: string) => Promise<void>;
   fetchAggregations: (searchParameters: DiscoveryV2.QueryParams) => Promise<void>;
+  fetchDocuments: (filterString: string, searchResponse: DiscoveryV2.QueryResponse | null) => void;
   setSelectedResult: (result: SelectedResult) => void;
   setAutocompletionOptions: (
     autoCompletionOptions: AutocompletionOptions | React.SetStateAction<AutocompletionOptions>
@@ -111,6 +113,7 @@ export const searchApiDefaults = {
   fetchAutocompletions: (): Promise<void> => Promise.resolve(),
   fetchAggregations: (): Promise<void> => Promise.resolve(),
   fetchComponentSettings: (): Promise<void> => Promise.resolve(),
+  fetchDocuments: (): void => {},
   setSelectedResult: (): void => {},
   setAutocompletionOptions: (): void => {},
   setSearchParameters: (): void => {},
@@ -126,9 +129,23 @@ export const searchResponseStoreDefaults: SearchResponseStore = {
   isError: false
 };
 
+export const fetchDocumentsResponseStoreDefaults: FetchDocumentsResponseStore = {
+  parameters: {
+    projectId: '',
+    returnFields: [],
+    aggregation: '',
+    passages: {},
+    tableResults: {}
+  },
+  data: null,
+  isLoading: false,
+  isError: false
+};
+
 export const searchContextDefaults = {
   aggregationResults: null,
   searchResponseStore: searchResponseStoreDefaults,
+  fetchDocumentsResponseStore: fetchDocumentsResponseStoreDefaults,
   selectedResult: emptySelectedResult,
   autocompletionResults: null,
   collectionsResults: null,
@@ -301,22 +318,64 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
     setSelectedResult(newSelectedResult);
   };
 
-  const api = useMemo(() => {
+  const handleFetchDocuments = useCallback(
+    (filterString: string, searchResponse: DiscoveryV2.QueryResponse | null): void => {
+      const fetchDocuments = async (
+        searchParameters: DiscoveryV2.QueryParams,
+        searchResponse: DiscoveryV2.QueryResponse | null
+      ): Promise<void> => {
+        const { result: filteredResponse } = await searchClient.query(searchParameters);
+        if (searchResponse && searchResponse.results && filteredResponse.results) {
+          setSearchResponse({
+            ...searchResponse,
+            matching_results:
+              (searchResponse.matching_results as number) + filteredResponse.results.length,
+            results: [...searchResponse.results, ...filteredResponse.results]
+          });
+        } else if (!searchResponse) {
+          setSearchResponse(filteredResponse);
+        }
+      };
+      fetchDocuments(
+        { ...fetchDocumentsResponseStoreDefaults.parameters, projectId, filter: filterString },
+        searchResponse
+      );
+    },
+    [projectId, searchClient]
+  );
+
+  const api = useMemo((): SearchApiIFC => {
     return {
       performSearch: handleSearch,
       fetchAggregations: handleFetchAggregations,
       fetchAutocompletions: handleFetchAutocompletions,
+      fetchDocuments: handleFetchDocuments,
       setSelectedResult: handleSetSelectedResult,
       setAutocompletionOptions,
       setSearchParameters,
       setIsResultsPaginationComponentHidden
     };
-  }, [handleFetchAggregations, handleFetchAutocompletions, handleSearch, setSearchParameters]);
+  }, [
+    handleFetchAggregations,
+    handleFetchAutocompletions,
+    handleSearch,
+    handleFetchDocuments,
+    setSearchParameters
+  ]);
 
   const state = useDeepCompareMemo(() => {
     return {
       aggregationResults,
       autocompletionResults,
+      fetchDocumentsResponseStore: {
+        data: null,
+        parameters: {
+          ...fetchDocumentsResponseStoreDefaults.parameters,
+          projectId
+        },
+        isLoading: false,
+        isError: false
+      },
       searchResponseStore: {
         data: searchResponse,
         parameters: searchParameters,

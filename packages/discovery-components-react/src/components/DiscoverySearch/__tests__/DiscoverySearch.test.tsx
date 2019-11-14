@@ -188,6 +188,33 @@ describe('DiscoverySearch', () => {
       expect(spy).toHaveBeenCalled();
     });
 
+    it('can call fetchDocuments', async () => {
+      const tree = (
+        <SearchApi.Consumer>
+          {({ fetchDocuments }) => (
+            <button onClick={() => fetchDocuments('document_id::bar', null)}>Action</button>
+          )}
+        </SearchApi.Consumer>
+      );
+      const {
+        result: { getByText },
+        searchClient
+      } = setup({ projectId: 'foo' }, tree);
+      const spy = jest.spyOn(searchClient, 'query');
+      expect(spy).not.toHaveBeenCalled();
+      act(() => {
+        fireEvent.click(getByText('Action'));
+      });
+      expect(spy).toHaveBeenCalledWith({
+        projectId: 'foo',
+        filter: 'document_id::bar',
+        aggregation: '',
+        passages: {},
+        returnFields: [],
+        tableResults: {}
+      });
+    });
+
     it('can call setAutocompletionOptions then fetchAutocompletions', async () => {
       const autocompletionOptions = {
         updateAutocompletions: true,

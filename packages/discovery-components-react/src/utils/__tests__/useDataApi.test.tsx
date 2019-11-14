@@ -2,7 +2,13 @@ import React, { FC } from 'react';
 import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import { render, fireEvent, waitForDomChange, wait } from '@testing-library/react';
 import { createDummyResponsePromise, createDummyResponse } from '../testingUtils';
-import { useSearchResultsApi, SearchResponseStore } from '../useDataApi';
+import {
+  useSearchResultsApi,
+  SearchResponseStore,
+  useFetchDocumentsApi,
+  FetchDocumentsResponseStore
+} from '../useDataApi';
+import { SearchClient } from '../../components/DiscoverySearch/types';
 
 class BaseSearchClient {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -38,13 +44,20 @@ class ErrorSearchClient extends BaseSearchClient {
   }
 }
 
+class SlowQueryClient extends BaseSearchClient {
+  public async query(): Promise<any> {
+    return await new Promise(resolve => {
+      setTimeout(() => {
+        resolve({ result: { matching_results: 1 } });
+      }, 100);
+    });
+  }
+}
+
 interface TestSearchStoreComponentProps {
   searchParameters?: DiscoveryV2.QueryParams;
   searchResults?: DiscoveryV2.QueryResponse;
-  searchClient?: Pick<
-    DiscoveryV2,
-    'query' | 'getAutocompletion' | 'listCollections' | 'getComponentSettings'
-  >;
+  searchClient?: SearchClient;
   callback?: (result: DiscoveryV2.QueryResponse) => void;
 }
 
@@ -187,15 +200,6 @@ describe('useSearchResultsApi', () => {
     describe('cancellation', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let consoleError: jest.SpyInstance<any, any>;
-      class SlowQueryClient extends BaseSearchClient {
-        public async query(): Promise<any> {
-          return await new Promise(resolve => {
-            setTimeout(() => {
-              resolve({ result: { matching_results: 1 } });
-            }, 100);
-          });
-        }
-      }
       beforeAll(() => {
         consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
       });
@@ -320,6 +324,219 @@ describe('useSearchResultsApi', () => {
           projectId: 'set'
         })
       );
+    });
+  });
+});
+
+describe('useFetchDocumentsApi', () => {
+  interface TestFetchDocumentsStoreComponentProps {
+    searchParameters?: DiscoveryV2.QueryParams;
+    searchClient?: SearchClient;
+    callback?: (result: DiscoveryV2.QueryResponse) => void;
+  }
+
+  const TestFetchDocumentsStoreComponent: FC<TestFetchDocumentsStoreComponentProps> = ({
+    searchParameters = {
+      projectId: ''
+    },
+    searchClient = new BaseSearchClient(),
+    callback = () => {}
+  }) => {
+    const [fetchDocumentsStore, fetchDocumentsApi] = useFetchDocumentsApi(
+      searchParameters,
+      searchClient
+    );
+
+    return (
+      <>
+        <button
+          data-testid="fetchDocuments"
+          onClick={e => fetchDocumentsApi.fetchDocuments(e.currentTarget.value || '', callback)}
+        />
+        <div data-testid="fetchDocumentsStore">{JSON.stringify(fetchDocumentsStore)}</div>
+      </>
+    );
+  };
+
+  describe('initial state', () => {
+    test('can initialize reducer state', () => {
+      const result = render(<TestFetchDocumentsStoreComponent />);
+      const json: FetchDocumentsResponseStore = JSON.parse(
+        result.getByTestId('fetchDocumentsStore').textContent || '{}'
+      );
+
+      expect(json.isError).toEqual(false);
+      expect(json.isLoading).toEqual(false);
+    });
+  });
+
+  describe('when calling fetchDocuments', () => {
+    test('it sets loading state', () => {
+      const result = render(
+        <TestFetchDocumentsStoreComponent searchClient={new SingleQueryResultSearchClient()} />
+      );
+      const fetchDocumentsButton = result.getByTestId('fetchDocuments');
+
+      fireEvent.click(fetchDocumentsButton);
+      const json: FetchDocumentsResponseStore = JSON.parse(
+        result.getByTestId('fetchDocumentsStore').textContent || '{}'
+      );
+      expect(json.isLoading).toEqual(true);
+    });
+
+    test('it sets error state', async () => {
+      const result = render(
+        <TestFetchDocumentsStoreComponent searchClient={new ErrorSearchClient()} />
+      );
+      const fetchDocumentsButton = result.getByTestId('fetchDocuments');
+
+      fireEvent.click(fetchDocumentsButton);
+      await waitForDomChange({ container: result.container });
+      const json: FetchDocumentsResponseStore = JSON.parse(
+        result.getByTestId('fetchDocumentsStore').textContent || '{}'
+      );
+      expect(json.isError).toEqual(true);
+    });
+
+    test('set filter with initial search parameters', () => {
+      const checkParametersMock = jest.fn();
+      class ParameterTrackingSearchClient extends BaseSearchClient {
+        public async query(searchParams?: DiscoveryV2.QueryParams): Promise<any> {
+          checkParametersMock(searchParams);
+          return createDummyResponse({});
+        }
+      }
+      const searchParameters = {
+        projectId: 'foo',
+        returnFields: [],
+        aggregation: '',
+        passages: {},
+        tableResults: {}
+      };
+      const result = render(
+        <TestFetchDocumentsStoreComponent
+          searchClient={new ParameterTrackingSearchClient()}
+          searchParameters={searchParameters}
+        />
+      );
+      const fetchDocumentsButton = result.getByTestId('fetchDocuments');
+
+      fireEvent.click(fetchDocumentsButton, { target: { value: 'filter_string' } });
+      expect(checkParametersMock).toHaveBeenCalledWith({
+        projectId: 'foo',
+        returnFields: [],
+        aggregation: '',
+        passages: {},
+        tableResults: {},
+        filter: 'filter_string'
+      });
+    });
+
+    describe('callback', () => {
+      test('calls callback method with results', async () => {
+        const callbackMock = jest.fn();
+        const result = render(<TestFetchDocumentsStoreComponent callback={callbackMock} />);
+        const fetchDocumentsButton = result.getByTestId('fetchDocuments');
+
+        fireEvent.click(fetchDocumentsButton);
+        await waitForDomChange({ container: result.container });
+
+        expect(callbackMock).toHaveBeenCalledWith({});
+      });
+    });
+
+    describe('cancellation', () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      let consoleError: jest.SpyInstance<any, any>;
+      beforeAll(() => {
+        consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+      });
+
+      afterAll(() => {
+        consoleError.mockRestore();
+      });
+
+      afterEach(() => {
+        jest.clearAllMocks();
+        jest.useRealTimers();
+      });
+
+      test('does not attempt to set state when unmounted (to prevent memory leaks)', () => {
+        jest.useFakeTimers();
+        const result = render(
+          <TestFetchDocumentsStoreComponent searchClient={new SlowQueryClient()} />
+        );
+        const { unmount, getByTestId } = result;
+        const fetchDocumentsButton = getByTestId('fetchDocuments');
+
+        fireEvent.click(fetchDocumentsButton);
+        unmount();
+
+        jest.runOnlyPendingTimers();
+        expect(consoleError).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('freshest data', () => {
+      const SLOW_TOTAL = 2;
+      const FAST_TOTAL = 1;
+      class TwoRequestsClient extends BaseSearchClient {
+        public async query(searchParams?: DiscoveryV2.QueryParams): Promise<any> {
+          if (searchParams && searchParams.filter === 'fast') {
+            return createDummyResponse({ matching_results: FAST_TOTAL });
+          } else {
+            return new Promise(resolve => {
+              setTimeout(() => {
+                resolve({ result: { matching_results: SLOW_TOTAL } });
+              }, 100);
+            });
+          }
+        }
+      }
+      beforeEach(() => {
+        jest.useFakeTimers();
+      });
+
+      afterEach(() => {
+        jest.useRealTimers();
+      });
+
+      test('retrieves the latest request', async () => {
+        jest.useFakeTimers();
+        const searchParameters = {
+          projectId: 'foo'
+        };
+        const { getByTestId } = render(
+          <TestFetchDocumentsStoreComponent
+            searchParameters={searchParameters}
+            searchClient={new TwoRequestsClient()}
+          />
+        );
+        const fetchDocumentsButton = getByTestId('fetchDocuments');
+
+        fireEvent.click(fetchDocumentsButton, { target: { value: 'slow' } });
+        fireEvent.click(fetchDocumentsButton, { target: { value: 'slow' } });
+        fireEvent.click(fetchDocumentsButton, { target: { value: 'fast' } });
+        jest.runAllTimers();
+        await wait(() => {
+          const json: FetchDocumentsResponseStore = JSON.parse(
+            getByTestId('fetchDocumentsStore').textContent || '{}'
+          );
+          if (json && json.data && json.data.matching_results !== 1) {
+            throw new Error();
+          }
+        });
+
+        const json: FetchDocumentsResponseStore = JSON.parse(
+          getByTestId('fetchDocumentsStore').textContent || '{}'
+        );
+
+        expect(json.data).toEqual(
+          expect.objectContaining({
+            matching_results: FAST_TOTAL
+          })
+        );
+      });
     });
   });
 });

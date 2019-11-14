@@ -5,6 +5,7 @@ import mustache from 'mustache';
 import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import { SearchApi, SearchContext, SelectedResult } from '../../../DiscoverySearch/DiscoverySearch';
 import { ResultElement } from '../ResultElement/ResultElement';
+import { SkeletonText } from 'carbon-components-react';
 import {
   searchResultClass,
   searchResultSelectedClass,
@@ -43,7 +44,6 @@ export interface ResultProps {
   passageHighlightsClassName?: string;
   /**
    * the query result document associated with the search result
-   * TODO: Once the tables only results are also linked to their documents, this will no longer be optional
    */
   result?: DiscoveryV2.QueryResult;
   /**
@@ -97,7 +97,10 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   usePassages
 }) => {
   const { setSelectedResult } = useContext(SearchApi);
-  const { selectedResult } = useContext(SearchContext);
+  const {
+    selectedResult,
+    fetchDocumentsResponseStore: { isLoading }
+  } = useContext(SearchContext);
 
   const firstPassage: DiscoveryV2.QueryResultPassage | undefined = get(
     result,
@@ -117,7 +120,6 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   const hasText = displayedText && !showTablesOnlyResults;
   const emptyResultContent = !(hasText || tableHtml);
 
-  // TODO: This if to look for result can go away once that's being passed through with the tables only results
   let documentId;
   if (result) {
     documentId = result.document_id;
@@ -153,7 +155,6 @@ export const Result: React.FunctionComponent<ResultProps> = ({
           ? get(result, resultLinkField)
           : mustache.render(resultLinkTemplate as string, result);
         window.open(url);
-        // TODO: This if can go away once tables are linked to their documents and results are always passed through
       } else if (result) {
         setSelectedResult({ document: result, element, elementType });
       }
@@ -167,6 +168,7 @@ export const Result: React.FunctionComponent<ResultProps> = ({
           <ResultElement
             body={emptyResultContentBodyText}
             handleSelectResult={handleSelectResult}
+            hasResult={!!result}
           />
         ) : (
           <>
@@ -178,7 +180,7 @@ export const Result: React.FunctionComponent<ResultProps> = ({
                 elementType={displayedTextElementType}
                 handleSelectResult={handleSelectResult}
                 passageHighlightsClassName={passageHighlightsClassName}
-                showTablesOnlyResults={showTablesOnlyResults}
+                hasResult={!!result}
                 dangerouslyRenderHtml={shouldDangerouslyRenderHtml}
               />
             )}
@@ -189,19 +191,21 @@ export const Result: React.FunctionComponent<ResultProps> = ({
                 element={table}
                 elementType="table"
                 handleSelectResult={handleSelectResult}
-                showTablesOnlyResults={showTablesOnlyResults}
+                hasResult={!!result}
                 dangerouslyRenderHtml={true}
               />
             )}
           </>
         )}
       </div>
-      {/* TODO: This check can go away once documents are linked to show only tables results */}
       {(collectionName || result) && (
         <div className={searchResultFooterClass}>
-          {/* TODO: This result check can go away once documents are linked to show only tables results */}
-          {result && (
-            <div className={searchResultFooterTitleClass}>{title || filename || documentId}</div>
+          {isLoading || !result ? (
+            <SkeletonText width={'30%'} data-testid="result-title-skeleton" />
+          ) : (
+            result && (
+              <div className={searchResultFooterTitleClass}>{title || filename || documentId}</div>
+            )
           )}
           {collectionName && (
             <div className={searchResultFooterCollectionNameClass}>

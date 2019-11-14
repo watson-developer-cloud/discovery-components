@@ -5,7 +5,8 @@ import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import { TablesOnlyToggle } from './components/TablesOnlyToggle/TablesOnlyToggle';
 import { Result } from './components/Result/Result';
 import { SpellingSuggestion } from './components/SpellingSuggestion/SpellingSuggestion';
-import { findCollectionName, getDisplaySettings } from './utils';
+import { findCollectionName, getDisplaySettings, findTablesWithoutResults } from './utils';
+import { useDeepCompareEffect } from '../../utils/useDeepCompareMemoize';
 import {
   baseClass,
   searchResultClass,
@@ -107,13 +108,14 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
     componentSettings
   } = React.useContext(SearchContext);
   const [showTablesOnlyResults, setShowTablesOnlyResults] = React.useState(false);
+  const [hasFetchedDocuments, setHasFetchedDocuments] = React.useState(false);
 
   const displaySettings = getDisplaySettings(
     { resultTitleField, bodyField, usePassages },
     componentSettings
   );
 
-  const { setSearchParameters } = React.useContext(SearchApi);
+  const { setSearchParameters, fetchDocuments } = React.useContext(SearchApi);
   const matchingResults = (searchResponse && searchResponse.matching_results) || 0;
   const results = (searchResponse && searchResponse.results) || [];
   const tableResults = (searchResponse && searchResponse.table_results) || [];
@@ -136,6 +138,23 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
       });
     }
   }, [passageLength, setSearchParameters]);
+
+  React.useEffect(() => {
+    setHasFetchedDocuments(false);
+  }, [parameters.naturalLanguageQuery]);
+
+  // tablesWithoutResults are the tables in our searchResponse with no corresponding QueryResult
+  useDeepCompareEffect(() => {
+    const tableResults = (searchResponse && searchResponse.table_results) || [];
+    const results = (searchResponse && searchResponse.results) || [];
+    const tablesWithoutResults = findTablesWithoutResults(tableResults, results);
+    if (!hasFetchedDocuments && tablesWithoutResults && tablesWithoutResults.length) {
+      const filterString =
+        'document_id::' + tablesWithoutResults.map(table => table.source_document_id).join('|');
+      fetchDocuments(filterString, searchResponse);
+      setHasFetchedDocuments(true);
+    }
+  }, [searchResponse, fetchDocuments, hasFetchedDocuments]);
 
   return (
     <div className={baseClass}>
@@ -165,6 +184,9 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
           {showTablesOnlyResults
             ? (tableResults as DiscoveryV2.QueryTableResult[]).map(table => {
                 const collectionName = findCollectionName(collectionsResults, table);
+                const result = results.find(
+                  result => result.document_id === table.source_document_id
+                );
 
                 return (
                   <Result
@@ -174,6 +196,7 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
                     collectionName={collectionName}
                     displayedTextInDocumentButtonText={displayedTextInDocumentButtonText}
                     emptyResultContentBodyText={emptyResultContentBodyText}
+                    result={result}
                     resultLinkField={resultLinkField}
                     resultLinkTemplate={resultLinkTemplate}
                     resultTitleField={displaySettings.resultTitleField}

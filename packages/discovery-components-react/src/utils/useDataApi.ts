@@ -222,3 +222,47 @@ export const useSearchResultsApi = (
     }
   ];
 };
+
+/**
+ * concrete implementation of the reducer state for fetch documents
+ */
+export interface FetchDocumentsResponseStore extends ReducerState {
+  data: DiscoveryV2.QueryResponse | null;
+  parameters: DiscoveryV2.QueryParams;
+}
+
+/**
+ * fetch documents actions used to interact with the search API and search state
+ */
+export interface FetchDocumentsActions {
+  /**
+   * method used to invoke the search request with a callback to return the response data
+   */
+  fetchDocuments: (filter: string, callback: (result: DiscoveryV2.QueryResponse) => void) => void;
+}
+
+export const useFetchDocumentsApi = (
+  searchParameters: DiscoveryV2.QueryParams,
+  searchClient: SearchClient
+): [FetchDocumentsResponseStore, FetchDocumentsActions] => {
+  const { state: searchState, setParameters: setSearchParameters, setFetchToken } = useDataApi(
+    searchParameters,
+    null,
+    searchClient.query,
+    searchClient
+  );
+  return [
+    searchState,
+    {
+      fetchDocuments: (
+        filter: string,
+        callback: (result: DiscoveryV2.QueryResponse) => void
+      ): void => {
+        setSearchParameters((currentSearchParameters: DiscoveryV2.QueryParams) => {
+          return { ...currentSearchParameters, filter };
+        });
+        setFetchToken({ trigger: true, callback });
+      }
+    }
+  ];
+};

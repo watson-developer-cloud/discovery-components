@@ -10,7 +10,7 @@ import {
   searchResultContentWrapperBodyPassageHighlightsClass
 } from '../../cssClasses';
 
-interface ResultElementProps {
+export interface ResultElementProps {
   /**
    * body of the result element. Table html if a table element. Otherwise, first passage text or bodyField.
    */
@@ -39,10 +39,9 @@ interface ResultElementProps {
    */
   passageHighlightsClassName?: string;
   /**
-   * specifies whether to show tables only results or regular search results
-   * TODO: This won't need to be passed through once tables are linked to documents and selecting the result works
+   * specifies whether or not there is a Queryresult object corresponding with this ResultElement
    */
-  showTablesOnlyResults?: boolean;
+  hasResult: boolean;
   /**
    * specifies whether to use dangerouslySetInnerHtml when rendering this result element
    */
@@ -56,7 +55,7 @@ export const ResultElement: React.FunctionComponent<ResultElementProps> = ({
   elementType = null,
   handleSelectResult,
   passageHighlightsClassName,
-  showTablesOnlyResults,
+  hasResult,
   dangerouslyRenderHtml
 }) => {
   const elementBodyClassNames: string[] = [searchResultContentWrapperBodyClass];
@@ -82,17 +81,16 @@ export const ResultElement: React.FunctionComponent<ResultElementProps> = ({
       ) : (
         <div {...elementBodyProps}>{body}</div>
       )}
-      {/* TODO: This check can go away once documents are linked to tables only results */}
-      {!showTablesOnlyResults && (
-        <Button
-          className={searchResultContentWrapperBodyButtonClass}
-          onClick={handleSelectResult(element, elementType)}
-          kind="ghost"
-          renderIcon={icon}
-        >
-          <span>{buttonText}</span>
-        </Button>
-      )}
+      <Button
+        className={searchResultContentWrapperBodyButtonClass}
+        onClick={handleSelectResult(element, elementType)}
+        kind="ghost"
+        renderIcon={icon}
+        disabled={!hasResult}
+        data-testid={'search-result-element-preview-button'}
+      >
+        <span>{buttonText}</span>
+      </Button>
     </Tile>
   );
 };
