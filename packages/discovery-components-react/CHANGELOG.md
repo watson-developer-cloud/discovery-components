@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.67.5](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.67.4...@disco-widgets/react-components@1.67.5) (2019-11-15)
+
+
+### Bug Fixes
+
+* hide toolbar control when loading document with no structure ([#355](https://github.com/watson-developer-cloud/discovery-components/issues/355)) ([ed8b82f](https://github.com/watson-developer-cloud/discovery-components/commit/ed8b82f))
+
+
+
+
+
 ## [1.67.4](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.67.3...@disco-widgets/react-components@1.67.4) (2019-11-14)
 
 
