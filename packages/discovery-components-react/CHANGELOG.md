@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.68.2](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.68.1...@disco-widgets/react-components@1.68.2) (2019-11-15)
+
+
+### Bug Fixes
+
+* Use autocomplete api ([#369](https://github.com/watson-developer-cloud/discovery-components/issues/369)) ([2d571bb](https://github.com/watson-developer-cloud/discovery-components/commit/2d571bb))
+
+
+
+
+
 ## [1.68.1](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.68.0...@disco-widgets/react-components@1.68.1) (2019-11-15)
 
 
