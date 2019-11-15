@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.32.1](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/styles@1.32.0...@disco-widgets/styles@1.32.1) (2019-11-15)
+
+
+### Bug Fixes
+
+* Style updates ([#387](https://github.com/watson-developer-cloud/discovery-components/issues/387)) ([7e1177e](https://github.com/watson-developer-cloud/discovery-components/commit/7e1177e))
+
+
+
+
+
 # [1.32.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/styles@1.31.1...@disco-widgets/styles@1.32.0) (2019-11-12)
 
 
