@@ -241,6 +241,12 @@ export interface FetchDocumentsActions {
   fetchDocuments: (filter: string, callback: (result: DiscoveryV2.QueryResponse) => void) => void;
 }
 
+/**
+ * concrete usage of the useDataApi helper method for fetching individual documents
+ * @param searchParameters - initial search parameters to set
+ * @param searchClient - search client used to perform requests
+ * @return a 2-element array containing the fetch documents store data and fetchDocuments-specific store actions
+ */
 export const useFetchDocumentsApi = (
   searchParameters: DiscoveryV2.QueryParams,
   searchClient: SearchClient
@@ -262,6 +268,64 @@ export const useFetchDocumentsApi = (
           return { ...currentSearchParameters, filter };
         });
         setFetchToken({ trigger: true, callback });
+      }
+    }
+  ];
+};
+
+/**
+ * concrete implementation of the reducer state for fetch documents
+ */
+export interface AutocompleteStore extends ReducerState {
+  data: DiscoveryV2.Completions | null;
+  parameters: DiscoveryV2.GetAutocompletionParams;
+}
+
+/**
+ * autocomplete actions used to interact with the autocomplete API and autocomplete state
+ */
+export interface AutocompleteActions {
+  setAutocompletions: (data: DiscoveryV2.Completions | null) => void;
+  /**
+   * method used to invoke the async autocomplete request
+   */
+  fetchAutocompletions: (autocompleteParameters: DiscoveryV2.GetAutocompletionParams) => void;
+}
+
+/**
+ * concrete usage of the useDataApi helper method for fetching autocompletions
+ * @param autocompleteParmeters - initial autocomplete parameters to set
+ * @param overrideAutocompletions - initial autocomplete results to set
+ * @param searchClient - search client used to perform requests
+ * @return a 2-element array containing the autocomplete store data and autocomplete-specific store actions
+ */
+export const useAutocompleteApi = (
+  autocompleteParmeters: DiscoveryV2.GetAutocompletionParams,
+  overrideAutocompletions: DiscoveryV2.Completions | null,
+  searchClient: SearchClient
+): [AutocompleteStore, AutocompleteActions] => {
+  const {
+    state: autocompletionsState,
+    parameters: currentAutocompleteParameters,
+    setParameters: setAutocompleteParameters,
+    setData: setAutocompletions,
+    setFetchToken
+  } = useDataApi(
+    autocompleteParmeters,
+    overrideAutocompletions,
+    searchClient.getAutocompletion,
+    searchClient
+  );
+  return [
+    {
+      ...autocompletionsState,
+      parameters: currentAutocompleteParameters
+    },
+    {
+      setAutocompletions,
+      fetchAutocompletions: (autocompleteParameters: DiscoveryV2.GetAutocompletionParams): void => {
+        setAutocompleteParameters(autocompleteParameters);
+        setFetchToken({ trigger: true });
       }
     }
   ];

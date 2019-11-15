@@ -6,7 +6,9 @@ import {
   useSearchResultsApi,
   SearchResponseStore,
   useFetchDocumentsApi,
-  FetchDocumentsResponseStore
+  FetchDocumentsResponseStore,
+  useAutocompleteApi,
+  AutocompleteStore
 } from '../useDataApi';
 import { SearchClient } from '../../components/DiscoverySearch/types';
 
@@ -324,6 +326,282 @@ describe('useSearchResultsApi', () => {
           projectId: 'set'
         })
       );
+    });
+  });
+
+  interface TestAutocompleteStoreComponentProps {
+    autocompleteParameters?: DiscoveryV2.GetAutocompletionParams;
+    autocompletionResults?: DiscoveryV2.Completions;
+    searchClient?: SearchClient;
+  }
+
+  const TestAutocompleteStoreComponent: FC<TestAutocompleteStoreComponentProps> = ({
+    autocompleteParameters = {
+      projectId: ''
+    },
+    autocompletionResults = null,
+    searchClient = new BaseSearchClient()
+  }) => {
+    const [autocompleteStore, autocompleteApi] = useAutocompleteApi(
+      autocompleteParameters,
+      autocompletionResults,
+      searchClient
+    );
+
+    return (
+      <>
+        <button
+          data-testid="fetchAutocompletions"
+          onClick={e => {
+            autocompleteApi.fetchAutocompletions({
+              ...autocompleteParameters,
+              prefix: e.currentTarget.value || autocompleteParameters.prefix
+            });
+          }}
+        />
+        <button
+          data-testid="setAutocompletions"
+          onClick={() => autocompleteApi.setAutocompletions({ completions: ['foo'] })}
+        />
+        <div data-testid="autocompleteStore">{JSON.stringify(autocompleteStore)}</div>
+      </>
+    );
+  };
+
+  describe('useAutocompleteApi', () => {
+    describe('initial state', () => {
+      test('can initialize reducer state', () => {
+        const result = render(<TestAutocompleteStoreComponent />);
+        const json: AutocompleteStore = JSON.parse(
+          result.getByTestId('autocompleteStore').textContent || '{}'
+        );
+
+        expect(json.isError).toEqual(false);
+        expect(json.isLoading).toEqual(false);
+      });
+
+      test('can set initial autocomplete parameters', () => {
+        const autocompleteParameters = {
+          projectId: 'foo',
+          prefix: 'fo'
+        };
+        const result = render(
+          <TestAutocompleteStoreComponent autocompleteParameters={autocompleteParameters} />
+        );
+        const json: AutocompleteStore = JSON.parse(
+          result.getByTestId('autocompleteStore').textContent || '{}'
+        );
+
+        expect(json.parameters).toEqual(
+          expect.objectContaining({
+            projectId: 'foo',
+            prefix: 'fo'
+          })
+        );
+      });
+
+      test('can set initial autocomplete results', () => {
+        const autocompletionResults = {
+          completions: ['compete', 'complete']
+        };
+        const result = render(
+          <TestAutocompleteStoreComponent autocompletionResults={autocompletionResults} />
+        );
+        const json: SearchResponseStore = JSON.parse(
+          result.getByTestId('autocompleteStore').textContent || '{}'
+        );
+
+        expect(json.data).toEqual(
+          expect.objectContaining({
+            completions: ['compete', 'complete']
+          })
+        );
+      });
+    });
+
+    describe('when calling fetchAutocompletions', () => {
+      class SingleAutocompletionResultSearchClient extends BaseSearchClient {
+        public async getAutocompletion(): Promise<any> {
+          return createDummyResponsePromise({ completions: ['complete'] });
+        }
+      }
+      test('it sets loading state', () => {
+        const result = render(
+          <TestAutocompleteStoreComponent
+            searchClient={new SingleAutocompletionResultSearchClient()}
+          />
+        );
+        const fetchAutocompletionsButton = result.getByTestId('fetchAutocompletions');
+
+        fireEvent.click(fetchAutocompletionsButton);
+        const json: AutocompleteStore = JSON.parse(
+          result.getByTestId('autocompleteStore').textContent || '{}'
+        );
+        expect(json.isLoading).toEqual(true);
+      });
+
+      test('it sets error state', async () => {
+        class AutocompleteErrorSearchClient extends BaseSearchClient {
+          public async getAutocompletion(): Promise<any> {
+            return Promise.reject();
+          }
+        }
+        const result = render(
+          <TestAutocompleteStoreComponent searchClient={new AutocompleteErrorSearchClient()} />
+        );
+        const fetchAutocompletionsButton = result.getByTestId('fetchAutocompletions');
+
+        fireEvent.click(fetchAutocompletionsButton);
+        await waitForDomChange({ container: result.container });
+        const json: AutocompleteStore = JSON.parse(
+          result.getByTestId('autocompleteStore').textContent || '{}'
+        );
+        expect(json.isError).toEqual(true);
+      });
+
+      test('sets the autocomplete results', async () => {
+        const result = render(
+          <TestAutocompleteStoreComponent
+            searchClient={new SingleAutocompletionResultSearchClient()}
+          />
+        );
+        const fetchAutocompletionsButton = result.getByTestId('fetchAutocompletions');
+        fireEvent.click(fetchAutocompletionsButton);
+        await waitForDomChange({ container: result.container });
+        const json: AutocompleteStore = JSON.parse(
+          result.getByTestId('autocompleteStore').textContent || '{}'
+        );
+
+        expect(json.data).toEqual(
+          expect.objectContaining({
+            completions: ['complete']
+          })
+        );
+      });
+
+      describe('cancellation', () => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let consoleError: jest.SpyInstance<any, any>;
+        class SlowAutocompleteClient extends BaseSearchClient {
+          public async getAutocompletion(): Promise<any> {
+            return await new Promise(resolve => {
+              setTimeout(() => {
+                resolve({ result: { completions: ['complete'] } });
+              }, 100);
+            });
+          }
+        }
+        beforeAll(() => {
+          consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+        });
+
+        afterAll(() => {
+          consoleError.mockRestore();
+        });
+
+        afterEach(() => {
+          jest.clearAllMocks();
+          jest.useRealTimers();
+        });
+
+        test('does not attempt to set state when unmounted (to prevent memory leaks)', () => {
+          jest.useFakeTimers();
+          const result = render(
+            <TestAutocompleteStoreComponent searchClient={new SlowAutocompleteClient()} />
+          );
+          const { unmount, getByTestId } = result;
+          const fetchAutocompletionsButton = getByTestId('fetchAutocompletions');
+
+          fireEvent.click(fetchAutocompletionsButton);
+          unmount();
+
+          jest.runOnlyPendingTimers();
+          expect(consoleError).not.toHaveBeenCalled();
+        });
+      });
+
+      describe('freshest data', () => {
+        class TwoAutocompleteRequestsClient extends BaseSearchClient {
+          public async getAutocompletion(
+            autocompletionParameters?: DiscoveryV2.GetAutocompletionParams
+          ): Promise<any> {
+            if (autocompletionParameters && autocompletionParameters.prefix === 'co') {
+              return createDummyResponse({ completions: ['coal', 'complete'] });
+            } else {
+              return new Promise(resolve => {
+                setTimeout(() => {
+                  resolve({ result: { completions: ['complete'] } });
+                }, 100);
+              });
+            }
+          }
+        }
+        beforeEach(() => {
+          jest.useFakeTimers();
+        });
+
+        afterEach(() => {
+          jest.useRealTimers();
+        });
+
+        test('retrieves the latest request', async () => {
+          jest.useFakeTimers();
+          const autocompleteParameters = {
+            projectId: '',
+            prefix: 'com'
+          };
+          const { getByTestId } = render(
+            <TestAutocompleteStoreComponent
+              autocompleteParameters={autocompleteParameters}
+              searchClient={new TwoAutocompleteRequestsClient()}
+            />
+          );
+          const fetchAutocompletionsButton = getByTestId('fetchAutocompletions');
+
+          fireEvent.click(fetchAutocompletionsButton);
+          fireEvent.click(fetchAutocompletionsButton);
+          fireEvent.click(fetchAutocompletionsButton);
+          fireEvent.click(fetchAutocompletionsButton, { target: { value: 'co' } });
+          jest.runAllTimers();
+          await wait(() => {
+            const json: AutocompleteStore = JSON.parse(
+              getByTestId('autocompleteStore').textContent || '{}'
+            );
+            if (json && json.data && json.data.completions && json.data.completions.length === 1) {
+              throw new Error();
+            }
+          });
+
+          const json: AutocompleteStore = JSON.parse(
+            getByTestId('autocompleteStore').textContent || '{}'
+          );
+
+          expect(json.data).toEqual(
+            expect.objectContaining({
+              completions: ['coal', 'complete']
+            })
+          );
+        });
+      });
+    });
+
+    describe('when calling setAutocompletions', () => {
+      test('it sets autocompletions response', () => {
+        const result = render(
+          <TestAutocompleteStoreComponent searchClient={new BaseSearchClient()} />
+        );
+        const setAutocompletionsButton = result.getByTestId('setAutocompletions');
+
+        fireEvent.click(setAutocompletionsButton);
+        const json: AutocompleteStore = JSON.parse(
+          result.getByTestId('autocompleteStore').textContent || '{}'
+        );
+        expect(json.data).toEqual(
+          expect.objectContaining({
+            completions: ['foo']
+          })
+        );
+      });
     });
   });
 });

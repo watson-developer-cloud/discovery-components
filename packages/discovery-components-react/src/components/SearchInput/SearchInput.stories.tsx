@@ -26,7 +26,8 @@ const props = () => ({
   minCharsToAutocomplete: number(
     'Minimum characters in last word before showing autocomplete suggestions',
     1
-  )
+  ),
+  autocompleteDelay: number('Miliseconds to delay the autocomplete API requests', 200)
 });
 
 let autocompletions: string[] = [];

@@ -8,8 +8,10 @@ import {
 import {
   FetchDocumentsResponseStore,
   SearchResponseStore,
+  AutocompleteStore,
   useSearchResultsApi,
-  useFetchDocumentsApi
+  useFetchDocumentsApi,
+  useAutocompleteApi
 } from '../../utils/useDataApi';
 import { SearchClient } from './types';
 
@@ -91,7 +93,7 @@ export interface SearchContextIFC {
   fetchDocumentsResponseStore: FetchDocumentsResponseStore;
   collectionsResults: DiscoveryV2.ListCollectionsResponse | null;
   selectedResult: SelectedResult;
-  autocompletionResults: DiscoveryV2.Completions | null;
+  autocompletionStore: AutocompleteStore;
   componentSettings: DiscoveryV2.ComponentSettingsResponse | null;
   isResultsPaginationComponentHidden: boolean | undefined;
 }
@@ -147,12 +149,21 @@ export const fetchDocumentsResponseStoreDefaults: FetchDocumentsResponseStore = 
   isError: false
 };
 
+export const autocompletionStoreDefaults: AutocompleteStore = {
+  parameters: {
+    projectId: ''
+  },
+  data: null,
+  isLoading: false,
+  isError: false
+};
+
 export const searchContextDefaults = {
   aggregationResults: null,
   searchResponseStore: searchResponseStoreDefaults,
   fetchDocumentsResponseStore: fetchDocumentsResponseStoreDefaults,
   selectedResult: emptySelectedResult,
-  autocompletionResults: null,
+  autocompletionStore: autocompletionStoreDefaults,
   collectionsResults: null,
   componentSettings: null,
   isResultsPaginationComponentHidden: false
@@ -180,10 +191,6 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
     collectionsResults,
     setCollectionsResults
   ] = useState<DiscoveryV2.ListCollectionsResponse | null>(overrideCollectionsResults);
-  const [
-    autocompletionResults,
-    setAutocompletionResults
-  ] = useState<DiscoveryV2.Completions | null>(overrideAutocompletionResults);
   const [autocompletionOptions, setAutocompletionOptions] = useState<AutocompletionOptions>({});
   const [selectedResult, setSelectedResult] = useState<SelectedResult>(overrideSelectedResult);
   const [
@@ -215,6 +222,12 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
     [performSearch, setSearchParameters]
   );
 
+  const [autocompletionStore, { fetchAutocompletions, setAutocompletions }] = useAutocompleteApi(
+    { projectId, count: autocompletionOptions.completionsCount },
+    overrideAutocompletionResults,
+    searchClient
+  );
+
   useDeepCompareEffect(() => {
     setSearchResponse(overrideSearchResults);
   }, [overrideSearchResults]);
@@ -242,7 +255,7 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
   }, [overrideSelectedResult]);
 
   useDeepCompareEffect(() => {
-    setAutocompletionResults(overrideAutocompletionResults);
+    setAutocompletions(overrideAutocompletionResults);
   }, [overrideAutocompletionResults]);
 
   useEffect(() => {
@@ -286,11 +299,10 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
         };
 
         if (!!prefix) {
-          const { result } = await searchClient.getAutocompletion(completionParams);
-          setAutocompletionResults(result);
+          fetchAutocompletions(completionParams);
           return;
         }
-        setAutocompletionResults(null);
+        setAutocompletions(null);
       }
     },
     [autocompletionOptions, projectId, searchClient]
@@ -371,7 +383,7 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
   const state = useDeepCompareMemo(() => {
     return {
       aggregationResults,
-      autocompletionResults,
+      autocompletionStore,
       fetchDocumentsResponseStore,
       searchResponseStore,
       selectedResult,
@@ -380,13 +392,12 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
       isResultsPaginationComponentHidden
     };
   }, [
-    autocompletionResults,
     aggregationResults,
-    collectionsResults,
-    autocompletionResults,
+    autocompletionStore,
     fetchDocumentsResponseStore,
     searchResponseStore,
     selectedResult,
+    collectionsResults,
     componentSettings,
     isResultsPaginationComponentHidden
   ]);

@@ -124,7 +124,7 @@ describe('DiscoverySearch', () => {
     it('can override autocompletionResults', () => {
       const tree = (
         <SearchContext.Consumer>
-          {({ autocompletionResults }) => (
+          {({ autocompletionStore: { data: autocompletionResults } }) => (
             <span data-testid="value">
               {autocompletionResults &&
                 autocompletionResults.completions &&

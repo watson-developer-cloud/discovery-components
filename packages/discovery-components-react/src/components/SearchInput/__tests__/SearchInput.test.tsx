@@ -12,7 +12,11 @@ import {
   waitForElementToBeRemoved
 } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { SearchContextIFC, SearchApiIFC } from '../../DiscoverySearch/DiscoverySearch';
+import {
+  SearchContextIFC,
+  SearchApiIFC,
+  autocompletionStoreDefaults
+} from '../../DiscoverySearch/DiscoverySearch';
 import { wrapWithContext } from '../../../utils/testingUtils';
 import { SearchInput } from '../SearchInput';
 
@@ -117,8 +121,11 @@ describe('<SearchInput />', () => {
     let input: HTMLInputElement;
 
     const context: Partial<SearchContextIFC> = {
-      autocompletionResults: {
-        completions: COMPLETIONS
+      autocompletionStore: {
+        ...autocompletionStoreDefaults,
+        data: {
+          completions: COMPLETIONS
+        }
       }
     };
 

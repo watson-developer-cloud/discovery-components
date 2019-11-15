@@ -60,6 +60,10 @@ interface SearchInputProps {
    * True to return spelling suggestion with results
    */
   spellingSuggestions?: boolean;
+  /**
+   * number of miliseconds to wait before executing an API request to get autocompletions
+   */
+  autocompleteDelay?: number;
 }
 
 export const SearchInput: FC<SearchInputProps> = props => {
@@ -74,7 +78,8 @@ export const SearchInput: FC<SearchInputProps> = props => {
     completionsCount = 5,
     showAutocomplete,
     minCharsToAutocomplete = 0,
-    spellingSuggestions
+    spellingSuggestions,
+    autocompleteDelay = 200
   } = props;
 
   const inputId = id || `search-input__${uuid.v4()}`;
@@ -82,7 +87,7 @@ export const SearchInput: FC<SearchInputProps> = props => {
   const searchInputClassNames = [className, `${settings.prefix}--search-input--discovery`];
   const {
     searchResponseStore: { parameters: searchParameters },
-    autocompletionResults,
+    autocompletionStore: { data: autocompletionResults },
     componentSettings
   } = useContext(SearchContext);
   const displaySettings = {
@@ -166,7 +171,7 @@ export const SearchInput: FC<SearchInputProps> = props => {
     }
   };
 
-  const debouncedSearchTerm = useDebounce(value, 500);
+  const debouncedSearchTerm = useDebounce(value, autocompleteDelay);
   useEffect(() => {
     setSearchParameters((currentSearchParameters: DiscoveryV2.QueryParams) => {
       return {
