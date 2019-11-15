@@ -15,6 +15,8 @@ import {
   searchResultsListClass
 } from './cssClasses';
 
+const DEFAULT_LOADING_COUNT = 3;
+
 export interface SearchResultsProps {
   /**
    * specify a field on the result object to pull the result title from
@@ -106,7 +108,6 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   emptyResultContentBodyText = 'Excerpt unavailable.',
   noResultsFoundText = 'There were no results found'
 }) => {
-  const DEFAULT_LOADING_COUNT = 3;
   const {
     searchResponseStore: { data: searchResponse, isLoading, parameters },
     collectionsResults,
@@ -124,7 +125,6 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   const matchingResults = (searchResponse && searchResponse.matching_results) || 0;
   const results = (searchResponse && searchResponse.results) || [];
   const tableResults = (searchResponse && searchResponse.table_results) || [];
-  const searchResultLoadingClasses = [searchResultClass, searchResultLoadingClass];
   const emptySearch = searchResponse ? noResultsFoundText : '';
   const hasTables = tableResults && tableResults.length > 0;
   const hasMatchingResults = matchingResults && matchingResults > 0;
@@ -174,6 +174,23 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
     }
   }, [searchResponse, fetchDocuments, hasFetchedDocuments]);
 
+  const skeletons = React.useMemo(() => {
+    const searchResultLoadingClasses = [searchResultClass, searchResultLoadingClass];
+    const numberOfSkeletons = Math.min(parameters.count || 10, DEFAULT_LOADING_COUNT);
+    const size = Array.from(Array(numberOfSkeletons).keys());
+    return size.map(number => {
+      return (
+        <div
+          data-testid="skeleton_text"
+          key={number.toString()}
+          className={searchResultLoadingClasses.join(' ')}
+        >
+          <SkeletonText paragraph width={'85%'} />
+        </div>
+      );
+    });
+  }, [parameters.count]);
+
   return (
     <div className={baseClass}>
       <div className={searchResultsHeaderClass} data-testid="search_results_header">
@@ -186,17 +203,7 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
         />
       </div>
       {isLoading ? (
-        [...new Array(Math.min(parameters.count || DEFAULT_LOADING_COUNT))].map((_, i) => {
-          return (
-            <div
-              className={searchResultLoadingClasses.join(' ')}
-              data-testid="skeleton_text"
-              key={`skeleton_${i}`}
-            >
-              <SkeletonText paragraph width={'85%'} />
-            </div>
-          );
-        })
+        skeletons
       ) : resultsFound ? (
         <div className={searchResultsListClass}>
           {showTablesOnlyResults

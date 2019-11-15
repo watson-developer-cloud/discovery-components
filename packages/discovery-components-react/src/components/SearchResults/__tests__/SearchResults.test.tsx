@@ -138,7 +138,7 @@ describe('<SearchResults />', () => {
         expect(getAllByTestId('skeleton_text')).toHaveLength(3);
       });
 
-      describe('and count has been set lower than 5', () => {
+      describe('and count has been set lower than 3', () => {
         beforeEach(() => {
           context.searchResponseStore!.parameters!.count = 2;
         });
@@ -146,6 +146,17 @@ describe('<SearchResults />', () => {
         test('renders fewer skeleton text', () => {
           const { getAllByTestId } = render(wrapWithContext(<SearchResults />, {}, context));
           expect(getAllByTestId('skeleton_text')).toHaveLength(2);
+        });
+      });
+
+      describe('and count has been set higher than 5', () => {
+        beforeEach(() => {
+          context.searchResponseStore!.parameters!.count = 10000;
+        });
+
+        test('renders at most 3 skeleton text', () => {
+          const { getAllByTestId } = render(wrapWithContext(<SearchResults />, {}, context));
+          expect(getAllByTestId('skeleton_text')).toHaveLength(3);
         });
       });
     });

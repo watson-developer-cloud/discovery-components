@@ -5,7 +5,12 @@ import {
   useDeepCompareCallback,
   useDeepCompareMemo
 } from '../../utils/useDeepCompareMemoize';
-import { FetchDocumentsResponseStore, SearchResponseStore } from '../../utils/useDataApi';
+import {
+  FetchDocumentsResponseStore,
+  SearchResponseStore,
+  useSearchResultsApi,
+  useFetchDocumentsApi
+} from '../../utils/useDataApi';
 import { SearchClient } from './types';
 
 export type SearchParams = Omit<DiscoveryV2.QueryParams, 'projectId' | 'headers'>;
@@ -189,22 +194,25 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
     boolean
   >();
 
-  const [searchResponse, setSearchResponse] = useState(overrideSearchResults);
-  const [searchParameters, setSearchParameters] = useState({
-    projectId,
-    ...overrideQueryParameters
-  });
+  const [
+    searchResponseStore,
+    { setSearchResponse, setSearchParameters, performSearch }
+  ] = useSearchResultsApi(
+    { projectId, ...overrideQueryParameters },
+    overrideSearchResults,
+    searchClient
+  );
 
   const handleSearch = useCallback(
     async (searchParameters, resetAggregations = true): Promise<void> => {
       setSearchParameters(searchParameters);
-      const { result } = await searchClient.query(searchParameters);
-      setSearchResponse(result);
-      if (resetAggregations && result && result.aggregations) {
-        setAggregationResults(result.aggregations);
-      }
+      performSearch(result => {
+        if (resetAggregations && result && result.aggregations) {
+          setAggregationResults(result.aggregations);
+        }
+      });
     },
-    [searchClient]
+    [performSearch, setSearchParameters]
   );
 
   useDeepCompareEffect(() => {
@@ -318,13 +326,14 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
     setSelectedResult(newSelectedResult);
   };
 
+  const [fetchDocumentsResponseStore, { fetchDocuments }] = useFetchDocumentsApi(
+    { ...fetchDocumentsResponseStoreDefaults.parameters, projectId },
+    searchClient
+  );
+
   const handleFetchDocuments = useCallback(
     (filterString: string, searchResponse: DiscoveryV2.QueryResponse | null): void => {
-      const fetchDocuments = async (
-        searchParameters: DiscoveryV2.QueryParams,
-        searchResponse: DiscoveryV2.QueryResponse | null
-      ): Promise<void> => {
-        const { result: filteredResponse } = await searchClient.query(searchParameters);
+      fetchDocuments(filterString, filteredResponse => {
         if (searchResponse && searchResponse.results && filteredResponse.results) {
           setSearchResponse({
             ...searchResponse,
@@ -335,13 +344,9 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
         } else if (!searchResponse) {
           setSearchResponse(filteredResponse);
         }
-      };
-      fetchDocuments(
-        { ...fetchDocumentsResponseStoreDefaults.parameters, projectId, filter: filterString },
-        searchResponse
-      );
+      });
     },
-    [projectId, searchClient]
+    [fetchDocuments, setSearchResponse]
   );
 
   const api = useMemo((): SearchApiIFC => {
@@ -367,21 +372,8 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
     return {
       aggregationResults,
       autocompletionResults,
-      fetchDocumentsResponseStore: {
-        data: null,
-        parameters: {
-          ...fetchDocumentsResponseStoreDefaults.parameters,
-          projectId
-        },
-        isLoading: false,
-        isError: false
-      },
-      searchResponseStore: {
-        data: searchResponse,
-        parameters: searchParameters,
-        isLoading: false,
-        isError: false
-      },
+      fetchDocumentsResponseStore,
+      searchResponseStore,
       selectedResult,
       collectionsResults,
       componentSettings,
@@ -392,8 +384,7 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
     aggregationResults,
     collectionsResults,
     autocompletionResults,
-    searchResponse,
-    searchParameters,
+    searchResponseStore,
     selectedResult,
     componentSettings,
     isResultsPaginationComponentHidden
