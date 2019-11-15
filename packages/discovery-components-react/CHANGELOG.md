@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.67.6](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.67.5...@disco-widgets/react-components@1.67.6) (2019-11-15)
+
+
+### Bug Fixes
+
+* cells -> text_mappings ([#388](https://github.com/watson-developer-cloud/discovery-components/issues/388)) ([690235b](https://github.com/watson-developer-cloud/discovery-components/commit/690235b))
+
+
+
+
+
 ## [1.67.5](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.67.4...@disco-widgets/react-components@1.67.5) (2019-11-15)
 
 
