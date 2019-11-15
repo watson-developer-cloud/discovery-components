@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.68.1](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.68.0...@disco-widgets/react-components@1.68.1) (2019-11-15)
+
+
+### Bug Fixes
+
+* add fetchDocumentsResponseStore to memo ([#392](https://github.com/watson-developer-cloud/discovery-components/issues/392)) ([79a089a](https://github.com/watson-developer-cloud/discovery-components/commit/79a089a))
+
+
+
+
+
 # [1.68.0](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.67.8...@disco-widgets/react-components@1.68.0) (2019-11-15)
 
 
