@@ -62,6 +62,10 @@ export interface SearchResultsProps {
    */
   tableInDocumentButtonText?: string;
   /**
+   * specify whether only table results should be displayed by default
+   */
+  showTablesOnly?: boolean;
+  /**
    * specify whether to display a toggle for showing table search results only
    */
   showTablesOnlyToggle?: boolean;
@@ -95,7 +99,8 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   collectionLabel = 'Collection:',
   displayedTextInDocumentButtonText = 'View passage in document',
   tableInDocumentButtonText = 'View table in document',
-  showTablesOnlyToggle = false,
+  showTablesOnlyToggle,
+  showTablesOnly = false,
   tablesOnlyToggleLabelText = 'Show table results only',
   spellingSuggestionsPrefix = 'Did you mean:',
   emptyResultContentBodyText = 'Excerpt unavailable.',
@@ -107,7 +112,7 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
     collectionsResults,
     componentSettings
   } = React.useContext(SearchContext);
-  const [showTablesOnlyResults, setShowTablesOnlyResults] = React.useState(false);
+  const [showTablesOnlyResults, setShowTablesOnlyResults] = React.useState(showTablesOnly);
   const [hasFetchedDocuments, setHasFetchedDocuments] = React.useState(false);
 
   const displaySettings = getDisplaySettings(
@@ -121,9 +126,12 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   const tableResults = (searchResponse && searchResponse.table_results) || [];
   const searchResultLoadingClasses = [searchResultClass, searchResultLoadingClass];
   const emptySearch = searchResponse ? noResultsFoundText : '';
-  const resultsFound = showTablesOnlyResults
-    ? tableResults && tableResults.length > 0
-    : matchingResults && matchingResults > 0;
+  const hasTables = tableResults && tableResults.length > 0;
+  const hasMatchingResults = matchingResults && matchingResults > 0;
+  const resultsFound = showTablesOnlyResults ? hasTables : hasMatchingResults;
+  const [showTablesOnlyToggleState, setShowTablesOnlyToggleState] = React.useState(
+    typeof showTablesOnlyToggle === 'undefined' ? hasTables : showTablesOnlyToggle
+  );
 
   React.useEffect(() => {
     if (passageLength) {
@@ -140,8 +148,18 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   }, [passageLength, setSearchParameters]);
 
   React.useEffect(() => {
+    setShowTablesOnlyResults(showTablesOnly);
+  }, [showTablesOnly]);
+
+  React.useEffect(() => {
     setHasFetchedDocuments(false);
   }, [parameters.naturalLanguageQuery]);
+
+  React.useEffect(() => {
+    setShowTablesOnlyToggleState(
+      typeof showTablesOnlyToggle === 'undefined' ? hasTables : showTablesOnlyToggle
+    );
+  }, [showTablesOnlyToggle, hasTables]);
 
   // tablesWithoutResults are the tables in our searchResponse with no corresponding QueryResult
   useDeepCompareEffect(() => {
@@ -162,7 +180,7 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
         <SpellingSuggestion spellingSuggestionPrefix={spellingSuggestionsPrefix} />
         <TablesOnlyToggle
           setShowTablesOnlyResults={setShowTablesOnlyResults}
-          showTablesOnlyToggle={showTablesOnlyToggle}
+          showTablesOnlyToggle={showTablesOnlyToggleState}
           showTablesOnlyResults={showTablesOnlyResults}
           tablesOnlyToggleLabelText={tablesOnlyToggleLabelText}
         />

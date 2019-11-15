@@ -22,6 +22,10 @@ const props = () => ({
     'Label text for the toggle for showing table results only',
     'Show table results only'
   ),
+  showTablesOnly: boolean(
+    'Override to show table results only regardless if the showTablesOnlyToggle is true',
+    false
+  ),
   dangerouslyRenderHtml: boolean('Render passages as HTML', false)
 });
 

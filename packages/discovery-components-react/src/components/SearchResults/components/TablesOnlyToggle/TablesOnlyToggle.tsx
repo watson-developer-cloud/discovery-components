@@ -38,7 +38,6 @@ export const TablesOnlyToggle: React.FunctionComponent<TablesOnlyToggleProps> = 
   };
 
   const toggleClassName = `${settings.prefix}--search-result--toggle`;
-
   return (
     <>
       {showTablesOnlyToggle && (
@@ -48,6 +47,7 @@ export const TablesOnlyToggle: React.FunctionComponent<TablesOnlyToggleProps> = 
           id={`${settings.prefix}--tables-only-toggle`}
           labelText={tablesOnlyToggleLabelText}
           onToggle={handleToggle}
+          toggled={showTablesOnlyResults}
         />
       )}
     </>

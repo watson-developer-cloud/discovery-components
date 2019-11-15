@@ -8,7 +8,8 @@ import {
   searchResponseStoreDefaults
 } from '../../DiscoverySearch/DiscoverySearch';
 import { wrapWithContext } from '../../../utils/testingUtils';
-import { SearchResults } from '../SearchResults';
+import { SearchResults, SearchResultsProps } from '../SearchResults';
+import { getByText as domGetByText } from '@testing-library/dom';
 
 describe('<SearchResults />', () => {
   describe('When we have a value for matching_results', () => {
@@ -574,6 +575,181 @@ describe('<SearchResults />', () => {
           expect(getByText('I am table.')).toBeInTheDocument();
           expect(queryByText('Excerpt unavailable.')).toBe(null);
           expect(queryByText('View result')).toBe(null);
+        });
+      });
+    });
+  });
+
+  describe('when showTablesOnlyToggle is undefined', () => {
+    const props: SearchResultsProps = {};
+    const context: Partial<SearchContextIFC> = {
+      searchResponseStore: {
+        ...searchResponseStoreDefaults
+      }
+    };
+    beforeEach(() => {
+      props.showTablesOnlyToggle = undefined;
+    });
+
+    test('does not show the showTablesOnlyToggle', () => {
+      const { queryAllByText } = render(wrapWithContext(<SearchResults {...props} />, {}, context));
+      expect(queryAllByText('Show table results only')).toHaveLength(0);
+    });
+
+    describe('and there are tables', () => {
+      beforeEach(() => {
+        context.searchResponseStore!.data = {
+          matching_results: 0,
+          table_results: [
+            {
+              table_id: 'table id',
+              source_document_id: '123',
+              collection_id: 'collection_id',
+              table_html: '<div>table html</div>',
+              table_html_offset: 5,
+              table: {}
+            }
+          ]
+        };
+      });
+
+      test('shows the showTablesOnlyToggle', () => {
+        const { getByText } = render(wrapWithContext(<SearchResults {...props} />, {}, context));
+        expect(getByText('Show table results only')).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('when showTablesOnlyToggle is false', () => {
+    const props: SearchResultsProps = {};
+    const context: Partial<SearchContextIFC> = {
+      searchResponseStore: {
+        ...searchResponseStoreDefaults
+      }
+    };
+    beforeEach(() => {
+      props.showTablesOnlyToggle = false;
+    });
+
+    test('does not show the showTablesOnlyToggle', () => {
+      const { queryAllByText } = render(wrapWithContext(<SearchResults {...props} />, {}, context));
+      expect(queryAllByText('Show table results only')).toHaveLength(0);
+    });
+
+    describe('and there are tables', () => {
+      beforeEach(() => {
+        context.searchResponseStore!.data = {
+          matching_results: 0,
+          table_results: [
+            {
+              table_id: 'table id',
+              source_document_id: '123',
+              collection_id: 'collection_id',
+              table_html: '<div>table html</div>',
+              table_html_offset: 5,
+              table: {}
+            }
+          ]
+        };
+      });
+
+      test('does not show the showTablesOnlyToggle', () => {
+        const { queryAllByText } = render(
+          wrapWithContext(<SearchResults {...props} />, {}, context)
+        );
+        expect(queryAllByText('Show table results only')).toHaveLength(0);
+      });
+    });
+  });
+
+  describe('when showTablesOnlyToggle is true', () => {
+    const props: SearchResultsProps = {};
+    const context: Partial<SearchContextIFC> = {
+      searchResponseStore: {
+        ...searchResponseStoreDefaults
+      }
+    };
+    beforeEach(() => {
+      props.showTablesOnlyToggle = true;
+    });
+
+    test('shows the showTablesOnlyToggle even if there are no tables', () => {
+      const { getByText } = render(wrapWithContext(<SearchResults {...props} />, {}, context));
+      expect(getByText('Show table results only')).toBeInTheDocument();
+    });
+  });
+
+  describe('when showTablesOnly is true', () => {
+    const context: Partial<SearchContextIFC> = {
+      searchResponseStore: {
+        ...searchResponseStoreDefaults
+      }
+    };
+    describe('and we have table results', () => {
+      beforeEach(() => {
+        context.searchResponseStore!.data = {
+          matching_results: 1,
+          results: [
+            {
+              document_id: '456',
+              document_passages: [
+                {
+                  passage_text: 'document passage text'
+                }
+              ]
+            }
+          ],
+          table_results: [
+            {
+              table_id: 'table id',
+              source_document_id: '123',
+              collection_id: 'collection_id',
+              table_html: '<div>table html</div>',
+              table_html_offset: 5,
+              table: {}
+            }
+          ]
+        };
+      });
+
+      describe('and showTablesOnlyToggle is false', () => {
+        test('will still display the tables only results', () => {
+          const { getByText, queryByText } = render(
+            wrapWithContext(
+              <SearchResults showTablesOnlyToggle={false} showTablesOnly={true} />,
+              {},
+              context
+            )
+          );
+          expect(getByText('table html')).toBeInTheDocument();
+          expect(queryByText('document passage text')).toBeNull();
+        });
+      });
+
+      describe('and showTablesOnlyToggle is true', () => {
+        test('the value of the toggle is enabled on first render', () => {
+          const { getByText } = render(
+            wrapWithContext(
+              <SearchResults showTablesOnlyToggle={true} showTablesOnly={true} />,
+              {},
+              context
+            )
+          );
+          const toggle = getByText('Show table results only');
+          expect(domGetByText(toggle, 'On')).toBeInTheDocument();
+          expect(getByText('table html')).toBeInTheDocument();
+        });
+        test('the user can click the toggle and see QueryResults as well', () => {
+          const { getByText } = render(
+            wrapWithContext(
+              <SearchResults showTablesOnlyToggle={true} showTablesOnly={true} />,
+              {},
+              context
+            )
+          );
+          const toggle = getByText('Show table results only');
+          fireEvent.click(toggle);
+          expect(getByText('document passage text')).toBeInTheDocument();
         });
       });
     });
