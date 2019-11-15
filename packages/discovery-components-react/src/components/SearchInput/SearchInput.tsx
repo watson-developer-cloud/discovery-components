@@ -79,6 +79,7 @@ export const SearchInput: FC<SearchInputProps> = props => {
 
   const inputId = id || `search-input__${uuid.v4()}`;
   const autocompletionClassName = `${settings.prefix}--search-autocompletion`;
+  const searchInputClassNames = [className, `${settings.prefix}--search-input--discovery`];
   const {
     searchResponseStore: { parameters: searchParameters },
     autocompletionResults,
@@ -256,7 +257,7 @@ export const SearchInput: FC<SearchInputProps> = props => {
 
   return (
     <div
-      className={className}
+      className={searchInputClassNames.join(' ')}
       id={inputId}
       data-testid="search-input-test-id"
       onBlur={handleOnBlur}

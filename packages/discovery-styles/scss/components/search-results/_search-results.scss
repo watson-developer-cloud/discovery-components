@@ -41,23 +41,18 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
 }
 
 .#{$prefix}--spelling-suggestion__wrapper {
-  padding: 0 $spacing-md;
+  @include type-style('body-short-01');
+  align-items: center;
+  display: flex;
+  padding: 0;
+
+  .#{$prefix}--btn--ghost.#{$prefix}--btn--sm {
+    padding-left: $spacing-xs;
+  }
 }
 
 .#{$prefix}--spelling-suggestion {
-  color: $text-01;
-  text-decoration: underline;
-  border-width: 0;
-
-  @include type-style('body-short-02');
-
-  &:hover,
-  &:focus,
-  &:active {
-    outline-style: none;
-    color: $text-01;
-    background: transparent;
-  }
+  @include type-style('body-short-01');
 }
 
 .#{$prefix}--search-result--toggle {
@@ -91,13 +86,13 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
 }
 
 .#{$prefix}--search-result__content-wrapper__body {
+  @include type-style('body-long-01');
+
   flex-grow: 2;
   max-height: $result-element-max-height;
   overflow: hidden;
   padding-right: $spacing-xl;
   position: relative;
-
-  @include type-style('body-short-01');
 }
 
 .#{$prefix}--search-result__content-wrapper__body--passage {
@@ -111,8 +106,7 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
 
 .#{$prefix}--search-result__content-wrapper__body--passage__highlights {
   em {
-    color: $text-04;
-    background-color: $support-02;
+    background-color: $highlight;
     font-style: normal;
     padding: 0 $spacing-02;
     border-radius: rem(2px);
@@ -155,19 +149,20 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
 .#{$prefix}--search-result__content-wrapper__body__button {
   display: flex;
   flex-direction: row-reverse;
+  font-size: 0.75rem;
   padding: 0;
   span {
     flex-grow: 2;
-    padding-left: $spacing-md;
-  }
-  &:hover {
-    background-color: white;
-    text-decoration: underline;
+    padding-left: $spacing-xs;
   }
 }
 
-.#{$prefix}--btn--ghost .#{$prefix}--btn__icon path {
-  fill: $link-01;
+.#{$prefix}--btn--ghost .#{$prefix}--btn__icon {
+  margin-left: 0;
+
+  path {
+    fill: $link-01;
+  }
 }
 
 .#{$prefix}--search-result__footer {
@@ -181,14 +176,10 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
 }
 
 .#{$prefix}--search-result__footer__title {
-  display: flex;
   align-items: center;
+  display: flex;
 
   svg {
     margin-right: $spacing-03;
   }
-}
-
-.#{$prefix}--search-result__footer__collection-name {
-  margin-left: $spacing-05;
 }

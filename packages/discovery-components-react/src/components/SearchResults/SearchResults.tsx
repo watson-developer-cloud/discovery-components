@@ -92,7 +92,7 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   usePassages,
   passageLength,
   passageHighlightsClassName,
-  collectionLabel = 'Collection name:',
+  collectionLabel = 'Collection:',
   displayedTextInDocumentButtonText = 'View passage in document',
   tableInDocumentButtonText = 'View table in document',
   showTablesOnlyToggle = false,

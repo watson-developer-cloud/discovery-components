@@ -63,11 +63,11 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
   };
 };
 
-describe('CollapsableFacetsGroupComponent', () => {
+describe('CollapsibleFacetsGroupComponent', () => {
   describe('when aggregations should not be collapsed for any fields', () => {
     test('show more link is not shown', () => {
       const { searchFacetsComponent } = setup({ collapsedFacetsCount: 20 });
-      const showMoreButtons = searchFacetsComponent.queryAllByText('Show More');
+      const showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
       expect(showMoreButtons).toHaveLength(0);
     });
   });
@@ -75,7 +75,7 @@ describe('CollapsableFacetsGroupComponent', () => {
   describe('when aggregations should be collapsed for some fields', () => {
     test('show more link is only shown for facet group with too many results', () => {
       const { searchFacetsComponent } = setup({ collapsedFacetsCount: 5 });
-      const showMoreButtons = searchFacetsComponent.queryAllByText('Show More');
+      const showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
       expect(showMoreButtons).toHaveLength(1);
     });
   });
@@ -83,7 +83,7 @@ describe('CollapsableFacetsGroupComponent', () => {
   describe('when aggregations are collapsed for multiple facets', () => {
     test('show more link is only shown for multiple facet groups', () => {
       const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
-      const showMoreButtons = searchFacetsComponent.queryAllByText('Show More');
+      const showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
       expect(showMoreButtons).toHaveLength(2);
     });
 
@@ -124,7 +124,7 @@ describe('CollapsableFacetsGroupComponent', () => {
         });
         expect(authorFacets).toHaveLength(2);
 
-        const showMoreButtons = searchFacetsComponent.queryAllByText('Show More');
+        const showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
         fireEvent.click(showMoreButtons[1]);
         const subjectFacets = searchFacetsComponent.queryAllByText((content, element) => {
           return (
@@ -155,13 +155,13 @@ describe('CollapsableFacetsGroupComponent', () => {
 
       test('changes button text to show less', () => {
         const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
-        let showMoreButtons = searchFacetsComponent.queryAllByText('Show More');
+        let showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
         fireEvent.click(showMoreButtons[0]);
 
-        showMoreButtons = searchFacetsComponent.queryAllByText('Show More');
+        showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
         expect(showMoreButtons).toHaveLength(1);
 
-        const showLessButtons = searchFacetsComponent.queryAllByText('Show More');
+        const showLessButtons = searchFacetsComponent.queryAllByText('Show more');
         expect(showLessButtons).toHaveLength(1);
       });
     });
@@ -170,10 +170,10 @@ describe('CollapsableFacetsGroupComponent', () => {
   describe('clicking show less button', () => {
     test('collapses list of facet terms for appropriate field', () => {
       const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
-      const showMoreButtons = searchFacetsComponent.queryAllByText('Show More');
+      const showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
       showMoreButtons.forEach(button => fireEvent.click(button));
 
-      const showLessButtons = searchFacetsComponent.queryAllByText('Show Less');
+      const showLessButtons = searchFacetsComponent.queryAllByText('Show less');
       fireEvent.click(showLessButtons[0]);
       const authorFacets = searchFacetsComponent.queryAllByText((content, element) => {
         return (
@@ -186,10 +186,10 @@ describe('CollapsableFacetsGroupComponent', () => {
 
     test('does not expand other fields', () => {
       const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
-      const showMoreButtons = searchFacetsComponent.queryAllByText('Show More');
+      const showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
       showMoreButtons.forEach(button => fireEvent.click(button));
 
-      const showLessButtons = searchFacetsComponent.queryAllByText('Show Less');
+      const showLessButtons = searchFacetsComponent.queryAllByText('Show less');
       fireEvent.click(showLessButtons[0]);
       const subjectFacets = searchFacetsComponent.queryAllByText((content, element) => {
         return (
@@ -209,15 +209,15 @@ describe('CollapsableFacetsGroupComponent', () => {
 
     test('change text of collapse button', () => {
       const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
-      let showMoreButtons = searchFacetsComponent.queryAllByText('Show More');
+      let showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
       showMoreButtons.forEach(button => fireEvent.click(button));
 
-      let showLessButtons = searchFacetsComponent.queryAllByText('Show Less');
+      let showLessButtons = searchFacetsComponent.queryAllByText('Show less');
       fireEvent.click(showLessButtons[0]);
 
-      showMoreButtons = searchFacetsComponent.queryAllByText('Show More');
+      showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
       expect(showMoreButtons).toHaveLength(1);
-      showLessButtons = searchFacetsComponent.queryAllByText('Show More');
+      showLessButtons = searchFacetsComponent.queryAllByText('Show more');
       expect(showLessButtons).toHaveLength(1);
     });
   });

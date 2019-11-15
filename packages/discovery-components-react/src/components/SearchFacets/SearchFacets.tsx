@@ -1,6 +1,8 @@
 import React, { FC, useContext, useEffect } from 'react';
 import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import { Button } from 'carbon-components-react';
+import { settings } from 'carbon-components';
+import CloseOutline from '@carbon/icons-react/lib/close--outline/16.js';
 import { SearchContext, SearchApi } from '../DiscoverySearch/DiscoverySearch';
 import { mergeFilterFacets } from './utils/mergeFilterFacets';
 import { mergeDynamicFacets } from './utils/mergeDynamicFacets';
@@ -99,8 +101,14 @@ export const SearchFacets: FC<SearchFacetsProps> = ({
     return (
       <div>
         {filter && (
-          <Button kind="ghost" size="small" onClick={handleOnClear}>
-            {messages.clearAllButtonText}
+          <Button
+            className={`${settings.prefix}--search-facets__button-clear-all`}
+            kind="ghost"
+            renderIcon={CloseOutline}
+            size="small"
+            onClick={handleOnClear}
+          >
+            <span>{messages.clearAllButtonText}</span>
           </Button>
         )}
         {shouldShowCollections && <CollectionFacets messages={mergedMessages} />}

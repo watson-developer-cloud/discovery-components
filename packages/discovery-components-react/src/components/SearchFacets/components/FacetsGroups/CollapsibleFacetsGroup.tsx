@@ -3,7 +3,7 @@ import { Button } from 'carbon-components-react';
 import filter from 'lodash/filter';
 import get from 'lodash/get';
 import ListBox from 'carbon-components-react/lib/components/ListBox';
-import { fieldsetClasses, labelClasses, toggleMoreClass } from './facetGroupClasses';
+import { fieldsetClasses, labelClasses } from './facetGroupClasses';
 import {
   SelectableDynamicFacets,
   SelectableQueryTermAggregationResult,
@@ -113,12 +113,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
         />
       )}
       {isCollapsible && (
-        <Button
-          className={toggleMoreClass}
-          kind="ghost"
-          size="small"
-          onClick={toggleFacetsCollapse}
-        >
+        <Button kind="ghost" size="small" onClick={toggleFacetsCollapse}>
           {isCollapsed ? messages.collapsedFacetShowMoreText : messages.collapsedFacetShowLessText}
         </Button>
       )}

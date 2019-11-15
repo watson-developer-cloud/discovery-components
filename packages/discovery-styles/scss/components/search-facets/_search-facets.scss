@@ -2,6 +2,15 @@
 @import '~carbon-components/scss/components/multi-select/multi-select';
 @import '~carbon-components/scss/components/radio-button/radio-button';
 
+.#{$prefix}--search-facets__button-clear-all {
+  display: flex;
+  flex-direction: row-reverse;
+
+  span {
+    padding-left: $spacing-xs;
+  }
+}
+
 .#{$prefix}--search-facet {
   margin-bottom: $spacing-md;
 }
@@ -18,23 +27,12 @@
   }
 }
 
-.#{$prefix}--search-facet__facet__toggle__more {
-  border-width: 0;
-
-  &:hover,
-  &:focus,
-  &:active {
-    outline-style: none;
-    background: transparent;
-  }
-}
-
 .#{$prefix}--search-facet__facet__single__select__group {
   margin-bottom: 0.5rem;
 }
 
 .#{$prefix}--form-item.#{$prefix}--checkbox-wrapper.#{$prefix}--search-facet__facet__option {
-  margin-bottom: rem(6px);
+  margin-bottom: 0;
 }
 
 .#{$prefix}--search-facet__facet__option-label {

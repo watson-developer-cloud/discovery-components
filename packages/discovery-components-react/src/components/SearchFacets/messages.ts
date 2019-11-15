@@ -12,8 +12,8 @@ export default {
   clearAllButtonText: 'Clear all',
   clearFacetTitle: 'Clear all selected items',
   clearFacetSelectionTitle: 'Clear selected item',
-  collapsedFacetShowMoreText: 'Show More',
-  collapsedFacetShowLessText: 'Show Less',
+  collapsedFacetShowMoreText: 'Show more',
+  collapsedFacetShowLessText: 'Show less',
   collectionSelectTitleText: 'Collections',
   collectionSelectLabel: 'Available collections',
   dynamicFacetsLabel: 'Dynamic Facets'
