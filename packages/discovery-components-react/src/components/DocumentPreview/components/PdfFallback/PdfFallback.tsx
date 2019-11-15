@@ -28,9 +28,9 @@ interface Props {
    */
   setLoading: (loading: boolean) => void;
   /**
-   * Callback to disable toolbar in parent
+   * Callback which is invoked with whether to enable/disable toolbar controls
    */
-  disableToolbar?: (disabled: boolean) => void;
+  setHideToolbarControls?: (disabled: boolean) => void;
 }
 
 type State = {
@@ -95,8 +95,13 @@ export const PdfFallback: FC<Props> = ({
   currentPage,
   scale = 1,
   setLoading,
-  disableToolbar
+  setHideToolbarControls
 }) => {
+  //set hide toolbar control to false to display to toolbar controls
+  if (setHideToolbarControls) {
+    setHideToolbarControls(false);
+  }
+
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
   const { pages, page, pagesHaveFonts } = state;
 
@@ -178,10 +183,10 @@ export const PdfFallback: FC<Props> = ({
   }, [doRender, setLoading]);
 
   useEffect(() => {
-    if (disableToolbar) {
-      disableToolbar(false);
+    if (setHideToolbarControls) {
+      setHideToolbarControls(false);
     }
-  }, [disableToolbar]);
+  }, [setHideToolbarControls]);
 
   const docStyles = useMemo(() => {
     if (doRender && processedDoc && processedDoc.styles) {

@@ -21,9 +21,9 @@ interface Props {
    */
   setLoading: (loading: boolean) => void;
   /**
-   * Callback to disable toolbar in parent
+   * Callback which is invoked with whether to enable/disable toolbar controls
    */
-  disableToolbar?: (disabled: boolean) => void;
+  setHideToolbarControls?: (disabled: boolean) => void;
 
   cannotPreviewMessage?: string;
 }
@@ -32,7 +32,7 @@ export const SimpleDocument: FC<Props> = ({
   document,
   highlight,
   setLoading,
-  disableToolbar,
+  setHideToolbarControls,
   cannotPreviewMessage = 'Cannot preview document'
 }) => {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -72,8 +72,8 @@ export const SimpleDocument: FC<Props> = ({
 
     // set parent states
     setLoading(false);
-    if (disableToolbar) {
-      disableToolbar(true);
+    if (setHideToolbarControls) {
+      setHideToolbarControls(true);
     }
   }
 

@@ -19,6 +19,11 @@ interface Props {
   loading?: boolean;
 
   /**
+   * Hide toolbar controls
+   */
+  hideControls?: boolean;
+
+  /**
    * Current page number, starting at 1
    */
   current: number;
@@ -38,7 +43,14 @@ interface Props {
 
 const base = `${settings.prefix}--preview-toolbar`;
 
-const PreviewToolbar: SFC<Props> = ({ loading = false, current, total, onZoom, onChange }) => {
+const PreviewToolbar: SFC<Props> = ({
+  loading = false,
+  hideControls = false,
+  current,
+  total,
+  onZoom,
+  onChange
+}) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -49,60 +61,64 @@ const PreviewToolbar: SFC<Props> = ({ loading = false, current, total, onZoom, o
 
   return (
     <div className={`${base}`}>
-      <div className={`${base}__spacer`} />
-      <div className={`${base}__nav`}>
-        {renderButton({
-          icon: CaretLeft24,
-          description: 'Previous Page',
-          onClick: () => nextPrevButtonClicked(current, total, onChange, -1),
-          disabled: loading || current === 1
-        })}
-        <Form
-          onSubmit={(e: Event): void => currentPageChanged(e, onChange, inputRef)}
-          autoComplete="off"
-        >
-          <TextInput
-            id="pageInput"
-            defaultValue={current}
-            type="number"
-            ref={inputRef}
-            min={1}
-            max={total}
-            className={`${base}__input`}
-            onBlur={(e: Event): void => currentPageChanged(e, onChange, inputRef)}
-            labelText="labelText"
-            hideLabel={true}
-            disabled={loading}
-          />
-        </Form>
-        <FormLabel className={`${base}__pageLabel`}>/ {total}</FormLabel>
-        {renderButton({
-          icon: CaretRight24,
-          description: 'Next Page',
-          onClick: () => nextPrevButtonClicked(current, total, onChange, 1),
-          disabled: loading || current === total
-        })}
-      </div>
-      <div className={`${base}__zoom`}>
-        {renderButton({
-          icon: ZoomIn24,
-          description: 'Zoom In',
-          onClick: () => onZoom(ZOOM_IN),
-          disabled: loading
-        })}
-        {renderButton({
-          icon: ZoomOut24,
-          description: 'Zoom Out',
-          onClick: () => onZoom(ZOOM_OUT),
-          disabled: loading
-        })}
-        {renderButton({
-          icon: Reset24,
-          description: 'Reset Zoom',
-          onClick: () => onZoom(ZOOM_RESET),
-          disabled: loading
-        })}
-      </div>
+      {!hideControls ? (
+        <>
+          <div className={`${base}__spacer`} />
+          <div className={`${base}__nav`}>
+            {renderButton({
+              icon: CaretLeft24,
+              description: 'Previous Page',
+              onClick: () => nextPrevButtonClicked(current, total, onChange, -1),
+              disabled: loading || current === 1
+            })}
+            <Form
+              onSubmit={(e: Event): void => currentPageChanged(e, onChange, inputRef)}
+              autoComplete="off"
+            >
+              <TextInput
+                id="pageInput"
+                defaultValue={current}
+                type="number"
+                ref={inputRef}
+                min={1}
+                max={total}
+                className={`${base}__input`}
+                onBlur={(e: Event): void => currentPageChanged(e, onChange, inputRef)}
+                labelText="labelText"
+                hideLabel={true}
+                disabled={loading}
+              />
+            </Form>
+            <FormLabel className={`${base}__pageLabel`}>/ {total}</FormLabel>
+            {renderButton({
+              icon: CaretRight24,
+              description: 'Next Page',
+              onClick: () => nextPrevButtonClicked(current, total, onChange, 1),
+              disabled: loading || current === total
+            })}
+          </div>
+          <div className={`${base}__zoom`}>
+            {renderButton({
+              icon: ZoomIn24,
+              description: 'Zoom In',
+              onClick: () => onZoom(ZOOM_IN),
+              disabled: loading
+            })}
+            {renderButton({
+              icon: ZoomOut24,
+              description: 'Zoom Out',
+              onClick: () => onZoom(ZOOM_OUT),
+              disabled: loading
+            })}
+            {renderButton({
+              icon: Reset24,
+              description: 'Reset Zoom',
+              onClick: () => onZoom(ZOOM_RESET),
+              disabled: loading
+            })}
+          </div>
+        </>
+      ) : null}
     </div>
   );
 };

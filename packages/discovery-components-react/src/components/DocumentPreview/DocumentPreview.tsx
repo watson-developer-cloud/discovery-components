@@ -58,7 +58,7 @@ const DocumentPreview: FC<Props> = ({
   const [scale, setScale] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [disabledToolbar, setDisabledToolbar] = useState(false);
+  const [hideToolbarControls, setHideToolbarControls] = useState(false);
 
   useEffect(() => {
     // reset state if document changes
@@ -107,7 +107,8 @@ const DocumentPreview: FC<Props> = ({
       {(doc || file) && !didCatch ? (
         <>
           <PreviewToolbar
-            loading={disabledToolbar || loading}
+            loading={loading}
+            hideControls={hideToolbarControls}
             current={currentPage}
             total={loading ? 0 : pageCount}
             onChange={setCurrentPage}
@@ -128,7 +129,7 @@ const DocumentPreview: FC<Props> = ({
               highlight={highlight}
               setPdfPageCount={setPdfPageCount}
               setLoading={setLoading}
-              disableToolbar={setDisabledToolbar}
+              setHideToolbarControls={setHideToolbarControls}
             />
             {/* highlight on top of document view */
             (file || supportsPdfFallback(doc)) && (
@@ -166,7 +167,7 @@ interface PreviewDocumentProps {
   scale: number;
   setPdfPageCount?: (count: number) => void;
   setLoading: (loading: boolean) => void;
-  disableToolbar?: (disabled: boolean) => void;
+  setHideToolbarControls?: (disabled: boolean) => void;
 }
 
 function PreviewDocument({
@@ -176,7 +177,7 @@ function PreviewDocument({
   document,
   setPdfPageCount,
   setLoading,
-  disableToolbar,
+  setHideToolbarControls,
   highlight
 }: PreviewDocumentProps): ReactElement | null {
   // if we have PDF data, render that
@@ -189,7 +190,7 @@ function PreviewDocument({
         scale={scale}
         setPageCount={setPdfPageCount}
         setLoading={setLoading}
-        disableToolbar={disableToolbar}
+        setHideToolbarControls={setHideToolbarControls}
       />
     );
   }
@@ -203,7 +204,7 @@ function PreviewDocument({
           currentPage={currentPage}
           scale={scale}
           setLoading={setLoading}
-          disableToolbar={disableToolbar}
+          setHideToolbarControls={setHideToolbarControls}
         />
       );
     }
@@ -212,7 +213,11 @@ function PreviewDocument({
 
     if (isHtmlType) {
       return (
-        <HtmlView document={document} setLoading={setLoading} disableToolbar={disableToolbar} />
+        <HtmlView
+          document={document}
+          setLoading={setLoading}
+          setHideToolbarControls={setHideToolbarControls}
+        />
       );
     }
 
@@ -220,7 +225,7 @@ function PreviewDocument({
       <SimpleDocument
         document={document}
         highlight={highlight}
-        disableToolbar={disableToolbar}
+        setHideToolbarControls={setHideToolbarControls}
         setLoading={setLoading}
       />
     );

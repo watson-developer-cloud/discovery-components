@@ -16,7 +16,7 @@ describe('SimpleDocument', () => {
       render(
         <SimpleDocument
           document={minimalDoc}
-          disableToolbar={(): void => {}}
+          setHideToolbarControls={(): void => {}}
           setLoading={(): void => {}}
         />
       );
@@ -28,16 +28,18 @@ describe('SimpleDocument', () => {
       throw new Error();
     };
 
+    const spy = jest.spyOn(console, 'log');
+    expect(spy).not.toHaveBeenCalled();
     act(() => {
       ({ getByText } = render(
         <SimpleDocument
           document={docArrayJson}
           setLoading={(): void => {}}
-          disableToolbar={(): void => {}}
+          setHideToolbarControls={(): void => console.log('setHideToolbarControls called')}
         />
       ));
     });
-
+    expect(spy).toHaveBeenCalled();
     getByText(
       'services) for its business operations and to meet obligations in connection with transactions under the Prime-Contract. This',
       { exact: false }

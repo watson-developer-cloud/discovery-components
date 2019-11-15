@@ -13,19 +13,27 @@ interface Props {
    */
   setLoading: (loading: boolean) => void;
   /**
-   * Callback to disable toolbar in parent
+   * Callback which is invoked with whether to enable/disable toolbar controls
    */
-  disableToolbar?: (disabled: boolean) => void;
+  setHideToolbarControls?: (disabled: boolean) => void;
 }
 
-export const HtmlView: FC<Props> = ({ document, disableToolbar, setLoading }) => {
-  const html = document ? DOMPurify.sanitize(get(document, 'html')) : '';
-  if (disableToolbar) {
-    disableToolbar(true);
+export const HtmlView: FC<Props> = ({ document, setHideToolbarControls, setLoading }) => {
+  if (setHideToolbarControls) {
+    setHideToolbarControls(true);
   }
+
+  const html = document ? DOMPurify.sanitize(get(document, 'html')) : '';
+
   setLoading(false);
 
-  return <div dangerouslySetInnerHTML={{ __html: html }} />;
+  return (
+    <div
+      dangerouslySetInnerHTML={{
+        __html: html
+      }}
+    />
+  );
 };
 
 export default HtmlView;
