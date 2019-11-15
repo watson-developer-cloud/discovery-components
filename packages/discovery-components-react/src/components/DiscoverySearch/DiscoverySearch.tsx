@@ -384,6 +384,7 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
     aggregationResults,
     collectionsResults,
     autocompletionResults,
+    fetchDocumentsResponseStore,
     searchResponseStore,
     selectedResult,
     componentSettings,
