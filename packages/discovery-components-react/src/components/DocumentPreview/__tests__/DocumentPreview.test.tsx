@@ -97,4 +97,22 @@ describe('DocumentPreview', () => {
 
     getByText('On 22 December 2008 ART EFFECTS LIMITED', { exact: false });
   });
+
+  const htmlTextDoc = {
+    id: '1234567890',
+    extracted_metadata: {
+      filename: 'i_am_a_file'
+    },
+    text: ['Example text <text> <username> <password> more text afterwards']
+  };
+
+  it('renders document with html-like text ', () => {
+    let getByText: NonNullable<any>;
+
+    act(() => {
+      ({ getByText } = render(<DocumentPreview document={htmlTextDoc} />));
+    });
+
+    getByText('<text> <username> <password>', { exact: false });
+  });
 });

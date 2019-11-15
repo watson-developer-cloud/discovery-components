@@ -123,7 +123,7 @@ export function createFieldRects({
 }: CreateFieldRectsProps): void {
   // create a Range for each field
   const range = document.createRange();
-  range.setStart(beginTextNode, beginOffset);
+  range.setStart(beginTextNode, Math.min(beginOffset, beginTextNode.length));
   range.setEnd(endTextNode, Math.min(endOffset, endTextNode.length));
 
   // create a field container

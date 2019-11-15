@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useRef } from 'react';
+import { encodeHTML } from 'entities';
 import { settings } from 'carbon-components';
 import {
   QueryResult,
@@ -51,6 +52,7 @@ export const SimpleDocument: FC<Props> = ({
       if (Array.isArray(text)) {
         text = text[0];
       }
+      text = encodeHTML(text);
       html = `<p data-child-begin="0" data-child-end=${text.length - 1}>${text}</p>`;
 
       if (highlight && isPassage(highlight)) {
@@ -60,6 +62,7 @@ export const SimpleDocument: FC<Props> = ({
           let rollingStart = 0;
           html = document[field]
             .map((val: string) => {
+              val = encodeHTML(val);
               const end = rollingStart + val.length - 1;
               const res = `<p data-child-begin=${rollingStart} data-child-end=${end}>${val}</p>`;
               rollingStart = end + 1;
