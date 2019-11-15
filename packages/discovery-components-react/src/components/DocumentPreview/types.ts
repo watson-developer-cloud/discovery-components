@@ -1,6 +1,6 @@
 export interface TextMappings {
   pages: Page[];
-  cells: Cell[];
+  text_mappings: Cell[];
 }
 
 // [ left, top, right, bottom ]

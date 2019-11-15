@@ -96,7 +96,8 @@ const DocumentPreview: FC<Props> = ({
     if (file && pdfPageCount > 0) {
       setPageCount(pdfPageCount);
     } else if (textMappings) {
-      setPageCount(textMappings.cells[textMappings.cells.length - 1].page.page_number);
+      const last = textMappings.text_mappings.length - 1;
+      setPageCount(get(textMappings, `text_mappings[${last}].page.page_number`, 1));
     }
   }, [textMappings, file, pdfPageCount]);
 

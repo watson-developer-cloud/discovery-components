@@ -114,10 +114,10 @@ export const PdfFallback: FC<Props> = ({
 
     const newPages: PageWithCells[] = [
       EMPTY_PAGE, // add "zeroth" page (unused; makes this array 1-based)
-      ...textMappings.pages
+      ...get(textMappings, 'pages', [])
     ].map(page => ({ ...page, cells: [] }));
 
-    textMappings.cells.map(({ page, field }: Cell) => {
+    (get(textMappings, 'text_mappings', []) as Cell[]).map(({ page, field }: Cell) => {
       const textValue = getFieldText(document, field);
       const content = textValue.substring(field.span[0], field.span[1]);
       const cellPageNumber = page.page_number;
