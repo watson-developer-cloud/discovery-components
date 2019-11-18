@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.68.3](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.68.2...@disco-widgets/react-components@1.68.3) (2019-11-18)
+
+
+### Bug Fixes
+
+* render text if HTML doc has no `html` field ([#397](https://github.com/watson-developer-cloud/discovery-components/issues/397)) ([110334a](https://github.com/watson-developer-cloud/discovery-components/commit/110334a))
+
+
+
+
+
 ## [1.68.2](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.68.1...@disco-widgets/react-components@1.68.2) (2019-11-15)
 
 
