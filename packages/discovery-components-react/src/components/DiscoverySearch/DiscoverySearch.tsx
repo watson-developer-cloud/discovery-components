@@ -258,6 +258,10 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
     setAutocompletions(overrideAutocompletionResults);
   }, [overrideAutocompletionResults]);
 
+  useDeepCompareEffect(() => {
+    setComponentSettings(overrideComponentSettings);
+  }, [overrideComponentSettings]);
+
   useEffect(() => {
     async function fetchCollections(): Promise<void> {
       const { result } = await searchClient.listCollections({ projectId });

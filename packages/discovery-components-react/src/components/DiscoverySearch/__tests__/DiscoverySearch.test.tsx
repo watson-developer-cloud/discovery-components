@@ -165,6 +165,25 @@ describe('DiscoverySearch', () => {
       );
       expect(getByTestId('value').textContent).toEqual('bar');
     });
+
+    it('can override componentSettings', () => {
+      const tree = (
+        <SearchContext.Consumer>
+          {({ componentSettings }) => (
+            <span data-testid="value">
+              {componentSettings && componentSettings.results_per_page}
+            </span>
+          )}
+        </SearchContext.Consumer>
+      );
+      const {
+        fullTree,
+        result: { getByTestId, rerender }
+      } = setup({ overrideComponentSettings: { results_per_page: 5 } }, tree);
+      expect(getByTestId('value').textContent).toEqual('5');
+      rerender(cloneElement(fullTree, { overrideComponentSettings: { results_per_page: 10000 } }));
+      expect(getByTestId('value').textContent).toEqual('10000');
+    });
   });
 
   describe('api calls', () => {
