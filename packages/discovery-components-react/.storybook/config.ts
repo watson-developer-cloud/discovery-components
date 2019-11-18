@@ -2,7 +2,10 @@ import { configure, addDecorator } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
 import '@disco-widgets/styles';
 
-const req = require.context('../src', true, /\.stories.tsx$/);
+const req =
+  process.env.STORYBOOK_BUILD_MODE == 'production'
+    ? require.context('../src', true, /.*\/__stories__\/.*\.stories.tsx$/)
+    : require.context('../src', true, /\.stories.tsx$/);
 
 addDecorator(withInfo());
 

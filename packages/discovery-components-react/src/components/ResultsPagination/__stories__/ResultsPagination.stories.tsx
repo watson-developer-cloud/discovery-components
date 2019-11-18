@@ -1,13 +1,13 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, array, text, boolean, number } from '@storybook/addon-knobs/react';
-import { ResultsPagination } from '../ResultsPagination';
 import { DiscoverySearch, DiscoverySearchProps } from '../../DiscoverySearch/DiscoverySearch';
 import { StoryWrapper, DummySearchClient } from '../../../utils/storybookUtils';
 import overrideSearchResults from '../__fixtures__/searchResults';
 import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
 import { action } from '@storybook/addon-actions';
 import { createDummyResponsePromise } from '../../../utils/testingUtils';
+import { ResultsPagination } from '../ResultsPagination';
 
 export const props = () => ({
   page: 1,
