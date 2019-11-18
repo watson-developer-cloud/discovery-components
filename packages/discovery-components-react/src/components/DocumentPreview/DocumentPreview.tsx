@@ -212,7 +212,7 @@ function PreviewDocument({
 
     const isHtmlType = get(document, 'extracted_metadata.file_type') === 'html';
 
-    if (isHtmlType) {
+    if (isHtmlType && document.html) {
       return (
         <HtmlView
           document={document}
