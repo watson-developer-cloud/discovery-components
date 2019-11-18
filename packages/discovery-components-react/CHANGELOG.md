@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.68.4](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.68.3...@disco-widgets/react-components@1.68.4) (2019-11-18)
+
+
+### Bug Fixes
+
+* overrideComponentSettings ([#398](https://github.com/watson-developer-cloud/discovery-components/issues/398)) ([52167ed](https://github.com/watson-developer-cloud/discovery-components/commit/52167ed))
+
+
+
+
+
 ## [1.68.3](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.68.2...@disco-widgets/react-components@1.68.3) (2019-11-18)
 
 
