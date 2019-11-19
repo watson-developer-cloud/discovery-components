@@ -113,8 +113,8 @@ export const Result: React.FunctionComponent<ResultProps> = ({
     displayedText = firstPassageText;
   }
   const shouldDangerouslyRenderHtml = hasPassage || dangerouslyRenderHtml;
-  const displayedTextElement = usePassages && firstPassage ? firstPassage : null;
-  const displayedTextElementType = usePassages && firstPassage ? 'passage' : null;
+  const displayedTextElement = hasPassage ? firstPassage : null;
+  const displayedTextElementType = hasPassage ? 'passage' : null;
   const tableHtml: string | undefined = get(table, 'table_html');
   // Need to check that showTablesOnlyResults isn't enabled to ensure text for a linked result isn't displayed in a tables only results view
   const hasText = displayedText && !showTablesOnlyResults;
@@ -175,7 +175,7 @@ export const Result: React.FunctionComponent<ResultProps> = ({
             {displayedText && !showTablesOnlyResults && (
               <ResultElement
                 body={displayedText}
-                buttonText={displayedTextInDocumentButtonText}
+                buttonText={hasPassage ? displayedTextInDocumentButtonText : undefined}
                 element={displayedTextElement}
                 elementType={displayedTextElementType}
                 handleSelectResult={handleSelectResult}

@@ -42,7 +42,7 @@ describe('<Result />', () => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       context.searchResponseStore!.data!.results = [mockResult];
       const { getByText } = render(wrapWithContext(<SearchResults />, api, context));
-      fireEvent.click(getByText('View passage in document'));
+      fireEvent.click(getByText('View document'));
       expect(mockSelectResult.mock.calls.length).toBe(1);
       expect(mockSelectResult.mock.calls[0][0].document).toBe(mockResult);
       expect(mockSelectResult.mock.calls[0][0].element).toBe(null);
@@ -395,7 +395,7 @@ describe('<Result />', () => {
           const { getByText } = render(
             wrapWithContext(<SearchResults resultLinkField={'url'} />, {}, context)
           );
-          fireEvent.click(getByText('View passage in document'));
+          fireEvent.click(getByText('View document'));
           expect(browserWindow.open.mock.calls[0][0]).toBe(urlValue);
         });
       });
@@ -415,7 +415,7 @@ describe('<Result />', () => {
           const { getByText } = render(
             wrapWithContext(<SearchResults resultLinkField={'url.value'} />, {}, context)
           );
-          fireEvent.click(getByText('View passage in document'));
+          fireEvent.click(getByText('View document'));
           expect(browserWindow.open.mock.calls[0][0]).toBe(urlValue);
         });
       });
@@ -468,7 +468,7 @@ describe('<Result />', () => {
             context
           )
         );
-        fireEvent.click(getByText('View passage in document'));
+        fireEvent.click(getByText('View document'));
         expect(browserWindow.open.mock.calls[0][0]).toBe('https://www.ibm.com');
       });
     });

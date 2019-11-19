@@ -50,7 +50,7 @@ export interface ResultElementProps {
 
 export const ResultElement: React.FunctionComponent<ResultElementProps> = ({
   body,
-  buttonText = 'View result',
+  buttonText = 'View document',
   element = null,
   elementType = null,
   handleSelectResult,

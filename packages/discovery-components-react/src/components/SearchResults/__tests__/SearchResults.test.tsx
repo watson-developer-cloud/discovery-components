@@ -414,7 +414,7 @@ describe('<SearchResults />', () => {
           expect(searchResults.getByText('Excerpt unavailable.')).toBeInTheDocument();
         });
         test('the empty state button text is displayed for the CTA button', () => {
-          expect(searchResults.getByText('View result')).toBeInTheDocument();
+          expect(searchResults.getByText('View document')).toBeInTheDocument();
         });
       });
 
@@ -431,7 +431,7 @@ describe('<SearchResults />', () => {
           expect(searchResults.queryByText('Excerpt unavailable.')).toBe(null);
         });
         test('the empty state button text is not displayed for the CTA button', () => {
-          expect(searchResults.queryByText('View result')).toBe(null);
+          expect(searchResults.queryByText('View document')).toBe(null);
         });
         test('noResultsFound text is displayed instead of the empty state', () => {
           expect(searchResults.getByText('There were no results found')).toBeInTheDocument();
@@ -465,8 +465,8 @@ describe('<SearchResults />', () => {
             wrapWithContext(<SearchResults />, {}, context)
           );
           expect(getByText('I am text field.')).toBeInTheDocument();
+          expect(getByText('View document')).toBeInTheDocument();
           expect(queryByText('Excerpt unavailable.')).toBe(null);
-          expect(queryByText('View result')).toBe(null);
         });
       });
 
@@ -479,7 +479,7 @@ describe('<SearchResults />', () => {
           fireEvent.click(toggle);
           expect(queryByText('I am text field.')).toBe(null);
           expect(queryByText('Excerpt unavailable.')).toBe(null);
-          expect(queryByText('View result')).toBe(null);
+          expect(queryByText('View document')).toBe(null);
           expect(getByText('There were no results found')).toBeInTheDocument();
         });
       });
@@ -519,8 +519,8 @@ describe('<SearchResults />', () => {
           );
           expect(getByText('I am text field.')).toBeInTheDocument();
           expect(getByText('I am table.')).toBeInTheDocument();
+          expect(getByText('View document')).toBeInTheDocument();
           expect(queryByText('Excerpt unavailable.')).toBe(null);
-          expect(queryByText('View result')).toBe(null);
         });
       });
 
@@ -534,7 +534,7 @@ describe('<SearchResults />', () => {
           expect(queryByText('I am text field.')).toBe(null);
           expect(getByText('I am table.')).toBeInTheDocument();
           expect(queryByText('Excerpt unavailable.')).toBe(null);
-          expect(queryByText('View result')).toBe(null);
+          expect(queryByText('View document')).toBe(null);
         });
       });
     });
@@ -572,7 +572,7 @@ describe('<SearchResults />', () => {
           );
           expect(getByText('I am table.')).toBeInTheDocument();
           expect(queryByText('Excerpt unavailable.')).toBe(null);
-          expect(queryByText('View result')).toBe(null);
+          expect(queryByText('View document')).toBe(null);
         });
       });
 
@@ -585,7 +585,7 @@ describe('<SearchResults />', () => {
           fireEvent.click(toggle);
           expect(getByText('I am table.')).toBeInTheDocument();
           expect(queryByText('Excerpt unavailable.')).toBe(null);
-          expect(queryByText('View result')).toBe(null);
+          expect(queryByText('View document')).toBe(null);
         });
       });
     });
