@@ -51,9 +51,11 @@ export const DynamicFacets: FC<DynamicFacetsProps> = ({
   };
 
   const aggregationSettings = {
+    type: '',
     label: messages.dynamicFacetsLabel,
     multiple_selections_allowed: true,
-    field: ''
+    field: '',
+    name: ''
   };
 
   return (

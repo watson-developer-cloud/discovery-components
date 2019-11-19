@@ -20,16 +20,17 @@ interface SetupConfig {
   filter: string;
   componentSettingsAggregations: DiscoveryV2.ComponentSettingsAggregation[];
   collapsedFacetsCount: number;
+  aggregationResults: DiscoveryV2.QueryAggregation[] | undefined;
 }
 
 const aggregationComponentSettings: DiscoveryV2.ComponentSettingsAggregation[] = [
   {
-    name: 'author',
+    name: 'author_id',
     label: 'Writers',
     multiple_selections_allowed: true
   },
   {
-    name: 'subject',
+    name: 'subject_id',
     label: 'Topics',
     multiple_selections_allowed: true
   }
@@ -38,7 +39,8 @@ const aggregationComponentSettings: DiscoveryV2.ComponentSettingsAggregation[] =
 const defaultSetupConfig: SetupConfig = {
   filter: '',
   componentSettingsAggregations: aggregationComponentSettings,
-  collapsedFacetsCount: 5
+  collapsedFacetsCount: 5,
+  aggregationResults: weirdFacetsQueryResponse.result.aggregations
 };
 
 const updateSelectionSettings = (
@@ -55,7 +57,7 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
   const mergedSetupConfig = { ...defaultSetupConfig, ...setupConfig };
   const performSearchMock = jest.fn();
   const context: Partial<SearchContextIFC> = {
-    aggregationResults: weirdFacetsQueryResponse.result.aggregations,
+    aggregationResults: mergedSetupConfig.aggregationResults,
     searchResponseStore: {
       ...searchResponseStoreDefaults,
       parameters: {
@@ -98,6 +100,48 @@ describe('FilterFacetsComponent', () => {
       const { fieldFacetsComponent } = setup();
       const headerSubjectField = fieldFacetsComponent.getByText('Topics');
       expect(headerSubjectField).toBeDefined();
+    });
+
+    describe('when componentSettings and aggregations are different', () => {
+      let setupResult: Setup;
+      const termAgg = {
+        type: 'term',
+        name: 'one',
+        field: 'foo',
+        results: [
+          {
+            key: 'hi',
+            matching_results: 1
+          }
+        ]
+      };
+      const termAgg2 = { ...termAgg, name: 'two' };
+      beforeEach(() => {
+        setupResult = setup({
+          aggregationResults: [termAgg2, termAgg],
+          componentSettingsAggregations: [
+            {
+              name: 'one',
+              label: 'First'
+            },
+            {
+              name: 'two',
+              label: 'Second'
+            }
+          ]
+        });
+      });
+
+      test('should match labels by name', () => {
+        const { fieldFacetsComponent } = setupResult;
+        const facetLegends = [].slice
+          .call(fieldFacetsComponent.container.querySelectorAll('legend'))
+          .map((legend: HTMLLegendElement) => legend.textContent);
+
+        expect(facetLegends).toHaveLength(2);
+        expect(facetLegends[0]).toEqual('Second');
+        expect(facetLegends[1]).toEqual('First');
+      });
     });
   });
 
@@ -185,7 +229,9 @@ describe('FilterFacetsComponent', () => {
     });
 
     test('it adds correct filter when aggregation contains `:`', () => {
-      const { fieldFacetsComponent, performSearchMock } = setup();
+      const { fieldFacetsComponent, performSearchMock } = setup({
+        collapsedFacetsCount: 10
+      });
       const animalsCheckbox = fieldFacetsComponent.getByLabelText('something: else');
       performSearchMock.mockReset();
       fireEvent.click(animalsCheckbox);
@@ -226,6 +272,121 @@ describe('FilterFacetsComponent', () => {
         }),
         false
       );
+    });
+
+    test('maintains the same order of checkboxes before and after selection', () => {
+      const { fieldFacetsComponent } = setup();
+      const expectedLabels = [
+        'ABMN Staff',
+        'News Staff',
+        'editor',
+        'Animals',
+        'People',
+        'Places',
+        'Things',
+        'This | that'
+      ];
+      const beforeLabels = [].slice.call(fieldFacetsComponent.container.querySelectorAll('label'));
+      expect(beforeLabels.map((label: HTMLLabelElement) => label.textContent)).toEqual(
+        expectedLabels
+      );
+
+      const newsStaffCheckbox = fieldFacetsComponent.getByLabelText('News Staff');
+      fireEvent.click(newsStaffCheckbox);
+
+      const afterLabels = [].slice.call(fieldFacetsComponent.container.querySelectorAll('label'));
+      expect(afterLabels.map((label: HTMLLabelElement) => label.textContent)).toEqual(
+        expectedLabels
+      );
+    });
+
+    describe('when multiple facets use the same field', () => {
+      let setupResult: Setup;
+      const termAgg = {
+        type: 'term',
+        name: 'first',
+        field: 'foo',
+        results: [
+          {
+            key: 'two',
+            matching_results: 2
+          },
+          {
+            key: 'one',
+            matching_results: 1
+          }
+        ]
+      };
+      const termAgg2 = { ...termAgg, name: 'second' };
+
+      beforeEach(() => {
+        setupResult = setup({ aggregationResults: [termAgg, termAgg2], filter: 'foo:two' });
+      });
+
+      test('should only deselect one of the two', () => {
+        const { fieldFacetsComponent } = setupResult;
+        const checkboxes = fieldFacetsComponent.getAllByLabelText('two');
+        expect(checkboxes).toHaveLength(2);
+        expect(checkboxes[0]['checked']).toEqual(true);
+        expect(checkboxes[1]['checked']).toEqual(false);
+
+        fireEvent.click(checkboxes[1]);
+        expect(checkboxes[0]['checked']).toEqual(true);
+        expect(checkboxes[1]['checked']).toEqual(true);
+      });
+    });
+  });
+
+  describe('when component aggregations are different from aggregations on the same field', () => {
+    let setupResult: Setup;
+    beforeEach(() => {
+      const componentSettingsAggregations = [
+        {
+          name: 'blah',
+          label: 'BLAAH',
+          multiple_selections_allowed: true
+        },
+        {
+          name: 'junk',
+          label: 'JUUNK',
+          multiple_selections_allowed: true
+        }
+      ];
+
+      const aggregationResults = [
+        {
+          type: 'term',
+          name: 'junk',
+          field: 'foo',
+          results: [
+            {
+              key: 'hi',
+              matching_results: 1
+            }
+          ]
+        },
+        {
+          type: 'term',
+          name: 'pop',
+          field: 'foo',
+          results: [
+            {
+              key: 'hi',
+              matching_results: 1
+            }
+          ]
+        }
+      ];
+      const filter = 'foo:"hi"';
+      setupResult = setup({ componentSettingsAggregations, aggregationResults, filter });
+    });
+
+    test('should only select one of the two', () => {
+      const { fieldFacetsComponent } = setupResult;
+      const checkboxes = fieldFacetsComponent.getAllByLabelText('hi');
+      expect(checkboxes).toHaveLength(2);
+      expect(checkboxes[0]['checked']).toEqual(true);
+      expect(checkboxes[1]['checked']).toEqual(false);
     });
   });
 
@@ -355,7 +516,7 @@ describe('FilterFacetsComponent', () => {
     test('radiobuttons are selected when set in filter query', () => {
       const { fieldFacetsComponent } = setup({
         filter: 'subject:Animals',
-        componentSettingsAggregations: updateSelectionSettings(['subject'])
+        componentSettingsAggregations: updateSelectionSettings(['subject_id'])
       });
       const animalRadioButton = fieldFacetsComponent.getAllByLabelText('Animals');
       expect(animalRadioButton[0]['checked']).toEqual(true);
@@ -363,7 +524,7 @@ describe('FilterFacetsComponent', () => {
 
     test('it only allows one element selected at a time', () => {
       const { fieldFacetsComponent, performSearchMock } = setup({
-        componentSettingsAggregations: updateSelectionSettings(['subject'])
+        componentSettingsAggregations: updateSelectionSettings(['subject_id'])
       });
       //Carbon uses a Label element that also has @aria-label, which matches twice
       const animalRadioButton = fieldFacetsComponent.getAllByLabelText('Animals');
@@ -383,7 +544,7 @@ describe('FilterFacetsComponent', () => {
 
     test('it allows unselecting term', () => {
       const { fieldFacetsComponent, performSearchMock } = setup({
-        componentSettingsAggregations: updateSelectionSettings(['subject'])
+        componentSettingsAggregations: updateSelectionSettings(['subject_id'])
       });
       //Carbon uses a Label element that also has @aria-label, which matches twice
       const animalRadioButton = fieldFacetsComponent.getAllByLabelText('Animals');
@@ -402,7 +563,7 @@ describe('FilterFacetsComponent', () => {
 
     test('it allows other fields to still be multiselect', () => {
       const { fieldFacetsComponent, performSearchMock } = setup({
-        componentSettingsAggregations: updateSelectionSettings(['subject'])
+        componentSettingsAggregations: updateSelectionSettings(['subject_id'])
       });
       //Carbon uses a Label element that also has @aria-label, which matches twice
       const animalRadioButton = fieldFacetsComponent.getAllByLabelText('Animals');
@@ -429,7 +590,7 @@ describe('FilterFacetsComponent', () => {
 
     test('it handles multiple, single select fields', () => {
       const { fieldFacetsComponent, performSearchMock } = setup({
-        componentSettingsAggregations: updateSelectionSettings(['author', 'subject'])
+        componentSettingsAggregations: updateSelectionSettings(['author_id', 'subject_id'])
       });
       //Carbon uses a Label element that also has @aria-label, which matches twice
       const animalRadioButton = fieldFacetsComponent.getAllByLabelText('Animals');

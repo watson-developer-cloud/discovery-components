@@ -96,8 +96,8 @@ describe('SearchFacetsComponent', () => {
         describe('When there are aggregation component settings', () => {
           test('should render the labels contained in aggregation component settings', () => {
             const { searchFacetsComponent } = setup('', undefined, undefined, [
-              { label: 'label1' },
-              { label: 'label2' }
+              { label: 'label1', name: 'category_id' },
+              { label: 'label2', name: 'machine_learning_id' }
             ]);
             expect(searchFacetsComponent.getByText('label1')).toBeInTheDocument();
             expect(searchFacetsComponent.getByText('label2')).toBeInTheDocument();
@@ -106,8 +106,8 @@ describe('SearchFacetsComponent', () => {
           describe('And there is a filter string also', () => {
             test('should render the labels contained in aggregation component settings', () => {
               const { searchFacetsComponent } = setup('author:"editor"', undefined, undefined, [
-                { label: 'label1' },
-                { label: 'label2' }
+                { label: 'label1', name: 'category_id' },
+                { label: 'label2', name: 'machine_learning_id' }
               ]);
               expect(searchFacetsComponent.getByText('label1')).toBeInTheDocument();
               expect(searchFacetsComponent.getByText('label2')).toBeInTheDocument();

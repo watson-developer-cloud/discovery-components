@@ -17,74 +17,78 @@ export const mergeFilterFacets = (
   }
 
   const termAggreations = findTermAggregations(aggregations);
-  // add component settings label if it exist's
+  // add component settings label if it exists
   const labeledTermAggregtions: InternalQueryTermAggregation[] = termAggreations.map(
-    (termAggregation, i) => {
-      if (componentSettingsAggregations[i]) {
+    termAggregation => {
+      const matchingComponentSettingAggregation = componentSettingsAggregations.find(
+        setting => setting.name === get(termAggregation, 'name', '')
+      );
+      if (matchingComponentSettingAggregation) {
         return {
           ...termAggregation,
-          label: componentSettingsAggregations[i].label,
-          multiple_selections_allowed: componentSettingsAggregations[i].multiple_selections_allowed,
-          field: termAggregation.field
+          ...matchingComponentSettingAggregation
         };
       } else {
-        return { ...termAggregation, ...{ multiple_selections_allowed: true } };
+        return { ...termAggregation, multiple_selections_allowed: true };
       }
     }
   );
 
+  const usedFields: string[] = [];
   return labeledTermAggregtions
     .filter(aggregation => {
       return aggregation.results;
     })
     .map((aggregation: InternalQueryTermAggregation) => {
-      const aggregationField = get(aggregation, 'field', '');
       const aggregationResults: SelectableQueryTermAggregationResult[] = get(
         aggregation,
         'results',
         []
       );
-      const filterFacetsForField = filterFields.find(
-        aggregation => aggregation.field === aggregationField
-      );
+      const filterFacetsForName = filterFields.find(filterAggregation => {
+        if (!filterAggregation.name || !aggregation.name) {
+          // aggregation is from initial filter string, we can only match on field
+          if (
+            filterAggregation.field === aggregation.field &&
+            !usedFields.includes(filterAggregation.field)
+          ) {
+            usedFields.push(filterAggregation.field);
+            return true;
+          }
+          return false;
+        }
+        return filterAggregation.name === aggregation.name;
+      });
 
-      if (!!filterFacetsForField) {
+      if (!!filterFacetsForName) {
         const filterFacetResults: SelectableQueryTermAggregationResult[] = get(
-          filterFacetsForField,
+          filterFacetsForName,
           'results',
           []
         );
         const newAggResults: SelectableQueryTermAggregationResult[] = aggregationResults.map(
           (result: SelectableQueryTermAggregationResult) => {
             const key = get(result, 'key', '');
-            const filterFacet = filterFacetResults.find(
+            const matchingFilterFacetResult = filterFacetResults.find(
               (filterFacet: SelectableQueryTermAggregationResult) => {
                 return filterFacet.key === key;
               }
             );
-            return filterFacet ? Object.assign({}, result, { selected: true }) : result;
+            if (matchingFilterFacetResult && matchingFilterFacetResult.selected) {
+              return { ...result, selected: true };
+            }
+            return result;
           }
         );
-
-        const selectedNewAggResults = newAggResults.filter(result => result.selected);
         const selectedNewAggAndFilterFacetResults = unionBy(
-          selectedNewAggResults,
+          newAggResults,
           filterFacetResults,
           'key'
         );
 
-        const unselectedResultsToSlice =
-          get(aggregation, 'count', 10) - selectedNewAggAndFilterFacetResults.length;
-        const unselectedNewAggResults = newAggResults
-          .filter(result => !result.selected)
-          .slice(0, unselectedResultsToSlice);
-
         return {
-          type: 'term',
-          field: aggregationField,
-          label: aggregation.label,
-          multiple_selections_allowed: aggregation.multiple_selections_allowed,
-          results: unionBy(unselectedNewAggResults, selectedNewAggAndFilterFacetResults, 'key')
+          ...aggregation,
+          results: selectedNewAggAndFilterFacetResults
         };
       } else {
         return aggregation;

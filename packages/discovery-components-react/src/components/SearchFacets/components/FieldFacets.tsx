@@ -1,12 +1,10 @@
 import React, { FC } from 'react';
 import get from 'lodash/get';
 import filter from 'lodash/filter';
-import findIndex from 'lodash/findIndex';
 import {
   InternalQueryTermAggregation,
   SelectableQueryTermAggregationResult,
-  SearchFilterFacets,
-  AggregationSettings
+  SearchFilterFacets
 } from '../utils/searchFacetInterfaces';
 import { Messages } from '../messages';
 import { CollapsibleFacetsGroup } from './FacetsGroups/CollapsibleFacetsGroup';
@@ -37,16 +35,21 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
   onChange
 }) => {
   const handleOnChange = (
-    selectedFacetField: string,
+    selectedFacetName: string,
     selectedFacetKey: string,
     checked: boolean
   ): void => {
-    const facetsForFieldIndex = allFacets.findIndex(facet => facet.field === selectedFacetField);
-    if (facetsForFieldIndex > -1) {
-      const facetsForField = allFacets[facetsForFieldIndex];
-      const multiselect = get(facetsForField, 'multiple_selections_allowed', true);
+    const facetsForNameIndex = allFacets.findIndex(facet => {
+      if (!facet.name) {
+        return facet.field === selectedFacetName;
+      }
+      return facet.name === selectedFacetName;
+    });
+    if (facetsForNameIndex > -1) {
+      const facetsForName = allFacets[facetsForNameIndex];
+      const multiselect = get(facetsForName, 'multiple_selections_allowed', true);
       const facetResults: SelectableQueryTermAggregationResult[] = get(
-        facetsForField,
+        facetsForName,
         'results',
         []
       );
@@ -71,29 +74,24 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
           }
         }
       );
-      const newFacetsForField = Object.assign({}, facetsForField, {
-        results: selectedFacetResults
-      });
-      const index = findIndex(allFacets, facet => {
-        return facet.field === selectedFacetField;
-      });
-
-      allFacets.splice(index, 1, newFacetsForField);
+      allFacets[facetsForNameIndex].results = selectedFacetResults;
     }
     onChange({ filterFields: allFacets });
   };
 
-  const handleOnClear = (field: string): void => {
-    const facetsForFieldIndex = allFacets.findIndex(
-      // TODO: switch this to an identifier
-      facet => facet.field === field
-    );
-    if (facetsForFieldIndex > -1) {
-      const results = allFacets[facetsForFieldIndex].results || [];
+  const handleOnClear = (selectedFacetName: string): void => {
+    const facetsForNameIndex = allFacets.findIndex(facet => {
+      if (!facet.name) {
+        return facet.field === selectedFacetName;
+      }
+      return facet.name === selectedFacetName;
+    });
+    if (facetsForNameIndex > -1) {
+      const results = allFacets[facetsForNameIndex].results || [];
       const deselectedResults = (results as SelectableQueryTermAggregationResult[]).map(result => {
         return { ...result, selected: false };
       });
-      allFacets[facetsForFieldIndex].results = deselectedResults;
+      allFacets[facetsForNameIndex].results = deselectedResults;
       onChange({ filterFields: allFacets });
     }
   };
@@ -106,14 +104,6 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
           'results',
           []
         );
-        const orderedAggregationResults = aggregationResults.sort(
-          (a, b) => (b.matching_results || 0) - (a.matching_results || 0)
-        );
-        const aggregationSettings: AggregationSettings = {
-          label: aggregation.label,
-          field: aggregation.field,
-          multiple_selections_allowed: aggregation.multiple_selections_allowed
-        };
 
         if (aggregationResults.length === 0) {
           return;
@@ -124,8 +114,8 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
             key={`collapsible-facet-group-${i}`}
             collapsedFacetsCount={collapsedFacetsCount}
             messages={messages}
-            aggregationSettings={aggregationSettings}
-            facets={orderedAggregationResults}
+            aggregationSettings={aggregation}
+            facets={aggregationResults}
             facetsTextField="key"
             onClear={handleOnClear}
             onChange={handleOnChange}

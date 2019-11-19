@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { Button } from 'carbon-components-react';
 import { settings } from 'carbon-components';
@@ -55,6 +55,9 @@ export const SearchFacets: FC<SearchFacetsProps> = ({
     collectionsResults,
     componentSettings
   } = useContext(SearchContext);
+  const [facetSelectionState, setFacetSelectionState] = useState<SearchFilterFacets>(
+    SearchFilterTransform.fromString(filter || '')
+  );
   const { fetchAggregations, performSearch } = useContext(SearchApi);
   const aggregations = aggregationResults || [];
   const collections = (collectionsResults && collectionsResults.collections) || [];
@@ -69,15 +72,14 @@ export const SearchFacets: FC<SearchFacetsProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParameters.aggregation]);
 
-  const { filterFields, filterDynamic } = SearchFilterTransform.fromString(filter || '');
   const allFieldFacets = mergeFilterFacets(
     aggregations,
-    filterFields,
+    facetSelectionState.filterFields,
     componentSettingsAggregations
   );
   const allDynamicFacets: SelectableDynamicFacets[] = mergeDynamicFacets(
     get(searchResponse, 'suggested_refinements', []),
-    filterDynamic
+    facetSelectionState.filterDynamic
   );
   const shouldShowCollections = showCollections && !!collections;
   const shouldShowFields = !!allFieldFacets && allFieldFacets.length > 0;
@@ -90,10 +92,12 @@ export const SearchFacets: FC<SearchFacetsProps> = ({
   const handleOnChange = (updatedFacets: Partial<SearchFilterFacets>): void => {
     const newFilters = { ...originalFilters, ...updatedFacets };
     const filter = SearchFilterTransform.toString(newFilters);
+    setFacetSelectionState(newFilters);
     performSearch({ ...searchParameters, offset: 0, filter }, false);
   };
 
   const handleOnClear = (): void => {
+    setFacetSelectionState({ filterFields: [], filterDynamic: [] });
     performSearch({ ...searchParameters, collectionIds: [], offset: 0, filter: '' }, false);
   };
 

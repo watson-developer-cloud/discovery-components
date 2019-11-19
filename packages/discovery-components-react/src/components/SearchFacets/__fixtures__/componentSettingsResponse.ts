@@ -6,6 +6,7 @@ const aggregationComponentSettingsResponse: Response<
 > = createDummyResponse({
   aggregations: [
     {
+      name: 'category_id',
       label: 'Category (label created in component settings)',
       multiple_selections_allowed: false
     }

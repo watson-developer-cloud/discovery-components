@@ -7,7 +7,7 @@ import { fieldsetClasses, labelClasses } from './facetGroupClasses';
 import {
   SelectableDynamicFacets,
   SelectableQueryTermAggregationResult,
-  AggregationSettings
+  InternalQueryTermAggregation
 } from '../../utils/searchFacetInterfaces';
 import { Messages } from '../../messages';
 import { MultiSelectFacetsGroup } from './MultiSelectFacetsGroup';
@@ -21,7 +21,7 @@ interface CollapsibleFacetsGroupProps {
   /**
    * Aggregation component settings
    */
-  aggregationSettings: AggregationSettings;
+  aggregationSettings: InternalQueryTermAggregation;
   /**
    * How many facets should be shown
    */
@@ -37,11 +37,11 @@ interface CollapsibleFacetsGroupProps {
   /**
    * Callback to handle changes in selected facets
    */
-  onChange: (selectedFacetField: string, selectedFacetKey: string, checked: boolean) => void;
+  onChange: (selectedFacetName: string, selectedFacetKey: string, checked: boolean) => void;
   /**
    * Callback to reset selected facet
    */
-  onClear: (field: string) => void;
+  onClear: (selectedFacetName: string) => void;
 }
 
 export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
@@ -73,7 +73,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
   const shouldDisplayAsMultiSelect = areMultiSelectionsAllowed || selectedFacets.length > 1;
   const shouldDisplayClearButton = shouldDisplayAsMultiSelect && selectedFacets.length > 0;
   const handleClearFacets = (): void => {
-    onClear(aggregationSettings.field);
+    onClear(aggregationSettings.name || aggregationSettings.field);
   };
 
   const translateWithId = (id: string): string => {

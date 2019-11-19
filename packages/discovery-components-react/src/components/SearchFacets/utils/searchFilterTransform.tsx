@@ -34,7 +34,6 @@ export class SearchFilterTransform {
         .map(result => {
           const unquotedResult = this.unquoteString(result);
           return {
-            type: 'term',
             key: unquotedResult,
             matching_results: 1,
             selected: true
@@ -43,8 +42,8 @@ export class SearchFilterTransform {
 
       return {
         type: 'term',
-        field: field,
-        results: results
+        field,
+        results
       };
     });
 

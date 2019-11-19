@@ -9,6 +9,7 @@ export const facetsQueryResponse: DiscoveryV2.Response<
   aggregations: [
     {
       type: 'term',
+      name: 'category_id',
       field: 'category',
       count: 3,
       results: [
@@ -28,6 +29,7 @@ export const facetsQueryResponse: DiscoveryV2.Response<
     },
     {
       type: 'term',
+      name: 'machine_learning_id',
       field: 'machine_learning_terms',
       count: 5,
       results: [
@@ -79,6 +81,7 @@ export const weirdFacetsQueryResponse: DiscoveryV2.Response<
   aggregations: [
     {
       type: 'term',
+      name: 'author_id',
       field: 'author',
       count: 3,
       results: [
@@ -98,6 +101,7 @@ export const weirdFacetsQueryResponse: DiscoveryV2.Response<
     },
     {
       type: 'term',
+      name: 'subject_id',
       field: 'subject',
       count: 7,
       results: [

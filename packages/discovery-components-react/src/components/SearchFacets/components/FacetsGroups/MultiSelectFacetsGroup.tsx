@@ -5,7 +5,7 @@ import { SearchContext } from '../../../DiscoverySearch/DiscoverySearch';
 import {
   SelectableDynamicFacets,
   SelectableQueryTermAggregationResult,
-  AggregationSettings
+  InternalQueryTermAggregation
 } from '../../utils/searchFacetInterfaces';
 import get from 'lodash/get';
 
@@ -21,7 +21,7 @@ interface MultiSelectFacetsGroupProps {
   /**
    * Aggregation component settings
    */
-  aggregationSettings: AggregationSettings;
+  aggregationSettings: InternalQueryTermAggregation;
   /**
    * Callback to handle changes in selected facets
    */
@@ -39,8 +39,7 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
       parameters: { naturalLanguageQuery }
     }
   } = useContext(SearchContext);
-  const facetsLabel = aggregationSettings.label || aggregationSettings.field;
-  const escapedLabel = facetsLabel.replace(/\s+/g, '_');
+  const escapedName = (aggregationSettings.name || aggregationSettings.field).replace(/\s+/g, '_');
 
   const handleOnChange = (
     checked: boolean,
@@ -48,9 +47,9 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
     event: SyntheticEvent<HTMLInputElement>
   ): void => {
     const target: HTMLInputElement = event.currentTarget;
-    const selectedFacetField = target.getAttribute('data-field') || '';
+    const selectedFacetName = target.getAttribute('data-name') || '';
     const selectedFacetKey = target.getAttribute('data-key') || '';
-    onChange(selectedFacetField, selectedFacetKey, checked);
+    onChange(selectedFacetName, selectedFacetKey, checked);
   };
 
   return (
@@ -67,9 +66,9 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
             wrapperClassName={optionClass}
             onChange={handleOnChange}
             labelText={text}
-            key={`checkbox-${escapedLabel}-${base64data}`}
-            id={`checkbox-${escapedLabel}-${text.replace(/\s+/g, '_')}`}
-            data-field={aggregationSettings.field}
+            key={`checkbox-${escapedName}-${base64data}`}
+            id={`checkbox-${escapedName}-${text.replace(/\s+/g, '_')}`}
+            data-name={aggregationSettings.name || aggregationSettings.field}
             data-key={text}
             checked={!!facet.selected}
           />

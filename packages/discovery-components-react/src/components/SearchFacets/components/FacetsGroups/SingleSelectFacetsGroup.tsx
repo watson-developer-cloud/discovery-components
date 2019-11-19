@@ -8,7 +8,7 @@ import { optionLabelClass, singleSelectGroupClass } from './facetGroupClasses';
 import {
   SelectableDynamicFacets,
   SelectableQueryTermAggregationResult,
-  AggregationSettings
+  InternalQueryTermAggregation
 } from '../../utils/searchFacetInterfaces';
 import get from 'lodash/get';
 
@@ -20,7 +20,7 @@ interface SingleSelectFacetsGroupProps {
   /**
    * Aggregation component settings
    */
-  aggregationSettings: AggregationSettings;
+  aggregationSettings: InternalQueryTermAggregation;
   /**
    * Facet text field
    */
@@ -32,7 +32,7 @@ interface SingleSelectFacetsGroupProps {
   /**
    * Callback to handle changes in selected facets
    */
-  onChange: (selectedFacetField: string, selectedFacetKey: string, checked: boolean) => void;
+  onChange: (selectedFacetName: string, selectedFacetKey: string, checked: boolean) => void;
 }
 
 export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
@@ -47,19 +47,18 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
       parameters: { naturalLanguageQuery }
     }
   } = useContext(SearchContext);
-  const facetsLabel = aggregationSettings.label || aggregationSettings.field;
-  const escapedLabel = facetsLabel.replace(/\s+/g, '_');
+  const escapedName = (aggregationSettings.name || aggregationSettings.field).replace(/\s+/g, '_');
 
   const handleOnClick = (event: SyntheticEvent<HTMLInputElement>): void => {
     const target: HTMLInputElement = event.currentTarget;
-    const field = target.getAttribute('name') || '';
+    const name = target.getAttribute('name') || '';
     const text = target.getAttribute('value') || '';
-    onChange(field, text, true);
+    onChange(name, text, true);
   };
 
   return (
     <CarbonRadioButtonGroup
-      name={aggregationSettings.field}
+      name={aggregationSettings.name || aggregationSettings.field}
       valueSelected={selectedFacet}
       orientation={'vertical'}
       className={singleSelectGroupClass}
@@ -74,8 +73,8 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
           <CarbonRadioButton
             className={optionLabelClass}
             labelText={text}
-            key={`checkbox-${escapedLabel}-${base64data}`}
-            id={`checkbox-${escapedLabel}-${text.replace(/\s+/g, '_')}`}
+            key={`checkbox-${escapedName}-${base64data}`}
+            id={`checkbox-${escapedName}-${text.replace(/\s+/g, '_')}`}
             value={text}
             onClick={handleOnClick}
           />
