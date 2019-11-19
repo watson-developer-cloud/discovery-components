@@ -53,7 +53,6 @@ function SearchPage() {
         light={false}
         small={false}
         placeHolderText={'This is some placeholder text...'}
-        labelText={'This is some label text...'}
         completionsCount={7}
         spellingSuggestions={true}
       />

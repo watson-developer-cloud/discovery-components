@@ -45,8 +45,8 @@ function findCompletionWrappers(
 
 describe('<SearchInput />', () => {
   test('has the correct default placeholder text', () => {
-    const searchInput: RenderResult = render(<SearchInput />);
-    const inputField = searchInput.getByPlaceholderText('Search');
+    const searchInput: RenderResult = render(<SearchInput placeHolderText={PLACE_HOLDER_TEXT} />);
+    const inputField = searchInput.getByPlaceholderText(PLACE_HOLDER_TEXT);
     expect(inputField).toBeDefined();
   });
 

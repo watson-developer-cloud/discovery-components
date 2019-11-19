@@ -17,25 +17,9 @@ import { useDeepCompareCallback } from '../../utils/useDeepCompareMemoize';
 
 interface SearchInputProps {
   /**
-   * True to use small variant of Search
-   */
-  small?: boolean;
-  /**
-   * Placeholder text for the SearchInput
-   */
-  placeHolderText?: string;
-  /**
    * className to style SearchInput
    */
   className?: string;
-  /**
-   * True to use the light theme
-   */
-  light?: boolean;
-  /**
-   * Label text for the close button
-   */
-  closeButtonLabelText?: string;
   /**
    * ID for the SearchInput
    */
@@ -56,30 +40,32 @@ interface SearchInputProps {
    * Minimum number of characters present in the last word before the SearchInput fetches autocomplete suggestions
    */
   minCharsToAutocomplete?: number;
-  /*
+  /**
    * True to return spelling suggestion with results
    */
   spellingSuggestions?: boolean;
   /**
-   * number of miliseconds to wait before executing an API request to get autocompletions
+   * number of milliseconds to wait before executing an API request to get autocompletions
    */
   autocompleteDelay?: number;
+  /**
+   * Props to be passed into Carbon's Search component
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
 }
 
 export const SearchInput: FC<SearchInputProps> = props => {
   const {
-    small,
-    placeHolderText = 'Search',
     className,
-    light,
-    closeButtonLabelText,
     id,
     splitSearchQuerySelector = ' ' as string,
     completionsCount = 5,
     showAutocomplete,
     minCharsToAutocomplete = 0,
     spellingSuggestions,
-    autocompleteDelay = 200
+    autocompleteDelay = 200,
+    ...inputProps
   } = props;
 
   const inputId = id || `search-input__${uuid.v4()}`;
@@ -269,14 +255,12 @@ export const SearchInput: FC<SearchInputProps> = props => {
     >
       <div onFocus={handleOnFocus}>
         <CarbonSearchInput
-          small={small}
-          placeHolderText={placeHolderText}
           onKeyUp={handleOnKeyUp}
           onChange={handleOnChange}
-          light={light}
-          closeButtonLabelText={closeButtonLabelText}
           value={value}
           id={`${inputId}_input_field`}
+          labelText={inputProps.labelText || 'Search'} //required prop, but it doesn't get rendered
+          {...inputProps}
         />
         {shouldShowCompletions && (
           <div className={autocompletionClassName} data-testid="completions-dropdown-test-id">
