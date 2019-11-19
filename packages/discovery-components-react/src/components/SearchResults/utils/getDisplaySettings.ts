@@ -1,5 +1,5 @@
 import { SearchResultsProps } from '../SearchResults';
-import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
+import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import get from 'lodash/get';
 
 export const getDisplaySettings = (

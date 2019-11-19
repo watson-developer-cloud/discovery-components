@@ -1,5 +1,5 @@
 import React, { FC, useContext, useEffect } from 'react';
-import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
+import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { Button } from 'carbon-components-react';
 import { settings } from 'carbon-components';
 import CloseOutline from '@carbon/icons-react/lib/close--outline/16.js';

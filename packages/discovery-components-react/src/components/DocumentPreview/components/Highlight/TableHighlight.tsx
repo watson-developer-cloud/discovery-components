@@ -1,6 +1,6 @@
 import { FC, useEffect, useState, ReactElement } from 'react';
 import get from 'lodash/get';
-import { QueryResult, QueryTableResult } from '@disco-widgets/ibm-watson/discovery/v2';
+import { QueryResult, QueryTableResult } from 'ibm-watson/discovery/v2';
 import processDoc, { ProcessedDoc, Table } from '../../../../utils/document/processDoc';
 import { getTextMappings } from '../../utils/documentData';
 import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from './constants';

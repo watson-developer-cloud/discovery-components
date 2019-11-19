@@ -7,7 +7,7 @@ const path = require('path');
 const express = require('express');
 const proxy = require('http-proxy-middleware');
 const app = express();
-const { CloudPakForDataAuthenticator } = require('@disco-widgets/ibm-watson/auth');
+const { CloudPakForDataAuthenticator } = require('ibm-watson/auth');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 /* eslint-enable @typescript-eslint/no-var-requires */

@@ -1,4 +1,4 @@
-import DiscoveryV2, { QueryAggregation } from '@disco-widgets/ibm-watson/discovery/v2';
+import DiscoveryV2, { QueryAggregation } from 'ibm-watson/discovery/v2';
 
 function isBucketAggregation(
   aggregation: QueryAggregation

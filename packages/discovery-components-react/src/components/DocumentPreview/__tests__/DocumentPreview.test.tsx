@@ -1,8 +1,8 @@
 import React from 'react';
 import { act, render } from '@testing-library/react';
 import omit from 'lodash/omit';
-import { NoAuthAuthenticator } from '@disco-widgets/ibm-watson/auth';
-import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
+import { NoAuthAuthenticator } from 'ibm-watson/auth';
+import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { DiscoverySearch } from '../../DiscoverySearch/DiscoverySearch';
 import DocumentPreview from '../DocumentPreview';
 import { document as doc } from '../__fixtures__/Art Effects.pdf';

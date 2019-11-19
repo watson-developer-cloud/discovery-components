@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
+import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { render, fireEvent, waitForDomChange, wait } from '@testing-library/react';
 import { createDummyResponsePromise, createDummyResponse } from '../testingUtils';
 import {

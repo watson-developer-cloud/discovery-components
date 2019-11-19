@@ -1,5 +1,5 @@
 import { FC, ReactElement, useEffect, useState } from 'react';
-import { QueryResultPassage, QueryResult } from '@disco-widgets/ibm-watson/discovery/v2';
+import { QueryResultPassage, QueryResult } from 'ibm-watson/discovery/v2';
 import get from 'lodash/get';
 import { getTextMappings } from '../../utils/documentData';
 import { usePassage } from './passages';

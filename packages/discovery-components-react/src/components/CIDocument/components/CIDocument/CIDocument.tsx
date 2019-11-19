@@ -11,7 +11,7 @@ import React, {
 } from 'react';
 import { settings } from 'carbon-components';
 import { Tab, Tabs } from 'carbon-components-react';
-import { QueryResult } from '@disco-widgets/ibm-watson/discovery/v2';
+import { QueryResult } from 'ibm-watson/discovery/v2';
 import get from 'lodash/get';
 import flattenDeep from 'lodash/flattenDeep';
 import difference from 'lodash/difference';

@@ -1,11 +1,7 @@
 import React, { FC, useEffect, useRef } from 'react';
 import { encodeHTML } from 'entities';
 import { settings } from 'carbon-components';
-import {
-  QueryResult,
-  QueryResultPassage,
-  QueryTableResult
-} from '@disco-widgets/ibm-watson/discovery/v2';
+import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import get from 'lodash/get';
 import { clearNodeChildren } from '../../../../utils/dom';
 import { findOffsetInDOM, createFieldRects } from '../../../../utils/document/documentUtils';

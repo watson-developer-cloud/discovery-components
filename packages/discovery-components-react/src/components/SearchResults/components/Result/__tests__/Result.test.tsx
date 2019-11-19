@@ -7,7 +7,7 @@ import {
   searchResponseStoreDefaults,
   fetchDocumentsResponseStoreDefaults
 } from '../../../../DiscoverySearch/DiscoverySearch';
-import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
+import DiscoveryV2 from 'ibm-watson/discovery/v2';
 
 import { wrapWithContext, browserWindow } from '../../../../../utils/testingUtils';
 import { SearchResults } from '../../../SearchResults';

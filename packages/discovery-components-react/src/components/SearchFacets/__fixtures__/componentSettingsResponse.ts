@@ -1,4 +1,4 @@
-import { Response, ComponentSettingsResponse } from '@disco-widgets/ibm-watson/discovery/v2';
+import { Response, ComponentSettingsResponse } from 'ibm-watson/discovery/v2';
 import { createDummyResponse } from '../../../utils/testingUtils';
 
 const aggregationComponentSettingsResponse: Response<

@@ -1,7 +1,7 @@
 import React, { FC, useContext, useEffect } from 'react';
 import { Pagination as CarbonPagination } from 'carbon-components-react';
 import { SearchApi, SearchContext } from '../DiscoverySearch/DiscoverySearch';
-import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
+import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import get from 'lodash/get';
 import { settings } from 'carbon-components';
 

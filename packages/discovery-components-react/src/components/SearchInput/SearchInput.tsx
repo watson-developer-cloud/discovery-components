@@ -12,7 +12,7 @@ import { SearchApi, SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import useDebounce from '../../utils/useDebounce';
 import uuid from 'uuid';
 import Search16 from '@carbon/icons-react/lib/search/16.js';
-import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
+import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { useDeepCompareCallback } from '../../utils/useDeepCompareMemoize';
 
 interface SearchInputProps {

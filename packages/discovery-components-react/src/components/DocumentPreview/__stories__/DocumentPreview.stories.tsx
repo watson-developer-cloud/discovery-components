@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, radios } from '@storybook/addon-knobs';
 import omit from 'lodash/omit';
-import { QueryResult, QueryResultPassage } from '@disco-widgets/ibm-watson/discovery/v2';
+import { QueryResult, QueryResultPassage } from 'ibm-watson/discovery/v2';
 import DocumentPreview from '../DocumentPreview';
 import { document as docPDF } from '../__fixtures__/Art Effects.pdf';
 import docPO from '../__fixtures__/77219743-PO.pdf.json';

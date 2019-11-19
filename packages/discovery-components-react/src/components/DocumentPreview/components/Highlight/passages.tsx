@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import get from 'lodash/get';
-import { QueryResult, QueryResultPassage } from '@disco-widgets/ibm-watson/discovery/v2';
+import { QueryResult, QueryResultPassage } from 'ibm-watson/discovery/v2';
 import { getTextMappings } from '../../utils/documentData';
 import { CellPage, TextMappings } from '../../types';
 

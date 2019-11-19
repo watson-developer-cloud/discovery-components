@@ -1,6 +1,6 @@
 import findIndex from 'lodash/findIndex';
 import { SaxParser, Parser, ParsingError, Attributes } from './saxParser';
-import { QueryResult } from '@disco-widgets/ibm-watson/discovery/v2';
+import { QueryResult } from 'ibm-watson/discovery/v2';
 import { isRelationObject } from './nonContractUtils';
 import { getId } from './idUtils';
 import transformEnrichment from './transformEnrichment';

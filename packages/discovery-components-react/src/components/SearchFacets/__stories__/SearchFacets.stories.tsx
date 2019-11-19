@@ -12,7 +12,7 @@ import aggregationComponentSettingsResponse from '../__fixtures__/componentSetti
 import { StoryWrapper, DummySearchClient } from '../../../utils/storybookUtils';
 import { createDummyResponsePromise } from '../../../utils/testingUtils';
 import { DiscoverySearch, DiscoverySearchProps } from '../../DiscoverySearch/DiscoverySearch';
-import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
+import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { action } from '@storybook/addon-actions';
 import defaultMessages from '../messages';
 

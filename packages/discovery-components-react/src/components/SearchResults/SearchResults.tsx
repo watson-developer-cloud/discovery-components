@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { SkeletonText } from 'carbon-components-react';
 import { SearchApi, SearchContext } from '../DiscoverySearch/DiscoverySearch';
-import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
+import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { TablesOnlyToggle } from './components/TablesOnlyToggle/TablesOnlyToggle';
 import { Result } from './components/Result/Result';
 import { SpellingSuggestion } from './components/SpellingSuggestion/SpellingSuggestion';

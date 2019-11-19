@@ -1,4 +1,4 @@
-import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
+import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { useState, useEffect, useReducer, useCallback, useRef } from 'react';
 import { SearchClient } from '../components/DiscoverySearch/types';
 

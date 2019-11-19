@@ -2,11 +2,7 @@ import React, { FC, ReactElement, useContext, useEffect, useState } from 'react'
 import { SkeletonText } from 'carbon-components-react';
 import get from 'lodash/get';
 import { settings } from 'carbon-components';
-import {
-  QueryResult,
-  QueryResultPassage,
-  QueryTableResult
-} from '@disco-widgets/ibm-watson/discovery/v2';
+import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import { PreviewToolbar } from './components/PreviewToolbar/PreviewToolbar';
 import PdfViewer from './components/PdfViewer/PdfViewer';

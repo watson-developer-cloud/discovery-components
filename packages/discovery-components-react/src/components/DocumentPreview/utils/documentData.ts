@@ -1,5 +1,5 @@
 import get from 'lodash.get';
-import { QueryResult } from '@disco-widgets/ibm-watson/discovery/v2';
+import { QueryResult } from 'ibm-watson/discovery/v2';
 import { TextMappings } from '../types';
 
 /**

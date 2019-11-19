@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect, useMemo, useReducer } from 'react';
 import { settings } from 'carbon-components';
 import get from 'lodash/get';
-import { QueryResult } from '@disco-widgets/ibm-watson/discovery/v2';
+import { QueryResult } from 'ibm-watson/discovery/v2';
 import { Cell, CellPage, CellField, Page, Bbox } from '../../types';
 import CellComponent from './Cell';
 import { computeFontFamilyAndWeight } from './utils/fallbackFonts';

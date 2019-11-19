@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render, RenderResult, fireEvent } from '@testing-library/react';
-import { QueryTermAggregation } from '@disco-widgets/ibm-watson/discovery/v2';
+import { QueryTermAggregation } from 'ibm-watson/discovery/v2';
 import { wrapWithContext } from '../../../utils/testingUtils';
 import { SearchFacets } from '../SearchFacets';
 import {
@@ -11,7 +11,7 @@ import {
 import { facetsQueryResponse } from '../__fixtures__/facetsQueryResponse';
 import collectionsResponse from '../__fixtures__/collectionsResponse';
 import { noAvailableFacetsMessage } from '../utils/searchFacetMessages';
-import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
+import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import '@testing-library/jest-dom/extend-expect';
 
 interface Setup {

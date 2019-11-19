@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { QueryResult } from '@disco-widgets/ibm-watson/discovery/v2';
+import { QueryResult } from 'ibm-watson/discovery/v2';
 import DOMPurify from 'dompurify';
 import get from 'lodash/get';
 

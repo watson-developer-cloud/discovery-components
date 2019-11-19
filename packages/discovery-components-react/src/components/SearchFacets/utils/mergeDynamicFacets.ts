@@ -1,5 +1,5 @@
 import { SelectableDynamicFacets } from './searchFacetInterfaces';
-import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
+import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import unionBy from 'lodash/unionBy';
 
 export const mergeDynamicFacets = (

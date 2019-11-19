@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
-import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
-import { NoAuthAuthenticator } from '@disco-widgets/ibm-watson/auth';
+import DiscoveryV2 from 'ibm-watson/discovery/v2';
+import { NoAuthAuthenticator } from 'ibm-watson/auth';
 import './app.scss';
 
 import {

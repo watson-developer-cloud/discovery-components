@@ -1,4 +1,4 @@
-import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
+import DiscoveryV2 from 'ibm-watson/discovery/v2';
 
 const termAggregation1: DiscoveryV2.QueryTermAggregation = {
   type: 'term',

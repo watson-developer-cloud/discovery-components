@@ -1,6 +1,6 @@
 import React, { FC, useContext } from 'react';
-import DiscoveryV2 from '@disco-widgets/ibm-watson/discovery/v2';
-import { CloudPakForDataAuthenticator } from '@disco-widgets/ibm-watson/auth';
+import DiscoveryV2 from 'ibm-watson/discovery/v2';
+import { CloudPakForDataAuthenticator } from 'ibm-watson/auth';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, text, object } from '@storybook/addon-knobs/react';
 // due to a bug with addon-info and markdown files https://github.com/storybookjs/storybook/pull/6016/ use marked to convert md to html

@@ -24,10 +24,10 @@
   ],
   "peerDependencies": {
     "@carbon/icons": "^10.5.0",
-    "@disco-widgets/ibm-watson": "^1.1.0",
     "@disco-widgets/styles": "1.0.0",
     "carbon-components": "^10.6.0",
     "carbon-components-react": "^7.6.0",
+    "ibm-watson": "5.2.0-alpha-1",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },
