@@ -25,13 +25,14 @@ const NavigationToolbar: FC<NavigationToolbarProps> = ({
 }) => {
   const base = `${settings.prefix}--ci-doc-toolbar`;
   return (
-    <nav className={cx(base, className)}>
+    <nav className={cx(base, className)} aria-label={messages.navigation}>
       <Button
         className="button"
         title={messages.previousLabel}
         kind="ghost"
         size="small"
         renderIcon={ChevronLeft16}
+        aria-label={messages.previousLabel}
         iconDescription={messages.previousLabel}
         onClick={handleChange(onChange, index, max, -1)}
       />
@@ -45,6 +46,7 @@ const NavigationToolbar: FC<NavigationToolbarProps> = ({
         title={messages.nextLabel}
         kind="ghost"
         size="small"
+        aria-label={messages.nextLabel}
         renderIcon={ChevronRight16}
         iconDescription={messages.nextLabel}
         onClick={handleChange(onChange, index, max, 1)}
