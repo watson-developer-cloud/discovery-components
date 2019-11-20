@@ -69,6 +69,7 @@ const discoverySearchProps = (
 });
 
 storiesOf('SearchFacets', module)
+  .addParameters({ component: SearchFacets })
   .addDecorator(withKnobs)
   .add(
     'default',

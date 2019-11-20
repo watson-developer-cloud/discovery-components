@@ -30,6 +30,7 @@ const discoverySearchProps = (): DiscoverySearchProps => ({
 });
 
 storiesOf('ResultsPagination', module)
+  .addParameters({ component: ResultsPagination })
   .addDecorator(withKnobs)
   .add('default', () => {
     return (

@@ -64,6 +64,7 @@ const discoverySearchProps = (): DiscoverySearchProps => ({
 });
 
 storiesOf('SearchInput', module)
+  .addParameters({ component: SearchInput })
   .addDecorator(withKnobs)
   .add(
     'default',

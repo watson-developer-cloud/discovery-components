@@ -24,6 +24,7 @@ const Wrapper: FC<WrapperProps> = ({ children, style = {} }) => (
 );
 
 storiesOf('DocumentPreview', module)
+  .addParameters({ component: DocumentPreview })
   .addDecorator(withKnobs)
   .add('default', () => {
     const [file, doc] = docSelection();
@@ -58,6 +59,7 @@ storiesOf('DocumentPreview', module)
   });
 
 storiesOf('DocumentPreview/components/DocumentPreview', module)
+  .addParameters({ component: DocumentPreview })
   .addDecorator(withKnobs)
   .add('render fallback', () => {
     // document selection

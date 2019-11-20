@@ -36,6 +36,7 @@ const discoverySearchProps = (): DiscoverySearchProps => ({
 });
 
 storiesOf('SearchResults', module)
+  .addParameters({ component: SearchResults })
   .addDecorator(withKnobs)
   .add('default', () => {
     return (

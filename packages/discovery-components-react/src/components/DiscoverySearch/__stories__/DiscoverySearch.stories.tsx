@@ -47,6 +47,7 @@ const customSearchClientProps = (): DiscoverySearchProps => ({
 });
 
 storiesOf('DiscoverySearch', module)
+  .addParameters({ component: DiscoverySearch })
   .addDecorator(withKnobs)
   .add(
     'default',
