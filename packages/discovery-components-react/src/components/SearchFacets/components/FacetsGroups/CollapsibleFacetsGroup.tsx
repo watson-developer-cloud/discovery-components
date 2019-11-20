@@ -3,7 +3,11 @@ import { Button } from 'carbon-components-react';
 import filter from 'lodash/filter';
 import get from 'lodash/get';
 import ListBox from 'carbon-components-react/lib/components/ListBox';
-import { fieldsetClasses, labelClasses } from './facetGroupClasses';
+import {
+  fieldsetClasses,
+  labelClasses,
+  labelAndSelectionContainerClass
+} from './facetGroupClasses';
 import {
   SelectableDynamicFacets,
   SelectableQueryTermAggregationResult,
@@ -87,14 +91,16 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
   return (
     <fieldset className={fieldsetClasses.join(' ')}>
       <legend className={labelClasses.join(' ')}>
-        {facetsLabel}
-        {shouldDisplayClearButton && (
-          <ListBox.Selection
-            clearSelection={handleClearFacets}
-            selectionCount={selectedFacets.length}
-            translateWithId={translateWithId}
-          />
-        )}
+        <div className={labelAndSelectionContainerClass}>
+          {facetsLabel}
+          {shouldDisplayClearButton && (
+            <ListBox.Selection
+              clearSelection={handleClearFacets}
+              selectionCount={selectedFacets.length}
+              translateWithId={translateWithId}
+            />
+          )}
+        </div>
       </legend>
       {shouldDisplayAsMultiSelect ? (
         <MultiSelectFacetsGroup

@@ -1,8 +1,8 @@
 import React from 'react';
 import { SelectedResult } from '../../../DiscoverySearch/DiscoverySearch';
 import { Button, Tile } from 'carbon-components-react';
-import Launch from '@carbon/icons-react/lib/launch/16.js';
-import TableSplit from '@carbon/icons-react/lib/table--split/16.js';
+import Launch from '@carbon/icons-react/lib/launch/16';
+import TableSplit from '@carbon/icons-react/lib/table--split/16';
 import DOMPurify from 'dompurify';
 import {
   searchResultContentWrapperBodyClass,

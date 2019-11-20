@@ -168,7 +168,7 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
 .#{$prefix}--search-result__footer {
   border-top: 1px solid $ui-03;
   padding-top: $spacing-05;
-  color: $text-02;
+  color: $gray-60;
   font-size: $spacing-sm;
   display: flex;
   align-items: center;

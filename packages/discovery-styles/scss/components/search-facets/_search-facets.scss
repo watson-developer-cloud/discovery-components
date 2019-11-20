@@ -3,11 +3,8 @@
 @import '~carbon-components/scss/components/radio-button/radio-button';
 
 .#{$prefix}--search-facets__button-clear-all {
-  display: flex;
-  flex-direction: row-reverse;
-
-  span {
-    padding-left: $spacing-xs;
+  .#{$prefix}--btn__icon {
+    margin-left: $spacing-2xs;
   }
 }
 
@@ -15,11 +12,14 @@
   margin-bottom: $spacing-md;
 }
 
+.#{$prefix}--search-facet__facet__label-and-selection-container {
+  align-items: center;
+  display: flex;
+}
+
 .#{$prefix}--search-facet__facet__label {
   color: $ui-05;
   font-size: 0.75rem;
-  display: flex;
-  align-items: center;
   height: 1.5rem;
 
   .#{$prefix}--list-box__selection {
