@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.32.2](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/styles@1.32.1...@disco-widgets/styles@1.32.2) (2019-11-20)
+
+
+### Bug Fixes
+
+* Clean up facet UI ([#406](https://github.com/watson-developer-cloud/discovery-components/issues/406)) ([be41a63](https://github.com/watson-developer-cloud/discovery-components/commit/be41a63))
+
+
+
+
+
 ## [1.32.1](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/styles@1.32.0...@disco-widgets/styles@1.32.1) (2019-11-15)
 
 

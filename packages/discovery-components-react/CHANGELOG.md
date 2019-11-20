@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.68.9](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.68.8...@disco-widgets/react-components@1.68.9) (2019-11-20)
+
+
+### Bug Fixes
+
+* Clean up facet UI ([#406](https://github.com/watson-developer-cloud/discovery-components/issues/406)) ([be41a63](https://github.com/watson-developer-cloud/discovery-components/commit/be41a63))
+
+
+
+
+
 ## [1.68.8](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.68.7...@disco-widgets/react-components@1.68.8) (2019-11-19)
 
 **Note:** Version bump only for package @disco-widgets/react-components
