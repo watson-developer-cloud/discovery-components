@@ -21,7 +21,10 @@ describe('<SearchResults />', () => {
             matching_results: 1,
             results: [
               {
-                document_id: 'some document_id'
+                document_id: 'some document_id',
+                result_metadata: {
+                  collection_id: '1'
+                }
               }
             ]
           }
@@ -74,7 +77,10 @@ describe('<SearchResults />', () => {
               matching_results: 1,
               results: [
                 {
-                  document_id: 'some document_id'
+                  document_id: 'some document_id',
+                  result_metadata: {
+                    collection_id: '1'
+                  }
                 }
               ],
               table_results: [
@@ -105,7 +111,10 @@ describe('<SearchResults />', () => {
               matching_results: 1,
               results: [
                 {
-                  document_id: 'some document_id'
+                  document_id: 'some document_id',
+                  result_metadata: {
+                    collection_id: '1'
+                  }
                 }
               ],
               table_results: []
@@ -224,6 +233,9 @@ describe('<SearchResults />', () => {
           results: [
             {
               document_id: 'document_id',
+              result_metadata: {
+                collection_id: '1'
+              },
               titleField: 'this title comes from the titleField',
               document_passages: [
                 {
@@ -273,13 +285,54 @@ describe('<SearchResults />', () => {
         ...searchResponseStoreDefaults
       }
     };
+    describe('and we are trying to render a table with a corresponding result document', () => {
+      beforeEach(() => {
+        context.searchResponseStore!.data = {
+          matching_results: 1,
+          results: [
+            {
+              document_id: '123',
+              result_metadata: {
+                collection_id: 'collection_id'
+              }
+            }
+          ],
+          table_results: [
+            {
+              table_id: 'table id',
+              source_document_id: '123',
+              collection_id: 'collection_id',
+              table_html: '<div>table html</div>',
+              table_html_offset: 5,
+              table: {}
+            }
+          ]
+        };
+      });
+
+      test('fetchDocuments should not be fired', () => {
+        const mockFetchDocuments = jest.fn();
+        const api = {
+          fetchDocuments: mockFetchDocuments
+        };
+        const { getByText } = render(
+          wrapWithContext(<SearchResults showTablesOnlyToggle={true} />, api, context)
+        );
+        const toggle = getByText('Show table results only');
+        fireEvent.click(toggle);
+        expect(mockFetchDocuments).not.toBeCalled();
+      });
+    });
     describe('And we are trying to render a table which does not have a corresponding result document', () => {
       beforeEach(() => {
         context.searchResponseStore!.data = {
           matching_results: 1,
           results: [
             {
-              document_id: '456'
+              document_id: '456',
+              result_metadata: {
+                collection_id: '1'
+              }
             }
           ],
           table_results: [
@@ -346,7 +399,10 @@ describe('<SearchResults />', () => {
           matching_results: 1,
           results: [
             {
-              document_id: '789'
+              document_id: '789',
+              result_metadata: {
+                collection_id: '1'
+              }
             }
           ],
           table_results: [
@@ -396,7 +452,10 @@ describe('<SearchResults />', () => {
               matching_results: 1,
               results: [
                 {
-                  document_id: 'some document_id'
+                  document_id: 'some document_id',
+                  result_metadata: {
+                    collection_id: '1'
+                  }
                 }
               ],
               table_results: []
@@ -450,6 +509,9 @@ describe('<SearchResults />', () => {
               results: [
                 {
                   document_id: 'some document_id',
+                  result_metadata: {
+                    collection_id: '1'
+                  },
                   text: 'I am text field.'
                 }
               ],
@@ -496,6 +558,9 @@ describe('<SearchResults />', () => {
               results: [
                 {
                   document_id: 'some document_id',
+                  result_metadata: {
+                    collection_id: '1'
+                  },
                   text: 'I am text field.'
                 }
               ],
@@ -549,7 +614,10 @@ describe('<SearchResults />', () => {
               matching_results: 1,
               results: [
                 {
-                  document_id: 'some document_id'
+                  document_id: 'some document_id',
+                  result_metadata: {
+                    collection_id: '1'
+                  }
                 }
               ],
               table_results: [
@@ -703,6 +771,9 @@ describe('<SearchResults />', () => {
           results: [
             {
               document_id: '456',
+              result_metadata: {
+                collection_id: '1'
+              },
               document_passages: [
                 {
                   passage_text: 'document passage text'

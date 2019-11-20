@@ -1,4 +1,5 @@
 import * as React from 'react';
+import get from 'lodash/get';
 import { SkeletonText } from 'carbon-components-react';
 import { SearchApi, SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
@@ -215,7 +216,7 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
 
                 return (
                   <Result
-                    key={table.table_id}
+                    key={`${table.collection_id}_${table.table_id}`}
                     bodyField={displaySettings.bodyField}
                     collectionLabel={collectionLabel}
                     collectionName={collectionName}
@@ -240,7 +241,7 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
                 const collectionName = findCollectionName(collectionsResults, result);
                 return (
                   <Result
-                    key={result.document_id}
+                    key={`${get(result, 'result_metadata.collection_id')}_${result.document_id}`}
                     bodyField={displaySettings.bodyField}
                     collectionLabel={collectionLabel}
                     collectionName={collectionName}

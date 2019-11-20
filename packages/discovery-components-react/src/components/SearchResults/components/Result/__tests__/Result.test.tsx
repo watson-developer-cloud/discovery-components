@@ -34,6 +34,9 @@ describe('<Result />', () => {
       const mockSelectResult = jest.fn();
       const mockResult = {
         document_id: 'some document_id',
+        result_metadata: {
+          collection_id: '1'
+        },
         text: 'body text'
       };
       const api = {
@@ -56,6 +59,9 @@ describe('<Result />', () => {
       (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
         {
           document_id: 'some document_id',
+          result_metadata: {
+            collection_id: '1'
+          },
           document_passages: [
             {
               passage_text: 'this is the passage text'
@@ -83,6 +89,9 @@ describe('<Result />', () => {
       (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
         {
           document_id: 'some document_id',
+          result_metadata: {
+            collection_id: '1'
+          },
           document_passages: [
             {
               passage_text: 'this is the passage text'
@@ -119,6 +128,9 @@ describe('<Result />', () => {
       (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
         {
           document_id: 'some document_id',
+          result_metadata: {
+            collection_id: '1'
+          },
           document_passages: [
             {
               passage_text: 'this is the first passage text'
@@ -139,6 +151,9 @@ describe('<Result />', () => {
       (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
         {
           document_id: 'some document_id',
+          result_metadata: {
+            collection_id: '1'
+          },
           document_passages: [],
           text: 'this is the bodyField text'
         }
@@ -153,6 +168,9 @@ describe('<Result />', () => {
       (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
         {
           document_id: 'some document_id',
+          result_metadata: {
+            collection_id: '1'
+          },
           document_passages: [
             {
               passage_text: '<div><h1>This is a header</h1><p>This is some text</p></div>'
@@ -183,6 +201,9 @@ describe('<Result />', () => {
         (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
           {
             document_id: 'some document_id',
+            result_metadata: {
+              collection_id: '1'
+            },
             document_passages: [
               {
                 passage_text: '<div><h1>This is a header</h1><p>This is some text</p></div>'
@@ -217,6 +238,9 @@ describe('<Result />', () => {
         (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
           {
             document_id: 'some document_id',
+            result_metadata: {
+              collection_id: '1'
+            },
             text: 'i am text',
             highlight: {
               text: ['i <em>am</em> other text']
@@ -242,6 +266,9 @@ describe('<Result />', () => {
           (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
             {
               document_id: 'some document_id',
+              result_metadata: {
+                collection_id: '1'
+              },
               text: 'i am text',
               highlight: {
                 text: ['<div><h1>This is a header</h1><p>This is some text</p></div>']
@@ -277,6 +304,9 @@ describe('<Result />', () => {
           (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
             {
               document_id: 'some document_id',
+              result_metadata: {
+                collection_id: '1'
+              },
               text: 'i am text',
               highlight: {
                 text: ['i <em>am</em> other text']
@@ -307,6 +337,9 @@ describe('<Result />', () => {
         (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
           {
             document_id: 'some document_id',
+            result_metadata: {
+              collection_id: '1'
+            },
             text: 'i am text'
           }
         ];
@@ -326,6 +359,9 @@ describe('<Result />', () => {
       (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
         {
           document_id: 'some document_id',
+          result_metadata: {
+            collection_id: '1'
+          },
           document_passages: [
             {
               passage_text: 'this is the first passage text'
@@ -346,6 +382,9 @@ describe('<Result />', () => {
           (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
             {
               document_id: 'some document_id',
+              result_metadata: {
+                collection_id: '1'
+              },
               text: 'i am text',
               highlight: {
                 text: ['i <em>am</em> other text']
@@ -367,7 +406,10 @@ describe('<Result />', () => {
     describe('on click', () => {
       test('will not call setSelectedResult', () => {
         const mockResult = {
-          document_id: 'some document_id'
+          document_id: 'some document_id',
+          result_metadata: {
+            collection_id: '1'
+          }
         };
         (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [mockResult];
         const api = {
@@ -387,6 +429,9 @@ describe('<Result />', () => {
           (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
             {
               document_id: 'some document_id',
+              result_metadata: {
+                collection_id: '1'
+              },
               url: urlValue,
               text: 'body text'
             }
@@ -407,6 +452,9 @@ describe('<Result />', () => {
           (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
             {
               document_id: 'some document_id',
+              result_metadata: {
+                collection_id: '1'
+              },
               url: { value: urlValue },
               text: 'body text'
             }
@@ -427,6 +475,9 @@ describe('<Result />', () => {
       test('will not call setSelectedResult', () => {
         const mockResult = {
           document_id: 'some document_id',
+          result_metadata: {
+            collection_id: '1'
+          },
           url: {
             firstPart: 'ibm',
             secondPart: 'com'
@@ -452,6 +503,9 @@ describe('<Result />', () => {
         (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
           {
             document_id: 'some document_id',
+            result_metadata: {
+              collection_id: '1'
+            },
             url: {
               firstPart: 'ibm',
               secondPart: 'com'
@@ -479,6 +533,9 @@ describe('<Result />', () => {
       (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
         {
           document_id: 'some document_id',
+          result_metadata: {
+            collection_id: '1'
+          },
           extracted_metadata: {
             title: 'some title',
             filename: 'some file name'
@@ -501,6 +558,9 @@ describe('<Result />', () => {
       (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
         {
           document_id: 'some document_id',
+          result_metadata: {
+            collection_id: '1'
+          },
           extracted_metadata: {
             title: 'some title',
             filename: 'some file name'
@@ -520,6 +580,9 @@ describe('<Result />', () => {
       (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
         {
           document_id: 'some document_id',
+          result_metadata: {
+            collection_id: '1'
+          },
           extracted_metadata: {
             title: 'some title'
           }
@@ -536,6 +599,9 @@ describe('<Result />', () => {
       (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
         {
           document_id: 'some document_id',
+          result_metadata: {
+            collection_id: '1'
+          },
           extracted_metadata: {
             filename: 'some file name'
           }
@@ -550,7 +616,10 @@ describe('<Result />', () => {
     test('we display the document_id once', () => {
       (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
         {
-          document_id: 'some document_id'
+          document_id: 'some document_id',
+          result_metadata: {
+            collection_id: '1'
+          }
         }
       ];
       const { getByText } = render(wrapWithContext(<SearchResults />, {}, context));
