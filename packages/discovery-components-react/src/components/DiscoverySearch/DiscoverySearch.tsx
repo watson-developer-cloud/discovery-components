@@ -141,8 +141,12 @@ export const fetchDocumentsResponseStoreDefaults: FetchDocumentsResponseStore = 
     projectId: '',
     returnFields: [],
     aggregation: '',
-    passages: {},
-    tableResults: {}
+    passages: {
+      enabled: false
+    },
+    tableResults: {
+      enabled: false
+    }
   },
   data: null,
   isLoading: false,
@@ -156,6 +160,16 @@ export const autocompletionStoreDefaults: AutocompleteStore = {
   data: null,
   isLoading: false,
   isError: false
+};
+
+const aggregationQueryDefaults: Partial<DiscoveryV2.QueryParams> = {
+  count: 0,
+  passages: {
+    enabled: false
+  },
+  tableResults: {
+    enabled: false
+  }
 };
 
 export const searchContextDefaults = {
@@ -212,9 +226,22 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
 
   const handleSearch = useCallback(
     async (searchParameters, resetAggregations = true): Promise<void> => {
+      let aggregationsFetched = false;
       setSearchParameters(searchParameters);
+      // don't use the search response if filter is set, just do another search
+      if (resetAggregations && searchParameters.filter !== '') {
+        aggregationsFetched = true;
+        searchClient
+          .query({ ...searchParameters, ...aggregationQueryDefaults, filter: '' })
+          .then(response => {
+            if (response && response.result && response.result.aggregations) {
+              setAggregationResults(response.result.aggregations);
+            }
+          });
+      }
+
       performSearch(result => {
-        if (resetAggregations && result && result.aggregations) {
+        if (!aggregationsFetched && resetAggregations && result && result.aggregations) {
           setAggregationResults(result.aggregations);
         }
       });
@@ -314,13 +341,14 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
 
   const handleFetchAggregations = useCallback(
     async (searchParameters): Promise<void> => {
-      setSearchParameters(currentSearchParameters => {
-        return {
-          ...currentSearchParameters,
-          aggregation: searchParameters.aggregation
-        };
-      });
-      const { result } = await searchClient.query(searchParameters);
+      // since we only call this when the aggregation changes, we can safely reset the filter
+      const searchParamsWithoutFilter = { ...searchParameters, filter: '' };
+      setSearchParameters(searchParamsWithoutFilter);
+      const searchParametersWithAggregationDefaults = {
+        ...searchParamsWithoutFilter,
+        ...aggregationQueryDefaults
+      };
+      const { result } = await searchClient.query(searchParametersWithAggregationDefaults);
       if (result) {
         const { aggregations } = result;
         setAggregationResults(aggregations || null);

@@ -207,6 +207,50 @@ describe('DiscoverySearch', () => {
       expect(spy).toHaveBeenCalled();
     });
 
+    it('can call performSearch once with resetAggregations = false and filter set', async () => {
+      const tree = (
+        <SearchApi.Consumer>
+          {({ performSearch }) => (
+            <button onClick={() => performSearch({ projectId: '', filter: 'foo' }, false)}>
+              Action
+            </button>
+          )}
+        </SearchApi.Consumer>
+      );
+      const {
+        result: { getByText },
+        searchClient
+      } = setup({}, tree);
+      const spy = jest.spyOn(searchClient, 'query');
+      expect(spy).not.toHaveBeenCalled();
+      act(() => {
+        fireEvent.click(getByText('Action'));
+      });
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    it('can call performSearch twice with resetAggregations = true and filter set', async () => {
+      const tree = (
+        <SearchApi.Consumer>
+          {({ performSearch }) => (
+            <button onClick={() => performSearch({ projectId: '', filter: 'foo' }, true)}>
+              Action
+            </button>
+          )}
+        </SearchApi.Consumer>
+      );
+      const {
+        result: { getByText },
+        searchClient
+      } = setup({}, tree);
+      const spy = jest.spyOn(searchClient, 'query');
+      expect(spy).not.toHaveBeenCalled();
+      act(() => {
+        fireEvent.click(getByText('Action'));
+      });
+      expect(spy).toHaveBeenCalledTimes(2);
+    });
+
     it('can call fetchDocuments', async () => {
       const tree = (
         <SearchApi.Consumer>
@@ -228,9 +272,13 @@ describe('DiscoverySearch', () => {
         projectId: 'foo',
         filter: 'document_id::bar',
         aggregation: '',
-        passages: {},
+        passages: {
+          enabled: false
+        },
         returnFields: [],
-        tableResults: {}
+        tableResults: {
+          enabled: false
+        }
       });
     });
 

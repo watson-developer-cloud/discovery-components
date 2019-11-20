@@ -14,6 +14,7 @@ import { CollectionFacets } from './components/CollectionFacets';
 import { FieldFacets } from './components/FieldFacets';
 import { DynamicFacets } from './components/DynamicFacets';
 import defaultMessages, { Messages } from './messages';
+import { useDeepCompareEffect } from '../../utils/useDeepCompareMemoize';
 
 interface SearchFacetsProps {
   /**
@@ -72,6 +73,12 @@ export const SearchFacets: FC<SearchFacetsProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParameters.aggregation]);
 
+  useDeepCompareEffect(() => {
+    if (filter === '') {
+      setFacetSelectionState({ filterFields: [], filterDynamic: [] });
+    }
+  }, [aggregations, filter]);
+
   const allFieldFacets = mergeFilterFacets(
     aggregations,
     facetSelectionState.filterFields,
@@ -88,6 +95,18 @@ export const SearchFacets: FC<SearchFacetsProps> = ({
     filterFields: allFieldFacets,
     filterDynamic: allDynamicFacets
   };
+  const hasFieldSelection = facetSelectionState.filterFields.some(aggregation => {
+    return (
+      aggregation.results &&
+      aggregation.results.some(result => {
+        return result.selected;
+      })
+    );
+  });
+  const hasDynamicSelection = facetSelectionState.filterDynamic.some(dynamicFacet => {
+    return dynamicFacet.selected;
+  });
+  const hasSelection = hasFieldSelection || hasDynamicSelection;
 
   const handleOnChange = (updatedFacets: Partial<SearchFilterFacets>): void => {
     const newFilters = { ...originalFilters, ...updatedFacets };
@@ -104,7 +123,7 @@ export const SearchFacets: FC<SearchFacetsProps> = ({
   if (shouldShowFields || shouldShowCollections) {
     return (
       <div>
-        {filter && (
+        {hasSelection && (
           <Button
             className={`${settings.prefix}--search-facets__button-clear-all`}
             kind="ghost"

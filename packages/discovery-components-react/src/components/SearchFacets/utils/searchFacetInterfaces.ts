@@ -17,7 +17,7 @@ export interface InternalQueryTermAggregation
 
 export interface SearchFilterFacets {
   filterFields: InternalQueryTermAggregation[];
-  filterDynamic: DiscoveryV2.QuerySuggestedRefinement[];
+  filterDynamic: SelectableDynamicFacets[];
 }
 
 export interface SelectableDynamicFacets extends DiscoveryV2.QuerySuggestedRefinement {
