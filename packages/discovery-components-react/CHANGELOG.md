@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.68.12](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.68.11...@disco-widgets/react-components@1.68.12) (2019-11-20)
+
+
+### Bug Fixes
+
+* a11y issue on Navigation toolbar ([#414](https://github.com/watson-developer-cloud/discovery-components/issues/414)) ([9dc3dcd](https://github.com/watson-developer-cloud/discovery-components/commit/9dc3dcd))
+
+
+
+
+
 ## [1.68.11](https://github.com/watson-developer-cloud/discovery-components/compare/@disco-widgets/react-components@1.68.10...@disco-widgets/react-components@1.68.11) (2019-11-20)
 
 
