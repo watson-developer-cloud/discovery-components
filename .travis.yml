@@ -10,9 +10,11 @@ branches:
   only:
     - travis_ci_deploy
 before_install:
-  - npm install -g yarn
+  - echo "before_install"
+  # - npm install -g yarn
 script:
-  - yarn lint
+  - echo "script"
+  # - yarn lint
   # - lerna run build
   # - lerna run storybook:build
   # - lerna run test
@@ -21,7 +23,8 @@ before_deploy:
   - git config --global push.default simple
   - git config --global user.email "watdevex@us.ibm.com"
   - git config --global user.name "Watson Github Bot"
-  - git config remote.origin.url https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}
+  - git remote add origin https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}
+  - git fetch origin master
   - git checkout master
 
 deploy:
