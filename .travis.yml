@@ -12,6 +12,8 @@ branches:
 before_install:
   - echo "before_install"
   # - npm install -g yarn
+install:
+  - echo "install"
 script:
   - echo "script"
   # - yarn lint
