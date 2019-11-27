@@ -27,7 +27,7 @@ before_deploy:
   - git config --global user.name "Watson Github Bot"
   - git config remote.origin.url https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}
   - git fetch origin master
-  - git checkout master
+  - git checkout -b master origin/master
 
 deploy:
   - provider: script
