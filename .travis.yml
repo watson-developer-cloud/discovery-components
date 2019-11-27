@@ -18,7 +18,10 @@ script:
   - lerna run test
 before_deploy:
   - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
-  - git remote add origin https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git
+  - git config --global push.default simple
+  - git config --global user.email "watdevex@us.ibm.com"
+  - git config --global user.name "Watson Github Bot"
+  - git config remote.origin.url https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}
   - git checkout master
 
 deploy:
