@@ -8,7 +8,6 @@ addons:
       - libgconf-2-4
 branches:
   only:
-    - master
     - travis_ci_deploy
 before_install:
   - npm install -g yarn
@@ -30,7 +29,7 @@ deploy:
     script: git config --list
     skip_cleanup: true
     on:
-      branch: master
+      branch: travis_ci_deploy
 notifications:
   email:
     on_success: change
