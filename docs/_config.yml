@@ -7,3 +7,5 @@ yo_dawg: "![](https://imgflip.com/s/meme/Yo-Dawg-Heard-You.jpg)"
 aux_links:
   "Discovery Widgets on GitHub":
     - "//github.ibm.com/watson-discovery/disco-widgets"
+
+theme: jekyll-theme-cayman
