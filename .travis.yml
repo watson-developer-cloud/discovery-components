@@ -16,6 +16,17 @@ script:
   - lerna run build
   - lerna run storybook:build
   - lerna run test
+before_deploy:
+  - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+  - git remote add origin https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git
+  - git checkout master
+
+deploy:
+  - provider: script
+    script: npx lerna publish -y
+    skip_cleanup: true
+    on:
+      branch: master
 notifications:
   email:
     on_success: change
