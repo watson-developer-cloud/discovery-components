@@ -168,7 +168,7 @@ const App = () => {
 };
 ```
 
-For more information on how each component can be customized and configured, check out our hosted [storybook](https://pages.github.com/watson-developer-cloud/discovery-components/storybook)
+For more information on how each component can be customized and configured, check out our hosted [storybook](https://watson-developer-cloud.github.io/discovery-components)
 
 ### Interacting with Discovery data in custom components
 
