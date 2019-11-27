@@ -1,0 +1,29 @@
+{
+  "name": "@ibm-watson/discovery-styles",
+  "version": "1.0.5",
+  "description": "Discovery components SASS/CSS styles used with discovery components",
+  "license": "Apache-2.0",
+  "author": "IBM Corp.",
+  "repository": "https://github.com/watson-developer-cloud/discovery-components",
+  "main": "scss/index.scss",
+  "scripts": {
+    "build": "node-sass --importer=../../node_modules/node-sass-tilde-importer --source-map=true scss/index.scss css/index.css",
+    "prepublish": "yarn run build",
+    "start": "yarn run build -- --watch",
+    "analyze": "source-map-explorer css/index.css"
+  },
+  "files": [
+    "css/**/*",
+    "scss/**/*"
+  ],
+  "peerDependencies": {
+    "carbon-components": "^10.6.0"
+  },
+  "engines": {
+    "node": ">=8",
+    "npm": ">=5"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

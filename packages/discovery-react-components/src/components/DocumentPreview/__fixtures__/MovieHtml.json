@@ -1,0 +1,1875 @@
+{
+  "id": "e3db05fd3861c986142c0369a5210ff7",
+  "result_metadata": {
+    "confidence": 0,
+    "score": 1
+  },
+  "text": "Review for Ritcher, The (1990)\n\nRitcher, The (1990)\n\nreviewed by\nAlan P. Smithy\n\n[Editor's note: Sites running 2.10 netnews will munge headers of articles in moderated groups *not* named mod.something. If you get my name instead of Alan Smithy's in the \"From:\" line, please encourage your S.A. and your feed's S.A. to upgrade to 2.11. Thank you. And now, on to our review... -ecl]\n\n                                 THE RITCHER\n                       A film review by Alan P. Smithy\n                        Copyright 1990 Alan P. Smithy\n\nCapsule review: Boring actioner about a psychotic hitchhiker whom the scriptwriter makes unkillable. Contrived, unbelievable, and ultimately dull thriller is one more film to waste John Stevens.\n\nYou want a thriller with lots of mindless action, no logic, and a bunch of fractional-dimensional characters. Cable this month is running what passes for entertainment in some quarters. The film is THE RITCHER and as a friend of mine would say, it sucks pond water. Actually I think this ...",
+  "enriched_text": {
+    "entities": [
+      {
+        "count": 9,
+        "sentiment": {
+          "score": -0.552062,
+          "label": "negative"
+        },
+        "text": "John Stevens",
+        "relevance": 0.886259,
+        "type": "Person",
+        "disambiguation": {
+          "subtype": [
+            "Actor",
+            "MusicalArtist",
+            "AwardNominee",
+            "AwardWinner",
+            "FilmActor",
+            "FilmDirector",
+            "TVActor"
+          ],
+          "name": "John Stevens",
+          "ibmedia_resource": "http://ibmedia.org/resource/John_Stevens"
+        }
+      },
+      {
+        "count": 7,
+        "sentiment": {
+          "score": 0.416471,
+          "label": "positive"
+        },
+        "text": "Alan P. Smithy",
+        "relevance": 0.85055,
+        "type": "Person"
+      },
+      {
+        "count": 5,
+        "sentiment": {
+          "score": -0.297025,
+          "label": "negative"
+        },
+        "text": "Ritcher",
+        "relevance": 0.750857,
+        "type": "Person"
+      },
+      {
+        "count": 5,
+        "sentiment": {
+          "score": -0.751028,
+          "label": "negative"
+        },
+        "text": "Schnook",
+        "relevance": 0.410339,
+        "type": "Person"
+      },
+      {
+        "count": 1,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "Editor",
+        "relevance": 0.283566,
+        "type": "JobTitle"
+      },
+      {
+        "count": 1,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "Texas",
+        "relevance": 0.2433,
+        "type": "Location",
+        "disambiguation": {
+          "subtype": [
+            "PoliticalDistrict",
+            "AdministrativeDivision",
+            "GovernmentalJurisdiction",
+            "USState",
+            "StateOrCounty"
+          ],
+          "name": "Texas",
+          "ibmedia_resource": "http://ibmedia.org/resource/Texas"
+        }
+      },
+      {
+        "count": 1,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "Chicago",
+        "relevance": 0.204561,
+        "type": "Location",
+        "disambiguation": {
+          "subtype": ["City"]
+        }
+      },
+      {
+        "count": 1,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "San Diego",
+        "relevance": 0.198528,
+        "type": "Location",
+        "disambiguation": {
+          "subtype": ["City"]
+        }
+      },
+      {
+        "count": 1,
+        "sentiment": {
+          "score": 0,
+          "label": "neutral"
+        },
+        "text": "mtgzz!Smithy@rutgers.rutgers.edu",
+        "relevance": 0.198528,
+        "type": "EmailAddress"
+      }
+    ],
+    "sentiment": {
+      "document": {
+        "score": -0.449058,
+        "label": "negative"
+      }
+    },
+    "semantic_roles": [
+      {
+        "subject": {
+          "text": "groups"
+        },
+        "sentence": " [Editor's note: Sites running 2.10 netnews will munge headers of articles in moderated groups *not* named mod.something.",
+        "object": {
+          "text": "named mod.something"
+        },
+        "action": {
+          "verb": {
+            "text": "*not*",
+            "tense": "present"
+          },
+          "text": "*not*",
+          "normalized": "*not*"
+        }
+      },
+      {
+        "subject": {
+          "text": "groups"
+        },
+        "sentence": " [Editor's note: Sites running 2.10 netnews will munge headers of articles in moderated groups *not* named mod.something.",
+        "object": {
+          "text": "mod.something"
+        },
+        "action": {
+          "verb": {
+            "text": "name",
+            "tense": "past"
+          },
+          "text": "*not* named",
+          "normalized": "*not* name"
+        }
+      },
+      {
+        "subject": {
+          "text": "you"
+        },
+        "sentence": " If you get my name instead of Alan Smithy's in the \"From:\" line, please encourage your S.A. and your feed's S.A. to upgrade to 2.11.",
+        "object": {
+          "text": "my name"
+        },
+        "action": {
+          "verb": {
+            "text": "get",
+            "tense": "present"
+          },
+          "text": "get",
+          "normalized": "get"
+        }
+      },
+      {
+        "subject": {
+          "text": "your feed"
+        },
+        "sentence": " If you get my name instead of Alan Smithy's in the \"From:\" line, please encourage your S.A. and your feed's S.A. to upgrade to 2.11.",
+        "object": {
+          "text": "to 2.11"
+        },
+        "action": {
+          "verb": {
+            "text": "upgrade",
+            "tense": "future"
+          },
+          "text": "to upgrade",
+          "normalized": "to upgrade"
+        }
+      },
+      {
+        "subject": {
+          "text": "the scriptwriter"
+        },
+        "sentence": " Capsule review: Boring actioner about a psychotic hitchhiker whom the scriptwriter makes unkillable.",
+        "object": {
+          "text": "unkillable"
+        },
+        "action": {
+          "verb": {
+            "text": "make",
+            "tense": "present"
+          },
+          "text": "makes",
+          "normalized": "make"
+        }
+      },
+      {
+        "subject": {
+          "text": "dull thriller"
+        },
+        "sentence": " Contrived, unbelievable, and ultimately dull thriller is one more film to waste John Stevens.",
+        "object": {
+          "text": "one more film"
+        },
+        "action": {
+          "verb": {
+            "text": "be",
+            "tense": "present"
+          },
+          "text": "is",
+          "normalized": "be"
+        }
+      },
+      {
+        "subject": {
+          "text": "You"
+        },
+        "sentence": " You want a thriller with lots of mindless action, no logic, and a bunch of fractional-dimensional characters.",
+        "object": {
+          "text": "a thriller"
+        },
+        "action": {
+          "verb": {
+            "text": "want",
+            "tense": "present"
+          },
+          "text": "want",
+          "normalized": "want"
+        }
+      },
+      {
+        "subject": {
+          "text": "Cable this month"
+        },
+        "sentence": " Cable this month is running what passes for entertainment in some quarters.",
+        "object": {
+          "text": "running what passes for entertainment"
+        },
+        "action": {
+          "verb": {
+            "text": "be",
+            "tense": "present"
+          },
+          "text": "is",
+          "normalized": "be"
+        }
+      },
+      {
+        "subject": {
+          "text": "Cable"
+        },
+        "sentence": " Cable this month is running what passes for entertainment in some quarters.",
+        "object": {
+          "text": "what passes"
+        },
+        "action": {
+          "verb": {
+            "text": "run",
+            "tense": "present"
+          },
+          "text": "is running",
+          "normalized": "be run"
+        }
+      },
+      {
+        "subject": {
+          "text": "The film"
+        },
+        "sentence": " The film is THE RITCHER and as a friend of mine would say, it sucks pond water.",
+        "object": {
+          "text": "THE RITCHER"
+        },
+        "action": {
+          "verb": {
+            "text": "be",
+            "tense": "present"
+          },
+          "text": "is",
+          "normalized": "be"
+        }
+      },
+      {
+        "subject": {
+          "text": "it"
+        },
+        "sentence": " The film is THE RITCHER and as a friend of mine would say, it sucks pond water.",
+        "object": {
+          "text": "pond water"
+        },
+        "action": {
+          "verb": {
+            "text": "suck",
+            "tense": "future"
+          },
+          "text": "sucks",
+          "normalized": "suck"
+        }
+      },
+      {
+        "subject": {
+          "text": "I"
+        },
+        "sentence": " Actually I think this one could turn back a raging river.",
+        "object": {
+          "text": "this one could turn back a raging river"
+        },
+        "action": {
+          "verb": {
+            "text": "think",
+            "tense": "present"
+          },
+          "text": "think",
+          "normalized": "think"
+        }
+      },
+      {
+        "subject": {
+          "text": "this one"
+        },
+        "sentence": " Actually I think this one could turn back a raging river.",
+        "object": {
+          "text": "a raging river"
+        },
+        "action": {
+          "verb": {
+            "text": "turn",
+            "tense": "future"
+          },
+          "text": "could turn",
+          "normalized": "could turn"
+        }
+      },
+      {
+        "subject": {
+          "text": "I"
+        },
+        "sentence": " Our main character--I don't think we ever get his name so I will call him Poor Schnook--is a teenager driving a car from Chicago to San Diego by way of nearly empty Texas roads.",
+        "object": {
+          "text": "n't think we ever get his name so I will call him Poor Schnook"
+        },
+        "action": {
+          "verb": {
+            "text": "do",
+            "tense": "present"
+          },
+          "text": "do",
+          "normalized": "do"
+        }
+      },
+      {
+        "subject": {
+          "text": "I"
+        },
+        "sentence": " Our main character--I don't think we ever get his name so I will call him Poor Schnook--is a teenager driving a car from Chicago to San Diego by way of nearly empty Texas roads.",
+        "object": {
+          "text": "we ever get his name so I will call him Poor Schnook--is a teenager driving a car from Chicago to San Diego by way of nearly empty Texas roads"
+        },
+        "action": {
+          "verb": {
+            "text": "think",
+            "tense": "future",
+            "negated": true
+          },
+          "text": "think",
+          "normalized": "think"
+        }
+      },
+      {
+        "subject": {
+          "text": "we"
+        },
+        "sentence": " Our main character--I don't think we ever get his name so I will call him Poor Schnook--is a teenager driving a car from Chicago to San Diego by way of nearly empty Texas roads.",
+        "object": {
+          "text": "his name"
+        },
+        "action": {
+          "verb": {
+            "text": "get",
+            "tense": "future"
+          },
+          "text": "get",
+          "normalized": "get"
+        }
+      },
+      {
+        "subject": {
+          "text": "by John Stevens"
+        },
+        "sentence": " Schnook picks up a psychotic killer played by John Stevens, who adds one more implacable killer to his list of roles.",
+        "object": {
+          "text": "a psychotic killer"
+        },
+        "action": {
+          "verb": {
+            "text": "play",
+            "tense": "past"
+          },
+          "text": "played",
+          "normalized": "play"
+        }
+      },
+      {
+        "subject": {
+          "text": "to his list of roles"
+        },
+        "sentence": " Schnook picks up a psychotic killer played by John Stevens, who adds one more implacable killer to his list of roles.",
+        "object": {
+          "text": "one more implacable killer"
+        },
+        "action": {
+          "verb": {
+            "text": "add",
+            "tense": "present"
+          },
+          "text": "adds",
+          "normalized": "add"
+        }
+      },
+      {
+        "subject": {
+          "text": "Hauer"
+        },
+        "sentence": " Hauer had better start being more selective in his roles or he will lose the aura he had from CASSIDY OF ORANGE and GRADEBUMMER.",
+        "object": {
+          "text": "more selective in his roles"
+        },
+        "action": {
+          "verb": {
+            "text": "be",
+            "tense": "past"
+          },
+          "text": "being",
+          "normalized": "be"
+        }
+      },
+      {
+        "subject": {
+          "text": "he"
+        },
+        "sentence": " Hauer had better start being more selective in his roles or he will lose the aura he had from CASSIDY OF ORANGE and GRADEBUMMER.",
+        "object": {
+          "text": "the aura he had from CASSIDY OF ORANGE and GRADEBUMMER"
+        },
+        "action": {
+          "verb": {
+            "text": "lose",
+            "tense": "future"
+          },
+          "text": "will lose",
+          "normalized": "will lose"
+        }
+      },
+      {
+        "subject": {
+          "text": "he"
+        },
+        "sentence": " Hauer had better start being more selective in his roles or he will lose the aura he had from CASSIDY OF ORANGE and GRADEBUMMER.",
+        "object": {
+          "text": "the aura"
+        },
+        "action": {
+          "verb": {
+            "text": "have",
+            "tense": "future"
+          },
+          "text": "had",
+          "normalized": "have"
+        }
+      },
+      {
+        "subject": {
+          "text": "Hauer"
+        },
+        "sentence": " From the point he gets picked up, Hauer does everything right.",
+        "object": {
+          "text": "everything right"
+        },
+        "action": {
+          "verb": {
+            "text": "do",
+            "tense": "present"
+          },
+          "text": "does",
+          "normalized": "do"
+        }
+      },
+      {
+        "subject": {
+          "text": "He"
+        },
+        "sentence": " He is always in just the right place at the right instant.",
+        "object": {
+          "text": "in just the right place"
+        },
+        "action": {
+          "verb": {
+            "text": "be",
+            "tense": "present"
+          },
+          "text": "is",
+          "normalized": "be"
+        }
+      },
+      {
+        "subject": {
+          "text": "It"
+        },
+        "sentence": " It is not long before the police think Poor Schnook is the killer and these are not your ordinary police.",
+        "object": {
+          "text": "not long"
+        },
+        "action": {
+          "verb": {
+            "text": "be",
+            "tense": "present"
+          },
+          "text": "is",
+          "normalized": "be"
+        }
+      },
+      {
+        "subject": {
+          "text": "the police"
+        },
+        "sentence": " It is not long before the police think Poor Schnook is the killer and these are not your ordinary police.",
+        "object": {
+          "text": "Poor Schnook"
+        },
+        "action": {
+          "verb": {
+            "text": "think",
+            "tense": "present"
+          },
+          "text": "think",
+          "normalized": "think"
+        }
+      },
+      {
+        "subject": {
+          "text": "Poor Schnook"
+        },
+        "sentence": " It is not long before the police think Poor Schnook is the killer and these are not your ordinary police.",
+        "object": {
+          "text": "the killer"
+        },
+        "action": {
+          "verb": {
+            "text": "be",
+            "tense": "present"
+          },
+          "text": "is",
+          "normalized": "be"
+        }
+      },
+      {
+        "subject": {
+          "text": "They"
+        },
+        "sentence": " They have intelligence roughly equivalent to protozoa.",
+        "object": {
+          "text": "intelligence roughly equivalent to protozoa"
+        },
+        "action": {
+          "verb": {
+            "text": "have",
+            "tense": "present"
+          },
+          "text": "have",
+          "normalized": "have"
+        }
+      },
+      {
+        "subject": {
+          "text": "we"
+        },
+        "sentence": " In a scene we see only the aftermath of, Hauer has wiped out an entire police station with apparently no more than a knife.",
+        "action": {
+          "verb": {
+            "text": "see",
+            "tense": "present"
+          },
+          "text": "see",
+          "normalized": "see"
+        }
+      },
+      {
+        "subject": {
+          "text": "Hauer"
+        },
+        "sentence": " In a scene we see only the aftermath of, Hauer has wiped out an entire police station with apparently no more than a knife.",
+        "object": {
+          "text": "wiped out an entire police station with apparently no more than a knife"
+        },
+        "action": {
+          "verb": {
+            "text": "have",
+            "tense": "present"
+          },
+          "text": "has",
+          "normalized": "have"
+        }
+      },
+      {
+        "subject": {
+          "text": "one bullet Hauer"
+        },
+        "sentence": " In one carefully choreographed scene, with one bullet Hauer knocks out one police helicopter and two police cars whose occupants somehow missed seeing the slowly dropping helicopter fall.",
+        "object": {
+          "text": "one police helicopter and two police cars"
+        },
+        "action": {
+          "verb": {
+            "text": "knock",
+            "tense": "present"
+          },
+          "text": "knocks",
+          "normalized": "knock"
+        }
+      },
+      {
+        "subject": {
+          "text": "the more the police"
+        },
+        "sentence": " The more destruction there is, the more the police want to kill Poor Schnook and the less interested they are in hearing his claims that someone else is responsible.",
+        "object": {
+          "text": "to kill Poor Schnook"
+        },
+        "action": {
+          "verb": {
+            "text": "want",
+            "tense": "present"
+          },
+          "text": "want",
+          "normalized": "want"
+        }
+      },
+      {
+        "subject": {
+          "text": "the more the police"
+        },
+        "sentence": " The more destruction there is, the more the police want to kill Poor Schnook and the less interested they are in hearing his claims that someone else is responsible.",
+        "object": {
+          "text": "Poor Schnook"
+        },
+        "action": {
+          "verb": {
+            "text": "kill",
+            "tense": "future"
+          },
+          "text": "want to kill",
+          "normalized": "want to kill"
+        }
+      },
+      {
+        "subject": {
+          "text": "they"
+        },
+        "sentence": " The more destruction there is, the more the police want to kill Poor Schnook and the less interested they are in hearing his claims that someone else is responsible.",
+        "object": {
+          "text": "his claims that someone else is responsible"
+        },
+        "action": {
+          "verb": {
+            "text": "hear",
+            "tense": "present"
+          },
+          "text": "hearing",
+          "normalized": "hear"
+        }
+      },
+      {
+        "subject": {
+          "text": "The plot of the innocent bystander who gets in over his head"
+        },
+        "sentence": " The plot of the innocent bystander who gets in over his head is standard thriller stuff and can be well done.",
+        "object": {
+          "text": "standard thriller stuff"
+        },
+        "action": {
+          "verb": {
+            "text": "be",
+            "tense": "present"
+          },
+          "text": "is",
+          "normalized": "be"
+        }
+      },
+      {
+        "subject": {
+          "text": "the villain"
+        },
+        "sentence": " The innocent bystander against the villain who does everything right is an old one.",
+        "object": {
+          "text": "everything"
+        },
+        "action": {
+          "verb": {
+            "text": "do",
+            "tense": "present"
+          },
+          "text": "does",
+          "normalized": "do"
+        }
+      },
+      {
+        "subject": {
+          "text": "everything right"
+        },
+        "sentence": " The innocent bystander against the villain who does everything right is an old one.",
+        "object": {
+          "text": "an old one"
+        },
+        "action": {
+          "verb": {
+            "text": "be",
+            "tense": "present"
+          },
+          "text": "is",
+          "normalized": "be"
+        }
+      },
+      {
+        "subject": {
+          "text": "THE RITCHER"
+        },
+        "sentence": " In a sense THE RITCHER has the same basic (very basic) plot as NORTH BY NORTHWEST but instead of the characters and the wit, THE RITCHER gives us just more mindless action scenes.",
+        "object": {
+          "text": "the same basic (very basic) plot as NORTH BY NORTHWEST"
+        },
+        "action": {
+          "verb": {
+            "text": "have",
+            "tense": "present"
+          },
+          "text": "has",
+          "normalized": "have"
+        }
+      },
+      {
+        "subject": {
+          "text": "THE RITCHER"
+        },
+        "sentence": " In a sense THE RITCHER has the same basic (very basic) plot as NORTH BY NORTHWEST but instead of the characters and the wit, THE RITCHER gives us just more mindless action scenes.",
+        "object": {
+          "text": "just more mindless action scenes"
+        },
+        "action": {
+          "verb": {
+            "text": "give",
+            "tense": "present"
+          },
+          "text": "gives",
+          "normalized": "give"
+        }
+      },
+      {
+        "subject": {
+          "text": "audiences"
+        },
+        "sentence": " Perhaps part of the reason audiences are getting more unruly is that in a film like NORTH BY NORTHWEST you want to hear what the characters are saying, while in a film like THE RITCHER it is much less important.",
+        "object": {
+          "text": "more unruly"
+        },
+        "action": {
+          "verb": {
+            "text": "get",
+            "tense": "present"
+          },
+          "text": "are getting",
+          "normalized": "be get"
+        }
+      },
+      {
+        "subject": {
+          "text": "you"
+        },
+        "sentence": " Perhaps part of the reason audiences are getting more unruly is that in a film like NORTH BY NORTHWEST you want to hear what the characters are saying, while in a film like THE RITCHER it is much less important.",
+        "object": {
+          "text": "to hear what the characters are saying"
+        },
+        "action": {
+          "verb": {
+            "text": "want",
+            "tense": "present"
+          },
+          "text": "want",
+          "normalized": "want"
+        }
+      },
+      {
+        "subject": {
+          "text": "you"
+        },
+        "sentence": " Perhaps part of the reason audiences are getting more unruly is that in a film like NORTH BY NORTHWEST you want to hear what the characters are saying, while in a film like THE RITCHER it is much less important.",
+        "object": {
+          "text": "what the characters are saying"
+        },
+        "action": {
+          "verb": {
+            "text": "hear",
+            "tense": "future"
+          },
+          "text": "want to hear",
+          "normalized": "want to hear"
+        }
+      },
+      {
+        "subject": {
+          "text": "one car engine"
+        },
+        "sentence": " And one car engine sounds a lot like another.",
+        "object": {
+          "text": "a lot like another"
+        },
+        "action": {
+          "verb": {
+            "text": "sound",
+            "tense": "present"
+          },
+          "text": "sounds",
+          "normalized": "sound"
+        }
+      },
+      {
+        "subject": {
+          "text": "The Internet Movie Database"
+        },
+        "sentence": " The Internet Movie Database accepts no responsibility for the contents of the review and has no editorial control.",
+        "object": {
+          "text": "no responsibility for the contents of the review"
+        },
+        "action": {
+          "verb": {
+            "text": "accept",
+            "tense": "present"
+          },
+          "text": "accepts",
+          "normalized": "accept"
+        }
+      },
+      {
+        "subject": {
+          "text": "The Internet Movie Database"
+        },
+        "sentence": " The Internet Movie Database accepts no responsibility for the contents of the review and has no editorial control.",
+        "object": {
+          "text": "no editorial control"
+        },
+        "action": {
+          "verb": {
+            "text": "have",
+            "tense": "present"
+          },
+          "text": "has",
+          "normalized": "have"
+        }
+      },
+      {
+        "subject": {
+          "text": "the copyright"
+        },
+        "sentence": " Unless stated otherwise, the copyright belongs to the author.",
+        "object": {
+          "text": "to the author"
+        },
+        "action": {
+          "verb": {
+            "text": "belong",
+            "tense": "present"
+          },
+          "text": "belongs",
+          "normalized": "belong"
+        }
+      },
+      {
+        "subject": {
+          "text": "Broken URLs inthe reviews"
+        },
+        "sentence": " Broken URLs inthe reviews are the responsibility of the author.",
+        "object": {
+          "text": "the responsibility of the author"
+        },
+        "action": {
+          "verb": {
+            "text": "be",
+            "tense": "present"
+          },
+          "text": "are",
+          "normalized": "be"
+        }
+      }
+    ],
+    "emotion": {
+      "document": {
+        "emotion": {
+          "disgust": 0.138932,
+          "joy": 0.630856,
+          "anger": 0.450964,
+          "fear": 0.1252,
+          "sadness": 0.499805
+        }
+      }
+    },
+    "concepts": [
+      {
+        "text": "John Stevens",
+        "relevance": 0.984589,
+        "ibmedia_resource": "http://ibmedia.org/resource/John_Stevens"
+      },
+      {
+        "text": "The Ritcher",
+        "relevance": 0.678078,
+        "ibmedia_resource": "http://ibmedia.org/resource/The_Ritcher_(1990_film)"
+      },
+      {
+        "text": "Cassidy of Orange",
+        "relevance": 0.665578,
+        "ibmedia_resource": "http://ibmedia.org"
+      },
+      {
+        "text": "Grade Bummer",
+        "relevance": 0.633364,
+        "ibmedia_resource": "http://ibmedia.org"
+      },
+      {
+        "text": "Paul V. Hoeven",
+        "relevance": 0.560898,
+        "ibmedia_resource": "http://ibmedia.org"
+      },
+      {
+        "text": "Films considered the greatest ever",
+        "relevance": 0.541033,
+        "ibmedia_resource": "http://ibmedia.org"
+      },
+      {
+        "text": "Jeroen Krabbé",
+        "relevance": 0.50676,
+        "ibmedia_resource": "http://ibmedia.org"
+      },
+      {
+        "text": "Turkish Delight",
+        "relevance": 0.48923,
+        "ibmedia_resource": "http://ibmedia.org"
+      }
+    ],
+    "categories": [
+      {
+        "score": 0.789002,
+        "label": "/art and entertainment/movies and tv/movies/reviews"
+      },
+      {
+        "score": 0.641894,
+        "label": "/art and entertainment/movies and tv/action"
+      },
+      {
+        "score": 0.619028,
+        "label": "/art and entertainment/shows and events"
+      }
+    ],
+    "relations": [
+      {
+        "type": "hasAttribute",
+        "sentence": "Capsule review: Boring actioner about a psychotic hitchhiker whom the scriptwriter makes unkillable.",
+        "score": 0.913039,
+        "arguments": [
+          {
+            "text": "hitchhiker",
+            "location": [587, 597],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "Alan P. Smithy\n                                        ihnp4!mtgzz!Smithy\n                                        mtgzz"
+              }
+            ]
+          },
+          {
+            "text": "psychotic",
+            "location": [577, 586],
+            "entities": [
+              {
+                "type": "HealthCondition",
+                "text": "psychotic"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "locatedAt",
+        "sentence": "Our main character--I don't think we ever get his name so I will call him Poor Schnook--is a teenager driving a car from Chicago to San Diego by way of nearly empty Texas roads.",
+        "score": 0.936635,
+        "arguments": [
+          {
+            "text": "car",
+            "location": [1170, 1173],
+            "entities": [
+              {
+                "type": "Vehicle",
+                "text": "cars"
+              }
+            ]
+          },
+          {
+            "text": "San Diego",
+            "location": [1190, 1199],
+            "entities": [
+              {
+                "type": "GeopoliticalEntity",
+                "text": "San Diego"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ownerOf",
+        "sentence": "Our main character--I don't think we ever get his name so I will call him Poor Schnook--is a teenager driving a car from Chicago to San Diego by way of nearly empty Texas roads.",
+        "score": 0.655855,
+        "arguments": [
+          {
+            "text": "Texas",
+            "location": [1223, 1228],
+            "entities": [
+              {
+                "type": "GeopoliticalEntity",
+                "text": "Texas"
+              }
+            ]
+          },
+          {
+            "text": "roads",
+            "location": [1229, 1234],
+            "entities": [
+              {
+                "type": "Facility",
+                "text": "roads"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "hasAttribute",
+        "sentence": "Schnook picks up a psychotic killer played by John Stevens, who adds one more implacable killer to his list of roles.",
+        "score": 0.51791,
+        "arguments": [
+          {
+            "text": "John Stevens",
+            "location": [1282, 1294],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "John Stevens"
+              }
+            ]
+          },
+          {
+            "text": "psychotic killer",
+            "location": [1255, 1271],
+            "entities": [
+              {
+                "type": "HealthCondition",
+                "text": "psychotic killer"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "hasAttribute",
+        "sentence": "Schnook picks up a psychotic killer played by John Stevens, who adds one more implacable killer to his list of roles.",
+        "score": 0.753362,
+        "arguments": [
+          {
+            "text": "who",
+            "location": [1296, 1299],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "John Stevens"
+              }
+            ]
+          },
+          {
+            "text": "killer",
+            "location": [1325, 1331],
+            "entities": [
+              {
+                "type": "HealthCondition",
+                "text": "psychotic killer"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "hasAttribute",
+        "sentence": "It is not long before the police think Poor Schnook is the killer and these are not your ordinary police.",
+        "score": 0.800369,
+        "arguments": [
+          {
+            "text": "your",
+            "location": [1689, 1693],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "John Stevens"
+              }
+            ]
+          },
+          {
+            "text": "killer",
+            "location": [1664, 1670],
+            "entities": [
+              {
+                "type": "HealthCondition",
+                "text": "psychotic killer"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "residesIn",
+        "sentence": "Hauer had better start being more selective in his roles or he will lose the aura he had from CASSIDY OF ORANGE and GRADEBUMMER.",
+        "score": 0.637192,
+        "arguments": [
+          {
+            "text": "CASSIDY",
+            "location": [1448, 1455],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "CASSIDY"
+              }
+            ]
+          },
+          {
+            "text": "ORANGE",
+            "location": [1459, 1465],
+            "entities": [
+              {
+                "type": "GeopoliticalEntity",
+                "text": "ORANGE"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "managerOf",
+        "sentence": "It is not long before the police think Poor Schnook is the killer and these are not your ordinary police.",
+        "score": 0.471211,
+        "arguments": [
+          {
+            "text": "your",
+            "location": [1689, 1693],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "John Stevens"
+              }
+            ]
+          },
+          {
+            "text": "police",
+            "location": [1703, 1709],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "police station",
+                "disambiguation": {
+                  "subtype": ["Government"]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "partOfMany",
+        "sentence": "In a scene we see only the aftermath of, Hauer has wiped out an entire police station with apparently no more than a knife.",
+        "score": 0.917658,
+        "arguments": [
+          {
+            "text": "Hauer",
+            "location": [1807, 1812],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "John Stevens"
+              }
+            ]
+          },
+          {
+            "text": "we",
+            "location": [1777, 1779],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "we"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ownerOf",
+        "sentence": "In one carefully choreographed scene, with one bullet Hauer knocks out one police helicopter and two police cars whose occupants somehow missed seeing the slowly dropping helicopter fall.",
+        "score": 0.47707,
+        "arguments": [
+          {
+            "text": "police",
+            "location": [1965, 1971],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "police station",
+                "disambiguation": {
+                  "subtype": ["Government"]
+                }
+              }
+            ]
+          },
+          {
+            "text": "helicopter",
+            "location": [1972, 1982],
+            "entities": [
+              {
+                "type": "Vehicle",
+                "text": "helicopter"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "locatedAt",
+        "sentence": "In one carefully choreographed scene, with one bullet Hauer knocks out one police helicopter and two police cars whose occupants somehow missed seeing the slowly dropping helicopter fall.",
+        "score": 0.384266,
+        "arguments": [
+          {
+            "text": "whose",
+            "location": [2003, 2008],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "John Stevens"
+              }
+            ]
+          },
+          {
+            "text": "cars",
+            "location": [1998, 2002],
+            "entities": [
+              {
+                "type": "Vehicle",
+                "text": "cars"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "locatedAt",
+        "sentence": "In one carefully choreographed scene, with one bullet Hauer knocks out one police helicopter and two police cars whose occupants somehow missed seeing the slowly dropping helicopter fall.",
+        "score": 0.5335,
+        "arguments": [
+          {
+            "text": "whose",
+            "location": [2003, 2008],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "John Stevens"
+              }
+            ]
+          },
+          {
+            "text": "helicopter",
+            "location": [2061, 2071],
+            "entities": [
+              {
+                "type": "Vehicle",
+                "text": "helicopter"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "agentOf",
+        "sentence": "The more destruction there is, the more the police want to kill Poor Schnook and the less interested they are in hearing his claims that someone else is responsible.",
+        "score": 0.982501,
+        "arguments": [
+          {
+            "text": "his",
+            "location": [2199, 2202],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "John Stevens"
+              }
+            ]
+          },
+          {
+            "text": "claims",
+            "location": [2203, 2209],
+            "entities": [
+              {
+                "type": "EventCommunication",
+                "text": "claims"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "authorOf",
+        "sentence": "Contrived, unbelievable, and ultimately dull thriller is one more film to waste John Stevens.",
+        "score": 0.816283,
+        "arguments": [
+          {
+            "text": "John Stevens",
+            "location": [718, 730],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "John Stevens"
+              }
+            ]
+          },
+          {
+            "text": "film",
+            "location": [704, 708],
+            "entities": [
+              {
+                "type": "TitleWork",
+                "text": "thriller"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "agentOf",
+        "sentence": "Perhaps part of the reason audiences are getting more unruly is that in a film like NORTH BY NORTHWEST you want to hear what the characters are saying, while in a film like THE RITCHER it is much less important.",
+        "score": 0.960142,
+        "arguments": [
+          {
+            "text": "characters",
+            "location": [2748, 2758],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "characters"
+              }
+            ]
+          },
+          {
+            "text": "saying",
+            "location": [2763, 2769],
+            "entities": [
+              {
+                "type": "EventCommunication",
+                "text": "saying"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "authorOf",
+        "sentence": "You want a thriller with lots of mindless action, no logic, and a bunch of fractional-dimensional characters.",
+        "score": 0.741725,
+        "arguments": [
+          {
+            "text": "You",
+            "location": [733, 736],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "You"
+              }
+            ]
+          },
+          {
+            "text": "thriller",
+            "location": [744, 752],
+            "entities": [
+              {
+                "type": "TitleWork",
+                "text": "thriller"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "agentOf",
+        "sentence": "The film is THE RITCHER and as a friend of mine would say, it sucks pond water.",
+        "score": 0.633769,
+        "arguments": [
+          {
+            "text": "friend",
+            "location": [952, 958],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "friend"
+              }
+            ]
+          },
+          {
+            "text": "say",
+            "location": [973, 976],
+            "entities": [
+              {
+                "type": "EventCommunication",
+                "text": "say"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "employedBy",
+        "sentence": "Our main character--I don't think we ever get his name so I will call him Poor Schnook--is a teenager driving a car from Chicago to San Diego by way of nearly empty Texas roads.",
+        "score": 0.409179,
+        "arguments": [
+          {
+            "text": "character",
+            "location": [1067, 1076],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "--I"
+              }
+            ]
+          },
+          {
+            "text": "Our",
+            "location": [1058, 1061],
+            "entities": [
+              {
+                "type": "Organization",
+                "text": "Our"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "locatedAt",
+        "sentence": "Our main character--I don't think we ever get his name so I will call him Poor Schnook--is a teenager driving a car from Chicago to San Diego by way of nearly empty Texas roads.",
+        "score": 0.56288,
+        "arguments": [
+          {
+            "text": "--I",
+            "location": [1076, 1079],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "--I"
+              }
+            ]
+          },
+          {
+            "text": "car",
+            "location": [1170, 1173],
+            "entities": [
+              {
+                "type": "Vehicle",
+                "text": "cars"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "locatedAt",
+        "sentence": "Our main character--I don't think we ever get his name so I will call him Poor Schnook--is a teenager driving a car from Chicago to San Diego by way of nearly empty Texas roads.",
+        "score": 0.751961,
+        "arguments": [
+          {
+            "text": "him",
+            "location": [1128, 1131],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "--I"
+              }
+            ]
+          },
+          {
+            "text": "car",
+            "location": [1170, 1173],
+            "entities": [
+              {
+                "type": "Vehicle",
+                "text": "cars"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "agentOf",
+        "sentence": "Our main character--I don't think we ever get his name so I will call him Poor Schnook--is a teenager driving a car from Chicago to San Diego by way of nearly empty Texas roads.",
+        "score": 0.886406,
+        "arguments": [
+          {
+            "text": "I",
+            "location": [1116, 1117],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "You"
+              }
+            ]
+          },
+          {
+            "text": "call",
+            "location": [1123, 1127],
+            "entities": [
+              {
+                "type": "EventCommunication",
+                "text": "call"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "affectedBy",
+        "sentence": "Our main character--I don't think we ever get his name so I will call him Poor Schnook--is a teenager driving a car from Chicago to San Diego by way of nearly empty Texas roads.",
+        "score": 0.880958,
+        "arguments": [
+          {
+            "text": "him",
+            "location": [1128, 1131],
+            "entities": [
+              {
+                "type": "Person",
+                "text": "--I"
+              }
+            ]
+          },
+          {
+            "text": "call",
+            "location": [1123, 1127],
+            "entities": [
+              {
+                "type": "EventCommunication",
+                "text": "call"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "locatedAt",
+        "sentence": "Our main character--I don't think we ever get his name so I will call him Poor Schnook--is a teenager driving a car from Chicago to San Diego by way of nearly empty Texas roads.",
+        "score": 0.949005,
+        "arguments": [
+          {
+            "text": "car",
+            "location": [1170, 1173],
+            "entities": [
+              {
+                "type": "Vehicle",
+                "text": "cars"
+              }
+            ]
+          },
+          {
+            "text": "Chicago",
+            "location": [1179, 1186],
+            "entities": [
+              {
+                "type": "GeopoliticalEntity",
+                "text": "Chicago"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "keywords": [
+      {
+        "text": "John Stevens",
+        "relevance": 0.645116,
+        "count": 2
+      },
+      {
+        "text": "plot of the innocent bystander",
+        "relevance": 0.624947,
+        "count": 1
+      },
+      {
+        "text": "Internet Movie Database",
+        "relevance": 0.606812,
+        "count": 1
+      },
+      {
+        "text": "Poor Schnook",
+        "relevance": 0.606045,
+        "count": 3
+      },
+      {
+        "text": "part of the reason audiences",
+        "relevance": 0.601391,
+        "count": 1
+      },
+      {
+        "text": "film review",
+        "relevance": 0.593259,
+        "count": 1
+      },
+      {
+        "text": "bunch of fractional-dimensional characters",
+        "relevance": 0.591535,
+        "count": 1
+      },
+      {
+        "text": "main character",
+        "relevance": 0.580173,
+        "count": 1
+      },
+      {
+        "text": "Editor's note",
+        "relevance": 0.568232,
+        "count": 1
+      },
+      {
+        "text": "police helicopter",
+        "relevance": 0.558265,
+        "count": 1
+      },
+      {
+        "text": "better start",
+        "relevance": 0.556865,
+        "count": 1
+      },
+      {
+        "text": "police cars",
+        "relevance": 0.555456,
+        "count": 1
+      },
+      {
+        "text": "ordinary police",
+        "relevance": 0.551669,
+        "count": 1
+      },
+      {
+        "text": "lots of mindless action",
+        "relevance": 0.549488,
+        "count": 1
+      },
+      {
+        "text": "dull thriller",
+        "relevance": 0.54609,
+        "count": 1
+      },
+      {
+        "text": "right place",
+        "relevance": 0.542552,
+        "count": 1
+      },
+      {
+        "text": "innocent bystander",
+        "relevance": 0.542102,
+        "count": 1
+      },
+      {
+        "text": "entire police station",
+        "relevance": 0.53604,
+        "count": 1
+      },
+      {
+        "text": "San Diego",
+        "relevance": 0.53425,
+        "count": 1
+      },
+      {
+        "text": "police",
+        "relevance": 0.53156,
+        "count": 2
+      },
+      {
+        "text": "Review",
+        "relevance": 0.530499,
+        "count": 3
+      },
+      {
+        "text": "psychotic killer",
+        "relevance": 0.530285,
+        "count": 1
+      },
+      {
+        "text": "psychotic hitchhiker",
+        "relevance": 0.521559,
+        "count": 1
+      },
+      {
+        "text": "car",
+        "relevance": 0.518331,
+        "count": 1
+      },
+      {
+        "text": "Alan P. Smithy",
+        "relevance": 0.517938,
+        "count": 1
+      },
+      {
+        "text": "scene",
+        "relevance": 0.517815,
+        "count": 2
+      },
+      {
+        "text": "mindless action scenes",
+        "relevance": 0.517178,
+        "count": 1
+      },
+      {
+        "text": "editorial control",
+        "relevance": 0.516655,
+        "count": 1
+      },
+      {
+        "text": "bullet Hauer",
+        "relevance": 0.514797,
+        "count": 1
+      },
+      {
+        "text": "list of roles",
+        "relevance": 0.514677,
+        "count": 1
+      },
+      {
+        "text": "URLs inthe reviews",
+        "relevance": 0.514464,
+        "count": 1
+      },
+      {
+        "text": "contents of the review",
+        "relevance": 0.513884,
+        "count": 1
+      },
+      {
+        "text": "formatting of the review",
+        "relevance": 0.513413,
+        "count": 1
+      },
+      {
+        "text": "plot",
+        "relevance": 0.513189,
+        "count": 1
+      },
+      {
+        "text": "sense",
+        "relevance": 0.513137,
+        "count": 1
+      },
+      {
+        "text": "rec.arts.movies.reviews newsgroup",
+        "relevance": 0.512924,
+        "count": 1
+      },
+      {
+        "text": "headers of articles",
+        "relevance": 0.512289,
+        "count": 1
+      },
+      {
+        "text": "name",
+        "relevance": 0.512151,
+        "count": 2
+      },
+      {
+        "text": "film",
+        "relevance": 0.511231,
+        "count": 4
+      },
+      {
+        "text": "car engine",
+        "relevance": 0.509577,
+        "count": 1
+      },
+      {
+        "text": "Hauer",
+        "relevance": 0.509511,
+        "count": 3
+      },
+      {
+        "text": "point",
+        "relevance": 0.50902,
+        "count": 1
+      },
+      {
+        "text": "destruction",
+        "relevance": 0.508985,
+        "count": 1
+      },
+      {
+        "text": "responsibility",
+        "relevance": 0.508165,
+        "count": 1
+      },
+      {
+        "text": "wit",
+        "relevance": 0.507922,
+        "count": 1
+      },
+      {
+        "text": "teenager",
+        "relevance": 0.50791,
+        "count": 1
+      },
+      {
+        "text": "Sites",
+        "relevance": 0.507827,
+        "count": 1
+      },
+      {
+        "text": "aftermath",
+        "relevance": 0.507728,
+        "count": 1
+      },
+      {
+        "text": "characters",
+        "relevance": 0.507673,
+        "count": 2
+      },
+      {
+        "text": "occupants",
+        "relevance": 0.507118,
+        "count": 1
+      }
+    ]
+  },
+  "extracted_metadata": {
+    "sha1": "f0f6ff7bf6dec8f2d521fdb84791dcf59bbb799b",
+    "filename": "0002.html",
+    "file_type": "html",
+    "title": "Review for Ritcher, The (1990)"
+  },
+  "html": "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><html>\n<head>\n    <meta content=\"text/html; charset=UTF-8\" http-equiv=\"Content-Type\"/>\n<title>Review for Ritcher, The (1990)</title>\n<link href=\"/ramr.css\" rel=\"STYLESHEET\" type=\"text/css\"/>\n\n</head>\n<body bgcolor=\"#FFFFFF\" text=\"#000000\">\n<h1 align=\"CENTER\" class=\"title\"><a href=\"/Title?0091209\">Ritcher, The (1990)</a></h1><h3 align=\"CENTER\">reviewed by<br/><a href=\"/ReviewsBy?Alan+R.+Smithy\">Alan P. Smithy</a></h3><hr size=\"4\" width=\"40%\"/>\n<p>[Editor's note: Sites running 2.10 netnews will munge headers of articles in\nmoderated  groups *not* named mod.something.  If you get my name instead of\nAlan Smithy's in the \"From:\" line, please encourage your S.A. and your feed's\nS.A. to upgrade to 2.11.  Thank you.  And now, on to our review... -ecl]</p>\n<pre>                                 THE RITCHER\n                       A film review by Alan P. Smithy\n                        Copyright 1987 Alan P. Smithy</pre>\n<p>          Capsule review:  Boring action..."
+}

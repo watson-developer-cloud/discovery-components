@@ -1,0 +1,41 @@
+@import '~carbon-components/scss/components/checkbox/checkbox';
+@import '~carbon-components/scss/components/multi-select/multi-select';
+@import '~carbon-components/scss/components/radio-button/radio-button';
+
+.#{$prefix}--search-facets__button-clear-all {
+  .#{$prefix}--btn__icon {
+    margin-left: $spacing-2xs;
+  }
+}
+
+.#{$prefix}--search-facet {
+  margin-bottom: $spacing-md;
+}
+
+.#{$prefix}--search-facet__facet__label-and-selection-container {
+  align-items: center;
+  display: flex;
+}
+
+.#{$prefix}--search-facet__facet__label {
+  color: $ui-05;
+  font-size: 0.75rem;
+  height: 1.5rem;
+
+  .#{$prefix}--list-box__selection {
+    margin-left: $spacing-xs;
+  }
+}
+
+.#{$prefix}--search-facet__facet__single__select__group {
+  margin-bottom: 0.5rem;
+}
+
+.#{$prefix}--form-item.#{$prefix}--checkbox-wrapper.#{$prefix}--search-facet__facet__option {
+  margin-bottom: 0;
+}
+
+.#{$prefix}--search-facet__facet__option-label {
+  @include type-style('body-short-02');
+  color: $ui-05;
+}

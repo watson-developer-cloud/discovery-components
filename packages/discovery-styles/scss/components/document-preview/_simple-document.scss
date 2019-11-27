@@ -1,0 +1,22 @@
+@import '../../vars';
+
+.#{$prefix}--simple-document {
+  display: flex;
+  justify-content: center;
+
+  .field--rect {
+    position: absolute;
+    background-color: $disco-highlight-background-with-opacity;
+    opacity: $disco-highlight-background-opacity;
+  }
+}
+
+.#{$prefix}--simple-document__wrapper {
+  margin: 0 5%;
+  // required for positioning field rects
+  position: relative;
+}
+
+.#{$prefix}--simple-document__content {
+  max-width: 78ch;
+}

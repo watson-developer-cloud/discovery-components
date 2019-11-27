@@ -1,0 +1,59 @@
+{
+  "name": "@ibm-watson/discovery-react-components",
+  "version": "1.0.5",
+  "description": "Discovery components built with the React framework and IBM Carbon components",
+  "license": "Apache-2.0",
+  "author": "IBM Corp.",
+  "repository": "https://github.com/watson-developer-cloud/discovery-components",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "scripts": {
+    "test": "cross-env CI=1 react-scripts test",
+    "test:watch": "react-scripts test --watch",
+    "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
+    "code-coverage": "jest --collectCoverage",
+    "build": "rollup -c",
+    "start": "rollup -c -w",
+    "storybook": "start-storybook --ci --port=9002",
+    "storybook:build": "build-storybook",
+    "storybook:build:release": "STORYBOOK_BUILD_MODE=production build-storybook -o ../../docs/storybook",
+    "analyze": "source-map-explorer 'dist/index.js'",
+    "prepublish": "yarn run build",
+    "preversion": "yarn run storybook:build:release",
+    "postversion": "git add ../../docs && git commit --amend --no-edit"
+  },
+  "files": [
+    "dist"
+  ],
+  "peerDependencies": {
+    "@carbon/icons": "^10.5.0",
+    "@ibm-watson/discovery-styles": "^1.0.0",
+    "carbon-components": "^10.6.0",
+    "carbon-components-react": "^7.6.0",
+    "ibm-watson": "^5.2.0-alpha-1",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
+  },
+  "engines": {
+    "node": ">=8",
+    "npm": ">=5"
+  },
+  "jsnext:main": "dist/index.es.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "debounce": "^1.2.0",
+    "dompurify": "^2.0.7",
+    "htmlparser2": "^4.0.0",
+    "lodash": "^4.17.15",
+    "mustache": "^3.1.0",
+    "pdfjs-dist": "^2.1.266",
+    "react-virtualized": "^9.21.1"
+  },
+  "devDependencies": {
+    "lorem-ipsum": "^2.0.3",
+    "seedrandom": "^3.0.5"
+  }
+}

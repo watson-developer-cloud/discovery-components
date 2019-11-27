@@ -1,0 +1,189 @@
+[
+  {
+    "location": {
+      "begin": 1,
+      "end": 10
+    },
+    "text": "dummy text",
+    "groupA": [
+      {
+        "label": "Filter A-1"
+      }
+    ],
+    "groupBC": [
+      {
+        "label": {
+          "groupB": "Filter B-1",
+          "groupC": "Filter C-1"
+        }
+      }
+    ]
+  },
+  {
+    "location": {
+      "begin": 11,
+      "end": 20
+    },
+    "text": "dummy text",
+    "groupA": [
+      {
+        "label": "Filter A-2"
+      }
+    ],
+    "groupBC": [
+      {
+        "label": {
+          "groupB": "Filter B-2",
+          "groupC": "Filter C-2"
+        }
+      }
+    ]
+  },
+  {
+    "location": {
+      "begin": 21,
+      "end": 30
+    },
+    "text": "dummy text",
+    "groupA": [
+      {
+        "label": "Filter A-3"
+      }
+    ],
+    "groupBC": [
+      {
+        "label": {
+          "groupB": "Filter B-3",
+          "groupC": "Filter C-1"
+        }
+      }
+    ]
+  },
+  {
+    "location": {
+      "begin": 31,
+      "end": 40
+    },
+    "text": "dummy text",
+    "groupA": [
+      {
+        "label": "Filter A-2"
+      }
+    ],
+    "groupBC": [
+      {
+        "label": {
+          "groupB": "Filter B-4",
+          "groupC": "Filter C-2"
+        }
+      }
+    ]
+  },
+  {
+    "location": {
+      "begin": 41,
+      "end": 50
+    },
+    "text": "dummy text",
+    "groupA": [
+      {
+        "label": "Filter A-1"
+      },
+      {
+        "label": "Filter A-2"
+      }
+    ],
+    "groupBC": [
+      {
+        "label": {
+          "groupB": "Filter B-5",
+          "groupC": "Filter C-1"
+        }
+      }
+    ]
+  },
+  {
+    "location": {
+      "begin": 51,
+      "end": 60
+    },
+    "text": "dummy text",
+    "groupA": [
+      {
+        "label": "Filter A-2"
+      },
+      {
+        "label": "Filter A-3"
+      }
+    ],
+    "groupBC": [
+      {
+        "label": {
+          "groupB": "Filter B-4",
+          "groupC": "Filter C-2"
+        }
+      },
+      {
+        "label": {
+          "groupB": "Filter B-3",
+          "groupC": "Filter C-1"
+        }
+      }
+    ]
+  },
+  {
+    "location": {
+      "begin": 61,
+      "end": 70
+    },
+    "text": "dummy text",
+    "groupA": [
+      {
+        "label": "Filter A-1"
+      },
+      {
+        "label": "Filter A-3"
+      }
+    ],
+    "groupBC": [
+      {
+        "label": {
+          "groupB": "Filter B-3",
+          "groupC": "Filter C-1"
+        }
+      },
+      {
+        "label": {
+          "groupB": "Filter B-2",
+          "groupC": "Filter C-1"
+        }
+      }
+    ]
+  },
+  {
+    "location": {
+      "begin": 71,
+      "end": 80
+    },
+    "text": "dummy text",
+    "groupA": [
+      {
+        "label": "Filter A-2"
+      }
+    ],
+    "groupBC": [
+      {
+        "label": {
+          "groupB": "Filter B-2",
+          "groupC": "Filter C-2"
+        }
+      },
+      {
+        "label": {
+          "groupB": "Filter B-2",
+          "groupC": "Filter C-1"
+        }
+      }
+    ]
+  }
+]

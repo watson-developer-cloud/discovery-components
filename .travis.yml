@@ -1,0 +1,22 @@
+language: node_js
+node_js:
+  - stable
+addons:
+  apt:
+    packages:
+      # Ubuntu 16+ does not install this dependency by default, so we need to install it ourselves for cypress
+      - libgconf-2-4
+branches:
+  only:
+    - master
+before_install:
+  - npm install -g yarn
+script:
+  - yarn lint
+  - lerna run build
+  - lerna run storybook:build
+  - lerna run test
+notifications:
+  email:
+    on_success: change
+    on_failure: always

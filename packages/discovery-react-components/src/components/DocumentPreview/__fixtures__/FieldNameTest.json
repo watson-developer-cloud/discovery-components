@@ -1,0 +1,57 @@
+{
+  "text": "On 22 December 2008 ART EFFECTS LIMITED and Customer entered into an Framework Agreement",
+
+  "extracted_metadata": {
+    "sha1": "754836ffd690207d39b9f8db08b8099e787c61fa",
+    "filename": "Art Effects Koya Creative Base TSA 2008.pdf",
+    "file_type": "pdf",
+    "title": "Microsoft Word - Art Effects Koya Creative Base TSA 2008.doc",
+    "text_mappings": "{\"pages\":[{\"page_number\":1,\"width\":612,\"height\":792,\"origin\":\"TopLeft\"}],\"text_mappings\":[{\"page\":{\"page_number\":1,\"bbox\":[54,115.72706604003906,558.0330810546875,122.40002584457397]},\"field\":{\"name\":\"text\",\"index\":0,\"span\":[0,88]}},{\"page\":{\"page_number\":1,\"bbox\":[54,242.12709045410156,557.9652099609375,248.80005025863647]},\"field\":{\"name\":\"title\",\"index\":0,\"span\":[0,9]}},{\"page\":{\"page_number\":1,\"bbox\":[132.400634765625,378.45153045654297,363.5489807128906,385.76001024246216]},\"field\":{\"name\":\"table\",\"index\":0,\"span\":[15,22]}}]}"
+  },
+  "title": ["Technical Services Agreement Agreement # 4911027933"],
+  "table": [
+    {
+      "table_text": "An Indemnifying Party agrees to keep the other party",
+      "column_headers": [],
+      "row_headers": [],
+      "body_cells": [
+        {
+          "row_header_ids": [],
+          "column_min": 0,
+          "row_header_texts": [],
+          "row_min": 0,
+          "cell_text": "An Indemnifying Party agrees to keep",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-0-0",
+          "column_max": 0,
+          "row_max": 0
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 1,
+          "row_header_texts": [],
+          "row_min": 0,
+          "cell_text": "the",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-0-1",
+          "column_max": 1,
+          "row_max": 0
+        },
+        {
+          "row_header_ids": [],
+          "column_min": 2,
+          "row_header_texts": [],
+          "row_min": 0,
+          "cell_text": "other party",
+          "column_header_ids": [],
+          "column_header_texts": [],
+          "id": "bodyCell-0-2",
+          "column_max": 2,
+          "row_max": 0
+        }
+      ]
+    }
+  ]
+}

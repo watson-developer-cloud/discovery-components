@@ -1,0 +1,48 @@
+@import '../../vars';
+@import '~carbon-components/scss/components/skeleton/skeleton';
+
+.#{$prefix}--document-preview {
+  position: relative;
+  display: flex;
+  flex-flow: column nowrap;
+  height: 100%;
+}
+
+.#{$prefix}--document-preview__skeleton {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: $spacing-2xl;
+  margin-top: $layout-lg;
+  background-color: white;
+}
+
+.#{$prefix}--document-preview__document {
+  position: relative;
+  overflow: scroll;
+}
+
+.#{$prefix}--document-preview__document > * {
+  width: 100%;
+}
+
+.#{$prefix}--document-preview__highlight-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+}
+
+.#{$prefix}--document-preview__highlight {
+  fill: $disco-highlight-background-with-opacity;
+  fill-opacity: $disco-highlight-background-opacity;
+}
+
+.#{$prefix}--document-preview__error {
+  text-align: center;
+  margin: $spacing-2xl;
+}

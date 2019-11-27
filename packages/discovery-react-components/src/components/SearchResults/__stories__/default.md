@@ -1,0 +1,3 @@
+#### Overview
+
+The `SearchResults` component displays the results of a search query. You may choose to use the `SearchResults` component to display text only, tables only, or both text and tables for each of your results. The text may be the passage associated with each result, or any other field on that result that you specify. Each search result will contain a button to view the text or table in the document itself using the `CIDocument` component. These buttons can also be configured to send users to a new page, rather than the `CIDocument` component, using the `resultLinkField` or `resultLinkTemplate` parameters. Each search result also includes information such as the result's `title` and `collection`.

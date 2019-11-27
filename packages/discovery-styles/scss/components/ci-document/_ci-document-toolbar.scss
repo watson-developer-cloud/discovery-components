@@ -1,0 +1,27 @@
+.#{$prefix}--ci-doc-toolbar {
+  .text {
+    display: inline-block;
+    min-width: 70px; // To prevent shifting of buttons when number change
+    text-align: center;
+    vertical-align: text-top;
+  }
+
+  .button {
+    padding: 0;
+    margin: 0 $spacing-md 0 $spacing-md;
+    height: 100%;
+
+    .#{$prefix}--btn__icon {
+      // override carbon
+      margin: 0;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    svg {
+      margin: 0;
+    }
+  }
+}

@@ -1,0 +1,132 @@
+@import '~carbon-components/scss/globals/grid/grid';
+
+$search-app-background-color: $gray-10;
+$nav-toolbar-background-color: $black-100;
+$nav-toolbar-height: 42px;
+
+.root {
+  background-color: $search-app-background-color;
+  min-height: 100vh;
+}
+
+.#{$prefix}--search-app__nav-toolbar {
+  background-color: $nav-toolbar-background-color;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  padding: $spacing-sm;
+
+  p {
+    @include type-style('productive-heading-01');
+  }
+
+  .#{$prefix}--btn {
+    background-color: $nav-toolbar-background-color;
+    min-height: 1rem;
+  }
+}
+
+// Search Page styles
+.#{$prefix}--search-app__top-container {
+  background-color: $search-app-background-color;
+  max-height: 1500px;
+  max-width: 1200px;
+  padding: $spacing-lg $spacing-lg 0 $spacing-lg;
+}
+
+.#{$prefix}--search-app__facets-and-results {
+  justify-content: space-between;
+  padding: $spacing-md;
+
+  .#{$prefix}--btn {
+    border: none;
+    padding-left: 0;
+
+    &:hover {
+      background-color: transparent;
+      border: none;
+      text-decoration: underline;
+    }
+
+    &:active,
+    &:focus {
+      border: none;
+      outline: none;
+    }
+  }
+}
+
+.#{$prefix}--search-app__facets-and-results__facets,
+.#{$prefix}--search-app__facets-and-results__results {
+  max-height: 100vh;
+  overflow: auto;
+  padding-bottom: $spacing-2xl;
+}
+
+.#{$prefix}--search-app__facets-and-results__facets {
+  padding-left: 0;
+
+  .#{$prefix}--checkbox-label-text {
+    font-size: 0.875rem;
+  }
+}
+
+.#{$prefix}--multi-select {
+  background-color: white;
+  min-width: 16rem;
+
+  @media (max-width: 1100px) {
+    min-width: auto;
+  }
+}
+
+.#{$prefix}--checkbox-label::before,
+.#{$prefix}--radio-button__appearance {
+  background-color: white;
+}
+
+.#{$prefix}--search-app__facets-and-results__results {
+  padding-right: 0;
+
+  @media (max-width: 672px) {
+    padding-left: 0;
+  }
+}
+
+.#{$prefix}--search-result {
+  box-shadow: none;
+}
+
+.#{$prefix}--pagination {
+  background-color: white;
+  bottom: 0;
+  position: fixed;
+}
+
+// Document Preview Page styles
+.#{$prefix}--search-app--preview-page {
+  .#{$prefix}--search-app__nav-toolbar,
+  .#{$prefix}--preview-toolbar {
+    height: $nav-toolbar-height;
+    position: fixed;
+    width: 100%;
+    z-index: 3;
+  }
+
+  .#{$prefix}--search-app__nav-toolbar {
+    top: 0;
+  }
+
+  .#{$prefix}--document-preview {
+    margin-top: $nav-toolbar-height;
+  }
+
+  .#{$prefix}--preview-toolbar {
+    top: $nav-toolbar-height;
+  }
+
+  .#{$prefix}--document-preview__document {
+    margin-top: $nav-toolbar-height;
+    padding: $spacing-xl;
+  }
+}

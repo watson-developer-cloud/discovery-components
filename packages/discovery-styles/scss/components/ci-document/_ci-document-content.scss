@@ -1,0 +1,11 @@
+.#{$prefix}--ci-doc-content {
+  height: 100%;
+
+  &.skeleton {
+    padding: $spacing-3xl;
+  }
+
+  .ReactVirtualized__Grid__innerScrollContainer {
+    margin: 0 $spacing-md $layout-xl;
+  }
+}
