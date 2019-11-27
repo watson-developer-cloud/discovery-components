@@ -1,6 +1,6 @@
 # Discovery Components
 
-[![Build Status](https://travis.com/watson-developer-cloud/discovery-components.svg?token=TBD&branch=master)](https://travis.com/watson-developer-cloud/discovery-components)
+[![Build Status](https://travis-ci.org/watson-developer-cloud/discovery-components.svg?branch=master)](https://travis-ci.org/watson-developer-cloud/discovery-components)
 [![Apache-2.0 license](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/watson-developer-cloud/discovery-components/blob/master/LICENSE)
 [![Lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/watson-developer-cloud/discovery-components/blob/master/.github/CONTRIBUTING.md)
