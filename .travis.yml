@@ -9,6 +9,7 @@ addons:
 branches:
   only:
     - master
+    - travis_ci_deploy
 before_install:
   - npm install -g yarn
 script:
