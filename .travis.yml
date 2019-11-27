@@ -8,33 +8,26 @@ addons:
       - libgconf-2-4
 branches:
   only:
-    - travis_ci_deploy
-before_install:
-  - echo "before_install"
-  # - npm install -g yarn
-install:
-  - echo "install"
+    - master
 script:
-  - echo "script"
-  # - yarn lint
-  # - lerna run build
-  # - lerna run storybook:build
-  # - lerna run test
+  - yarn lint
+  - lerna run build
+  - lerna run storybook:build
+  - lerna run test
 before_deploy:
   - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
   - git config --global push.default simple
   - git config --global user.email "watdevex@us.ibm.com"
   - git config --global user.name "Watson Github Bot"
   - git config remote.origin.url https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}
-  - git fetch origin master
-  - git checkout -b master origin/master
+  - git checkout master
 
 deploy:
   - provider: script
-    script: git config --list
+    script: npm lerna publish -y
     skip_cleanup: true
     on:
-      branch: travis_ci_deploy
+      branch: master
 notifications:
   email:
     on_success: change
