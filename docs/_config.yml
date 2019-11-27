@@ -1,11 +1,10 @@
-title: Discovery Widgets Docs
-description: Discovery Widgets Package
+title: Discovery Components Docs
+description: Discovery Components
 remote_theme: pmarsceill/just-the-docs
 search_enabled: true
-repo_code_url: "https://github.ibm.com/watson-discovery/disco-widgets/blob/master/"
-yo_dawg: "![](https://imgflip.com/s/meme/Yo-Dawg-Heard-You.jpg)"
+repo_code_url: "https://github.com/watson-developer-cloud/discovery-components"
 aux_links:
-  "Discovery Widgets on GitHub":
-    - "//github.ibm.com/watson-discovery/disco-widgets"
+  "Discovery Components on GitHub":
+    - "//github.com/watson-developer-cloud/discovery-components"
 
 theme: jekyll-theme-cayman
