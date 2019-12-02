@@ -113,6 +113,7 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   if (result) {
     documentId = result.document_id;
   }
+
   const title = get(result, resultTitleField);
   const filename: string | undefined = get(result, 'extracted_metadata.filename');
 
