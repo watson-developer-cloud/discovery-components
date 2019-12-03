@@ -359,17 +359,14 @@ Steps in the automation can be set in `.travis.yml`, located in the root directo
 
 ### Releasing
 
-To perform a release of any changed packages, run
+To perform a release of any changed packages, make sure to run the same `lerna` commands found in `travis.yml` under the `deploy` section.
 
-```
-lerna publish
-```
+The only two branches permitted for release are `master` and `develop`
+
+- `master`: will create regular releases under the `latest` tag
+- `develop`: will create prerelease candidates under the `beta` tag
 
 More information about this command can be found in the README for [lerna publish](https://github.com/lerna/lerna/tree/master/commands/publish)
-
-#### A note on versioning
-
-We use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0-beta.4/) when commiting to our repository, although it is not required. If a group of commits are merged into our repo which use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0-beta.4/) syntax, then the versioning of our NPM package will be determined by [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0-beta.4/) specification. If not, then the patch version will automatically be bumped.
 
 ## Helpful links
 
