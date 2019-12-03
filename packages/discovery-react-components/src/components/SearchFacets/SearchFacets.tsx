@@ -18,6 +18,7 @@ import { CollectionFacets } from './components/CollectionFacets';
 import { FieldFacets } from './components/FieldFacets';
 import { DynamicFacets } from './components/DynamicFacets';
 import { defaultMessages, Messages } from './messages';
+import { collectionFacetIdPrefix } from './cssClasses';
 import { useDeepCompareEffect } from '../../utils/useDeepCompareMemoize';
 
 interface SearchFacetsProps {
@@ -63,7 +64,6 @@ export const SearchFacets: FC<SearchFacetsProps> = ({
   const [facetSelectionState, setFacetSelectionState] = useState<SearchFilterFacets>(
     SearchFilterTransform.fromString(filter || '')
   );
-  const idPrefix = 'collection-facet-';
   const collections: DiscoveryV2.Collection[] = get(collectionsResults, 'collections', []);
   const selectedCollectionIds = collectionIds || [];
   const initialSelectedCollections = collections
@@ -72,7 +72,7 @@ export const SearchFacets: FC<SearchFacetsProps> = ({
     })
     .map(collection => {
       return {
-        id: `${idPrefix}${collection.collection_id}`,
+        id: `${collectionFacetIdPrefix}${collection.collection_id}`,
         label: collection.name || ''
       };
     });
@@ -142,7 +142,7 @@ export const SearchFacets: FC<SearchFacetsProps> = ({
     // to '' and filter on that
     const collectionIds = selectedCollectionItems.selectedItems
       .map(collection => {
-        return collection.id.split(idPrefix).pop() || '';
+        return collection.id.split(collectionFacetIdPrefix).pop() || '';
       })
       .filter(id => id !== '');
     performSearch({ ...searchParameters, offset: 0, collectionIds });
@@ -151,8 +151,8 @@ export const SearchFacets: FC<SearchFacetsProps> = ({
   const handleOnClear = (): void => {
     setFacetSelectionState({ filterFields: [], filterDynamic: [] });
     setCollectionSelectionState([]);
-    // This solution for clearing collection facets checkboxes by clicking is not ideal
-    // We should update this when Carbon MultiSelect is updated to be a controlled component and exposes Downshift's action props
+    // We should update to not select with a click
+    // when Carbon MultiSelect selection can be controlled and Downshift's action props are exposed
     (document.querySelectorAll(`.${settings.prefix}--list-box__selection--multi`) as NodeListOf<
       HTMLElement
     >).forEach(element => element.click());

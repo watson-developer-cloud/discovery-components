@@ -3,11 +3,7 @@ import { Button } from 'carbon-components-react';
 import filter from 'lodash/filter';
 import get from 'lodash/get';
 import ListBox from 'carbon-components-react/lib/components/ListBox';
-import {
-  fieldsetClasses,
-  labelClasses,
-  labelAndSelectionContainerClass
-} from './facetGroupClasses';
+import { fieldsetClasses, labelClasses, labelAndSelectionContainerClass } from '../../cssClasses';
 import {
   SelectableDynamicFacets,
   SelectableQueryTermAggregationResult,

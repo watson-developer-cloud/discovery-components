@@ -1,12 +1,13 @@
 import React, { FC, useContext } from 'react';
 import get from 'lodash/get';
 import { Messages } from '../messages';
-import { labelClasses, labelAndSelectionContainerClass } from './FacetsGroups/facetGroupClasses';
+import { labelClasses, labelAndSelectionContainerClass } from '../cssClasses';
 import { SearchContext } from '../../DiscoverySearch/DiscoverySearch';
 import { MultiSelect as CarbonMultiSelect } from 'carbon-components-react';
 import { settings } from 'carbon-components';
 import { Collection } from 'ibm-watson/discovery/v2';
 import { CollectionItem, SelectedCollectionItems } from '../utils/searchFacetInterfaces';
+import { collectionFacetIdPrefix } from '../cssClasses';
 
 interface CollectionFacetsProps {
   /**
@@ -28,14 +29,12 @@ export const CollectionFacets: FC<CollectionFacetsProps> = ({
   messages,
   onChange
 }) => {
-  // TODO: Move this out somewhere else where it can be used one level up as well
-  const idPrefix = 'collection-facet-';
   const { collectionsResults } = useContext(SearchContext);
   const collections: Collection[] = get(collectionsResults, 'collections', []);
 
   const collectionItems: CollectionItem[] = collections.map(collection => {
     return {
-      id: `${idPrefix}${collection.collection_id}`,
+      id: `${collectionFacetIdPrefix}${collection.collection_id}`,
       label: collection.name || ''
     };
   });
@@ -54,7 +53,7 @@ export const CollectionFacets: FC<CollectionFacetsProps> = ({
           </div>
         </legend>
         <CarbonMultiSelect
-          id={`${idPrefix}select`}
+          id={`${collectionFacetIdPrefix}select`}
           items={collectionItems}
           initialSelectedItems={initialSelectedCollections}
           label={messages.collectionSelectLabel}
