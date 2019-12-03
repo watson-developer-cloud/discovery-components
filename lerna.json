@@ -6,7 +6,7 @@
   "command": {
     "publish": {
       "conventionalCommits": true,
-      "allowBranch": ["master"]
+      "allowBranch": ["master", "develop"]
     },
     "version": {
       "message": "chore: publish to NPM [ci skip]",
