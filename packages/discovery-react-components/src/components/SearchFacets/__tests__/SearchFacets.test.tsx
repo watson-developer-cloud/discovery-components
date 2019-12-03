@@ -228,7 +228,7 @@ describe('SearchFacetsComponent', () => {
           const { searchFacetsComponent } = setupData;
           expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(0);
         });
-        describe('and a collection is selected after load', () => {
+        describe('and one collection is selected after load', () => {
           test('does show the root clear all button on selection', () => {
             const { searchFacetsComponent } = setupData;
             fireEvent.click(searchFacetsComponent.getByText('Available collections'));
@@ -239,7 +239,7 @@ describe('SearchFacetsComponent', () => {
             expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(1);
           });
           describe('and the clear all button is clicked', () => {
-            test('collection is deselected and clear all button is no longer shown', () => {
+            test('the collection is deselected and the clear all button is no longer shown', () => {
               const { searchFacetsComponent } = setupData;
               fireEvent.click(searchFacetsComponent.getByText('Available collections'));
               fireEvent.click(searchFacetsComponent.getByLabelText('Machine Learning'));
@@ -248,6 +248,32 @@ describe('SearchFacetsComponent', () => {
               expect(searchFacetsComponent.getByLabelText('Machine Learning')['checked']).toEqual(
                 false
               );
+            });
+          });
+        });
+        describe('and multiple collections are selected after load', () => {
+          test('does show the root clear all button on selection', () => {
+            const { searchFacetsComponent } = setupData;
+            fireEvent.click(searchFacetsComponent.getByText('Available collections'));
+            fireEvent.click(searchFacetsComponent.getByLabelText('Machine Learning'));
+            fireEvent.click(searchFacetsComponent.getByLabelText('AI Strategy'));
+            expect(searchFacetsComponent.getByLabelText('Machine Learning')['checked']).toEqual(
+              true
+            );
+            expect(searchFacetsComponent.getByLabelText('AI Strategy')['checked']).toEqual(true);
+            expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(1);
+          });
+          describe('and the clear all button is clicked', () => {
+            test('all collections are deselected and the clear all button is no longer shown', () => {
+              const { searchFacetsComponent } = setupData;
+              fireEvent.click(searchFacetsComponent.getByText('Available collections'));
+              fireEvent.click(searchFacetsComponent.getByLabelText('Machine Learning'));
+              fireEvent.click(searchFacetsComponent.getByText('Clear all'));
+              expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(0);
+              expect(searchFacetsComponent.getByLabelText('Machine Learning')['checked']).toEqual(
+                false
+              );
+              expect(searchFacetsComponent.getByLabelText('AI Strategy')['checked']).toEqual(false);
             });
           });
         });

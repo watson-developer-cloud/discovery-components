@@ -65,10 +65,13 @@ export const SearchFacets: FC<SearchFacetsProps> = ({
     SearchFilterTransform.fromString(filter || '')
   );
   const collections: DiscoveryV2.Collection[] = get(collectionsResults, 'collections', []);
-  const selectedCollectionIds = collectionIds || [];
+  const initialSelectedCollectionIds = collectionIds || [];
   const initialSelectedCollections = collections
     .filter(collection => {
-      return !!collection.collection_id && selectedCollectionIds.includes(collection.collection_id);
+      return (
+        !!collection.collection_id &&
+        initialSelectedCollectionIds.includes(collection.collection_id)
+      );
     })
     .map(collection => {
       return {
