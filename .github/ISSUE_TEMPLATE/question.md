@@ -1,4 +1,14 @@
-Please use this template to ask a question about Discovery Components and its usage.
+---
+name: Question
+about: Ask a question or start a discussion about this project
+title: ''
+labels: ''
+assignees: ''
+---
+
+<!--
+Use this template to ask a question or start a discussion about Discovery Components and its usage.
+-->
 
 #### Description of question
 
