@@ -268,6 +268,7 @@ describe('SearchFacetsComponent', () => {
               const { searchFacetsComponent } = setupData;
               fireEvent.click(searchFacetsComponent.getByText('Available collections'));
               fireEvent.click(searchFacetsComponent.getByLabelText('Machine Learning'));
+              fireEvent.click(searchFacetsComponent.getByLabelText('AI Strategy'));
               fireEvent.click(searchFacetsComponent.getByText('Clear all'));
               expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(0);
               expect(searchFacetsComponent.getByLabelText('Machine Learning')['checked']).toEqual(
