@@ -8,7 +8,11 @@ import { mergeFilterFacets } from './utils/mergeFilterFacets';
 import { mergeDynamicFacets } from './utils/mergeDynamicFacets';
 import { SearchFilterTransform } from './utils/searchFilterTransform';
 import { displayMessage, noAvailableFacetsMessage } from './utils/searchFacetMessages';
-import { SearchFilterFacets, SelectableDynamicFacets } from './utils/searchFacetInterfaces';
+import {
+  SearchFilterFacets,
+  SelectableDynamicFacets,
+  SelectedCollectionItems
+} from './utils/searchFacetInterfaces';
 import get from 'lodash/get';
 import { CollectionFacets } from './components/CollectionFacets';
 import { FieldFacets } from './components/FieldFacets';
@@ -50,7 +54,7 @@ export const SearchFacets: FC<SearchFacetsProps> = ({
     aggregationResults,
     searchResponseStore: {
       parameters: searchParameters,
-      parameters: { filter },
+      parameters: { filter, collectionIds },
       data: searchResponse
     },
     collectionsResults,
@@ -59,9 +63,24 @@ export const SearchFacets: FC<SearchFacetsProps> = ({
   const [facetSelectionState, setFacetSelectionState] = useState<SearchFilterFacets>(
     SearchFilterTransform.fromString(filter || '')
   );
+  const idPrefix = 'collection-facet-';
+  const collections: DiscoveryV2.Collection[] = get(collectionsResults, 'collections', []);
+  const selectedCollectionIds = collectionIds || [];
+  const initialSelectedCollections = collections
+    .filter(collection => {
+      return !!collection.collection_id && selectedCollectionIds.includes(collection.collection_id);
+    })
+    .map(collection => {
+      return {
+        id: `${idPrefix}${collection.collection_id}`,
+        label: collection.name || ''
+      };
+    });
+  const [collectionSelectionState, setCollectionSelectionState] = useState<
+    SelectedCollectionItems['selectedItems']
+  >(initialSelectedCollections);
   const { fetchAggregations, performSearch } = useContext(SearchApi);
   const aggregations = aggregationResults || [];
-  const collections = (collectionsResults && collectionsResults.collections) || [];
   const mergedMessages = { ...defaultMessages, ...messages };
   const componentSettingsAggregations =
     overrideComponentSettingsAggregations ||
@@ -88,6 +107,7 @@ export const SearchFacets: FC<SearchFacetsProps> = ({
     get(searchResponse, 'suggested_refinements', []),
     facetSelectionState.filterDynamic
   );
+
   const shouldShowCollections = showCollections && !!collections;
   const shouldShowFields = !!allFieldFacets && allFieldFacets.length > 0;
   const shouldShowDynamic = showDynamicFacets && !!allDynamicFacets && allDynamicFacets.length > 0;
@@ -106,7 +126,8 @@ export const SearchFacets: FC<SearchFacetsProps> = ({
   const hasDynamicSelection = facetSelectionState.filterDynamic.some(dynamicFacet => {
     return dynamicFacet.selected;
   });
-  const hasSelection = hasFieldSelection || hasDynamicSelection;
+  const hasCollectionSelection = collectionSelectionState.length > 0;
+  const hasSelection = hasFieldSelection || hasDynamicSelection || hasCollectionSelection;
 
   const handleOnChange = (updatedFacets: Partial<SearchFilterFacets>): void => {
     const newFilters = { ...originalFilters, ...updatedFacets };
@@ -115,8 +136,26 @@ export const SearchFacets: FC<SearchFacetsProps> = ({
     performSearch({ ...searchParameters, offset: 0, filter }, false);
   };
 
+  const handleCollectionToggle = (selectedCollectionItems: SelectedCollectionItems) => {
+    setCollectionSelectionState(selectedCollectionItems.selectedItems);
+    // Filtering by id !== undefined still threw TS errors, so had to default
+    // to '' and filter on that
+    const collectionIds = selectedCollectionItems.selectedItems
+      .map(collection => {
+        return collection.id.split(idPrefix).pop() || '';
+      })
+      .filter(id => id !== '');
+    performSearch({ ...searchParameters, offset: 0, collectionIds });
+  };
+
   const handleOnClear = (): void => {
     setFacetSelectionState({ filterFields: [], filterDynamic: [] });
+    setCollectionSelectionState([]);
+    // This solution for clearing collection facets checkboxes by clicking is not ideal
+    // We should update this when Carbon MultiSelect is updated to be a controlled component and exposes Downshift's action props
+    (document.querySelectorAll(`.${settings.prefix}--list-box__selection--multi`) as NodeListOf<
+      HTMLElement
+    >).forEach(element => element.click());
     performSearch({ ...searchParameters, collectionIds: [], offset: 0, filter: '' }, false);
   };
 
@@ -150,7 +189,13 @@ export const SearchFacets: FC<SearchFacetsProps> = ({
             collapsedFacetsCount={collapsedFacetsCount}
           />
         )}
-        {shouldShowCollections && <CollectionFacets messages={mergedMessages} />}
+        {shouldShowCollections && (
+          <CollectionFacets
+            initialSelectedCollections={initialSelectedCollections}
+            messages={mergedMessages}
+            onChange={handleCollectionToggle}
+          />
+        )}
       </div>
     );
   } else {
