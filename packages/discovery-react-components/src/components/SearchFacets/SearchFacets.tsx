@@ -110,7 +110,6 @@ export const SearchFacets: FC<SearchFacetsProps> = ({
     get(searchResponse, 'suggested_refinements', []),
     facetSelectionState.filterDynamic
   );
-
   const shouldShowCollections = showCollections && !!collections;
   const shouldShowFields = !!allFieldFacets && allFieldFacets.length > 0;
   const shouldShowDynamic = showDynamicFacets && !!allDynamicFacets && allDynamicFacets.length > 0;
