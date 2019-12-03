@@ -6,8 +6,7 @@
   "command": {
     "publish": {
       "conventionalCommits": true,
-      "conventionalPrerelease": true,
-      "allowBranch": ["master", "develop", "travis_ci_deploy"]
+      "allowBranch": ["master", "beta", "travis_ci_deploy"]
     },
     "version": {
       "message": "chore: publish %s [ci skip]",
