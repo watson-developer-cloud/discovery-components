@@ -6,10 +6,10 @@
   "command": {
     "publish": {
       "conventionalCommits": true,
-      "allowBranch": ["master", "develop"]
+      "allowBranch": ["master", "develop", "travis_ci_deploy"]
     },
     "version": {
-      "message": "chore: publish to NPM [ci skip]",
+      "message": "chore: publish %s [ci skip]",
       "ignoreChanges": ["examples/**"]
     }
   }
