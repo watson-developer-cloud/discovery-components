@@ -7,9 +7,7 @@ export const getDisplaySettings = (
   componentSettings: DiscoveryV2.ComponentSettingsResponse | null = null
 ): Required<Pick<SearchResultsProps, 'resultTitleField' | 'bodyField' | 'usePassages'>> => {
   return {
-    resultTitleField:
-      params.resultTitleField ||
-      get(componentSettings, 'fields_shown.title.field', 'extracted_metadata.title'),
+    resultTitleField: params.resultTitleField || get(componentSettings, 'fields_shown.title.field'),
     bodyField: params.bodyField || get(componentSettings, 'fields_shown.body.field', 'text'),
     usePassages:
       params.usePassages === undefined

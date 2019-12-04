@@ -171,15 +171,28 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   color: $gray-60;
   font-size: $spacing-sm;
   display: flex;
-  align-items: center;
   justify-content: space-between;
 }
 
 .#{$prefix}--search-result__footer__title {
-  align-items: center;
-  display: flex;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-right: $spacing-05;
 
-  svg {
-    margin-right: $spacing-03;
+  &:hover {
+    overflow: visible;
+    white-space: normal;
+  }
+}
+
+.#{$prefix}--search-result__footer__collection-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  &:hover {
+    overflow: visible;
+    white-space: normal;
   }
 }
