@@ -1,6 +1,6 @@
 import { Item, RelationItem } from '@CIDocument/types';
 import isEqual from 'lodash/isEqual';
-import { isRelationObject } from './nonContractUtils';
+import { isRelationObject } from '@rootUtils/document/nonContractUtils';
 
 /**
  * Creates an id string for the given item, based on the location.begin field

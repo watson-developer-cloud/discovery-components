@@ -15,8 +15,8 @@ import {
   searchResultFooterClass,
   searchResultFooterTitleClass,
   searchResultFooterCollectionNameClass
-} from '../../cssClasses';
-import { Messages } from '../../messages';
+} from '@SearchResults/cssClasses';
+import { Messages } from '@SearchResults/messages';
 
 export interface ResultProps {
   /**

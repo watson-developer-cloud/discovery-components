@@ -1,7 +1,7 @@
 import React from 'react';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { action } from '@storybook/addon-actions';
-import { createDummyResponsePromise } from './testingUtils';
+import { createDummyResponsePromise } from '@rootUtils/testingUtils';
 
 export const StoryWrapper = (props: any): any => (
   <div style={{ backgroundColor: '#f3f3f3', padding: '1rem' }}>{props.children}</div>

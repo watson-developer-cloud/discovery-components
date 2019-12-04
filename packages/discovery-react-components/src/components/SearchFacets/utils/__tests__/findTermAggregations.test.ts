@@ -5,7 +5,7 @@ import {
   nestedTermAgg,
   nestedFilterTermAgg,
   twoNestedFilterTermAgg
-} from '../../__fixtures__/aggregationResponses';
+} from '@SearchFacets/__fixtures__/aggregationResponses';
 
 describe('findTermAggregations', () => {
   test('keeps two term aggregations the same', () => {

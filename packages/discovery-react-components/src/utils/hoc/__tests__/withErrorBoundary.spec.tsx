@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react';
 import { render, act, BoundFunction, GetByText } from '@testing-library/react';
-import { withErrorBoundary, WithErrorBoundaryProps } from '../withErrorBoundary';
+import { withErrorBoundary, WithErrorBoundaryProps } from '@rootUtils/hoc/withErrorBoundary';
 
 interface TestComponentProps extends WithErrorBoundaryProps {
   doError?: boolean;

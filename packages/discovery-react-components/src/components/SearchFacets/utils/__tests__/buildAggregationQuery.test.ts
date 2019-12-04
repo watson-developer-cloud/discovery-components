@@ -3,7 +3,7 @@ import {
   configurationWithOneField,
   configurationWithTwoFields,
   configurationWithoutCounts
-} from '../../__fixtures__/configuration';
+} from '@SearchFacets/__fixtures__/configuration';
 
 describe('BuildAggregationQuery', () => {
   test('it converts configuration with one term to expected aggregation parameter', () => {

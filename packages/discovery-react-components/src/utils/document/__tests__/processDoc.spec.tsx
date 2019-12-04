@@ -2,9 +2,9 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import parser from 'fast-xml-parser';
-import processDoc, { ProcessedDoc } from '../processDoc';
-import contractData from '../__fixtures__/contract.json';
-import escapedCharData from '../__fixtures__/escaped_char_document.json';
+import processDoc, { ProcessedDoc } from '@rootUtils/document/processDoc';
+import contractData from '@rootUtils/document/__fixtures__/contract.json';
+import escapedCharData from '@rootUtils/document/__fixtures__/escaped_char_document.json';
 
 expect.extend({
   toBeValidXml(received): any {

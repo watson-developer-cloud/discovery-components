@@ -1,11 +1,11 @@
 import findIndex from 'lodash/findIndex';
-import { SaxParser, Parser, ParsingError, Attributes } from './saxParser';
+import { SaxParser, Parser, ParsingError, Attributes } from '@rootUtils/document/saxParser';
 import { QueryResult } from 'ibm-watson/discovery/v2';
-import { isRelationObject } from './nonContractUtils';
-import { getId } from './idUtils';
-import transformEnrichment from './transformEnrichment';
+import { isRelationObject } from '@rootUtils/document/nonContractUtils';
+import { getId } from '@rootUtils/document/idUtils';
+import transformEnrichment from '@rootUtils/document/transformEnrichment';
 import { getEnrichmentName } from '@CIDocument/utils/enrichmentUtils';
-import { spansIntersect } from './documentUtils';
+import { spansIntersect } from '@rootUtils/document/documentUtils';
 
 // split HTML into "sections" based on these top level tag(s)
 const SECTION_NAMES = ['p', 'ul', 'table'];
