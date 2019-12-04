@@ -12,7 +12,7 @@ const searchResults: DiscoveryV2.QueryResponse = {
       result_metadata: {
         collection_id: COLLECTION_ID_1
       },
-      title: 'alternate title',
+      title: 'Alternate title',
       document_passages: [
         {
           passage_text:
@@ -28,7 +28,7 @@ const searchResults: DiscoveryV2.QueryResponse = {
       result_metadata: {
         collection_id: COLLECTION_ID_1
       },
-      title: 'alternate title',
+      title: 'Alternate title',
       document_passages: [
         {
           passage_text:
@@ -47,7 +47,7 @@ const searchResults: DiscoveryV2.QueryResponse = {
       extracted_metadata: {
         title: 'IBM_Analytics_Machine_Learning.pdf'
       },
-      title: 'alternate title',
+      title: 'Alternate title',
       text:
         '<em>Machine learning</em> trains a model from patterns in your data, exploring a space of possible models defined by parameters. If your parameter space is too big, you’ll overfit to your training data and train a model that doesn’t generalize beyond it. A detailed explanation requires more math, but as a rule you should keep your models as simple as possible.'
     },
@@ -56,7 +56,7 @@ const searchResults: DiscoveryV2.QueryResponse = {
       result_metadata: {
         collection_id: COLLECTION_ID_1
       },
-      title: 'alternate title',
+      title: 'Alternate title',
       extracted_metadata: {
         title: 'IBM_Analytics_Machine_Learning.pdf'
       }

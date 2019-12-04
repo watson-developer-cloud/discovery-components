@@ -109,12 +109,12 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   const hasText = displayedText && !showTablesOnlyResults;
   const emptyResultContent = !(hasText || tableHtml);
 
-  let documentId;
-  if (result) {
-    documentId = result.document_id;
-  }
-  const title = get(result, resultTitleField);
+  const documentId: string | undefined = get(result, 'document_id');
   const filename: string | undefined = get(result, 'extracted_metadata.filename');
+  const userSelectedTitle: string | undefined = get(result, resultTitleField);
+  const title: string | undefined = userSelectedTitle
+    ? userSelectedTitle
+    : get(result, 'extracted_metadata.title') || filename || documentId;
 
   const searchResultClasses = [searchResultClass];
   if (isEqual(result, selectedResult.document)) {
@@ -193,11 +193,13 @@ export const Result: React.FunctionComponent<ResultProps> = ({
             <SkeletonText width={'30%'} data-testid="result-title-skeleton" />
           ) : (
             result && (
-              <div className={searchResultFooterTitleClass}>{title || filename || documentId}</div>
+              <div className={searchResultFooterTitleClass} title={title}>
+                {title}
+              </div>
             )
           )}
           {collectionName && (
-            <div className={searchResultFooterCollectionNameClass}>
+            <div className={searchResultFooterCollectionNameClass} title={collectionName}>
               {messages.collectionLabel} {collectionName}
             </div>
           )}
