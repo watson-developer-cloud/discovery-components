@@ -1,5 +1,6 @@
 import findIndex from 'lodash/findIndex';
 import { SaxParser, Parser, ParsingError, Attributes } from './saxParser';
+import cloneDeep from 'lodash/cloneDeep';
 import { QueryResult } from 'ibm-watson/discovery/v2';
 import { isRelationObject } from './nonContractUtils';
 import { getId } from './idUtils';
@@ -67,7 +68,7 @@ export interface Table {
  * Convert document data into structure that is more palatable for use by
  * CIDocument
  *
- * @param {Object} data Discovery document data
+ * @param {Object} query Discovery document data
  * @param {Object} options
  * @param {Boolean} options.sections return array of HTML sections
  * @param {Boolean} options.tables return array of tables' bboxes
@@ -77,18 +78,21 @@ export interface Table {
  */
 export async function processDoc(
   // eslint-disable-next-line @typescript-eslint/camelcase
-  { html, enriched_html }: QueryResult,
+  query: QueryResult,
   options?: Options
 ): Promise<ProcessedDoc> {
+  const { html, enriched_html: enrichedHtml } = cloneDeep(query);
   options = {
     ...DEFAULT_OPTIONS,
     ...(options || {})
   };
-  const enrichedHtmlArray = transformEnrichment(enriched_html);
+  const transformedEnrichmentArray = transformEnrichment(enrichedHtml);
 
   //enriched_html is a singlton array.
-  const enrichedHtml = enrichedHtmlArray && enrichedHtmlArray[0];
-  const enrichment = enrichedHtml ? enrichedHtml[getEnrichmentName(enrichedHtml)] : [];
+  const transformedEnrichment = transformedEnrichmentArray && transformedEnrichmentArray[0];
+  const enrichment = transformedEnrichment
+    ? transformedEnrichment[getEnrichmentName(transformedEnrichment)]
+    : [];
 
   const doc: ProcessedDoc = {
     styles: ''
