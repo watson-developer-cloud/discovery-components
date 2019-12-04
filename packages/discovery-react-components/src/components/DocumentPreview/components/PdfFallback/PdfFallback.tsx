@@ -2,7 +2,7 @@ import React, { FC, useState, useEffect, useMemo, useReducer } from 'react';
 import { settings } from 'carbon-components';
 import get from 'lodash/get';
 import { QueryResult } from 'ibm-watson/discovery/v2';
-import { Cell, CellPage, CellField, Page, Bbox } from '@DocumentPreview/types';
+import { Cell, CellField, PageWithCells, Bbox } from '@DocumentPreview/types';
 import CellComponent from '@DocumentPreview/components/PdfFallback/Cell';
 import { computeFontFamilyAndWeight } from '@DocumentPreview/components/PdfFallback/utils/fallbackFonts';
 import processDoc, { ProcessedDoc, ProcessedBbox } from '@rootUtils/document/processDoc';
@@ -78,16 +78,6 @@ function reducer(state: State, { type, data }: Action): State {
     default:
       throw new Error();
   }
-}
-
-export interface PageWithCells extends Page {
-  cells: StyledCell[];
-}
-
-export interface StyledCell extends CellPage {
-  id: string;
-  className?: string;
-  content: string;
 }
 
 export const PdfFallback: FC<Props> = ({

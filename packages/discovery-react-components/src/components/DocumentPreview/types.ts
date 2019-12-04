@@ -15,6 +15,10 @@ export interface Page {
   origin: Origin;
 }
 
+export interface PageWithCells extends Page {
+  cells: StyledCell[];
+}
+
 export interface Cell {
   page: CellPage;
   field: CellField;
@@ -30,4 +34,10 @@ export interface CellField {
   index: number;
   // [ START, END ]
   span: [number, number];
+}
+
+export interface StyledCell extends CellPage {
+  id: string;
+  className?: string;
+  content: string;
 }

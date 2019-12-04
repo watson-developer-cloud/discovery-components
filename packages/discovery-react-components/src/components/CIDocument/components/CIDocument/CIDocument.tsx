@@ -34,8 +34,8 @@ import {
 } from '@rootUtils/document/nonContractUtils';
 import { withErrorBoundary, WithErrorBoundaryProps } from '@rootUtils/hoc/withErrorBoundary';
 import { Filter, FilterGroup, FilterChangeArgs } from '@CIDocument/components/FilterPanel/types';
-import { EnrichedHtml, Contract } from '@CIDocument/types';
-import { MetadataData, Address, Mention } from '@CIDocument/components/MetadataPane/types';
+import { MetadataData, EnrichedHtml, Contract } from '@CIDocument/types';
+import { Address, Mention } from '@CIDocument/components/MetadataPane/types';
 import { Items } from '@CIDocument/components/DetailsPane/types';
 import { Item, Field } from '@CIDocument/types';
 import { defaultTheme, Theme } from '@rootUtils/theme';

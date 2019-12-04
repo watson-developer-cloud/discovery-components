@@ -1,11 +1,16 @@
-import { SearchResultsProps } from '@SearchResults/SearchResults';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import get from 'lodash/get';
 
+interface displaySettingsParams {
+  resultTitleField?: string;
+  bodyField?: string;
+  usePassages?: boolean;
+}
+
 export const getDisplaySettings = (
-  params: Pick<SearchResultsProps, 'resultTitleField' | 'bodyField' | 'usePassages'>,
+  params: displaySettingsParams,
   componentSettings: DiscoveryV2.ComponentSettingsResponse | null = null
-): Required<Pick<SearchResultsProps, 'resultTitleField' | 'bodyField' | 'usePassages'>> => {
+): Required<displaySettingsParams> => {
   return {
     resultTitleField:
       params.resultTitleField ||

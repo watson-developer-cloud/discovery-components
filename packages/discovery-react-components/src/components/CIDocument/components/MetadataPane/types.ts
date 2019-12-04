@@ -1,16 +1,4 @@
-import { Item, Location } from '@CIDocument/types';
-
-export interface Metadata {
-  metadataType: string;
-  data: MetadataData[];
-}
-
-export interface MetadataData extends Item {
-  text: string;
-  text_normalized: string;
-  confidence_level: 'High' | 'Medium' | 'Low';
-  metadataType?: string;
-}
+import { Location, MetadataData } from '@CIDocument/types';
 
 export interface Party {
   role: string;

@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import { settings } from 'carbon-components';
 import {
-  Metadata,
   Party,
   OnActiveMetadataChangeFn,
   OnActivePartyChangeFn
 } from '@CIDocument/components/MetadataPane/types';
+import { Metadata } from '@CIDocument/types';
 import MetadataRow from '@CIDocument/components/MetadataPane/components/MetadataRow';
 import PartyRow from '@CIDocument/components/MetadataPane/components/PartyRow';
 import { defaultMessages, Messages } from '@CIDocument/components/MetadataPane/messages';
