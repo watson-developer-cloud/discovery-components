@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { settings } from 'carbon-components';
 import { ToggleSmall } from 'carbon-components-react';
-import { SearchApi } from '../../../DiscoverySearch/DiscoverySearch';
-import { Messages } from '../../messages';
+import { SearchApi } from '@DiscoverySearch/DiscoverySearch';
+import { Messages } from '@SearchResults/messages';
 
 export interface TablesOnlyToggleProps {
   /**

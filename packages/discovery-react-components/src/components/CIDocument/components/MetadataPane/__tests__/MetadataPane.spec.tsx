@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, GetByText, BoundFunction, fireEvent } from '@testing-library/react';
-import MetadataPane from '../MetadataPane';
-import { mockMetadata } from '../__fixtures__/metadata';
+import MetadataPane from '@CIDocument/components/MetadataPane/MetadataPane';
+import { mockMetadata } from '@CIDocument/components/MetadataPane/__fixtures__/metadata';
 
 const noop = (): void => {};
 

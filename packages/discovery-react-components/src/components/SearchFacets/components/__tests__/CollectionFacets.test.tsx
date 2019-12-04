@@ -2,8 +2,8 @@ import * as React from 'react';
 import { render, getNodeText, fireEvent, RenderResult } from '@testing-library/react';
 import { wrapWithContext } from '@rootUtils/testingUtils';
 import { SearchContextIFC, SearchApiIFC } from '@DiscoverySearch/DiscoverySearch';
-import { SearchFacets } from '../../SearchFacets';
-import collectionsResponse from '../../__fixtures__/collectionsResponse';
+import { SearchFacets } from '@SearchFacets/SearchFacets';
+import collectionsResponse from '@SearchFacets/__fixtures__/collectionsResponse';
 
 interface Setup {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

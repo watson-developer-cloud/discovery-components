@@ -1,6 +1,6 @@
 import React from 'react';
 import { act, render, waitForElement } from '@testing-library/react';
-import CIDocumentContent from '../CIDocumentContent';
+import CIDocumentContent from '@CIDocument/components/CIDocumentContent/CIDocumentContent';
 
 describe('<CIDocumentContent />', () => {
   // NOTE: This not test the `VirtualScroll` due to sizing issues

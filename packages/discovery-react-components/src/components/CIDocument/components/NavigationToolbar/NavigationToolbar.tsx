@@ -4,7 +4,7 @@ import { settings } from 'carbon-components';
 import { Button } from 'carbon-components-react';
 import ChevronLeft16 from '@carbon/icons-react/lib/chevron--left/16';
 import ChevronRight16 from '@carbon/icons-react/lib/chevron--right/16';
-import { defaultMessages, Messages } from './messages';
+import { defaultMessages, Messages } from '@CIDocument/components/NavigationToolbar/messages';
 
 type ChangeFn = (index: number) => void;
 

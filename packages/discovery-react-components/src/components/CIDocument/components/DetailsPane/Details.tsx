@@ -2,9 +2,14 @@ import React, { FC, ReactElement } from 'react';
 import capitalize from 'lodash/capitalize';
 import cx from 'classnames';
 import { Link } from 'carbon-components-react';
-import { documentDisplayNames } from '../../utils/documentDisplayNames';
-import { Item, ItemLink, ItemLabel, OnActiveLinkChangeFn } from './types';
-import { defaultMessages, Messages } from './messages';
+import { documentDisplayNames } from '@CIDocument//utils/documentDisplayNames';
+import {
+  Item,
+  ItemLink,
+  ItemLabel,
+  OnActiveLinkChangeFn
+} from '@CIDocument/components/DetailsPane/types';
+import { defaultMessages, Messages } from '@CIDocument/components/DetailsPane/messages';
 
 interface DetailsProps {
   title: string;

@@ -16,49 +16,49 @@ import get from 'lodash/get';
 import flattenDeep from 'lodash/flattenDeep';
 import difference from 'lodash/difference';
 import isEqual from 'lodash/isEqual';
-import DetailsPane from '../DetailsPane/DetailsPane';
-import FilterPanel from '../FilterPanel/FilterPanel';
-import MetadataPane from '../MetadataPane/MetadataPane';
-import NavigationToolbar from '../NavigationToolbar/NavigationToolbar';
-import CIDocumentContent from '../CIDocumentContent/CIDocumentContent';
-import processDoc from '../../../../utils/document/processDoc';
-import { getEnrichmentName } from '../../utils/enrichmentUtils';
-import { getDetailsFromItem, getDetailsFromMetadata } from '../../utils/details';
-import { getFilterHelper, ProcessFilter } from '../../utils/filterHelper';
-import { isFilterEmpty, updateFilter } from '../../utils/filterUtils';
-import { getId, findElement, findElementIndex } from '../../../../utils/document/idUtils';
+import DetailsPane from '@CIDocument/components/DetailsPane/DetailsPane';
+import FilterPanel from '@CIDocument/components/FilterPanel/FilterPanel';
+import MetadataPane from '@CIDocument/components/MetadataPane/MetadataPane';
+import NavigationToolbar from '@CIDocument/components/NavigationToolbar/NavigationToolbar';
+import CIDocumentContent from '@CIDocument/components/CIDocumentContent/CIDocumentContent';
+import processDoc from '@rootUtils/document/processDoc';
+import { getEnrichmentName } from '@CIDocument/utils/enrichmentUtils';
+import { getDetailsFromItem, getDetailsFromMetadata } from '@CIDocument/utils/details';
+import { getFilterHelper, ProcessFilter } from '@CIDocument/utils/filterHelper';
+import { isFilterEmpty, updateFilter } from '@CIDocument/utils/filterUtils';
+import { getId, findElement, findElementIndex } from '@rootUtils/document/idUtils';
 import {
   hasRelation,
   isRelationObject,
   isInvoiceOrPurchaseOrder
-} from '../../../../utils/document/nonContractUtils';
-import { withErrorBoundary, WithErrorBoundaryProps } from '../../../../utils/hoc/withErrorBoundary';
-import { Filter, FilterGroup, FilterChangeArgs } from '../FilterPanel/types';
-import { EnrichedHtml, Contract } from '../../types';
-import { MetadataData, Address, Mention } from '../MetadataPane/types';
-import { Items } from '../DetailsPane/types';
-import { Item, Field } from '../../types';
-import { defaultTheme, Theme } from '../../../../utils/theme';
+} from '@rootUtils/document/nonContractUtils';
+import { withErrorBoundary, WithErrorBoundaryProps } from '@rootUtils/hoc/withErrorBoundary';
+import { Filter, FilterGroup, FilterChangeArgs } from '@CIDocument/components/FilterPanel/types';
+import { EnrichedHtml, Contract } from '@CIDocument/types';
+import { MetadataData, Address, Mention } from '@CIDocument/components/MetadataPane/types';
+import { Items } from '@CIDocument/components/DetailsPane/types';
+import { Item, Field } from '@CIDocument/types';
+import { defaultTheme, Theme } from '@rootUtils/theme';
 import {
   defaultMessages as detailsPaneDefaultMsgs,
   Messages as DetailsPaneMessages
-} from '../DetailsPane/messages';
+} from '@CIDocument/components/DetailsPane/messages';
 import {
   defaultMessages as filterPanelDefaultMsgs,
   Messages as FilterPanelMessages
-} from '../FilterPanel/messages';
+} from '@CIDocument/components/FilterPanel/messages';
 import {
   defaultMessages as metadataPaneDefaultMsgs,
   Messages as MetadataPaneMessages
-} from '../MetadataPane/messages';
+} from '@CIDocument/components/MetadataPane/messages';
 import {
   defaultMessages as navigationToolbarDefaultMsgs,
   Messages as NavigationToolbarMessages
-} from '../NavigationToolbar/messages';
+} from '@CIDocument/components/NavigationToolbar/messages';
 import {
   defaultMessages as CIDocumentDefaultMsgs,
   Messages as CIDocumentMessages
-} from './messages';
+} from '@CIDocument/components/CIDocument/messages';
 
 export type Messages = DetailsPaneMessages &
   FilterPanelMessages &

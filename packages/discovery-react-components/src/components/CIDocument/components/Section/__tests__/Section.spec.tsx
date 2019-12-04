@@ -1,8 +1,8 @@
 import React from 'react';
 import { act, render, waitForElement } from '@testing-library/react';
-import '../../../utils/test/createRange.mock';
-import Section from '../Section';
-import sectionData from '../__fixtures__/sectionData';
+import '@CIDocument/utils/test/createRange.mock';
+import Section from '@CIDocument/components/Section/Section';
+import sectionData from '@CIDocument/components/Section/__fixtures__/sectionData';
 
 describe('<Section />', () => {
   it('renders section HTML', async () => {

@@ -1,8 +1,8 @@
 import {
   InternalQueryTermAggregation,
   SelectableQueryTermAggregationResult
-} from './searchFacetInterfaces';
-import { findTermAggregations } from './findTermAggregations';
+} from '@SearchFacets/utils/searchFacetInterfaces';
+import { findTermAggregations } from '@SearchFacets/utils/findTermAggregations';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import get from 'lodash/get';
 import unionBy from 'lodash/unionBy';

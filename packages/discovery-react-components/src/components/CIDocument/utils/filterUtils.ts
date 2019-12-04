@@ -1,4 +1,4 @@
-import { Filter, FilterChangeArgs } from '../components/FilterPanel/types';
+import { Filter, FilterChangeArgs } from '@CIDocument/components/FilterPanel/types';
 
 /**
  * Checks if the given filter is empty

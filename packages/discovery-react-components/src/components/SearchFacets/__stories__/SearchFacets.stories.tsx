@@ -2,19 +2,19 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, text, object, boolean, number } from '@storybook/addon-knobs/react';
 import marked from 'marked';
-import defaultReadme from './default.md';
-import initialSelectedCollectionReadme from './initialSelectedCollection.md';
-import initialSelectedFacetsReadme from './initialSelectedFacets.md';
-import { SearchFacets } from '../SearchFacets';
-import { facetsQueryResponse } from '../__fixtures__/facetsQueryResponse';
-import collectionsResponse from '../__fixtures__/collectionsResponse';
-import aggregationComponentSettingsResponse from '../__fixtures__/componentSettingsResponse';
-import { StoryWrapper, DummySearchClient } from '../../../utils/storybookUtils';
-import { createDummyResponsePromise } from '../../../utils/testingUtils';
-import { DiscoverySearch, DiscoverySearchProps } from '../../DiscoverySearch/DiscoverySearch';
+import defaultReadme from '@SearchFacets/__stories__/default.md';
+import initialSelectedCollectionReadme from '@SearchFacets/__stories__/initialSelectedCollection.md';
+import initialSelectedFacetsReadme from '@SearchFacets/__stories__/initialSelectedFacets.md';
+import { SearchFacets } from '@SearchFacets/SearchFacets';
+import { facetsQueryResponse } from '@SearchFacets/__fixtures__/facetsQueryResponse';
+import collectionsResponse from '@SearchFacets/__fixtures__/collectionsResponse';
+import aggregationComponentSettingsResponse from '@SearchFacets/__fixtures__/componentSettingsResponse';
+import { StoryWrapper, DummySearchClient } from '@rootUtils/storybookUtils';
+import { createDummyResponsePromise } from '@rootUtils/testingUtils';
+import { DiscoverySearch, DiscoverySearchProps } from '@DiscoverySearch/DiscoverySearch';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { action } from '@storybook/addon-actions';
-import { defaultMessages } from '../messages';
+import { defaultMessages } from '@SearchFacets/messages';
 
 export const props = () => ({
   showCollections: boolean('Show collection facets', true),

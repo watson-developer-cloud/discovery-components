@@ -3,10 +3,14 @@ import get from 'lodash/get';
 import { SkeletonText } from 'carbon-components-react';
 import { SearchApi, SearchContext } from '@DiscoverySearch/DiscoverySearch';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
-import { TablesOnlyToggle } from './components/TablesOnlyToggle/TablesOnlyToggle';
-import { Result } from './components/Result/Result';
-import { SpellingSuggestion } from './components/SpellingSuggestion/SpellingSuggestion';
-import { findCollectionName, getDisplaySettings, findTablesWithoutResults } from './utils';
+import { TablesOnlyToggle } from '@SearchResults/components/TablesOnlyToggle/TablesOnlyToggle';
+import { Result } from '@SearchResults/components/Result/Result';
+import { SpellingSuggestion } from '@SearchResults/components/SpellingSuggestion/SpellingSuggestion';
+import {
+  findCollectionName,
+  getDisplaySettings,
+  findTablesWithoutResults
+} from '@SearchResults/utils';
 import { useDeepCompareEffect } from '@rootUtils/useDeepCompareMemoize';
 import {
   baseClass,
@@ -14,8 +18,8 @@ import {
   searchResultLoadingClass,
   searchResultsHeaderClass,
   searchResultsListClass
-} from './cssClasses';
-import { defaultMessages, Messages } from './messages';
+} from '@SearchResults/cssClasses';
+import { defaultMessages, Messages } from '@SearchResults/messages';
 
 const DEFAULT_LOADING_COUNT = 3;
 

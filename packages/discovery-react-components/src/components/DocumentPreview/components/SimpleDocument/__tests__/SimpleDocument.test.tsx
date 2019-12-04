@@ -1,7 +1,7 @@
 import React from 'react';
 import { act, render, BoundFunction, GetByText } from '@testing-library/react';
-import SimpleDocument from '../SimpleDocument';
-import docArrayJson from '../../../__fixtures__/ArtEffectsTextArray.json';
+import SimpleDocument from '@DocumentPreview/components/SimpleDocument/SimpleDocument';
+import docArrayJson from '@DocumentPreview/__fixtures__/ArtEffectsTextArray.json';
 
 describe('SimpleDocument', () => {
   const minimalDoc = {

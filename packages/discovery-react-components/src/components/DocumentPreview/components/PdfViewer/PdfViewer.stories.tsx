@@ -1,8 +1,8 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, radios, number } from '@storybook/addon-knobs';
-import PdfViewer from './PdfViewer';
-import { document as doc } from '../../__fixtures__/Art Effects.pdf';
+import PdfViewer from '@DocumentPreview/components/PdfViewer/PdfViewer';
+import { document as doc } from '@DocumentPreview/__fixtures__/Art Effects.pdf';
 
 const pageKnob = {
   label: 'Page',

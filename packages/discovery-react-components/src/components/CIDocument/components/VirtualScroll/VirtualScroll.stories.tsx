@@ -5,7 +5,7 @@ import { LoremIpsum } from 'lorem-ipsum';
 import seedrandom from 'seedrandom';
 import { storiesOf } from '@storybook/react';
 
-import VirtualScroll from './VirtualScroll';
+import VirtualScroll from '@CIDocument/components/VirtualScroll/VirtualScroll';
 
 const pseudoRandom = seedrandom('same-every-time');
 const lorem = new LoremIpsum({ random: pseudoRandom });

@@ -1,4 +1,4 @@
-import { SelectableDynamicFacets } from './searchFacetInterfaces';
+import { SelectableDynamicFacets } from '@SearchFacets/utils/searchFacetInterfaces';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import unionBy from 'lodash/unionBy';
 

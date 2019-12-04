@@ -1,14 +1,14 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, array, text, boolean, number } from '@storybook/addon-knobs/react';
-import { DiscoverySearch, DiscoverySearchProps } from '../../DiscoverySearch/DiscoverySearch';
-import { DummySearchClient } from '../../../utils/storybookUtils';
-import overrideSearchResults from '../__fixtures__/searchResults';
+import { DiscoverySearch, DiscoverySearchProps } from '@DiscoverySearch/DiscoverySearch';
+import { DummySearchClient } from '@rootUtils/storybookUtils';
+import overrideSearchResults from '@SearchResults/__fixtures__/searchResults';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { action } from '@storybook/addon-actions';
-import { createDummyResponsePromise } from '../../../utils/testingUtils';
-import { ResultsPagination } from '../ResultsPagination';
-import defaultReadme from './default.md';
+import { createDummyResponsePromise } from '@rootUtils/testingUtils';
+import { ResultsPagination } from '@ResultsPagination/ResultsPagination';
+import defaultReadme from '@ResultsPagination/__stories__/default.md';
 import marked from 'marked';
 
 export const props = () => ({

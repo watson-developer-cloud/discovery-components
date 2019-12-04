@@ -1,10 +1,14 @@
 import { FC, ReactElement, useEffect, useState } from 'react';
 import { QueryResultPassage, QueryResult } from 'ibm-watson/discovery/v2';
 import get from 'lodash/get';
-import { getTextMappings } from '../../utils/documentData';
-import { usePassage } from './passages';
-import { DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_ORIGIN } from './constants';
-import { Page } from '../../types';
+import { getTextMappings } from '@DocumentPreview/utils/documentData';
+import { usePassage } from '@DocumentPreview/components/Highlight/passages';
+import {
+  DEFAULT_WIDTH,
+  DEFAULT_HEIGHT,
+  DEFAULT_ORIGIN
+} from '@DocumentPreview/components/Highlight/constants';
+import { Page } from '@DocumentPreview/types';
 
 interface Props {
   /**

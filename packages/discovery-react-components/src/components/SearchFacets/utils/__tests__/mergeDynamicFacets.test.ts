@@ -1,6 +1,6 @@
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
-import { mergeDynamicFacets } from '../mergeDynamicFacets';
-import { SelectableDynamicFacets } from '../searchFacetInterfaces';
+import { mergeDynamicFacets } from '@SearchFacets/utils/mergeDynamicFacets';
+import { SelectableDynamicFacets } from '@SearchFacets/utils/searchFacetInterfaces';
 
 describe('mergeDynamicFacets', () => {
   test('only returns old facets that are selected at the top', () => {

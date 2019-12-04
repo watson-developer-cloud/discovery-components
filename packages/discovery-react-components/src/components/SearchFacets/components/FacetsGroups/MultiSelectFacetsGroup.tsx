@@ -1,12 +1,15 @@
 import React, { FC, useContext, SyntheticEvent } from 'react';
-import { optionClass, optionLabelClass } from './facetGroupClasses';
+import {
+  optionClass,
+  optionLabelClass
+} from '@SearchFacets/components/FacetsGroups/facetGroupClasses';
 import { Checkbox as CarbonCheckbox } from 'carbon-components-react';
-import { SearchContext } from '../../../DiscoverySearch/DiscoverySearch';
+import { SearchContext } from '@DiscoverySearch/DiscoverySearch';
 import {
   SelectableDynamicFacets,
   SelectableQueryTermAggregationResult,
   InternalQueryTermAggregation
-} from '../../utils/searchFacetInterfaces';
+} from '@SearchFacets/utils/searchFacetInterfaces';
 import get from 'lodash/get';
 
 interface MultiSelectFacetsGroupProps {

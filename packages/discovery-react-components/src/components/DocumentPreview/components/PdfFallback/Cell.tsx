@@ -1,5 +1,8 @@
 import React, { FC, createRef, useState, useEffect } from 'react';
-import { PageWithCells, StyledCell as StyledCellType } from './PdfFallback';
+import {
+  PageWithCells,
+  StyledCell as StyledCellType
+} from '@DocumentPreview/components/PdfFallback/PdfFallback';
 
 interface Props {
   page: PageWithCells;

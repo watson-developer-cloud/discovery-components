@@ -2,9 +2,9 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import Section from './Section';
-import sectionData from './__fixtures__/sectionData';
-import { DocumentStoryWrapper } from '../../../../utils/storybookUtils';
+import Section from '@CIDocument/components/Section/Section';
+import sectionData from '@CIDocument/components/Section/__fixtures__/sectionData';
+import { DocumentStoryWrapper } from '@rootUtils/storybookUtils';
 
 const stories = storiesOf('CIDocument/components/Section', module);
 

@@ -1,11 +1,15 @@
 import React, { FC } from 'react';
 import cx from 'classnames';
 import { Link, Tooltip } from 'carbon-components-react';
-import { Metadata, MetadataData, OnActiveMetadataChangeFn } from '../types';
-import { getId } from '../../../../../utils/document/idUtils';
-import { ReactComponent as HighConfidence } from './icons/Confidence_high.svg';
-import { ReactComponent as MediumConfidence } from './icons/Confidence_medium.svg';
-import { ReactComponent as LowConfidence } from './icons/Confidence_low.svg';
+import {
+  Metadata,
+  MetadataData,
+  OnActiveMetadataChangeFn
+} from '@CIDocument/components/MetadataPane/types';
+import { getId } from '@rootUtils/document/idUtils';
+import { ReactComponent as HighConfidence } from '@CIDocument/components/MetadataPane/components/icons/Confidence_high.svg';
+import { ReactComponent as MediumConfidence } from '@CIDocument/components/MetadataPane/components/icons/Confidence_medium.svg';
+import { ReactComponent as LowConfidence } from '@CIDocument/components/MetadataPane/components/icons/Confidence_low.svg';
 
 interface MetadataRowProps {
   metadata: Metadata;

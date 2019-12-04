@@ -2,13 +2,13 @@ import CIDocument, {
   CIDocumentProps,
   canRenderCIDocument,
   Messages
-} from './components/CIDocument/CIDocument';
+} from '@CIDocument/components/CIDocument/CIDocument';
 import CIDocumentContent, {
   CIDocumentContentProps
-} from './components/CIDocumentContent/CIDocumentContent';
+} from '@CIDocument/components/CIDocumentContent/CIDocumentContent';
 import NavigationToolbar, {
   NavigationToolbarProps
-} from './components/NavigationToolbar/NavigationToolbar';
+} from '@CIDocument/components/NavigationToolbar/NavigationToolbar';
 
 // re-export types
 export type CIDocumentProps = Omit<CIDocumentProps, 'overrideDocWidth' | 'overrideDocHeight'>;

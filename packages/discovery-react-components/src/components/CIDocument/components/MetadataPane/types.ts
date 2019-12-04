@@ -1,4 +1,4 @@
-import { Item, Location } from '../../types';
+import { Item, Location } from '@CIDocument/types';
 
 export interface Metadata {
   metadataType: string;

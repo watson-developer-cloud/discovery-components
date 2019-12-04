@@ -1,4 +1,7 @@
-import { computeFontFamilyAndWeight, normalizeFontName } from '../fallbackFonts';
+import {
+  computeFontFamilyAndWeight,
+  normalizeFontName
+} from '@DocumentPreview/components/PdfFallback/utils/fallbackFonts';
 
 describe('Fallback Font', () => {
   it('Verify that text is being normalized correctly', () => {

@@ -1,8 +1,8 @@
-import { getFilterHelper, ProcessFilter } from '../filterHelper';
+import { getFilterHelper, ProcessFilter } from '@CIDocument/utils/filterHelper';
 
-import mockFilterGroups from '../__fixtures__/filterGroups';
-import mockFilterElements from '../__fixtures__/filterMockElements.json';
-import { FilterGroup } from '../../components/FilterPanel/types';
+import mockFilterGroups from '@CIDocument/utils/__fixtures__/filterGroups';
+import mockFilterElements from '@CIDocument/utils/__fixtures__/filterMockElements.json';
+import { FilterGroup } from '@CIDocument/components/FilterPanel/types';
 
 describe('filterHelper', () => {
   let filterHelper: ProcessFilter;

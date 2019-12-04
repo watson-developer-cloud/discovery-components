@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import NavigationToolbar from '../NavigationToolbar';
+import NavigationToolbar from '@CIDocument/components/NavigationToolbar/NavigationToolbar';
 
 describe('<NavigationToolbar />', () => {
   it('displays the cuurent index and max', () => {

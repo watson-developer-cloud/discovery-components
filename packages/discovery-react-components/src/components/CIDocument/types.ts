@@ -1,4 +1,4 @@
-import { Metadata, MetadataData } from '../CIDocument/components/MetadataPane/types';
+import { Metadata, MetadataData } from '@CIDocument/components/MetadataPane/types';
 
 export interface Location {
   begin: number;

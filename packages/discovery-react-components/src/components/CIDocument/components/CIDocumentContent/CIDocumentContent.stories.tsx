@@ -3,8 +3,8 @@ import { storiesOf } from '@storybook/react';
 import { withKnobs, radios } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
-import CIDocumentContent from './CIDocumentContent';
-import contract from './__fixtures__/contract.json';
+import CIDocumentContent from '@CIDocument/components/CIDocumentContent/CIDocumentContent';
+import contract from '@CIDocument/components/CIDocumentContent/__fixtures__/contract.json';
 
 const label = 'Document';
 // values are `model_id`

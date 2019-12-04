@@ -1,11 +1,11 @@
 import { FC, useEffect, useState, ReactElement } from 'react';
 import get from 'lodash/get';
 import { QueryResult, QueryTableResult } from 'ibm-watson/discovery/v2';
-import processDoc, { ProcessedDoc, Table } from '../../../../utils/document/processDoc';
-import { getTextMappings } from '../../utils/documentData';
-import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from './constants';
-import { Page } from '../../types';
-import { spansIntersect } from '../../../../utils/document/documentUtils';
+import processDoc, { ProcessedDoc, Table } from '@rootUtils/document/processDoc';
+import { getTextMappings } from '@DocumentPreview/utils/documentData';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '@DocumentPreview/components/Highlight/constants';
+import { Page } from '@DocumentPreview/types';
+import { spansIntersect } from '@rootUtils/document/documentUtils';
 
 interface Props {
   /**

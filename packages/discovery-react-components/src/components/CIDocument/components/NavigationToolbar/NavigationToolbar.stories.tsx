@@ -1,7 +1,7 @@
 import React, { useState, Dispatch, SetStateAction } from 'react';
 import { storiesOf } from '@storybook/react';
 import { action, HandlerFunction } from '@storybook/addon-actions';
-import NavigationToolbar from './NavigationToolbar';
+import NavigationToolbar from '@CIDocument/components/NavigationToolbar/NavigationToolbar';
 
 const NavToolbarWrapper = () => {
   const [index, setIndex] = useState(1);

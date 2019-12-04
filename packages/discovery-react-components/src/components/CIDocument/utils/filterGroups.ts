@@ -1,4 +1,4 @@
-import { FilterGroup } from '../components/FilterPanel/types';
+import { FilterGroup } from '@CIDocument/components/FilterPanel/types';
 
 export interface FilterGroupWithFns extends Omit<FilterGroup, 'title'> {
   labelsFromItem: (item: any) => string[];

@@ -14,7 +14,7 @@ import uuid from 'uuid';
 import Search16 from '@carbon/icons-react/lib/search/16';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { useDeepCompareCallback } from '@rootUtils/useDeepCompareMemoize';
-import { defaultMessages, Messages } from './messages';
+import { defaultMessages, Messages } from '@SearchInput/messages';
 
 interface SearchInputProps {
   /**

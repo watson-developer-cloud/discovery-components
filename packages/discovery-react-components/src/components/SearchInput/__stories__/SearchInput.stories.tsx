@@ -1,17 +1,17 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, text, boolean, number, object } from '@storybook/addon-knobs/react';
-import SearchInput from '../SearchInput';
-import { SearchResults } from '../../SearchResults/SearchResults';
+import SearchInput from '@SearchInput/SearchInput';
+import { SearchResults } from '@SearchResults/SearchResults';
 import { DiscoverySearch, DiscoverySearchProps } from '@DiscoverySearch/DiscoverySearch';
 import { StoryWrapper, DummySearchClient } from '@rootUtils/storybookUtils';
 import { createDummyResponsePromise } from '@rootUtils/testingUtils';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { action } from '@storybook/addon-actions';
-import defaultReadme from './default.md';
-import spellingSuggestionsReadme from './spellingSuggestions.md';
+import defaultReadme from '@SearchInput/__stories__/default.md';
+import spellingSuggestionsReadme from '@SearchInput/__stories__/spellingSuggestions.md';
 import marked from 'marked';
-import { defaultMessages } from '../messages';
+import { defaultMessages } from '@SearchInput/messages';
 
 const props = () => ({
   className: text('Classname to pass in your own styling (className)', ''),

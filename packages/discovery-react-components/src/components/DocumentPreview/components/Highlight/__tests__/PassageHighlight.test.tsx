@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { act, render } from '@testing-library/react';
-import Highlight from '../Highlight';
-import docJson from '../../../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
-import passages from '../../../__fixtures__/passages';
+import Highlight from '@DocumentPreview/components/Highlight/Highlight';
+import docJson from '@DocumentPreview/__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
+import passages from '@DocumentPreview/__fixtures__/passages';
 
 describe('Highlight', () => {
   it('renders single highlight rect', () => {

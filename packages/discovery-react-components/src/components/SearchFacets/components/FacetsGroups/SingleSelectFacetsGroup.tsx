@@ -4,12 +4,15 @@ import {
   RadioButton as CarbonRadioButton
 } from 'carbon-components-react';
 import { SearchContext } from '@DiscoverySearch/DiscoverySearch';
-import { optionLabelClass, singleSelectGroupClass } from './facetGroupClasses';
+import {
+  optionLabelClass,
+  singleSelectGroupClass
+} from '@SearchFacets/components/FacetsGroups/facetGroupClasses';
 import {
   SelectableDynamicFacets,
   SelectableQueryTermAggregationResult,
   InternalQueryTermAggregation
-} from '../../utils/searchFacetInterfaces';
+} from '@SearchFacets/utils/searchFacetInterfaces';
 import get from 'lodash/get';
 
 interface SingleSelectFacetsGroupProps {

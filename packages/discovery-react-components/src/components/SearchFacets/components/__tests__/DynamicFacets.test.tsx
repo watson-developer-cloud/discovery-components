@@ -6,8 +6,8 @@ import {
   SearchApiIFC,
   searchResponseStoreDefaults
 } from '@DiscoverySearch/DiscoverySearch';
-import { SearchFacets } from '../../SearchFacets';
-import { weirdFacetsQueryResponse } from '../../__fixtures__/facetsQueryResponse';
+import { SearchFacets } from '@SearchFacets/SearchFacets';
+import { weirdFacetsQueryResponse } from '@SearchFacets/__fixtures__/facetsQueryResponse';
 
 interface Setup {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -1,8 +1,13 @@
 import React, { FC } from 'react';
 import cx from 'classnames';
 import { Link } from 'carbon-components-react';
-import { getId } from '../../../../../utils/document/idUtils';
-import { Party, Address, Mention, OnActivePartyChangeFn } from '../types';
+import { getId } from '@rootUtils/document/idUtils';
+import {
+  Party,
+  Address,
+  Mention,
+  OnActivePartyChangeFn
+} from '@CIDocument/components/MetadataPane/types';
 
 const HIDDEN_ROLES = ['Unknown'];
 

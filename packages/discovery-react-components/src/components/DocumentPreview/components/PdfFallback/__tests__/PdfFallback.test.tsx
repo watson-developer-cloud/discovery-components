@@ -7,10 +7,10 @@ import {
   BoundFunction,
   GetByText
 } from '@testing-library/react';
-import PdfFallback from '../PdfFallback';
-import docJson from '../../../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
-import docArrayJson from '../../../__fixtures__/ArtEffectsTextArray.json';
-import fieldNameTest from '../../../__fixtures__/FieldNameTest.json';
+import PdfFallback from '@DocumentPreview/components/PdfFallback/PdfFallback';
+import docJson from '@DocumentPreview/__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
+import docArrayJson from '@DocumentPreview/__fixtures__/ArtEffectsTextArray.json';
+import fieldNameTest from '@DocumentPreview/__fixtures__/FieldNameTest.json';
 
 describe('PdfFallback', () => {
   const mockedBbox = {

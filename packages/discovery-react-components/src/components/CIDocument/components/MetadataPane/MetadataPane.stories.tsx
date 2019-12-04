@@ -1,9 +1,9 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import MetadataPane from './MetadataPane';
-import { mockMetadata } from './__fixtures__/metadata';
-import { mockParties } from './__fixtures__/parties';
+import MetadataPane from '@CIDocument/components/MetadataPane/MetadataPane';
+import { mockMetadata } from '@CIDocument/components/MetadataPane/__fixtures__/metadata';
+import { mockParties } from '@CIDocument/components/MetadataPane/__fixtures__/parties';
 
 storiesOf('CIDocument/components/MetadataPane', module).add('default', () => {
   return (

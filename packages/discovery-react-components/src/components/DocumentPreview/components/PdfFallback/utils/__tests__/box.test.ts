@@ -1,4 +1,4 @@
-import { intersects } from '../box';
+import { intersects } from '@DocumentPreview/components/PdfFallback/utils/box';
 
 describe('box', () => {
   it('returns that boxes intersect', () => {
