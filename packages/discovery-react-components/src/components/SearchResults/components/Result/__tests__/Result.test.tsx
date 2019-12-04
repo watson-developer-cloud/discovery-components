@@ -477,14 +477,6 @@ describe('<Result />', () => {
           document_id: 'some document_id',
           result_metadata: {
             collection_id: '1'
-          },
-          url1: {
-            firstPart: 'ibm',
-            secondPart: 'com'
-          },
-          url2: {
-            firstPart: 'cloud',
-            secondPart: 'ibm'
           }
         };
         const api = {
