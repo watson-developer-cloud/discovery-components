@@ -2,7 +2,7 @@ import React, { FC, useContext } from 'react';
 import get from 'lodash/get';
 import { Messages } from '../messages';
 import { labelClasses, labelAndSelectionContainerClass } from './FacetsGroups/facetGroupClasses';
-import { SearchContext, SearchApi } from '../../DiscoverySearch/DiscoverySearch';
+import { SearchContext, SearchApi } from '@DiscoverySearch/DiscoverySearch';
 import { MultiSelect as CarbonMultiSelect } from 'carbon-components-react';
 import { settings } from 'carbon-components';
 import { Collection } from 'ibm-watson/discovery/v2';

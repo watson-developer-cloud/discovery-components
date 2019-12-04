@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { render, fireEvent, waitForDomChange, wait } from '@testing-library/react';
-import { createDummyResponsePromise, createDummyResponse } from '../testingUtils';
+import { createDummyResponsePromise, createDummyResponse } from '@rootUtils/testingUtils';
 import {
   useSearchResultsApi,
   SearchResponseStore,
@@ -9,8 +9,8 @@ import {
   FetchDocumentsResponseStore,
   useAutocompleteApi,
   AutocompleteStore
-} from '../useDataApi';
-import { SearchClient } from '../../components/DiscoverySearch/types';
+} from '@rootUtils/useDataApi';
+import { SearchClient } from '@DiscoverySearch/types';
 
 class BaseSearchClient {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

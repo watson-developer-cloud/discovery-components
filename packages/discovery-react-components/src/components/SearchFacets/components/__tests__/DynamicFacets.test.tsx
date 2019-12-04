@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { render, fireEvent, RenderResult } from '@testing-library/react';
-import { wrapWithContext } from '../../../../utils/testingUtils';
+import { wrapWithContext } from '@rootUtils/testingUtils';
 import {
   SearchContextIFC,
   SearchApiIFC,
   searchResponseStoreDefaults
-} from '../../../DiscoverySearch/DiscoverySearch';
+} from '@DiscoverySearch/DiscoverySearch';
 import { SearchFacets } from '../../SearchFacets';
 import { weirdFacetsQueryResponse } from '../../__fixtures__/facetsQueryResponse';
 

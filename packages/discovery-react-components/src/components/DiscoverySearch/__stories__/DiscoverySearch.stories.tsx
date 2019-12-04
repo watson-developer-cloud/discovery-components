@@ -12,8 +12,8 @@ import {
   DiscoverySearchProps,
   SearchContext,
   SearchApi
-} from '../DiscoverySearch';
-import { DummySearchClient } from '../../../utils/storybookUtils';
+} from '@DiscoverySearch/DiscoverySearch';
+import { DummySearchClient } from '@rootUtils/storybookUtils';
 
 const MyComponent: FC<{}> = () => {
   const {

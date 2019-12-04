@@ -5,9 +5,9 @@ import {
   DiscoverySearchProps,
   SearchApi,
   SearchContext
-} from '../DiscoverySearch';
+} from '@DiscoverySearch/DiscoverySearch';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
-import { createDummyResponsePromise } from '../../../utils/testingUtils';
+import { createDummyResponsePromise } from '@rootUtils/testingUtils';
 interface Setup {
   fullTree: JSX.Element;
   result: RenderResult;

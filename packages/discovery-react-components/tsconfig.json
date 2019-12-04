@@ -7,6 +7,12 @@
     "sourceMap": true,
     "allowJs": false,
     "jsx": "react",
+    "baseUrl": "src",
+    "paths": {
+      "@rootUtils/*": ["utils/*"],
+      "@DiscoverySearch/*": ["components/DiscoverySearch/*"],
+      "@CIDocument/*": ["components/CIDocument/*"]
+    },
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,

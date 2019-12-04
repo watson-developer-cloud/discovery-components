@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { render, getNodeText, fireEvent, RenderResult } from '@testing-library/react';
-import { wrapWithContext } from '../../../../utils/testingUtils';
-import { SearchContextIFC, SearchApiIFC } from '../../../DiscoverySearch/DiscoverySearch';
+import { wrapWithContext } from '@rootUtils/testingUtils';
+import { SearchContextIFC, SearchApiIFC } from '@DiscoverySearch/DiscoverySearch';
 import { SearchFacets } from '../../SearchFacets';
 import collectionsResponse from '../../__fixtures__/collectionsResponse';
 

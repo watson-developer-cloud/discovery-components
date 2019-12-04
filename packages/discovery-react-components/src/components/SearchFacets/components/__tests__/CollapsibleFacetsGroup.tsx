@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { render, RenderResult, fireEvent } from '@testing-library/react';
-import { wrapWithContext } from '../../../../utils/testingUtils';
+import { wrapWithContext } from '@rootUtils/testingUtils';
 import { SearchFacets } from '../../SearchFacets';
 import {
   SearchContextIFC,
   SearchApiIFC,
   searchResponseStoreDefaults
-} from '../../../DiscoverySearch/DiscoverySearch';
+} from '@DiscoverySearch/DiscoverySearch';
 import { facetsQueryResponse } from '../../__fixtures__/facetsQueryResponse';
 import '@testing-library/jest-dom/extend-expect';
 

@@ -1,4 +1,4 @@
-import { Item, RelationItem } from '../../components/CIDocument/types';
+import { Item, RelationItem } from '@CIDocument/types';
 import isEqual from 'lodash/isEqual';
 import { isRelationObject } from './nonContractUtils';
 

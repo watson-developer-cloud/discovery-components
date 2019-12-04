@@ -3,10 +3,10 @@ import {
   SearchApiIFC,
   SearchContextIFC,
   searchResponseStoreDefaults
-} from '../../DiscoverySearch/DiscoverySearch';
+} from '@DiscoverySearch/DiscoverySearch';
 import { render, fireEvent, RenderResult } from '@testing-library/react';
 import { ResultsPagination, ResultsPaginationProps } from '../ResultsPagination';
-import { wrapWithContext } from '../../../utils/testingUtils';
+import { wrapWithContext } from '@rootUtils/testingUtils';
 import '@testing-library/jest-dom/extend-expect';
 
 interface Setup extends RenderResult {

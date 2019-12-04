@@ -5,7 +5,7 @@
  * @returns {boolean} true if enrichmentName is either Invoice or Purchase order
  */
 
-import { ENRICHMENTS } from '../../components/CIDocument/utils/enrichmentUtils';
+import { ENRICHMENTS } from '@CIDocument/utils/enrichmentUtils';
 
 export const isInvoiceOrPurchaseOrder = (enrichmentName: string): boolean =>
   enrichmentName === ENRICHMENTS.INVOICE || enrichmentName === ENRICHMENTS.PURCHASE_ORDER;
