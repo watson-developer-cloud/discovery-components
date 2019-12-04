@@ -55,7 +55,7 @@ describe('<SearchInput />', () => {
       });
       test('has the correct default closeButtonLabelText for clear search input button and svg', () => {
         const closeButtonLabelText = searchInput.getAllByLabelText('Clear search input');
-        expect(closeButtonLabelText.length).toBe(2);
+        expect(closeButtonLabelText.length).toBe(1);
       });
     });
 
@@ -71,7 +71,7 @@ describe('<SearchInput />', () => {
         const closeButtonLabelText = searchInput.getAllByLabelText('Clear search input');
         expect(inputFieldDefault).toBe(null);
         expect(inputFieldOverride).toBeDefined();
-        expect(closeButtonLabelText.length).toBe(2);
+        expect(closeButtonLabelText.length).toBe(1);
       });
 
       test('when both placeHolderText and messages.placeholderText are provided it uses messages', () => {
