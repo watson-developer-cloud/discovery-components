@@ -10,7 +10,7 @@ import {
   GetAllBy,
   GetByText
 } from '@testing-library/react';
-import '@rootUtils/test/createRange.mock';
+import '@CIDocument/utils/test/createRange.mock';
 import CIDocument from '@CIDocument/components/CIDocument/CIDocument';
 import contract from '@CIDocument/components/CIDocument/__fixtures__/contract.json';
 

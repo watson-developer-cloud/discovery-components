@@ -7,17 +7,6 @@
     "sourceMap": true,
     "allowJs": false,
     "jsx": "react",
-    "baseUrl": "src",
-    "paths": {
-      "@rootUtils/*": ["utils/*"],
-      "@CIDocument/*": ["components/CIDocument/*"],
-      "@DiscoverySearch/*": ["components/DiscoverySearch/*"],
-      "@DocumentPreview/*": ["components/DocumentPreview/*"],
-      "@ResultsPagination/*": ["components/ResultsPagination/*"],
-      "@SearchFacets/*": ["components/SearchFacets/*"],
-      "@SearchInput/*": ["components/SearchInput/*"],
-      "@SearchResults/*": ["components/SearchResults/*"]
-    },
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,

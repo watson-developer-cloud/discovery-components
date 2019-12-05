@@ -1,4 +1,4 @@
-import { Metadata } from '@CIDocument/components/MetadataPane/types';
+import { Metadata } from '@CIDocument/types';
 
 export const mockMetadata: Metadata[] = [
   {

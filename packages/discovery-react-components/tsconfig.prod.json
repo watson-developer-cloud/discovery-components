@@ -2,6 +2,17 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "declaration": true,
-    "isolatedModules": false
+    "isolatedModules": false,
+    "baseUrl": "src",
+    "paths": {
+      "@rootUtils/*": ["utils/*"],
+      "@CIDocument/*": ["components/CIDocument/*"],
+      "@DiscoverySearch/*": ["components/DiscoverySearch/*"],
+      "@DocumentPreview/*": ["components/DocumentPreview/*"],
+      "@ResultsPagination/*": ["components/ResultsPagination/*"],
+      "@SearchFacets/*": ["components/SearchFacets/*"],
+      "@SearchInput/*": ["components/SearchInput/*"],
+      "@SearchResults/*": ["components/SearchResults/*"]
+    }
   }
 }
