@@ -1,16 +1,16 @@
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import get from 'lodash/get';
 
-interface displaySettingsParams {
+interface DisplaySettingsParams {
   resultTitleField?: string;
   bodyField?: string;
   usePassages?: boolean;
 }
 
 export const getDisplaySettings = (
-  params: displaySettingsParams,
+  params: DisplaySettingsParams,
   componentSettings: DiscoveryV2.ComponentSettingsResponse | null = null
-): Required<displaySettingsParams> => {
+): Required<DisplaySettingsParams> => {
   return {
     resultTitleField:
       params.resultTitleField ||
