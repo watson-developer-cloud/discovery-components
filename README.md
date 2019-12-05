@@ -357,16 +357,25 @@ When triggered, Travis will build the project, then run the test scripts, and ou
 
 Steps in the automation can be set in `.travis.yml`, located in the root directory.
 
-### Releasing
+### Branching and Releasing
 
-To perform a release of any changed packages, make sure to run the same `lerna` commands found in `travis.yml` under the `deploy` section.
+We are adopting a ["oneflow" branching strategy](https://www.endoflineblog.com/oneflow-a-git-branching-model-and-workflow) where:
 
-The only two branches permitted for release are `master` and `develop`
+- `develop` is an eternal branch - bleeding edge, reviewed but not necessarily released code
+- `master` is another eternal _pointer_ branch to the latest released production tag. we advance this branch after a successful release with `git checkout master && git merge --ff-only @ibm-watson/discovery-react-components@x.x.x` where `x.x.x` is the latest released production tag. example steps:
+  - `git checkout master`
+  - `git merge --ff-only @ibm-watson/discovery-react-components@1.0.1`
+- `release/x.x.x` is a temporary branch created for beginning a production release. this contains all the features needed for the release and will only receive bugfixes. Once the release is complete, this branch is tagged and merged back into `develop`. example steps:
+  - `git checkout release/2.3.0`
+  - `npx lerna publish --create-release github`
+  - `git checkout develop`
+  - `git merge release/2.3.0`
+  - `git push --tags origin develop`
+  - `git branch -d release/2.3.0`
 
-- `master`: will create regular releases under the `latest` tag
-- `develop`: will create prerelease candidates under the `beta` tag
+The only branches permitted for release are `release/*`, `hotfix/*`, and `develop`
 
-More information about this command can be found in the README for [lerna publish](https://github.com/lerna/lerna/tree/master/commands/publish)
+More information about the `lerna publish` command can be found in the README for [lerna publish](https://github.com/lerna/lerna/tree/master/commands/publish)
 
 ## Helpful links
 

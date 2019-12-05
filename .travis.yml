@@ -8,7 +8,7 @@ addons:
       - libgconf-2-4
 branches:
   only:
-    - master
+    - develop
 script:
   - yarn lint
   - lerna run build
@@ -22,12 +22,9 @@ before_deploy:
   - git config remote.origin.url https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}
   - git checkout $TRAVIS_BRANCH
 
+# following https://www.endoflineblog.com/oneflow-a-git-branching-model-and-workflow
 deploy:
-  - provider: script
-    script: npx lerna publish -y --create-release github
-    skip_cleanup: true
-    on:
-      branch: master
+  # do regular beta releases
   - provider: script
     script: npx lerna publish -y --conventional-prerelease --preid beta --dist-tag beta
     skip_cleanup: true
