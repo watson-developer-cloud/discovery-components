@@ -179,20 +179,10 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   white-space: nowrap;
   text-overflow: ellipsis;
   margin-right: $spacing-05;
-
-  &:hover {
-    overflow: visible;
-    white-space: normal;
-  }
 }
 
 .#{$prefix}--search-result__footer__collection-name {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-
-  &:hover {
-    overflow: visible;
-    white-space: normal;
-  }
 }
