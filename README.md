@@ -369,6 +369,7 @@ We are adopting a ["oneflow" branching strategy](https://www.endoflineblog.com/o
   - `git checkout release/2.3.0`
   - if we want to publish a release candidate (not final build):
     - `npx lerna publish --conventional-prerelease --preid rc --dist-tag rc`
+    - (after we find out the `rc` is good to go) `npx lerna publish --create-release github --conventional-graduate` [docs](https://github.com/lerna/lerna/blob/master/commands/version/README.md#--conventional-graduate)
   - otherwise for the official release:
     - `npx lerna publish --create-release github`
   - `git checkout develop`
