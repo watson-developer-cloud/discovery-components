@@ -1,1 +1,1 @@
-export { processDoc, ProcessedDoc, ProcessedBbox, Table } from '@rootUtils/document/processDoc';
+export { processDoc, ProcessedDoc, ProcessedBbox, Table } from 'utils/document/processDoc';

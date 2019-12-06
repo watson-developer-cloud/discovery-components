@@ -1,5 +1,5 @@
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
-import { createDummyResponse } from '@rootUtils/testingUtils';
+import { createDummyResponse } from 'utils/testingUtils';
 
 export const facetsQueryResponse: DiscoveryV2.Response<
   DiscoveryV2.QueryResponse

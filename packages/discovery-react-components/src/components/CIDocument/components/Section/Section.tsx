@@ -15,11 +15,11 @@ import React, {
 import cx from 'classnames';
 import debounce from 'debounce';
 import { settings } from 'carbon-components';
-import { getId } from '@rootUtils/document/idUtils';
-import { createFieldRects, findOffsetInDOM } from '@rootUtils/document/documentUtils';
-import { clearNodeChildren } from '@rootUtils/dom';
-import elementFromPoint from '@CIDocument/utils/elementFromPoint';
-import { SectionType, Field, Item } from '@CIDocument/types';
+import { getId } from 'utils/document/idUtils';
+import { createFieldRects, findOffsetInDOM } from 'utils/document/documentUtils';
+import { clearNodeChildren } from 'utils/dom';
+import elementFromPoint from 'components/CIDocument/utils/elementFromPoint';
+import { SectionType, Field, Item } from 'components/CIDocument/types';
 
 export type OnFieldClickFn = (field: Field) => void;
 

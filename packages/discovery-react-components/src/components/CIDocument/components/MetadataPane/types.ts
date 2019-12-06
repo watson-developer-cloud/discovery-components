@@ -1,4 +1,4 @@
-import { Location, MetadataData } from '@CIDocument/types';
+import { Location, MetadataData } from 'components/CIDocument/types';
 
 export interface Party {
   role: string;

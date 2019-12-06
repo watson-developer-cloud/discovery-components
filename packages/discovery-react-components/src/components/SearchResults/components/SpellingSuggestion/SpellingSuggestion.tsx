@@ -1,9 +1,9 @@
 import React, { FC, useContext, SyntheticEvent } from 'react';
 import { settings } from 'carbon-components';
 import { Button as CarbonButton } from 'carbon-components-react';
-import { SearchApi, SearchContext } from '@DiscoverySearch/DiscoverySearch';
+import { SearchApi, SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
-import { useDeepCompareCallback } from '@rootUtils/useDeepCompareMemoize';
+import { useDeepCompareCallback } from 'utils/useDeepCompareMemoize';
 
 interface SpellingSuggestionProps {
   /**

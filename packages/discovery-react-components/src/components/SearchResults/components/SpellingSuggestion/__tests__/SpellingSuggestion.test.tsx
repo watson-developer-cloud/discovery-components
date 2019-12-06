@@ -5,8 +5,8 @@ import {
   SearchContextIFC,
   SearchApiIFC,
   searchResponseStoreDefaults
-} from '@DiscoverySearch/DiscoverySearch';
-import { wrapWithContext } from '@rootUtils/testingUtils';
+} from 'components/DiscoverySearch/DiscoverySearch';
+import { wrapWithContext } from 'utils/testingUtils';
 import { SpellingSuggestion } from '../SpellingSuggestion';
 
 describe('SpellingSuggestion', () => {

@@ -1,5 +1,5 @@
 import { Response, ListCollectionsResponse } from 'ibm-watson/discovery/v2';
-import { createDummyResponse } from '@rootUtils/testingUtils';
+import { createDummyResponse } from 'utils/testingUtils';
 
 const collectionsResponse: Response<ListCollectionsResponse> = createDummyResponse({
   collections: [

@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import cx from 'classnames';
 import { Link, Tooltip } from 'carbon-components-react';
-import { Metadata, MetadataData } from '@CIDocument/types';
+import { Metadata, MetadataData } from 'components/CIDocument/types';
 import { OnActiveMetadataChangeFn } from '../types';
-import { getId } from '@rootUtils/document/idUtils';
+import { getId } from 'utils/document/idUtils';
 import { ReactComponent as HighConfidence } from './icons/Confidence_high.svg';
 import { ReactComponent as MediumConfidence } from './icons/Confidence_medium.svg';
 import { ReactComponent as LowConfidence } from './icons/Confidence_low.svg';

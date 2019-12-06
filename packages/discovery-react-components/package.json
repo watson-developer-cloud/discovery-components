@@ -56,17 +56,5 @@
   "devDependencies": {
     "lorem-ipsum": "^2.0.3",
     "seedrandom": "^3.0.5"
-  },
-  "jest": {
-    "moduleNameMapper": {
-      "@rootUtils/(.*)": "<rootDir>/src/utils/$1",
-      "@CIDocument/(.*)": "<rootDir>/src/components/CIDocument/$1",
-      "@DiscoverySearch/(.*)": "<rootDir>/src/components/DiscoverySearch/$1",
-      "@DocumentPreview/(.*)": "<rootDir>/src/components/DocumentPreview/$1",
-      "@ResultsPagination/(.*)": "<rootDir>/src/components/ResultsPagination/$1",
-      "@SearchFacets/(.*)": "<rootDir>/src/components/SearchFacets/$1",
-      "@SearchInput/(.*)": "<rootDir>/src/components/SearchInput/$1",
-      "@SearchResults/(.*)": "<rootDir>/src/components/SearchResults/$1"
-    }
   }
 }

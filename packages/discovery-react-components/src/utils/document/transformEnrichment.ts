@@ -2,8 +2,14 @@ import invoiceOntology from './ontology/invoices';
 import purchaseOrderOntology from './ontology/purchase_orders';
 import flattenDeep from 'lodash/flattenDeep';
 import { getId } from './idUtils';
-import { ENRICHMENTS, getEnrichmentName } from '@CIDocument/utils/enrichmentUtils';
-import { EnrichedHtml, Contract, Attributes, Relations, Metadata } from '@CIDocument/types';
+import { ENRICHMENTS, getEnrichmentName } from 'components/CIDocument/utils/enrichmentUtils';
+import {
+  EnrichedHtml,
+  Contract,
+  Attributes,
+  Relations,
+  Metadata
+} from 'components/CIDocument/types';
 import { Ontology } from './ontology/types';
 
 const modelMapping = {

@@ -2,7 +2,7 @@ import React, { FC, ReactElement } from 'react';
 import capitalize from 'lodash/capitalize';
 import cx from 'classnames';
 import { Link } from 'carbon-components-react';
-import { documentDisplayNames } from '@CIDocument//utils/documentDisplayNames';
+import { documentDisplayNames } from 'components/CIDocument//utils/documentDisplayNames';
 import { Item, ItemLink, ItemLabel, OnActiveLinkChangeFn } from './types';
 import { defaultMessages, Messages } from './messages';
 

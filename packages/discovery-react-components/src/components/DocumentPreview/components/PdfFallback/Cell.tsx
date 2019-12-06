@@ -1,5 +1,5 @@
 import React, { FC, createRef, useState, useEffect } from 'react';
-import { PageWithCells, StyledCell as StyledCellType } from '@DocumentPreview/types';
+import { PageWithCells, StyledCell as StyledCellType } from 'components/DocumentPreview/types';
 
 interface Props {
   page: PageWithCells;

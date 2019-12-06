@@ -2,13 +2,13 @@ import React, { FC, useState, useEffect, useMemo, useReducer } from 'react';
 import { settings } from 'carbon-components';
 import get from 'lodash/get';
 import { QueryResult } from 'ibm-watson/discovery/v2';
-import { Cell, CellField, PageWithCells, Bbox } from '@DocumentPreview/types';
+import { Cell, CellField, PageWithCells, Bbox } from 'components/DocumentPreview/types';
 import CellComponent from './Cell';
 import { computeFontFamilyAndWeight } from './utils/fallbackFonts';
-import { processDoc, ProcessedDoc, ProcessedBbox } from '@rootUtils/document';
+import { processDoc, ProcessedDoc, ProcessedBbox } from 'utils/document';
 import { intersects } from './utils/box';
-import shortid from '@rootUtils/shortid';
-import { getTextMappings } from '@DocumentPreview/utils/documentData';
+import shortid from 'utils/shortid';
+import { getTextMappings } from 'components/DocumentPreview/utils/documentData';
 
 interface Props {
   /**

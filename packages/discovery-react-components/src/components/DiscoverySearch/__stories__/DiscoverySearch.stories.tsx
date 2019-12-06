@@ -13,7 +13,7 @@ import {
   SearchContext,
   SearchApi
 } from '../DiscoverySearch';
-import { DummySearchClient } from '@rootUtils/storybookUtils';
+import { DummySearchClient } from 'utils/storybookUtils';
 
 const MyComponent: FC<{}> = () => {
   const {

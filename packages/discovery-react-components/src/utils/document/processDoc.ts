@@ -4,7 +4,7 @@ import { QueryResult } from 'ibm-watson/discovery/v2';
 import { isRelationObject } from './nonContractUtils';
 import { getId } from './idUtils';
 import transformEnrichment from './transformEnrichment';
-import { getEnrichmentName } from '@CIDocument/utils/enrichmentUtils';
+import { getEnrichmentName } from 'components/CIDocument/utils/enrichmentUtils';
 import { spansIntersect } from './documentUtils';
 
 // split HTML into "sections" based on these top level tag(s)

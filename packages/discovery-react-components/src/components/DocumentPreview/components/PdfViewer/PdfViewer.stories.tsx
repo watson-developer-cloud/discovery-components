@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, radios, number } from '@storybook/addon-knobs';
 import PdfViewer from './PdfViewer';
-import { document as doc } from '@DocumentPreview/__fixtures__/Art Effects.pdf';
+import { document as doc } from 'components/DocumentPreview/__fixtures__/Art Effects.pdf';
 
 const pageKnob = {
   label: 'Page',
