@@ -1,6 +1,6 @@
 # Discovery Components
 
-[![Build Status](https://travis-ci.org/watson-developer-cloud/discovery-components.svg?branch=master)](https://travis-ci.org/watson-developer-cloud/discovery-components)
+[![Build Status](https://travis-ci.org/watson-developer-cloud/discovery-components.svg?branch=develop)](https://travis-ci.org/watson-developer-cloud/discovery-components)
 [![Apache-2.0 license](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/watson-developer-cloud/discovery-components/blob/master/LICENSE)
 [![Lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/watson-developer-cloud/discovery-components/blob/master/.github/CONTRIBUTING.md)
@@ -358,19 +358,29 @@ When triggered, Travis will build the project, then run the test scripts, and ou
 
 Steps in the automation can be set in `.travis.yml`, located in the root directory.
 
-### Releasing
+### Branching and Releasing
 
-To perform a release of any changed packages, run
+We are adopting a ["oneflow" branching strategy](https://www.endoflineblog.com/oneflow-a-git-branching-model-and-workflow) where:
 
-```
-lerna publish
-```
+- `develop` is an eternal branch - bleeding edge, reviewed but not necessarily released code
+- `master` is another eternal _pointer_ branch to the latest released production tag. we advance this branch after a successful release with `git checkout master && git merge --ff-only @ibm-watson/discovery-react-components@x.x.x` where `x.x.x` is the latest released production tag. example steps:
+  - `git checkout master`
+  - `git merge --ff-only @ibm-watson/discovery-react-components@1.0.1`
+- `release/x.x.x` is a temporary branch created for beginning a production release. this contains all the features needed for the release and will only receive bugfixes. Once the release is complete, this branch is tagged and merged back into `develop`. example steps:
+  - `git checkout release/2.3.0`
+  - if we want to publish a release candidate (not final build):
+    - `npx lerna publish --conventional-prerelease --preid rc --dist-tag rc`
+    - (after we find out the `rc` is good to go) `npx lerna publish --create-release github --conventional-graduate` [docs](https://github.com/lerna/lerna/blob/master/commands/version/README.md#--conventional-graduate)
+  - otherwise for the official release:
+    - `npx lerna publish --create-release github`
+  - `git checkout develop`
+  - `git merge release/2.3.0`
+  - `git push --tags origin develop`
+  - `git branch -d release/2.3.0`
 
-More information about this command can be found in the README for [lerna publish](https://github.com/lerna/lerna/tree/master/commands/publish)
+The only branches permitted for release are `release/*`, `hotfix/*`, and `develop`
 
-#### A note on versioning
-
-We use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0-beta.4/) when commiting to our repository, although it is not required. If a group of commits are merged into our repo which use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0-beta.4/) syntax, then the versioning of our NPM package will be determined by [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0-beta.4/) specification. If not, then the patch version will automatically be bumped.
+More information about the `lerna publish` command can be found in the README for [lerna publish](https://github.com/lerna/lerna/tree/master/commands/publish)
 
 ## Helpful links
 

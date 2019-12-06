@@ -477,10 +477,6 @@ describe('<Result />', () => {
           document_id: 'some document_id',
           result_metadata: {
             collection_id: '1'
-          },
-          url: {
-            firstPart: 'ibm',
-            secondPart: 'com'
           }
         };
         const api = {
@@ -550,6 +546,78 @@ describe('<Result />', () => {
         wrapWithContext(<SearchResults resultTitleField="myTitle" />, api, context)
       );
       expect(getByText('my title')).toBeInTheDocument();
+    });
+
+    describe('but resultTitleField does not map to a value on the result object', () => {
+      describe('and we have a value at extracted_metadata.title', () => {
+        test('we display the value at extracted_metadata.title', () => {
+          (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
+            {
+              document_id: 'some document_id',
+              result_metadata: {
+                collection_id: '1'
+              },
+              extracted_metadata: {
+                title: 'some title',
+                filename: 'some file name'
+              },
+              myTitle: 'my title'
+            }
+          ];
+          const api = {
+            setSelectedResult: jest.fn()
+          };
+          const { getByText } = render(
+            wrapWithContext(<SearchResults resultTitleField="doesNotExist" />, api, context)
+          );
+          expect(getByText('some title')).toBeInTheDocument();
+        });
+      });
+
+      describe('and we have a value only for filename and document_id', () => {
+        test('we display the filename', () => {
+          (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
+            {
+              document_id: 'some document_id',
+              result_metadata: {
+                collection_id: '1'
+              },
+              extracted_metadata: {
+                filename: 'my file name'
+              },
+              myTitle: 'my title'
+            }
+          ];
+          const api = {
+            setSelectedResult: jest.fn()
+          };
+          const { getByText } = render(
+            wrapWithContext(<SearchResults resultTitleField="doesNotExist" />, api, context)
+          );
+          expect(getByText('my file name')).toBeInTheDocument();
+        });
+      });
+
+      describe('and we have a value only for document_id', () => {
+        test('we display document_id', () => {
+          (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
+            {
+              document_id: 'some document_id',
+              result_metadata: {
+                collection_id: '1'
+              },
+              myTitle: 'my title'
+            }
+          ];
+          const api = {
+            setSelectedResult: jest.fn()
+          };
+          const { getByText } = render(
+            wrapWithContext(<SearchResults resultTitleField="doesNotExist" />, api, context)
+          );
+          expect(getByText('some document_id')).toBeInTheDocument();
+        });
+      });
     });
   });
 
