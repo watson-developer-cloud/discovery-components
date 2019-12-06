@@ -2,15 +2,15 @@ import * as React from 'react';
 import { render, RenderResult, fireEvent } from '@testing-library/react';
 import { QueryTermAggregation } from 'ibm-watson/discovery/v2';
 import { wrapWithContext } from '@rootUtils/testingUtils';
-import { SearchFacets } from '@SearchFacets/SearchFacets';
+import { SearchFacets } from '../SearchFacets';
 import {
   SearchContextIFC,
   SearchApiIFC,
   searchResponseStoreDefaults
 } from '@DiscoverySearch/DiscoverySearch';
-import { facetsQueryResponse } from '@SearchFacets/__fixtures__/facetsQueryResponse';
-import collectionsResponse from '@SearchFacets/__fixtures__/collectionsResponse';
-import { noAvailableFacetsMessage } from '@SearchFacets/utils/searchFacetMessages';
+import { facetsQueryResponse } from '../__fixtures__/facetsQueryResponse';
+import collectionsResponse from '../__fixtures__/collectionsResponse';
+import { noAvailableFacetsMessage } from '../utils/searchFacetMessages';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import '@testing-library/jest-dom/extend-expect';
 

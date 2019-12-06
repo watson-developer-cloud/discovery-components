@@ -2,7 +2,7 @@ import React, { useState, ReactElement } from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import { PreviewToolbar } from '@DocumentPreview/components/PreviewToolbar/PreviewToolbar';
+import { PreviewToolbar } from './PreviewToolbar';
 
 const PreviewToolbarWrapper = (): ReactElement => {
   const [current, setCurrent] = useState(1);

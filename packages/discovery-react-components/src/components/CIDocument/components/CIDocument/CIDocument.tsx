@@ -16,11 +16,11 @@ import get from 'lodash/get';
 import flattenDeep from 'lodash/flattenDeep';
 import difference from 'lodash/difference';
 import isEqual from 'lodash/isEqual';
-import DetailsPane from '@CIDocument/components/DetailsPane/DetailsPane';
-import FilterPanel from '@CIDocument/components/FilterPanel/FilterPanel';
-import MetadataPane from '@CIDocument/components/MetadataPane/MetadataPane';
-import NavigationToolbar from '@CIDocument/components/NavigationToolbar/NavigationToolbar';
-import CIDocumentContent from '@CIDocument/components/CIDocumentContent/CIDocumentContent';
+import DetailsPane from '../DetailsPane/DetailsPane';
+import FilterPanel from '../FilterPanel/FilterPanel';
+import MetadataPane from '../MetadataPane/MetadataPane';
+import NavigationToolbar from '../NavigationToolbar/NavigationToolbar';
+import CIDocumentContent from '../CIDocumentContent/CIDocumentContent';
 import { processDoc } from '@rootUtils/document';
 import { getEnrichmentName } from '@CIDocument/utils/enrichmentUtils';
 import { getDetailsFromItem, getDetailsFromMetadata } from '@CIDocument/utils/details';
@@ -33,31 +33,31 @@ import {
   isInvoiceOrPurchaseOrder
 } from '@rootUtils/document/nonContractUtils';
 import { withErrorBoundary, WithErrorBoundaryProps } from '@rootUtils/hoc/withErrorBoundary';
-import { Filter, FilterGroup, FilterChangeArgs } from '@CIDocument/components/FilterPanel/types';
+import { Filter, FilterGroup, FilterChangeArgs } from '../FilterPanel/types';
 import { MetadataData, EnrichedHtml, Contract, Item, Field } from '@CIDocument/types';
-import { Address, Mention } from '@CIDocument/components/MetadataPane/types';
-import { Items } from '@CIDocument/components/DetailsPane/types';
+import { Address, Mention } from '../MetadataPane/types';
+import { Items } from '../DetailsPane/types';
 import { defaultTheme, Theme } from '@rootUtils/theme';
 import {
   defaultMessages as detailsPaneDefaultMsgs,
   Messages as DetailsPaneMessages
-} from '@CIDocument/components/DetailsPane/messages';
+} from '../DetailsPane/messages';
 import {
   defaultMessages as filterPanelDefaultMsgs,
   Messages as FilterPanelMessages
-} from '@CIDocument/components/FilterPanel/messages';
+} from '../FilterPanel/messages';
 import {
   defaultMessages as metadataPaneDefaultMsgs,
   Messages as MetadataPaneMessages
-} from '@CIDocument/components/MetadataPane/messages';
+} from '../MetadataPane/messages';
 import {
   defaultMessages as navigationToolbarDefaultMsgs,
   Messages as NavigationToolbarMessages
-} from '@CIDocument/components/NavigationToolbar/messages';
+} from '../NavigationToolbar/messages';
 import {
   defaultMessages as CIDocumentDefaultMsgs,
   Messages as CIDocumentMessages
-} from '@CIDocument/components/CIDocument/messages';
+} from './messages';
 
 export type Messages = DetailsPaneMessages &
   FilterPanelMessages &

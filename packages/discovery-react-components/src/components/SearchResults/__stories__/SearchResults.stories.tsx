@@ -3,17 +3,17 @@ import { storiesOf } from '@storybook/react';
 import { withKnobs, text, boolean, object, number, select } from '@storybook/addon-knobs/react';
 import { StoryWrapper, DummySearchClient } from '@rootUtils/storybookUtils';
 import { DiscoverySearch, DiscoverySearchProps } from '@DiscoverySearch/DiscoverySearch';
-import { SearchResults } from '@SearchResults/SearchResults';
-import overrideSearchResults from '@SearchResults/__fixtures__/searchResults';
-import overrideCollectionsResults from '@SearchResults/__fixtures__/collectionsResponse';
+import { SearchResults } from '../SearchResults';
+import overrideSearchResults from '../__fixtures__/searchResults';
+import overrideCollectionsResults from '../__fixtures__/collectionsResponse';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { action } from '@storybook/addon-actions';
 import { createDummyResponsePromise } from '@rootUtils/testingUtils';
-import trimSearchResults from '@SearchResults/__stories__/utils/trimSearchResults';
+import trimSearchResults from './utils/trimSearchResults';
 import cloneDeep from 'lodash/cloneDeep';
 import marked from 'marked';
-import defaultReadme from '@SearchResults/__stories__/default.md';
-import { defaultMessages } from '@SearchResults/messages';
+import defaultReadme from './default.md';
+import { defaultMessages } from '../messages';
 
 const props = () => ({
   bodyField: text(

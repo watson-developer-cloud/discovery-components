@@ -1,5 +1,5 @@
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
-import { COLLECTION_ID_1 } from '@SearchResults/__fixtures__/collectionsResponse';
+import { COLLECTION_ID_1 } from './collectionsResponse';
 
 const searchResults: DiscoveryV2.QueryResponse = {
   matching_results: 20967,

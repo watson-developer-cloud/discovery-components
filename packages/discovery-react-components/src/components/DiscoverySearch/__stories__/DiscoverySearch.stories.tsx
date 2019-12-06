@@ -5,14 +5,14 @@ import { storiesOf } from '@storybook/react';
 import { withKnobs, text, object } from '@storybook/addon-knobs/react';
 // due to a bug with addon-info and markdown files https://github.com/storybookjs/storybook/pull/6016/ use marked to convert md to html
 import marked from 'marked';
-import defaultReadme from '@DiscoverySearch/__stories__/default.md';
-import customClientReadme from '@DiscoverySearch/__stories__/custom_client.md';
+import defaultReadme from './default.md';
+import customClientReadme from './custom_client.md';
 import {
   DiscoverySearch,
   DiscoverySearchProps,
   SearchContext,
   SearchApi
-} from '@DiscoverySearch/DiscoverySearch';
+} from '../DiscoverySearch';
 import { DummySearchClient } from '@rootUtils/storybookUtils';
 
 const MyComponent: FC<{}> = () => {

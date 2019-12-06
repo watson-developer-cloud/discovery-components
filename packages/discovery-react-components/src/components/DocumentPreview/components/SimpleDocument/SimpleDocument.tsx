@@ -5,7 +5,7 @@ import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/di
 import get from 'lodash/get';
 import { clearNodeChildren } from '@rootUtils/dom';
 import { findOffsetInDOM, createFieldRects } from '@rootUtils/document/documentUtils';
-import { isPassage } from '@DocumentPreview/components/Highlight/passages';
+import { isPassage } from '../Highlight/passages';
 
 interface Props {
   /**

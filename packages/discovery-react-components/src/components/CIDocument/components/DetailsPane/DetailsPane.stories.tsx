@@ -1,8 +1,8 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import DetailsPane from '@CIDocument/components/DetailsPane/DetailsPane';
-import { Items } from '@CIDocument/components/DetailsPane/types';
+import DetailsPane from './DetailsPane';
+import { Items } from './types';
 
 const mockData: Items[] = [
   {

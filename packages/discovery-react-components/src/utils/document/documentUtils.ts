@@ -1,5 +1,5 @@
 import uniqWith from 'lodash/uniqWith';
-import { getEncodedTextNodeLength } from '@rootUtils/dom';
+import { getEncodedTextNodeLength } from '../dom';
 
 interface FindOffsetResults {
   beginTextNode: Text;

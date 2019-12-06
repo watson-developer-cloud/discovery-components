@@ -1,4 +1,4 @@
-import { FilterGroupWithFns } from '@CIDocument/utils/filterGroups';
+import { FilterGroupWithFns } from '../filterGroups';
 
 const filterGroups: FilterGroupWithFns[] = [
   {

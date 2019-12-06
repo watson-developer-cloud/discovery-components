@@ -4,7 +4,7 @@ import {
   useDeepCompareMemo,
   useDeepCompareEffect,
   useDeepCompareCallback
-} from '@rootUtils/useDeepCompareMemoize';
+} from '../useDeepCompareMemoize';
 
 interface MyComponentProps {
   value: string;

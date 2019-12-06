@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { settings } from 'carbon-components';
-import { Items, OnActiveLinkChangeFn } from '@CIDocument/components/DetailsPane/types';
-import Details from '@CIDocument/components/DetailsPane/Details';
-import { defaultMessages, Messages } from '@CIDocument/components/DetailsPane/messages';
+import { Items, OnActiveLinkChangeFn } from './types';
+import Details from './Details';
+import { defaultMessages, Messages } from './messages';
 
 const base = `${settings.prefix}--ci-doc-details`;
 

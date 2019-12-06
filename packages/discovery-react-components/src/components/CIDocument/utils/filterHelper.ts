@@ -1,7 +1,7 @@
 import uniq from 'lodash/uniq';
-import { isFilterEmpty } from '@CIDocument/utils/filterUtils';
-import { getBaseFilterGroups, FilterGroupWithFns } from '@CIDocument/utils/filterGroups';
-import { FilterGroup } from '@CIDocument/components/FilterPanel/types';
+import { isFilterEmpty } from './filterUtils';
+import { getBaseFilterGroups, FilterGroupWithFns } from './filterGroups';
+import { FilterGroup } from '../components/FilterPanel/types';
 
 export type HelperFilterFn = (filter: any) => { filteredList: any[]; filterGroups: FilterGroup[] };
 

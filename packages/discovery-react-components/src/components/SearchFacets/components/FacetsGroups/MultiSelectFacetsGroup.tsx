@@ -1,8 +1,5 @@
 import React, { FC, useContext, SyntheticEvent } from 'react';
-import {
-  optionClass,
-  optionLabelClass
-} from '@SearchFacets/components/FacetsGroups/facetGroupClasses';
+import { optionClass, optionLabelClass } from './facetGroupClasses';
 import { Checkbox as CarbonCheckbox } from 'carbon-components-react';
 import { SearchContext } from '@DiscoverySearch/DiscoverySearch';
 import {

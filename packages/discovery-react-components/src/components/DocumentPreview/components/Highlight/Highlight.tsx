@@ -1,10 +1,10 @@
 import React, { FC, ReactElement } from 'react';
 import { QueryResultPassage, QueryResult, QueryTableResult } from 'ibm-watson/discovery/v2';
-import TableHighlight from '@DocumentPreview/components/Highlight/TableHighlight';
-import PassageHighlight from '@DocumentPreview/components/Highlight/PassageHighlight';
-import { isPassage } from '@DocumentPreview/components/Highlight/passages';
+import TableHighlight from './TableHighlight';
+import PassageHighlight from './PassageHighlight';
+import { isPassage } from './passages';
 import { Bbox, Origin } from '@DocumentPreview/types';
-import { PADDING } from '@DocumentPreview/components/Highlight/constants';
+import { PADDING } from './constants';
 
 interface Props {
   /**

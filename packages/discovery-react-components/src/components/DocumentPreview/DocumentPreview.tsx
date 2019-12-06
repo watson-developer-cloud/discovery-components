@@ -4,18 +4,16 @@ import get from 'lodash/get';
 import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { SearchContext } from '@DiscoverySearch/DiscoverySearch';
-import { PreviewToolbar } from '@DocumentPreview/components/PreviewToolbar/PreviewToolbar';
-import PdfViewer from '@DocumentPreview/components/PdfViewer/PdfViewer';
-import PdfFallback, {
-  supportsPdfFallback
-} from '@DocumentPreview/components/PdfFallback/PdfFallback';
-import SimpleDocument from '@DocumentPreview/components/SimpleDocument/SimpleDocument';
-import HtmlView from '@DocumentPreview/components/HtmlView/HtmlView';
-import Highlight from '@DocumentPreview/components/Highlight/Highlight';
-import { getTextMappings } from '@DocumentPreview/utils/documentData';
+import { PreviewToolbar } from './components/PreviewToolbar/PreviewToolbar';
+import PdfViewer from './components/PdfViewer/PdfViewer';
+import PdfFallback, { supportsPdfFallback } from './components/PdfFallback/PdfFallback';
+import SimpleDocument from './components/SimpleDocument/SimpleDocument';
+import HtmlView from './components/HtmlView/HtmlView';
+import Highlight from './components/Highlight/Highlight';
+import { getTextMappings } from './utils/documentData';
 import withErrorBoundary, { WithErrorBoundaryProps } from '@rootUtils/hoc/withErrorBoundary';
-import { defaultMessages, Messages } from '@DocumentPreview/messages';
-import { TextMappings } from '@DocumentPreview/types';
+import { defaultMessages, Messages } from './messages';
+import { TextMappings } from './types';
 
 const { ZOOM_IN, ZOOM_OUT } = PreviewToolbar;
 

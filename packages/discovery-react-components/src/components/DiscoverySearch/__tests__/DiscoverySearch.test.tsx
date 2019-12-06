@@ -5,7 +5,7 @@ import {
   DiscoverySearchProps,
   SearchApi,
   SearchContext
-} from '@DiscoverySearch/DiscoverySearch';
+} from '../DiscoverySearch';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { createDummyResponsePromise } from '@rootUtils/testingUtils';
 interface Setup {

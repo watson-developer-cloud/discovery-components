@@ -1,6 +1,6 @@
 import get from 'lodash.get';
 import { QueryResult } from 'ibm-watson/discovery/v2';
-import { TextMappings } from '@DocumentPreview/types';
+import { TextMappings } from '../types';
 
 /**
  * Get `text_mappings` document property as an object. Usually, this

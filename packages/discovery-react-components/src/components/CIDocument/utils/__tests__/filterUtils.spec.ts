@@ -1,4 +1,4 @@
-import { isFilterEmpty, filterContains, updateFilter } from '@CIDocument/utils/filterUtils';
+import { isFilterEmpty, filterContains, updateFilter } from '../filterUtils';
 import { Filter } from '@CIDocument/components/FilterPanel/types';
 
 const filterPartA1 = {

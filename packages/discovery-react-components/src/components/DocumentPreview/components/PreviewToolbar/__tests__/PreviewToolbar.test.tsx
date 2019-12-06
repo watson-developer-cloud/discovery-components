@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { cleanup, render, fireEvent } from '@testing-library/react';
-import { PreviewToolbar } from '@DocumentPreview/components/PreviewToolbar/PreviewToolbar';
+import { PreviewToolbar } from '../PreviewToolbar';
 
 const { ZOOM_IN, ZOOM_OUT, ZOOM_RESET } = PreviewToolbar;
 

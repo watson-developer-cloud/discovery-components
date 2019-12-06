@@ -5,9 +5,9 @@ import {
   InternalQueryTermAggregation,
   SelectableQueryTermAggregationResult,
   SearchFilterFacets
-} from '@SearchFacets/utils/searchFacetInterfaces';
-import { Messages } from '@SearchFacets/messages';
-import { CollapsibleFacetsGroup } from '@SearchFacets/components/FacetsGroups/CollapsibleFacetsGroup';
+} from '../utils/searchFacetInterfaces';
+import { Messages } from '../messages';
+import { CollapsibleFacetsGroup } from './FacetsGroups/CollapsibleFacetsGroup';
 
 interface FieldFacetsProps {
   /**

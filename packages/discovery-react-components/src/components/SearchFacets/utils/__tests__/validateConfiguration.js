@@ -1,4 +1,4 @@
-import { validateConfiguration } from '@SearchFacets/utils/validateConfiguration';
+import { validateConfiguration } from '../validateConfiguration';
 
 describe('validate configuration correctly validates input', () => {
   test('it returns false when string is provided for configuration', () => {

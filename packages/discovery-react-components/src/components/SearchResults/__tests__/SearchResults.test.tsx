@@ -8,7 +8,7 @@ import {
   searchResponseStoreDefaults
 } from '@DiscoverySearch/DiscoverySearch';
 import { wrapWithContext } from '@rootUtils/testingUtils';
-import { SearchResults, SearchResultsProps } from '@SearchResults/SearchResults';
+import { SearchResults, SearchResultsProps } from '../SearchResults';
 import { getByText as domGetByText } from '@testing-library/dom';
 
 describe('<SearchResults />', () => {

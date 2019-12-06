@@ -18,7 +18,7 @@ import {
   autocompletionStoreDefaults
 } from '@DiscoverySearch/DiscoverySearch';
 import { wrapWithContext } from '@rootUtils/testingUtils';
-import { SearchInput } from '@SearchInput/SearchInput';
+import { SearchInput } from '../SearchInput';
 
 const COMPLETIONS = ['some', 'someone', 'solar', 'somatic', 'soke'];
 const SEARCHINPUTVALUE = 'so';

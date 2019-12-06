@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import PdfFallback from '@DocumentPreview/components/PdfFallback/PdfFallback';
+import PdfFallback from './PdfFallback';
 import docJson from '@DocumentPreview/__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
 
 storiesOf('DocumentPreview/components/PdfFallback', module).add('default', () => {

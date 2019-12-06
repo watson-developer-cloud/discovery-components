@@ -7,7 +7,7 @@ import {
   searchResponseStoreDefaults
 } from '@DiscoverySearch/DiscoverySearch';
 import { wrapWithContext } from '@rootUtils/testingUtils';
-import { SpellingSuggestion } from '@SearchResults/components/SpellingSuggestion/SpellingSuggestion';
+import { SpellingSuggestion } from '../SpellingSuggestion';
 
 describe('SpellingSuggestion', () => {
   describe('When spelling suggestions enabled', () => {

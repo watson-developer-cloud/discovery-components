@@ -7,8 +7,8 @@ import React, { FC, ReactElement, MutableRefObject, useEffect, useRef } from 're
 import cx from 'classnames';
 import { settings } from 'carbon-components';
 import { SkeletonText } from 'carbon-components-react';
-import Section, { OnFieldClickFn } from '@CIDocument/components/Section/Section';
-import VirtualScroll from '@CIDocument/components/VirtualScroll/VirtualScroll';
+import Section, { OnFieldClickFn } from '../Section/Section';
+import VirtualScroll from '../VirtualScroll/VirtualScroll';
 import { defaultTheme, Theme } from '@rootUtils/theme';
 import { SectionType, ItemMap } from '@CIDocument/types';
 

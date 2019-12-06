@@ -3,11 +3,11 @@ import { storiesOf } from '@storybook/react';
 import { withKnobs, radios } from '@storybook/addon-knobs';
 import omit from 'lodash/omit';
 import { QueryResult, QueryResultPassage } from 'ibm-watson/discovery/v2';
-import DocumentPreview from '@DocumentPreview/DocumentPreview';
-import { document as docPDF } from '@DocumentPreview/__fixtures__/Art Effects.pdf';
-import docArtEffects from '@DocumentPreview/__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
-import passages from '@DocumentPreview/__fixtures__/passages';
-import jsonPassages from '@DocumentPreview/__fixtures__/jsonPassages';
+import DocumentPreview from '../DocumentPreview';
+import { document as docPDF } from '../__fixtures__/Art Effects.pdf';
+import docArtEffects from '../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
+import passages from '../__fixtures__/passages';
+import jsonPassages from '../__fixtures__/jsonPassages';
 
 interface WrapperProps {
   style?: any;

@@ -1,5 +1,5 @@
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
-import { findTermAggregations } from '@SearchFacets/utils/findTermAggregations';
+import { findTermAggregations } from '../findTermAggregations';
 import {
   twoTermAggs,
   nestedTermAgg,

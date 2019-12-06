@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, BoundFunction, GetByText, AllByText, fireEvent } from '@testing-library/react';
-import DetailsPane from '@CIDocument/components/DetailsPane/DetailsPane';
-import { Items, OnActiveLinkChangeFn } from '@CIDocument/components/DetailsPane/types';
+import DetailsPane from '../DetailsPane';
+import { Items, OnActiveLinkChangeFn } from '../types';
 
 describe('<DetailsPane />', () => {
   const dummyData: Items[] = [

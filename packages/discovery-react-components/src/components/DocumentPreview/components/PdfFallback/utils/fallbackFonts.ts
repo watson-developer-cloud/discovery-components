@@ -1,14 +1,6 @@
 import deburr from 'lodash/deburr';
 // import memoize from 'lodash/memoize';
-import {
-  serif,
-  sansSerif,
-  semiSerif,
-  monoSpace,
-  cursive,
-  dingbat,
-  weightsMap
-} from '@DocumentPreview/components/PdfFallback/utils/fontsList';
+import { serif, sansSerif, semiSerif, monoSpace, cursive, dingbat, weightsMap } from './fontsList';
 import leven from 'leven';
 
 /**

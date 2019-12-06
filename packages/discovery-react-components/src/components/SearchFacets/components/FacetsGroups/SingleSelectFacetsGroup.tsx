@@ -4,10 +4,7 @@ import {
   RadioButton as CarbonRadioButton
 } from 'carbon-components-react';
 import { SearchContext } from '@DiscoverySearch/DiscoverySearch';
-import {
-  optionLabelClass,
-  singleSelectGroupClass
-} from '@SearchFacets/components/FacetsGroups/facetGroupClasses';
+import { optionLabelClass, singleSelectGroupClass } from './facetGroupClasses';
 import {
   SelectableDynamicFacets,
   SelectableQueryTermAggregationResult,

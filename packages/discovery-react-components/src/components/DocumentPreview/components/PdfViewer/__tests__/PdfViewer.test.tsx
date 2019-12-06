@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { act, render } from '@testing-library/react';
-import PdfViewer from '@DocumentPreview/components/PdfViewer/PdfViewer';
+import PdfViewer from '../PdfViewer';
 import { document as doc } from '@DocumentPreview/__fixtures__/Art Effects.pdf';
 
 describe('PdfViewer', () => {

@@ -1,6 +1,6 @@
 import countby from 'lodash/countBy';
 import capitalize from 'lodash/capitalize';
-import { Items, Item } from '@CIDocument/components/DetailsPane/types';
+import { Items, Item } from '../components/DetailsPane/types';
 
 const contractDetailsFromItem = (item: any): Items[] => [
   {

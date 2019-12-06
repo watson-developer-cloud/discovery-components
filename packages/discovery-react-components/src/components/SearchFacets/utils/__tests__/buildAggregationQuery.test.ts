@@ -1,4 +1,4 @@
-import { buildAggregationQuery } from '@SearchFacets/utils/buildAggregationQuery';
+import { buildAggregationQuery } from '../buildAggregationQuery';
 import {
   configurationWithOneField,
   configurationWithTwoFields,

@@ -5,7 +5,7 @@ import {
   InternalQueryTermAggregation,
   SelectableQueryTermAggregationResult,
   SelectableDynamicFacets
-} from '@SearchFacets/utils/searchFacetInterfaces';
+} from './searchFacetInterfaces';
 
 export class SearchFilterTransform {
   static SPLIT_UNQUOTED_COMMAS = /,(?=(?:(?:[^"\\"]*["\\"]){2})*[^"\\"]*$)/;

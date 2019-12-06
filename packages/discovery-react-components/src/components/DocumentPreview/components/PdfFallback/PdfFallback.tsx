@@ -3,10 +3,10 @@ import { settings } from 'carbon-components';
 import get from 'lodash/get';
 import { QueryResult } from 'ibm-watson/discovery/v2';
 import { Cell, CellField, PageWithCells, Bbox } from '@DocumentPreview/types';
-import CellComponent from '@DocumentPreview/components/PdfFallback/Cell';
-import { computeFontFamilyAndWeight } from '@DocumentPreview/components/PdfFallback/utils/fallbackFonts';
-import processDoc, { ProcessedDoc, ProcessedBbox } from '@rootUtils/document/processDoc';
-import { intersects } from '@DocumentPreview/components/PdfFallback/utils/box';
+import CellComponent from './Cell';
+import { computeFontFamilyAndWeight } from './utils/fallbackFonts';
+import { processDoc, ProcessedDoc, ProcessedBbox } from '@rootUtils/document';
+import { intersects } from './utils/box';
 import shortid from '@rootUtils/shortid';
 import { getTextMappings } from '@DocumentPreview/utils/documentData';
 

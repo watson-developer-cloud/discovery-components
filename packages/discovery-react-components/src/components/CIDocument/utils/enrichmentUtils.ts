@@ -1,4 +1,4 @@
-import { EnrichedHtml } from '@CIDocument/types';
+import { EnrichedHtml } from '../types';
 
 const ENRICHMENTS = {
   CONTRACT: 'contract',

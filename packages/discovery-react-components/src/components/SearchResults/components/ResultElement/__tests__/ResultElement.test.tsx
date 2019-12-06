@@ -1,9 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import {
-  ResultElement,
-  ResultElementProps
-} from '@SearchResults/components/ResultElement/ResultElement';
+import { ResultElement, ResultElementProps } from '../ResultElement';
 import '@testing-library/jest-dom/extend-expect';
 
 const props: ResultElementProps = {

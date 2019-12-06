@@ -80,8 +80,8 @@ Note that we are using [Carbon](https://www.carbondesignsystem.com/) components 
 ##### Imports
 
 * We are using module path aliases for our imports. In the root `tsconfig.prod.json` file for the `discovery-react-components` package, we have set up aliases for the package's root `utils` folder, as well as an alias for each component's root folder. Each module path is prefixed with the `@` symbol so that it is easy to spot.
-* If you are adding a new import, please use these module path aliases. 
-* If you are adding a new component, please set up a module path alias for that component following these existing conventions.
+* If you are adding a new import and it is complex (`../../` or more), please use these module path aliases. 
+* If you are adding a new component and find yourself with complex relative paths for imports, please set up a module path alias for that component following these existing conventions.
 * When adding or modifying a module path alias, please update it in Storybook's `tsconfig.json` and in Jest's `moduleNameMapper` config in the `discovery-react-components` package's `package.json`, as well as in the package's root `tsconfig.prod.json` file.
 
 #### React components

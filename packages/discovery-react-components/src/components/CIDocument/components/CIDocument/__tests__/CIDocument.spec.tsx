@@ -11,8 +11,8 @@ import {
   GetByText
 } from '@testing-library/react';
 import '@CIDocument/utils/test/createRange.mock';
-import CIDocument from '@CIDocument/components/CIDocument/CIDocument';
-import contract from '@CIDocument/components/CIDocument/__fixtures__/contract.json';
+import CIDocument from '../CIDocument';
+import contract from '../__fixtures__/contract.json';
 
 describe('<CIDocument />', () => {
   let getAllByRole: BoundFunction<GetAllBy<any[]>>,

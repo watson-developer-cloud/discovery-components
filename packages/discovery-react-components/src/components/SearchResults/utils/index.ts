@@ -1,3 +1,3 @@
-export { findCollectionName } from '@SearchResults/utils/findCollectionName';
-export { getDisplaySettings } from '@SearchResults/utils/getDisplaySettings';
-export { findTablesWithoutResults } from '@SearchResults/utils/findTablesWithoutResults';
+export { findCollectionName } from './findCollectionName';
+export { getDisplaySettings } from './getDisplaySettings';
+export { findTablesWithoutResults } from './findTablesWithoutResults';

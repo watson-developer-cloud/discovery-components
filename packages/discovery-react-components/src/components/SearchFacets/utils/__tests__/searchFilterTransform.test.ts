@@ -1,4 +1,4 @@
-import { SearchFilterTransform } from '@SearchFacets/utils/searchFilterTransform';
+import { SearchFilterTransform } from '../searchFilterTransform';
 
 const weirdAggs = [
   {

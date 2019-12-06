@@ -4,19 +4,16 @@ import { Button } from 'carbon-components-react';
 import { settings } from 'carbon-components';
 import Close from '@carbon/icons-react/lib/close/16';
 import { SearchContext, SearchApi } from '@DiscoverySearch/DiscoverySearch';
-import { mergeFilterFacets } from '@SearchFacets/utils/mergeFilterFacets';
-import { mergeDynamicFacets } from '@SearchFacets/utils/mergeDynamicFacets';
-import { SearchFilterTransform } from '@SearchFacets/utils/searchFilterTransform';
-import { displayMessage, noAvailableFacetsMessage } from '@SearchFacets/utils/searchFacetMessages';
-import {
-  SearchFilterFacets,
-  SelectableDynamicFacets
-} from '@SearchFacets/utils/searchFacetInterfaces';
+import { mergeFilterFacets } from './utils/mergeFilterFacets';
+import { mergeDynamicFacets } from './utils/mergeDynamicFacets';
+import { SearchFilterTransform } from './utils/searchFilterTransform';
+import { displayMessage, noAvailableFacetsMessage } from './utils/searchFacetMessages';
+import { SearchFilterFacets, SelectableDynamicFacets } from './utils/searchFacetInterfaces';
 import get from 'lodash/get';
-import { CollectionFacets } from '@SearchFacets/components/CollectionFacets';
-import { FieldFacets } from '@SearchFacets/components/FieldFacets';
-import { DynamicFacets } from '@SearchFacets/components/DynamicFacets';
-import { defaultMessages, Messages } from '@SearchFacets/messages';
+import { CollectionFacets } from './components/CollectionFacets';
+import { FieldFacets } from './components/FieldFacets';
+import { DynamicFacets } from './components/DynamicFacets';
+import { defaultMessages, Messages } from './messages';
 import { useDeepCompareEffect } from '@rootUtils/useDeepCompareMemoize';
 
 interface SearchFacetsProps {

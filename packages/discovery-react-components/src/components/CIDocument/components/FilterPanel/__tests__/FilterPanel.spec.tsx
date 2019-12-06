@@ -1,9 +1,9 @@
 import React from 'react';
-import FilterPanel from '@CIDocument/components/FilterPanel/FilterPanel';
-import filter from '@CIDocument/components/FilterPanel/__fixtures__/filter.json';
-import filterGroups from '@CIDocument/components/FilterPanel/__fixtures__/filterGroups.json';
+import FilterPanel from '../FilterPanel';
+import filter from '../__fixtures__/filter.json';
+import filterGroups from '../__fixtures__/filterGroups.json';
 import { render, BoundFunction, GetByText, fireEvent } from '@testing-library/react';
-import { FilterGroup } from '@CIDocument/components/FilterPanel/types';
+import { FilterGroup } from '../types';
 
 describe('<FilterPanel />', () => {
   let getByLabelText: BoundFunction<GetByText>, getByText: BoundFunction<GetByText>;

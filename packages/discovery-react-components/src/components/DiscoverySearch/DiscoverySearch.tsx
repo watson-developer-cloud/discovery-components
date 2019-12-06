@@ -13,7 +13,7 @@ import {
   useFetchDocumentsApi,
   useAutocompleteApi
 } from '@rootUtils/useDataApi';
-import { SearchClient } from '@DiscoverySearch/types';
+import { SearchClient } from './types';
 
 export type SearchParams = Omit<DiscoveryV2.QueryParams, 'projectId' | 'headers'>;
 

@@ -7,15 +7,15 @@ import {
   fieldsetClasses,
   labelClasses,
   labelAndSelectionContainerClass
-} from '@SearchFacets/components/FacetsGroups/facetGroupClasses';
+} from './facetGroupClasses';
 import {
   SelectableDynamicFacets,
   SelectableQueryTermAggregationResult,
   InternalQueryTermAggregation
 } from '@SearchFacets/utils/searchFacetInterfaces';
 import { Messages } from '@SearchFacets/messages';
-import { MultiSelectFacetsGroup } from '@SearchFacets/components/FacetsGroups/MultiSelectFacetsGroup';
-import { SingleSelectFacetsGroup } from '@SearchFacets/components/FacetsGroups/SingleSelectFacetsGroup';
+import { MultiSelectFacetsGroup } from './MultiSelectFacetsGroup';
+import { SingleSelectFacetsGroup } from './SingleSelectFacetsGroup';
 
 interface CollapsibleFacetsGroupProps {
   /**

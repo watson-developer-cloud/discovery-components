@@ -4,7 +4,7 @@ import isEqual from 'lodash.isequal';
 import mustache from 'mustache';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { SearchApi, SearchContext, SelectedResult } from '@DiscoverySearch/DiscoverySearch';
-import { ResultElement } from '@SearchResults/components/ResultElement/ResultElement';
+import { ResultElement } from '../ResultElement/ResultElement';
 import { SkeletonText } from 'carbon-components-react';
 import {
   searchResultClass,
