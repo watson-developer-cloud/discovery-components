@@ -21,7 +21,7 @@ import FilterPanel from '@CIDocument/components/FilterPanel/FilterPanel';
 import MetadataPane from '@CIDocument/components/MetadataPane/MetadataPane';
 import NavigationToolbar from '@CIDocument/components/NavigationToolbar/NavigationToolbar';
 import CIDocumentContent from '@CIDocument/components/CIDocumentContent/CIDocumentContent';
-import processDoc from '@rootUtils/document/processDoc';
+import { processDoc } from '@rootUtils/document';
 import { getEnrichmentName } from '@CIDocument/utils/enrichmentUtils';
 import { getDetailsFromItem, getDetailsFromMetadata } from '@CIDocument/utils/details';
 import { getFilterHelper, ProcessFilter } from '@CIDocument/utils/filterHelper';
