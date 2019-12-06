@@ -12,7 +12,6 @@
       "autoFix": true
     }
   ],
-  "editor.formatOnSave": true,
   "[scss]": {
     "editor.formatOnSave": false
   },
