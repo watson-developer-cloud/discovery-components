@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { SelectableDynamicFacets, SearchFilterFacets } from '../utils/searchFacetInterfaces';
 import get from 'lodash/get';
-import { Messages } from '@SearchFacets/messages';
+import { Messages } from '../messages';
 import { CollapsibleFacetsGroup } from './FacetsGroups/CollapsibleFacetsGroup';
 
 interface DynamicFacetsProps {

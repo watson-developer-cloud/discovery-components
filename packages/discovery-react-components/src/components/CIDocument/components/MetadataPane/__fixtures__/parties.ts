@@ -1,4 +1,4 @@
-import { Party } from '@CIDocument/components/MetadataPane/types';
+import { Party } from '../types';
 
 export const mockParties: Party[] = [
   {
