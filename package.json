@@ -82,8 +82,7 @@
     "webpack": "4.39.1"
   },
   "scripts": {
-    "lint": "eslint '{packages,examples}/**/*.{js,jsx,ts,tsx}' --ignore-pattern node_modules --quiet && madge --circular packages/discovery-react-components/src/*",
-    "lint:fix": "yarn run lint --fix"
+    "lint": "eslint '{packages,examples}/**/*.{js,jsx,ts,tsx}' --ignore-pattern node_modules --quiet"
   },
   "lint-staged": {
     "{packages,examples}/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
