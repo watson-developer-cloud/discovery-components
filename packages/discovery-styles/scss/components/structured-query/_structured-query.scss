@@ -1,0 +1,58 @@
+@import '~carbon-components/scss/components/button/button';
+@import '~carbon-components/scss/components/combo-box/combo-box';
+@import '~carbon-components/scss/components/dropdown/dropdown';
+
+// TODO: Need to add a namespace to these styles
+.bx--structured-query-dropdown {
+  p {
+    align-items: center;
+    display: flex;
+  }
+
+  .bx--dropdown {
+    background-color: rgb(243, 243, 243);
+  }
+
+  .bx--list-box__field {
+    vertical-align: text-top;
+  }
+
+  .bx--list-box__label {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+}
+
+.bx--structured-query-rules {
+  display: flex;
+  padding: 1rem;
+
+  .bx--label {
+    font-weight: 600;
+  }
+
+  .bx--list-box__wrapper {
+    padding-right: 1rem;
+    width: 33%;
+  }
+
+  .bx--form-item {
+    width: 33%;
+  }
+}
+
+.bx--structured-query-rules__buttons {
+  display: flex;
+  flex-direction: column;
+
+  .bx--btn--ghost {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+
+    svg {
+      margin-left: 0;
+      margin-right: 0.5rem;
+    }
+  }
+}

@@ -9,4 +9,4 @@ export { ResultsPagination } from './components/ResultsPagination/ResultsPaginat
 export { DocumentPreview } from './components/DocumentPreview/DocumentPreview';
 export { SearchResults } from './components/SearchResults/SearchResults';
 export { CIDocument, canRenderCIDocument } from './components/CIDocument/CIDocument';
-export { AdvancedQuery } from './components/AdvancedQuery/AdvancedQuery';
+export { StructuredQuery } from './components/StructuredQuery/StructuredQuery';

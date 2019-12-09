@@ -1,3 +1,4 @@
+// TODO: Need to add explanatory comments to all of these
 export interface Messages {
   satisfyRulesDropdownText: string;
   satisfyRulesDropdownAllOptionText: string;
