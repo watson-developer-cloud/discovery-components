@@ -37,7 +37,7 @@
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
     "carbon-components": "^10.6.0",
-    "carbon-components-react": "^7.6.0",
+    "carbon-components-react": "^7.7.0",
     "carbon-icons": "^7.0.7",
     "cross-env": "^5.1.4",
     "cypress": "3.2.0",
