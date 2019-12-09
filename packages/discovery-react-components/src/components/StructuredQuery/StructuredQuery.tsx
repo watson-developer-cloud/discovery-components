@@ -21,6 +21,7 @@ export const StructuredQuery: React.FunctionComponent<StructuredQueryProps> = ({
     // TODO: Remember to add ids and all required props to each of these Carbon components
     <>
       <div className="bx--structured-query-dropdown">
+        {/* TODO: Needs to handle if the dropdown would come at the very beginning or very end of the text too */}
         <p>
           {satisfyRulesDropdownTextArr[0]}
           <Dropdown
