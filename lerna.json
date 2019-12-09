@@ -1,13 +1,12 @@
 {
-  "packages": [
-    "packages/*"
-  ],
+  "packages": ["packages/*"],
   "version": "independent",
   "npmClient": "yarn",
   "useWorkspaces": true,
   "command": {
     "publish": {
-      "conventionalCommits": true
+      "conventionalCommits": true,
+      "allowBranch": ["develop", "release/*", "hotfix/*"]
     },
     "version": {
       "message": "chore: publish to NPM [ci skip]",
