@@ -35,14 +35,17 @@ export const AdvancedQuery: React.FunctionComponent<AdvancedQueryProps> = ({
       </p>
       {/* TODO: Make this whole row into a Rule component? */}
       {/* TODO: All text needs to be added to messages/defaultMessages */}
-      <ComboBox titleText="Field" />
-      <ComboBox titleText="Operator" />
-      <TextInput labelText="Value" placeholder="Enter value" />
+      <ComboBox titleText={mergedMessages.fieldSelectionTitleText} />
+      <ComboBox titleText={mergedMessages.operatorSelectionTitleText} />
+      <TextInput
+        labelText={mergedMessages.valueInputLabelText}
+        placeholder={mergedMessages.valueInputPlaceholderText}
+      />
       <Button kind="ghost" renderIcon={Add16}>
-        Add rule
+        {mergedMessages.addRuleText}
       </Button>
       <Button kind="ghost" renderIcon={Add16}>
-        Add group of rules
+        {mergedMessages.addGroupRulesText}
       </Button>
     </>
   );
