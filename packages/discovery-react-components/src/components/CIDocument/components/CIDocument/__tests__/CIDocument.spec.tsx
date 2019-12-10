@@ -29,6 +29,7 @@ describe('<CIDocument />', () => {
   });
 
   it('renders without crashing', async () => {
+    jest.setTimeout(10000);
     await waitForElement(() =>
       // check for (partial) document text
       getByText('On 22 December 2008 ART EFFECTS LIMITED and Customer', { exact: false })
