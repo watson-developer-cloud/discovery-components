@@ -3,14 +3,13 @@
 @import '~carbon-components/scss/components/dropdown/dropdown';
 
 // TODO: Need to add a namespace to these styles
-.bx--structured-query-dropdown {
-  p {
-    align-items: center;
-    display: flex;
-  }
+.bx--structured-query__dropdown {
+  align-items: center;
+  display: flex;
 
   .bx--dropdown {
-    background-color: rgb(243, 243, 243);
+    background-color: $gray-10;
+    border-bottom: 1px solid $gray-100;
   }
 
   .bx--list-box__field {
@@ -19,20 +18,21 @@
 
   .bx--list-box__label {
     font-size: 1rem;
+    font-weight: 600;
     line-height: 1.5rem;
   }
 }
 
-.bx--structured-query-rules {
+.bx--structured-query__rules {
   display: flex;
-  padding: 1rem;
+  padding: $spacing-md;
 
   .bx--label {
     font-weight: 600;
   }
 
   .bx--list-box__wrapper {
-    padding-right: 1rem;
+    padding-right: $spacing-md;
     width: 33%;
   }
 
@@ -41,7 +41,7 @@
   }
 }
 
-.bx--structured-query-rules__buttons {
+.bx--structured-query__rules__buttons {
   display: flex;
   flex-direction: column;
 
@@ -52,7 +52,7 @@
 
     svg {
       margin-left: 0;
-      margin-right: 0.5rem;
+      margin-right: $spacing-xs;
     }
   }
 }

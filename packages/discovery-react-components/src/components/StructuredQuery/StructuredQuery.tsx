@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { defaultMessages, Messages } from './messages';
 import { Button, ComboBox, Dropdown, TextInput } from 'carbon-components-react';
 import Add16 from '@carbon/icons-react/lib/add/16';
+import { defaultMessages, Messages } from './messages';
 import {
   structuredQueryClass,
   structuredQueryDropdownClass,
@@ -20,34 +20,67 @@ export const StructuredQuery: React.FunctionComponent<StructuredQueryProps> = ({
   messages = defaultMessages
 }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
-  const satisfyRulesDropdownTextArr = mergedMessages.satisfyRulesDropdownText.split('%dropdown%');
+  const satisfyRulesDropdownTextArr = mergedMessages.satisfyRulesDropdownText.split('%');
+  const dropdownIndex = satisfyRulesDropdownTextArr.findIndex(text => text === 'dropdown');
+  const satisfyRulesDropdownTextArrLength = satisfyRulesDropdownTextArr.length;
+
+  const handleOnChange = () => {
+    // TODO: Fully implement handling dropdown selections in a future issue
+  };
 
   return (
     // TODO: Break each element out into own component once have all together here
-    // TODO: Remember to add ids and all required props to each of these Carbon components
     <div className={structuredQueryClass}>
       <div className={structuredQueryDropdownClass}>
-        {/* TODO: Needs to handle if the dropdown would come at the very beginning or very end of the text too */}
+        {/* TODO: Think of ways to improve readability here */}
         <p>
-          {satisfyRulesDropdownTextArr[0]}
-          <Dropdown
-            id="structured-query-dropdown"
-            items={[
-              mergedMessages.satisfyRulesDropdownAllOptionText,
-              mergedMessages.satisfyRulesDropdownAnyOptionText
-            ]}
-            type="inline"
-            initialSelectedItem={mergedMessages.satisfyRulesDropdownAllOptionText}
-          />
-          {satisfyRulesDropdownTextArr[1]}
+          {satisfyRulesDropdownTextArrLength === 3 ||
+          (satisfyRulesDropdownTextArrLength === 2 && dropdownIndex === 1)
+            ? satisfyRulesDropdownTextArr[0]
+            : ''}
+        </p>
+        <Dropdown
+          id="structured-query-dropdown"
+          items={[
+            mergedMessages.satisfyRulesDropdownAllOptionText,
+            mergedMessages.satisfyRulesDropdownAnyOptionText
+          ]}
+          type="inline"
+          initialSelectedItem={mergedMessages.satisfyRulesDropdownAllOptionText}
+          label="Choose whether to satisfy all or any of the following rules"
+        />
+        <p>
+          {satisfyRulesDropdownTextArrLength === 3 ? satisfyRulesDropdownTextArr[2] : ''}
+          {satisfyRulesDropdownTextArrLength === 2 && dropdownIndex === 0
+            ? satisfyRulesDropdownTextArr[1]
+            : ''}
         </p>
       </div>
       {/* TODO: Make this whole row into a Rule component? */}
-      {/* TODO: All text needs to be added to messages/defaultMessages */}
       <div className={structuredQueryRulesClass}>
-        <ComboBox titleText={mergedMessages.fieldSelectionTitleText} />
-        <ComboBox titleText={mergedMessages.operatorSelectionTitleText} />
+        {/* Only needs title text for the first instance of the field/operator/value selection? Not sure */}
+        {/* TODO: Improve ids for when the rules get nested */}
+        <ComboBox
+          id="structured-query-rules-field"
+          items={[]}
+          placeholder={mergedMessages.fieldDropdownPlaceholderText}
+          titleText={mergedMessages.fieldDropdownTitleText}
+          onChange={handleOnChange}
+        />
+        <ComboBox
+          id="structured-query-rules-operator"
+          items={[
+            mergedMessages.operatorDropdownIsOptionText,
+            mergedMessages.operatorDropdownIsNotOptionText,
+            mergedMessages.operatorDropdownContainsOptionText,
+            mergedMessages.operatorDropdownDoesNotContainOptionText
+          ]}
+          placeholder={mergedMessages.operatorDropdownPlaceholderText}
+          titleText={mergedMessages.operatorDropdownTitleText}
+          onChange={handleOnChange}
+        />
         <TextInput
+          id="structured-query-rules-value"
           labelText={mergedMessages.valueInputLabelText}
           placeholder={mergedMessages.valueInputPlaceholderText}
         />

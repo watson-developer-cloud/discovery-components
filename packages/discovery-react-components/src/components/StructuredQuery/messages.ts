@@ -9,7 +9,7 @@ export interface Messages {
    */
   satisfyRulesDropdownAllOptionText: string;
   /**
-   * override the default text for the default 'any' dropdown option
+   * override the default text for the 'any' dropdown option
    */
   satisfyRulesDropdownAnyOptionText: string;
   /**
@@ -21,13 +21,37 @@ export interface Messages {
    */
   addGroupRulesText: string;
   /**
-   * override the default text for the Field selection title
+   * override the default placeholder text for the Field dropdown
    */
-  fieldSelectionTitleText: string;
+  fieldDropdownPlaceholderText: string;
   /**
-   * override the default text for the Operator selection title
+   * override the default text for the Field dropdown title
    */
-  operatorSelectionTitleText: string;
+  fieldDropdownTitleText: string;
+  /**
+   * override the default placeholder text for the Operator dropdown
+   */
+  operatorDropdownPlaceholderText: string;
+  /**
+   * override the default text for the Operator dropdown title
+   */
+  operatorDropdownTitleText: string;
+  /**
+   * override the default text for the Operator dropdown 'is' option
+   */
+  operatorDropdownIsOptionText: string;
+  /**
+   * override the default text for the Operator dropdown 'is not' option
+   */
+  operatorDropdownIsNotOptionText: string;
+  /**
+   * override the default text for the Operator dropdown 'contains' option
+   */
+  operatorDropdownContainsOptionText: string;
+  /**
+   * override the default text for the Operator dropdown 'does not contain' option
+   */
+  operatorDropdownDoesNotContainOptionText: string;
   /**
    * override the default text for the Value input label text
    */
@@ -44,8 +68,14 @@ export const defaultMessages: Messages = {
   satisfyRulesDropdownAnyOptionText: 'any',
   addRuleText: 'Add rule',
   addGroupRulesText: 'Add group of rules',
-  fieldSelectionTitleText: 'Field',
-  operatorSelectionTitleText: 'Operator',
+  fieldDropdownPlaceholderText: 'Select field',
+  fieldDropdownTitleText: 'Field',
+  operatorDropdownIsOptionText: 'is',
+  operatorDropdownIsNotOptionText: 'is not',
+  operatorDropdownContainsOptionText: 'contains',
+  operatorDropdownDoesNotContainOptionText: 'does not contain',
+  operatorDropdownPlaceholderText: 'Select operator',
+  operatorDropdownTitleText: 'Operator',
   valueInputLabelText: 'Value',
   valueInputPlaceholderText: 'Enter value'
 };
