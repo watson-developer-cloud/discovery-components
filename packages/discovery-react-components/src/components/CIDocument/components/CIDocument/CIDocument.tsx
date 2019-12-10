@@ -21,24 +21,23 @@ import FilterPanel from '../FilterPanel/FilterPanel';
 import MetadataPane from '../MetadataPane/MetadataPane';
 import NavigationToolbar from '../NavigationToolbar/NavigationToolbar';
 import CIDocumentContent from '../CIDocumentContent/CIDocumentContent';
-import processDoc from '../../../../utils/document/processDoc';
-import { getEnrichmentName } from '../../utils/enrichmentUtils';
-import { getDetailsFromItem, getDetailsFromMetadata } from '../../utils/details';
-import { getFilterHelper, ProcessFilter } from '../../utils/filterHelper';
-import { isFilterEmpty, updateFilter } from '../../utils/filterUtils';
-import { getId, findElement, findElementIndex } from '../../../../utils/document/idUtils';
+import { processDoc } from 'utils/document';
+import { getEnrichmentName } from 'components/CIDocument/utils/enrichmentUtils';
+import { getDetailsFromItem, getDetailsFromMetadata } from 'components/CIDocument/utils/details';
+import { getFilterHelper, ProcessFilter } from 'components/CIDocument/utils/filterHelper';
+import { isFilterEmpty, updateFilter } from 'components/CIDocument/utils/filterUtils';
+import { getId, findElement, findElementIndex } from 'utils/document/idUtils';
 import {
   hasRelation,
   isRelationObject,
   isInvoiceOrPurchaseOrder
-} from '../../../../utils/document/nonContractUtils';
-import { withErrorBoundary, WithErrorBoundaryProps } from '../../../../utils/hoc/withErrorBoundary';
+} from 'utils/document/nonContractUtils';
+import { withErrorBoundary, WithErrorBoundaryProps } from 'utils/hoc/withErrorBoundary';
 import { Filter, FilterGroup, FilterChangeArgs } from '../FilterPanel/types';
-import { EnrichedHtml, Contract } from '../../types';
-import { MetadataData, Address, Mention } from '../MetadataPane/types';
+import { MetadataData, EnrichedHtml, Contract, Item, Field } from 'components/CIDocument/types';
+import { Address, Mention } from '../MetadataPane/types';
 import { Items } from '../DetailsPane/types';
-import { Item, Field } from '../../types';
-import { defaultTheme, Theme } from '../../../../utils/theme';
+import { defaultTheme, Theme } from 'utils/theme';
 import {
   defaultMessages as detailsPaneDefaultMsgs,
   Messages as DetailsPaneMessages

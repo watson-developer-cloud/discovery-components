@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import get from 'lodash/get';
 import { QueryResult, QueryResultPassage } from 'ibm-watson/discovery/v2';
-import { getTextMappings } from '../../utils/documentData';
-import { CellPage, TextMappings } from '../../types';
-import { spansIntersect } from '../../../../utils/document/documentUtils';
+import { getTextMappings } from 'components/DocumentPreview/utils/documentData';
+import { CellPage, TextMappings } from 'components/DocumentPreview/types';
+import { spansIntersect } from 'utils/document/documentUtils';
 
 // React hook for retrieving passage bbox data from document
 export function usePassage(

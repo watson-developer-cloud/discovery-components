@@ -54,6 +54,7 @@
     "lerna": "^3.16.4",
     "lerna-update-wizard": "^0.16.0",
     "lint-staged": "^9.2.5",
+    "madge": "^3.6.0",
     "marked": "^0.7.0",
     "node-sass": "^4.12.0",
     "node-sass-tilde-importer": "^1.0.2",
@@ -76,12 +77,12 @@
     "rollup-plugin-url": "^2.2.2",
     "source-map-explorer": "2.0.1",
     "start-server-and-test": "^1.10.0",
+    "tsconfig-paths-webpack-plugin": "^3.2.0",
     "typescript": "^3.5.3",
     "webpack": "4.39.1"
   },
   "scripts": {
-    "lint": "eslint '{packages,examples}/**/*.{js,jsx,ts,tsx}' --ignore-pattern node_modules --quiet",
-    "lint:fix": "yarn run lint --fix"
+    "lint": "eslint '{packages,examples}/**/*.{js,jsx,ts,tsx}' --ignore-pattern node_modules --quiet"
   },
   "lint-staged": {
     "{packages,examples}/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [

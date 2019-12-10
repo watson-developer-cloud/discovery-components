@@ -7,7 +7,7 @@ import {
   Checkbox as CarbonCheckbox,
   RadioButton as CarbonRadio
 } from 'carbon-components-react';
-import { isFilterEmpty, filterContains } from '../../utils/filterUtils';
+import { isFilterEmpty, filterContains } from 'components/CIDocument/utils/filterUtils';
 import { displayNames } from './displayNames';
 import { FilterGroup, Filter, FilterChangeArgs } from './types';
 import { defaultMessages, Messages } from './messages';

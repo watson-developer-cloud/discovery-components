@@ -1,5 +1,6 @@
 const path = require('path');
 const SRC_PATH = path.join(__dirname, '../src');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 const styles = require.resolve('@ibm-watson/discovery-styles');
 module.exports = ({ config }) => {
@@ -37,5 +38,11 @@ module.exports = ({ config }) => {
     use: 'raw-loader'
   });
   config.resolve.extensions.push('.ts', '.tsx');
+  config.resolve.plugins = config.resolve.plugins || [];
+  config.resolve.plugins.push(
+    new TsconfigPathsPlugin({
+      configFile: path.resolve(__dirname, 'tsconfig.json')
+    })
+  );
   return config;
 };

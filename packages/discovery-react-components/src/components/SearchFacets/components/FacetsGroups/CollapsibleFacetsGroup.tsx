@@ -8,8 +8,8 @@ import {
   SelectableDynamicFacets,
   SelectableQueryTermAggregationResult,
   InternalQueryTermAggregation
-} from '../../utils/searchFacetInterfaces';
-import { Messages } from '../../messages';
+} from 'components/SearchFacets/utils/searchFacetInterfaces';
+import { Messages } from 'components/SearchFacets/messages';
 import { MultiSelectFacetsGroup } from './MultiSelectFacetsGroup';
 import { SingleSelectFacetsGroup } from './SingleSelectFacetsGroup';
 

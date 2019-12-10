@@ -6,7 +6,7 @@ import {
   labelClasses,
   labelAndSelectionContainerClass
 } from '../cssClasses';
-import { SearchContext } from '../../DiscoverySearch/DiscoverySearch';
+import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import { MultiSelect as CarbonMultiSelect } from 'carbon-components-react';
 import { settings } from 'carbon-components';
 import { Collection } from 'ibm-watson/discovery/v2';

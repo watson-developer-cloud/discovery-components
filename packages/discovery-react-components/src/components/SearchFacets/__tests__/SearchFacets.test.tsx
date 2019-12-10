@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { render, RenderResult, fireEvent } from '@testing-library/react';
 import { QueryTermAggregation } from 'ibm-watson/discovery/v2';
-import { wrapWithContext } from '../../../utils/testingUtils';
+import { wrapWithContext } from 'utils/testingUtils';
 import { SearchFacets } from '../SearchFacets';
 import {
   SearchContextIFC,
   SearchApiIFC,
   searchResponseStoreDefaults
-} from '../../DiscoverySearch/DiscoverySearch';
+} from 'components/DiscoverySearch/DiscoverySearch';
 import { facetsQueryResponse } from '../__fixtures__/facetsQueryResponse';
 import collectionsResponse from '../__fixtures__/collectionsResponse';
 import { noAvailableFacetsMessage } from '../utils/searchFacetMessages';

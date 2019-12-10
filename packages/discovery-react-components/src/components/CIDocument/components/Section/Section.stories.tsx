@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions';
 
 import Section from './Section';
 import sectionData from './__fixtures__/sectionData';
-import { DocumentStoryWrapper } from '../../../../utils/storybookUtils';
+import { DocumentStoryWrapper } from 'utils/storybookUtils';
 
 const stories = storiesOf('CIDocument/components/Section', module);
 

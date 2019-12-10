@@ -81,6 +81,11 @@ Note that we are using [Carbon](https://www.carbondesignsystem.com/) components 
 - Variables should use `camelCase`.
 - Variable names should be as descriptive as possible. We try to avoid abbreviations and very short names for const/vars, to make it easier for future developers to understand.
 
+##### Imports
+
+* We are using module path aliases for our imports. In the root `tsconfig.json` file for the `discovery-react-components` package, we have set up aliases. You can include the path from the package's `src` folder as an absolute path for any import.
+* If you are adding a new import and it is complex (i.e., `../../`), please use an absolute module path. There's no need to use an absolute import path for simple imports (i.e., `./`).
+
 #### React components
 
 ##### General

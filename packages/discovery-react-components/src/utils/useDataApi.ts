@@ -1,6 +1,6 @@
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { useState, useEffect, useReducer, useCallback, useRef } from 'react';
-import { SearchClient } from '../components/DiscoverySearch/types';
+import { SearchClient } from 'components/DiscoverySearch/types';
 
 /**
  * generic reducer to handle updating loading, error, and data
