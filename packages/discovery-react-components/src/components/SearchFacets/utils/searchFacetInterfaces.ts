@@ -23,3 +23,12 @@ export interface SearchFilterFacets {
 export interface SelectableDynamicFacets extends DiscoveryV2.QuerySuggestedRefinement {
   selected?: boolean;
 }
+
+export interface SelectedCollectionItems {
+  selectedItems: CollectionItem[];
+}
+
+export interface CollectionItem {
+  id: string;
+  label: string;
+}

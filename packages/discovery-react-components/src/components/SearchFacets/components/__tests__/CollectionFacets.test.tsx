@@ -85,18 +85,29 @@ describe('CollectionFacetsComponent', () => {
     });
   });
 
-  describe('selecting collection', () => {
-    test('it calls performSearch', () => {
+  describe('selecting collections', () => {
+    test('it calls performSearch with correct collectionIds', () => {
       const { collectionFacetsComponent, performSearchMock } = setup();
       const collectionSelect = collectionFacetsComponent.getByText('Available collections');
       fireEvent.click(collectionSelect);
-      const deadspinCollection = collectionFacetsComponent.getByLabelText('Machine Learning');
-      fireEvent.click(deadspinCollection);
+      const machineLearningCollection = collectionFacetsComponent.getByLabelText(
+        'Machine Learning'
+      );
+      fireEvent.click(machineLearningCollection);
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
           offset: 0,
           collectionIds: ['machine-learning']
+        })
+      );
+      const aiStrategyCollection = collectionFacetsComponent.getByLabelText('AI Strategy');
+      fireEvent.click(aiStrategyCollection);
+      expect(performSearchMock).toBeCalledTimes(2);
+      expect(performSearchMock).toBeCalledWith(
+        expect.objectContaining({
+          offset: 0,
+          collectionIds: ['machine-learning', 'ai-strategy']
         })
       );
     });
