@@ -1,0 +1,1683 @@
+{
+  "matching_results": 17,
+  "retrieval_details": {
+    "document_retrieval_strategy": "untrained"
+  },
+  "suggested_refinements": [
+    {
+      "text": "top of IBM"
+    },
+    {
+      "text": "AI"
+    },
+    {
+      "text": "ons"
+    },
+    {
+      "text": "Installing"
+    },
+    {
+      "text": "OS Connector"
+    },
+    {
+      "text": "IBM Db2"
+    },
+    {
+      "text": "Assistant"
+    },
+    {
+      "text": "discovery"
+    },
+    {
+      "text": "add"
+    },
+    {
+      "text": "Parent topic"
+    }
+  ],
+  "aggregations": [
+    {
+      "type": "term",
+      "field": "enriched_text.entities.text",
+      "name": "entities",
+      "results": [
+        {
+          "key": "IBM",
+          "matching_results": 17
+        },
+        {
+          "key": "Watson",
+          "matching_results": 17
+        },
+        {
+          "key": "ibm",
+          "matching_results": 14
+        },
+        {
+          "key": "Kubernetes",
+          "matching_results": 9
+        },
+        {
+          "key": "Pak",
+          "matching_results": 8
+        },
+        {
+          "key": "2.1.0.1",
+          "matching_results": 7
+        },
+        {
+          "key": "Red Hat",
+          "matching_results": 6
+        },
+        {
+          "key": "100 GB",
+          "matching_results": 5
+        },
+        {
+          "key": "@MASTER_1_IP",
+          "matching_results": 5
+        },
+        {
+          "key": "MongoDB",
+          "matching_results": 5
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "document_id": "e69fd25f-5cbf-4f53-bef3-67834ac1965b",
+      "result_metadata": {
+        "collection_id": "fbafd5e1-9cf1-c24c-0000-016eeb0a5c9f",
+        "document_retrieval_source": "search",
+        "confidence": 0.0598
+      },
+      "enriched_text": [
+        {
+          "entities": [
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 68,
+                    "begin": 62
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 86,
+                    "begin": 80
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 106,
+                    "begin": 100
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 148,
+                    "begin": 142
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 195,
+                    "begin": 189
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 237,
+                    "begin": 231
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 263,
+                    "begin": 257
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 1208,
+                    "begin": 1202
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 6099,
+                    "begin": 6093
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 6284,
+                    "begin": 6278
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 6310,
+                    "begin": 6304
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 6647,
+                    "begin": 6641
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 6714,
+                    "begin": 6708
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 6762,
+                    "begin": 6756
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 6838,
+                    "begin": 6832
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 6887,
+                    "begin": 6881
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 6952,
+                    "begin": 6946
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 6976,
+                    "begin": 6970
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 7181,
+                    "begin": 7175
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 7571,
+                    "begin": 7565
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 8033,
+                    "begin": 8027
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 8211,
+                    "begin": 8205
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 8274,
+                    "begin": 8268
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 8298,
+                    "begin": 8292
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 8429,
+                    "begin": 8423
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 8476,
+                    "begin": 8470
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 8539,
+                    "begin": 8533
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 13251,
+                    "begin": 13245
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 13462,
+                    "begin": 13456
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 13513,
+                    "begin": 13507
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 13567,
+                    "begin": 13561
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 25330,
+                    "begin": 25324
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 25515,
+                    "begin": 25509
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 25539,
+                    "begin": 25533
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 25876,
+                    "begin": 25870
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 25946,
+                    "begin": 25940
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 25994,
+                    "begin": 25988
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 26070,
+                    "begin": 26064
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 26119,
+                    "begin": 26113
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 26184,
+                    "begin": 26178
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 26208,
+                    "begin": 26202
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 26413,
+                    "begin": 26407
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 26801,
+                    "begin": 26795
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 27393,
+                    "begin": 27387
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 27571,
+                    "begin": 27565
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 27634,
+                    "begin": 27628
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 27658,
+                    "begin": 27652
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 27789,
+                    "begin": 27783
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 27836,
+                    "begin": 27830
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 27899,
+                    "begin": 27893
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 28077,
+                    "begin": 28071
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 28167,
+                    "begin": 28161
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 28669,
+                    "begin": 28663
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 28720,
+                    "begin": 28714
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 28798,
+                    "begin": 28792
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 28849,
+                    "begin": 28843
+                  },
+                  "text": "Watson"
+                }
+              ],
+              "text": "Watson",
+              "type": "Person"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 185,
+                    "begin": 162
+                  },
+                  "text": "Watson Knowledge Studio"
+                },
+                {
+                  "location": {
+                    "end": 28392,
+                    "begin": 28369
+                  },
+                  "text": "Watson Knowledge Studio"
+                }
+              ],
+              "text": "Watson Knowledge Studio",
+              "type": "Facility"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 297,
+                    "begin": 283
+                  },
+                  "text": "Watson Machine"
+                }
+              ],
+              "text": "Watson Machine",
+              "type": "Person"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 360,
+                    "begin": 344
+                  },
+                  "text": "Cognos Analytics"
+                },
+                {
+                  "location": {
+                    "end": 9090,
+                    "begin": 9074
+                  },
+                  "text": "Cognos Analytics"
+                }
+              ],
+              "text": "Cognos Analytics",
+              "type": "Company"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 682,
+                    "begin": 679
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 1091,
+                    "begin": 1088
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 2356,
+                    "begin": 2353
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 3041,
+                    "begin": 3038
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 3073,
+                    "begin": 3070
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 3111,
+                    "begin": 3108
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 3189,
+                    "begin": 3186
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 3274,
+                    "begin": 3271
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 3781,
+                    "begin": 3778
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 3998,
+                    "begin": 3995
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 4072,
+                    "begin": 4069
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 9621,
+                    "begin": 9618
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 9868,
+                    "begin": 9865
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 9910,
+                    "begin": 9907
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 10144,
+                    "begin": 10141
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 10778,
+                    "begin": 10775
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 11028,
+                    "begin": 11025
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 12158,
+                    "begin": 12155
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 14066,
+                    "begin": 14063
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 14346,
+                    "begin": 14343
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 14398,
+                    "begin": 14395
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 14629,
+                    "begin": 14626
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 14661,
+                    "begin": 14658
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 14976,
+                    "begin": 14973
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 15003,
+                    "begin": 15000
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 26942,
+                    "begin": 26939
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 28035,
+                    "begin": 28032
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 28214,
+                    "begin": 28211
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 28333,
+                    "begin": 28330
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 28466,
+                    "begin": 28463
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 28627,
+                    "begin": 28624
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 28756,
+                    "begin": 28753
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 28885,
+                    "begin": 28882
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 29018,
+                    "begin": 29015
+                  },
+                  "text": "IBM"
+                }
+              ],
+              "text": "IBM",
+              "type": "Company"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 2205,
+                    "begin": 2200
+                  },
+                  "text": "2 CLP"
+                }
+              ],
+              "text": "2 CLP",
+              "type": "Quantity"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 4008,
+                    "begin": 4005
+                  },
+                  "text": "Pak"
+                },
+                {
+                  "location": {
+                    "end": 7017,
+                    "begin": 7014
+                  },
+                  "text": "Pak"
+                },
+                {
+                  "location": {
+                    "end": 10841,
+                    "begin": 10838
+                  },
+                  "text": "Pak"
+                },
+                {
+                  "location": {
+                    "end": 11346,
+                    "begin": 11343
+                  },
+                  "text": "Pak"
+                },
+                {
+                  "location": {
+                    "end": 12839,
+                    "begin": 12836
+                  },
+                  "text": "Pak"
+                },
+                {
+                  "location": {
+                    "end": 13293,
+                    "begin": 13290
+                  },
+                  "text": "Pak"
+                },
+                {
+                  "location": {
+                    "end": 13929,
+                    "begin": 13926
+                  },
+                  "text": "Pak"
+                },
+                {
+                  "location": {
+                    "end": 14699,
+                    "begin": 14696
+                  },
+                  "text": "Pak"
+                },
+                {
+                  "location": {
+                    "end": 15051,
+                    "begin": 15048
+                  },
+                  "text": "Pak"
+                },
+                {
+                  "location": {
+                    "end": 15494,
+                    "begin": 15491
+                  },
+                  "text": "Pak"
+                },
+                {
+                  "location": {
+                    "end": 15813,
+                    "begin": 15810
+                  },
+                  "text": "Pak"
+                },
+                {
+                  "location": {
+                    "end": 16146,
+                    "begin": 16143
+                  },
+                  "text": "Pak"
+                },
+                {
+                  "location": {
+                    "end": 17285,
+                    "begin": 17282
+                  },
+                  "text": "Pak"
+                },
+                {
+                  "location": {
+                    "end": 17534,
+                    "begin": 17531
+                  },
+                  "text": "Pak"
+                },
+                {
+                  "location": {
+                    "end": 17829,
+                    "begin": 17826
+                  },
+                  "text": "Pak"
+                },
+                {
+                  "location": {
+                    "end": 18269,
+                    "begin": 18266
+                  },
+                  "text": "Pak"
+                },
+                {
+                  "location": {
+                    "end": 18638,
+                    "begin": 18635
+                  },
+                  "text": "Pak"
+                },
+                {
+                  "location": {
+                    "end": 19013,
+                    "begin": 19010
+                  },
+                  "text": "Pak"
+                },
+                {
+                  "location": {
+                    "end": 19489,
+                    "begin": 19486
+                  },
+                  "text": "Pak"
+                },
+                {
+                  "location": {
+                    "end": 19846,
+                    "begin": 19843
+                  },
+                  "text": "Pak"
+                },
+                {
+                  "location": {
+                    "end": 20228,
+                    "begin": 20225
+                  },
+                  "text": "Pak"
+                },
+                {
+                  "location": {
+                    "end": 20663,
+                    "begin": 20660
+                  },
+                  "text": "Pak"
+                },
+                {
+                  "location": {
+                    "end": 21076,
+                    "begin": 21073
+                  },
+                  "text": "Pak"
+                },
+                {
+                  "location": {
+                    "end": 21475,
+                    "begin": 21472
+                  },
+                  "text": "Pak"
+                },
+                {
+                  "location": {
+                    "end": 26249,
+                    "begin": 26246
+                  },
+                  "text": "Pak"
+                },
+                {
+                  "location": {
+                    "end": 26952,
+                    "begin": 26949
+                  },
+                  "text": "Pak"
+                }
+              ],
+              "text": "Pak",
+              "type": "Person"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 4651,
+                    "begin": 4649
+                  },
+                  "text": "AI"
+                },
+                {
+                  "location": {
+                    "end": 4753,
+                    "begin": 4751
+                  },
+                  "text": "AI"
+                },
+                {
+                  "location": {
+                    "end": 4849,
+                    "begin": 4847
+                  },
+                  "text": "AI"
+                },
+                {
+                  "location": {
+                    "end": 7690,
+                    "begin": 7688
+                  },
+                  "text": "AI"
+                },
+                {
+                  "location": {
+                    "end": 8909,
+                    "begin": 8907
+                  },
+                  "text": "AI"
+                },
+                {
+                  "location": {
+                    "end": 12475,
+                    "begin": 12473
+                  },
+                  "text": "AI"
+                },
+                {
+                  "location": {
+                    "end": 22198,
+                    "begin": 22196
+                  },
+                  "text": "AI"
+                },
+                {
+                  "location": {
+                    "end": 23759,
+                    "begin": 23757
+                  },
+                  "text": "AI"
+                },
+                {
+                  "location": {
+                    "end": 24079,
+                    "begin": 24077
+                  },
+                  "text": "AI"
+                },
+                {
+                  "location": {
+                    "end": 27064,
+                    "begin": 27062
+                  },
+                  "text": "AI"
+                }
+              ],
+              "text": "AI",
+              "type": "Person"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 5126,
+                    "begin": 5121
+                  },
+                  "text": "Intel"
+                },
+                {
+                  "location": {
+                    "end": 5256,
+                    "begin": 5251
+                  },
+                  "text": "Intel"
+                },
+                {
+                  "location": {
+                    "end": 5485,
+                    "begin": 5480
+                  },
+                  "text": "Intel"
+                },
+                {
+                  "location": {
+                    "end": 5621,
+                    "begin": 5616
+                  },
+                  "text": "Intel"
+                },
+                {
+                  "location": {
+                    "end": 10175,
+                    "begin": 10170
+                  },
+                  "text": "Intel"
+                },
+                {
+                  "location": {
+                    "end": 10316,
+                    "begin": 10311
+                  },
+                  "text": "Intel"
+                },
+                {
+                  "location": {
+                    "end": 24354,
+                    "begin": 24349
+                  },
+                  "text": "Intel"
+                },
+                {
+                  "location": {
+                    "end": 24484,
+                    "begin": 24479
+                  },
+                  "text": "Intel"
+                },
+                {
+                  "location": {
+                    "end": 24713,
+                    "begin": 24708
+                  },
+                  "text": "Intel"
+                },
+                {
+                  "location": {
+                    "end": 24849,
+                    "begin": 24844
+                  },
+                  "text": "Intel"
+                }
+              ],
+              "text": "Intel",
+              "type": "Company"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 5976,
+                    "begin": 5974
+                  },
+                  "text": "om"
+                },
+                {
+                  "location": {
+                    "end": 10384,
+                    "begin": 10382
+                  },
+                  "text": "om"
+                },
+                {
+                  "location": {
+                    "end": 11854,
+                    "begin": 11852
+                  },
+                  "text": "om"
+                },
+                {
+                  "location": {
+                    "end": 25207,
+                    "begin": 25205
+                  },
+                  "text": "om"
+                }
+              ],
+              "text": "om",
+              "type": "Person"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 6514,
+                    "begin": 6497
+                  },
+                  "text": "Watson  Discovery"
+                },
+                {
+                  "location": {
+                    "end": 25743,
+                    "begin": 25726
+                  },
+                  "text": "Watson  Discovery"
+                }
+              ],
+              "text": "Watson  Discovery",
+              "type": "Company"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 6700,
+                    "begin": 6684
+                  },
+                  "text": "Watson Discovery"
+                },
+                {
+                  "location": {
+                    "end": 25929,
+                    "begin": 25913
+                  },
+                  "text": "Watson Discovery"
+                },
+                {
+                  "location": {
+                    "end": 28265,
+                    "begin": 28249
+                  },
+                  "text": "Watson Discovery"
+                }
+              ],
+              "text": "Watson Discovery",
+              "type": "Company"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 7224,
+                    "begin": 7210
+                  },
+                  "text": "Watson Natural"
+                },
+                {
+                  "location": {
+                    "end": 7436,
+                    "begin": 7422
+                  },
+                  "text": "Watson Natural"
+                },
+                {
+                  "location": {
+                    "end": 7500,
+                    "begin": 7486
+                  },
+                  "text": "Watson Natural"
+                },
+                {
+                  "location": {
+                    "end": 26454,
+                    "begin": 26440
+                  },
+                  "text": "Watson Natural"
+                },
+                {
+                  "location": {
+                    "end": 26666,
+                    "begin": 26652
+                  },
+                  "text": "Watson Natural"
+                },
+                {
+                  "location": {
+                    "end": 26730,
+                    "begin": 26716
+                  },
+                  "text": "Watson Natural"
+                }
+              ],
+              "text": "Watson Natural",
+              "type": "Person"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 7605,
+                    "begin": 7589
+                  },
+                  "text": "Watson OpenScale"
+                },
+                {
+                  "location": {
+                    "end": 26979,
+                    "begin": 26963
+                  },
+                  "text": "Watson OpenScale"
+                }
+              ],
+              "text": "Watson OpenScale",
+              "type": "Person"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 7806,
+                    "begin": 7804
+                  },
+                  "text": "ai"
+                },
+                {
+                  "location": {
+                    "end": 7940,
+                    "begin": 7938
+                  },
+                  "text": "ai"
+                },
+                {
+                  "location": {
+                    "end": 27180,
+                    "begin": 27178
+                  },
+                  "text": "ai"
+                },
+                {
+                  "location": {
+                    "end": 27314,
+                    "begin": 27312
+                  },
+                  "text": "ai"
+                }
+              ],
+              "text": "ai",
+              "type": "Person"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 7869,
+                    "begin": 7864
+                  },
+                  "text": "#inst"
+                },
+                {
+                  "location": {
+                    "end": 27243,
+                    "begin": 27238
+                  },
+                  "text": "#inst"
+                }
+              ],
+              "text": "#inst",
+              "type": "Hashtag"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 7999,
+                    "begin": 7996
+                  },
+                  "text": "#gs"
+                },
+                {
+                  "location": {
+                    "end": 27373,
+                    "begin": 27370
+                  },
+                  "text": "#gs"
+                }
+              ],
+              "text": "#gs",
+              "type": "Hashtag"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 8840,
+                    "begin": 8834
+                  },
+                  "text": "Cognos"
+                },
+                {
+                  "location": {
+                    "end": 9122,
+                    "begin": 9116
+                  },
+                  "text": "Cognos"
+                },
+                {
+                  "location": {
+                    "end": 11794,
+                    "begin": 11788
+                  },
+                  "text": "Cognos"
+                }
+              ],
+              "text": "Cognos",
+              "type": "Company"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 10391,
+                    "begin": 10389
+                  },
+                  "text": "us"
+                }
+              ],
+              "text": "us",
+              "type": "Location"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 10406,
+                    "begin": 10401
+                  },
+                  "text": "intel"
+                }
+              ],
+              "text": "intel",
+              "type": "Company"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 10425,
+                    "begin": 10422
+                  },
+                  "text": "ibm"
+                }
+              ],
+              "text": "ibm",
+              "type": "Company"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 10436,
+                    "begin": 10433
+                  },
+                  "text": "pak"
+                }
+              ],
+              "text": "pak",
+              "type": "Person"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 10792,
+                    "begin": 10779
+                  },
+                  "text": "Watson Studio"
+                }
+              ],
+              "text": "Watson Studio",
+              "type": "Facility"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 11086,
+                    "begin": 11071
+                  },
+                  "text": "WAND Foundation"
+                }
+              ],
+              "text": "WAND Foundation",
+              "type": "Organization"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 11537,
+                    "begin": 11523
+                  },
+                  "text": "DataEnterprise"
+                },
+                {
+                  "location": {
+                    "end": 13015,
+                    "begin": 13001
+                  },
+                  "text": "DataEnterprise"
+                }
+              ],
+              "text": "DataEnterprise",
+              "type": "Company"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 11719,
+                    "begin": 11716
+                  },
+                  "text": "ERP"
+                }
+              ],
+              "text": "ERP",
+              "type": "Organization"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 15450,
+                    "begin": 15443
+                  },
+                  "text": "MongoDB"
+                }
+              ],
+              "text": "MongoDB",
+              "type": "Company"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 17079,
+                    "begin": 17071
+                  },
+                  "text": "bend.com"
+                },
+                {
+                  "location": {
+                    "end": 17194,
+                    "begin": 17186
+                  },
+                  "text": "bend.com"
+                }
+              ],
+              "text": "bend.com",
+              "type": "PrintMedia"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 17095,
+                    "begin": 17092
+                  },
+                  "text": "nes"
+                },
+                {
+                  "location": {
+                    "end": 17210,
+                    "begin": 17207
+                  },
+                  "text": "nes"
+                }
+              ],
+              "text": "nes",
+              "type": "Organization"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 17148,
+                    "begin": 17146
+                  },
+                  "text": "ge"
+                }
+              ],
+              "text": "ge",
+              "type": "Company"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 18609,
+                    "begin": 18599
+                  },
+                  "text": "360\nDegree"
+                }
+              ],
+              "text": "360\nDegree",
+              "type": "Quantity"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 21953,
+                    "begin": 21947
+                  },
+                  "text": "NetApp"
+                }
+              ],
+              "text": "NetApp",
+              "type": "Company"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 23498,
+                    "begin": 23490
+                  },
+                  "text": "Portworx"
+                },
+                {
+                  "location": {
+                    "end": 23525,
+                    "begin": 23517
+                  },
+                  "text": "Portworx"
+                }
+              ],
+              "text": "Portworx",
+              "type": "Company"
+            }
+          ]
+        }
+      ],
+      "metadata": {
+        "parent_document_id": "e69fd25f-5cbf-4f53-bef3-67834ac1965b"
+      },
+      "extracted_metadata": {
+        "sha1": "1EAD9267EF2FE884B02963D9D8A3DD28F8A939FB",
+        "numPages": "27",
+        "filename": "add-ons-integrations-1-27.pdf",
+        "file_type": "pdf"
+      },
+      "text": [
+        "Add-ons and integrations 3\nAdd-ons 4\nInstalling AI add-ons 23\nWatson API Kit 28\nWatson Assistant 29\nWatson Assistant for Voice Interaction 48\nWatson Discovery 60\nWatson Knowledge Studio 94\nWatson Natural Language Understanding 106\nWatson Speech to Text 116\nWatson Text to Speech 137\nWatson Machine Learning 158\nInstalling analytics add-ons 159\nCognos Analytics 163\nData Refinery 165\nDecision Optimization 166\nSPSS Modeler 167\nExtending with streaming analytics 168\nPreparing to deploy and provision a Streams add-on instance 170\nChoosing an external or embedded ZooKeeper 182\nSetting up an external ZooKeeper server for a production environment 183\nDownloading and deploying the IBM Streams add-on 186\nProvisioning the add-on instance 187\nPerformance considerations for encrypted processing element connections 189\nManaging the add-on instance 191\nManaging access to the add-on instance 193\nManaging jobs 195\nUpgrading the add-on instance 196\nUninstalling the add-on instance 197\nInstalling dashboard add-ons 199\nAnalytics Dashboards 200\nInstalling data governance add-ons 202\nInstalling IBM DataStage Edition 205\nInstalling Regulatory Accelerator 207\nInstalling Unified Governance and Integration 208\nWatson Knowledge Catalog 210\nInstalling data source add-ons 213\nEnabling data virtualization 216\nDownloading the data virtualization installation package 219\nProvisioning data virtualization 220\nEnabling data virtualization in OpenShift 222\nGiving users access to data virtualization 229\nManaging access to virtual objects 233\nCreating an integrated database 236\nRequirements and use cases 239\nDownloading the database installation package 247\nPreparing your Cloud Private cluster 249\nPreparing your OpenShift cluster 255\nEnabling GPFS support for Db2 Warehouse 258\nConfiguring database storage 262\nCreating a database deployment 267\nUpdating the Db2 password secrets 274\nGiving users access to the database 276\nConfiguring SSL client connections with Db2 278\nAdministering Db2 Warehouse 280\nExec into the Db2 Warehouse pod with catalog partition 282\nStopping and starting a Db2 instance 283\nMonitoring Db2 Warehouse startup after rebooting a node 284\nUsing the Db2 Warehouse tools container for Db2 CLP 285\nConnecting applications to the Db2 Warehouse database server 286\nViewing log files 287\nCreating a database in Db2 for z/OS 288\nDownloading the IBM  Db2 for z/OS Connector add-on 290\nConfiguring Db2 for z/OS for creating databases 292\nCreating a Db2 for z/OS database 293\nManaging access to databases in Db2 for z/OS  295\nInstalling developer tool add-ons 296\nEnable additional analytics development environments 298\nInstalling industry accelerator add-ons 300\nImporting industry accelerators 305\nStructure of the industry accelerators 314\nUsing the industry accelerators with remote data 317\nInstalling storage add-ons 318\nUpgrading Add-ons 319\nUpgrading your Db2 Warehouse installation 320\nRoll back your Db2 Warehouse installation 324\nUpgrading your MongoDB installation 328\nIntegrations 331\nAuditing your sensitive data with IBM Guardium 332\nPreparing your IBM Guardium system 333\nConnecting to IBM Guardium appliances 335\nAuditing assets 336\nEnabling synchronization with IBM  StoredIQ 337\n-\n-\n Add-ons and integrations \nYou can extend the functionality of IBM® Cloud Pak for Data through add-ons and\nby integrating Cloud Pak for Data with other applications.  \n Add-ons \nAdd-ons are services that are deployed in your Cloud Pak for Data cluster. For more\ninformation about the add-ons that are available for Cloud Pak for Data, see Add-\nons \n Integrations \nIntegrations are connections to applications that run outside of your Cloud Pak for\nData cluster. For more information about the applications that you can integrate\nwith, see Integrations. \n \nAdd-ons \n The IBM Cloud Pak for Data web client includes a catalog of add-ons that you can\nuse to extend the functionality of Cloud Pak for Data.\nIntegrations \n Integrations are connections to applications that run outside of your IBM Cloud\nPak for Data cluster. \n3\n1.\n2.\n3.\n-\n-\n-\n-\n-\n-\n-\n-\n Add-ons \nThe IBM® Cloud Pak for Data web client includes a catalog of add-ons that you can\nuse to extend the functionality of Cloud Pak for Data. \n Accessing the list of add-ons \nTo access the list of add-ons that you can install on top of Cloud Pak for Data: \nFrom the toolbar, click the Add-ons icon ( ).\nClick the add-on you want to learn more about.\nIf you're ready to use the add-on to extend your Cloud Pak for Data environment,\nclick Get started.\nSome add-ons are provided free of charge, while other add-ons are priced. \nCurrently, the catalog includes the following types of add-ons:\nAI\nAnalytics\nDashboards\nData governance\nData sources\nDeveloper tools\nIndustry accelerators\nStorage\n \n AI \nAdd-on Pricing Learn more\nAnalytics Zoo for\nApache Spark\nSeparately priced An analytics and AI\nplatform that unifies\nTensorFlow, Keras,\nand BigDL for\ndistributed Apache\nSpark\nenvironments.Installa\ntion information:\nhttps://github.com/int\nel-analytics/zoo-\nicpd/blob/master/clou\nd-pak-for-data-\ninstall.mdUsage\ninformation:\nhttps://analytics-\nzoo.github.io/master/\n4\nIntel Deep Learning\nReference Stack -\nPyTorch\nSeparately priced A Deep Learning\nReference Stack for\nPyTorch that is\noptimized for Intel\narchitecture.\nRequires AVX-512.\nInstallation\ninformation:\nhttps://docs.01.org/cl\nearlinux/latest/guides/\nstacks/dlrs/dlrs.html#\nkubeflow-multi-node-\nbenchmarksUsage\ninformation:\nhttps://clearlinux.org/\nstacks/deep-learning\nIntel Deep Learning\nReference Stack -\nTensorFlow\nSeparately priced A Deep Learning\nReference Stack for\nTensorFlow that is\noptimized for Intel\narchitecture.\nRequires AVX-512.\nInstallation\ninformation:\nhttps://docs.01.org/cl\nearlinux/latest/guides/\nstacks/dlrs/dlrs.html#\nkubeflow-multi-node-\nbenchmarksUsage\ninformation:\nProlifics Customer\nProspecting\nAccelerator\nSeparately priced Unlock reliable sales\nleads and increase\ncustomer\nacquisition.Installatio\nn information:\nhttps://www.prolifics.c\nom/cloud-pak-for-\ndataUsage\ninformation:\nhttps://www.prolifics.c\nom/insights/videos/cu\nstomer-prospecting-\naccelerator\nWatson™  Assistant Separately priced Build conversational\ninterfaces into any\napp, device, or\nchannel.Installation\ninformation: Installing\nthe Watson Assistant\nadd-onUsage\ninformation: Watson\nAssistant add-on\n5\nWatson  Assistant for\nVoice Interaction\nSeparately priced Deliver a Watson-\nbased voice\nautomation\nsystem.Installation\ninformation: Installing\nthe Watson Assistant\nfor Voice Interaction\nadd-on\nWatson  Discovery Separately priced Find answers and\nuncover insights in\nyour complex\nbusiness\ncontent.Installation\ninformation: Installing\nthe Watson\nDiscovery add-\nonUsage information:\nWatson Discovery\nadd-on\nWatson Knowledge\nStudio\nSeparately priced Teach Watson the\nlanguage of your\ndomain.Installation\ninformation: Installing\nthe Watson\nKnowledge Studio\nadd-onUsage\ninformation: Watson\nKnowledge Studio\nadd-on Included in\nthe separately priced\nWatson API Kit\npackage.\nWatson Machine\nLearning\nIncluded with Cloud\nPak for Data\nDeploy machine-\nlearning models into\nproduction at\nscale.Installation\ninformation: Installing\nthe Watson Machine\nLearning add-\nonUsage information:\nWatson Machine\nLearning services\n6\nWatson Natural\nLanguage\nUnderstanding\nSeparately priced Take your\nunderstanding of\nunstructured data to\na new level by\nextracting entities,\nkeywords,\nsentiments, and\nmore.Installation\ninformation: Installing\nthe Watson Natural\nLanguage\nUnderstanding add-\nonUsage information:\nWatson Natural\nLanguage\nUnderstanding add-\nonIncluded in the\nseparately priced\nWatson API Kit\npackage.\nWatson OpenScale Separately priced Infuse your AI with\ntrust and\ntransparency.\nUnderstand how your\nAI models make\ndecisions to detect\nand mitigate\nbias.Installation\ninformation:\nhttps://cloud.ibm.com\n/docs/services/ai-\nopenscale-\nicp?topic=ai-\nopenscale-icp-inst-\ninstall-icp#inst-install-\nicpUsage information:\nhttps://cloud.ibm.com\n/docs/services/ai-\nopenscale-\nicp?topic=ai-\nopenscale-icp-gs-get-\nstarted#gs-get-\nstarted\n7\n Analytics \nWatson Speech to\nText\nSeparately priced Quickly convert audio\nand voice into written\ntext.Installation\ninformation: Installing\nthe Watson Speech\nto Text add-onUsage\ninformation: Watson\nSpeech to Text add-\nonIncluded in the\nseparately priced\nWatson API Kit\npackage.\nWatson Text to\nSpeech\nSeparately priced Convert written text\ninto natural-sounding\nspeech.Installation\ninformation: Installing\nthe Watson Text to\nSpeech add-onUsage\ninformation: Watson\nText to Speech add-\nonIncluded in the\nseparately priced\nWatson API Kit\npackage.\nAdd-on Pricing Learn more\nAccelerite\nShareInsights\nSeparately priced Explore, transform,\nand visualize large,\ncomplex data sets\nwith ease.Installation\ninformation:\nhttps://docs.shareinsi\nghts.com/docs/3.3/icp\n4d.htmlUsage\ninformation:\nhttps://docs.shareinsi\nghts.com/docs/3.3/\nCognos® Analytics Separately priced Self-service analytics,\ninfused with AI and\nmachine learning,\nenable you to create\nstunning\nvisualizations and\nshare your findings\nthrough dashboards\nand reports.\nInstallation\ninformation: Installing\nthe Cognos Analytics\nadd-onUsage\ninformation: Cognos\nAnalytics\n8\nDatameer Separately priced Unlock the value in\nyour raw data. Bring\ndata from across your\nenterprise into a\nsingle, unified view\nso that everyone can\nblend, prepare, and\nexplore the data to\nuncover hidden\nanswers.Getting\nstarted\ninformation:Set up\nDatameer On ICP4D\nData Refinery Separately priced Simplify the process\nof preparing large\namounts of raw data\nfor\nanalysis.Installation\ninformation: Installing\nthe Data Refinery\nadd-onUsage\ninformation: Refine\ndata setsIncluded in\nthe IBM Watson\nStudio Premium\npackage.\nDecision Optimization Separately priced Evaluate millions of\npossibilities to find\nthe best solution to\nany given problem.\nInstallation\ninformation: Installing\nthe Decision\nOptimization add-\nonUsage information:\nIBM Decision\nOptimization Included\nin the IBM Watson\nStudio Premium\npackage.\nFigure Eight Separately priced Transform text,\nimages, audio, and\nvideos into annotated\ntraining data to fuel\nyour machine\nlearning\ninitiatives.Getting\nstarted\ninformation:Figure\nEight partners with\nIBM Cloud Private for\nData\n9\nIntel Distribution of\nPython\nSeparately priced Popular Python\nlibraries, including\nanalytics and\nmachine learning\nlibraries, accelerated\nfor Intel architecture.\nInstallation\ninformation:\nhttps://software.intel.c\nom/en-\nus/articles/intel-for-\npython-on-ibm-cloud-\npak-for-data-\ninstructionsUsage\ninformation:\nhttps://software.intel.c\nom/en-us/distribution-\nfor-python\nSPSS® Modeler Separately priced Create flows to\nprepare and blend\ndata, build and\nmanage models, and\nvisualize the\nresults.Installation\ninformation: Installing\nthe SPSS Modeler\nadd-onUsage\ninformation: SPSS\nModeler add-\nonIncluded in the IBM\nWatson Studio\nPremium package.\nStreams Included with Cloud\nPak for Data\nAnalyze in-flight data\nwith analytics\nprojects.Installation\ninformation:\nExtending Cloud Pak\nfor Data with\nstreaming\nanalyticsUsage\ninformation:\nDeveloping\napplications with IBM\nStreams\n10\n Dashboards \n Data governance \nWAND Foundation\nTaxonomies\nSeparately priced WAND Industry and\nBusiness Function\nTaxonomies provide\nrelevant terminology\nto jump start your\nbusiness\nglossary.Request\ninformation: WAND\nFoundation\nTaxonomies\nAdd-on Pricing Learn more\nAnalytics Dashboard Included with Cloud\nPak for Data\nIdentify patterns in\nyour data with\nsophisticated\nvisualizations. No\ncoding needed.\nInstallation\ninformation: This add-\non is installed when\nyou install Cloud Pak\nfor DataEnterprise\nEdition or Cloud\nNative Edition.\nHowever, if the add-\non is not installed,\nsee Installing\nAnalytics\nDashboards.\nUsage information:\nAnalytics dashboards\nOperational Analytics\nfor ERP\nSeparately priced Visualize and analyze\noperational SAP ERP\ndata in Cognos\nAnalytics.Installation\ninformation:\nhttps://www.oa4erp.c\nom/attachments/articl\ne/87/e_oa4erp_install\n_admin_erp.pdf\nAdd-on Pricing Learn more\n11\nDataStage® Edition Separately priced Effortlessly deliver\ndata at the right time\nto the right place with\nintegration,\ntransformation, and\ndelivery of data in\nbatch and real\ntime.Installation\ninformation: Installing\nIBM DataStage\nEditionUsage\ninformation:\nTransforming data\nwith ETL\nRegulatory\nAccelerator\nSeparately priced Streamline the\nprocess of complying\nwith\nregulations.Installatio\nn information:\nInstalling Regulatory\nAcceleratorUsage\ninformation:\nGoverning data to\ncomply with\nregulations\nSenzing Separately priced Real-time AI for entity\nresolution that scales\nwith your data.\nExploit the power of\nyour data with\nminimal data\npreparation and\ntransformation.\nDiscover the people\nand places at play in\nyour data.Installation\ninformation:\nhttps://senzing.com/ic\np4d/Usage\ninformation:\nhttps://senzing.com/ic\np4ddocs/\n12\n Data sources \nUnified Governance\nand Integration\nIncluded with Cloud\nPak for Data\nCurate your data so\nthat it's useful,\ntrusted, and ready to\nanalyze. Installation\ninformation:  This\nadd-on is installed\nwhen you install\nCloud Pak for\nDataEnterprise\nEdition or Cloud\nNative Edition.\nHowever, if the add-\non is not installed,\nsee Installing Unified\nGovernance and\nIntegration.\nUsage information:\nCataloging and\ngoverning\ndataExploring and\nprofiling\ndataTransforming\ndata with ETL\nWatson Knowledge\nCatalog\nIncluded with Cloud\nPak for Data\nFind the right data\nfast. Discover\nrelevant, curated data\nassets using\nintelligent\nrecommendations\nand user\nreviews.Installation\ninformation: Installing\nWatson Knowledge\nCatalog add-\nonUsage information:\nWatson Knowledge\nCatalogYou can\noptionally upgrade to\nWatson Knowledge\nCatalog Pro.\nAdd-on Pricing Learn more\n13\nCockroachDB Separately priced An SQL database\nwith the scalability of\na NoSQL database\nand the reliability of a\ntransactional\nRBDMS.Installation\ninformation:\nhttps://www.cockroac\nhlabs.com/docs/stabl\ne/Usage information:\nhttps://www.cockroac\nhlabs.com/docs/stabl\ne/\nData Virtualization Included with Cloud\nPak for Data\nQuery many data\nsources as\none.Installation\ninformation: Enabling\nData\nVirtualizationUsage\ninformation: Data\nVirtualization\nIBM Db2® Advanced\nEnterprise Server\nEdition\nSeparately priced Relational database\nthat delivers\nadvanced data\nmanagement and\nanalytics capabilities\nfor transactional\nworkloads.\nInstallation\ninformation: Creating\nan integrated\ndatabaseUsage\ninformation: Working\nwith an integrated\nIBM Db2 Advanced\nEnterprise Server\nEdition database\nIBM Db2 Event Store Separately priced In-memory data store\ncapable of extremely\nhigh speed ingest\nand deep, real-time\nanalytics.Installation\ninformation: Creating\nan integrated\ndatabaseUsage\ninformation: Working\nwith an integrated\nIBM Db2 Event Store\ndatabase\n14\nIBM Db2 Warehouse Included with Cloud\nPak for Data\nData warehouse\ndesigned for high-\nperformance, in-\ndatabase analytics.\nRuns on a single\nnode for cost-\nefficiency or on\nmultiple nodes for\nimproved\nperformance.\nInstallation\ninformation: Creating\nan integrated\ndatabaseUsage\ninformation: Working\nwith an integrated\nIBM Db2 Warehouse\ndatabase\nIBM Db2 for z/OS®\nConnector\nIncluded with Cloud\nPak for Data\nCreate databases in\nDb2 for z/OS and\nwork directly with the\ndata from Cloud Pak\nfor Data. Installation\ninformation: Creating\na database in Db2 for\nz/OSUsage\ninformation: Working\nwith a Db2 for z/OS\ndatabase\nMongoDB Separately priced Scalable, open\nsource NoSQL\ndatabase. Installation\ninformation: Creating\nan integrated\nMongoDB\ndatabaseUsage\ninformation: Working\nwith an integrated\nMongoDB database\nPostgreSQL Included with Cloud\nPak for Data\nOpen source object-\nrelational database\ndesigned for\ndevelopers.Installatio\nn information:\nCreating an\nintegrated\nPostgreSQL\ndatabaseUsage\ninformation: Working\nwith an integrated\nPostgreSQL\ndatabase\n15\n Developer tools \nAdd-on Pricing Learn more\nJupyter Notebook\nServer with Python\n2.7\nIncluded with Cloud\nPak for Data\nOptional\ndevelopment\nenvironment for\ncreating and\ndeploying models\nusing Jupyter\nNotebook Server and\nApache Spark\n2.0.2.Installation\ninformation: Enable\nadditional analytics\ndevelopment\nenvironmentsUsage\ninformation: The\nJupyter and Spark\nnotebook\nenvironment\nJupyter Notebook\nServer with Python\n3.5\nIncluded with Cloud\nPak for Data\nOptional\ndevelopment\nenvironment for\ncreating and\ndeploying models\nusing Jupyter\nNotebook Server and\nApache Spark\n2.2.1.Installation\ninformation: Enable\nadditional analytics\ndevelopment\nenvironmentsUsage\ninformation: The\nJupyter and Spark\nnotebook\nenvironment\nKnowis Solution Suite\nfor Banking\nSeparately priced Design, implement,\nand deliver\nmicroservices that\ntransform digital\nbusiness\nopportunities into\ncloud-native\nsolutions.Installation\ninformation:\nhttps://help.knowis.ne\nt/solution-\nsuite/support/install\n16\n Industry accelerators \nIndustry accelerators are no longer hosted in the Cloud Pak for Data add-ons\ncatalog. Find the most up-to-date list of industry accelerators in the Cloud Pak for\nData Community.  \nLightbend Platform Separately priced Develop and deploy\nReactive\nMicroservices and\nreal-time streaming\npipelines and\nmachine learning\npipelines.Installation\ninformation:\nhttps://developer.light\nbend.com/docs/pipeli\nnes/1.0.1-\nICP4D/index.html#_in\nstalling_pipelinesUsa\nge information:\nhttps://developer.light\nbend.com/docs/pipeli\nnes/1.0.1-\nICP4D/index.html\nRStudio Server with\nR3.4.4\nIncluded with Cloud\nPak for Data\nOptional\ndevelopment\nenvironment for\nworking with\nR.Installation\ninformation: Enable\nadditional analytics\ndevelopment\nenvironmentsUsage\ninformation: RStudio\noverview\nZeppelin Notebook\nServer 0.7.3 with\nAnaconda2 4.4\nIncluded with Cloud\nPak for Data\nOptional\ndevelopment\nenvironment for\nApache Zeppelin\nnotebooks.\nInstallation\ninformation: Enable\nadditional analytics\ndevelopment\nenvironmentsUsage\ninformation: The\nZeppelin and Spark\nnotebook\nenvironment\nAdd-on Pricing Learn more\n17\nContact Center\nOptimization\nIncluded with Cloud\nPak for Data\nImprove the\nproductivity of your\ncustomer contact\ncenter. This\naccelerator includes\nmore than 95\nbusiness terms and\nenables you to\neffectively analyze\nthe productivity of\nyour contact center.\nYour data scientists\ncan use the data\nassociated with this\nglossary to discover\npatterns related\nto:Agent\nproductivityContact\ncenter usage\nInstallation\ninformation: Importing\nindustry accelerators\nCredit Card Fraud Included with Cloud\nPak for Data\nQuickly detect credit\ncard fraud to reduce\nfinancial losses and\nprotect you and your\ncustomers. This\naccelerator includes\nmore than 135\nbanking business\nterms and enables\nyou to flag suspicious\ncredit card activity to\nquickly identify credit\ncard fraud.Installation\ninformation: Importing\nindustry accelerators\nCustomer 360\nDegree View\nIncluded with Cloud\nPak for Data\nGet a complete\npicture of your\ncustomer base. This\naccelerator includes\nmore than 70\nbusiness terms and\nenables you to gain\ninsight into facets\nsuch as:Customer\nsegmentationCredit\nriskLoyaltySocial\nmedia\nsentimentInstallation\ninformation: Importing\nindustry accelerators\n18\nCustomer Attrition\nPrediction(Previously\nCustomer Churn\nPrediction)\nIncluded with Cloud\nPak for Data\nDiscover why your\ncustomers are\nleaving. This\naccelerator includes\nmore than 100\nbusiness terms and a\nset of sample data\nscience assets that\nenable you quickly\nidentify customers\nwho are likely to\nchurn so that you can\nget to the root of the\nproblem.Installation\ninformation: Importing\nindustry\nacceleratorsThis\naccelerator replaces\nthe Customer Churn\nManagement\naccelerator, which\nincluded only\nbusiness terms.\nCustomer Life Event\nPrediction\nIncluded with Cloud\nPak for Data\nWhen you can see\nthe future, you can\nplan ahead for the\nfinancial wellness of\nyour client by\nreaching out with the\nright offer at the right\ntime. This accelerator\nincludes more than\n100 business terms\nand a set of sample\ndata science assets.\nInstallation\ninformation: Importing\nindustry accelerators\nCustomer Offer\nAffinity\nIncluded with Cloud\nPak for Data\nIdentify the right\nfinancial products\nand investment\nopportunities for new\nand existing clients.\nThis accelerator\nincludes more than\n190 business terms\nand a set of sample\ndata science assets\nto help you determine\nwhich offers will be\nmost relevant to your\nclients. Installation\ninformation: Importing\nindustry accelerators\n19\nCustomer\nSegmentation\nIncluded with Cloud\nPak for Data\nEasily differentiate\nbetween client\nsegments by\nidentifying patterns of\nbehavior. Go beyond\nthe traditional\ndemographic\nmarkers, such as\nage, income, and\ngender, with an\nalgorithm that\nidentifies common\nbehavioral patterns.\nThis accelerator\nincludes more than\n100 business terms\nand a set of sample\ndata science assets.\nInstallation\ninformation: Importing\nindustry accelerators\nIntelligent\nMaintenance\nIncluded with Cloud\nPak for Data\nReduce your costs by\nscheduling\nmaintenance at just\nthe right time. Use\npredictive analytics\nand machine learning\nto optimize your\nmaintenance\nschedule based on\nthe costs that you will\nincur. This\naccelerator includes\nmore than 100\nbusiness terms and a\nset of sample data\nscience\nassets.Installation\ninformation: Importing\nindustry accelerators\n20\n Storage \nLoan Default Analysis Included with Cloud\nPak for Data\nQuickly detect credit\ncard fraud to reduce\nfinancial losses and\nprotect you and your\ncustomers. This\naccelerator includes\nmore than 135\nbanking business\nterms and enables\nyou to flag suspicious\ncredit card activity to\nquickly identify credit\ncard fraud.Installation\ninformation: Importing\nindustry accelerators\nStreaming Analytics\nfor Customer Life\nEvent Prediction\nIncluded with Cloud\nPak for Data\nExtend the Customer\nLife Event Prediction\naccelerator with\nstreaming data.\nWhen you can see\nthe future, you can\nplan ahead for the\nfinancial wellness of\nyour client by\nreaching out with the\nright offer at the right\ntime. And with\nstreaming data, you\ncan generate timely,\nactionable alerts.\nThis accelerator\nincludes more than\n100 business terms\nand a set of data\nscience\nassets.Installation\ninformation: Importing\nindustry accelerators\nAdd-on Pricing Learn more\nNetApp ONTAP Separately priced Unify and simplify\nyour data\ninfrastructure—acros\ns edge, core, and\ncloud. Installation\ninformation: Install\nTridentUsage\ninformation: What is\nTrident\n21\n-\n-\n-\n-\n-\n-\n-\n-\n-\n \nInstalling AI add-ons \n Ready to install an AI add-on? Use the following information to find the steps to\ninstall each of the AI add-ons.\nInstalling analytics add-ons \n Ready to install an analytics add-on? Use the following information to find the\nsteps to install each of the analytics add-ons.\nInstalling dashboard add-ons \n Ready to install a dashboard add-on? Use the following information to find the\nsteps to install the dashboard add-ons.\nInstalling data governance add-ons \n Ready to install a data governance add-on? Use the following information to find\nthe steps to install each of the data governance add-ons.\nInstalling data source add-ons \n Ready to install a data source add-on? Use the following information to find the\nsteps to install each of the data source add-ons.\nInstalling developer tool add-ons \n Ready to install a developer tool add-on? Use the following information to find the\nsteps to install each of the developer tool add-ons.\nInstalling industry accelerator add-ons \n Ready to install an industry accelerator add-on? Use the following information to\ninstall each of the industry accelerator add-ons.\nInstalling storage add-ons \n Ready to install a storage add-on? Use the following information to find the steps\nto install the storage add-ons.\nUpgrading Add-ons \nParent topic:Add-ons and integrations \n \nPortworx Separately priced Portworx provides\nessential cloud native\nstorage to address\nthese needs\neffortlessly.Installatio\nn information: Install\nPortworx on\nkubernetes via\nHelmUsage\ninformation: Portworx\ndocumentation\n22\n Installing AI add-ons \nReady to install an AI add-on? Use the following information to find the steps to\ninstall each of the AI add-ons. \n Third-party add-on documentation is provided by the contributing company. Links to\nthe documentation are provided for convenience. \nAdd-on Pricing Learn more\nAnalytics Zoo for\nApache Spark\nSeparately priced An analytics and AI\nplatform that unifies\nTensorFlow, Keras,\nand BigDL for\ndistributed Apache\nSpark\nenvironments.Installa\ntion information:\nhttps://github.com/int\nel-analytics/zoo-\nicpd/blob/master/clou\nd-pak-for-data-\ninstall.mdUsage\ninformation:\nhttps://analytics-\nzoo.github.io/master/\nIntel Deep Learning\nReference Stack -\nPyTorch\nSeparately priced A Deep Learning\nReference Stack for\nPyTorch that is\noptimized for Intel\narchitecture.\nRequires AVX-512.\nInstallation\ninformation:\nhttps://docs.01.org/cl\nearlinux/latest/guides/\nstacks/dlrs/dlrs.html#\nkubeflow-multi-node-\nbenchmarksUsage\ninformation:\nhttps://clearlinux.org/\nstacks/deep-learning\nIntel Deep Learning\nReference Stack -\nTensorFlow\nSeparately priced A Deep Learning\nReference Stack for\nTensorFlow that is\noptimized for Intel\narchitecture.\nRequires AVX-512.\nInstallation\ninformation:\nhttps://docs.01.org/cl\nearlinux/latest/guides/\nstacks/dlrs/dlrs.html#\nkubeflow-multi-node-\nbenchmarksUsage\ninformation:\n23\nProlifics Customer\nProspecting\nAccelerator\nSeparately priced Unlock reliable sales\nleads and increase\ncustomer\nacquisition.Installatio\nn information:\nhttps://www.prolifics.c\nom/cloud-pak-for-\ndataUsage\ninformation:\nhttps://www.prolifics.c\nom/insights/videos/cu\nstomer-prospecting-\naccelerator\nWatson™  Assistant Separately priced Build conversational\ninterfaces into any\napp, device, or\nchannel.Installation\ninformation: Installing\nthe Watson Assistant\nadd-onUsage\ninformation: Watson\nAssistant add-on\nWatson  Assistant for\nVoice Interaction\nSeparately priced Deliver a Watson-\nbased voice\nautomation\nsystem.Installation\ninformation: Installing\nthe Watson Assistant\nfor Voice Interaction\nadd-on\nWatson  Discovery Separately priced Find answers and\nuncover insights in\nyour complex\nbusiness\ncontent.Installation\ninformation: Installing\nthe Watson\nDiscovery add-\nonUsage information:\nWatson Discovery\nadd-on\n24\nWatson Knowledge\nStudio\nSeparately priced Teach Watson the\nlanguage of your\ndomain.Installation\ninformation: Installing\nthe Watson\nKnowledge Studio\nadd-onUsage\ninformation: Watson\nKnowledge Studio\nadd-on Included in\nthe separately priced\nWatson API Kit\npackage.\nWatson Machine\nLearning\nIncluded with Cloud\nPak for Data\nDeploy machine-\nlearning models into\nproduction at\nscale.Installation\ninformation: Installing\nthe Watson Machine\nLearning add-\nonUsage information:\nWatson Machine\nLearning services\nWatson Natural\nLanguage\nUnderstanding\nSeparately priced Take your\nunderstanding of\nunstructured data to\na new level by\nextracting entities,\nkeywords,\nsentiments, and\nmore.Installation\ninformation: Installing\nthe Watson Natural\nLanguage\nUnderstanding add-\nonUsage information:\nWatson Natural\nLanguage\nUnderstanding add-\nonIncluded in the\nseparately priced\nWatson API Kit\npackage.\n25\n-\n \n \nInstalling the Watson API Kit add-ons \n You can install the add-ons that comprise the Watson API Kit on top of IBM Cloud\nPak for Data.\nWatson OpenScale Separately priced Infuse your AI with\ntrust and\ntransparency.\nUnderstand how your\nAI models make\ndecisions to detect\nand mitigate\nbias.Installation\ninformation:\nhttps://cloud.ibm.com\n/docs/services/ai-\nopenscale-\nicp?topic=ai-\nopenscale-icp-inst-\ninstall-icp#inst-install-\nicpUsage information:\nhttps://cloud.ibm.com\n/docs/services/ai-\nopenscale-\nicp?topic=ai-\nopenscale-icp-gs-get-\nstarted#gs-get-\nstarted\nWatson Speech to\nText\nSeparately priced Quickly convert audio\nand voice into written\ntext.Installation\ninformation: Installing\nthe Watson Speech\nto Text add-onUsage\ninformation: Watson\nSpeech to Text add-\nonIncluded in the\nseparately priced\nWatson API Kit\npackage.\nWatson Text to\nSpeech\nSeparately priced Convert written text\ninto natural-sounding\nspeech.Installation\ninformation: Installing\nthe Watson Text to\nSpeech add-onUsage\ninformation: Watson\nText to Speech add-\nonIncluded in the\nseparately priced\nWatson API Kit\npackage.\n26\n-\n-\n-\n-\n-\n-\n-\n-\nInstalling the Watson Assistant add-on \n You can install the Watson  Assistant add-on on top of IBM Cloud Pak for Data.\nInstalling the Watson Assistant for Voice Interaction add-on \n You can install the add-ons that comprise Watson  Assistant for Voice Interaction\non top of IBM Cloud Pak for Data\nInstalling the Watson Discovery add-on \n You can install the Watson  Discovery add-on on top of IBM Cloud Pak for Data.\nInstalling the Watson Knowledge Studio add-on \n You can install the Watson Knowledge Studio add-on on top of IBM Cloud Pak for\nData.\nInstalling the Watson Natural Language Understanding add-on \n You can install the Watson Natural Language Understanding add-on on top of\nIBM Cloud Pak for Data.\nInstalling the Watson Speech to Text add-on \n You can install the Watson Speech to Text add-on on top of IBM Cloud Pak for\nData.\nInstalling the Watson Text to Speech add-on \n You can install the Watson Text to Speech add-on on top of IBM Cloud Pak for\nData.\nInstalling the Watson Machine Learning add-on \n You can install the Watson Machine Learning add-on on top of IBM Cloud Pak for\nData.\nParent topic:Add-ons \n \n27\n"
+      ],
+      "document_passages": [
+        {
+          "passage_text": "Add-ons and integrations 3\nAdd-ons 4\nInstalling AI add-ons 23\n<em>Watson</em> API Kit 28\n<em>Watson</em> Assistant 29\n<em>Watson</em> Assistant for Voice Interaction 48\n<em>Watson</em> Discovery 60\n<em>Watson</em> Knowledge Studio 94\n<em>Watson</em> Natural Language Understanding 106\n<em>Watson</em> Speech to Text 116\n<em>Watson</em> Text to Speech 137\n<em>Watson</em> Machine",
+          "start_offset": 0,
+          "end_offset": 297,
+          "field": "text"
+        },
+        {
+          "passage_text": "information: Installing\nthe <em>Watson</em>\nDiscovery add-\nonUsage information:\n<em>Watson</em> Discovery\nadd-on\n24\n<em>Watson</em> Knowledge\nStudio\nSeparately priced Teach <em>Watson</em> the\nlanguage of your\ndomain.Installation\ninformation: Installing\nthe <em>Watson</em>\nKnowledge Studio\nadd-onUsage\ninformation: <em>Watson</em>\nKnowledge Studio\nadd-on Included in\nthe separately priced\n<em>Watson</em> API Kit\npackage.",
+          "start_offset": 25842,
+          "end_offset": 26201,
+          "field": "text"
+        }
+      ]
+    }
+  ]
+}
