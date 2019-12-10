@@ -8,6 +8,7 @@ import {
   structuredQueryRulesClass,
   structuredQueryRulesButtonsClass
 } from './cssClasses';
+import { insertDropdownInMessage } from './utils/insertDropdownInMessage';
 
 export interface StructuredQueryProps {
   /**
@@ -20,10 +21,6 @@ export const StructuredQuery: React.FunctionComponent<StructuredQueryProps> = ({
   messages = defaultMessages
 }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
-  const satisfyRulesDropdownTextArr = mergedMessages.satisfyRulesDropdownText.split('%');
-  const dropdownIsInMiddleOfText = satisfyRulesDropdownTextArr.length === 3 ? true : false;
-  const dropdownIsAtBeginningOfText =
-    satisfyRulesDropdownTextArr.findIndex(text => text === 'dropdown') === 0 ? true : false;
 
   const handleOnChange = () => {
     // TODO: Fully implement handling dropdown selections in a future issue
@@ -46,23 +43,7 @@ export const StructuredQuery: React.FunctionComponent<StructuredQueryProps> = ({
     // TODO: Break each element out into own component once have all together here
     <div className={structuredQueryClass}>
       <div className={structuredQueryDropdownClass}>
-        {dropdownIsInMiddleOfText ? (
-          <>
-            <p>{satisfyRulesDropdownTextArr[0]}</p>
-            {satisfyRulesDropdown}
-            <p>{satisfyRulesDropdownTextArr[2]}</p>
-          </>
-        ) : dropdownIsAtBeginningOfText ? (
-          <>
-            {satisfyRulesDropdown}
-            <p>{satisfyRulesDropdownTextArr[1]}</p>
-          </>
-        ) : (
-          <>
-            <p>{satisfyRulesDropdownTextArr[0]}</p>
-            {satisfyRulesDropdown}
-          </>
-        )}
+        {insertDropdownInMessage(mergedMessages.satisfyRulesDropdownText, satisfyRulesDropdown)}
       </div>
       {/* TODO: Make this whole row into a Rule component? */}
       <div className={structuredQueryRulesClass}>
