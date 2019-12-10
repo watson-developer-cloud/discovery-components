@@ -2,6 +2,12 @@ import * as React from 'react';
 import { defaultMessages, Messages } from './messages';
 import { Button, ComboBox, Dropdown, TextInput } from 'carbon-components-react';
 import Add16 from '@carbon/icons-react/lib/add/16';
+import {
+  structuredQueryClass,
+  structuredQueryDropdownClass,
+  structuredQueryRulesClass,
+  structuredQueryRulesButtonsClass
+} from './cssClasses';
 
 export interface StructuredQueryProps {
   /**
@@ -19,8 +25,8 @@ export const StructuredQuery: React.FunctionComponent<StructuredQueryProps> = ({
   return (
     // TODO: Break each element out into own component once have all together here
     // TODO: Remember to add ids and all required props to each of these Carbon components
-    <>
-      <div className="bx--structured-query-dropdown">
+    <div className={structuredQueryClass}>
+      <div className={structuredQueryDropdownClass}>
         {/* TODO: Needs to handle if the dropdown would come at the very beginning or very end of the text too */}
         <p>
           {satisfyRulesDropdownTextArr[0]}
@@ -38,7 +44,7 @@ export const StructuredQuery: React.FunctionComponent<StructuredQueryProps> = ({
       </div>
       {/* TODO: Make this whole row into a Rule component? */}
       {/* TODO: All text needs to be added to messages/defaultMessages */}
-      <div className="bx--structured-query-rules">
+      <div className={structuredQueryRulesClass}>
         <ComboBox titleText={mergedMessages.fieldSelectionTitleText} />
         <ComboBox titleText={mergedMessages.operatorSelectionTitleText} />
         <TextInput
@@ -46,7 +52,7 @@ export const StructuredQuery: React.FunctionComponent<StructuredQueryProps> = ({
           placeholder={mergedMessages.valueInputPlaceholderText}
         />
       </div>
-      <div className="bx--structured-query-rules__buttons">
+      <div className={structuredQueryRulesButtonsClass}>
         <Button kind="ghost" renderIcon={Add16}>
           {mergedMessages.addRuleText}
         </Button>
@@ -54,6 +60,6 @@ export const StructuredQuery: React.FunctionComponent<StructuredQueryProps> = ({
           {mergedMessages.addGroupRulesText}
         </Button>
       </div>
-    </>
+    </div>
   );
 };
