@@ -13,10 +13,10 @@ describe('<StructuredQuery />', () => {
 
       describe('has the correct default text', () => {
         test('satisfy rules dropdown has the correct default messages', () => {
-          const satisfyRulesDropdownTextOne = structuredQuery.getByText('Satisfy ', {
+          const satisfyRulesDropdownTextOne = structuredQuery.getByText('Satisfy', {
             exact: false
           });
-          const satisfyRulesDropdownTextTwo = structuredQuery.getByText(' of the following rules', {
+          const satisfyRulesDropdownTextTwo = structuredQuery.getByText('of the following rules', {
             exact: false
           });
           const satisfyRulesDropdownAllOptionText = structuredQuery.getByText('all');

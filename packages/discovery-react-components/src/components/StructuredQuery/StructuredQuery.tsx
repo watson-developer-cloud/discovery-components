@@ -21,40 +21,48 @@ export const StructuredQuery: React.FunctionComponent<StructuredQueryProps> = ({
 }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
   const satisfyRulesDropdownTextArr = mergedMessages.satisfyRulesDropdownText.split('%');
-  const dropdownIndex = satisfyRulesDropdownTextArr.findIndex(text => text === 'dropdown');
-  const satisfyRulesDropdownTextArrLength = satisfyRulesDropdownTextArr.length;
+  const dropdownIsInMiddleOfText = satisfyRulesDropdownTextArr.length === 3 ? true : false;
+  const dropdownIsAtBeginningOfText =
+    satisfyRulesDropdownTextArr.findIndex(text => text === 'dropdown') === 0 ? true : false;
 
   const handleOnChange = () => {
     // TODO: Fully implement handling dropdown selections in a future issue
   };
 
+  const satisfyRulesDropdown = (
+    <Dropdown
+      id="structured-query-dropdown"
+      items={[
+        mergedMessages.satisfyRulesDropdownAllOptionText,
+        mergedMessages.satisfyRulesDropdownAnyOptionText
+      ]}
+      type="inline"
+      initialSelectedItem={mergedMessages.satisfyRulesDropdownAllOptionText}
+      label="Choose whether to satisfy all or any of the following rules"
+    />
+  );
+
   return (
     // TODO: Break each element out into own component once have all together here
     <div className={structuredQueryClass}>
       <div className={structuredQueryDropdownClass}>
-        {/* TODO: Think of ways to improve readability here */}
-        <p>
-          {satisfyRulesDropdownTextArrLength === 3 ||
-          (satisfyRulesDropdownTextArrLength === 2 && dropdownIndex === 1)
-            ? satisfyRulesDropdownTextArr[0]
-            : ''}
-        </p>
-        <Dropdown
-          id="structured-query-dropdown"
-          items={[
-            mergedMessages.satisfyRulesDropdownAllOptionText,
-            mergedMessages.satisfyRulesDropdownAnyOptionText
-          ]}
-          type="inline"
-          initialSelectedItem={mergedMessages.satisfyRulesDropdownAllOptionText}
-          label="Choose whether to satisfy all or any of the following rules"
-        />
-        <p>
-          {satisfyRulesDropdownTextArrLength === 3 ? satisfyRulesDropdownTextArr[2] : ''}
-          {satisfyRulesDropdownTextArrLength === 2 && dropdownIndex === 0
-            ? satisfyRulesDropdownTextArr[1]
-            : ''}
-        </p>
+        {dropdownIsInMiddleOfText ? (
+          <>
+            <p>{satisfyRulesDropdownTextArr[0]}</p>
+            {satisfyRulesDropdown}
+            <p>{satisfyRulesDropdownTextArr[2]}</p>
+          </>
+        ) : dropdownIsAtBeginningOfText ? (
+          <>
+            {satisfyRulesDropdown}
+            <p>{satisfyRulesDropdownTextArr[1]}</p>
+          </>
+        ) : (
+          <>
+            <p>{satisfyRulesDropdownTextArr[0]}</p>
+            {satisfyRulesDropdown}
+          </>
+        )}
       </div>
       {/* TODO: Make this whole row into a Rule component? */}
       <div className={structuredQueryRulesClass}>
