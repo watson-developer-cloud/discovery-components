@@ -1,9 +1,10 @@
-describe('basic test', () => {
+describe('Basic search', () => {
   beforeEach(() => {
     cy.server({ force404: true });
     cy.fixture('basic/collections.json').as('collectionsJSON');
-    cy.route('GET', '**/collections?version=2019-01-01', '@collectionsJSON').as('getCollections');
     cy.fixture('basic/query.json').as('queryJSON');
+    cy.fixture('basic/noResults.json').as('noResultsJSON');
+    cy.route('GET', '**/collections?version=2019-01-01', '@collectionsJSON').as('getCollections');
     cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQuery');
     cy.visit('/');
   });
@@ -17,15 +18,12 @@ describe('basic test', () => {
     it('SearchInput has magnifying glass icon', () => {
       cy.get('.bx--search-magnifier').should('be.visible');
     });
-
-    // TODO: top entities
-
-    // TODO: collections selector
   });
 
-  // Basic query tests
-  describe('When entering a query', () => {
+  // Querying with results
+  describe('When entering a query with results', () => {
     beforeEach(() => {
+      cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQuery');
       cy.get('.bx--search-input').type('abil{enter}');
     });
 
@@ -36,6 +34,22 @@ describe('basic test', () => {
       cy.wait('@postQuery')
         .its('requestBody.natural_language_query')
         .should('eq', 'abil');
+    });
+
+    it('SearchResults displays a list of results', () => {
+      cy.get('.bx--search-result').should('have.length', 3);
+    });
+  });
+
+  // Querying without results
+  describe('When entering a query with no results', () => {
+    beforeEach(() => {
+      cy.route('POST', '**/query?version=2019-01-01', '@noResultsJSON').as('noResultsQuery');
+      cy.get('.bx--search-input').type('abil{enter}');
+    });
+
+    it('SearchResults displays "no results found" message', () => {
+      cy.get('.bx--search-results').should('contain', 'There were no results found');
     });
   });
 });
