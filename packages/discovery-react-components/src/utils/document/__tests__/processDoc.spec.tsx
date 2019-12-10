@@ -2,7 +2,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import parser from 'fast-xml-parser';
-import processDoc, { ProcessedDoc } from '../processDoc';
+import { processDoc, ProcessedDoc } from '../processDoc';
 import contractData from '../__fixtures__/contract.json';
 import escapedCharData from '../__fixtures__/escaped_char_document.json';
 

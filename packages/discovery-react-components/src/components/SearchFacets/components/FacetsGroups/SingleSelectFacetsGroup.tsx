@@ -3,13 +3,13 @@ import {
   RadioButtonGroup as CarbonRadioButtonGroup,
   RadioButton as CarbonRadioButton
 } from 'carbon-components-react';
-import { SearchContext } from '../../../DiscoverySearch/DiscoverySearch';
-import { optionLabelClass, singleSelectGroupClass } from './facetGroupClasses';
+import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
+import { optionLabelClass, singleSelectGroupClass } from 'components/SearchFacets/cssClasses';
 import {
   SelectableDynamicFacets,
   SelectableQueryTermAggregationResult,
   InternalQueryTermAggregation
-} from '../../utils/searchFacetInterfaces';
+} from 'components/SearchFacets/utils/searchFacetInterfaces';
 import get from 'lodash/get';
 
 interface SingleSelectFacetsGroupProps {

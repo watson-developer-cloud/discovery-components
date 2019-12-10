@@ -4,7 +4,7 @@ import {
   useDeepCompareEffect,
   useDeepCompareCallback,
   useDeepCompareMemo
-} from '../../utils/useDeepCompareMemoize';
+} from 'utils/useDeepCompareMemoize';
 import {
   FetchDocumentsResponseStore,
   SearchResponseStore,
@@ -12,7 +12,7 @@ import {
   useSearchResultsApi,
   useFetchDocumentsApi,
   useAutocompleteApi
-} from '../../utils/useDataApi';
+} from 'utils/useDataApi';
 import { SearchClient } from './types';
 
 export type SearchParams = Omit<DiscoveryV2.QueryParams, 'projectId' | 'headers'>;

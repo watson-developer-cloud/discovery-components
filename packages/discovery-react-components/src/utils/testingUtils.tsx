@@ -6,7 +6,7 @@ import {
   SearchApiIFC,
   searchApiDefaults,
   searchContextDefaults
-} from '../components/DiscoverySearch/DiscoverySearch';
+} from 'components/DiscoverySearch/DiscoverySearch';
 
 export function wrapWithContext(
   children: React.ReactElement,

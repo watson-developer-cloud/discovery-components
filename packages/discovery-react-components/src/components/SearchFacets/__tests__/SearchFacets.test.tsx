@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { render, RenderResult, fireEvent } from '@testing-library/react';
 import { QueryTermAggregation } from 'ibm-watson/discovery/v2';
-import { wrapWithContext } from '../../../utils/testingUtils';
+import { wrapWithContext } from 'utils/testingUtils';
 import { SearchFacets } from '../SearchFacets';
 import {
   SearchContextIFC,
   SearchApiIFC,
   searchResponseStoreDefaults
-} from '../../DiscoverySearch/DiscoverySearch';
+} from 'components/DiscoverySearch/DiscoverySearch';
 import { facetsQueryResponse } from '../__fixtures__/facetsQueryResponse';
 import collectionsResponse from '../__fixtures__/collectionsResponse';
 import { noAvailableFacetsMessage } from '../utils/searchFacetMessages';
@@ -27,7 +27,8 @@ const setup = (
   filter: string,
   showCollections = false,
   aggregations = facetsQueryResponse.result.aggregations,
-  componentSettingsAggregations?: DiscoveryV2.ComponentSettingsAggregation[]
+  componentSettingsAggregations?: DiscoveryV2.ComponentSettingsAggregation[],
+  collectionIds?: string[]
 ): Setup => {
   const fetchAggregationsMock = jest.fn();
   const performSearchMock = jest.fn();
@@ -38,6 +39,7 @@ const setup = (
       ...searchResponseStoreDefaults,
       parameters: {
         projectId: '',
+        collectionIds,
         filter,
         aggregation: '[term(author,count:3),term(subject,count:4)]'
       }
@@ -141,7 +143,7 @@ describe('SearchFacetsComponent', () => {
       });
     });
 
-    describe('when no collections exits', () => {
+    describe('when no collections exists', () => {
       test('is not shown', () => {
         const { searchFacetsComponent } = setup('subject:Animals');
         const collectionSelect = searchFacetsComponent.queryByText('Available collections');
@@ -189,6 +191,92 @@ describe('SearchFacetsComponent', () => {
             }),
             false
           );
+        });
+      });
+    });
+
+    describe('when there are collection facets', () => {
+      describe('and some collections are preselected', () => {
+        let setupData: Setup;
+        beforeEach(() => {
+          setupData = setup('', true, undefined, undefined, ['machine-learning']);
+        });
+        test('does show the root clear all button on load', () => {
+          const { searchFacetsComponent } = setupData;
+          fireEvent.click(searchFacetsComponent.getByText('Available collections'));
+          expect(searchFacetsComponent.getByLabelText('Machine Learning')['checked']).toEqual(true);
+          expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(1);
+        });
+        describe('and the clear all button is clicked', () => {
+          test('collection is deselected and clear all button is no longer shown', () => {
+            const { searchFacetsComponent } = setupData;
+            fireEvent.click(searchFacetsComponent.getByText('Clear all'));
+            fireEvent.click(searchFacetsComponent.getByText('Available collections'));
+            expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(0);
+            expect(searchFacetsComponent.getByLabelText('Machine Learning')['checked']).toEqual(
+              false
+            );
+          });
+        });
+      });
+      describe('and no collections are preselected', () => {
+        let setupData: Setup;
+        beforeEach(() => {
+          setupData = setup('', true);
+        });
+        test('does not show the root clear all button on load', () => {
+          const { searchFacetsComponent } = setupData;
+          expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(0);
+        });
+        describe('and one collection is selected after load', () => {
+          test('does show the root clear all button on selection', () => {
+            const { searchFacetsComponent } = setupData;
+            fireEvent.click(searchFacetsComponent.getByText('Available collections'));
+            fireEvent.click(searchFacetsComponent.getByLabelText('Machine Learning'));
+            expect(searchFacetsComponent.getByLabelText('Machine Learning')['checked']).toEqual(
+              true
+            );
+            expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(1);
+          });
+          describe('and the clear all button is clicked', () => {
+            test('the collection is deselected and the clear all button is no longer shown', () => {
+              const { searchFacetsComponent } = setupData;
+              fireEvent.click(searchFacetsComponent.getByText('Available collections'));
+              fireEvent.click(searchFacetsComponent.getByLabelText('Machine Learning'));
+              fireEvent.click(searchFacetsComponent.getByText('Clear all'));
+              expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(0);
+              expect(searchFacetsComponent.getByLabelText('Machine Learning')['checked']).toEqual(
+                false
+              );
+            });
+          });
+        });
+        describe('and multiple collections are selected after load', () => {
+          test('does show the root clear all button on selection', () => {
+            const { searchFacetsComponent } = setupData;
+            fireEvent.click(searchFacetsComponent.getByText('Available collections'));
+            fireEvent.click(searchFacetsComponent.getByLabelText('Machine Learning'));
+            fireEvent.click(searchFacetsComponent.getByLabelText('AI Strategy'));
+            expect(searchFacetsComponent.getByLabelText('Machine Learning')['checked']).toEqual(
+              true
+            );
+            expect(searchFacetsComponent.getByLabelText('AI Strategy')['checked']).toEqual(true);
+            expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(1);
+          });
+          describe('and the clear all button is clicked', () => {
+            test('all collections are deselected and the clear all button is no longer shown', () => {
+              const { searchFacetsComponent } = setupData;
+              fireEvent.click(searchFacetsComponent.getByText('Available collections'));
+              fireEvent.click(searchFacetsComponent.getByLabelText('Machine Learning'));
+              fireEvent.click(searchFacetsComponent.getByLabelText('AI Strategy'));
+              fireEvent.click(searchFacetsComponent.getByText('Clear all'));
+              expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(0);
+              expect(searchFacetsComponent.getByLabelText('Machine Learning')['checked']).toEqual(
+                false
+              );
+              expect(searchFacetsComponent.getByLabelText('AI Strategy')['checked']).toEqual(false);
+            });
+          });
         });
       });
     });

@@ -10,7 +10,7 @@ import {
   useAutocompleteApi,
   AutocompleteStore
 } from '../useDataApi';
-import { SearchClient } from '../../components/DiscoverySearch/types';
+import { SearchClient } from 'components/DiscoverySearch/types';
 
 class BaseSearchClient {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

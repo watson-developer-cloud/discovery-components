@@ -1,5 +1,5 @@
 import { Response, ComponentSettingsResponse } from 'ibm-watson/discovery/v2';
-import { createDummyResponse } from '../../../utils/testingUtils';
+import { createDummyResponse } from 'utils/testingUtils';
 
 const aggregationComponentSettingsResponse: Response<
   ComponentSettingsResponse
