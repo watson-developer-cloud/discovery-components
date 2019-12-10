@@ -26,7 +26,11 @@ export const StructuredQuery: React.FunctionComponent<StructuredQueryProps> = ({
     // TODO: Fully implement handling dropdown selections in a future issue
   };
 
-  const satisfyRulesDropdown = (
+  const handleSatisfyRulesDropdownOnChange = () => {
+    // TODO: Fully implement handling satisfy rules dropdown selections in a future issue
+  };
+
+  const satisfyRulesDropdownElement = (
     <Dropdown
       id="structured-query-dropdown"
       items={[
@@ -35,29 +39,29 @@ export const StructuredQuery: React.FunctionComponent<StructuredQueryProps> = ({
       ]}
       type="inline"
       initialSelectedItem={mergedMessages.satisfyRulesDropdownAllOptionText}
-      label="Choose whether to satisfy all or any of the following rules"
+      label={mergedMessages.satisfyRulesDropdownLabelText}
+      onChange={handleSatisfyRulesDropdownOnChange}
     />
   );
 
   return (
-    // TODO: Break each element out into own component once have all together here
     <div className={structuredQueryClass}>
       <div className={structuredQueryDropdownClass}>
-        {insertDropdownInMessage(mergedMessages.satisfyRulesDropdownText, satisfyRulesDropdown)}
+        {insertDropdownInMessage(
+          mergedMessages.satisfyRulesDropdownText,
+          satisfyRulesDropdownElement
+        )}
       </div>
-      {/* TODO: Make this whole row into a Rule component? */}
       <div className={structuredQueryRulesClass}>
-        {/* Only needs title text for the first instance of the field/operator/value selection? Not sure */}
-        {/* TODO: Improve ids for when the rules get nested */}
         <ComboBox
-          id="structured-query-rules-field"
+          id="structured-query-rules-field-0"
           items={[]}
           placeholder={mergedMessages.fieldDropdownPlaceholderText}
           titleText={mergedMessages.fieldDropdownTitleText}
           onChange={handleOnChange}
         />
         <ComboBox
-          id="structured-query-rules-operator"
+          id="structured-query-rules-operator-0"
           items={[
             mergedMessages.operatorDropdownIsOptionText,
             mergedMessages.operatorDropdownIsNotOptionText,
@@ -69,7 +73,7 @@ export const StructuredQuery: React.FunctionComponent<StructuredQueryProps> = ({
           onChange={handleOnChange}
         />
         <TextInput
-          id="structured-query-rules-value"
+          id="structured-query-rules-value-0"
           labelText={mergedMessages.valueInputLabelText}
           placeholder={mergedMessages.valueInputPlaceholderText}
         />

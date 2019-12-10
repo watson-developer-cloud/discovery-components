@@ -13,6 +13,10 @@ export interface Messages {
    */
   satisfyRulesDropdownAnyOptionText: string;
   /**
+   * override the default label text used as the textual representation of what the satisfy rules dropdown is for
+   */
+  satisfyRulesDropdownLabelText: string;
+  /**
    * override the default text for the button to add a rule
    */
   addRuleText: string;
@@ -66,6 +70,7 @@ export const defaultMessages: Messages = {
   satisfyRulesDropdownText: 'Satisfy %dropdown% of the following rules',
   satisfyRulesDropdownAllOptionText: 'all',
   satisfyRulesDropdownAnyOptionText: 'any',
+  satisfyRulesDropdownLabelText: 'Choose whether to satisfy all or any of the following rules',
   addRuleText: 'Add rule',
   addGroupRulesText: 'Add group of rules',
   fieldDropdownPlaceholderText: 'Select field',
