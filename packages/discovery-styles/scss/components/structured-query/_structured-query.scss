@@ -2,50 +2,50 @@
 @import '~carbon-components/scss/components/combo-box/combo-box';
 @import '~carbon-components/scss/components/dropdown/dropdown';
 
-// TODO: Need to add a namespace to these styles
-.bx--structured-query__dropdown {
+.#{$prefix}--structured-query__dropdown {
   align-items: center;
   display: flex;
 
-  .bx--dropdown {
+  .#{$prefix}--dropdown {
     background-color: $gray-10;
     border-bottom: 1px solid $gray-100;
   }
 
-  .bx--list-box__field {
+  .#{$prefix}--list-box__field {
     vertical-align: text-top;
   }
 
-  .bx--list-box__label {
+  .#{$prefix}--list-box__label {
     font-size: 1rem;
     font-weight: 600;
     line-height: 1.5rem;
   }
 }
 
-.bx--structured-query__rules {
+.#{$prefix}--structured-query__rules {
   display: flex;
   padding: $spacing-md;
 
-  .bx--label {
+  .#{$prefix}--label {
     font-weight: 600;
   }
 
-  .bx--list-box__wrapper {
+  .#{$prefix}--list-box__wrapper {
     padding-right: $spacing-md;
-    width: 33%;
   }
 
-  .bx--form-item {
-    width: 33%;
+  .#{$prefix}--form-item {
+    .#{$prefix}--text-input {
+      height: 2.6rem;
+    }
   }
 }
 
-.bx--structured-query__rules__buttons {
+.#{$prefix}--structured-query__rules__buttons {
   display: flex;
   flex-direction: column;
 
-  .bx--btn--ghost {
+  .#{$prefix}--btn--ghost {
     display: flex;
     flex-direction: row-reverse;
     justify-content: flex-end;

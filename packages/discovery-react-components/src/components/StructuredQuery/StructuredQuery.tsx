@@ -41,6 +41,7 @@ export const StructuredQuery: React.FunctionComponent<StructuredQueryProps> = ({
       initialSelectedItem={mergedMessages.satisfyRulesDropdownAllOptionText}
       label={mergedMessages.satisfyRulesDropdownLabelText}
       onChange={handleSatisfyRulesDropdownOnChange}
+      key="structured-query-dropdown"
     />
   );
 
