@@ -17,14 +17,6 @@ export interface Messages {
    */
   satisfyRulesDropdownLabelText: string;
   /**
-   * override the default text for the button to add a rule
-   */
-  addRuleText: string;
-  /**
-   * override the default text for the button to add a group of rules
-   */
-  addGroupRulesText: string;
-  /**
    * override the default placeholder text for the Field dropdown
    */
   fieldDropdownPlaceholderText: string;
@@ -64,6 +56,14 @@ export interface Messages {
    * override the default text for the Value input placeholder text
    */
   valueInputPlaceholderText: string;
+  /**
+   * override the default text for the button to add a rule
+   */
+  addRuleText: string;
+  /**
+   * override the default text for the button to add a group of rules
+   */
+  addGroupRulesText: string;
 }
 
 export const defaultMessages: Messages = {
@@ -71,8 +71,6 @@ export const defaultMessages: Messages = {
   satisfyRulesDropdownAllOptionText: 'all',
   satisfyRulesDropdownAnyOptionText: 'any',
   satisfyRulesDropdownLabelText: 'Choose whether to satisfy all or any of the following rules',
-  addRuleText: 'Add rule',
-  addGroupRulesText: 'Add group of rules',
   fieldDropdownPlaceholderText: 'Select field',
   fieldDropdownTitleText: 'Field',
   operatorDropdownIsOptionText: 'is',
@@ -82,5 +80,7 @@ export const defaultMessages: Messages = {
   operatorDropdownPlaceholderText: 'Select operator',
   operatorDropdownTitleText: 'Operator',
   valueInputLabelText: 'Value',
-  valueInputPlaceholderText: 'Enter value'
+  valueInputPlaceholderText: 'Enter value',
+  addRuleText: 'Add rule',
+  addGroupRulesText: 'Add group of rules'
 };

@@ -2,7 +2,7 @@
 @import '~carbon-components/scss/components/combo-box/combo-box';
 @import '~carbon-components/scss/components/dropdown/dropdown';
 
-.#{$prefix}--structured-query__dropdown {
+.#{$prefix}--structured-query__satisfy-rules-dropdown {
   align-items: center;
   display: flex;
 
@@ -36,6 +36,8 @@
 
   .#{$prefix}--form-item {
     .#{$prefix}--text-input {
+      // This spacing aligns the text input and combobox bottom borders
+      // It is needed due to a small discrepancy in the height of the text input and the comboboxes
       height: 2.6rem;
     }
   }

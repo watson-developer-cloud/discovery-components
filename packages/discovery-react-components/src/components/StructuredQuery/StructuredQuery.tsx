@@ -1,14 +1,10 @@
 import * as React from 'react';
-import { Button, ComboBox, Dropdown, TextInput } from 'carbon-components-react';
+import { Button } from 'carbon-components-react';
 import Add16 from '@carbon/icons-react/lib/add/16';
+import { SatisfyRules } from './components/SatisfyRules/SatisfyRules';
+import { RuleRow } from './components/RuleRow/RuleRow';
 import { defaultMessages, Messages } from './messages';
-import {
-  structuredQueryClass,
-  structuredQueryDropdownClass,
-  structuredQueryRulesClass,
-  structuredQueryRulesButtonsClass
-} from './cssClasses';
-import { insertDropdownInMessage } from './utils/insertDropdownInMessage';
+import { structuredQueryClass, structuredQueryRulesButtonsClass } from './cssClasses';
 
 export interface StructuredQueryProps {
   /**
@@ -22,63 +18,10 @@ export const StructuredQuery: React.FunctionComponent<StructuredQueryProps> = ({
 }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
 
-  const handleOnChange = () => {
-    // TODO: Fully implement handling dropdown selections in a future issue
-  };
-
-  const handleSatisfyRulesDropdownOnChange = () => {
-    // TODO: Fully implement handling satisfy rules dropdown selections in a future issue
-  };
-
-  const satisfyRulesDropdownElement = (
-    <Dropdown
-      id="structured-query-dropdown"
-      items={[
-        mergedMessages.satisfyRulesDropdownAllOptionText,
-        mergedMessages.satisfyRulesDropdownAnyOptionText
-      ]}
-      type="inline"
-      initialSelectedItem={mergedMessages.satisfyRulesDropdownAllOptionText}
-      label={mergedMessages.satisfyRulesDropdownLabelText}
-      onChange={handleSatisfyRulesDropdownOnChange}
-      key="structured-query-dropdown"
-    />
-  );
-
   return (
     <div className={structuredQueryClass}>
-      <div className={structuredQueryDropdownClass}>
-        {insertDropdownInMessage(
-          mergedMessages.satisfyRulesDropdownText,
-          satisfyRulesDropdownElement
-        )}
-      </div>
-      <div className={structuredQueryRulesClass}>
-        <ComboBox
-          id="structured-query-rules-field-0"
-          items={[]}
-          placeholder={mergedMessages.fieldDropdownPlaceholderText}
-          titleText={mergedMessages.fieldDropdownTitleText}
-          onChange={handleOnChange}
-        />
-        <ComboBox
-          id="structured-query-rules-operator-0"
-          items={[
-            mergedMessages.operatorDropdownIsOptionText,
-            mergedMessages.operatorDropdownIsNotOptionText,
-            mergedMessages.operatorDropdownContainsOptionText,
-            mergedMessages.operatorDropdownDoesNotContainOptionText
-          ]}
-          placeholder={mergedMessages.operatorDropdownPlaceholderText}
-          titleText={mergedMessages.operatorDropdownTitleText}
-          onChange={handleOnChange}
-        />
-        <TextInput
-          id="structured-query-rules-value-0"
-          labelText={mergedMessages.valueInputLabelText}
-          placeholder={mergedMessages.valueInputPlaceholderText}
-        />
-      </div>
+      <SatisfyRules messages={mergedMessages} />
+      <RuleRow messages={mergedMessages} />
       <div className={structuredQueryRulesButtonsClass}>
         <Button kind="ghost" renderIcon={Add16}>
           {mergedMessages.addRuleText}
