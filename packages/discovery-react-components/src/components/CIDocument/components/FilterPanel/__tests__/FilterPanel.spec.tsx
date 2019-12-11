@@ -32,7 +32,7 @@ describe('<FilterPanel />', () => {
   });
 
   it('emits an event when a selection is made', () => {
-    expect(onFilterChangeSpy).not.toHaveBeenCalled;
+    expect(onFilterChangeSpy).not.toHaveBeenCalled();
 
     // Click on option labelled "Filter B-4 (4)"
     fireEvent.click(getByLabelText('Filter B-4(4)'));
@@ -47,7 +47,7 @@ describe('<FilterPanel />', () => {
   });
 
   it('emits an event when the reset button is pressed', () => {
-    expect(onFilterClearSpy).not.toHaveBeenCalled;
+    expect(onFilterClearSpy).not.toHaveBeenCalled();
 
     // Click on "Reset filters" button
     fireEvent.click(getByText('Reset filters'));

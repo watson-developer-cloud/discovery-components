@@ -40,9 +40,9 @@ describe('filterHelper', () => {
         FILTER_GROUP_C: ['Filter C-1']
       });
 
-      expect(filterGroups[0].optionsList).toBeTruthy;
-      expect(filterGroups[1].optionsList).toBeTruthy;
-      expect(filterGroups[2].optionsList).toBeTruthy;
+      expect(filterGroups[0].optionsList).toBeTruthy();
+      expect(filterGroups[1].optionsList).toBeTruthy();
+      expect(filterGroups[2].optionsList).toBeTruthy();
 
       if (
         filterGroups[0].optionsList &&
@@ -71,9 +71,9 @@ describe('filterHelper', () => {
         FILTER_GROUP_C: ['Filter C-1']
       });
 
-      expect(filterGroups[0].optionsList).toBeTruthy;
-      expect(filterGroups[1].optionsList).toBeTruthy;
-      expect(filterGroups[2].optionsList).toBeTruthy;
+      expect(filterGroups[0].optionsList).toBeTruthy();
+      expect(filterGroups[1].optionsList).toBeTruthy();
+      expect(filterGroups[2].optionsList).toBeTruthy();
 
       if (
         filterGroups[0].optionsList &&
@@ -102,9 +102,9 @@ describe('filterHelper', () => {
         FILTER_GROUP_C: ['Filter C-2']
       });
 
-      expect(filterGroups[0].optionsList).toBeTruthy;
-      expect(filterGroups[1].optionsList).toBeTruthy;
-      expect(filterGroups[2].optionsList).toBeTruthy;
+      expect(filterGroups[0].optionsList).toBeTruthy();
+      expect(filterGroups[1].optionsList).toBeTruthy();
+      expect(filterGroups[2].optionsList).toBeTruthy();
 
       if (
         filterGroups[0].optionsList &&
@@ -131,9 +131,9 @@ describe('filterHelper', () => {
         FILTER_GROUP_A: ['Filter A-1']
       });
 
-      expect(filterGroups[0].optionsList).toBeTruthy;
-      expect(filterGroups[1].optionsList).toBeTruthy;
-      expect(filterGroups[2].optionsList).toBeTruthy;
+      expect(filterGroups[0].optionsList).toBeTruthy();
+      expect(filterGroups[1].optionsList).toBeTruthy();
+      expect(filterGroups[2].optionsList).toBeTruthy();
 
       if (
         filterGroups[0].optionsList &&
@@ -160,9 +160,9 @@ describe('filterHelper', () => {
         FILTER_GROUP_C: ['Filter C-1']
       });
 
-      expect(filterGroups[0].optionsList).toBeTruthy;
-      expect(filterGroups[1].optionsList).toBeTruthy;
-      expect(filterGroups[2].optionsList).toBeTruthy;
+      expect(filterGroups[0].optionsList).toBeTruthy();
+      expect(filterGroups[1].optionsList).toBeTruthy();
+      expect(filterGroups[2].optionsList).toBeTruthy();
 
       if (
         filterGroups[0].optionsList &&
