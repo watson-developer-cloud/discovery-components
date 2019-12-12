@@ -9,8 +9,7 @@ import {
   BoundFunction,
   GetAllBy,
   GetByText,
-  FindByText,
-  cleanup
+  FindByText
 } from '@testing-library/react';
 import 'components/CIDocument/utils/test/createRange.mock';
 import CIDocument from '../CIDocument';
@@ -30,8 +29,6 @@ describe('<CIDocument />', () => {
       ));
     });
   });
-
-  afterEach(cleanup);
 
   it('filters and navigates forward through the list of elements', async () => {
     const filterCheckbox = await waitForElement(() => {
