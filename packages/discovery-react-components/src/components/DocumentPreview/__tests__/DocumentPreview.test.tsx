@@ -10,7 +10,7 @@ import docJson from '../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf
 import htmlDoc from '../__fixtures__/MovieHtml.json';
 import passages from '../__fixtures__/passages';
 
-describe('DocumentPreview', () => {
+describe.skip('DocumentPreview', () => {
   const mockedBbox = {
     x: 0,
     y: 0,

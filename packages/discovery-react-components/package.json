@@ -57,6 +57,7 @@
   },
   "devDependencies": {
     "lorem-ipsum": "^2.0.3",
+    "react-scripts": "^3.3.0",
     "seedrandom": "^3.0.5"
   }
 }

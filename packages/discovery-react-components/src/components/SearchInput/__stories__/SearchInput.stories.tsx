@@ -8,9 +8,6 @@ import { StoryWrapper, DummySearchClient } from 'utils/storybookUtils';
 import { createDummyResponsePromise } from 'utils/testingUtils';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { action } from '@storybook/addon-actions';
-import defaultReadme from './default.md';
-import spellingSuggestionsReadme from './spellingSuggestions.md';
-import marked from 'marked';
 import { defaultMessages } from '../messages';
 
 const props = () => ({
@@ -65,46 +62,35 @@ const discoverySearchProps = (): DiscoverySearchProps => ({
 });
 
 storiesOf('SearchInput', module)
+  .addParameters({ component: SearchInput })
   .addDecorator(withKnobs)
-  .add(
-    'default',
-    () => {
-      autocompletions = generateCompletionsArray(props().completionsCount, '');
-      return (
-        <StoryWrapper>
-          <DiscoverySearch {...discoverySearchProps()}>
-            <SearchInput {...props()} />
-          </DiscoverySearch>
-        </StoryWrapper>
-      );
-    },
-    {
-      info: marked(defaultReadme)
-    }
-  )
-  .add(
-    'with spelling suggestions',
-    () => {
-      const spellingSuggestionProps = {
-        ...discoverySearchProps(),
-        overrideQueryParameters: {
-          naturalLanguageQuery: 'Waston'
-        },
-        overrideSearchResults: {
-          suggested_query: 'Watson'
-        }
-      };
+  .add('default', () => {
+    autocompletions = generateCompletionsArray(props().completionsCount, '');
+    return (
+      <StoryWrapper>
+        <DiscoverySearch {...discoverySearchProps()}>
+          <SearchInput {...props()} />
+        </DiscoverySearch>
+      </StoryWrapper>
+    );
+  })
+  .add('with spelling suggestions', () => {
+    const spellingSuggestionProps = {
+      ...discoverySearchProps(),
+      overrideQueryParameters: {
+        naturalLanguageQuery: 'Waston'
+      },
+      overrideSearchResults: {
+        suggested_query: 'Watson'
+      }
+    };
 
-      return (
-        <StoryWrapper>
-          <DiscoverySearch {...spellingSuggestionProps}>
-            <SearchInput {...props()} />
-            <SearchResults />
-          </DiscoverySearch>
-        </StoryWrapper>
-      );
-    },
-    {
-      info: marked(spellingSuggestionsReadme)
-    }
-  );
+    return (
+      <StoryWrapper>
+        <DiscoverySearch {...spellingSuggestionProps}>
+          <SearchInput {...props()} />
+          <SearchResults />
+        </DiscoverySearch>
+      </StoryWrapper>
+    );
+  });

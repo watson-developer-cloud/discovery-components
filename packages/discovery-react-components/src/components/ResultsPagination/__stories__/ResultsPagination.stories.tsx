@@ -8,8 +8,6 @@ import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { action } from '@storybook/addon-actions';
 import { createDummyResponsePromise } from 'utils/testingUtils';
 import { ResultsPagination } from '../ResultsPagination';
-import defaultReadme from './default.md';
-import marked from 'marked';
 
 export const props = () => ({
   page: number('The current page (page)', 1),
@@ -35,17 +33,12 @@ const discoverySearchProps = (): DiscoverySearchProps => ({
 });
 
 storiesOf('ResultsPagination', module)
+  .addParameters({ component: ResultsPagination })
   .addDecorator(withKnobs)
-  .add(
-    'default',
-    () => {
-      return (
-        <DiscoverySearch {...discoverySearchProps()}>
-          <ResultsPagination {...props()} />
-        </DiscoverySearch>
-      );
-    },
-    {
-      info: marked(defaultReadme)
-    }
-  );
+  .add('default', () => {
+    return (
+      <DiscoverySearch {...discoverySearchProps()}>
+        <ResultsPagination {...props()} />
+      </DiscoverySearch>
+    );
+  });
