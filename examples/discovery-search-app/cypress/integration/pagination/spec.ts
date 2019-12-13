@@ -7,7 +7,9 @@ describe('Pagination', () => {
     cy.fixture('basic/collections.json').as('collectionsJSON');
     cy.fixture('basic/componentSettings.json').as('componentSettingsJSON');
     cy.fixture('pagination/multiPageResults.json').as('multiPageResultsJSON');
-    cy.route('GET', '**/component_settings?version=2019-01-01').as('componentSettings');
+    cy.route('GET', '**/component_settings?version=2019-01-01', '@componentSettingsJSON').as(
+      'componentSettings'
+    );
     cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('searchQuery');
     cy.route('GET', '**/collections?version=2019-01-01', '@collectionsJSON').as('getCollections');
     cy.visit('/');
