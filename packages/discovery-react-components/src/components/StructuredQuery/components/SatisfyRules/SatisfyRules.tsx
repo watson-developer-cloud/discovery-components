@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Dropdown } from 'carbon-components-react';
 import { Messages } from 'components/StructuredQuery/messages';
 import { structuredQuerySatisfyRulesDropdownClass } from 'components/StructuredQuery/cssClasses';
-import { insertDropdownInMessage } from 'components/StructuredQuery/utils/insertDropdownInMessage';
+import { formatSatisfyRulesDropdownMessage } from 'components/StructuredQuery/utils/formatSatisfyRulesDropdownMessage';
 
 export interface SatisfyRulesProps {
   /**
@@ -33,7 +33,10 @@ export const SatisfyRules: React.FunctionComponent<SatisfyRulesProps> = ({ messa
 
   return (
     <div className={structuredQuerySatisfyRulesDropdownClass}>
-      {insertDropdownInMessage(messages.satisfyRulesDropdownText, satisfyRulesDropdownElement)}
+      {formatSatisfyRulesDropdownMessage(
+        messages.satisfyRulesDropdownText,
+        satisfyRulesDropdownElement
+      )}
     </div>
   );
 };

@@ -1,4 +1,3 @@
-// TODO: First can set up tests for all the messages
 import React from 'react';
 import { render, RenderResult } from '@testing-library/react';
 import { StructuredQuery } from '../StructuredQuery';

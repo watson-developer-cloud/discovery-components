@@ -1,1 +1,1 @@
-export { insertDropdownInMessage } from './insertDropdownInMessage';
+export { formatSatisfyRulesDropdownMessage } from './formatSatisfyRulesDropdownMessage';

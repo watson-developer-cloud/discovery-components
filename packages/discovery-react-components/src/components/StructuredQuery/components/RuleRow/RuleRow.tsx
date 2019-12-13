@@ -14,8 +14,12 @@ export interface RuleRowProps {
 }
 
 export const RuleRow: React.FunctionComponent<RuleRowProps> = ({ messages }) => {
-  const handleOnChange = () => {
-    // TODO: Fully implement handling dropdown selections in a future issue
+  const handleOnFieldChange = () => {
+    // TODO: Fully implement handling field dropdown selections in a future issue
+  };
+
+  const handleOnOperatorChange = () => {
+    // TODO: Fully implement handling operator dropdown selections in a future issue
   };
 
   return (
@@ -27,7 +31,7 @@ export const RuleRow: React.FunctionComponent<RuleRowProps> = ({ messages }) => 
         items={[]}
         placeholder={messages.fieldDropdownPlaceholderText}
         titleText={messages.fieldDropdownTitleText}
-        onChange={handleOnChange}
+        onChange={handleOnFieldChange}
       />
       <ComboBox
         id="structured-query-rules-operator-0"
@@ -40,7 +44,7 @@ export const RuleRow: React.FunctionComponent<RuleRowProps> = ({ messages }) => 
         ]}
         placeholder={messages.operatorDropdownPlaceholderText}
         titleText={messages.operatorDropdownTitleText}
-        onChange={handleOnChange}
+        onChange={handleOnOperatorChange}
       />
       <TextInput
         id="structured-query-rules-value-0"
