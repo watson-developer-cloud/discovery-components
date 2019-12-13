@@ -8,9 +8,9 @@ import {
   GetByText
 } from '@testing-library/react';
 import PdfFallback from '../PdfFallback';
-import docJson from '../../../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
-import docArrayJson from '../../../__fixtures__/ArtEffectsTextArray.json';
-import fieldNameTest from '../../../__fixtures__/FieldNameTest.json';
+import docJson from 'components/DocumentPreview/__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
+import docArrayJson from 'components/DocumentPreview/__fixtures__/ArtEffectsTextArray.json';
+import fieldNameTest from 'components/DocumentPreview/__fixtures__/FieldNameTest.json';
 
 describe('PdfFallback', () => {
   const mockedBbox = {

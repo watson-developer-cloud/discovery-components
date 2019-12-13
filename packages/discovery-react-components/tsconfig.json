@@ -22,7 +22,8 @@
     "strict": true,
     "resolveJsonModule": true,
     "noEmit": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "baseUrl": "src"
   },
   "include": ["src"],
   "exclude": ["node_modules", "build", "dist", "rollup.config.js"]

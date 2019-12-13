@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { render, fireEvent, RenderResult } from '@testing-library/react';
-import { wrapWithContext } from '../../../../utils/testingUtils';
+import { wrapWithContext } from 'utils/testingUtils';
 import {
   SearchContextIFC,
   SearchApiIFC,
   searchResponseStoreDefaults
-} from '../../../DiscoverySearch/DiscoverySearch';
-import { SearchFacets } from '../../SearchFacets';
-import { weirdFacetsQueryResponse } from '../../__fixtures__/facetsQueryResponse';
+} from 'components/DiscoverySearch/DiscoverySearch';
+import { SearchFacets } from 'components/SearchFacets/SearchFacets';
+import { weirdFacetsQueryResponse } from 'components/SearchFacets/__fixtures__/facetsQueryResponse';
 
 interface Setup {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

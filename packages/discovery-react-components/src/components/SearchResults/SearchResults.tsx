@@ -1,13 +1,13 @@
 import * as React from 'react';
 import get from 'lodash/get';
 import { SkeletonText } from 'carbon-components-react';
-import { SearchApi, SearchContext } from '../DiscoverySearch/DiscoverySearch';
+import { SearchApi, SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { TablesOnlyToggle } from './components/TablesOnlyToggle/TablesOnlyToggle';
 import { Result } from './components/Result/Result';
 import { SpellingSuggestion } from './components/SpellingSuggestion/SpellingSuggestion';
 import { findCollectionName, getDisplaySettings, findTablesWithoutResults } from './utils';
-import { useDeepCompareEffect } from '../../utils/useDeepCompareMemoize';
+import { useDeepCompareEffect } from 'utils/useDeepCompareMemoize';
 import {
   baseClass,
   searchResultClass,

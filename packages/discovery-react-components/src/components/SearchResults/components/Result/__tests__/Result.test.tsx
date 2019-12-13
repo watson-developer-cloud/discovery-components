@@ -6,11 +6,11 @@ import {
   SearchContextIFC,
   searchResponseStoreDefaults,
   fetchDocumentsResponseStoreDefaults
-} from '../../../../DiscoverySearch/DiscoverySearch';
+} from 'components/DiscoverySearch/DiscoverySearch';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 
-import { wrapWithContext, browserWindow } from '../../../../../utils/testingUtils';
-import { SearchResults } from '../../../SearchResults';
+import { wrapWithContext, browserWindow } from 'utils/testingUtils';
+import { SearchResults } from 'components/SearchResults/SearchResults';
 
 describe('<Result />', () => {
   let context: Partial<SearchContextIFC>;
@@ -186,8 +186,8 @@ describe('<Result />', () => {
         )
       );
 
-      expect(resultsWithPassages.getByText('This is a header')).toBeInTheDocument;
-      expect(resultsWithPassages.getByText('This is some text')).toBeInTheDocument;
+      expect(resultsWithPassages.getByText('This is a header')).toBeInTheDocument();
+      expect(resultsWithPassages.getByText('This is some text')).toBeInTheDocument();
       expect(
         resultsWithPassages.queryByText(
           '<div><h1>This is a header</h1><p>This is some text</p></div>'
@@ -221,8 +221,8 @@ describe('<Result />', () => {
       });
 
       it('will render the passage as cleaned html', () => {
-        expect(resultsWithPassages.getByText('This is a header')).toBeInTheDocument;
-        expect(resultsWithPassages.getByText('This is some text')).toBeInTheDocument;
+        expect(resultsWithPassages.getByText('This is a header')).toBeInTheDocument();
+        expect(resultsWithPassages.getByText('This is some text')).toBeInTheDocument();
         expect(
           resultsWithPassages.queryByText(
             '<div><h1>This is a header</h1><p>This is some text</p></div>'
@@ -289,8 +289,8 @@ describe('<Result />', () => {
         });
 
         it('renders the bodyField as cleaned html elements', () => {
-          expect(results.getByText('This is a header')).toBeInTheDocument;
-          expect(results.getByText('This is some text')).toBeInTheDocument;
+          expect(results.getByText('This is a header')).toBeInTheDocument();
+          expect(results.getByText('This is some text')).toBeInTheDocument();
           expect(
             results.queryByText('<div><h1>This is a header</h1><p>This is some text</p></div>')
           ).toBe(null);

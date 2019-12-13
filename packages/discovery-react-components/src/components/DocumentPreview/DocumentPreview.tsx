@@ -3,7 +3,7 @@ import { SkeletonText } from 'carbon-components-react';
 import get from 'lodash/get';
 import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
-import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
+import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import { PreviewToolbar } from './components/PreviewToolbar/PreviewToolbar';
 import PdfViewer from './components/PdfViewer/PdfViewer';
 import PdfFallback, { supportsPdfFallback } from './components/PdfFallback/PdfFallback';
@@ -11,7 +11,7 @@ import SimpleDocument from './components/SimpleDocument/SimpleDocument';
 import HtmlView from './components/HtmlView/HtmlView';
 import Highlight from './components/Highlight/Highlight';
 import { getTextMappings } from './utils/documentData';
-import withErrorBoundary, { WithErrorBoundaryProps } from '../../utils/hoc/withErrorBoundary';
+import withErrorBoundary, { WithErrorBoundaryProps } from 'utils/hoc/withErrorBoundary';
 import { defaultMessages, Messages } from './messages';
 import { TextMappings } from './types';
 

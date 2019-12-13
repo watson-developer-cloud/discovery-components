@@ -16,8 +16,8 @@ import {
   SearchContextIFC,
   SearchApiIFC,
   autocompletionStoreDefaults
-} from '../../DiscoverySearch/DiscoverySearch';
-import { wrapWithContext } from '../../../utils/testingUtils';
+} from 'components/DiscoverySearch/DiscoverySearch';
+import { wrapWithContext } from 'utils/testingUtils';
 import { SearchInput } from '../SearchInput';
 
 const COMPLETIONS = ['some', 'someone', 'solar', 'somatic', 'soke'];

@@ -8,12 +8,12 @@ import React, { FC, useContext, useEffect, useState, SyntheticEvent, KeyboardEve
 import { settings } from 'carbon-components';
 import { Search as CarbonSearchInput } from 'carbon-components-react';
 import ListBox from 'carbon-components-react/lib/components/ListBox';
-import { SearchApi, SearchContext } from '../DiscoverySearch/DiscoverySearch';
-import useDebounce from '../../utils/useDebounce';
+import { SearchApi, SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
+import useDebounce from 'utils/useDebounce';
 import uuid from 'uuid';
 import Search16 from '@carbon/icons-react/lib/search/16';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
-import { useDeepCompareCallback } from '../../utils/useDeepCompareMemoize';
+import { useDeepCompareCallback } from 'utils/useDeepCompareMemoize';
 import { defaultMessages, Messages } from './messages';
 
 interface SearchInputProps {

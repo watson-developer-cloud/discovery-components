@@ -5,7 +5,8 @@ function isConfigurationTerm(
 ): configuration is DiscoveryV2.QueryTermAggregation {
   return (
     (typeof configuration.field === 'string') === true &&
-    (configuration.count !== undefined && (typeof configuration.count === 'number') === true)
+    configuration.count !== undefined &&
+    (typeof configuration.count === 'number') === true
   );
 }
 

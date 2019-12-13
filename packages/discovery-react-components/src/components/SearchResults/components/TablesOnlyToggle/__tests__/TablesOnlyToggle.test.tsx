@@ -4,10 +4,10 @@ import {
   SearchContextIFC,
   SearchApiIFC,
   searchResponseStoreDefaults
-} from '../../../../DiscoverySearch/DiscoverySearch';
-import { SearchResults } from '../../../SearchResults';
-import { wrapWithContext } from '../../../../../utils/testingUtils';
-import overrideSearchResults from '../../../__fixtures__/searchResults';
+} from 'components/DiscoverySearch/DiscoverySearch';
+import { SearchResults } from 'components/SearchResults/SearchResults';
+import { wrapWithContext } from 'utils/testingUtils';
+import overrideSearchResults from 'components/SearchResults/__fixtures__/searchResults';
 
 describe('<TablesOnlyToggle />', () => {
   let context: Partial<SearchContextIFC>;
