@@ -8,8 +8,11 @@ import {
   searchResponseStoreDefaults
 } from '../../DiscoverySearch/DiscoverySearch';
 import { wrapWithContext } from '../../../utils/testingUtils';
-import { SearchResults, SearchResultsProps } from '../SearchResults';
+import SearchResults, { SearchResultsProps } from '../SearchResults';
 import { getByText as domGetByText } from '@testing-library/dom';
+import { WithErrorBoundaryProps } from '../../../utils/hoc/withErrorBoundary';
+
+type SearchResultsPropsWithoutBoundry = Omit<SearchResultsProps, keyof WithErrorBoundaryProps>;
 
 describe('<SearchResults />', () => {
   describe('i18n messages', () => {
@@ -752,7 +755,7 @@ describe('<SearchResults />', () => {
   });
 
   describe('when showTablesOnlyToggle is undefined', () => {
-    const props: SearchResultsProps = {};
+    const props: SearchResultsPropsWithoutBoundry = {};
     const context: Partial<SearchContextIFC> = {
       searchResponseStore: {
         ...searchResponseStoreDefaults
@@ -792,7 +795,7 @@ describe('<SearchResults />', () => {
   });
 
   describe('when showTablesOnlyToggle is false', () => {
-    const props: SearchResultsProps = {};
+    const props: SearchResultsPropsWithoutBoundry = {};
     const context: Partial<SearchContextIFC> = {
       searchResponseStore: {
         ...searchResponseStoreDefaults
@@ -834,7 +837,7 @@ describe('<SearchResults />', () => {
   });
 
   describe('when showTablesOnlyToggle is true', () => {
-    const props: SearchResultsProps = {};
+    const props: SearchResultsPropsWithoutBoundry = {};
     const context: Partial<SearchContextIFC> = {
       searchResponseStore: {
         ...searchResponseStoreDefaults

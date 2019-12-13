@@ -16,10 +16,11 @@ import {
   searchResultsListClass
 } from './cssClasses';
 import { defaultMessages, Messages } from './messages';
+import { withErrorBoundary, WithErrorBoundaryProps } from '../../utils/hoc/withErrorBoundary';
 
 const DEFAULT_LOADING_COUNT = 3;
 
-export interface SearchResultsProps {
+export interface SearchResultsProps extends WithErrorBoundaryProps {
   /**
    * specify a field on the result object to pull the result title from
    * if this field does not contain a valid title, document_id will be used.
@@ -72,7 +73,7 @@ export interface SearchResultsProps {
   messages?: Partial<Messages>;
 }
 
-export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
+const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   resultLinkField,
   resultLinkTemplate,
   resultTitleField,
@@ -83,7 +84,8 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   passageTextClassName,
   showTablesOnlyToggle,
   showTablesOnly = false,
-  messages = defaultMessages
+  messages = defaultMessages,
+  didCatch
 }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
 
@@ -169,72 +171,77 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
       );
     });
   }, [parameters.count]);
-
-  return (
-    <div className={baseClass}>
-      <div className={searchResultsHeaderClass} data-testid="search_results_header">
-        <SpellingSuggestion spellingSuggestionPrefix={mergedMessages.spellingSuggestionsPrefix} />
-        <TablesOnlyToggle
-          setShowTablesOnlyResults={setShowTablesOnlyResults}
-          showTablesOnlyToggle={showTablesOnlyToggleState}
-          showTablesOnlyResults={showTablesOnlyResults}
-          messages={mergedMessages}
-        />
-      </div>
-      {isLoading ? (
-        skeletons
-      ) : resultsFound ? (
-        <div className={searchResultsListClass}>
-          {showTablesOnlyResults
-            ? (tableResults as DiscoveryV2.QueryTableResult[]).map(table => {
-                const collectionName = findCollectionName(collectionsResults, table);
-                const result = results.find(
-                  result => result.document_id === table.source_document_id
-                );
-
-                return (
-                  <Result
-                    key={`${table.collection_id}_${table.table_id}`}
-                    bodyField={displaySettings.bodyField}
-                    collectionName={collectionName}
-                    result={result}
-                    resultLinkField={resultLinkField}
-                    resultLinkTemplate={resultLinkTemplate}
-                    resultTitleField={displaySettings.resultTitleField}
-                    showTablesOnlyResults={showTablesOnlyResults}
-                    table={table}
-                    messages={mergedMessages}
-                  />
-                );
-              })
-            : (results as DiscoveryV2.QueryResult[]).map(result => {
-                const documentTableResult:
-                  | DiscoveryV2.QueryTableResult
-                  | undefined = tableResults.find(tableResult => {
-                  return tableResult.source_document_id === result.document_id;
-                });
-                const collectionName = findCollectionName(collectionsResults, result);
-                return (
-                  <Result
-                    key={`${get(result, 'result_metadata.collection_id')}_${result.document_id}`}
-                    bodyField={displaySettings.bodyField}
-                    collectionName={collectionName}
-                    passageTextClassName={passageTextClassName}
-                    result={result}
-                    resultLinkField={resultLinkField}
-                    resultLinkTemplate={resultLinkTemplate}
-                    resultTitleField={displaySettings.resultTitleField}
-                    table={documentTableResult}
-                    usePassages={displaySettings.usePassages}
-                    dangerouslyRenderHtml={dangerouslyRenderHtml}
-                    messages={mergedMessages}
-                  />
-                );
-              })}
+  if (didCatch) {
+    return <div>{mergedMessages.errorMessage}</div>;
+  } else {
+    return (
+      <div className={baseClass}>
+        <div className={searchResultsHeaderClass} data-testid="search_results_header">
+          <SpellingSuggestion spellingSuggestionPrefix={mergedMessages.spellingSuggestionsPrefix} />
+          <TablesOnlyToggle
+            setShowTablesOnlyResults={setShowTablesOnlyResults}
+            showTablesOnlyToggle={showTablesOnlyToggleState}
+            showTablesOnlyResults={showTablesOnlyResults}
+            messages={mergedMessages}
+          />
         </div>
-      ) : (
-        emptySearch && <div className={searchResultClass}>{emptySearch}</div>
-      )}
-    </div>
-  );
+        {isLoading ? (
+          skeletons
+        ) : resultsFound ? (
+          <div className={searchResultsListClass}>
+            {showTablesOnlyResults
+              ? (tableResults as DiscoveryV2.QueryTableResult[]).map(table => {
+                  const collectionName = findCollectionName(collectionsResults, table);
+                  const result = results.find(
+                    result => result.document_id === table.source_document_id
+                  );
+
+                  return (
+                    <Result
+                      key={`${table.collection_id}_${table.table_id}`}
+                      bodyField={displaySettings.bodyField}
+                      collectionName={collectionName}
+                      result={result}
+                      resultLinkField={resultLinkField}
+                      resultLinkTemplate={resultLinkTemplate}
+                      resultTitleField={displaySettings.resultTitleField}
+                      showTablesOnlyResults={showTablesOnlyResults}
+                      table={table}
+                      messages={mergedMessages}
+                    />
+                  );
+                })
+              : (results as DiscoveryV2.QueryResult[]).map(result => {
+                  const documentTableResult:
+                    | DiscoveryV2.QueryTableResult
+                    | undefined = tableResults.find(tableResult => {
+                    return tableResult.source_document_id === result.document_id;
+                  });
+                  const collectionName = findCollectionName(collectionsResults, result);
+                  return (
+                    <Result
+                      key={`${get(result, 'result_metadata.collection_id')}_${result.document_id}`}
+                      bodyField={displaySettings.bodyField}
+                      collectionName={collectionName}
+                      passageTextClassName={passageTextClassName}
+                      result={result}
+                      resultLinkField={resultLinkField}
+                      resultLinkTemplate={resultLinkTemplate}
+                      resultTitleField={displaySettings.resultTitleField}
+                      table={documentTableResult}
+                      usePassages={displaySettings.usePassages}
+                      dangerouslyRenderHtml={dangerouslyRenderHtml}
+                      messages={mergedMessages}
+                    />
+                  );
+                })}
+          </div>
+        ) : (
+          emptySearch && <div className={searchResultClass}>{emptySearch}</div>
+        )}
+      </div>
+    );
+  }
 };
+
+export default withErrorBoundary(SearchResults);

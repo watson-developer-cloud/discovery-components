@@ -111,7 +111,15 @@ export const Result: React.FunctionComponent<ResultProps> = ({
 
   const documentId: string | undefined = get(result, 'document_id');
   const filename: string | undefined = get(result, 'extracted_metadata.filename');
-  const userSelectedTitle: string | undefined = get(result, resultTitleField);
+
+  // error boudaries added incase JS users provide an object rather than a string for resultTitleField
+  let userSelectedTitle: string | undefined;
+  try {
+    userSelectedTitle = get(result, resultTitleField);
+  } catch (e) {
+    console.error('make sure that the resultTitleField is a string and not an object');
+  }
+
   const title: string | undefined = userSelectedTitle
     ? userSelectedTitle
     : get(result, 'extracted_metadata.title') || filename || documentId;

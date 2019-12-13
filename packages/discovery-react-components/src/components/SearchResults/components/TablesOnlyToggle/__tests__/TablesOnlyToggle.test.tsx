@@ -5,7 +5,7 @@ import {
   SearchApiIFC,
   searchResponseStoreDefaults
 } from '../../../../DiscoverySearch/DiscoverySearch';
-import { SearchResults } from '../../../SearchResults';
+import SearchResults from '../../../SearchResults';
 import { wrapWithContext } from '../../../../../utils/testingUtils';
 import overrideSearchResults from '../../../__fixtures__/searchResults';
 

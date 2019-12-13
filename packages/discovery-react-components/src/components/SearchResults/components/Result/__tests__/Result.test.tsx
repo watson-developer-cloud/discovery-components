@@ -10,7 +10,7 @@ import {
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 
 import { wrapWithContext, browserWindow } from '../../../../../utils/testingUtils';
-import { SearchResults } from '../../../SearchResults';
+import SearchResults from '../../../SearchResults';
 
 describe('<Result />', () => {
   let context: Partial<SearchContextIFC>;
@@ -617,6 +617,23 @@ describe('<Result />', () => {
           );
           expect(getByText('some document_id')).toBeInTheDocument();
         });
+      });
+    });
+
+    describe('And that value is an object instead of a string', () => {
+      test('we fallback to document_id when no other values exist', () => {
+        (context.searchResponseStore!.data as DiscoveryV2.QueryResponse).results = [
+          {
+            document_id: 'some document_id'
+          }
+        ];
+        const api = {
+          setSelectedResult: jest.fn()
+        };
+        const { getByText } = render(
+          wrapWithContext(<SearchResults resultTitleField={{} as string} />, api, context)
+        );
+        expect(getByText('some document_id')).toBeInTheDocument();
       });
     });
   });

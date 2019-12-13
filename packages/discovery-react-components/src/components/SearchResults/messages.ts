@@ -27,6 +27,10 @@ export interface Messages {
    * override the default text to show when no search results are found
    */
   noResultsFoundText: string;
+  /**
+   * override the default text to show when there was an error rendering the SearchResults component
+   */
+  errorMessage: string;
 }
 
 export const defaultMessages: Messages = {
@@ -36,5 +40,6 @@ export const defaultMessages: Messages = {
   tablesOnlyToggleLabelText: 'Show table results only',
   spellingSuggestionsPrefix: 'Did you mean:',
   emptyResultContentBodyText: 'Excerpt unavailable.',
-  noResultsFoundText: 'There were no results found'
+  noResultsFoundText: 'There were no results found',
+  errorMessage: 'There was an error rendering your search results'
 };
