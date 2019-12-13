@@ -1,10 +1,7 @@
 import * as React from 'react';
 import { ComboBox, TextInput } from 'carbon-components-react';
 import { Messages } from 'components/StructuredQuery/messages';
-import {
-  structuredQueryRulesClass,
-  structuredQueryRulesOperatorDropdownClass
-} from 'components/StructuredQuery/cssClasses';
+import { structuredQueryRulesClass } from 'components/StructuredQuery/cssClasses';
 
 export interface RuleRowProps {
   /**
@@ -35,7 +32,6 @@ export const RuleRow: React.FunctionComponent<RuleRowProps> = ({ messages }) => 
       />
       <ComboBox
         id="structured-query-rules-operator-0"
-        className={structuredQueryRulesOperatorDropdownClass}
         items={[
           messages.operatorDropdownIsOptionText,
           messages.operatorDropdownIsNotOptionText,
