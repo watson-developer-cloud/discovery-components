@@ -12,7 +12,7 @@ import SearchResults, { SearchResultsProps } from '../SearchResults';
 import { getByText as domGetByText } from '@testing-library/dom';
 import { WithErrorBoundaryProps } from '../../../utils/hoc/withErrorBoundary';
 
-type SearchResultsPropsWithoutBoundry = Omit<SearchResultsProps, keyof WithErrorBoundaryProps>;
+type SearchResultsPropsWithoutBoundary = Omit<SearchResultsProps, keyof WithErrorBoundaryProps>;
 
 describe('<SearchResults />', () => {
   describe('i18n messages', () => {
@@ -457,7 +457,7 @@ describe('<SearchResults />', () => {
       });
 
       describe('and the naturalLanguageQuery changes', () => {
-        test('fetchDocuments should be called twice', () => {
+        test.only('fetchDocuments should be called twice', () => {
           const mockFetchDocuments = jest.fn();
           const api = {
             fetchDocuments: mockFetchDocuments
@@ -470,6 +470,11 @@ describe('<SearchResults />', () => {
           const { getByText, rerender } = render(fullTree);
           const toggle = getByText('Show table results only');
           fireEvent.click(toggle);
+          /*
+           * TODO
+           * why does rerendering our component with a new naturalLanguageQuery parameter in context
+           * not cause our component to recieve this value when re-rendering?
+           */
           rerender(
             wrapWithContext(<SearchResults showTablesOnlyToggle={true} />, api, {
               ...context,
@@ -755,7 +760,7 @@ describe('<SearchResults />', () => {
   });
 
   describe('when showTablesOnlyToggle is undefined', () => {
-    const props: SearchResultsPropsWithoutBoundry = {};
+    const props: SearchResultsPropsWithoutBoundary = {};
     const context: Partial<SearchContextIFC> = {
       searchResponseStore: {
         ...searchResponseStoreDefaults
@@ -795,7 +800,7 @@ describe('<SearchResults />', () => {
   });
 
   describe('when showTablesOnlyToggle is false', () => {
-    const props: SearchResultsPropsWithoutBoundry = {};
+    const props: SearchResultsPropsWithoutBoundary = {};
     const context: Partial<SearchContextIFC> = {
       searchResponseStore: {
         ...searchResponseStoreDefaults
@@ -837,7 +842,7 @@ describe('<SearchResults />', () => {
   });
 
   describe('when showTablesOnlyToggle is true', () => {
-    const props: SearchResultsPropsWithoutBoundry = {};
+    const props: SearchResultsPropsWithoutBoundary = {};
     const context: Partial<SearchContextIFC> = {
       searchResponseStore: {
         ...searchResponseStoreDefaults

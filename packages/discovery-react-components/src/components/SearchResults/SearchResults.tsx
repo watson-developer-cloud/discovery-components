@@ -94,6 +94,7 @@ const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
     collectionsResults,
     componentSettings
   } = React.useContext(SearchContext);
+  console.log('rendering component, parameters = ', parameters);
   const [showTablesOnlyResults, setShowTablesOnlyResults] = React.useState(showTablesOnly);
   const [hasFetchedDocuments, setHasFetchedDocuments] = React.useState(false);
 
@@ -147,9 +148,14 @@ const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
     const tableResults = (searchResponse && searchResponse.table_results) || [];
     const results = (searchResponse && searchResponse.results) || [];
     const tablesWithoutResults = findTablesWithoutResults(tableResults, results);
+    console.log(
+      'deciding whether to fetch documents or not, !hasFetchedDocuments = ',
+      !hasFetchedDocuments
+    );
     if (!hasFetchedDocuments && tablesWithoutResults && tablesWithoutResults.length) {
       const filterString =
         'document_id::' + tablesWithoutResults.map(table => table.source_document_id).join('|');
+      console.log('================ fetching Documents!!!!!');
       fetchDocuments(filterString, searchResponse);
       setHasFetchedDocuments(true);
     }
