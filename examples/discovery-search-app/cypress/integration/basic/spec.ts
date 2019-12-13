@@ -2,9 +2,11 @@ describe('Basic search', () => {
   beforeEach(() => {
     cy.server({ force404: true });
     cy.fixture('basic/collections.json').as('collectionsJSON');
+    cy.fixture('basic/componentSettings.json').as('componentSettingsJSON');
     cy.fixture('basic/query.json').as('queryJSON');
     cy.fixture('basic/noResults.json').as('noResultsJSON');
     cy.route('GET', '**/collections?version=2019-01-01', '@collectionsJSON').as('getCollections');
+    cy.route('GET', '**/component_settings?version=2019-01-01').as('componentSettings');
     cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQuery');
     cy.visit('/');
   });
