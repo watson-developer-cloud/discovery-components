@@ -11,14 +11,12 @@
     border-bottom: 1px solid $gray-100;
   }
 
-  .#{$prefix}--list-box__field {
-    vertical-align: text-top;
+  p {
+    @include type-style('body-short-01');
   }
 
   .#{$prefix}--list-box__label {
-    font-size: 1rem;
-    font-weight: 600;
-    line-height: 1.5rem;
+    @include type-style('productive-heading-01');
   }
 }
 
@@ -27,7 +25,7 @@
   padding: $spacing-md;
 
   .#{$prefix}--label {
-    font-weight: 600;
+    @include type-style('productive-heading-01');
   }
 
   .#{$prefix}--list-box__wrapper {
