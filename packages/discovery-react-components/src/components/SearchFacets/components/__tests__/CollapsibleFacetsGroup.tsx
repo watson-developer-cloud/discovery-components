@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { render, RenderResult, fireEvent } from '@testing-library/react';
 import { wrapWithContext } from 'utils/testingUtils';
-import { SearchFacets } from 'components/SearchFacets/SearchFacets';
+import SearchFacets from 'components/SearchFacets/SearchFacets';
 import {
   SearchContextIFC,
   SearchApiIFC,

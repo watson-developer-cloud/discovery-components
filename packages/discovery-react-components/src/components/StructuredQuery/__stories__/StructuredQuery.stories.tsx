@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { object, text } from '@storybook/addon-knobs/react';
 import { StoryWrapper, DummySearchClient } from 'utils/storybookUtils';
-import { DiscoverySearch, DiscoverySearchProps } from 'components/DiscoverySearch/DiscoverySearch';
+import DiscoverySearch, { DiscoverySearchProps } from 'components/DiscoverySearch/DiscoverySearch';
 import { StructuredQuery } from '../StructuredQuery';
 import { defaultMessages } from '../messages';
 import marked from 'marked';

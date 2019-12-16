@@ -3,7 +3,7 @@ import { act, render } from '@testing-library/react';
 import omit from 'lodash/omit';
 import { NoAuthAuthenticator } from 'ibm-watson/auth';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
-import { DiscoverySearch } from 'components/DiscoverySearch/DiscoverySearch';
+import DiscoverySearch from 'components/DiscoverySearch/DiscoverySearch';
 import DocumentPreview from '../DocumentPreview';
 import { document as doc } from '../__fixtures__/Art Effects.pdf';
 import docJson from '../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';

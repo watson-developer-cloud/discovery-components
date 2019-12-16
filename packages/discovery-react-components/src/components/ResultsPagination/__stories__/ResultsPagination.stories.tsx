@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { array, text, boolean, number } from '@storybook/addon-knobs/react';
-import { DiscoverySearch, DiscoverySearchProps } from 'components/DiscoverySearch/DiscoverySearch';
+import DiscoverySearch, { DiscoverySearchProps } from 'components/DiscoverySearch/DiscoverySearch';
 import { DummySearchClient } from 'utils/storybookUtils';
 import overrideSearchResults from '../__fixtures__/searchResults';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
