@@ -1,6 +1,12 @@
 describe('Autocomplete', () => {
   beforeEach(() => {
     cy.server({ force404: true });
+    cy.fixture('basic/collections.json').as('collectionsJSON');
+    cy.fixture('basic/componentSettings.json').as('componentSettingsJSON');
+    cy.fixture('basic/query.json').as('queryJSON');
+    cy.route('GET', '**/collections?version=2019-01-01', '@collectionsJSON').as('getCollections');
+    cy.route('GET', '**/component_settings?version=2019-01-01').as('componentSettings');
+    cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQuery');
     cy.visit('/');
   });
 
@@ -52,8 +58,6 @@ describe('Autocomplete', () => {
 
   describe('When typing " " into the search input', () => {
     beforeEach(() => {
-      cy.fixture('basic/query.json').as('queryJSON');
-      cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQuery');
       cy.get('.bx--search-input').type(' ');
     });
 
@@ -69,7 +73,7 @@ describe('Autocomplete', () => {
       it('performs a query with the correct term', () => {
         cy.wait('@postQuery')
           .its('requestBody.natural_language_query')
-          .should('be.eq', ' ');
+          .should('be.undefined');
       });
     });
   });
