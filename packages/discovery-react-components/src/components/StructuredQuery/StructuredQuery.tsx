@@ -15,13 +15,36 @@ export interface StructuredQueryProps {
 
 export const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
+  const [ruleRows, setRuleRows] = React.useState({ rows: [{ id: 0 }] });
+  const showRuleRowRemoveButton = ruleRows.rows.length > 1;
+
+  const handleAddRuleOnClick = () => {
+    const newRuleId = ruleRows.rows[ruleRows.rows.length - 1].id + 1;
+    const newRuleRow = { id: newRuleId };
+    setRuleRows(
+      Object.assign({}, ruleRows, {
+        rows: ruleRows.rows.concat(newRuleRow)
+      })
+    );
+  };
 
   return (
     <div className={structuredQueryClass}>
       <RuleGroupDropdown messages={mergedMessages} />
-      <RuleRow messages={mergedMessages} />
+      {ruleRows.rows.map(row => {
+        return (
+          <RuleRow
+            messages={mergedMessages}
+            row={row}
+            key={row.id}
+            showRemoveButton={showRuleRowRemoveButton}
+            setRuleRows={setRuleRows}
+            ruleRows={ruleRows}
+          />
+        );
+      })}
       <div className={structuredQueryRulesButtonsClass}>
-        <Button kind="ghost" renderIcon={Add16}>
+        <Button kind="ghost" renderIcon={Add16} onClick={handleAddRuleOnClick}>
           {mergedMessages.addRuleRowText}
         </Button>
         <Button kind="ghost" renderIcon={Add16}>
