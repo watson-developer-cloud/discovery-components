@@ -4,14 +4,10 @@ import { Button } from 'carbon-components-react';
 import SubtractAlt16 from '@carbon/icons-react/lib/subtract--alt/16';
 import { Messages } from 'components/StructuredQuery/messages';
 import { structuredQueryRulesClass } from 'components/StructuredQuery/cssClasses';
-
-export interface Row {
-  id: number;
-}
-
-export interface StructuredQuerySelection {
-  rows: Row[];
-}
+import {
+  Row,
+  StructuredQuerySelection
+} from 'components/StructuredQuery/utils/structuredQueryInterfaces';
 
 export interface RuleRowProps {
   /**
@@ -19,17 +15,17 @@ export interface RuleRowProps {
    */
   messages: Messages;
   row: Row;
-  showRemoveButton: boolean;
-  setRuleRows: (ruleRows: StructuredQuerySelection) => void;
   ruleRows: StructuredQuerySelection;
+  setRuleRows: (ruleRows: StructuredQuerySelection) => void;
+  showRemoveButton: boolean;
 }
 
 export const RuleRow: FC<RuleRowProps> = ({
   messages,
   row,
-  showRemoveButton,
+  ruleRows,
   setRuleRows,
-  ruleRows
+  showRemoveButton
 }) => {
   const operatorDropdownItems = [
     { label: messages.operatorDropdownIsOptionText, value: '::' },
@@ -38,7 +34,7 @@ export const RuleRow: FC<RuleRowProps> = ({
     { label: messages.operatorDropdownDoesNotContainOptionText, value: ':!' }
   ];
 
-  const handleRemoveButtonOnClick = () => {
+  const handleRemoveRowButtonOnClick = () => {
     setRuleRows(
       Object.assign({}, ruleRows, {
         rows: ruleRows.rows.filter(ruleRow => ruleRow.id !== row.id)
@@ -70,9 +66,10 @@ export const RuleRow: FC<RuleRowProps> = ({
       {showRemoveButton && (
         <Button
           hasIconOnly
+          kind="ghost"
           renderIcon={SubtractAlt16}
           iconDescription="Remove row"
-          onClick={handleRemoveButtonOnClick}
+          onClick={handleRemoveRowButtonOnClick}
         />
       )}
     </div>

@@ -115,4 +115,23 @@ describe('<StructuredQuery />', () => {
       });
     });
   });
+
+  describe('adding top-level rule rows', () => {
+    let structuredQuery: RenderResult;
+    beforeEach(() => {
+      structuredQuery = render(<StructuredQuery />);
+    });
+    // Test that one initial top level rule row is correctly there
+    // Test that clicking the 'Add rule' button activates the click handler and also adds another row of rules
+    test('on initial load, there is one top-level rule row', () => {
+      const fields = structuredQuery.queryAllByText('Field');
+      const operators = structuredQuery.queryAllByText('Operator');
+      const values = structuredQuery.queryAllByText('Value');
+      expect(fields.length).toEqual(1);
+      expect(operators.length).toEqual(1);
+      expect(values.length).toEqual(1);
+    });
+
+    test('when Add Rule button is clicked, a new rule row is added', () => {});
+  });
 });
