@@ -1,7 +1,7 @@
 export interface Messages {
   /**
    * override the default text about satisfying all/any of the rules
-   * Use %dropdown% as a placeholder in the text to specify where the dropdown should appear
+   * Use {dropdown} as a placeholder in the text to specify where the dropdown should appear
    */
   satisfyRulesDropdownText: string;
   /**
@@ -67,7 +67,7 @@ export interface Messages {
 }
 
 export const defaultMessages: Messages = {
-  satisfyRulesDropdownText: 'Satisfy %dropdown% of the following rules',
+  satisfyRulesDropdownText: 'Satisfy {dropdown} of the following rules',
   satisfyRulesDropdownAllOptionText: 'all',
   satisfyRulesDropdownAnyOptionText: 'any',
   satisfyRulesDropdownLabelText: 'Choose whether to satisfy all or any of the following rules',

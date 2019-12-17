@@ -1,6 +1,6 @@
 import { settings } from 'carbon-components';
 
 export const structuredQueryClass = `${settings.prefix}--structured-query`;
-export const structuredQuerySatisfyRulesDropdownClass = `${settings.prefix}--structured-query__satisfy-rules-dropdown`;
-export const structuredQueryRulesClass = `${settings.prefix}--structured-query__rules`;
-export const structuredQueryRulesButtonsClass = `${settings.prefix}--structured-query__rules__buttons`;
+export const structuredQuerySatisfyRulesDropdownClass = `${structuredQueryClass}__satisfy-rules-dropdown`;
+export const structuredQueryRulesClass = `${structuredQueryClass}__rules`;
+export const structuredQueryRulesButtonsClass = `${structuredQueryRulesClass}__buttons`;

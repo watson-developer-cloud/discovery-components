@@ -58,7 +58,7 @@ describe('<StructuredQuery />', () => {
           const structuredQuery = render(
             <StructuredQuery
               messages={{
-                satisfyRulesDropdownText: 'Satisfy you must of the following rules %dropdown%'
+                satisfyRulesDropdownText: 'Satisfy you must of the following rules {dropdown}'
               }}
             />
           );
@@ -73,7 +73,7 @@ describe('<StructuredQuery />', () => {
           const structuredQuery = render(
             <StructuredQuery
               messages={{
-                satisfyRulesDropdownText: '%dropdown% of the following rules must be satisfied'
+                satisfyRulesDropdownText: '{dropdown} of the following rules must be satisfied'
               }}
             />
           );
