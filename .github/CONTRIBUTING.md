@@ -76,10 +76,11 @@ Note that we are using [Carbon](https://www.carbondesignsystem.com/) components 
 
 - We are using [Typescript](https://www.typescriptlang.org/) throughout our project.
 
-##### Naming
+##### Variables
 
 - Variables should use `camelCase`.
 - Variable names should be as descriptive as possible. We try to avoid abbreviations and very short names for const/vars, to make it easier for future developers to understand.
+- Variable interpolation should be represented by including brackets around the variable you want to interpolate. For example, `{replaceMe}`.
 
 ##### Imports
 
