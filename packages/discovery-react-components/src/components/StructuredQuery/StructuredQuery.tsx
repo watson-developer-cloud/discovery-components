@@ -17,7 +17,6 @@ export interface StructuredQueryProps {
 export const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
   const [ruleRows, setRuleRows] = React.useState({ rows: [{ id: 0 }] });
-  const showRuleRowRemoveButton = ruleRows.rows.length > 1;
   const showRuleRowAddButton = ruleRows.rows.length < MAX_NUM_SIBLING_RULE_ROWS;
 
   const handleAddRuleOnClick = () => {
@@ -39,7 +38,6 @@ export const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMe
             messages={mergedMessages}
             rowId={row.id}
             key={row.id}
-            showRemoveButton={showRuleRowRemoveButton}
             setRuleRows={setRuleRows}
             ruleRows={ruleRows}
           />

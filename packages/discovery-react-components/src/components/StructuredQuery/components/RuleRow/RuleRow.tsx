@@ -26,18 +26,13 @@ export interface RuleRowProps {
    * used to reset the ruleRows state when a row is removed
    */
   setRuleRows: (ruleRows: StructuredQuerySelection) => void;
-  /**
-   * boolean that represents whether there are multiple rows of rules and the 'Remove rule' button should therefore be shown
-   */
-  showRemoveButton: boolean;
 }
 
 export const RuleRow: FC<RuleRowProps> = ({
   messages,
   rowId,
   ruleRows,
-  setRuleRows,
-  showRemoveButton
+  setRuleRows
 }) => {
   const operatorDropdownItems = [
     { label: messages.operatorDropdownIsOptionText, value: '::' },
@@ -45,6 +40,7 @@ export const RuleRow: FC<RuleRowProps> = ({
     { label: messages.operatorDropdownContainsOptionText, value: ':' },
     { label: messages.operatorDropdownDoesNotContainOptionText, value: ':!' }
   ];
+  const showRemoveButton = ruleRows.rows.length > 1;
 
   const handleRemoveRowButtonOnClick = () => {
     setRuleRows(
