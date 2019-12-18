@@ -19,8 +19,8 @@ export const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMe
   const showRuleRowRemoveButton = ruleRows.rows.length > 1;
 
   const handleAddRuleOnClick = () => {
-    const newRuleId = ruleRows.rows[ruleRows.rows.length - 1].id + 1;
-    const newRuleRow = { id: newRuleId };
+    const newRuleRowId = ruleRows.rows[ruleRows.rows.length - 1].id + 1;
+    const newRuleRow = { id: newRuleRowId };
     setRuleRows(
       Object.assign({}, ruleRows, {
         rows: ruleRows.rows.concat(newRuleRow)
@@ -35,7 +35,7 @@ export const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMe
         return (
           <RuleRow
             messages={mergedMessages}
-            row={row}
+            rowId={row.id}
             key={row.id}
             showRemoveButton={showRuleRowRemoveButton}
             setRuleRows={setRuleRows}

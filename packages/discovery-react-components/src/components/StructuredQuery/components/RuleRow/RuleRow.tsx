@@ -14,15 +14,27 @@ export interface RuleRowProps {
    * override default messages for the component by specifying custom and/or internationalized text strings
    */
   messages: Messages;
-  row: Row;
+  /**
+   * id of the rule row to render
+   */
+  rowId: Row['id'];
+  /**
+   * state that represents the current rules and selections for the structured query
+   */
   ruleRows: StructuredQuerySelection;
+  /**
+   * used to reset the ruleRows state when a row is removed
+   */
   setRuleRows: (ruleRows: StructuredQuerySelection) => void;
+  /**
+   * boolean that represents whether there are multiple rows of rules and the 'Remove rule' button should therefore be shown
+   */
   showRemoveButton: boolean;
 }
 
 export const RuleRow: FC<RuleRowProps> = ({
   messages,
-  row,
+  rowId,
   ruleRows,
   setRuleRows,
   showRemoveButton
@@ -37,7 +49,7 @@ export const RuleRow: FC<RuleRowProps> = ({
   const handleRemoveRowButtonOnClick = () => {
     setRuleRows(
       Object.assign({}, ruleRows, {
-        rows: ruleRows.rows.filter(ruleRow => ruleRow.id !== row.id)
+        rows: ruleRows.rows.filter(ruleRow => ruleRow.id !== rowId)
       })
     );
   };
@@ -45,7 +57,7 @@ export const RuleRow: FC<RuleRowProps> = ({
   return (
     <div className={structuredQueryRulesClass}>
       <ComboBox
-        id={`structured-query-rules-field-` + row.id}
+        id={`structured-query-rules-field-` + rowId}
         // TODO: Items is empty for now as it's a required field and retrieving fields for the dropdown
         // and adding them as items will be addressed in a future issue
         items={[]}
@@ -53,13 +65,13 @@ export const RuleRow: FC<RuleRowProps> = ({
         titleText={messages.fieldDropdownTitleText}
       />
       <ComboBox
-        id={`structured-query-rules-operator-` + row.id}
+        id={`structured-query-rules-operator-` + rowId}
         items={operatorDropdownItems}
         placeholder={messages.operatorDropdownPlaceholderText}
         titleText={messages.operatorDropdownTitleText}
       />
       <TextInput
-        id={`structured-query-rules-value-` + row.id}
+        id={`structured-query-rules-value-` + rowId}
         labelText={messages.valueInputLabelText}
         placeholder={messages.valueInputPlaceholderText}
       />
