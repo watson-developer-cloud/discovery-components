@@ -17,10 +17,6 @@ export const SatisfyRules: React.FunctionComponent<SatisfyRulesProps> = ({ messa
     { label: messages.satisfyRulesDropdownAnyOptionText, value: '|' }
   ];
 
-  const handleOnChange = () => {
-    // TODO: Fully implement handling satisfy rules dropdown selections in a future issue
-  };
-
   const satisfyRulesDropdownElement = (
     <Dropdown
       id="structured-query-dropdown"
@@ -28,7 +24,6 @@ export const SatisfyRules: React.FunctionComponent<SatisfyRulesProps> = ({ messa
       type="inline"
       initialSelectedItem={messages.satisfyRulesDropdownAllOptionText}
       label={messages.satisfyRulesDropdownLabelText}
-      onChange={handleOnChange}
       key="structured-query-dropdown"
     />
   );

@@ -18,14 +18,6 @@ export const RuleRow: React.FunctionComponent<RuleRowProps> = ({ messages }) => 
     { label: messages.operatorDropdownDoesNotContainOptionText, value: ':!' }
   ];
 
-  const handleOnFieldChange = () => {
-    // TODO: Fully implement handling field dropdown selections in a future issue
-  };
-
-  const handleOnOperatorChange = () => {
-    // TODO: Fully implement handling operator dropdown selections in a future issue
-  };
-
   return (
     <div className={structuredQueryRulesClass}>
       <ComboBox
@@ -35,14 +27,12 @@ export const RuleRow: React.FunctionComponent<RuleRowProps> = ({ messages }) => 
         items={[]}
         placeholder={messages.fieldDropdownPlaceholderText}
         titleText={messages.fieldDropdownTitleText}
-        onChange={handleOnFieldChange}
       />
       <ComboBox
         id="structured-query-rules-operator-0"
         items={operatorDropdownItems}
         placeholder={messages.operatorDropdownPlaceholderText}
         titleText={messages.operatorDropdownTitleText}
-        onChange={handleOnOperatorChange}
       />
       <TextInput
         id="structured-query-rules-value-0"
