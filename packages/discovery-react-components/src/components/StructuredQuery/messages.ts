@@ -1,6 +1,6 @@
 export interface Messages {
   /**
-   * override the default text about satisfying all/any of the rules
+   * override the default text for the rule group dropdown about satisfying all/any of the rules
    * Use {dropdown} as a placeholder in the text to specify where the dropdown should appear
    */
   ruleGroupDropdownText: string;
@@ -13,7 +13,7 @@ export interface Messages {
    */
   ruleGroupDropdownAnyOptionText: string;
   /**
-   * override the default label text used as the textual representation of what the satisfy rules dropdown is for
+   * override the default label text used as the textual representation of what the rule group dropdown is for
    */
   ruleGroupDropdownLabelText: string;
   /**

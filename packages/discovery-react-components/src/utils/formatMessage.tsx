@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React, { ReactNode } from 'react';
 
 interface SubstitutionValues {
-  [name: string]: React.ReactNode;
+  [name: string]: ReactNode;
 }
 const SPLIT_VARIABLES_REGEX = /({[^}]+})/;
 
