@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, { FC } from 'react';
+=======
+import React, { FC, useState } from 'react';
+>>>>>>> 22ae3cc... feat: update imports
 import { Button } from 'carbon-components-react';
 import Add16 from '@carbon/icons-react/lib/add/16';
 import { RuleGroupDropdown } from './components/RuleGroupDropdown/RuleGroupDropdown';
@@ -16,7 +20,7 @@ export interface StructuredQueryProps {
 
 export const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
-  const [ruleRows, setRuleRows] = React.useState({ rows: [{ id: 0 }] });
+  const [ruleRows, setRuleRows] = useState({ rows: [{ id: 0 }] });
   const showRuleRowAddButton = ruleRows.rows.length < MAX_NUM_SIBLING_RULE_ROWS;
 
   const handleAddRuleOnClick = () => {
