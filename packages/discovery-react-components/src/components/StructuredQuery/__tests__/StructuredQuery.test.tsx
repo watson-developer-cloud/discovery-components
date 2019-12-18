@@ -11,22 +11,22 @@ describe('<StructuredQuery />', () => {
       });
 
       describe('has the correct default text', () => {
-        test('satisfy rules dropdown has the correct default messages', () => {
-          const satisfyRulesDropdownTextOne = structuredQuery.getByText('Satisfy', {
+        test('rule group dropdown has the correct default messages', () => {
+          const ruleGroupDropdownTextOne = structuredQuery.getByText('Satisfy', {
             exact: false
           });
-          const satisfyRulesDropdownTextTwo = structuredQuery.getByText('of the following rules', {
+          const ruleGroupDropdownTextTwo = structuredQuery.getByText('of the following rules', {
             exact: false
           });
-          const satisfyRulesDropdownAllOptionText = structuredQuery.getByText('all');
-          expect(satisfyRulesDropdownTextOne).toBeDefined();
-          expect(satisfyRulesDropdownTextTwo).toBeDefined();
-          expect(satisfyRulesDropdownAllOptionText).toBeDefined();
+          const ruleGroupDropdownAllOptionText = structuredQuery.getByText('all');
+          expect(ruleGroupDropdownTextOne).toBeDefined();
+          expect(ruleGroupDropdownTextTwo).toBeDefined();
+          expect(ruleGroupDropdownAllOptionText).toBeDefined();
         });
         test('add rules has the correct default messages', () => {
-          const addRuleText = structuredQuery.getByText('Add rule');
+          const addRuleRowText = structuredQuery.getByText('Add rule');
           const addGroupRulesText = structuredQuery.getByText('Add group of rules');
-          expect(addRuleText).toBeDefined();
+          expect(addRuleRowText).toBeDefined();
           expect(addGroupRulesText).toBeDefined();
         });
         test('field dropdown has the correct default messages', () => {
@@ -53,35 +53,35 @@ describe('<StructuredQuery />', () => {
     });
 
     describe('when default messages are overridden', () => {
-      describe('when the satisfy rules dropdown is overridden', () => {
+      describe('when the rule group dropdown is overridden', () => {
         test('and the dropdown is at the end', () => {
           const structuredQuery = render(
             <StructuredQuery
               messages={{
-                satisfyRulesDropdownText: 'Satisfy you must of the following rules {dropdown}'
+                ruleGroupDropdownText: 'Satisfy you must of the following rules {dropdown}'
               }}
             />
           );
-          const satisfyRulesDropdownText = structuredQuery.getByText(
+          const ruleGroupDropdownText = structuredQuery.getByText(
             'Satisfy you must of the following rules',
             { exact: false }
           );
-          expect(satisfyRulesDropdownText).toBeDefined();
+          expect(ruleGroupDropdownText).toBeDefined();
         });
 
         test('and the dropdown is at the beginning', () => {
           const structuredQuery = render(
             <StructuredQuery
               messages={{
-                satisfyRulesDropdownText: '{dropdown} of the following rules must be satisfied'
+                ruleGroupDropdownText: '{dropdown} of the following rules must be satisfied'
               }}
             />
           );
-          const satisfyRulesDropdownText = structuredQuery.getByText(
+          const ruleGroupDropdownText = structuredQuery.getByText(
             'of the following rules must be satisfied',
             { exact: false }
           );
-          expect(satisfyRulesDropdownText).toBeDefined();
+          expect(ruleGroupDropdownText).toBeDefined();
         });
       });
       describe('when some messages are overridden and others are not', () => {
@@ -89,26 +89,26 @@ describe('<StructuredQuery />', () => {
           const structuredQuery = render(
             <StructuredQuery
               messages={{
-                addGroupRulesText: 'A new rules group',
+                addRuleGroupText: 'A new rules group',
                 fieldDropdownPlaceholderText: 'Field choice selection',
                 operatorDropdownTitleText: 'Hello operator'
               }}
             />
           );
-          const addGroupRulesTextOverride = structuredQuery.getByText('A new rules group');
+          const addRuleGroupTextOverride = structuredQuery.getByText('A new rules group');
           const fieldDropdownPlaceholderTextOverride = structuredQuery.getByPlaceholderText(
             'Field choice selection'
           );
           const operatorDropdownTitleText = structuredQuery.getByText('Hello operator');
-          const addRuleText = structuredQuery.getByText('Add rule');
+          const addRuleRowText = structuredQuery.getByText('Add rule');
           const operatorDropdownPlaceholderText = structuredQuery.getByPlaceholderText(
             'Select operator'
           );
           const valueInputPlaceholderText = structuredQuery.getByPlaceholderText('Enter value');
-          expect(addGroupRulesTextOverride).toBeDefined();
+          expect(addRuleGroupTextOverride).toBeDefined();
           expect(fieldDropdownPlaceholderTextOverride).toBeDefined();
           expect(operatorDropdownTitleText).toBeDefined();
-          expect(addRuleText).toBeDefined();
+          expect(addRuleRowText).toBeDefined();
           expect(operatorDropdownPlaceholderText).toBeDefined();
           expect(valueInputPlaceholderText).toBeDefined();
         });

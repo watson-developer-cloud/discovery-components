@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 import { Button } from 'carbon-components-react';
 import Add16 from '@carbon/icons-react/lib/add/16';
-import { SatisfyRules } from './components/SatisfyRules/SatisfyRules';
+import { RuleGroupDropdown } from './components/RuleGroupDropdown/RuleGroupDropdown';
 import { RuleRow } from './components/RuleRow/RuleRow';
 import { defaultMessages, Messages } from './messages';
 import { structuredQueryClass, structuredQueryRulesButtonsClass } from './cssClasses';
@@ -13,21 +13,19 @@ export interface StructuredQueryProps {
   messages?: Partial<Messages>;
 }
 
-export const StructuredQuery: React.FunctionComponent<StructuredQueryProps> = ({
-  messages = defaultMessages
-}) => {
+export const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
 
   return (
     <div className={structuredQueryClass}>
-      <SatisfyRules messages={mergedMessages} />
+      <RuleGroupDropdown messages={mergedMessages} />
       <RuleRow messages={mergedMessages} />
       <div className={structuredQueryRulesButtonsClass}>
         <Button kind="ghost" renderIcon={Add16}>
-          {mergedMessages.addRuleText}
+          {mergedMessages.addRuleRowText}
         </Button>
         <Button kind="ghost" renderIcon={Add16}>
-          {mergedMessages.addGroupRulesText}
+          {mergedMessages.addRuleGroupText}
         </Button>
       </div>
     </div>

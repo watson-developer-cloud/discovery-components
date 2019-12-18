@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 import { ComboBox, TextInput } from 'carbon-components-react';
 import { Messages } from 'components/StructuredQuery/messages';
 import { structuredQueryRulesClass } from 'components/StructuredQuery/cssClasses';
@@ -10,7 +10,7 @@ export interface RuleRowProps {
   messages: Messages;
 }
 
-export const RuleRow: React.FunctionComponent<RuleRowProps> = ({ messages }) => {
+export const RuleRow: FC<RuleRowProps> = ({ messages }) => {
   const operatorDropdownItems = [
     { label: messages.operatorDropdownIsOptionText, value: '::' },
     { label: messages.operatorDropdownIsNotOptionText, value: '::!' },

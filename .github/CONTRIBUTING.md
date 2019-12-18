@@ -92,6 +92,7 @@ Note that we are using [Carbon](https://www.carbondesignsystem.com/) components 
 ##### General
 
 - Use `<></>` fragments to wrap components so as not to add extra markup wherever possible.
+- When importing React into a file, please use the convention `import React from 'react'`. Don't mix `React.Thing` with just importing the thing from React and then using it. This keeps us consistent and ensures that Storybook can correctly use the file.
 
 ##### Props
 
