@@ -23,7 +23,7 @@ export interface RuleRowProps {
    */
   ruleRows: StructuredQuerySelection;
   /**
-   * used to reset the ruleRows state when a row is removed
+   * used to set the ruleRows state
    */
   setRuleRows: (ruleRows: StructuredQuerySelection) => void;
 }
