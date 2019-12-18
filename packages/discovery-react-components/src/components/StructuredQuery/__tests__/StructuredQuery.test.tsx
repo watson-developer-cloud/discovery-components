@@ -116,22 +116,69 @@ describe('<StructuredQuery />', () => {
     });
   });
 
-  describe('adding top-level rule rows', () => {
+  describe('top-level rule rows', () => {
     let structuredQuery: RenderResult;
     beforeEach(() => {
       structuredQuery = render(<StructuredQuery />);
     });
-    // Test that one initial top level rule row is correctly there
-    // Test that clicking the 'Add rule' button activates the click handler and also adds another row of rules
-    test('on initial load, there is one top-level rule row', () => {
-      const fields = structuredQuery.queryAllByText('Field');
-      const operators = structuredQuery.queryAllByText('Operator');
-      const values = structuredQuery.queryAllByText('Value');
-      expect(fields.length).toEqual(1);
-      expect(operators.length).toEqual(1);
-      expect(values.length).toEqual(1);
+    describe('on initial load', () => {
+      test('there is one top-level rule row', () => {
+        const fields = structuredQuery.queryAllByText('Field');
+        const operators = structuredQuery.queryAllByText('Operator');
+        const values = structuredQuery.queryAllByText('Value');
+        expect(fields.length).toEqual(1);
+        expect(operators.length).toEqual(1);
+        expect(values.length).toEqual(1);
+      });
+
+      test('and the one top-level rule row does not have a Remove row button', () => {
+        const removeRuleButton = structuredQuery.queryByLabelText('Remove row');
+        expect(removeRuleButton).toBe(null);
+      });
     });
 
-    test('when Add Rule button is clicked, a new rule row is added', () => {});
+    describe('when the Add rule button is clicked', () => {
+      beforeEach(() => {
+        const addRuleButton = structuredQuery.getByText('Add rule');
+        addRuleButton.click();
+      });
+
+      test('a new rule row is added', () => {
+        const fields = structuredQuery.queryAllByText('Field');
+        const operators = structuredQuery.queryAllByText('Operator');
+        const values = structuredQuery.queryAllByText('Value');
+        expect(fields.length).toEqual(2);
+        expect(operators.length).toEqual(2);
+        expect(values.length).toEqual(2);
+      });
+
+      test('and both rule rows now include the Remove rule button', () => {
+        const removeRuleButton = structuredQuery.queryAllByLabelText('Remove row');
+        expect(removeRuleButton.length).toEqual(2);
+      });
+    });
+
+    describe('when the Remove rule button is clicked', () => {
+      beforeEach(() => {
+        const addRuleButton = structuredQuery.getByText('Add rule');
+        addRuleButton.click();
+        const removeRuleButton = structuredQuery.getAllByTestId('remove-row-button')[1];
+        removeRuleButton.click();
+      });
+
+      test('one rule row is removed', () => {
+        const fields = structuredQuery.queryAllByText('Field');
+        const operators = structuredQuery.queryAllByText('Operator');
+        const values = structuredQuery.queryAllByText('Value');
+        expect(fields.length).toEqual(1);
+        expect(operators.length).toEqual(1);
+        expect(values.length).toEqual(1);
+      });
+
+      test('and no Remove rule buttons are displayed since only one rule row still remains', () => {
+        const removeRuleButton = structuredQuery.queryByLabelText('Remove row');
+        expect(removeRuleButton).toBe(null);
+      });
+    });
   });
 });

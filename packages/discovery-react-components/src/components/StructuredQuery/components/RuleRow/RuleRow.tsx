@@ -70,6 +70,7 @@ export const RuleRow: FC<RuleRowProps> = ({
           renderIcon={SubtractAlt16}
           iconDescription="Remove row"
           onClick={handleRemoveRowButtonOnClick}
+          data-testid="remove-row-button"
         />
       )}
     </div>
