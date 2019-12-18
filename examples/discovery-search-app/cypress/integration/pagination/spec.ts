@@ -22,7 +22,7 @@ describe('Pagination', () => {
 
     it('pagination has the correct initial settings', () => {
       // items per page
-      cy.get('.bx--pagination__left')
+      cy.get('.bx--pagination__left') //TODO: change this selector to use id instead of class
         .find('.bx--select-input')
         .should('have.value', '5');
       // page number
