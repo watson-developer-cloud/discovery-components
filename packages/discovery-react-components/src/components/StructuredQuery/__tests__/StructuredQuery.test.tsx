@@ -135,6 +135,11 @@ describe('<StructuredQuery />', () => {
         const removeRuleButton = structuredQuery.queryByLabelText('Remove row');
         expect(removeRuleButton).toBe(null);
       });
+
+      test('and the Add rule button is shown', () => {
+        const addRuleButton = structuredQuery.getByText('Add rule');
+        expect(addRuleButton).toBeDefined();
+      });
     });
 
     describe('when the Add rule button is clicked', () => {
@@ -178,6 +183,23 @@ describe('<StructuredQuery />', () => {
       test('and no Remove rule buttons are displayed since only one rule row still remains', () => {
         const removeRuleButton = structuredQuery.queryByLabelText('Remove row');
         expect(removeRuleButton).toBe(null);
+      });
+    });
+
+    describe('max number of rule row siblings', () => {
+      test('the Add rule button still shows when there is one less than the max number of allowed rule row siblings', () => {
+        const addRuleButton = structuredQuery.getByText('Add rule');
+        addRuleButton.click();
+        const getAddRuleButtonAgain = structuredQuery.getByText('Add rule');
+        expect(getAddRuleButtonAgain).toBeDefined();
+      });
+
+      test('and the Add rule button no longer shows once the max number of allowed rule row siblings is added', () => {
+        const addRuleButton = structuredQuery.getByText('Add rule');
+        addRuleButton.click();
+        addRuleButton.click();
+        const getAddRuleButtonAgain = structuredQuery.queryByText('Add rule');
+        expect(getAddRuleButtonAgain).toBe(null);
       });
     });
   });

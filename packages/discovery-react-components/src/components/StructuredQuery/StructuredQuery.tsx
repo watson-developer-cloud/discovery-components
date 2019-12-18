@@ -5,6 +5,7 @@ import { RuleGroupDropdown } from './components/RuleGroupDropdown/RuleGroupDropd
 import { RuleRow } from './components/RuleRow/RuleRow';
 import { defaultMessages, Messages } from './messages';
 import { structuredQueryClass, structuredQueryRulesButtonsClass } from './cssClasses';
+import { MAX_NUM_SIBLING_RULE_ROWS } from './constants';
 
 export interface StructuredQueryProps {
   /**
@@ -17,6 +18,7 @@ export const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMe
   const mergedMessages = { ...defaultMessages, ...messages };
   const [ruleRows, setRuleRows] = React.useState({ rows: [{ id: 0 }] });
   const showRuleRowRemoveButton = ruleRows.rows.length > 1;
+  const showRuleRowAddButton = ruleRows.rows.length < MAX_NUM_SIBLING_RULE_ROWS;
 
   const handleAddRuleOnClick = () => {
     const newRuleRowId = ruleRows.rows[ruleRows.rows.length - 1].id + 1;
@@ -44,9 +46,11 @@ export const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMe
         );
       })}
       <div className={structuredQueryRulesButtonsClass}>
-        <Button kind="ghost" renderIcon={Add16} onClick={handleAddRuleOnClick}>
-          {mergedMessages.addRuleRowText}
-        </Button>
+        {showRuleRowAddButton && (
+          <Button kind="ghost" renderIcon={Add16} onClick={handleAddRuleOnClick}>
+            {mergedMessages.addRuleRowText}
+          </Button>
+        )}
         <Button kind="ghost" renderIcon={Add16}>
           {mergedMessages.addRuleGroupText}
         </Button>
