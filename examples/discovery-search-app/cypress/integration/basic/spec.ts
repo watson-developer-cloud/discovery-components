@@ -1,9 +1,9 @@
 describe('Basic search', () => {
   beforeEach(() => {
-    cy.server();
-    cy.fixture('basic/collections.json').as('collectionsJSON');
-    cy.fixture('basic/query.json').as('queryJSON');
-    cy.fixture('basic/noResults.json').as('noResultsJSON');
+    cy.server({ force404: true });
+    cy.fixture('collections/collections.json').as('collectionsJSON');
+    cy.fixture('query/query.json').as('queryJSON');
+    cy.fixture('query/noResults.json').as('noResultsJSON');
     cy.route('GET', '**/collections?version=2019-01-01', '@collectionsJSON').as('getCollections');
     cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQuery');
     cy.visit('/');
