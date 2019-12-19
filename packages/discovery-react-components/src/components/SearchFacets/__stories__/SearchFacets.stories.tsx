@@ -1,10 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, object, boolean, number } from '@storybook/addon-knobs/react';
-import marked from 'marked';
-import defaultReadme from './default.md';
-import initialSelectedCollectionReadme from './initialSelectedCollection.md';
-import initialSelectedFacetsReadme from './initialSelectedFacets.md';
+import { text, object, boolean, number } from '@storybook/addon-knobs/react';
 import { SearchFacets } from '../SearchFacets';
 import { facetsQueryResponse } from '../__fixtures__/facetsQueryResponse';
 import collectionsResponse from '../__fixtures__/collectionsResponse';
@@ -69,63 +65,38 @@ const discoverySearchProps = (
 });
 
 storiesOf('SearchFacets', module)
-  .addDecorator(withKnobs)
-  .add(
-    'default',
-    () => {
-      const exampleProps = props();
-      return (
-        <StoryWrapper>
-          <DiscoverySearch {...discoverySearchProps()}>
-            <SearchFacets {...exampleProps} />
-          </DiscoverySearch>
-        </StoryWrapper>
-      );
-    },
-    {
-      info: {
-        text: marked(defaultReadme)
-      }
-    }
-  )
-  .add(
-    'with initial selected collection',
-    () => {
-      const exampleProps = props();
-      return (
-        <StoryWrapper>
-          <DiscoverySearch {...discoverySearchProps({ collectionIds: ['machine-learning'] })}>
-            <SearchFacets {...exampleProps} showCollections={true} />
-          </DiscoverySearch>
-        </StoryWrapper>
-      );
-    },
-    {
-      info: {
-        text: marked(initialSelectedCollectionReadme)
-      }
-    }
-  )
-  .add(
-    'with initial selected facets',
-    () => {
-      const exampleProps = props();
-      return (
-        <StoryWrapper>
-          <DiscoverySearch
-            {...discoverySearchProps({
-              filter:
-                'category:"Research","regression",machine_learning_terms:"Reinforced learning"'
-            })}
-          >
-            <SearchFacets {...exampleProps} />
-          </DiscoverySearch>
-        </StoryWrapper>
-      );
-    },
-    {
-      info: {
-        text: marked(initialSelectedFacetsReadme)
-      }
-    }
-  );
+  .addParameters({ component: SearchFacets })
+  .add('default', () => {
+    const exampleProps = props();
+    return (
+      <StoryWrapper>
+        <DiscoverySearch {...discoverySearchProps()}>
+          <SearchFacets {...exampleProps} />
+        </DiscoverySearch>
+      </StoryWrapper>
+    );
+  })
+  .add('with initial selected collection', () => {
+    const exampleProps = props();
+    return (
+      <StoryWrapper>
+        <DiscoverySearch {...discoverySearchProps({ collectionIds: ['machine-learning'] })}>
+          <SearchFacets {...exampleProps} showCollections={true} />
+        </DiscoverySearch>
+      </StoryWrapper>
+    );
+  })
+  .add('with initial selected facets', () => {
+    const exampleProps = props();
+    return (
+      <StoryWrapper>
+        <DiscoverySearch
+          {...discoverySearchProps({
+            filter: 'category:"Research","regression",machine_learning_terms:"Reinforced learning"'
+          })}
+        >
+          <SearchFacets {...exampleProps} />
+        </DiscoverySearch>
+      </StoryWrapper>
+    );
+  });

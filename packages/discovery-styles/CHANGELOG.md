@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-beta.1](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-styles@1.0.7-beta.3...@ibm-watson/discovery-styles@1.1.0-beta.1) (2019-12-19)
+
+
+### Features
+
+* structured query basic ([#22](https://github.com/watson-developer-cloud/discovery-components/issues/22)) ([b992f63](https://github.com/watson-developer-cloud/discovery-components/commit/b992f63))
+
+
+
+
+
+# [1.1.0-beta.0](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-styles@1.0.7-beta.3...@ibm-watson/discovery-styles@1.1.0-beta.0) (2019-12-19)
+
+
+### Features
+
+* structured query basic ([#22](https://github.com/watson-developer-cloud/discovery-components/issues/22)) ([b992f63](https://github.com/watson-developer-cloud/discovery-components/commit/b992f63))
+
+
+
+
+
 ## [1.0.7-beta.3](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-styles@1.0.6...@ibm-watson/discovery-styles@1.0.7-beta.3) (2019-12-11)
 
 **Note:** Version bump only for package @ibm-watson/discovery-styles
