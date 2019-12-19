@@ -1,6 +1,6 @@
 describe('Autocomplete', () => {
   beforeEach(() => {
-    cy.server({ force404: true });
+    cy.server();
     cy.visit('/');
   });
 

@@ -1,6 +1,6 @@
 describe('Spelling', () => {
   beforeEach(() => {
-    cy.server({ force404: true });
+    cy.server();
     cy.fixture('spelling/misspelledQuery.json').as('misspelledQueryJSON');
     cy.fixture('spelling/correctedQuery.json').as('correctedQueryJSON');
     cy.route('POST', '**/query?version=2019-01-01', '@misspelledQueryJSON').as('misspelledQuery');
