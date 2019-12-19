@@ -158,8 +158,8 @@ describe('<StructuredQuery />', () => {
       });
 
       test('and both rule rows now include the Remove rule button', () => {
-        const removeRuleButton = structuredQuery.queryAllByLabelText('Remove row');
-        expect(removeRuleButton.length).toEqual(2);
+        const removeRuleButtons = structuredQuery.queryAllByLabelText('Remove row');
+        expect(removeRuleButtons.length).toEqual(2);
       });
     });
 
@@ -167,7 +167,7 @@ describe('<StructuredQuery />', () => {
       beforeEach(() => {
         const addRuleButton = structuredQuery.getByText('Add rule');
         addRuleButton.click();
-        const removeRuleButton = structuredQuery.getAllByTestId('remove-row-button')[1];
+        const removeRuleButton = structuredQuery.getAllByTestId('remove-rule-row-button')[1];
         removeRuleButton.click();
       });
 

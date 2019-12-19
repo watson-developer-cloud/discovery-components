@@ -40,9 +40,9 @@ export const RuleRow: FC<RuleRowProps> = ({
     { label: messages.operatorDropdownContainsOptionText, value: ':' },
     { label: messages.operatorDropdownDoesNotContainOptionText, value: ':!' }
   ];
-  const showRemoveButton = ruleRows.rows.length > 1;
+  const showRemoveRuleRowButton = ruleRows.rows.length > 1;
 
-  const handleRemoveRowButtonOnClick = () => {
+  const handleRemoveRuleRowButtonOnClick = () => {
     setRuleRows(
       Object.assign({}, ruleRows, {
         rows: ruleRows.rows.filter(ruleRow => ruleRow.id !== rowId)
@@ -71,14 +71,14 @@ export const RuleRow: FC<RuleRowProps> = ({
         labelText={messages.valueInputLabelText}
         placeholder={messages.valueInputPlaceholderText}
       />
-      {showRemoveButton && (
+      {showRemoveRuleRowButton && (
         <Button
           hasIconOnly
           kind="ghost"
           renderIcon={SubtractAlt16}
           iconDescription="Remove row"
-          onClick={handleRemoveRowButtonOnClick}
-          data-testid="remove-row-button"
+          onClick={handleRemoveRuleRowButtonOnClick}
+          data-testid="remove-rule-row-button"
         />
       )}
     </div>

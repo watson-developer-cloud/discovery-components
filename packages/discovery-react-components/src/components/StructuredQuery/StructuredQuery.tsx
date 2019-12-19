@@ -21,9 +21,9 @@ export interface StructuredQueryProps {
 export const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
   const [ruleRows, setRuleRows] = useState({ rows: [{ id: 0 }] });
-  const showRuleRowAddButton = ruleRows.rows.length < MAX_NUM_SIBLING_RULE_ROWS;
+  const showAddRuleRowButton = ruleRows.rows.length < MAX_NUM_SIBLING_RULE_ROWS;
 
-  const handleAddRuleOnClick = () => {
+  const handleAddRuleRowOnClick = () => {
     const newRuleRowId = ruleRows.rows[ruleRows.rows.length - 1].id + 1;
     const newRuleRow = { id: newRuleRowId };
     setRuleRows(
@@ -48,9 +48,15 @@ export const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMe
         );
       })}
       <div className={structuredQueryRulesButtonsClass}>
+<<<<<<< HEAD
         {showRuleRowAddButton && (
           <Button kind="ghost" renderIcon={Add16} onClick={handleAddRuleOnClick}>
             {mergedMessages.addRuleRowText}
+=======
+        {showAddRuleRowButton && (
+          <Button kind="ghost" renderIcon={Add16} onClick={handleAddRuleRowOnClick}>
+            {mergedMessages.addRuleText}
+>>>>>>> 601f660... feat: naming updates for consistency
           </Button>
         )}
         <Button kind="ghost" renderIcon={Add16}>
