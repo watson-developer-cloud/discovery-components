@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, radios } from '@storybook/addon-knobs';
+import { radios } from '@storybook/addon-knobs';
 import omit from 'lodash/omit';
 import { QueryResult, QueryResultPassage } from 'ibm-watson/discovery/v2';
 import DocumentPreview from '../DocumentPreview';
@@ -19,7 +19,7 @@ const Wrapper: FC<WrapperProps> = ({ children, style = {} }) => (
 );
 
 storiesOf('DocumentPreview', module)
-  .addDecorator(withKnobs)
+  .addParameters({ component: DocumentPreview })
   .add('default', () => {
     const [file, doc] = docSelection();
     return (
@@ -53,7 +53,7 @@ storiesOf('DocumentPreview', module)
   });
 
 storiesOf('DocumentPreview/components/DocumentPreview', module)
-  .addDecorator(withKnobs)
+  .addParameters({ component: DocumentPreview })
   .add('render fallback', () => {
     // document selection
     const label = 'Document';

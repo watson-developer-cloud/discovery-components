@@ -26,15 +26,15 @@ interface SearchInputProps {
    */
   id?: string;
   /**
-   * Value to split words in the search query (Default: ' ')
+   * Value to split words in the search query (default: ' ')
    */
   splitSearchQuerySelector?: string;
   /**
-   * Number of autocomplete suggestions to show in the autocomplete dropdown (default: 5)
+   * Number of autocomplete suggestions to show in the autocomplete dropdown
    */
   completionsCount?: number;
   /**
-   * Prop to show/hide the autocomplete dropdown (default: true)
+   * Prop to show/hide the autocomplete dropdown
    */
   showAutocomplete?: boolean;
   /**
@@ -60,23 +60,21 @@ interface SearchInputProps {
   [key: string]: any;
 }
 
-export const SearchInput: FC<SearchInputProps> = props => {
-  const {
-    className,
-    id,
-    splitSearchQuerySelector = ' ' as string,
-    completionsCount = 5,
-    showAutocomplete,
-    minCharsToAutocomplete = 0,
-    spellingSuggestions,
-    messages = defaultMessages,
-    autocompleteDelay = 200,
-    placeHolderText,
-    labelText,
-    closeButtonLabelText,
-    ...inputProps
-  } = props;
-
+export const SearchInput: FC<SearchInputProps> = ({
+  className,
+  id,
+  splitSearchQuerySelector = ' ' as string,
+  completionsCount = 5,
+  showAutocomplete = true,
+  minCharsToAutocomplete = 0,
+  spellingSuggestions,
+  messages = defaultMessages,
+  autocompleteDelay = 200,
+  placeHolderText,
+  labelText,
+  closeButtonLabelText,
+  ...inputProps
+}) => {
   const mergedMessages = { ...defaultMessages, ...messages };
 
   const inputId = id || `search-input__${uuid.v4()}`;
