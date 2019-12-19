@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, object, text } from '@storybook/addon-knobs/react';
+import { object, text } from '@storybook/addon-knobs/react';
 import { StoryWrapper, DummySearchClient } from 'utils/storybookUtils';
 import { DiscoverySearch, DiscoverySearchProps } from 'components/DiscoverySearch/DiscoverySearch';
 import { StructuredQuery } from '../StructuredQuery';
@@ -18,7 +18,7 @@ const discoverySearchProps = (): DiscoverySearchProps => ({
 });
 
 storiesOf('StructuredQuery', module)
-  .addDecorator(withKnobs)
+  .addParameters({ component: StructuredQuery })
   .add(
     'default',
     () => {

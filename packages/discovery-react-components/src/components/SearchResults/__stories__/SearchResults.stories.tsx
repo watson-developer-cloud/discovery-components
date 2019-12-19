@@ -20,8 +20,20 @@ const props = () => ({
   ),
   resultTitleField: select(
     'Field on the result that will be used for the title (resultTitleField)',
-    { extractedMetadata: 'extracted_metadata.title', title: 'title' },
+    { 'extractedMetadata.title': 'extracted_metadata.title', title: 'title' },
     'extracted_metadata.title'
+  ),
+  resultLinkField: select(
+    'Field on the result that will be used for the result link (resultLinkField)',
+    {
+      'Select Field': undefined,
+      linkField: 'linkField'
+    },
+    undefined
+  ),
+  resultLinkTemplate: text(
+    'Field on the result that will be used for the title (resultLinkTemplate)',
+    'http://example.com/subdomain/{{document_id}}'
   ),
   showTablesOnlyToggle: boolean(
     'Display a toggle for showing table results only (showTablesOnlyToggle)',
