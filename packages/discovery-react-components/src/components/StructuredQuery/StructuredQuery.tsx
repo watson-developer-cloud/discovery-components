@@ -22,11 +22,10 @@ export const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMe
   const handleAddRuleRowOnClick = () => {
     const newRuleRowId = ruleRows.rows[ruleRows.rows.length - 1].id + 1;
     const newRuleRow = { id: newRuleRowId };
-    setRuleRows(
-      Object.assign({}, ruleRows, {
-        rows: ruleRows.rows.concat(newRuleRow)
-      })
-    );
+    setRuleRows({
+      ...ruleRows,
+      rows: ruleRows.rows.concat(newRuleRow)
+    });
   };
 
   return (

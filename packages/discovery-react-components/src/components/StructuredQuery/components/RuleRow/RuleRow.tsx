@@ -38,17 +38,16 @@ export const RuleRow: FC<RuleRowProps> = ({ messages, rowId, ruleRows, setRuleRo
   const showRemoveRuleRowButton = ruleRows.rows.length > 1;
 
   const handleRemoveRuleRowOnClick = () => {
-    setRuleRows(
-      Object.assign({}, ruleRows, {
-        rows: ruleRows.rows.filter(ruleRow => ruleRow.id !== rowId)
-      })
-    );
+    setRuleRows({
+      ...ruleRows,
+      rows: ruleRows.rows.filter(ruleRow => ruleRow.id !== rowId)
+    });
   };
 
   return (
     <div className={structuredQueryRulesClass}>
       <ComboBox
-        id={`structured-query-rules-field-` + rowId}
+        id={`structured-query-rules-field-${rowId}`}
         // TODO: Items is empty for now as it's a required field and retrieving fields for the dropdown
         // and adding them as items will be addressed in a future issue
         items={[]}
@@ -56,13 +55,13 @@ export const RuleRow: FC<RuleRowProps> = ({ messages, rowId, ruleRows, setRuleRo
         titleText={messages.fieldDropdownTitleText}
       />
       <ComboBox
-        id={`structured-query-rules-operator-` + rowId}
+        id={`structured-query-rules-operator-${rowId}`}
         items={operatorDropdownItems}
         placeholder={messages.operatorDropdownPlaceholderText}
         titleText={messages.operatorDropdownTitleText}
       />
       <TextInput
-        id={`structured-query-rules-value-` + rowId}
+        id={`structured-query-rules-value-${rowId}`}
         labelText={messages.valueInputLabelText}
         placeholder={messages.valueInputPlaceholderText}
       />
@@ -71,7 +70,7 @@ export const RuleRow: FC<RuleRowProps> = ({ messages, rowId, ruleRows, setRuleRo
           hasIconOnly
           kind="ghost"
           renderIcon={SubtractAlt16}
-          iconDescription="Remove row"
+          iconDescription={messages.removeRuleRowButtonIconDescription}
           onClick={handleRemoveRuleRowOnClick}
           data-testid="remove-rule-row-button"
         />
