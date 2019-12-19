@@ -1,22 +1,21 @@
 import React from 'react';
 import { render, RenderResult } from '@testing-library/react';
-import { RuleRow } from '../RuleRow';
-import { defaultMessages } from 'components/StructuredQuery/messages';
+import { StructuredQuery } from 'components/StructuredQuery/StructuredQuery';
 
 describe('<RuleRow />', () => {
   describe('operator rules dropdown options', () => {
-    let ruleRow: RenderResult;
+    let structuredQuery: RenderResult;
     beforeEach(() => {
-      ruleRow = render(<RuleRow messages={defaultMessages} />);
+      structuredQuery = render(<StructuredQuery />);
     });
 
     test('when clicked, dropdown shows expected set of options', () => {
-      const ruleRowOperatorDropdown = ruleRow.getByPlaceholderText('Select operator');
+      const ruleRowOperatorDropdown = structuredQuery.getByPlaceholderText('Select operator');
       ruleRowOperatorDropdown.click();
-      const ruleRowOperatorIsText = ruleRow.getByText('is');
-      const ruleRowOperatorIsNotText = ruleRow.getByText('is not');
-      const ruleRowOperatorContainsText = ruleRow.getByText('contains');
-      const ruleRowOperatorDoesNotContainText = ruleRow.getByText('does not contain');
+      const ruleRowOperatorIsText = structuredQuery.getByText('is');
+      const ruleRowOperatorIsNotText = structuredQuery.getByText('is not');
+      const ruleRowOperatorContainsText = structuredQuery.getByText('contains');
+      const ruleRowOperatorDoesNotContainText = structuredQuery.getByText('does not contain');
       expect(ruleRowOperatorIsText).toBeDefined();
       expect(ruleRowOperatorIsNotText).toBeDefined();
       expect(ruleRowOperatorContainsText).toBeDefined();

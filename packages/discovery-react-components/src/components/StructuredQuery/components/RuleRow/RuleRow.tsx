@@ -28,12 +28,7 @@ export interface RuleRowProps {
   setRuleRows: (ruleRows: StructuredQuerySelection) => void;
 }
 
-export const RuleRow: FC<RuleRowProps> = ({
-  messages,
-  rowId,
-  ruleRows,
-  setRuleRows
-}) => {
+export const RuleRow: FC<RuleRowProps> = ({ messages, rowId, ruleRows, setRuleRows }) => {
   const operatorDropdownItems = [
     { label: messages.operatorDropdownIsOptionText, value: '::' },
     { label: messages.operatorDropdownIsNotOptionText, value: '::!' },
@@ -42,7 +37,7 @@ export const RuleRow: FC<RuleRowProps> = ({
   ];
   const showRemoveRuleRowButton = ruleRows.rows.length > 1;
 
-  const handleRemoveRuleRowButtonOnClick = () => {
+  const handleRemoveRuleRowOnClick = () => {
     setRuleRows(
       Object.assign({}, ruleRows, {
         rows: ruleRows.rows.filter(ruleRow => ruleRow.id !== rowId)
@@ -77,7 +72,7 @@ export const RuleRow: FC<RuleRowProps> = ({
           kind="ghost"
           renderIcon={SubtractAlt16}
           iconDescription="Remove row"
-          onClick={handleRemoveRuleRowButtonOnClick}
+          onClick={handleRemoveRuleRowOnClick}
           data-testid="remove-rule-row-button"
         />
       )}

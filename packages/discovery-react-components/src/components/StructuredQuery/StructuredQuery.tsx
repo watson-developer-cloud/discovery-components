@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import React, { FC } from 'react';
-=======
 import React, { FC, useState } from 'react';
->>>>>>> 22ae3cc... feat: update imports
 import { Button } from 'carbon-components-react';
 import Add16 from '@carbon/icons-react/lib/add/16';
 import { RuleGroupDropdown } from './components/RuleGroupDropdown/RuleGroupDropdown';
@@ -48,15 +44,9 @@ export const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMe
         );
       })}
       <div className={structuredQueryRulesButtonsClass}>
-<<<<<<< HEAD
-        {showRuleRowAddButton && (
-          <Button kind="ghost" renderIcon={Add16} onClick={handleAddRuleOnClick}>
-            {mergedMessages.addRuleRowText}
-=======
         {showAddRuleRowButton && (
           <Button kind="ghost" renderIcon={Add16} onClick={handleAddRuleRowOnClick}>
-            {mergedMessages.addRuleText}
->>>>>>> 601f660... feat: naming updates for consistency
+            {mergedMessages.addRuleRowText}
           </Button>
         )}
         <Button kind="ghost" renderIcon={Add16}>
