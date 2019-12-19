@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, boolean, object, number, select } from '@storybook/addon-knobs/react';
+import { text, boolean, object, number, select } from '@storybook/addon-knobs/react';
 import { StoryWrapper, DummySearchClient } from 'utils/storybookUtils';
 import { DiscoverySearch, DiscoverySearchProps } from 'components/DiscoverySearch/DiscoverySearch';
 import { SearchResults } from '../SearchResults';
@@ -11,8 +11,6 @@ import { action } from '@storybook/addon-actions';
 import { createDummyResponsePromise } from 'utils/testingUtils';
 import trimSearchResults from './utils/trimSearchResults';
 import cloneDeep from 'lodash/cloneDeep';
-import marked from 'marked';
-import defaultReadme from './default.md';
 import { defaultMessages } from '../messages';
 
 const props = () => ({
@@ -71,30 +69,22 @@ const discoverySearchProps = (knobValues: any): DiscoverySearchProps => {
 };
 
 storiesOf('SearchResults', module)
-  .addDecorator(withKnobs)
-  .add(
-    'default',
-    () => {
-      return (
-        <StoryWrapper>
-          <DiscoverySearch {...discoverySearchProps(props())}>
-            <style
-              dangerouslySetInnerHTML={{
-                __html: `
+  .addParameters({ component: SearchResults })
+  .add('default', () => {
+    return (
+      <StoryWrapper>
+        <DiscoverySearch {...discoverySearchProps(props())}>
+          <style
+            dangerouslySetInnerHTML={{
+              __html: `
             .red em { background-color: #ff9191 }
             .yellow em { background-color: yellow }
             .green em { background-color: #a1ffb7 }
           `
-              }}
-            />
-            <SearchResults {...props()} />
-          </DiscoverySearch>
-        </StoryWrapper>
-      );
-    },
-    {
-      info: {
-        text: marked(defaultReadme)
-      }
-    }
-  );
+            }}
+          />
+          <SearchResults {...props()} />
+        </DiscoverySearch>
+      </StoryWrapper>
+    );
+  });

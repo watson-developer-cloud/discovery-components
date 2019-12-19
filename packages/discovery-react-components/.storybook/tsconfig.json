@@ -1,6 +1,10 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
+    //https://github.com/storybookjs/storybook/issues/7829#issuecomment-561137500
+    "noImplicitAny": false,
+    "noImplicitReturns": false,
+    "strictNullChecks": false,
     "isolatedModules": false,
     "baseUrl": "../src"
   }
