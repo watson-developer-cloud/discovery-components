@@ -3171,25 +3171,6 @@
     react-lifecycles-compat "^3.0.4"
     react-select "^3.0.8"
 
-"@storybook/addon-storysource@5.3.0-beta.15":
-  version "5.3.0-beta.15"
-  resolved "https://registry.yarnpkg.com/@storybook/addon-storysource/-/addon-storysource-5.3.0-beta.15.tgz#48bebb1dbab9ae8299acdde6daf090ca0dfc2f96"
-  integrity sha512-qM3DUzHtmPJ3UZuMNBIxtXox1AOfC2k8vx0zkaKtBtznaN7pAo/bSiwDptv+K6wsMGHW8NhIeYD2HXxt1rbq1Q==
-  dependencies:
-    "@storybook/addons" "5.3.0-beta.15"
-    "@storybook/components" "5.3.0-beta.15"
-    "@storybook/router" "5.3.0-beta.15"
-    "@storybook/source-loader" "5.3.0-beta.15"
-    "@storybook/theming" "5.3.0-beta.15"
-    core-js "^3.0.1"
-    estraverse "^4.2.0"
-    loader-utils "^1.2.3"
-    prettier "^1.16.4"
-    prop-types "^15.7.2"
-    react-syntax-highlighter "^11.0.2"
-    regenerator-runtime "^0.13.3"
-    util-deprecate "^1.0.2"
-
 "@storybook/addons@5.3.0-beta.15":
   version "5.3.0-beta.15"
   resolved "https://registry.yarnpkg.com/@storybook/addons/-/addons-5.3.0-beta.15.tgz#6ab9c99f4cee9b79b44ec0dd6a69277358981b08"
