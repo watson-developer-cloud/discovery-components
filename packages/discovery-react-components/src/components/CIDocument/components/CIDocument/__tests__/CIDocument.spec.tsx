@@ -8,7 +8,8 @@ import {
   getByLabelText as globalGetByLabelText,
   BoundFunction,
   GetAllBy,
-  GetByText
+  GetByText,
+  FindByText
 } from '@testing-library/react';
 import 'components/CIDocument/utils/test/createRange.mock';
 import CIDocument from '../CIDocument';
@@ -18,27 +19,15 @@ describe('<CIDocument />', () => {
   let getAllByRole: BoundFunction<GetAllBy<any[]>>,
     getByTestId: BoundFunction<GetByText>,
     getByText: BoundFunction<GetByText>,
-    getByTitle: BoundFunction<GetByText>;
+    getByTitle: BoundFunction<GetByText>,
+    findByText: BoundFunction<FindByText>;
 
   beforeEach(() => {
     act(() => {
-      ({ getAllByRole, getByTestId, getByText, getByTitle } = render(
+      ({ getAllByRole, getByTestId, getByText, getByTitle, findByText } = render(
         <CIDocument document={contract} overrideDocWidth={400} overrideDocHeight={600} />
       ));
     });
-  });
-
-  it('renders without crashing', async () => {
-    jest.setTimeout(10000);
-    await waitForElement(() =>
-      // check for (partial) document text
-      getByText('On 22 December 2008 ART EFFECTS LIMITED and Customer', { exact: false })
-    );
-    // check for file name
-    getByText('Art Effects Koya Creative Base TSA 2008.pdf');
-    // check for a filter name
-    const filters = getByTestId('Filters');
-    globalGetByText(filters, 'Amendments');
   });
 
   it('filters and navigates forward through the list of elements', async () => {
@@ -77,5 +66,15 @@ describe('<CIDocument />', () => {
 
     fireEvent.click(previousButton);
     globalGetByText(nav, '95 / 96');
+  });
+
+  it('renders without crashing', async () => {
+    // check for (partial) document text
+    findByText('On 22 December 2008 ART EFFECTS LIMITED and Customer', { exact: false });
+    // check for file name
+    getByText('Art Effects Koya Creative Base TSA 2008.pdf');
+    // check for a filter name
+    const filters = getByTestId('Filters');
+    globalGetByText(filters, 'Amendments');
   });
 });
