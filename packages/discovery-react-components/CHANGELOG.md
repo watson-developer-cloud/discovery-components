@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-beta.1](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.0.7-beta.5...@ibm-watson/discovery-react-components@1.1.0-beta.1) (2019-12-19)
+
+
+### Features
+
+* structured query basic ([#22](https://github.com/watson-developer-cloud/discovery-components/issues/22)) ([b992f63](https://github.com/watson-developer-cloud/discovery-components/commit/b992f63))
+* upgrade storybook to 5.3 ([#25](https://github.com/watson-developer-cloud/discovery-components/issues/25)) ([93db599](https://github.com/watson-developer-cloud/discovery-components/commit/93db599))
+
+
+
+
+
 # [1.1.0-beta.0](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.0.7-beta.5...@ibm-watson/discovery-react-components@1.1.0-beta.0) (2019-12-19)
 
 

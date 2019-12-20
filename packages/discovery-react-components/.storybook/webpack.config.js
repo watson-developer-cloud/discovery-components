@@ -14,17 +14,13 @@ module.exports = ({ config }) => {
       {
         loader: require.resolve('awesome-typescript-loader'),
         options: {
-          reportFiles: ['src/**/*.{ts,tsx}'],
+          reportFiles: ['src/**/*.stories.{ts,tsx}'],
           configFileName: './.storybook/tsconfig.json'
         }
       },
       // Optional
       {
         loader: require.resolve('react-docgen-typescript-loader')
-      },
-      {
-        loader: require.resolve('@storybook/addon-storysource/loader'),
-        options: { parser: 'typescript' }
       }
     ]
   });
