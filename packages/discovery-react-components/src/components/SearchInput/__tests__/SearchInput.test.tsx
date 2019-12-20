@@ -168,7 +168,11 @@ describe('<SearchInput />', () => {
           });
 
           test('no autocompletions are displayed', () => {
-            expectNoCompletionsDropdown(container);
+            waitForElementToBeRemoved(() =>
+              queryByTestId(container, 'completions-dropdown-test-id')
+            ).then(() => {
+              expectNoCompletionsDropdown(container);
+            });
           });
         });
       });

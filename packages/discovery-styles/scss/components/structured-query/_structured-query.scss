@@ -1,0 +1,58 @@
+@import '~carbon-components/scss/components/button/button';
+@import '~carbon-components/scss/components/combo-box/combo-box';
+@import '~carbon-components/scss/components/dropdown/dropdown';
+
+.#{$prefix}--structured-query__rule-group-dropdown {
+  align-items: center;
+  display: flex;
+
+  .#{$prefix}--dropdown {
+    background-color: $gray-10;
+    border-bottom: 1px solid $gray-100;
+  }
+
+  span {
+    @include type-style('body-short-01');
+  }
+
+  .#{$prefix}--list-box__label {
+    @include type-style('productive-heading-01');
+  }
+}
+
+.#{$prefix}--structured-query__rules {
+  display: flex;
+  padding: $spacing-md;
+
+  .#{$prefix}--label {
+    @include type-style('productive-heading-01');
+  }
+
+  .#{$prefix}--list-box__wrapper {
+    padding-right: $spacing-md;
+  }
+
+  .#{$prefix}--form-item {
+    .#{$prefix}--text-input {
+      // This spacing aligns the text input and combobox bottom borders
+      // It is needed due to a small discrepancy in the height of the text input and the comboboxes
+      height: 2.6rem;
+    }
+  }
+}
+
+.#{$prefix}--structured-query__rules__buttons {
+  display: flex;
+  flex-direction: column;
+
+  .#{$prefix}--btn--ghost {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+
+    svg {
+      margin-left: 0;
+      margin-right: $spacing-xs;
+    }
+  }
+}

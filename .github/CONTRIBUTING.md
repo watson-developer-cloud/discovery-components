@@ -76,10 +76,11 @@ Note that we are using [Carbon](https://www.carbondesignsystem.com/) components 
 
 - We are using [Typescript](https://www.typescriptlang.org/) throughout our project.
 
-##### Naming
+##### Variables
 
 - Variables should use `camelCase`.
 - Variable names should be as descriptive as possible. We try to avoid abbreviations and very short names for const/vars, to make it easier for future developers to understand.
+- Variable interpolation should be represented by including brackets around the variable you want to interpolate. For example, `{replaceMe}`.
 
 ##### Imports
 
@@ -91,6 +92,7 @@ Note that we are using [Carbon](https://www.carbondesignsystem.com/) components 
 ##### General
 
 - Use `<></>` fragments to wrap components so as not to add extra markup wherever possible.
+- When importing React into a file, please use the convention `import React from 'react'`. Don't mix `React.Thing` with just importing the thing from React and then using it. This keeps us consistent and ensures that Storybook can correctly use the file.
 
 ##### Props
 

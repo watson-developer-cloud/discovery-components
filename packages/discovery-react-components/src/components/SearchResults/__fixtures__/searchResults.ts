@@ -9,6 +9,7 @@ const searchResults: DiscoveryV2.QueryResponse = {
   results: [
     {
       document_id: 'd1dadc06c2b0855289c728b2c3819514',
+      linkField: 'http://example.com',
       result_metadata: {
         collection_id: COLLECTION_ID_1
       },
@@ -25,6 +26,7 @@ const searchResults: DiscoveryV2.QueryResponse = {
     },
     {
       document_id: '59ee2403f45647091eafe392664588cd',
+      linkField: 'http://example.com',
       result_metadata: {
         collection_id: COLLECTION_ID_1
       },
@@ -41,6 +43,7 @@ const searchResults: DiscoveryV2.QueryResponse = {
     },
     {
       document_id: '79953f3b6f304adef09b4707627495ca',
+      linkField: 'http://example.com',
       result_metadata: {
         collection_id: COLLECTION_ID_1
       },
@@ -53,6 +56,7 @@ const searchResults: DiscoveryV2.QueryResponse = {
     },
     {
       document_id: '79953f3b6f304adef09b470762567435',
+      linkField: 'http://example.com',
       result_metadata: {
         collection_id: COLLECTION_ID_1
       },
