@@ -158,7 +158,7 @@ describe('<StructuredQuery />', () => {
       });
 
       test('and both rule rows now include the Remove rule button', () => {
-        const removeRuleButtons = structuredQuery.queryAllByLabelText('Remove row');
+        const removeRuleButtons = structuredQuery.queryAllByLabelText('Remove rule');
         expect(removeRuleButtons.length).toEqual(2);
       });
     });
