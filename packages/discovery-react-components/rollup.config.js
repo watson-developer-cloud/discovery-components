@@ -3,7 +3,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import external from 'rollup-plugin-peer-deps-external';
 import json from '@rollup/plugin-json';
 import resolve from '@rollup/plugin-node-resolve';
-import url from 'rollup-plugin-url';
+import url from '@rollup/plugin-url';
 import { string } from 'rollup-plugin-string';
 import svgr from '@svgr/rollup';
 import pkg from './package.json';
