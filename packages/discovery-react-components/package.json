@@ -56,8 +56,5 @@
     "pdfjs-dist": "^2.2.228",
     "react-virtualized": "^9.21.1"
   },
-  "devDependencies": {
-    "lorem-ipsum": "^2.0.3",
-    "seedrandom": "^3.0.5"
-  }
+  "devDependencies": {}
 }
