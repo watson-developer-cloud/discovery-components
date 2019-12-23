@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-beta.3](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.0.7-beta.5...@ibm-watson/discovery-react-components@1.1.0-beta.3) (2019-12-23)
+
+
+### Bug Fixes
+
+* error in document preview with split docs ([#29](https://github.com/watson-developer-cloud/discovery-components/issues/29)) ([ed47956](https://github.com/watson-developer-cloud/discovery-components/commit/ed47956))
+
+
+### Features
+
+* structured query add and remove rules ([#27](https://github.com/watson-developer-cloud/discovery-components/issues/27)) ([eab1d3b](https://github.com/watson-developer-cloud/discovery-components/commit/eab1d3b))
+* structured query basic ([#22](https://github.com/watson-developer-cloud/discovery-components/issues/22)) ([b992f63](https://github.com/watson-developer-cloud/discovery-components/commit/b992f63))
+* upgrade storybook to 5.3 ([#25](https://github.com/watson-developer-cloud/discovery-components/issues/25)) ([93db599](https://github.com/watson-developer-cloud/discovery-components/commit/93db599))
+
+
+
+
+
 # [1.1.0-beta.2](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.0.7-beta.5...@ibm-watson/discovery-react-components@1.1.0-beta.2) (2019-12-20)
 
 
