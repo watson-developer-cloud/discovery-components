@@ -236,7 +236,7 @@ function getFieldText(document: QueryResult, field: CellField): string {
   if (Array.isArray(fieldValue)) {
     fieldValue = fieldValue[field.index];
   }
-  return fieldProp ? fieldValue[fieldProp] : fieldValue;
+  return fieldProp && fieldValue ? fieldValue[fieldProp] : fieldValue;
 }
 
 function processStyles(styles: string): string {
