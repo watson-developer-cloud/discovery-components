@@ -61,6 +61,10 @@ export interface Messages {
    */
   addRuleRowText: string;
   /**
+   * override the default text for the icon description for the button to remove a rule row from a rule group
+   */
+  removeRuleRowButtonIconDescription: string;
+  /**
    * override the default text for the button to add a group of rules
    */
   addRuleGroupText: string;
@@ -82,5 +86,6 @@ export const defaultMessages: Messages = {
   valueInputLabelText: 'Value',
   valueInputPlaceholderText: 'Enter value',
   addRuleRowText: 'Add rule',
+  removeRuleRowButtonIconDescription: 'Remove rule',
   addRuleGroupText: 'Add group of rules'
 };
