@@ -1,0 +1,143 @@
+{
+  "matching_results": 17,
+  "retrieval_details": {
+    "document_retrieval_strategy": "untrained"
+  },
+  "suggested_refinements": [
+    {
+      "text": "top of IBM"
+    },
+    {
+      "text": "AI"
+    },
+    {
+      "text": "ons"
+    },
+    {
+      "text": "Installing"
+    },
+    {
+      "text": "OS Connector"
+    },
+    {
+      "text": "IBM Db2"
+    },
+    {
+      "text": "Assistant"
+    },
+    {
+      "text": "discovery"
+    },
+    {
+      "text": "add"
+    },
+    {
+      "text": "Parent topic"
+    }
+  ],
+  "aggregations": [
+    {
+      "type": "term",
+      "field": "enriched_text.entities.text",
+      "name": "entities",
+      "results": [
+        {
+          "key": "IBM",
+          "matching_results": 17
+        },
+        {
+          "key": "Watson",
+          "matching_results": 17
+        },
+        {
+          "key": "ibm",
+          "matching_results": 14
+        },
+        {
+          "key": "Kubernetes",
+          "matching_results": 9
+        },
+        {
+          "key": "Pak",
+          "matching_results": 8
+        },
+        {
+          "key": "2.1.0.1",
+          "matching_results": 7
+        },
+        {
+          "key": "Red Hat",
+          "matching_results": 6
+        },
+        {
+          "key": "100 GB",
+          "matching_results": 5
+        },
+        {
+          "key": "@MASTER_1_IP",
+          "matching_results": 5
+        },
+        {
+          "key": "MongoDB",
+          "matching_results": 5
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "document_id": "e69fd25f-5cbf-4f53-bef3-67834ac1965b",
+      "result_metadata": {
+        "collection_id": "fbafd5e1-9cf1-c24c-0000-016eeb0a5c9f",
+        "document_retrieval_source": "search",
+        "confidence": 0.0598
+      },
+      "enriched_text": [
+        {
+          "entities": [
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 68,
+                    "begin": 62
+                  },
+                  "text": "Watson"
+                }
+              ],
+              "text": "Watson",
+              "type": "Person"
+            }
+          ]
+        }
+      ],
+      "metadata": {
+        "parent_document_id": "e69fd25f-5cbf-4f53-bef3-67834ac1965b"
+      },
+      "extracted_metadata": {
+        "sha1": "1EAD9267EF2FE884B02963D9D8A3DD28F8A939FB",
+        "numPages": "27",
+        "filename": "add-ons-integrations-1-27.pdf",
+        "file_type": "pdf"
+      },
+      "text": [
+        "Add-ons and integrations 3\nAdd-ons 4\nInstalling AI add-ons 23\nWatson API Kit 28\nWatson Assistant 29\nWatson Assistant for Voice Interaction 48\nWatson Discovery 60\nWatson Knowledge Studio 94\nWatson Natural Language Understanding 106\nWatson Speech to Text 116\nWatson Text to Speech 137\nWatson Machine Learning 158\nInstalling analytics add-ons 159\nCognos Analytics"
+      ],
+      "document_passages": [
+        {
+          "passage_text": "Add-ons and integrations 3\nAdd-ons 4\nInstalling AI add-ons 23\n<em>Watson</em> API Kit 28\n<em>Watson</em> Assistant 29\n<em>Watson</em> Assistant for Voice Interaction 48\n<em>Watson</em> Discovery 60\n<em>Watson</em> Knowledge Studio 94\n<em>Watson</em> Natural Language Understanding 106\n<em>Watson</em> Speech to Text 116\n<em>Watson</em> Text to Speech 137\n<em>Watson</em> Machine",
+          "start_offset": 0,
+          "end_offset": 297,
+          "field": "text"
+        },
+        {
+          "passage_text": "information: Installing\nthe <em>Watson</em>\nDiscovery add-\nonUsage information:\n<em>Watson</em> Discovery\nadd-on\n24\n<em>Watson</em> Knowledge\nStudio\nSeparately priced Teach <em>Watson</em> the\nlanguage of your\ndomain.Installation\ninformation: Installing\nthe <em>Watson</em>\nKnowledge Studio\nadd-onUsage\ninformation: <em>Watson</em>\nKnowledge Studio\nadd-on Included in\nthe separately priced\n<em>Watson</em> API Kit\npackage.",
+          "start_offset": 25842,
+          "end_offset": 26201,
+          "field": "text"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1073 @@
+{
+  "matching_results": 38,
+  "retrieval_details": {
+    "document_retrieval_strategy": "untrained"
+  },
+  "suggested_refinements": [
+    {
+      "text": "in"
+    },
+    {
+      "text": "Data"
+    },
+    {
+      "text": "on"
+    },
+    {
+      "text": "of"
+    },
+    {
+      "text": "add"
+    },
+    {
+      "text": "ibm"
+    },
+    {
+      "text": "Cloud Pak"
+    },
+    {
+      "text": "use"
+    },
+    {
+      "text": "database"
+    },
+    {
+      "text": "by"
+    }
+  ],
+  "aggregations": [
+    {
+      "type": "term",
+      "field": "enriched_text.entities.text",
+      "name": "entities",
+      "results": [
+        {
+          "key": "IBM",
+          "matching_results": 38
+        },
+        {
+          "key": "ibm",
+          "matching_results": 32
+        },
+        {
+          "key": "Pak",
+          "matching_results": 18
+        },
+        {
+          "key": "Watson",
+          "matching_results": 16
+        },
+        {
+          "key": "Red Hat",
+          "matching_results": 15
+        },
+        {
+          "key": "@MASTER_1_IP",
+          "matching_results": 13
+        },
+        {
+          "key": "Kubernetes",
+          "matching_results": 12
+        },
+        {
+          "key": "100 GB",
+          "matching_results": 9
+        },
+        {
+          "key": "2.1.0.1",
+          "matching_results": 9
+        },
+        {
+          "key": "MongoDB",
+          "matching_results": 8
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "document_id": "c86dfa48-dfd7-4899-835d-aed208972288",
+      "result_metadata": {
+        "collection_id": "fbafd5e1-9cf1-c24c-0000-016eeb0a5c9f",
+        "document_retrieval_source": "search",
+        "confidence": 0.0579
+      },
+      "enriched_text": [
+        {
+          "entities": [
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 59,
+                    "begin": 52
+                  },
+                  "text": "Red Hat"
+                },
+                {
+                  "location": {
+                    "end": 445,
+                    "begin": 438
+                  },
+                  "text": "Red Hat"
+                }
+              ],
+              "text": "Red Hat",
+              "type": "Company"
+            }
+          ]
+        }
+      ],
+      "metadata": {
+        "parent_document_id": "c86dfa48-dfd7-4899-835d-aed208972288"
+      },
+      "extracted_metadata": {
+        "sha1": "65FAD100BF485EE56518B97623FC1C87AB150ECD",
+        "numPages": "8",
+        "filename": "ovu-60-67.pdf",
+        "file_type": "pdf"
+      },
+      "text": [
+        "-\n-\n-\n-\n-\n-\n-\n-\n-\n Installing Cloud Pak for Data on Red Hat OpenShift\n(without IBM Cloud Private) \nYou can install IBM® Cloud Pak for Data on OpenShift environment.  \n Before you begin \n \nTo install Cloud Pak for Data on OpenShift, ensure that your environment meets the\nfollowing requirements:\nSoftware requirements\nOpenShift Version 3.11\nHelm/Tiller Version 2.9.1 For more information, see Getting started with Helm\non OpenShift on the Red Hat OpenShift blog. \nIn addition:\nYour cluster must have one and only one Helm/Tiller instance."
+      ],
+      "document_passages": [
+        {
+          "passage_text": "The\nserver\ncannot\n<em>have</em>\nsquash\nenabled.\nAll of the\nnodes in\nthe\ncluster\nmust\n<em>have</em>\naccess to\nmount\nthe NFS\nserver\nand <em>have</em>\nread/write\naccess to\nthe\nserver.\n62\n-\n-\n-\n-\nYou must <em>have</em> a cluster-admin account to install Cloud Pak for Data.Ensure\nthat you are logged in.",
+          "start_offset": 2284,
+          "end_offset": 2547,
+          "field": "text"
+        },
+        {
+          "passage_text": "The\nserver\ncannot\n<em>have</em>\nsquash\nenabled.\nAll of the\nnodes in\nthe\ncluster\nmust\n<em>have</em>\naccess to\nmount\nthe NFS\nserver\nand <em>have</em>\nread/write\naccess to\nthe\nserver.\n61\n-\n-\nSecurity requirements\nA Docker registry must be accessible from all of the nodes in the cluster.",
+          "start_offset": 1594,
+          "end_offset": 1851,
+          "field": "text"
+        }
+      ]
+    },
+    {
+      "document_id": "12cefddd-6e95-40d7-8a33-f6efa9d95577",
+      "result_metadata": {
+        "collection_id": "fbafd5e1-9cf1-c24c-0000-016eeb0a5c9f",
+        "document_retrieval_source": "search",
+        "confidence": 0.05165
+      },
+      "enriched_text": [
+        {
+          "entities": [
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 113,
+                    "begin": 110
+                  },
+                  "text": "IBM"
+                }
+              ],
+              "text": "IBM",
+              "type": "Company"
+            }
+          ]
+        }
+      ],
+      "metadata": {
+        "parent_document_id": "12cefddd-6e95-40d7-8a33-f6efa9d95577"
+      },
+      "extracted_metadata": {
+        "sha1": "4D7E4A554FC0B99B93FDFAF90C3FE11357C6CF15",
+        "numPages": "18",
+        "filename": "ovu-78-95.pdf",
+        "file_type": "pdf"
+      },
+      "text": [
+        "1.\n2.\n3.\n4.\n5.\n6.\n Testing the load balancer \nIt is good practice to test the load balancer that is used with IBM® Cloud Pak for\nData. \n Procedure \n \nVerify that you have the ncat utility installed on all master nodes by using the\nwhich ncat command.If the command returns nothing, install the ncat\npackage on your master nodes with the command: yum install -y nc \n \nOn each master node, use ncat to listen for connections on the port that you are\ntesting by running the following command:ncat -lkp port_number \nThe command doesn't return a result because the ncat utility is waiting for an\nincoming connection on the specified port_number. \n \nOn a different Linux system with a connection to the load balancer system, run\nthe command:echo 1 | ncat load-balancer-ip-addressport_number \n \nOn one of the master nodes, the ncat utility prints a 1 on the screen. \n \nEach time that you run the command, a 1 is randomly printed on one of the\nmaster nodes, as determined by the load balancer.Make sure to test all ports that\nare used by Cloud Pak for Data. The required ports are 80, 443, 8001, 8443,\n8600, 9443, and 31843. \nWhen you confirm that all master nodes are able to print 1, stop the ncat\nprocess on the master nodes with the Ctrl+C keyboard combination.\nIf you do not see the expected results, verify the load balancer configuration, and\nmake sure that you are not blocked by a firewall or proxy.\n \nParent topic:Post-installation tasks \n \n78\n-\n-\n-\n-\n-\n-\n Securing communication ports \nTo ensure secure transmission of network traffic to and from the IBM® Cloud Pak\nfor Data cluster, you need to configure the communication ports used by the\nnetwork."
+      ],
+      "document_passages": [
+        {
+          "passage_text": "HDP only: If Hadoop or Ranger KMS is\nenabled, the service user should <em>have</em> necessary proxyuser privileges in kms-\nsite.xml.\nFor a kerberized cluster: <em>Have</em> the keytab for the service user. This\neliminates the need for every Cloud Pak for Data user to <em>have</em> a valid keytab.",
+          "start_offset": 19815,
+          "end_offset": 20085,
+          "field": "text"
+        },
+        {
+          "passage_text": "Livy for Spark2 Submit jobs to Spark2 on the\nHadoop cluster.\n88\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n In addition, the edge node must meet the following requirements:\n<em>Have</em> Python 2.7 installed.\nCDH only: <em>Have</em> Java Development Kit Version 1.8 installed.\n<em>Have</em> curl 7.19.7-53 or later to allow secure communication between the\nHadoop registration service and Cloud Pak for Data.",
+          "start_offset": 19133,
+          "end_offset": 19491,
+          "field": "text"
+        }
+      ]
+    },
+    {
+      "document_id": "967cc9c7-8726-48ec-bf1f-c33d8b5082d0",
+      "result_metadata": {
+        "collection_id": "fbafd5e1-9cf1-c24c-0000-016eeb0a5c9f",
+        "document_retrieval_source": "search",
+        "confidence": 0.0511335
+      },
+      "enriched_text": [
+        {
+          "entities": [
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 58,
+                    "begin": 51
+                  },
+                  "text": "Red Hat"
+                },
+                {
+                  "location": {
+                    "end": 483,
+                    "begin": 476
+                  },
+                  "text": "Red Hat"
+                },
+                {
+                  "location": {
+                    "end": 874,
+                    "begin": 867
+                  },
+                  "text": "Red Hat"
+                },
+                {
+                  "location": {
+                    "end": 1930,
+                    "begin": 1923
+                  },
+                  "text": "Red Hat"
+                },
+                {
+                  "location": {
+                    "end": 30450,
+                    "begin": 30443
+                  },
+                  "text": "Red Hat"
+                }
+              ],
+              "text": "Red Hat",
+              "type": "Company"
+            }
+          ]
+        }
+      ],
+      "metadata": {
+        "parent_document_id": "967cc9c7-8726-48ec-bf1f-c33d8b5082d0"
+      },
+      "extracted_metadata": {
+        "sha1": "1BE7B3E33878594216D136CFB1A45428F03B40D6",
+        "numPages": "17",
+        "filename": "add-ons-integrations-222-238.pdf",
+        "file_type": "pdf"
+      },
+      "text": [
+        "1.\n2.\n3.\n1.\n2.\n3.\n Enabling Data Virtualization in Red Hat OpenShift \nYou can use Data Virtualization in an OpenShift environment. \n Before you begin \n \nInstall IBM® Cloud Pak for Data on OpenShift.  About this task \n \nWhen you install Data Virtualization on OpenShift, you can interact with Data\nVirtualization in Cloud Pak for Data, while you use the OpenShift's Kubernetes and\nDocker Registry that is already installed by Red Hat OpenShift.To enable Data\nVirtualization in Red Hat OpenShift, you must complete the following steps:\nConfiguring your Data Virtualization worker node.\nInstalling Data Virtualization on OpenShift.\nProvisioning Data Virtualization on OpenShift.\n \n \n Configuring your Data Virtualization worker node \nData Virtualization requires Security Enhanced Linux (SELinux) to be set to\npermissive mode. However, this requirement differs from the Red Hat OpenShift\n3.11 prerequisites, which require SELinux to be set to enforcing. This\nrequirement might also conflict with your organization's security policies for Linux\nhosts."
+      ],
+      "document_passages": [
+        {
+          "passage_text": ".\n-\n-\n Managing access to virtual objects \nData Virtualization administrators can grant user access to virtual objects in Data\nVirtualization. \n About this task \n \nData Virtualization administrators <em>have</em> access to all virtual objects in Data\nVirtualization. Data Virtualization stewards <em>have</em> access to all virtual objects that are\ncreated.",
+          "start_offset": 20643,
+          "end_offset": 20982,
+          "field": "text"
+        },
+        {
+          "passage_text": "Procedure \n \nTo create a schema while creating a virtualized table:\nIf you <em>have</em> the Data Virtualization Engineer or User roles, leave the Schemas\nfield as default to create a schema with your user ID.\nIf you <em>have</em> the Data Virtualization Admin role, enter the new schema name in the\nSchemas field.\nFor more information on how to create virtualized tables, see Virtualizing data.",
+          "start_offset": 25814,
+          "end_offset": 26191,
+          "field": "text"
+        }
+      ]
+    },
+    {
+      "document_id": "3a4df9e7-9edd-4c8e-8dd9-7effbe49ca7e",
+      "result_metadata": {
+        "collection_id": "fbafd5e1-9cf1-c24c-0000-016eeb0a5c9f",
+        "document_retrieval_source": "search",
+        "confidence": 0.05101
+      },
+      "enriched_text": [
+        {
+          "entities": [
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 112,
+                    "begin": 109
+                  },
+                  "text": "IBM"
+                }
+              ],
+              "text": "IBM",
+              "type": "Company"
+            }
+          ]
+        }
+      ],
+      "metadata": {
+        "parent_document_id": "3a4df9e7-9edd-4c8e-8dd9-7effbe49ca7e"
+      },
+      "extracted_metadata": {
+        "sha1": "D1CE38BB98A0A2739788D7A25790E398AF9053DC",
+        "numPages": "21",
+        "filename": "add-ons-integrations-255-275.pdf",
+        "file_type": "pdf"
+      },
+      "text": [
+        "1.\n2.\n3.\n4.\n-\n-\n-\n1.\n Preparing your OpenShift cluster for the database \nIf you plan to create a database in IBM® Cloud Pak for Data on Red Hat OpenShift,\nyou must prepare your cluster so that you can successfully provision the database. \n Before you begin \n \nThese instructions are intended to prepare a Red Hat OpenShift cluster. If you are\nnot preparing an OpenShift cluster, refer to Preparing your IBM Cloud Private cluster\nfor a database. \nEnsure that you completed the steps in Downloading the database installation\npackage. \nImportant: This task assumes that you already have nodes in your cluster that meet\nthe minimum specifications for the database. If you need to add more nodes to your\ncluster to meet the number of required nodes, contact your OpenShift cluster\nadministrator to add the necessary nodes.Use the information in Detailed\nrequirements and use cases for integrated databases to determine the minimum\nspecifications, based on the type of database you are deploying.  \n \nAs a prerequisite, Cloud Pak for Data checks that you meet all system requirements.\n \nIf Cloud Pak for Data is not installed in the default /ibm/ installation directory, you\nmust specify the --install-directory\nINSTALL-DIRECTORY parameter and replace INSTALL-DIRECTORY with the path\nof the Cloud Pak for Data installation directory."
+      ],
+      "document_passages": [
+        {
+          "passage_text": "You must <em>have</em> nodes available with\nenough resources in your cluster before you deploy the database:\n267\n-\n-\n10.\n11.\n12.\n-\n-\n-\n-\nIf you are deploying the database on dedicated worker nodes, you must <em>have</em>\nat least two dedicated worker nodes plus another dedicated or non-dedicated\nworker node.\nIf you are deploying the database on non-dedicated worker nodes, you must\n<em>have</em> three worker nodes available.",
+          "start_offset": 22721,
+          "end_offset": 23121,
+          "field": "text"
+        },
+        {
+          "passage_text": "If you are deploying IBM Db2 Event Store, you might <em>have</em> to wait several\nminutes for the database to be deployed.\nIf you are deploying IBM Db2 Warehouse, you might <em>have</em> to wait 2 - 40\nminutes, based on the number of worker nodes and amount of memory\nallocated to the deployment.",
+          "start_offset": 29301,
+          "end_offset": 29579,
+          "field": "text"
+        }
+      ]
+    },
+    {
+      "document_id": "d7252de7-4572-4990-b815-8514604b2024",
+      "result_metadata": {
+        "collection_id": "fbafd5e1-9cf1-c24c-0000-016eeb0a5c9f",
+        "document_retrieval_source": "search",
+        "confidence": 0.0504999
+      },
+      "enriched_text": [
+        {
+          "entities": [
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 40,
+                    "begin": 34
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 90,
+                    "begin": 84
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 229,
+                    "begin": 223
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 255,
+                    "begin": 249
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 289,
+                    "begin": 283
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 637,
+                    "begin": 631
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 12275,
+                    "begin": 12269
+                  },
+                  "text": "Watson"
+                },
+                {
+                  "location": {
+                    "end": 13277,
+                    "begin": 13271
+                  },
+                  "text": "Watson"
+                }
+              ],
+              "text": "Watson",
+              "type": "Person"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 127,
+                    "begin": 124
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 4065,
+                    "begin": 4062
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 4170,
+                    "begin": 4167
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 18539,
+                    "begin": 18536
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 18634,
+                    "begin": 18631
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 20748,
+                    "begin": 20745
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 20828,
+                    "begin": 20825
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 20899,
+                    "begin": 20896
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 23089,
+                    "begin": 23086
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 24116,
+                    "begin": 24113
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 24780,
+                    "begin": 24777
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 25117,
+                    "begin": 25114
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 25528,
+                    "begin": 25525
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 29019,
+                    "begin": 29016
+                  },
+                  "text": "IBM"
+                },
+                {
+                  "location": {
+                    "end": 29806,
+                    "begin": 29803
+                  },
+                  "text": "IBM"
+                }
+              ],
+              "text": "IBM",
+              "type": "Company"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 1277,
+                    "begin": 1267
+                  },
+                  "text": "Kubernetes"
+                }
+              ],
+              "text": "Kubernetes",
+              "type": "Person"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 4521,
+                    "begin": 4516
+                  },
+                  "text": "oketi"
+                }
+              ],
+              "text": "oketi",
+              "type": "Person"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 5299,
+                    "begin": 5290
+                  },
+                  "text": "secretkey"
+                },
+                {
+                  "location": {
+                    "end": 5933,
+                    "begin": 5924
+                  },
+                  "text": "secretkey"
+                }
+              ],
+              "text": "secretkey",
+              "type": "Person"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 5912,
+                    "begin": 5903
+                  },
+                  "text": "accesskey"
+                }
+              ],
+              "text": "accesskey",
+              "type": "Person"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 6017,
+                    "begin": 6012
+                  },
+                  "text": "MinIO"
+                }
+              ],
+              "text": "MinIO",
+              "type": "Company"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 7099,
+                    "begin": 7093
+                  },
+                  "text": "1.5 GB"
+                }
+              ],
+              "text": "1.5 GB",
+              "type": "Quantity"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 7472,
+                    "begin": 7466
+                  },
+                  "text": "0.5 GB"
+                }
+              ],
+              "text": "0.5 GB",
+              "type": "Quantity"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 8286,
+                    "begin": 8280
+                  },
+                  "text": "100 GB"
+                }
+              ],
+              "text": "100 GB",
+              "type": "Quantity"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 9112,
+                    "begin": 9104
+                  },
+                  "text": "RabbitMQ"
+                }
+              ],
+              "text": "RabbitMQ",
+              "type": "Company"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 11152,
+                    "begin": 11150
+                  },
+                  "text": "su"
+                }
+              ],
+              "text": "su",
+              "type": "Person"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 14453,
+                    "begin": 14450
+                  },
+                  "text": "ibm"
+                },
+                {
+                  "location": {
+                    "end": 14629,
+                    "begin": 14626
+                  },
+                  "text": "ibm"
+                },
+                {
+                  "location": {
+                    "end": 14665,
+                    "begin": 14662
+                  },
+                  "text": "ibm"
+                },
+                {
+                  "location": {
+                    "end": 14709,
+                    "begin": 14706
+                  },
+                  "text": "ibm"
+                },
+                {
+                  "location": {
+                    "end": 14716,
+                    "begin": 14713
+                  },
+                  "text": "ibm"
+                },
+                {
+                  "location": {
+                    "end": 14938,
+                    "begin": 14935
+                  },
+                  "text": "ibm"
+                },
+                {
+                  "location": {
+                    "end": 14945,
+                    "begin": 14942
+                  },
+                  "text": "ibm"
+                },
+                {
+                  "location": {
+                    "end": 16122,
+                    "begin": 16119
+                  },
+                  "text": "ibm"
+                },
+                {
+                  "location": {
+                    "end": 16156,
+                    "begin": 16153
+                  },
+                  "text": "ibm"
+                },
+                {
+                  "location": {
+                    "end": 16194,
+                    "begin": 16191
+                  },
+                  "text": "ibm"
+                },
+                {
+                  "location": {
+                    "end": 17787,
+                    "begin": 17784
+                  },
+                  "text": "ibm"
+                },
+                {
+                  "location": {
+                    "end": 18018,
+                    "begin": 18015
+                  },
+                  "text": "ibm"
+                },
+                {
+                  "location": {
+                    "end": 18248,
+                    "begin": 18245
+                  },
+                  "text": "ibm"
+                },
+                {
+                  "location": {
+                    "end": 18255,
+                    "begin": 18252
+                  },
+                  "text": "ibm"
+                },
+                {
+                  "location": {
+                    "end": 18279,
+                    "begin": 18276
+                  },
+                  "text": "ibm"
+                },
+                {
+                  "location": {
+                    "end": 18286,
+                    "begin": 18283
+                  },
+                  "text": "ibm"
+                },
+                {
+                  "location": {
+                    "end": 18935,
+                    "begin": 18932
+                  },
+                  "text": "ibm"
+                },
+                {
+                  "location": {
+                    "end": 19951,
+                    "begin": 19948
+                  },
+                  "text": "ibm"
+                },
+                {
+                  "location": {
+                    "end": 22347,
+                    "begin": 22344
+                  },
+                  "text": "ibm"
+                },
+                {
+                  "location": {
+                    "end": 24231,
+                    "begin": 24228
+                  },
+                  "text": "ibm"
+                },
+                {
+                  "location": {
+                    "end": 24254,
+                    "begin": 24251
+                  },
+                  "text": "ibm"
+                },
+                {
+                  "location": {
+                    "end": 25357,
+                    "begin": 25354
+                  },
+                  "text": "ibm"
+                },
+                {
+                  "location": {
+                    "end": 25381,
+                    "begin": 25378
+                  },
+                  "text": "ibm"
+                },
+                {
+                  "location": {
+                    "end": 26254,
+                    "begin": 26251
+                  },
+                  "text": "ibm"
+                },
+                {
+                  "location": {
+                    "end": 27320,
+                    "begin": 27317
+                  },
+                  "text": "ibm"
+                },
+                {
+                  "location": {
+                    "end": 27753,
+                    "begin": 27750
+                  },
+                  "text": "ibm"
+                }
+              ],
+              "text": "ibm",
+              "type": "Company"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 14704,
+                    "begin": 14693
+                  },
+                  "text": "StatefulSet"
+                }
+              ],
+              "text": "StatefulSet",
+              "type": "Company"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 15982,
+                    "begin": 15975
+                  },
+                  "text": "patcher"
+                }
+              ],
+              "text": "patcher",
+              "type": "Person"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 16178,
+                    "begin": 16170
+                  },
+                  "text": "sentinel"
+                }
+              ],
+              "text": "sentinel",
+              "type": "PrintMedia"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 16352,
+                    "begin": 16344
+                  },
+                  "text": "38.5 GBs"
+                }
+              ],
+              "text": "38.5 GBs",
+              "type": "Quantity"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 16435,
+                    "begin": 16433
+                  },
+                  "text": "US"
+                }
+              ],
+              "text": "US",
+              "type": "Location"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 20452,
+                    "begin": 20448
+                  },
+                  "text": "Helm"
+                },
+                {
+                  "location": {
+                    "end": 20622,
+                    "begin": 20618
+                  },
+                  "text": "Helm"
+                }
+              ],
+              "text": "Helm",
+              "type": "Person"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 20780,
+                    "begin": 20773
+                  },
+                  "text": "Red Hat"
+                },
+                {
+                  "location": {
+                    "end": 21079,
+                    "begin": 21072
+                  },
+                  "text": "Red Hat"
+                }
+              ],
+              "text": "Red Hat",
+              "type": "Company"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 20927,
+                    "begin": 20920
+                  },
+                  "text": "2.1.0.1"
+                }
+              ],
+              "text": "2.1.0.1",
+              "type": "IPAddress"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 24613,
+                    "begin": 24603
+                  },
+                  "text": "Kubernetes"
+                }
+              ],
+              "text": "Kubernetes",
+              "type": "Company"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 25364,
+                    "begin": 25358
+                  },
+                  "text": "watson"
+                }
+              ],
+              "text": "watson",
+              "type": "Person"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 25596,
+                    "begin": 25585
+                  },
+                  "text": "secrets.Two"
+                }
+              ],
+              "text": "secrets.Two",
+              "type": "Company"
+            },
+            {
+              "model_name": "natural_language_understanding",
+              "mentions": [
+                {
+                  "location": {
+                    "end": 27429,
+                    "begin": 27423
+                  },
+                  "text": "Tiller"
+                }
+              ],
+              "text": "Tiller",
+              "type": "Person"
+            }
+          ]
+        }
+      ],
+      "metadata": {
+        "parent_document_id": "d7252de7-4572-4990-b815-8514604b2024"
+      },
+      "extracted_metadata": {
+        "sha1": "737A9807A7318372DC038E45BCAAFA4FF731A19F",
+        "numPages": "13",
+        "filename": "add-ons-integrations-116-144-1-13.pdf",
+        "file_type": "pdf"
+      },
+      "text": [
+        "-\n-\n-\n-\n-\n-\n-\n-\n-\n Installing the Watson Speech to Text add-on \nYou can install the Watson™ Speech to Text add-on on top of IBM® Cloud Pak for\nData. \n Introduction \nThis document contains installation instructions for both Watson Speech to Text and\nWatson Text to Speech solutions. \nWatson Speech to Text (STT) provides speech recognition capabilities for your\nsolutions. The service uses machine learning to combine knowledge of grammar,\nlanguage structure, and the composition of audio and voice signals to accurately\ntranscribe the human voice. It continuously updates and refines its transcription as it\nreceives more speech. \nWatson Text to Speech (TTS) service converts written text to natural-sounding\nspeech to provide speech-synthesis capabilities for applications. It gives you the\nfreedom to customize your own preferred speech in different languages. This cURL-\nbased tutorial can help you get started quickly with the service. \n Chart details \nThis chart can be used to install a single instance of both the STT and TTS\nsolutions. The solutions can be installed separately; however, if both are installed\ntogether they share their datastores for a more efficient utilization of resources and\nsimplified support. \n Prerequisites \nCloud Pak for Data 2.1.0\nKubernetes 1.12.4 or later\nHelm 2.9.1 or later \n \nBecause the installation of the chart needs to be performed from the command line,\nyou must install and configure Helm and kubectl. \n Select the components to install \nThis chart can be used to install both the STT and TTS solutions, the following tags,\nwhich are defined in the values.yaml file, can be used to enable the installation of\neach of the different components shipped in this solution.tags:\n sttAsync: true\n sttCustomization: true\n ttsCustomization: true\n sttRuntime: true\n ttsRuntime: true \n \nsttAsync\nenables the installation of the asynchronous API to access the STT service,\nwhich corresponds to the /recognitions API endpoints. \nsttCustomization\nenables the installation of the STT customization functionality, which lets you\ncustomize the STT base models for improved accuracy and corresponds to the\n/customizations API endpoints. \nttsCustomization\nenables the installation of the TTS customization functionality, which lets you\ncustomize the TTS base voices for improved voice quality and corresponds to\nthe /customizations API endpoints. \n116\n-\n-\n-\n-\nsttRuntime\nenables the installation of the core STT functionality, which lets you convert\nspeech into text using the /recognize endpoint. Note that this component is\ninstalled if either the sttRuntime, sttCustomization, or sttAsync tags\nare set to true. \nttsRuntime\nenables the installation of the core TTS functionality, which lets you convert text\ninto speech using the /synthesize endpoint. Note that this component is\ninstalled if either the ttsRuntime or ttsCustomization tags are set to\ntrue. \nBy default all the components are enabled, but each of them can be disabled\nseparately. If you want to install STT only, you need to set ttsRuntime and\nttsCustomization to false. Similarly, if you want to install TTS only, you need\nto set sttRuntime, sttCustomization and sttAsync to false. For example,\nif you want to install STT and TTS but do not want customization capabilities, then\nyou need to set sttCustomization and ttsCustomization to false. \n Namespace \nThe first step consists of creating the Kubernetes namespace where the solution is\ninstalled. The example that follows shows how to create the namespace, which in\nthis case is named speech-services. You can use a different name for the\nnamespace. \nCopy the following YAML to a file, then run the command that follows the YAML.\napiVersion: v1\nkind: Namespace\nmetadata:\n name: speech-services \nkubectl create -f {namespace_file} \n \n MinIO object storage \nMinIO object storage is used for storing persistence data needed by speech service\ncomponents. \nPersistenceIn order to use MinIO you need to have running GlusterFS server and\ncreate storage class oketi-gluster. Information about installing GlusterFS under\nIBM Cloud Private can be found here. It is possible you have created oketi-\ngluster storage class during IBM Cloud Private installation however if not here is\nhow to do it afterwards:cat > oketi-gluster.yaml << EOF\n apiVersion: storage.k8s.io/v1\n kind: StorageClass\n metadata:\n   name: oketi-gluster\n parameters:\n   nodes: |\n     [\n       { \"Hostname\":\"HOST\", \"IP\":\"$GLUSTER_SERVER\", \"Path\":\"$GLUSTER_DIR\"},\n     ]\n   volumeType: glusterfs\n provisioner: oketi\n reclaimPolicy: Retain\n117\n volumeBindingMode: Immediate\nEOF \n \n$GLUSTER_SERVER should be the address of the GlusterFS server and $NFS_DIR\nshould be the root of the glusterfs directory. After modifying and saving the file\nas appropriately, run the command: kubectl apply -f\n       oketi-nfs.yaml \n \nIt's worth pointing out that the GlusterFS server has to be installed with sufficient\nspace size. Size calculation is described in the section Storage size calculation\nguidelines. \n \nSecretsBefore you install STT or TTS, you need to provide a secret object that is\nused by MinIO itself and by other service components that interact with MinIO. This\nsecret contains the security keys to access MinIO. \nThe secret must contain the items accesskey (5 - 20 characters) and secretkey\n(8 - 40 characters) in base64 encoding. Therefore, before creating the secret, you\nneed to perform the base64 enconding. \nThe following commands encode the accesskey and secretkey in base64.\nImportant: For security reasons, you are strongly encouraged to create an\naccesskey and a secretkey that are different from the sample keys (admin and\nadmin1234) that are shown in the examples.echo -n \"admin\" | base64\nYWRtaW4=\n \necho -n \"admin1234\" | base64\nYWRtaW4xMjM0 \n \nCreate file minio.yaml with the following secret object definition:apiVersion: v1\nkind: Secret\nmetadata:\n name: minio\ntype: Opaque\ndata:\n accesskey: YWRtaW4=\n secretkey: YWRtaW4xMjM0 \nkubectl create -f minio.yaml \n \n \nMode of operationBy default, MinIO is operating in distributed mode which\nmeans that MinIO is scheduled to run multiple instance on every worked node to\nassure storage high availability. \nIn order to optimally use HA, you have to specify number of replicas. Set the number\nof replicas for distributed mode e.g external.minio.repliacas=N where N is\nnumber of the number of cluster nodes; it must be 4 <= x <= 32 (default value is\n4 replicas). \nMinIO also operates in standalone mode which means that only one instance of\nMinIO is running on arbitrary worker node and its failure means that service will not\nbe available until new instance is running and healthy. This options is sufficient for\n118\n-\n-\n-\n-\n-\ntesting purposes but not production. \nIf you want to run MinIO in standalone mode, you can do it with setting value\nexternal.minio.mode=standalone in which case you don't have to set\nexternal.minio.replicas. \n \nStorage size calculation guidelinesObject storage is used for storing binary data\nfrom the following sources:\nBase models (for example en_US-NarrowbandModel) \nOn average, base models are each 1.5 GB. Because models are updated\nregularly, you need to multiply that amount by three to make room for at least three\ndifferent versions of each model. \nCustomization data (audio files and training snapshots) \nThe storage required for customization data depends on how many hours of audio\nyou use for training your custom models. On average, one hour of audio data\nneeds 0.5 GB of storage space. You can have multiple customizations, so you\nmust factor in additional space. \nAudio files from recognition jobs that are processed asynchronously, in case they\nneed to be queued \nThe storage required for asynchronous jobs depends on the use case. If you plan\nto submit large batches of audio files, expect the service to queue some jobs\ntemporarily. This means that some audio files are held temporarily in binary\nstorage. The amount of storage required for this purpose does not exceed the size\nof the largest batch of jobs that you plan to submit in parallel. \n \nA few examples of how to calculate storage size [GB] follow:\n6 models, 3 versions, 50 hours audio = 6 * 1.5 * 3 + 50 * 0.5 = 52\n2 models, 3 versions, 20 hours audio = 2 * 1.5 * 3 + 20 * 0.5 = 19\n \nThe default storage size, 100 GB, is a minimal starting point and is typically enough\nfor operations with two to six models and about 50 hours of audio for the purpose of\ntraining custom models. That said, it is always a good idea to be generous in\nanticipation of future storage needs. \n \n Configuration of the PostgreSQL and RabbitMQ installation \n \nCreate Local Persistent Volumes to persist dataIf either STT customization, TTS\ncustomization or STT async are included in the installation (see the previous\nsection: Select the Components to Install) an instance of the PostgreSQL database\nis installed. Additionally, if the STT async component is included in the installation,\nan instance of the RabbitMQ datastore is installed. The datastores are stateful and\nneed to leverage Kubernetes persistent volumes to persist their data. \nPostgreSQL and RabbitMQ require the availability of Kubernetes Local Persistent\nVolumes, which must be created before you install the chart. The volumes are used\nto persist the data used by the datastores so if a container restarts it can reattach to\nthe original data. Given that both PostgreSQL and RabbitMQ are configured by\ndefault for high availability (HA) with three replicas, a minimum of three volumes\nneed to be installed for each of the datastores.apiVersion: v1\nkind: PersistentVolume\n119\n-\n-\n-\n-\n-\n-\n-\n-\nmetadata:\n name: {name}\nspec:\n capacity:\n   storage: {size}Gi\n accessModes:\n - ReadWriteOnce\n persistentVolumeReclaimPolicy: Retain\n storageClassName: local-storage-local\n local:\n   path: {path}\n nodeAffinity:\n   required:\n     nodeSelectorTerms:\n     - matchExpressions:\n       - key: kubernetes.io/hostname\n         operator: In\n         values:\n         - {node} \n \nwhere:\n{name}\nis the name of the Persistent Volume (PV) to be created, and needs to be\nunique.\n{size}\ns the disk space that is allocated for the persistent volume.\n{path}\nis the path in the host machine where the persistent volume is created; for\nexample, /mnt/local-storage/storage/pv_1. Note that the permissions\nof this directory need to be open enough to allow non-root access; otherwise,\npods running as non-root are unable to mount the volume in the directory.\n{node}\nis the Kubernetesworker node where the Local Volume is to be created. You\ncan list the available nodes in your cluster by running kubectl get nodes.\n \nGiven that PostgreSQL and RabbitMQ pods are scheduled in the worker nodes\nwhere the PVs are created, the PVs need to be created in different nodes so in case\na node goes down there are still at least two healthy replicas running. Recall that a\nminimum of three replicas are needed for high availability. \n \nSetting access credentials for PostgreSQLThe PostgreSQL chart reads the\ncredentials to access the PostgreSQL database from the following secret file, which\nneeds to be created before installing the chart. You need to set the attribute\ndata.pg_su_password to the PostgreSQL password that you want (base64\nencoded). You also need to set the attribute pg_repl_password, which is the\nreplication password and is also base64 encoded, to the value you want.apiVersion: v1\ndata:\n pg_repl_password: cmVwbHVzZXI=\n120\n-\n-\n-\n-\n-\n pg_su_password: c3RvbG9u\nkind: Secret\nmetadata:\n name: user-provided-postgressql # this name can be anything you choose\ntype: Opaque \n \nTo create this secret object you need to execute the command kubectl create -f\n       {secrets_file} \n \nFinally, when installing the chart you need to set the following two values to the\nname of the secret created previously (user-provided-postgressql):\nglobal.datastores.postgressql.auth.authSecretName and\npostgressql.auth.authSecretName. \nIf you do not create the secret object, the system creates a secret object that\ncontains randomly generated passwords when the Helm chart is installed. For\nsecurity reasons you need to change the automatically generated passwords when\nthe deployment is complete. \n \n Resources required \nIn addition to the general requirements listed in Pre-installation tasks, the Watson\nSpeech to Text service has its own requirements:\nx86 is the only architecture supported at this time.\nIf you need a highly available installation a minimum of three worker nodes are\nneeded for the installation.\nThe resources required for the installation, in terms of CPUs and memory, depend\non the configuration that you select. There are two typical installation\nconfigurations: \nThe development configuration, which is the configuration that is used in the\ndefault installation, has a minimal footprint and is meant for development\npurposes and as a proof of concept. It can handle several concurrent recognition\nsessions only and it is not highly available since some of the core component\nhave no redundancy (single replica).\nThe production configuration is a highly available solution that is intended to\nrun production workloads. This configuration can be achieved by scaling up the\ndevelopment configuration after installation, see the next section.\n \nResources required by the standard Watson Speech to Text installationWhile\nthe default installation of the solution comes with the development configuration,\nyou can easily obtain the production configuration by scaling up the number of\npods/replicas of the deployment objects after installing the solution. How much to\nscale up each of the components depends on the degree of concurrency you need,\nand is limited by the amount of hardware resources available in your Kubernetes\ncluster/namespace. \nScaling up the PostgreSQL and RabbitMQ datastores \nBy default both PostgreSQL and RabbitMQ are installed with three replicas for high\navailability reasons. Each replica is typically scheduled within a different Kubernetes\nworker node if resources allow. Before performing the installation, you can configure\nthe number of replicas and the CPU and memory resources for each replica by\n121\n1.\n2.\n3.\nusing Helm values (see the Options section). \nYou can also scale up the datastores on an already running solution by changing\nthe number of replicas in the Deployment or StatefulSet objects. For example, you\ncan scale up RabbitMQ as follows:\n Edit the StatefulSet object by running kubectl edit statefulsets\n{release}-ibm-rabbitmq.\nChange the value of the spec.replicas: attribute.\nSave and close the StatefulSet object. \n \nIn the case of PostgreSQL there are two deployment objects ({release}-ibm-\npostgresql-proxy and {release}-ibm-postgresql-sentinel) and a\nStatefulSet (ibm-wc-ibm-postgresql-keeper). The deployment objects can be\nscaled up by simply running kubectl scale --replicas={n}\n{deployment_object} where {n} is the new number of replicas; for example,\nkubectl scale--replicas=3 deployment\nibm-wc-ibm-postgresql-proxy. The StatefulSet object can be scaled up\nfollowing the process described previously for PostgreSQL. \nNote that a sufficient number of Persistent Local Volumes need to be created before\nscaling up the number of replicas (in the case of the StatefulSets) so the newly\ncreated pods can mount their volumes. \nScaling up the rest of the solution \nYou can learn about the list of deployments (KubernetesDeployment objects) by\nrunning the kubectl get deployment command. You can then scale up the\nnumber of pods on each of the deployment objects to match the number of pods in\nthe production configuration, as shown in the following table. You can do this by\nusing the following command: kubectl scale --replicas={n} deployment\n{deployment_object}, where {n} is the desired number of replicas for the given\ndeployment ({deployment_object}). Table 1. Deployments\nDeployment Default number of replicas\n{release}-speech-to-text-stt-\nruntime\n1\n{release}-speech-to-text-stt-\ncustomization\n1\n{release}-speech-to-text-stt-am-\npatcher\n1\n{release}-speech-to-text-stt-\nasync\n1\n{release}-speech-to-text-gdpr-\ndata-deletion\n1\n{release}-minio 1\n{release}-rabbitmq 1\n{release}-ibm-postgressql-proxy 2\n{release}-ibm-postgressql-\nsentinel\n3\n{release}-ibm-postgressql-\nkeeper\n3\n122\n-\n-\n-\n \nTable 2. Statefulsets\n \n \nThe standard installation (development configuration) requires a total of 14.75 CPUs\nand 38.5 GBs of memory. These numbers are based on a standard installation that\nincludes the US English models only. In general, the memory requirements vary\ndepending on which models you include in the installation. \nSetting the sessions/CPU ratio \nSession in this context is one of these:\nrecognize request to the STT runtime\nsynthesize request to the TTS runtime\ntrain request to the STT Customization back-end (STT AM Patcher)train\nrequest to the STT Customization back-end (STT AM Patcher)\n \nIn order to choose resources for each of the session types, you have to do the\nfollowing calculations. \n \n \nDynamic resource calculationSTT Runtime, TTS Runtime and STT Customization\nBack-End supports automatic required memory resource calculation, which is based\non the selected number of CPUs and the selected language models. Automatic\nresource calculation is enabled by default. You can modify this behavior by setting\nfollowing values to true/false:sttRuntime.groups.sttRuntimeDefault.resources.dynamicMemory\nttsRuntime.groups.ttsRuntimeDefault.resources.dynamicMemory\nsttAMPatcher.groups.sttAMPatcher.resources.dynamicMemory \n \nWhen you set any of the previous values to false you have to specify required\nmemory yourself (see Options section below). \nDisclaimer: Disabling automatic resource calculation is not recommended and can\ncause undesired service behavior. \n \n PodSecurityPolicy Requirements \nThe predefined PodSecurityPolicy name: ibm-anyuid-psp has been verified for\nthis chart. By default the chart automatically installs the necessary RBAC roles and\nrolebindings for running the service. \nCustom PodSecurityPolicy definition:--- \n \n Pre-install steps \nRun: ./ibm_cloud_pak/pak_extensions/pre-install/clusterAdministration/labelNamespace.sh\n       ICP4D_NAMESPACE \n where ICP4D_NAMESPACE is the namespace where Cloud Pak for Data is installed\n(usually zen). \nStatefulset Number of replicas\nibm-wc-ibm-postgresql-keeper 3\nibm-wc-ibm-rabbitmq 3\n123\n-\n-\n-\nThe ICP4D_NAMESPACE namespace must have a label for the NetworkPolicy to\ncorrectly work. Only nginx and zen pods are allowed to communicate with the\npods in the namespace where this chart is installed. \n Installing the chart on IBM Cloud Pak for Data (without Red\nHat OpenShift) \nInstalling the Helm chart deploys a single IBM Watson Speech Services solution\nwith the development configuration. You can then scale up this configuration to\nsupport up to 50 concurrent recognition sessions (see the earlier sections). \nTo install the chart, run the following command:helm install --tls --name {my_release} -f\n{my_values.yaml} ibm-watson-speech-prod \nReplace {my_release} with a name for your release.\nReplace {my_values.yaml} with the path to a YAML file that specifies the\nvalues that are to be used with the install command. Specifying a YAML file is\noptional.\n \nWhen the command completes, its output shows the current status of the release. \nWhen the installation has completed and all the pods are in ready state, a series of\nHelm tests are available to validate the installation. They can be executed by using\nthe following command:helm test --tls --name {my_release} \n \nImportant:Security Notice - After completing the installation, it is strongly\nrecommended that you manually change any autogenerated passwords or\ncertificate. If not, the Helm CLI can allow a user with operator role to see the\npassword or certificate, which represents a security risk. \nPodSecurityPolicy requirementsThis chart requires a PodSecurityPolicy to be\nbound to the target namespace prior to installation. This chart has been verified with\nthe predefined ibm-restricted-psp' PodSecurityPolicy. Choose either a\npredefined PodSecurityPolicy or have your cluster administrator create a custom\nPodSecurityPolicy for you: \nCustom PodSecurityPolicy definition:--- \n \n \nUninstalling the chartTo uninstall and delete the my_release deployment, run the\nfollowing command:helm delete --tls my_release \n \nTo irrevocably uninstall and delete the my_release deployment, run the following\ncommand:helm delete --purge --tls my_release \n \nIf you omit the --purge option, Helm deletes all resources for the deployment but\nretains the record with the release name. This allows you to roll back the deletion. If\nyou include the --purge option, Helm removes all records for the deployment so\nthat the name can be used for another installation. \n \n Installing the chart on IBM Cloud Pak for Data with Red Hat\nOpenShift \nThis Helm chart deploys a single IBM Watson Speech Services instance. \nOpenShift software prerequisites\nIBM Cloud Pak for Data V2.1.0.1\n124\n-\n-\n-\n-\nKubernetes V1.11.0\nHelm V2.9.0\n Before installing the Speech Services solution, you must install and configure helm\nand kubectl. \n \nRed Hat OpenShift SecurityContextConstraints RequirementsThis chart\nrequires a SecurityContextConstraints to be bound to the target namespace prior to\ninstallation. To meet this requirement there might be cluster-scoped as well as\nnamespace-scoped pre and post actions that need to occur. \nThe predefined SecurityContextConstraints name restricted has been verified\nfor this chart. If your target namespace is bound to this SecurityContextConstraints\nresource you can proceed to install the chart. \nIf necessary, run the following command to bind the restricted\nSecurityContextConstraints to your namespace:oc adm policy add-scc-to-group restricted\nsystem:serviceaccounts:{namespace-name} \n \nThis chart also defines a custom SecurityContextConstraints that can be used to\nfinely control the permissions and capabilities needed to deploy this chart. You can\nenable this custom SecurityContextConstraints resource using the supplied\ninstructions and scripts in the pak_extension pre-install directory.\nFrom the user interface, you can copy and paste the following snippets to enable\nthe custom SecurityContextConstraints:\nCustom SecurityContextConstraints definition:fsGroup:\n type: MustRunAs\ngroups:\n- system:authenticated\nkind: SecurityContextConstraints\nmetadata:\n name: ibm-speech-scc\npriority: null\nreadOnlyRootFilesystem: false\nrequiredDropCapabilities:\n- KILL\n- MKNOD\n- SETUID\n- SETGID\nrunAsUser:\n type: MustRunAsRange\nseLinuxContext:\n type: MustRunAs\nsupplementalGroups:\n type: RunAsAny\nusers: []\nvolumes:\n- configMap\n- downwardAPI\n- emptyDir\n- persistentVolumeClaim\n125\n-\n-\n-\n1.\n-\n2.\n3.\n-\n4.\n-\n-\n5.\n-\n6.\n-\n-\n- projected\n- secret \nFrom the command line, you can run the setup scripts included under\npak_extensions. \nFor cluster admin, the pre-install instructions are located at: \npre-install/clusterAdministration/Notes.md \n For team admin the namespace scoped instructions are located at:\npre-install/namespaceAdministration/Notes.md \n \n \n \nInstalling the chartThe cluster-admin role is required to deploy IBM Watson\nSpeech Services.\nLog into OpenShift and Dockeroc login\ndocker login -u $(oc whoami) -p $(oc whoami -t) {docker-registry} \n{docker-registry} is the address of the OpenShiftDocker registry; for\nexample, docker-registry-default.apps.speech-\nopenshift.ibm.com. You can find the URL of the Docker registry in the\nOpenShift console.\nFrom the OpenShift command line tool, create the namespace in which to\ndeploy the service; for example, speech-services. Use the following\ncommand to create the namespace:oc new-project {namespace-name} \nMake sure you are pointing at the correct OpenShift project:oc project {namespace-\nname} \n{namespace-name} is the Kubernetes and Docker namespace that you\ncreated in Step 1.\nExtract the PPA archive contents:cd {compressed-file-dir}\ntar -xvfz {compressed-file-name}\ncd charts\ntar -xvfz ibm-watson-speech-prod-1.0.1.tar.gz \n{compressed-file-dir} is the directory where you downloaded\n{compressed-file-name} to.\n{compressed-file-name} is the name of the PPA file that you downloaded\nfrom IBM Passport Advantage®.\nLoad the docker images into the OpenShiftDocker registry:cd {compressed-file-\ndir}/charts/ibm-watson-speech-prod/ibm_cloud_pak/pak_extensions/pre-install/clusterAdministration\n./loadImagesOpenShift.sh --path {compressed-file-dir} --namespace {namespace-name} --registry {docker-\nregistry} \n{docker-registry} is the is the address of the OpenShiftDocker registry.\nIf successful, the docker images now exist in the OpenShiftDocker registry. \nIf you cannot access the Kubernetes command line tool, see Enabling access to\nkubectl CLI for instructions. \nCreate persistent volumes for the service.\nFor a production deployment, consider using an IBM Cloud Pak for Data\nstorage add-on or a storage option that is hosted outside the cluster.\nFor a development deployment, you can use the createLocalPVs.sh script\nthat is provided in the archive to create the local storage volumes.\n126\n7.\n8.\n9.\n10.\n-\n-\n-\n-\n-\n11.\n-\n-\nSet up required labels.A label must be added to the namespace where IBM\nCloud Pak for Data is installed (usually zen). To meet this requirement there are\ncluster-scoped pre and post actions that need to occur. Run the script that is\nprovided with the archive to add the label.cd {compressed-file-dir}/charts/ibm-watson-speech-\nprod/ibm_cloud_pak/pak_extensions/pre-install/clusterAdministration\n./labelNamespace.sh {namespace-name} \nwhere {namespace-name} is the namespace where IBM Cloud Pak for Data is\ninstalled (normally zen). \nCreate secrets.Two secret objects need to be created manually within the\n{namespace-name} namespace to set the access credentials for the MinIO\nand PostgreSQL datastores. In order to set credentials for MinIO see the\nSecretssubsection within the Configure MinIO object storage section. In order to\nset credentials for PostgreSQL and RabbitMQ see the subsection Setting\naccess credentials for PostgreSQL within the Installation appendix. \nFetch the Docker registry secret that is to be used to pull images within the\ncluster (imagePullSecret):oc get secrets | grep default-dockercfg \nEdit values in the values.yaml file, which is stored in the {compressed-\nfile-dir}/charts/ibm-watson-speech-prod directory.\nAt a minimum, you must provide your own values for the following configurable\nsettings:\nSet global.icpDockerRepo to the Docker registry URL, including the\nnamespace. For example, docker-\nregistry.default.svc:5000/{namespace-name}.\nSet global.imagePullSecretName to the name of the Docker registry\nsecret obtained in the previous step.\nSet global.image.repository to the same value you set\nglobal.icpDockerRepo.\nSet global.image.pullSecret to the same value you set\nglobal.imagePullSecretName.\n See the section Select the components to install for information on how to\nselect the components to install. Additionally, read the Installation appendix and\nConfiguration section to learn more about the installation configuration.\nAfter you define any custom configuration settings, you can install the chart from\nthe Helm command line interface. Enter the following command from the\ndirectory where the package was loaded in your local system:helm install --namespace\n{namespace-name} --name {release-name} {compressed-file-dir}/charts/ibm-watson-speech-prod/ --tiller-\nnamespace {tiller-namespace} \n{tiller-namespace} is the namespace where Tiller is installed within the\ncluster (typically the zen namespace).\n{release-name} is the name of the Helm release.\n \n \n Configuration \nThe Helm chart has the following values that you can override by using the --set\nparameter with the install command. For example:helm install --tls --set\nimage.repository={my_image} stable/ibm-datapower-dev \n \nAlternatively, you can provide a YAML file that specifies the values with the\n127\ninstall command. For example:helm install --tls -f {my_values.yaml} \n \nLanguage model selectionYou can perform an installation that includes only a\nsubset of the language models/voices in the catalog. Installing all of the\nmodels/voices in the catalog substantially increases the memory requirements.\nTherefore, it is strongly recommended that you install only those languages that you\nwill use. \nYou can select the languages to be installed by checking or unchecking each of the\nmodels/voices in global.sttModels.* or global.ttsVoices.* values. By\ndefault, the dynamic resource calculation feature is enabled; it automatically\ncomputes the exact amount of memory that is required for the selected\nmodels/voices. \nIt is also possible to install ad hoc models/voices that was not released with this\nversion. You need to download special package containing data for the\nmodels/voices, upload it into the cluster the same way as main package and specify\nfollowing options during installation. \nTable 3. Language model selection\n \nAs an example, assume that there is a new broadband model for Czech language\nthat was released as an ad hoc model for current Speech on IBM Cloud Private\nrelease. In order to enable it during update, specify following options during\ninstallation. For this example, $modelName is csCSBroadbandModel and\n$catalogName is cs-CS_BroadBandModel:helm upgrade RELEASE CHART --set\nglobal.sttModels.csCSBroadbandModel.catalogName=cs-CS_BroadBandModel --set\nglobal.sttModels.csCSBroadbandModel.size=500 [OTHER-FLAGS]\n \n \n \nStorage of customer data (STT Runtime and AMC Patcher)By default, payload\ndata, including audio files, recognition hypotheses, and annotations, are temporarily\nstored in the running container. You can disable this behavior by checking STT\nRuntime | Disable storage\nof customer data option. Checking this option also removes sensitive\ninformation from container logs. \n \nOptionsThe following options apply to an IBM Watson Speech Services runtime\nconfiguration. \nValue Description\nglobal.sttModels.$modelN\name.catalogName\nModel name as it is found in\ncatalog.\nglobal.sttModels.$modelN\name.size\nMemory footprint used to\ncalculate memory requirements.\nglobal.ttsVoices.$voiceN\name.catalogName\nVoice name as it is found in\ncatalog.\nglobal.ttsVoices.$voiceN\name.size\nMemory footprint used to\ncalculate memory requirements.\n128\n"
+      ],
+      "document_passages": [
+        {
+          "passage_text": "This chart <em>has</em> been verified with\nthe predefined ibm-restricted-psp' PodSecurityPolicy. Choose either a\npredefined PodSecurityPolicy or <em>have</em> your cluster administrator create a custom\nPodSecurityPolicy for you: \nCustom PodSecurityPolicy definition",
+          "start_offset": 19899,
+          "end_offset": 20146,
+          "field": "text"
+        },
+        {
+          "passage_text": "There are two typical installation\nconfigurations: \nThe development configuration, which is the configuration that is used in the\ndefault installation, <em>has</em> a minimal footprint and is meant for development\npurposes and as a proof of concept. It can handle several concurrent recognition\nsessions only and it is not highly available since some of the core component\n<em>have</em> no redundancy (single replica).",
+          "start_offset": 12606,
+          "end_offset": 13006,
+          "field": "text"
+        }
+      ]
+    }
+  ]
+}
