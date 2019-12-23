@@ -23,7 +23,7 @@
     "analyze": "source-map-explorer 'dist/index.js'",
     "prepublish": "yarn run build",
     "preversion": "yarn run storybook:build:release",
-    "postversion": "git add ../../docs && git commit --amend --no-edit"
+    "version": "git add ../../docs"
   },
   "files": [
     "dist"
