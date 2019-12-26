@@ -179,7 +179,7 @@ const CIDocument: FC<CIDocumentProps> = ({
 
   let itemList = elements;
   if (isInvoiceOrPurchaseOrder(enrichmentName)) {
-    itemList = state[selectedType] ? state[selectedType] : [];
+    itemList = state[selectedType] || [];
   }
 
   const resetTabs = (): void => {
