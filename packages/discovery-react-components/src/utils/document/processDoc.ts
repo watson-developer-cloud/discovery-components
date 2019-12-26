@@ -46,6 +46,8 @@ export interface ProcessedDoc {
     bySection: any;
   };
   metadata?: any[];
+  attributes?: any[];
+  relations?: any[];
 }
 
 export interface ProcessedBbox {
@@ -100,6 +102,12 @@ export async function processDoc(
   };
   if (enrichment.metadata) {
     doc.metadata = enrichment.metadata;
+  }
+  if (enrichment.attributes) {
+    doc.attributes = enrichment.attributes;
+  }
+  if (enrichment.relations) {
+    doc.relations = enrichment.relations;
   }
   if (options.sections) {
     doc.sections = [];

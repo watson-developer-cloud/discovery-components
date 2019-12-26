@@ -34,7 +34,16 @@ import {
 } from 'utils/document/nonContractUtils';
 import { withErrorBoundary, WithErrorBoundaryProps } from 'utils/hoc/withErrorBoundary';
 import { Filter, FilterGroup, FilterChangeArgs } from '../FilterPanel/types';
-import { Metadata, MetadataData, EnrichedHtml, Contract, Item, Field } from '../../types';
+import {
+  Metadata,
+  MetadataData,
+  EnrichedHtml,
+  Contract,
+  Item,
+  Field,
+  Attributes,
+  Relations
+} from '../../types';
 import { Address, Mention } from '../MetadataPane/types';
 import { Items } from '../DetailsPane/types';
 import { defaultTheme, Theme } from 'utils/theme';
@@ -82,6 +91,8 @@ interface State {
     bySection: any;
   };
   metadata: Metadata[];
+  attributes: Attributes[];
+  relations: Relations[];
 }
 
 enum ActionType {
@@ -100,7 +111,9 @@ const INITIAL_STATE: State = {
   styles: [],
   sections: [],
   itemMap: { byItem: {}, bySection: {} },
-  metadata: []
+  metadata: [],
+  attributes: [],
+  relations: []
 };
 
 const RELATIONS = 'relations';
@@ -166,7 +179,7 @@ const CIDocument: FC<CIDocumentProps> = ({
 
   let itemList = elements;
   if (isInvoiceOrPurchaseOrder(enrichmentName)) {
-    itemList = get(enrichment, selectedType, []);
+    itemList = state[selectedType] ? state[selectedType] : [];
   }
 
   const resetTabs = (): void => {
@@ -195,7 +208,9 @@ const CIDocument: FC<CIDocumentProps> = ({
               styles: doc.styles,
               sections: doc.sections,
               itemMap: doc.itemMap,
-              metadata: doc.metadata
+              metadata: doc.metadata,
+              attributes: doc.attributes,
+              relations: doc.relations
             }
           });
         } catch (err) {
