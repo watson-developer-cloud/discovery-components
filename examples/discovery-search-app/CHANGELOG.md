@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2-beta.12](https://github.com/watson-developer-cloud/discovery-components/compare/discovery-search-app@1.0.2-beta.11...discovery-search-app@1.0.2-beta.12) (2019-12-26)
+
+**Note:** Version bump only for package discovery-search-app
+
+
+
+
+
 ## [1.0.2-beta.11](https://github.com/watson-developer-cloud/discovery-components/compare/discovery-search-app@1.0.2-beta.10...discovery-search-app@1.0.2-beta.11) (2019-12-23)
 
 **Note:** Version bump only for package discovery-search-app
