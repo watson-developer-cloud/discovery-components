@@ -42,7 +42,9 @@ export default {
       sourcemap: true
     }
   ],
-  external: Object.keys(pkg.peerDependencies),
+  external: Object.keys(pkg.peerDependencies).concat([
+    'carbon-components-react/lib/components/ListBox'
+  ]),
   plugins: [
     replacePdfWorker,
     resolve({
