@@ -34,8 +34,8 @@ import {
 } from 'utils/document/nonContractUtils';
 import { withErrorBoundary, WithErrorBoundaryProps } from 'utils/hoc/withErrorBoundary';
 import { Filter, FilterGroup, FilterChangeArgs } from '../FilterPanel/types';
-import { EnrichedHtml, Contract, Item, Field } from '../../types';
-import { Metadata, MetadataData, Address, Mention } from '../MetadataPane/types';
+import { Metadata, MetadataData, EnrichedHtml, Contract, Item, Field } from '../../types';
+import { Address, Mention } from '../MetadataPane/types';
 import { Items } from '../DetailsPane/types';
 import { defaultTheme, Theme } from 'utils/theme';
 import {
