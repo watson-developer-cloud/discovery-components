@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import get from 'lodash/get';
-import isEqual from 'lodash.isequal';
+import isEqual from 'lodash/isEqual';
 import mustache from 'mustache';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import {
