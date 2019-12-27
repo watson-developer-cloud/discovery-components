@@ -32,24 +32,16 @@
     "@types/storybook__addon-knobs": "^5.0.3",
     "@types/storybook__react": "^4.0.2",
     "@types/uuid": "^3.4.5",
-    "@typescript-eslint/eslint-plugin": "^2.11.0",
-    "@typescript-eslint/parser": "^2.1.0",
     "awesome-typescript-loader": "^5.2.1",
-    "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
     "carbon-components": "^10.6.0",
     "carbon-components-react": "^7.7.0",
     "carbon-icons": "^7.0.7",
     "cross-env": "^5.1.4",
     "cypress": "3.2.0",
+    "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.2.0",
-    "eslint-config-react-app": "^5.1.0",
-    "eslint-plugin-flowtype": "^4.5.2",
-    "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.0",
-    "eslint-plugin-react": "^7.14.3",
-    "eslint-plugin-react-hooks": "^2.0.1",
     "fast-xml-parser": "^3.14.0",
     "gh-pages": "^2.1.1",
     "husky": "^3.0.5",
@@ -79,7 +71,7 @@
     "typescript": "~3.6.2"
   },
   "scripts": {
-    "lint": "eslint '{packages,examples}/**/*.{js,jsx,ts,tsx}' --ignore-pattern node_modules --quiet"
+    "lint": "eslint --resolve-plugins-relative-to './node_modules/react-scripts/node_modules' '{packages,examples}/**/*.{js,jsx,ts,tsx}' --ignore-pattern node_modules --quiet"
   },
   "lint-staged": {
     "{packages,examples}/**/*.{json,css,scss,md}": [

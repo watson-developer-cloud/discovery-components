@@ -14,7 +14,7 @@
     "circular": "madge --circular src/*",
     "code-coverage": "jest --collectCoverage",
     "build": "rollup -c",
-    "eslint": "eslint './{src,.storybook}/**/*.{js,jsx,ts,tsx}' --quiet",
+    "eslint": "eslint --resolve-plugins-relative-to '../../node_modules/react-scripts/node_modules' './{src,.storybook}/**/*.{js,jsx,ts,tsx}' --quiet",
     "lint": "yarn run eslint && yarn run circular",
     "start": "rollup -c -w",
     "storybook": "start-storybook --ci --port=9002",
