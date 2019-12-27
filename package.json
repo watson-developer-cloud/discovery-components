@@ -71,7 +71,7 @@
     "typescript": "~3.6.2"
   },
   "scripts": {
-    "lint": "eslint '{packages,examples}/**/*.{js,jsx,ts,tsx}' --ignore-pattern node_modules --quiet"
+    "lint": "eslint --resolve-plugins-relative-to './node_modules/react-scripts/node_modules' '{packages,examples}/**/*.{js,jsx,ts,tsx}' --ignore-pattern node_modules --quiet"
   },
   "lint-staged": {
     "{packages,examples}/**/*.{json,css,scss,md}": [
