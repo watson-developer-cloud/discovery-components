@@ -13,6 +13,7 @@
     "@storybook/addon-actions": "5.3.0-rc.0",
     "@storybook/addon-docs": "5.3.0-rc.0",
     "@storybook/addon-knobs": "5.3.0-rc.0",
+    "@storybook/core": "5.3.0-rc.0",
     "@storybook/react": "5.3.0-rc.0",
     "@storybook/source-loader": "5.3.0-rc.0",
     "@svgr/rollup": "^4.3.2",
@@ -60,7 +61,9 @@
     "react": "^16.4.1",
     "react-docgen-typescript-loader": "^3.1.1",
     "react-dom": "^16.4.1",
+    "react-is": "^16.12.0",
     "react-scripts": "^3.3.0",
+    "regenerator-runtime": "^0.13.3",
     "rollup": "^1.20.2",
     "rollup-plugin-string": "^3.0.0",
     "rollup-plugin-typescript2": "^0.23.0",
@@ -68,7 +71,8 @@
     "source-map-explorer": "2.0.1",
     "start-server-and-test": "^1.10.0",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
-    "typescript": "~3.6.2"
+    "typescript": "~3.6.2",
+    "vue": "^2.6.11"
   },
   "scripts": {
     "lint": "eslint --resolve-plugins-relative-to './node_modules/react-scripts/node_modules' '{packages,examples}/**/*.{js,jsx,ts,tsx}' --ignore-pattern node_modules --quiet"
