@@ -72,7 +72,8 @@
     "start-server-and-test": "^1.10.0",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
     "typescript": "~3.6.2",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "webpack": "4.41.2"
   },
   "scripts": {
     "lint": "eslint --resolve-plugins-relative-to './node_modules/react-scripts/node_modules' '{packages,examples}/**/*.{js,jsx,ts,tsx}' --ignore-pattern node_modules --quiet"
