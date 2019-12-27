@@ -48,7 +48,8 @@ export default {
   plugins: [
     replacePdfWorker,
     resolve({
-      browser: true
+      browser: true,
+      preferBuiltins: false
     }),
     commonjs({
       exclude: [pdfWorkerRegex]
