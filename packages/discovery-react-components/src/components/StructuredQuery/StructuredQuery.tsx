@@ -16,29 +16,31 @@ export interface StructuredQueryProps {
 
 export const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
-  const [ruleRows, setRuleRows] = useState({ rows: [{ id: 0 }] });
-  const showAddRuleRowButton = ruleRows.rows.length < MAX_NUM_SIBLING_RULE_ROWS;
+  const [groupAndRuleRows, setGroupAndRuleRows] = useState([{ id: 0, rows: [{ id: 0 }] }]);
+  const showAddRuleRowButton = groupAndRuleRows[0].rows.length < MAX_NUM_SIBLING_RULE_ROWS;
 
   const handleAddRuleRowOnClick = () => {
-    const newRuleRowId = ruleRows.rows[ruleRows.rows.length - 1].id + 1;
+    const newRuleRowId = groupAndRuleRows[0].rows[groupAndRuleRows[0].rows.length - 1].id + 1;
     const newRuleRow = { id: newRuleRowId };
-    setRuleRows({
-      ...ruleRows,
-      rows: ruleRows.rows.concat(newRuleRow)
-    });
+    setGroupAndRuleRows([
+      {
+        ...groupAndRuleRows[0],
+        rows: groupAndRuleRows[0].rows.concat(newRuleRow)
+      }
+    ]);
   };
 
   return (
     <div className={structuredQueryClass}>
       <RuleGroupDropdown messages={mergedMessages} />
-      {ruleRows.rows.map(row => {
+      {groupAndRuleRows[0].rows.map(row => {
         return (
           <RuleRow
             messages={mergedMessages}
             rowId={row.id}
             key={row.id}
-            setRuleRows={setRuleRows}
-            ruleRows={ruleRows}
+            setGroupAndRuleRows={setGroupAndRuleRows}
+            groupAndRuleRows={groupAndRuleRows}
           />
         );
       })}

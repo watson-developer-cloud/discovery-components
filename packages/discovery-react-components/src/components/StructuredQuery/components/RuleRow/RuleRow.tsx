@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, Dispatch, SetStateAction } from 'react';
 import { ComboBox, TextInput } from 'carbon-components-react';
 import { Button } from 'carbon-components-react';
 import SubtractAlt16 from '@carbon/icons-react/lib/subtract--alt/16';
@@ -21,27 +21,34 @@ export interface RuleRowProps {
   /**
    * state that represents the current rules and selections for the structured query
    */
-  ruleRows: StructuredQuerySelection;
+  groupAndRuleRows: StructuredQuerySelection[];
   /**
    * used to set the ruleRows state
    */
-  setRuleRows: (ruleRows: StructuredQuerySelection) => void;
+  setGroupAndRuleRows: Dispatch<SetStateAction<StructuredQuerySelection[]>>;
 }
 
-export const RuleRow: FC<RuleRowProps> = ({ messages, rowId, ruleRows, setRuleRows }) => {
+export const RuleRow: FC<RuleRowProps> = ({
+  messages,
+  rowId,
+  groupAndRuleRows,
+  setGroupAndRuleRows
+}) => {
   const operatorDropdownItems = [
     { label: messages.operatorDropdownIsOptionText, value: '::' },
     { label: messages.operatorDropdownIsNotOptionText, value: '::!' },
     { label: messages.operatorDropdownContainsOptionText, value: ':' },
     { label: messages.operatorDropdownDoesNotContainOptionText, value: ':!' }
   ];
-  const showRemoveRuleRowButton = ruleRows.rows.length > 1;
+  const showRemoveRuleRowButton = groupAndRuleRows[0].rows.length > 1;
 
   const handleRemoveRuleRowOnClick = () => {
-    setRuleRows({
-      ...ruleRows,
-      rows: ruleRows.rows.filter(ruleRow => ruleRow.id !== rowId)
-    });
+    setGroupAndRuleRows([
+      {
+        ...groupAndRuleRows[0],
+        rows: groupAndRuleRows[0].rows.filter(ruleRow => ruleRow.id !== rowId)
+      }
+    ]);
   };
 
   return (
