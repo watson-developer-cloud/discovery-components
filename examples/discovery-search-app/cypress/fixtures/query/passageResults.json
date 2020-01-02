@@ -1,0 +1,80 @@
+{
+  "matching_results": 1,
+  "retrieval_details": {
+    "document_retrieval_strategy": "untrained"
+  },
+  "suggested_refinements": [],
+  "aggregations": [],
+  "results": [
+    {
+      "document_id": "4b3cd13b-520c-4944-918f-2950dbfa2f96",
+      "result_metadata": {
+        "collection_id": "fbafd5e1-9cf1-c24c-0000-016eeb0a5c9f",
+        "document_retrieval_source": "search",
+        "confidence": 0.04793
+      },
+      "enriched_text": [],
+      "metadata": {
+        "parent_document_id": "4b3cd13b-520c-4944-918f-2950dbfa2f96"
+      },
+      "extracted_metadata": {
+        "sha1": "C430CF959216D050CA8C077B6372F78B804E0E7D",
+        "numPages": "10",
+        "filename": "add-ons-integrations-328-337.pdf",
+        "file_type": "pdf"
+      },
+      "text": [
+        "1.\n2.\n3.\n4.\n5.\n6.\n7.\n-\n-\n-\n8.\n Upgrading your MongoDB installation \nWhen a new edition of MongoDB is released on IBM® Passport Advantage®, you\ncan upgrade the software installation on IBM Cloud Pak for Data. \n Before you begin \n \nBefore you upgrade an existing installation of the MongoDB database add-on, you\nshould run a full backup of the database. For more information on running a full\nbackup of your database, see Preparing to back up or restore MongoDB databases. \nAbout this task \n \nYou need to have the authority to download the PPA package to your cluster. Also,\nyour account must have authority to run kubectl exec and helm commands on the\nmaster node of your Cloud Pak for Data cluster."
+      ],
+      "document_passages": [
+        {
+          "passage_text": "To integrate the applications, complete the following tasks: \n \nPreparing your <em>IBM</em> Guardium system \n If you plan to use <em>IBM</em> Guardium to audit assets from <em>IBM</em> Cloud Pak for Data,\nyou must prepare your <em>IBM</em> Guardium system so that the applications can\ncommunicate.\nConnecting to <em>IBM</em> Guardium appliances \n You must create a connection to each <em>IBM</em> Guardium appliance that you will use\nto audit assets.",
+          "start_offset": 8919,
+          "end_offset": 9315,
+          "field": "text"
+        },
+        {
+          "passage_text": "Preparing your <em>IBM</em> Guardium system \nIf you plan to use <em>IBM</em>® Guardium® to audit assets from <em>IBM</em> Cloud Pak for Data,\nyou must prepare your <em>IBM</em> Guardium system so that the applications can\ncommunicate. \n About this task \n \nTo ensure that assets from Cloud Pak for Data can be audited, an <em>IBM</em> Guardium\nadministrator must complete the following steps. \n Procedure \n \nCreate a user in <em>IBM</em> Guardium",
+          "start_offset": 9635,
+          "end_offset": 10026,
+          "field": "text"
+        }
+      ]
+    },
+    {
+      "document_id": "4b3cd13b-520c-4944-918f-2950dbfa2f97",
+      "result_metadata": {
+        "collection_id": "fbafd5e1-9cf1-c24c-0000-016eeb0a5c9f",
+        "document_retrieval_source": "search",
+        "confidence": 0.04793
+      },
+      "enriched_text": [],
+      "metadata": {
+        "parent_document_id": "4b3cd13b-520c-4944-918f-2950dbfa2f96"
+      },
+      "extracted_metadata": {
+        "sha1": "C430CF959216D050CA8C077B6372F78B804E0E7D",
+        "numPages": "10",
+        "filename": "add-ons-integrations-328-337.pdf",
+        "file_type": "pdf"
+      },
+      "text": [
+        "1.\n2.\n3.\n4.\n5.\n6.\n7.\n-\n-\n-\n8.\n Upgrading your MongoDB installation \nWhen a new edition of MongoDB is released on IBM® Passport Advantage®, you\ncan upgrade the software installation on IBM Cloud Pak for Data. \n Before you begin \n \nBefore you upgrade an existing installation of the MongoDB database add-on, you\nshould run a full backup of the database. For more information on running a full\nbackup of your database, see Preparing to back up or restore MongoDB databases. \nAbout this task \n \nYou need to have the authority to download the PPA package to your cluster. Also,\nyour account must have authority to run kubectl exec and helm commands on the\nmaster node of your Cloud Pak for Data cluster."
+      ],
+      "document_passages": [
+        {
+          "passage_text": "To integrate the applications, complete the following tasks: \n \nPreparing your <em>IBM</em> Guardium system \n If you plan to use <em>IBM</em> Guardium to audit assets from <em>IBM</em> Cloud Pak for Data,\nyou must prepare your <em>IBM</em> Guardium system so that the applications can\ncommunicate.\nConnecting to <em>IBM</em> Guardium appliances \n You must create a connection to each <em>IBM</em> Guardium appliance that you will use\nto audit assets.",
+          "start_offset": 8919,
+          "end_offset": 9315,
+          "field": "text"
+        },
+        {
+          "passage_text": "Preparing your <em>IBM</em> Guardium system \nIf you plan to use <em>IBM</em>® Guardium® to audit assets from <em>IBM</em> Cloud Pak for Data,\nyou must prepare your <em>IBM</em> Guardium system so that the applications can\ncommunicate. \n About this task \n \nTo ensure that assets from Cloud Pak for Data can be audited, an <em>IBM</em> Guardium\nadministrator must complete the following steps. \n Procedure \n \nCreate a user in <em>IBM</em> Guardium",
+          "start_offset": 9635,
+          "end_offset": 10026,
+          "field": "text"
+        }
+      ]
+    }
+  ]
+}

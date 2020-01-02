@@ -1,6 +1,6 @@
 describe('Basic search', () => {
   beforeEach(() => {
-    cy.server({ force404: true });
+    cy.server();
     cy.fixture('collections/collections.json').as('collectionsJSON');
     cy.fixture('query/query.json').as('queryJSON');
     cy.fixture('query/noResults.json').as('noResultsJSON');

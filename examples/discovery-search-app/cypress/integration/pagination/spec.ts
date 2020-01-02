@@ -2,7 +2,7 @@ const itemsPerPageOptions = ['5', '10', '20', '30', '40', '50'];
 
 describe('Pagination', () => {
   beforeEach(() => {
-    cy.server({ force404: true });
+    cy.server();
     cy.fixture('query/query.json').as('queryJSON');
     cy.fixture('collections/collections.json').as('collectionsJSON');
     cy.fixture('component_settings/componentSettings.json').as('componentSettingsJSON');
