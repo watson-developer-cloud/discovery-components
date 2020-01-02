@@ -14,8 +14,7 @@ export interface RuleRowProps {
    * override default messages for the component by specifying custom and/or internationalized text strings
    */
   messages: Messages;
-  topLevelGroupId?: number;
-  groupId: number;
+  groupId?: number;
   /**
    * id of the rule row to render
    */
@@ -23,16 +22,15 @@ export interface RuleRowProps {
   /**
    * state that represents the current rules and selections for the structured query
    */
-  groupAndRuleRows: StructuredQuerySelection[];
+  groupAndRuleRows: StructuredQuerySelection;
   /**
    * used to set the ruleRows state
    */
-  setGroupAndRuleRows: Dispatch<SetStateAction<StructuredQuerySelection[]>>;
+  setGroupAndRuleRows: Dispatch<SetStateAction<StructuredQuerySelection>>;
 }
 
 export const RuleRow: FC<RuleRowProps> = ({
   messages,
-  topLevelGroupId,
   groupId,
   rowId,
   groupAndRuleRows,
@@ -44,25 +42,35 @@ export const RuleRow: FC<RuleRowProps> = ({
     { label: messages.operatorDropdownContainsOptionText, value: ':' },
     { label: messages.operatorDropdownDoesNotContainOptionText, value: ':!' }
   ];
-  const showRemoveRuleRowButton = groupAndRuleRows[0].rows.length > 1;
+  const showRemoveRuleRowButton =
+    groupId !== undefined
+      ? groupAndRuleRows.groups[groupId].rows.length > 0
+      : groupAndRuleRows.rows.length > 1;
 
   const handleRemoveRuleRowOnClick = () => {
-    if (topLevelGroupId) {
-      setGroupAndRuleRows([
-        {
-          ...groupAndRuleRows[topLevelGroupId],
-          rows: groupAndRuleRows[topLevelGroupId].groups[groupId].rows.filter(
-            ruleRow => ruleRow.id !== rowId
-          )
-        }
-      ]);
+    if (groupId !== undefined) {
+      setGroupAndRuleRows({
+        ...groupAndRuleRows,
+        groups: groupAndRuleRows.groups
+          .map(group => {
+            if (group.id === groupId) {
+              return {
+                ...groupAndRuleRows.groups[groupId],
+                rows: groupAndRuleRows.groups[groupId].rows.filter(
+                  (ruleRow: Row) => ruleRow.id !== rowId
+                )
+              };
+            } else {
+              return group;
+            }
+          })
+          .filter(group => group.rows.length > 0)
+      });
     } else {
-      setGroupAndRuleRows([
-        {
-          ...groupAndRuleRows[groupId],
-          rows: groupAndRuleRows[groupId].rows.filter(ruleRow => ruleRow.id !== rowId)
-        }
-      ]);
+      setGroupAndRuleRows({
+        ...groupAndRuleRows,
+        rows: groupAndRuleRows.rows.filter((ruleRow: Row) => ruleRow.id !== rowId)
+      });
     }
   };
 

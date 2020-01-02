@@ -9,62 +9,53 @@ export interface AddRuleRowButtonProps {
    * override default messages for the component by specifying custom and/or internationalized text strings
    */
   messages: Messages;
-  topLevelGroupId?: number;
-  groupId: number;
+  groupId?: number;
   /**
    * state that represents the current rules and selections for the structured query
    */
-  groupAndRuleRows: StructuredQuerySelection[];
+  groupAndRuleRows: StructuredQuerySelection;
   /**
    * used to set the ruleRows state
    */
-  setGroupAndRuleRows: Dispatch<SetStateAction<StructuredQuerySelection[]>>;
+  setGroupAndRuleRows: Dispatch<SetStateAction<StructuredQuerySelection>>;
 }
 
 const handleAddRuleRowOnClick = (
-  groupAndRuleRows: StructuredQuerySelection[],
-  setGroupAndRuleRows: Dispatch<SetStateAction<StructuredQuerySelection[]>>,
-  topLevelGroupId: number | undefined,
-  groupId: number
+  groupAndRuleRows: StructuredQuerySelection,
+  setGroupAndRuleRows: Dispatch<SetStateAction<StructuredQuerySelection>>,
+  groupId: number | undefined
 ) => {
-  if (topLevelGroupId !== undefined) {
+  if (groupId !== undefined) {
     const newRuleRowId =
-      groupAndRuleRows[topLevelGroupId].groups[groupId].rows[
-        groupAndRuleRows[topLevelGroupId].groups[groupId].rows.length - 1
-      ].id + 1;
+      groupAndRuleRows.groups[groupId].rows[groupAndRuleRows.groups[groupId].rows.length - 1].id +
+      1;
     const newRuleRow = { id: newRuleRowId };
-    // TODO: Can get rid of top-level group id since that will always be the same
-    setGroupAndRuleRows([
-      {
-        ...groupAndRuleRows[0],
-        groups: groupAndRuleRows[topLevelGroupId].groups.map(group => {
-          if (group.id === groupId) {
-            return {
-              ...groupAndRuleRows[0].groups[groupId],
-              rows: groupAndRuleRows[0].groups[groupId].rows.concat(newRuleRow)
-            };
-          } else {
-            return group;
-          }
-        })
-      }
-    ]);
+    setGroupAndRuleRows({
+      ...groupAndRuleRows,
+      groups: groupAndRuleRows.groups.map(group => {
+        if (group.id === groupId) {
+          return {
+            ...groupAndRuleRows.groups[groupId],
+            rows: groupAndRuleRows.groups[groupId].rows.concat(newRuleRow)
+          };
+        } else {
+          return group;
+        }
+      })
+    });
   } else {
-    const newRuleRowId = groupAndRuleRows[0].rows[groupAndRuleRows[0].rows.length - 1].id + 1;
+    const newRuleRowId = groupAndRuleRows.rows[groupAndRuleRows.rows.length - 1].id + 1;
     const newRuleRow = { id: newRuleRowId };
-    setGroupAndRuleRows([
-      {
-        ...groupAndRuleRows[0],
-        rows: groupAndRuleRows[0].rows.concat(newRuleRow)
-      }
-    ]);
+    setGroupAndRuleRows({
+      ...groupAndRuleRows,
+      rows: groupAndRuleRows.rows.concat(newRuleRow)
+    });
   }
 };
 
 // TODO: Only send through the add rule row text and not all of the messages?
 export const AddRuleRowButton: FC<AddRuleRowButtonProps> = ({
   messages,
-  topLevelGroupId,
   groupId,
   groupAndRuleRows,
   setGroupAndRuleRows
@@ -73,9 +64,7 @@ export const AddRuleRowButton: FC<AddRuleRowButtonProps> = ({
     <Button
       kind="ghost"
       renderIcon={Add16}
-      onClick={() =>
-        handleAddRuleRowOnClick(groupAndRuleRows, setGroupAndRuleRows, topLevelGroupId, groupId)
-      }
+      onClick={() => handleAddRuleRowOnClick(groupAndRuleRows, setGroupAndRuleRows, groupId)}
     >
       {messages.addRuleRowText}
     </Button>

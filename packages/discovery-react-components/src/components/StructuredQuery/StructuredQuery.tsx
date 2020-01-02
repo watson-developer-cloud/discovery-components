@@ -18,37 +18,48 @@ export interface StructuredQueryProps {
 
 export const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
-  // SO it's just rows and then groups that can have rows, so can remove top-level id and array
-  const [groupAndRuleRows, setGroupAndRuleRows] = useState<StructuredQuerySelection[]>([
-    { id: 0, rows: [{ id: 0 }], groups: [] }
-  ]);
-  const showAddRuleRowButton = groupAndRuleRows[0].rows.length < MAX_NUM_SIBLING_RULE_ROWS;
+  const [groupAndRuleRows, setGroupAndRuleRows] = useState<StructuredQuerySelection>({
+    rows: [{ id: 0 }],
+    groups: []
+  });
+  const showAddRuleRowButton = groupAndRuleRows.rows.length < MAX_NUM_SIBLING_RULE_ROWS;
 
   const handleAddRuleGroupOnClick = () => {
     const newRuleGroupId =
-      groupAndRuleRows[0].groups.length !== 0
-        ? groupAndRuleRows[0].groups[groupAndRuleRows[0].groups.length - 1].id! + 1
+      groupAndRuleRows.groups.length !== 0
+        ? groupAndRuleRows.groups[groupAndRuleRows.groups.length - 1].id! + 1
         : 0;
     const newRuleGroup: Group = { id: newRuleGroupId, rows: [{ id: 0 }] };
-    setGroupAndRuleRows([
-      {
-        ...groupAndRuleRows[0],
-        groups: groupAndRuleRows[0].groups.concat(newRuleGroup)
-      }
-    ]);
+    setGroupAndRuleRows({
+      ...groupAndRuleRows,
+      groups: groupAndRuleRows.groups.concat(newRuleGroup)
+    });
   };
 
   return (
     <div className={structuredQueryClass}>
-      {groupAndRuleRows.map(topLevelGroup => {
+      <RuleGroupDropdown messages={mergedMessages} />
+      {groupAndRuleRows.rows.map(row => {
         return (
-          <>
+          <RuleRow
+            messages={mergedMessages}
+            rowId={row.id}
+            key={row.id}
+            setGroupAndRuleRows={setGroupAndRuleRows}
+            groupAndRuleRows={groupAndRuleRows}
+          />
+        );
+      })}
+      {groupAndRuleRows.groups.map(group => {
+        const showAddRuleRowButtonForGroup = group.rows.length < MAX_NUM_SIBLING_RULE_ROWS;
+        return (
+          <div className="indent">
             <RuleGroupDropdown messages={mergedMessages} />
-            {topLevelGroup.rows.map(row => {
+            {group.rows.map(row => {
               return (
                 <RuleRow
                   messages={mergedMessages}
-                  groupId={topLevelGroup.id}
+                  groupId={group.id}
                   rowId={row.id}
                   key={row.id}
                   setGroupAndRuleRows={setGroupAndRuleRows}
@@ -56,55 +67,32 @@ export const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMe
                 />
               );
             })}
-            {topLevelGroup.groups.map(group => {
-              const showAddRuleRowButton2 = group.rows.length < MAX_NUM_SIBLING_RULE_ROWS;
-              return (
-                <div className="indent">
-                  <RuleGroupDropdown messages={mergedMessages} />
-                  {group.rows.map(row => {
-                    return (
-                      <RuleRow
-                        messages={mergedMessages}
-                        topLevelGroupId={topLevelGroup.id}
-                        groupId={group.id}
-                        rowId={row.id}
-                        key={row.id}
-                        setGroupAndRuleRows={setGroupAndRuleRows}
-                        groupAndRuleRows={groupAndRuleRows}
-                      />
-                    );
-                  })}
-                  <div className={structuredQueryRulesButtonsClass}>
-                    {showAddRuleRowButton2 && (
-                      <AddRuleRowButton
-                        messages={mergedMessages}
-                        topLevelGroupId={topLevelGroup.id}
-                        key={topLevelGroup.id + group.id}
-                        groupId={group.id}
-                        setGroupAndRuleRows={setGroupAndRuleRows}
-                        groupAndRuleRows={groupAndRuleRows}
-                      />
-                    )}
-                  </div>
-                </div>
-              );
-            })}
             <div className={structuredQueryRulesButtonsClass}>
-              {showAddRuleRowButton && (
+              {showAddRuleRowButtonForGroup && (
                 <AddRuleRowButton
                   messages={mergedMessages}
-                  groupId={topLevelGroup.id}
+                  key={group.id}
+                  groupId={group.id}
                   setGroupAndRuleRows={setGroupAndRuleRows}
                   groupAndRuleRows={groupAndRuleRows}
                 />
               )}
-              <Button kind="ghost" renderIcon={Add16} onClick={handleAddRuleGroupOnClick}>
-                {mergedMessages.addRuleGroupText}
-              </Button>
             </div>
-          </>
+          </div>
         );
       })}
+      <div className={structuredQueryRulesButtonsClass}>
+        {showAddRuleRowButton && (
+          <AddRuleRowButton
+            messages={mergedMessages}
+            setGroupAndRuleRows={setGroupAndRuleRows}
+            groupAndRuleRows={groupAndRuleRows}
+          />
+        )}
+        <Button kind="ghost" renderIcon={Add16} onClick={handleAddRuleGroupOnClick}>
+          {mergedMessages.addRuleGroupText}
+        </Button>
+      </div>
     </div>
   );
 };
