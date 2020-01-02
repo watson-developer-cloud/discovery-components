@@ -1,7 +1,7 @@
-@import '~carbon-components/scss/components/skeleton/skeleton';
-@import '~carbon-components/scss/components/checkbox/checkbox';
-@import '~carbon-components/scss/components/multi-select/multi-select';
-@import '~carbon-components/scss/components/radio-button/radio-button';
+@import 'carbon-components/scss/components/skeleton/skeleton';
+@import 'carbon-components/scss/components/checkbox/checkbox';
+@import 'carbon-components/scss/components/multi-select/multi-select';
+@import 'carbon-components/scss/components/radio-button/radio-button';
 
 .#{$prefix}--ci-doc-filter {
   &.skeletons {
