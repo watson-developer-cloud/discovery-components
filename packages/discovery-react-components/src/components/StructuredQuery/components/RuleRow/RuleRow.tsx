@@ -1,7 +1,6 @@
 import React, { FC, Dispatch, SetStateAction } from 'react';
 import { ComboBox, TextInput } from 'carbon-components-react';
-import { Button } from 'carbon-components-react';
-import SubtractAlt16 from '@carbon/icons-react/lib/subtract--alt/16';
+import { RemoveRuleRowButton } from '../RemoveRuleRowButton/RemoveRuleRowButton';
 import { Messages } from 'components/StructuredQuery/messages';
 import { structuredQueryRulesClass } from 'components/StructuredQuery/cssClasses';
 import {
@@ -47,33 +46,6 @@ export const RuleRow: FC<RuleRowProps> = ({
       ? groupAndRuleRows.groups[groupId].rows.length > 0
       : groupAndRuleRows.rows.length > 1;
 
-  const handleRemoveRuleRowOnClick = () => {
-    if (groupId !== undefined) {
-      setGroupAndRuleRows({
-        ...groupAndRuleRows,
-        groups: groupAndRuleRows.groups
-          .map(group => {
-            if (group.id === groupId) {
-              return {
-                ...groupAndRuleRows.groups[groupId],
-                rows: groupAndRuleRows.groups[groupId].rows.filter(
-                  (ruleRow: Row) => ruleRow.id !== rowId
-                )
-              };
-            } else {
-              return group;
-            }
-          })
-          .filter(group => group.rows.length > 0)
-      });
-    } else {
-      setGroupAndRuleRows({
-        ...groupAndRuleRows,
-        rows: groupAndRuleRows.rows.filter((ruleRow: Row) => ruleRow.id !== rowId)
-      });
-    }
-  };
-
   return (
     <div className={structuredQueryRulesClass}>
       <ComboBox
@@ -96,13 +68,12 @@ export const RuleRow: FC<RuleRowProps> = ({
         placeholder={messages.valueInputPlaceholderText}
       />
       {showRemoveRuleRowButton && (
-        <Button
-          hasIconOnly
-          kind="ghost"
-          renderIcon={SubtractAlt16}
-          iconDescription={messages.removeRuleRowButtonIconDescription}
-          onClick={handleRemoveRuleRowOnClick}
-          data-testid="remove-rule-row-button"
+        <RemoveRuleRowButton
+          removeRuleRowButtonIconDescription={messages.removeRuleRowButtonIconDescription}
+          groupId={groupId}
+          rowId={rowId}
+          groupAndRuleRows={groupAndRuleRows}
+          setGroupAndRuleRows={setGroupAndRuleRows}
         />
       )}
     </div>

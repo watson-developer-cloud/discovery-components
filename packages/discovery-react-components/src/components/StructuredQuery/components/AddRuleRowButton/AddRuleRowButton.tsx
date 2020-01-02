@@ -8,7 +8,7 @@ export interface AddRuleRowButtonProps {
   /**
    * override default messages for the component by specifying custom and/or internationalized text strings
    */
-  messages: Messages;
+  addRuleRowText: Messages['addRuleRowText'];
   groupId?: number;
   /**
    * state that represents the current rules and selections for the structured query
@@ -55,7 +55,7 @@ const handleAddRuleRowOnClick = (
 
 // TODO: Only send through the add rule row text and not all of the messages?
 export const AddRuleRowButton: FC<AddRuleRowButtonProps> = ({
-  messages,
+  addRuleRowText,
   groupId,
   groupAndRuleRows,
   setGroupAndRuleRows
@@ -66,7 +66,7 @@ export const AddRuleRowButton: FC<AddRuleRowButtonProps> = ({
       renderIcon={Add16}
       onClick={() => handleAddRuleRowOnClick(groupAndRuleRows, setGroupAndRuleRows, groupId)}
     >
-      {messages.addRuleRowText}
+      {addRuleRowText}
     </Button>
   );
 };
