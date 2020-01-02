@@ -12,6 +12,9 @@ export interface RemoveRuleRowButtonProps {
    * override default messages for the component by specifying custom and/or internationalized text strings
    */
   removeRuleRowButtonIconDescription: Messages['removeRuleRowButtonIconDescription'];
+  /**
+   * id of the group for the rule row to remove, if it's not a top-level rule row
+   */
   groupId?: number;
   /**
    * id of the rule row to remove
@@ -22,7 +25,7 @@ export interface RemoveRuleRowButtonProps {
    */
   groupAndRuleRows: StructuredQuerySelection;
   /**
-   * used to set the ruleRows state
+   * used to set the groupAndRuleRows state
    */
   setGroupAndRuleRows: Dispatch<SetStateAction<StructuredQuerySelection>>;
 }

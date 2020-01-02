@@ -9,13 +9,16 @@ export interface AddRuleRowButtonProps {
    * override default messages for the component by specifying custom and/or internationalized text strings
    */
   addRuleRowText: Messages['addRuleRowText'];
+  /**
+   * id of the group for the rule row to add, if it's not a top-level rule row
+   */
   groupId?: number;
   /**
    * state that represents the current rules and selections for the structured query
    */
   groupAndRuleRows: StructuredQuerySelection;
   /**
-   * used to set the ruleRows state
+   * used to set the groupAndRuleRows state
    */
   setGroupAndRuleRows: Dispatch<SetStateAction<StructuredQuerySelection>>;
 }
@@ -53,7 +56,6 @@ const handleAddRuleRowOnClick = (
   }
 };
 
-// TODO: Only send through the add rule row text and not all of the messages?
 export const AddRuleRowButton: FC<AddRuleRowButtonProps> = ({
   addRuleRowText,
   groupId,

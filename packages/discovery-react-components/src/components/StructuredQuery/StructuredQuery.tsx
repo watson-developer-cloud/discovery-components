@@ -1,8 +1,8 @@
 import React, { FC, useState } from 'react';
 import { Button } from 'carbon-components-react';
 import Add16 from '@carbon/icons-react/lib/add/16';
-import { RuleGroupDropdown } from './components/RuleGroupDropdown/RuleGroupDropdown';
 import { RuleRow } from './components/RuleRow/RuleRow';
+import { RuleGroup } from './components/RuleGroup/RuleGroup';
 import { AddRuleRowButton } from './components/AddRuleRowButton/AddRuleRowButton';
 import { defaultMessages, Messages } from './messages';
 import { structuredQueryClass, structuredQueryRulesButtonsClass } from './cssClasses';
@@ -38,53 +38,25 @@ export const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMe
 
   return (
     <div className={structuredQueryClass}>
-      <RuleGroupDropdown messages={mergedMessages} />
-      {groupAndRuleRows.rows.map(row => {
-        return (
-          <RuleRow
-            messages={mergedMessages}
-            rowId={row.id}
-            key={row.id}
-            setGroupAndRuleRows={setGroupAndRuleRows}
-            groupAndRuleRows={groupAndRuleRows}
-          />
-        );
-      })}
+      <RuleGroup
+        messages={mergedMessages}
+        groupAndRuleRows={groupAndRuleRows}
+        setGroupAndRuleRows={setGroupAndRuleRows}
+      />
       {groupAndRuleRows.groups.map(group => {
-        const showAddRuleRowButtonForGroup = group.rows.length < MAX_NUM_SIBLING_RULE_ROWS;
         return (
-          <div className="indent">
-            <RuleGroupDropdown messages={mergedMessages} />
-            {group.rows.map(row => {
-              return (
-                <RuleRow
-                  messages={mergedMessages}
-                  groupId={group.id}
-                  rowId={row.id}
-                  key={row.id}
-                  setGroupAndRuleRows={setGroupAndRuleRows}
-                  groupAndRuleRows={groupAndRuleRows}
-                />
-              );
-            })}
-            <div className={structuredQueryRulesButtonsClass}>
-              {showAddRuleRowButtonForGroup && (
-                <AddRuleRowButton
-                  messages={mergedMessages}
-                  key={group.id}
-                  groupId={group.id}
-                  setGroupAndRuleRows={setGroupAndRuleRows}
-                  groupAndRuleRows={groupAndRuleRows}
-                />
-              )}
-            </div>
-          </div>
+          <RuleGroup
+            messages={mergedMessages}
+            groupId={group.id}
+            groupAndRuleRows={groupAndRuleRows}
+            setGroupAndRuleRows={setGroupAndRuleRows}
+          />
         );
       })}
       <div className={structuredQueryRulesButtonsClass}>
         {showAddRuleRowButton && (
           <AddRuleRowButton
-            messages={mergedMessages}
+            addRuleRowText={messages.addRuleRowText}
             setGroupAndRuleRows={setGroupAndRuleRows}
             groupAndRuleRows={groupAndRuleRows}
           />
