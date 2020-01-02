@@ -14,6 +14,8 @@ export interface RuleRowProps {
    * override default messages for the component by specifying custom and/or internationalized text strings
    */
   messages: Messages;
+  topLevelGroupId?: number;
+  groupId: number;
   /**
    * id of the rule row to render
    */
@@ -30,6 +32,8 @@ export interface RuleRowProps {
 
 export const RuleRow: FC<RuleRowProps> = ({
   messages,
+  topLevelGroupId,
+  groupId,
   rowId,
   groupAndRuleRows,
   setGroupAndRuleRows
@@ -43,12 +47,23 @@ export const RuleRow: FC<RuleRowProps> = ({
   const showRemoveRuleRowButton = groupAndRuleRows[0].rows.length > 1;
 
   const handleRemoveRuleRowOnClick = () => {
-    setGroupAndRuleRows([
-      {
-        ...groupAndRuleRows[0],
-        rows: groupAndRuleRows[0].rows.filter(ruleRow => ruleRow.id !== rowId)
-      }
-    ]);
+    if (topLevelGroupId) {
+      setGroupAndRuleRows([
+        {
+          ...groupAndRuleRows[topLevelGroupId],
+          rows: groupAndRuleRows[topLevelGroupId].groups[groupId].rows.filter(
+            ruleRow => ruleRow.id !== rowId
+          )
+        }
+      ]);
+    } else {
+      setGroupAndRuleRows([
+        {
+          ...groupAndRuleRows[groupId],
+          rows: groupAndRuleRows[groupId].rows.filter(ruleRow => ruleRow.id !== rowId)
+        }
+      ]);
+    }
   };
 
   return (

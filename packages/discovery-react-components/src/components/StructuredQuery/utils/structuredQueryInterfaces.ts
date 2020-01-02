@@ -10,5 +10,5 @@ export interface Group {
 export interface StructuredQuerySelection {
   id: number;
   rows: Row[];
-  groups?: Group[];
+  groups: Group[];
 }
