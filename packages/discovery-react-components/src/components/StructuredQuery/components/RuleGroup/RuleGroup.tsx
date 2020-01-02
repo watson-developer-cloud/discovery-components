@@ -5,13 +5,17 @@ import { RuleRow } from '../RuleRow/RuleRow';
 import { AddRuleRowButton } from '../AddRuleRowButton/AddRuleRowButton';
 import { StructuredQuerySelection } from 'components/StructuredQuery/utils/structuredQueryInterfaces';
 import { MAX_NUM_SIBLING_RULE_ROWS } from 'components/StructuredQuery/constants';
-import { structuredQueryRulesButtonsClass } from 'components/StructuredQuery/cssClasses';
+import {
+  structuredQueryRuleGroupClass,
+  structuredQueryNestedRuleGroupClass,
+  structuredQueryRulesButtonsClass
+} from 'components/StructuredQuery/cssClasses';
 
 export interface RuleGroupProps {
   /**
    * override default messages for the component by specifying custom and/or internationalized text strings
    */
-  messages?: Partial<Messages>;
+  messages: Messages;
   /**
    * id of the group for the rule row to render, if it's not a top-level rule row
    */
@@ -36,9 +40,13 @@ export const RuleGroup: FC<RuleGroupProps> = ({
     groupId !== undefined ? groupAndRuleRows.groups[groupId].rows : groupAndRuleRows.rows;
   const isTopLevelGroup = groupId !== undefined ? false : true;
   const showAddRuleRowButton = rows.length < MAX_NUM_SIBLING_RULE_ROWS;
+  const ruleGroupClassNames = [structuredQueryRuleGroupClass];
+  if (!isTopLevelGroup) {
+    ruleGroupClassNames.push(structuredQueryNestedRuleGroupClass);
+  }
 
   return (
-    <div className={!isTopLevelGroup && 'indent'}>
+    <div className={ruleGroupClassNames.join(' ')}>
       <RuleGroupDropdown messages={messages} />
       {rows.map(row => {
         return (

@@ -1,13 +1,11 @@
 import React, { FC, useState } from 'react';
-import { Button } from 'carbon-components-react';
-import Add16 from '@carbon/icons-react/lib/add/16';
-import { RuleRow } from './components/RuleRow/RuleRow';
 import { RuleGroup } from './components/RuleGroup/RuleGroup';
 import { AddRuleRowButton } from './components/AddRuleRowButton/AddRuleRowButton';
+import { AddRuleGroupButton } from './components/AddRuleGroupButton/AddRuleGroupButton';
 import { defaultMessages, Messages } from './messages';
 import { structuredQueryClass, structuredQueryRulesButtonsClass } from './cssClasses';
 import { MAX_NUM_SIBLING_RULE_ROWS } from './constants';
-import { Group, StructuredQuerySelection } from './utils/structuredQueryInterfaces';
+import { StructuredQuerySelection } from './utils/structuredQueryInterfaces';
 
 export interface StructuredQueryProps {
   /**
@@ -23,18 +21,6 @@ export const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMe
     groups: []
   });
   const showAddRuleRowButton = groupAndRuleRows.rows.length < MAX_NUM_SIBLING_RULE_ROWS;
-
-  const handleAddRuleGroupOnClick = () => {
-    const newRuleGroupId =
-      groupAndRuleRows.groups.length !== 0
-        ? groupAndRuleRows.groups[groupAndRuleRows.groups.length - 1].id! + 1
-        : 0;
-    const newRuleGroup: Group = { id: newRuleGroupId, rows: [{ id: 0 }] };
-    setGroupAndRuleRows({
-      ...groupAndRuleRows,
-      groups: groupAndRuleRows.groups.concat(newRuleGroup)
-    });
-  };
 
   return (
     <div className={structuredQueryClass}>
@@ -56,14 +42,16 @@ export const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMe
       <div className={structuredQueryRulesButtonsClass}>
         {showAddRuleRowButton && (
           <AddRuleRowButton
-            addRuleRowText={messages.addRuleRowText}
+            addRuleRowText={mergedMessages.addRuleRowText}
             setGroupAndRuleRows={setGroupAndRuleRows}
             groupAndRuleRows={groupAndRuleRows}
           />
         )}
-        <Button kind="ghost" renderIcon={Add16} onClick={handleAddRuleGroupOnClick}>
-          {mergedMessages.addRuleGroupText}
-        </Button>
+        <AddRuleGroupButton
+          addRuleGroupText={mergedMessages.addRuleGroupText}
+          setGroupAndRuleRows={setGroupAndRuleRows}
+          groupAndRuleRows={groupAndRuleRows}
+        />
       </div>
     </div>
   );

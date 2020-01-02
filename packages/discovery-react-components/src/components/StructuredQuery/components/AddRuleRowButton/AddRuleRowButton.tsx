@@ -23,7 +23,7 @@ export interface AddRuleRowButtonProps {
   setGroupAndRuleRows: Dispatch<SetStateAction<StructuredQuerySelection>>;
 }
 
-const handleAddRuleRowOnClick = (
+const handleOnClick = (
   groupAndRuleRows: StructuredQuerySelection,
   setGroupAndRuleRows: Dispatch<SetStateAction<StructuredQuerySelection>>,
   groupId: number | undefined
@@ -66,7 +66,7 @@ export const AddRuleRowButton: FC<AddRuleRowButtonProps> = ({
     <Button
       kind="ghost"
       renderIcon={Add16}
-      onClick={() => handleAddRuleRowOnClick(groupAndRuleRows, setGroupAndRuleRows, groupId)}
+      onClick={() => handleOnClick(groupAndRuleRows, setGroupAndRuleRows, groupId)}
     >
       {addRuleRowText}
     </Button>

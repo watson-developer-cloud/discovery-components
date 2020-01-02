@@ -37,7 +37,7 @@ export const RemoveRuleRowButton: FC<RemoveRuleRowButtonProps> = ({
   groupAndRuleRows,
   setGroupAndRuleRows
 }) => {
-  const handleRemoveRuleRowOnClick = () => {
+  const handleOnClick = () => {
     if (groupId !== undefined) {
       setGroupAndRuleRows({
         ...groupAndRuleRows,
@@ -70,7 +70,7 @@ export const RemoveRuleRowButton: FC<RemoveRuleRowButtonProps> = ({
       kind="ghost"
       renderIcon={SubtractAlt16}
       iconDescription={removeRuleRowButtonIconDescription}
-      onClick={handleRemoveRuleRowOnClick}
+      onClick={handleOnClick}
       data-testid="remove-rule-row-button"
     />
   );

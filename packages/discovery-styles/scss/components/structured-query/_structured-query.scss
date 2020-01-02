@@ -20,6 +20,10 @@
   }
 }
 
+.#{$prefix}--structured-query__rule-group--nested {
+  padding-left: 2rem;
+}
+
 .#{$prefix}--structured-query__rules {
   display: flex;
   padding: $spacing-md;
@@ -55,8 +59,4 @@
       margin-right: $spacing-xs;
     }
   }
-}
-
-.indent {
-  padding-left: 2rem;
 }
