@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-beta.5](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-styles@1.1.0-beta.4...@ibm-watson/discovery-styles@1.1.0-beta.5) (2020-01-02)
+
+
+### Bug Fixes
+
+* Remove node tilde ([#40](https://github.com/watson-developer-cloud/discovery-components/issues/40)) ([303ccb1](https://github.com/watson-developer-cloud/discovery-components/commit/303ccb1))
+
+
+
+
+
 # [1.1.0-beta.4](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-styles@1.0.7-beta.3...@ibm-watson/discovery-styles@1.1.0-beta.4) (2019-12-23)
 
 
