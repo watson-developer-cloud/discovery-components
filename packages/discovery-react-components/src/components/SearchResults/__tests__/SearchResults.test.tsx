@@ -371,6 +371,7 @@ describe('<SearchResults />', () => {
       });
     });
   });
+
   describe('when showTablesOnlyResults is true', () => {
     const context: Partial<SearchContextIFC> = {
       searchResponseStore: {
