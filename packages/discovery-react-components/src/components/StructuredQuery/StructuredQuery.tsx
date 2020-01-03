@@ -6,6 +6,9 @@ import { RuleRow } from './components/RuleRow/RuleRow';
 import { defaultMessages, Messages } from './messages';
 import { structuredQueryClass, structuredQueryRulesButtonsClass } from './cssClasses';
 import { MAX_NUM_SIBLING_RULE_ROWS } from './constants';
+import { withErrorBoundary } from 'react-error-boundary';
+import { FallbackComponent } from 'utils/FallbackComponent';
+import onErrorCallback from 'utils/onErrorCallback';
 
 export interface StructuredQueryProps {
   /**
@@ -14,7 +17,7 @@ export interface StructuredQueryProps {
   messages?: Partial<Messages>;
 }
 
-export const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages }) => {
+const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
   const [ruleRows, setRuleRows] = useState({ rows: [{ id: 0 }] });
   const showAddRuleRowButton = ruleRows.rows.length < MAX_NUM_SIBLING_RULE_ROWS;
@@ -55,3 +58,9 @@ export const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMe
     </div>
   );
 };
+
+export default withErrorBoundary(
+  StructuredQuery,
+  FallbackComponent('StructuredQuery'),
+  onErrorCallback
+);

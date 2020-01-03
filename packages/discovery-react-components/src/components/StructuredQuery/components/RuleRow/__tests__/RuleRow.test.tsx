@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, RenderResult } from '@testing-library/react';
-import { StructuredQuery } from 'components/StructuredQuery/StructuredQuery';
+import StructuredQuery from 'components/StructuredQuery/StructuredQuery';
 
 describe('<RuleRow />', () => {
   describe('operator rules dropdown options', () => {

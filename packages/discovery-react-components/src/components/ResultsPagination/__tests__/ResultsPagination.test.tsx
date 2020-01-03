@@ -5,7 +5,7 @@ import {
   searchResponseStoreDefaults
 } from 'components/DiscoverySearch/DiscoverySearch';
 import { render, fireEvent, RenderResult } from '@testing-library/react';
-import { ResultsPagination, ResultsPaginationProps } from '../ResultsPagination';
+import ResultsPagination, { ResultsPaginationProps } from '../ResultsPagination';
 import { wrapWithContext } from 'utils/testingUtils';
 import '@testing-library/jest-dom/extend-expect';
 

@@ -1,7 +1,6 @@
 import React, { cloneElement } from 'react';
 import { render, act, fireEvent, RenderResult } from '@testing-library/react';
-import {
-  DiscoverySearch,
+import DiscoverySearch, {
   DiscoverySearchProps,
   SearchApi,
   SearchContext
