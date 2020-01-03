@@ -203,4 +203,113 @@ describe('<StructuredQuery />', () => {
       });
     });
   });
+
+  describe('nested rule groups', () => {
+    let structuredQuery: RenderResult;
+    beforeEach(() => {
+      structuredQuery = render(<StructuredQuery />);
+    });
+
+    describe('adding new nested rule groups', () => {
+      describe('when the Add group of rules button is initially clicked', () => {
+        beforeEach(() => {
+          const addRuleGroupButton = structuredQuery.getByText('Add group of rules');
+          addRuleGroupButton.click();
+        });
+
+        test('one new nested rule group is added', () => {
+          const ruleGroups = structuredQuery.queryAllByTestId('structured-query__rule-group');
+          expect(ruleGroups.length).toEqual(2);
+        });
+
+        test('and it has a Remove rule button', () => {
+          const removeRuleRowButton = structuredQuery.queryAllByText('Remove rule');
+          expect(removeRuleRowButton.length).toEqual(1);
+        });
+
+        test('and it has a button to add a rule but not add another level of rule groups', () => {
+          const addRuleRowButtons = structuredQuery.queryAllByText('Add rule');
+          expect(addRuleRowButtons.length).toEqual(2);
+        });
+
+        test('and it does not have a button to add another level of rule groups', () => {
+          const addRuleGroupButtons = structuredQuery.queryAllByText('Add group of rules');
+          expect(addRuleGroupButtons.length).toEqual(1);
+        });
+      });
+
+      describe('when adding multiple groups of rules', () => {
+        test('a new group of rules is added for each click of the Add group of rules button, with one rule row each', () => {
+          const addRuleGroupButton = structuredQuery.getByText('Add group of rules');
+          addRuleGroupButton.click();
+          addRuleGroupButton.click();
+          const ruleGroups = structuredQuery.queryAllByTestId('structured-query__rule-group');
+          const ruleRowsTopLevel = structuredQuery.queryAllByTestId('rule-row-undefined');
+          const ruleRowsGroupZero = structuredQuery.queryAllByTestId('rule-row-0');
+          const ruleRowsGroupOne = structuredQuery.queryAllByTestId('rule-row-1');
+          expect(ruleGroups.length).toEqual(3);
+          expect(ruleRowsTopLevel.length).toEqual(1);
+          expect(ruleRowsGroupZero.length).toEqual(1);
+          expect(ruleRowsGroupOne.length).toEqual(1);
+        });
+
+        // Also test that rule rows are added to the correct groups when there are multiple groups
+      });
+    });
+
+    describe('adding rule rows to nested rule groups', () => {
+      let addRuleButton: HTMLElement;
+      beforeEach(() => {
+        const addRuleGroupButton = structuredQuery.getByText('Add group of rules');
+        addRuleGroupButton.click();
+        addRuleButton = structuredQuery.queryAllByText('Add rule')[0];
+        addRuleButton.click();
+      });
+      test('each click of the Add rule button adds one new rule to the correct nested rule group', () => {
+        let nestedRuleGroupRuleRows = structuredQuery.queryAllByTestId('rule-row-0');
+        expect(nestedRuleGroupRuleRows.length).toEqual(2);
+        addRuleButton.click();
+        nestedRuleGroupRuleRows = structuredQuery.queryAllByTestId('rule-row-0');
+        expect(nestedRuleGroupRuleRows.length).toEqual(3);
+      });
+      test('no more rules can be added to a nested rule group past the max number of allowed rule row siblings', () => {
+        expect(structuredQuery.queryAllByText('Add rule').length).toBe(2);
+        addRuleButton.click();
+        addRuleButton.click();
+        expect(structuredQuery.queryAllByText('Add rule').length).toBe(1);
+      });
+    });
+
+    describe('removing rule rows from nested rule groups', () => {
+      beforeEach(() => {
+        const addRuleGroupButton = structuredQuery.getByText('Add group of rules');
+        addRuleGroupButton.click();
+        const addRuleButton = structuredQuery.queryAllByText('Add rule')[0];
+        addRuleButton.click();
+        addRuleButton.click();
+      });
+      describe('when the Remove rule icon is clicked and it is not the last remaining rule row in a nested rule group', () => {
+        test('one click removes one rule row from the correct nested rule group', () => {
+          const removeRuleRowButtons = structuredQuery.queryAllByText('Remove rule');
+          expect(structuredQuery.queryAllByTestId('rule-row-0').length).toEqual(3);
+          removeRuleRowButtons[2].click();
+          expect(structuredQuery.queryAllByTestId('rule-row-0').length).toEqual(2);
+          removeRuleRowButtons[1].click();
+          expect(structuredQuery.queryAllByTestId('rule-row-0').length).toEqual(1);
+        });
+      });
+      describe('when the Remove rule icon is clicked for the last remaining rule row in a nested rule group', () => {
+        test('the entire nested group is removed', () => {
+          const removeRuleRowButtons = structuredQuery.queryAllByText('Remove rule');
+          removeRuleRowButtons[2].click();
+          removeRuleRowButtons[1].click();
+          let ruleGroups = structuredQuery.queryAllByTestId('structured-query__rule-group');
+          expect(ruleGroups.length).toEqual(2);
+          removeRuleRowButtons[0].click();
+          ruleGroups = structuredQuery.queryAllByTestId('structured-query__rule-group');
+          expect(ruleGroups.length).toEqual(1);
+        });
+      });
+    });
+  });
 });

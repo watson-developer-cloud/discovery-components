@@ -42,13 +42,11 @@ export const RemoveRuleRowButton: FC<RemoveRuleRowButtonProps> = ({
       setGroupAndRuleRows({
         ...groupAndRuleRows,
         groups: groupAndRuleRows.groups
-          .map(group => {
+          .map((group, i) => {
             if (group.id === groupId) {
               return {
-                ...groupAndRuleRows.groups[groupId],
-                rows: groupAndRuleRows.groups[groupId].rows.filter(
-                  (ruleRow: Row) => ruleRow.id !== rowId
-                )
+                ...groupAndRuleRows.groups[i],
+                rows: groupAndRuleRows.groups[i].rows.filter((ruleRow: Row) => ruleRow.id !== rowId)
               };
             } else {
               return group;

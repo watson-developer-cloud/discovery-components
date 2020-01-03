@@ -3,7 +3,10 @@ import { Messages } from 'components/StructuredQuery/messages';
 import { RuleGroupDropdown } from '../RuleGroupDropdown/RuleGroupDropdown';
 import { RuleRow } from '../RuleRow/RuleRow';
 import { AddRuleRowButton } from '../AddRuleRowButton/AddRuleRowButton';
-import { StructuredQuerySelection } from 'components/StructuredQuery/utils/structuredQueryInterfaces';
+import {
+  StructuredQuerySelection,
+  Row
+} from 'components/StructuredQuery/utils/structuredQueryInterfaces';
 import { MAX_NUM_SIBLING_RULE_ROWS } from 'components/StructuredQuery/constants';
 import {
   structuredQueryRuleGroupClass,
@@ -36,8 +39,14 @@ export const RuleGroup: FC<RuleGroupProps> = ({
   groupAndRuleRows,
   setGroupAndRuleRows
 }) => {
-  const rows =
-    groupId !== undefined ? groupAndRuleRows.groups[groupId].rows : groupAndRuleRows.rows;
+  let rows: Row[] = groupAndRuleRows.rows;
+  if (groupId !== undefined) {
+    groupAndRuleRows.groups.map(group => {
+      if (group.id === groupId) {
+        rows = group.rows;
+      }
+    });
+  }
   const isTopLevelGroup = groupId !== undefined ? false : true;
   const showAddRuleRowButton = rows.length < MAX_NUM_SIBLING_RULE_ROWS;
   const ruleGroupClassNames = [structuredQueryRuleGroupClass];
@@ -46,7 +55,7 @@ export const RuleGroup: FC<RuleGroupProps> = ({
   }
 
   return (
-    <div className={ruleGroupClassNames.join(' ')}>
+    <div className={ruleGroupClassNames.join(' ')} data-testid="structured-query__rule-group">
       <RuleGroupDropdown messages={messages} />
       {rows.map(row => {
         return (
@@ -61,6 +70,7 @@ export const RuleGroup: FC<RuleGroupProps> = ({
         );
       })}
       <div className={structuredQueryRulesButtonsClass}>
+        {/* Could make these two checks both be part of the showAddRuleRowButton variable to streamline here */}
         {!isTopLevelGroup && showAddRuleRowButton && (
           <AddRuleRowButton
             addRuleRowText={messages.addRuleRowText}

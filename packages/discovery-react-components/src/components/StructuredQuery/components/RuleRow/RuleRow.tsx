@@ -44,13 +44,19 @@ export const RuleRow: FC<RuleRowProps> = ({
     { label: messages.operatorDropdownContainsOptionText, value: ':' },
     { label: messages.operatorDropdownDoesNotContainOptionText, value: ':!' }
   ];
-  const showRemoveRuleRowButton =
-    groupId !== undefined
-      ? groupAndRuleRows.groups[groupId].rows.length > 0
-      : groupAndRuleRows.rows.length > 1;
+  let rowsLength: number = groupAndRuleRows.rows.length;
+  if (groupId !== undefined) {
+    groupAndRuleRows.groups.map(group => {
+      if (group.id === groupId) {
+        rowsLength = group.rows.length;
+      }
+    });
+  }
+
+  const showRemoveRuleRowButton = groupId !== undefined ? rowsLength > 0 : rowsLength > 1;
 
   return (
-    <div className={structuredQueryRulesClass}>
+    <div className={structuredQueryRulesClass} data-testid={`rule-row-${groupId}`}>
       <ComboBox
         id={`structured-query-rules-field-${rowId}`}
         // TODO: Items is empty for now as it's a required field and retrieving fields for the dropdown
