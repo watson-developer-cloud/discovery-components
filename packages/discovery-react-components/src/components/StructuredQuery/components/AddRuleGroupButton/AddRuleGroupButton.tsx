@@ -8,6 +8,9 @@ import {
 } from 'components/StructuredQuery/utils/structuredQueryInterfaces';
 
 export interface AddRuleGroupButtonProps {
+  /**
+   * text to display for the Add rule group button
+   */
   addRuleGroupText: Messages['addRuleGroupText'];
   /**
    * state that represents the current rules and selections for the structured query

@@ -73,8 +73,8 @@ export const RuleRow: FC<RuleRowProps> = ({
           removeRuleRowButtonIconDescription={messages.removeRuleRowButtonIconDescription}
           groupId={groupId}
           rowId={rowId}
-          groupAndRuleRows={structuredQuerySelection}
-          setGroupAndRuleRows={setStructuredQuerySelection}
+          structuredQuerySelection={structuredQuerySelection}
+          setStructuredQuerySelection={setStructuredQuerySelection}
         />
       )}
     </div>

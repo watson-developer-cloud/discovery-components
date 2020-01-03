@@ -131,8 +131,8 @@ describe('<StructuredQuery />', () => {
         expect(values.length).toEqual(1);
       });
 
-      test('and the one top-level rule row does not have a Remove row button', () => {
-        const removeRuleButton = structuredQuery.queryByLabelText('Remove row');
+      test('and the one top-level rule row does not have a Remove rule button', () => {
+        const removeRuleButton = structuredQuery.queryByTestId('remove-rule-row-button');
         expect(removeRuleButton).toBe(null);
       });
 
@@ -158,7 +158,7 @@ describe('<StructuredQuery />', () => {
       });
 
       test('and both rule rows now include the Remove rule button', () => {
-        const removeRuleButtons = structuredQuery.queryAllByLabelText('Remove rule');
+        const removeRuleButtons = structuredQuery.queryAllByTestId('remove-rule-row-button');
         expect(removeRuleButtons.length).toEqual(2);
       });
     });
@@ -167,7 +167,7 @@ describe('<StructuredQuery />', () => {
       beforeEach(() => {
         const addRuleButton = structuredQuery.getByText('Add rule');
         addRuleButton.click();
-        const removeRuleButton = structuredQuery.getAllByTestId('remove-rule-row-button')[1];
+        const removeRuleButton = structuredQuery.queryAllByTestId('remove-rule-row-button')[1];
         removeRuleButton.click();
       });
 
@@ -181,7 +181,7 @@ describe('<StructuredQuery />', () => {
       });
 
       test('and no Remove rule buttons are displayed since only one rule row still remains', () => {
-        const removeRuleButton = structuredQuery.queryByLabelText('Remove row');
+        const removeRuleButton = structuredQuery.queryByTestId('remove-rule-row-button');
         expect(removeRuleButton).toBe(null);
       });
     });

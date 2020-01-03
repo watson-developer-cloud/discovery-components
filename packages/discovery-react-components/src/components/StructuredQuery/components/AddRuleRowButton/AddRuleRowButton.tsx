@@ -6,7 +6,7 @@ import { StructuredQuerySelection } from 'components/StructuredQuery/utils/struc
 
 export interface AddRuleRowButtonProps {
   /**
-   * override default messages for the component by specifying custom and/or internationalized text strings
+   * text to display for the Add rule button
    */
   addRuleRowText: Messages['addRuleRowText'];
   /**

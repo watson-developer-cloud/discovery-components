@@ -64,8 +64,8 @@ export const RuleGroup: FC<RuleGroupProps> = ({
             groupId={groupId}
             rowId={row.id}
             key={row.id}
-            setGroupAndRuleRows={setStructuredQuerySelection}
-            groupAndRuleRows={structuredQuerySelection}
+            setStructuredQuerySelection={setStructuredQuerySelection}
+            structuredQuerySelection={structuredQuerySelection}
           />
         );
       })}
@@ -75,8 +75,8 @@ export const RuleGroup: FC<RuleGroupProps> = ({
             addRuleRowText={messages.addRuleRowText}
             key={groupId}
             groupId={groupId}
-            setGroupAndRuleRows={setStructuredQuerySelection}
-            groupAndRuleRows={structuredQuerySelection}
+            setStructuredQuerySelection={setStructuredQuerySelection}
+            structuredQuerySelection={structuredQuerySelection}
           />
         )}
       </div>

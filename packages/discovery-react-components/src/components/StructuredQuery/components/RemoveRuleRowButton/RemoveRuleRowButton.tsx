@@ -9,7 +9,7 @@ import {
 
 export interface RemoveRuleRowButtonProps {
   /**
-   * override default messages for the component by specifying custom and/or internationalized text strings
+   * text to display for the Remove rule button icon description
    */
   removeRuleRowButtonIconDescription: Messages['removeRuleRowButtonIconDescription'];
   /**
