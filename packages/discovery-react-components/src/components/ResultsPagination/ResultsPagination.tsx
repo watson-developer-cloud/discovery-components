@@ -37,7 +37,7 @@ interface ResultsPaginationEvent {
   pageSize: number;
 }
 
-export const ResultsPagination: FC<ResultsPaginationProps> = ({
+const ResultsPagination: FC<ResultsPaginationProps> = ({
   page = 1,
   pageSizes = [10, 20, 30, 40, 50],
   pageSize,

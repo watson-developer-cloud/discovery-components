@@ -63,7 +63,7 @@ interface SearchInputProps {
   [key: string]: any;
 }
 
-export const SearchInput: FC<SearchInputProps> = ({
+const SearchInput: FC<SearchInputProps> = ({
   className,
   id,
   splitSearchQuerySelector = ' ' as string,

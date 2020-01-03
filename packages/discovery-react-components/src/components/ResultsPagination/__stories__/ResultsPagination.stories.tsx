@@ -7,7 +7,7 @@ import overrideSearchResults from '../__fixtures__/searchResults';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { action } from '@storybook/addon-actions';
 import { createDummyResponsePromise } from 'utils/testingUtils';
-import { ResultsPagination } from '../ResultsPagination';
+import ResultsPagination from '../ResultsPagination';
 
 export const props = () => ({
   page: number('The current page (page)', 1),
