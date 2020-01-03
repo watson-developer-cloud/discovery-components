@@ -4,101 +4,157 @@ import { render, fireEvent, RenderResult } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import {
   SearchContextIFC,
-  SearchApiIFC,
-  searchResponseStoreDefaults
+  searchResponseStoreDefaults,
+  fetchDocumentsResponseStoreDefaults
 } from 'components/DiscoverySearch/DiscoverySearch';
 import { wrapWithContext } from 'utils/testingUtils';
 import SearchResults, { SearchResultsProps } from '../SearchResults';
 import { getByText as domGetByText } from '@testing-library/dom';
+import { QueryResult, QueryTableResult, ComponentSettingsResponse } from 'ibm-watson/discovery/v2';
+
+interface Setup {
+  searchResults: RenderResult;
+  setSearchParametersMock: jest.Mock;
+  fetchDocumentsMock: jest.Mock;
+}
+
+function setup(
+  {
+    queryResults,
+    tableResults,
+    fetchDocumentsResponseStore,
+    suggestedQuery,
+    searchResponseStoreOverrides,
+    componentSettings
+  }: {
+    queryResults?: QueryResult[];
+    tableResults?: QueryTableResult[];
+    suggestedQuery?: string;
+    fetchDocumentsResponseStore?: any;
+    searchResponseStoreOverrides?: any;
+    componentSettings?: ComponentSettingsResponse;
+  },
+  componentProps: Partial<SearchResultsProps> = {}
+): Setup {
+  const api = { setSearchParameters: jest.fn(), fetchDocuments: jest.fn() };
+  let context: Partial<SearchContextIFC> = {
+    searchResponseStore: {
+      ...searchResponseStoreDefaults,
+      data: {
+        matching_results: queryResults ? queryResults.length : 0,
+        results: queryResults,
+        table_results: tableResults,
+        suggested_query: suggestedQuery
+      },
+      ...searchResponseStoreOverrides
+    },
+    fetchDocumentsResponseStore: {
+      ...fetchDocumentsResponseStoreDefaults,
+      ...fetchDocumentsResponseStore
+    },
+    componentSettings
+  };
+
+  const searchResults = render(
+    wrapWithContext(<SearchResults {...componentProps} />, api, context)
+  );
+  return {
+    searchResults,
+    setSearchParametersMock: api.setSearchParameters,
+    fetchDocumentsMock: api.fetchDocuments
+  };
+}
 
 describe('<SearchResults />', () => {
+  let setSearchParametersMock: jest.Mock;
+  let fetchDocumentsMock: jest.Mock;
+  let searchResults: RenderResult;
+  let queryResults: QueryResult[] | undefined;
+  let tableResults: QueryTableResult[] | undefined;
+  let componentProps: Partial<SearchResultsProps> = {};
+  let suggestedQuery: string | undefined;
+  let searchResponseStoreOverrides: any;
+  let componentSettings: ComponentSettingsResponse | undefined;
+
+  afterEach(() => {
+    queryResults = undefined;
+    tableResults = undefined;
+    componentProps = {};
+    searchResponseStoreOverrides = undefined;
+    suggestedQuery = undefined;
+    componentSettings = undefined;
+  });
+
   describe('i18n messages', () => {
-    let context: Partial<SearchContextIFC>;
-    beforeEach(() => {
-      context = {
-        searchResponseStore: {
-          ...searchResponseStoreDefaults,
-          data: {
-            matching_results: 1,
-            results: [
+    describe('when there are query and table results', () => {
+      beforeEach(() => {
+        queryResults = [
+          {
+            document_id: 'some document_id',
+            collection_id: 'some collection_id',
+            document_passages: [
               {
-                document_id: 'some document_id',
-                collection_id: 'some collection_id',
-                document_passages: [
-                  {
-                    passage_text: 'this is the first passage text'
-                  }
-                ]
-              },
-              {
-                document_id: 'some other document_id'
-              }
-            ],
-            table_results: [
-              {
-                table_id: '558ada041262d5b0aa02a05429d798c9',
-                source_document_id: 'some document_id',
-                collection_id: '8713a92b-28aa-b291-0000-016ddc68aa2a',
-                table_html: '<html>I am table.</html>'
+                passage_text: 'this is the first passage text'
               }
             ]
+          },
+          {
+            document_id: 'some other document_id'
           }
-        }
-      };
-    });
-    describe('when no messages are provided', () => {
-      describe('has the correct default placeholder text', () => {
-        test('for search results with passages, tables, and empty results', () => {
-          const { getByText } = render(wrapWithContext(<SearchResults />, {}, context));
-          const collectionLabel = getByText('Collection:', { exact: false });
-          const viewExcerptInDocumentButtonText = getByText('View passage in document');
-          const viewTableInDocumentButtonText = getByText('View table in document');
-          const tablesOnlyToggleLabelText = getByText('Show table results only');
-          const emptyResultContentBodyText = getByText('Excerpt unavailable.');
-          expect(collectionLabel).toBeDefined();
-          expect(viewExcerptInDocumentButtonText).toBeDefined();
-          expect(viewTableInDocumentButtonText).toBeDefined();
-          expect(tablesOnlyToggleLabelText).toBeDefined();
-          expect(emptyResultContentBodyText).toBeDefined();
-        });
-
-        test('for no search results found state', () => {
-          const emptyContext: Partial<SearchContextIFC> = {
-            searchResponseStore: {
-              ...searchResponseStoreDefaults,
-              data: {
-                matching_results: 0,
-                results: []
-              }
-            }
-          };
-          const { getByText } = render(wrapWithContext(<SearchResults />, {}, emptyContext));
-          expect(getByText('There were no results found')).toBeDefined();
-        });
+        ];
+        tableResults = [
+          {
+            table_id: '558ada041262d5b0aa02a05429d798c9',
+            source_document_id: 'some document_id',
+            collection_id: '8713a92b-28aa-b291-0000-016ddc68aa2a',
+            table_html: '<html>I am table.</html>'
+          }
+        ];
       });
 
-      describe('when some messages are overridden', () => {
-        test('it only overrides provided messages and uses defaults for the rest', () => {
-          const { getByText } = render(
-            wrapWithContext(
-              <SearchResults
-                messages={{
-                  collectionLabel: 'Collection is:',
-                  emptyResultContentBodyText: 'Nothing to see here.'
-                }}
-              />,
-              {},
-              context
-            )
-          );
-          const viewExcerptInDocumentButtonText = getByText('View passage in document');
-          const viewTableInDocumentButtonText = getByText('View table in document');
-          const tablesOnlyToggleLabelText = getByText('Show table results only');
-          expect(getByText('Collection is:', { exact: false })).toBeDefined();
-          expect(viewExcerptInDocumentButtonText).toBeDefined();
-          expect(viewTableInDocumentButtonText).toBeDefined();
-          expect(tablesOnlyToggleLabelText).toBeDefined();
-          expect(getByText('Nothing to see here.')).toBeDefined();
+      describe('when no messages are provided', () => {
+        describe('has the correct default placeholder text', () => {
+          test('for search results with passages, tables, and empty results', () => {
+            ({ searchResults } = setup({ queryResults, tableResults }));
+            const collectionLabel = searchResults.getByText('Collection:', { exact: false });
+            const viewExcerptInDocumentButtonText = searchResults.getByText(
+              'View passage in document'
+            );
+            const viewTableInDocumentButtonText = searchResults.getByText('View table in document');
+            const tablesOnlyToggleLabelText = searchResults.getByText('Show table results only');
+            const emptyResultContentBodyText = searchResults.getByText('Excerpt unavailable.');
+            expect(collectionLabel).toBeDefined();
+            expect(viewExcerptInDocumentButtonText).toBeDefined();
+            expect(viewTableInDocumentButtonText).toBeDefined();
+            expect(tablesOnlyToggleLabelText).toBeDefined();
+            expect(emptyResultContentBodyText).toBeDefined();
+          });
+
+          test('for no search results found state', () => {
+            queryResults = [];
+            ({ searchResults } = setup({ queryResults }));
+            expect(searchResults.getByText('There were no results found')).toBeDefined();
+          });
+        });
+
+        describe('when some messages are overridden', () => {
+          test('it only overrides provided messages and uses defaults for the rest', () => {
+            componentProps.messages = {
+              collectionLabel: 'Collection is:',
+              emptyResultContentBodyText: 'Nothing to see here.'
+            };
+            ({ searchResults } = setup({ queryResults, tableResults }, componentProps));
+            const viewExcerptInDocumentButtonText = searchResults.getByText(
+              'View passage in document'
+            );
+            const viewTableInDocumentButtonText = searchResults.getByText('View table in document');
+            const tablesOnlyToggleLabelText = searchResults.getByText('Show table results only');
+            expect(searchResults.getByText('Collection is:', { exact: false })).toBeDefined();
+            expect(viewExcerptInDocumentButtonText).toBeDefined();
+            expect(viewTableInDocumentButtonText).toBeDefined();
+            expect(tablesOnlyToggleLabelText).toBeDefined();
+            expect(searchResults.getByText('Nothing to see here.')).toBeDefined();
+          });
         });
       });
     });
@@ -106,51 +162,41 @@ describe('<SearchResults />', () => {
 
   describe('When we have a value for matching_results', () => {
     describe('which is greater than 0', () => {
-      const context: Partial<SearchContextIFC> = {
-        searchResponseStore: {
-          ...searchResponseStoreDefaults,
-          data: {
-            matching_results: 1,
-            results: [
-              {
-                document_id: 'some document_id',
-                result_metadata: {
-                  collection_id: '1'
-                }
-              }
-            ]
+      beforeEach(() => {
+        queryResults = [
+          {
+            document_id: 'some document_id',
+            result_metadata: {
+              collection_id: '1'
+            }
           }
-        }
-      };
+        ];
+      });
+
       test('renders the results', () => {
-        const { getByText } = render(wrapWithContext(<SearchResults />, {}, context));
-        expect(getByText('some document_id')).toBeInTheDocument();
+        ({ searchResults } = setup({ queryResults }));
+        expect(searchResults.getByText('some document_id')).toBeInTheDocument();
       });
     });
 
     describe('which is equal to 0', () => {
-      const context: Partial<SearchContextIFC> = {
-        searchResponseStore: {
-          ...searchResponseStoreDefaults,
-          data: {
-            matching_results: 0,
-            results: []
-          }
-        }
-      };
+      beforeEach(() => {
+        queryResults = [];
+      });
       test('renders the no results found message', () => {
-        const { getByText } = render(wrapWithContext(<SearchResults />, {}, context));
-        expect(getByText('There were no results found')).toBeInTheDocument();
+        ({ searchResults } = setup({ queryResults }));
+        expect(searchResults.getByText('There were no results found')).toBeInTheDocument();
       });
 
       describe('and we have a spelling suggestion', () => {
         beforeEach(() => {
-          context.searchResponseStore!.data!.suggested_query = 'suggested';
+          suggestedQuery = 'suggested';
         });
+
         test('renders the spelling suggestion', () => {
-          const { getByText } = render(wrapWithContext(<SearchResults />, {}, context));
+          ({ searchResults } = setup({ queryResults, suggestedQuery }, componentProps));
           expect(
-            getByText((_, element) => {
+            searchResults.getByText((_, element) => {
               return element.textContent === 'suggested';
             })
           ).toBeInTheDocument();
@@ -159,129 +205,114 @@ describe('<SearchResults />', () => {
     });
   });
 
-  describe('when we have table_results', () => {
-    describe('and showTablesOnlyResults is enabled', () => {
-      describe('and the number of table_results is greater than 0', () => {
-        const context: Partial<SearchContextIFC> = {
-          searchResponseStore: {
-            ...searchResponseStoreDefaults,
-            data: {
-              matching_results: 1,
-              results: [
-                {
-                  document_id: 'some document_id',
-                  result_metadata: {
-                    collection_id: '1'
-                  }
-                }
-              ],
-              table_results: [
-                {
-                  table_id: '558ada041262d5b0aa02a05429d798c9',
-                  source_document_id: 'some document_id',
-                  collection_id: '8713a92b-28aa-b291-0000-016ddc68aa2a',
-                  table_html: '<html>I am table.</html>'
-                }
-              ]
+  describe('rendering table results', () => {
+    describe('when showTablesOnly is enabled', () => {
+      beforeEach(() => {
+        componentProps.showTablesOnly = true;
+      });
+
+      describe('and there are table results', () => {
+        beforeEach(() => {
+          tableResults = [
+            {
+              table_id: '558ada041262d5b0aa02a05429d798c9',
+              source_document_id: 'some document_id',
+              collection_id: '8713a92b-28aa-b291-0000-016ddc68aa2a',
+              table_html: '<html>I am table.</html>'
             }
-          }
-        };
+          ];
+        });
+
         test('the table results are rendered', () => {
-          const { getByText } = render(
-            wrapWithContext(<SearchResults showTablesOnlyToggle={true} />, {}, context)
-          );
-          fireEvent.click(getByText('Show table results only'));
-          expect(getByText('I am table.')).toBeInTheDocument();
+          ({ searchResults } = setup({ queryResults, tableResults }, componentProps));
+          expect(searchResults.getByText('I am table.')).toBeInTheDocument();
         });
       });
 
-      describe('and table_results is empty', () => {
-        const context: Partial<SearchContextIFC> = {
-          searchResponseStore: {
-            ...searchResponseStoreDefaults,
-            data: {
-              matching_results: 1,
-              results: [
-                {
-                  document_id: 'some document_id',
-                  result_metadata: {
-                    collection_id: '1'
-                  }
-                }
-              ],
-              table_results: []
+      describe('and there is a Queryresult but no table result', () => {
+        beforeEach(() => {
+          tableResults = [];
+          queryResults = [
+            {
+              document_id: 'some document_id',
+              result_metadata: {
+                collection_id: '1'
+              }
             }
-          }
-        };
+          ];
+        });
+
         test('renders the no results found message', () => {
-          const { getByText } = render(
-            wrapWithContext(<SearchResults showTablesOnlyToggle={true} />, {}, context)
-          );
-          fireEvent.click(getByText('Show table results only'));
-          expect(getByText('There were no results found')).toBeInTheDocument();
+          ({ searchResults } = setup({ queryResults, tableResults }, componentProps));
+          expect(searchResults.getByText('There were no results found')).toBeInTheDocument();
         });
       });
     });
   });
 
   describe('When we do not have results', () => {
-    const context: Partial<SearchContextIFC> = {
-      searchResponseStore: { ...searchResponseStoreDefaults, data: null }
-    };
+    beforeEach(() => {
+      searchResponseStoreOverrides = { data: null };
+    });
 
     describe('and results are loading', () => {
       beforeEach(() => {
-        context.searchResponseStore!.isLoading = true;
+        searchResponseStoreOverrides = { ...searchResponseStoreOverrides, isLoading: true };
       });
 
       test('renders the skeleton text', () => {
-        const { getAllByTestId } = render(wrapWithContext(<SearchResults />, {}, context));
-        expect(getAllByTestId('skeleton_text')).toHaveLength(3);
+        ({ searchResults } = setup({ searchResponseStoreOverrides }));
+        expect(searchResults.getAllByTestId('skeleton_text')).toHaveLength(3);
       });
 
       describe('and count has been set lower than 3', () => {
         beforeEach(() => {
-          context.searchResponseStore!.parameters!.count = 2;
+          searchResponseStoreOverrides = {
+            ...searchResponseStoreOverrides,
+            parameters: { count: 2 }
+          };
         });
 
         test('renders fewer skeleton text', () => {
-          const { getAllByTestId } = render(wrapWithContext(<SearchResults />, {}, context));
-          expect(getAllByTestId('skeleton_text')).toHaveLength(2);
+          ({ searchResults } = setup({ searchResponseStoreOverrides }));
+          expect(searchResults.getAllByTestId('skeleton_text')).toHaveLength(2);
         });
       });
 
       describe('and count has been set higher than 5', () => {
         beforeEach(() => {
-          context.searchResponseStore!.parameters!.count = 10000;
+          searchResponseStoreOverrides = {
+            ...searchResponseStoreOverrides,
+            parameters: { count: 10000 }
+          };
         });
 
         test('renders at most 3 skeleton text', () => {
-          const { getAllByTestId } = render(wrapWithContext(<SearchResults />, {}, context));
-          expect(getAllByTestId('skeleton_text')).toHaveLength(3);
+          ({ searchResults } = setup({ searchResponseStoreOverrides }));
+          expect(searchResults.getAllByTestId('skeleton_text')).toHaveLength(3);
         });
       });
     });
 
     describe('And we are not in the middle of fetching query_results', () => {
       beforeEach(() => {
-        context.searchResponseStore!.isLoading = false;
+        searchResponseStoreOverrides = { ...searchResponseStoreOverrides, isLoading: false };
       });
 
       test('renders only the header', () => {
-        const { getAllByTestId } = render(wrapWithContext(<SearchResults />, {}, context));
-        expect(getAllByTestId('search_results_header')).toHaveLength(1);
+        ({ searchResults } = setup({ searchResponseStoreOverrides }));
+        expect(searchResults.getAllByTestId('search_results_header')).toHaveLength(1);
       });
     });
   });
 
   describe('when passageLength is defined', () => {
+    beforeEach(() => {
+      componentProps.passageLength = 20;
+    });
+
     test('onUpdatePassageLength is called with the expected character count', () => {
-      const setSearchParametersMock = jest.fn();
-      const context: Partial<SearchContextIFC> = {};
-      const api: Partial<SearchApiIFC> = {
-        setSearchParameters: setSearchParametersMock
-      };
-      render(wrapWithContext(<SearchResults passageLength={20} />, api, context));
+      ({ setSearchParametersMock } = setup({}, componentProps));
       expect(setSearchParametersMock).toBeCalledTimes(1);
       expect(setSearchParametersMock).toBeCalledWith(expect.any(Function));
       const returnFunc = setSearchParametersMock.mock.calls[0][0];
@@ -295,20 +326,19 @@ describe('<SearchResults />', () => {
   });
 
   describe('when passageLength is not defined', () => {
+    beforeEach(() => {
+      componentProps.passageLength = undefined;
+    });
+
     test('onUpdatePassageLength is not called', () => {
-      const setSearchParametersMock = jest.fn();
-      const context: Partial<SearchContextIFC> = {};
-      const api: Partial<SearchApiIFC> = {
-        setSearchParameters: setSearchParametersMock
-      };
-      render(wrapWithContext(<SearchResults />, api, context));
+      ({ setSearchParametersMock } = setup({}, componentProps));
       expect(setSearchParametersMock).toBeCalledTimes(0);
     });
   });
 
   describe('when there are component settings in context', () => {
-    const context: Partial<SearchContextIFC> = {
-      componentSettings: {
+    beforeEach(() => {
+      componentSettings = {
         fields_shown: {
           body: {
             use_passage: true
@@ -317,251 +347,235 @@ describe('<SearchResults />', () => {
             field: 'titleField'
           }
         }
-      },
-      searchResponseStore: {
-        ...searchResponseStoreDefaults,
-        data: {
-          matching_results: 1,
-          results: [
-            {
-              document_id: 'document_id',
-              result_metadata: {
-                collection_id: '1'
-              },
-              titleField: 'this title comes from the titleField',
-              document_passages: [
-                {
-                  passage_text: 'this is the first passage text'
-                }
-              ],
-              overwrittenTitleField: 'this title comes from the overwritten title field',
-              overwrittenBodyField: 'this body text comes from the overwritten body field'
-            }
-          ]
-        }
-      }
-    };
-    const api: Partial<SearchApiIFC> = {};
-
-    describe('and none of those settings are overwritten as props on SearchResults', () => {
-      test('should render with component settings', () => {
-        const { getByText } = render(wrapWithContext(<SearchResults />, api, context));
-        expect(getByText('this is the first passage text')).toBeInTheDocument();
-        expect(getByText('this title comes from the titleField')).toBeInTheDocument();
-      });
+      };
     });
 
-    describe('and some of those settings are overwritten as props on SearchResults', () => {
-      test('should render with the overwritten properties', () => {
-        const { getByText } = render(
-          wrapWithContext(
-            <SearchResults
-              usePassages={false}
-              bodyField={'overwrittenBodyField'}
-              resultTitleField={'overwrittenTitleField'}
-            />,
-            api,
-            context
-          )
-        );
-        expect(getByText('this title comes from the overwritten title field')).toBeInTheDocument();
-        expect(
-          getByText('this body text comes from the overwritten body field')
-        ).toBeInTheDocument();
+    describe('and there are QueryResults with fields pointed at by component settings', () => {
+      beforeEach(() => {
+        queryResults = [
+          {
+            document_id: 'document_id',
+            result_metadata: {
+              collection_id: '1'
+            },
+            titleField: 'this title comes from the titleField',
+            document_passages: [
+              {
+                passage_text: 'this is the first passage text'
+              }
+            ],
+            overwrittenTitleField: 'this title comes from the overwritten title field',
+            overwrittenBodyField: 'this body text comes from the overwritten body field'
+          }
+        ];
+      });
+
+      describe('and none of those settings are overwritten as props on SearchResults', () => {
+        test('should render with component settings', () => {
+          ({ searchResults } = setup({ queryResults, componentSettings }));
+          expect(searchResults.getByText('this is the first passage text')).toBeInTheDocument();
+          expect(
+            searchResults.getByText('this title comes from the titleField')
+          ).toBeInTheDocument();
+        });
+      });
+
+      describe('and some of those settings are overwritten as props on SearchResults', () => {
+        beforeEach(() => {
+          componentProps = {
+            usePassages: false,
+            bodyField: 'overwrittenBodyField',
+            resultTitleField: 'overwrittenTitleField'
+          };
+        });
+
+        test('should render with the overwritten properties', () => {
+          ({ searchResults } = setup({ componentSettings, queryResults }, componentProps));
+          expect(
+            searchResults.getByText('this title comes from the overwritten title field')
+          ).toBeInTheDocument();
+          expect(
+            searchResults.getByText('this body text comes from the overwritten body field')
+          ).toBeInTheDocument();
+        });
       });
     });
   });
 
-  describe('when showTablesOnlyResults is true', () => {
-    const context: Partial<SearchContextIFC> = {
-      searchResponseStore: {
-        ...searchResponseStoreDefaults
-      }
-    };
-    describe('and we are trying to render a table with a corresponding result document', () => {
+  describe('when showTablesOnly is true', () => {
+    beforeEach(() => {
+      componentProps.showTablesOnly = true;
+    });
+
+    describe('and there is a QueryTableResult and a QueryResult', () => {
       beforeEach(() => {
-        context.searchResponseStore!.data = {
-          matching_results: 1,
-          results: [
-            {
-              document_id: '123',
-              result_metadata: {
-                collection_id: 'collection_id'
-              }
+        queryResults = [
+          {
+            document_id: '123',
+            result_metadata: {
+              collection_id: 'collection_id'
             }
-          ],
-          table_results: [
-            {
-              table_id: 'table id',
-              source_document_id: '123',
-              collection_id: 'collection_id',
-              table_html: '<div>table html</div>',
-              table_html_offset: 5,
-              table: {}
-            }
-          ]
-        };
+          }
+        ];
+        tableResults = [
+          {
+            table_id: 'table id',
+            source_document_id: '123',
+            collection_id: 'collection_id',
+            table_html: '<div>table html</div>',
+            table_html_offset: 5,
+            table: {}
+          }
+        ];
       });
 
       test('fetchDocuments should not be fired', () => {
-        const mockFetchDocuments = jest.fn();
-        const api = {
-          fetchDocuments: mockFetchDocuments
-        };
-        const { getByText } = render(
-          wrapWithContext(<SearchResults showTablesOnlyToggle={true} />, api, context)
-        );
-        const toggle = getByText('Show table results only');
-        fireEvent.click(toggle);
-        expect(mockFetchDocuments).not.toBeCalled();
+        ({ fetchDocumentsMock } = setup({ queryResults, tableResults }, componentProps));
+        expect(fetchDocumentsMock).not.toBeCalled();
       });
-    });
-    describe('And we are trying to render a table which does not have a corresponding result document', () => {
-      beforeEach(() => {
-        context.searchResponseStore!.data = {
-          matching_results: 1,
-          results: [
+
+      describe('but the QueryResult document_id does not match the QueryTableResult source_document_id', () => {
+        beforeEach(() => {
+          queryResults = [
             {
               document_id: '456',
               result_metadata: {
                 collection_id: '1'
               }
             }
-          ],
-          table_results: [
-            {
-              table_id: 'table id',
-              source_document_id: '123',
-              collection_id: 'collection_id',
-              table_html: '<div>table html</div>',
-              table_html_offset: 5,
-              table: {}
-            }
-          ]
-        };
-      });
-      test('fetchDocuments should be fired with the correct params', () => {
-        const mockFetchDocuments = jest.fn();
-        const api = {
-          fetchDocuments: mockFetchDocuments
-        };
-        const { getByText } = render(
-          wrapWithContext(<SearchResults showTablesOnlyToggle={true} />, api, context)
-        );
-        const toggle = getByText('Show table results only');
-        fireEvent.click(toggle);
-        expect(mockFetchDocuments).toBeCalledTimes(1);
-        expect(mockFetchDocuments).toBeCalledWith('document_id::123', expect.any(Object));
-      });
+          ];
+        });
 
-      describe('and the naturalLanguageQuery changes', () => {
-        test('fetchDocuments should be called twice', () => {
-          const mockFetchDocuments = jest.fn();
-          const api = {
-            fetchDocuments: mockFetchDocuments
-          };
-          const fullTree = wrapWithContext(
-            <SearchResults showTablesOnlyToggle={true} />,
-            api,
-            context
-          );
-          const { getByText, rerender } = render(fullTree);
-          const toggle = getByText('Show table results only');
-          fireEvent.click(toggle);
-          rerender(
-            wrapWithContext(<SearchResults showTablesOnlyToggle={true} />, api, {
-              ...context,
+        test('fetchDocuments should be fired with the correct params', () => {
+          ({ fetchDocumentsMock } = setup({ queryResults, tableResults }, componentProps));
+          expect(fetchDocumentsMock).toBeCalledTimes(1);
+          expect(fetchDocumentsMock).toBeCalledWith('document_id::123', expect.any(Object));
+        });
+
+        describe('and the naturalLanguageQuery changes', () => {
+          test('fetchDocuments should be called twice', () => {
+            let context = {
               searchResponseStore: {
-                ...context.searchResponseStore!,
+                isLoading: false,
+                isError: false,
                 parameters: {
-                  ...context.searchResponseStore!.parameters,
-                  naturalLanguageQuery: 'foo'
+                  projectId: 'my project id'
+                },
+                data: {
+                  matching_results: 1,
+                  results: [
+                    {
+                      document_id: '456',
+                      result_metadata: {
+                        collection_id: '1'
+                      }
+                    }
+                  ],
+                  table_results: [
+                    {
+                      table_id: 'table id',
+                      source_document_id: '123',
+                      collection_id: 'collection_id',
+                      table_html: '<div>table html</div>',
+                      table_html_offset: 5,
+                      table: {}
+                    }
+                  ]
                 }
               }
-            })
-          );
-          expect(mockFetchDocuments).toBeCalledTimes(2);
-          expect(mockFetchDocuments.mock.calls[0][0]).toEqual('document_id::123');
-          expect(mockFetchDocuments.mock.calls[1][0]).toEqual('document_id::123');
+            };
+
+            const mockFetchDocuments = jest.fn();
+            const api = {
+              fetchDocuments: mockFetchDocuments
+            };
+            const fullTree = wrapWithContext(
+              <SearchResults showTablesOnlyToggle={true} />,
+              api,
+              context
+            );
+            const { getByText, rerender } = render(fullTree);
+            const toggle = getByText('Show table results only');
+            fireEvent.click(toggle);
+            rerender(
+              wrapWithContext(<SearchResults showTablesOnlyToggle={true} />, api, {
+                ...context,
+                searchResponseStore: {
+                  ...context.searchResponseStore!,
+                  parameters: {
+                    ...context.searchResponseStore!.parameters,
+                    naturalLanguageQuery: 'foo'
+                  }
+                }
+              })
+            );
+            expect(mockFetchDocuments).toBeCalledTimes(2);
+            expect(mockFetchDocuments.mock.calls[0][0]).toEqual('document_id::123');
+            expect(mockFetchDocuments.mock.calls[1][0]).toEqual('document_id::123');
+          });
         });
       });
     });
+
     describe('And we are trying to render multiple tables which do not have a corresponding result document', () => {
       beforeEach(() => {
-        context.searchResponseStore!.data = {
-          matching_results: 1,
-          results: [
-            {
-              document_id: '789',
-              result_metadata: {
-                collection_id: '1'
-              }
+        queryResults = [
+          {
+            document_id: '789',
+            result_metadata: {
+              collection_id: '1'
             }
-          ],
-          table_results: [
-            {
-              table_id: 'table id',
-              source_document_id: '123',
-              collection_id: 'collection_id',
-              table_html: '<div>table html</div>',
-              table_html_offset: 5,
-              table: {}
-            },
-            {
-              table_id: 'table id',
-              source_document_id: '456',
-              collection_id: 'collection_id',
-              table_html: '<div>table html</div>',
-              table_html_offset: 5,
-              table: {}
-            }
-          ]
-        };
+          }
+        ];
+        tableResults = [
+          {
+            table_id: 'table id',
+            source_document_id: '123',
+            collection_id: 'collection_id',
+            table_html: '<div>table html</div>',
+            table_html_offset: 5,
+            table: {}
+          },
+          {
+            table_id: 'table id',
+            source_document_id: '456',
+            collection_id: 'collection_id',
+            table_html: '<div>table html</div>',
+            table_html_offset: 5,
+            table: {}
+          }
+        ];
       });
+
       test('searchClient.query should be fired with the correct params', () => {
-        const mockFetchDocuments = jest.fn();
-        const api = {
-          fetchDocuments: mockFetchDocuments
-        };
-        const { getByText } = render(
-          wrapWithContext(<SearchResults showTablesOnlyToggle={true} />, api, context)
-        );
-        const toggle = getByText('Show table results only');
-        fireEvent.click(toggle);
-        expect(mockFetchDocuments).toBeCalledTimes(1);
-        expect(mockFetchDocuments).toBeCalledWith('document_id::123|456', expect.any(Object));
+        ({ fetchDocumentsMock } = setup({ queryResults, tableResults }));
+        expect(fetchDocumentsMock).toBeCalledTimes(1);
+        expect(fetchDocumentsMock).toBeCalledWith('document_id::123|456', expect.any(Object));
       });
     });
   });
 
   describe('the empty result state', () => {
     describe('when there is no table result, no passage, bodyField is not specified, and there is no text field but there is a result for a document', () => {
-      let context: Partial<SearchContextIFC>;
       beforeEach(() => {
-        context = {
-          searchResponseStore: {
-            ...searchResponseStoreDefaults,
-            data: {
-              matching_results: 1,
-              results: [
-                {
-                  document_id: 'some document_id',
-                  result_metadata: {
-                    collection_id: '1'
-                  }
-                }
-              ],
-              table_results: []
+        tableResults = [];
+        componentProps.bodyField = undefined;
+        queryResults = [
+          {
+            document_id: 'some document_id',
+            result_metadata: {
+              collection_id: '1'
             }
           }
-        };
+        ];
       });
 
-      describe('and showTablesOnlyResults is disabled', () => {
-        let searchResults: RenderResult;
+      describe('and showTablesOnly is disabled', () => {
         beforeEach(() => {
-          searchResults = render(wrapWithContext(<SearchResults />, {}, context));
+          componentProps.showTablesOnly = false;
+          ({ searchResults } = setup({ queryResults, tableResults }, componentProps));
         });
+
         test('the empty state text is displayed for the body result content', () => {
           expect(searchResults.getByText('Excerpt unavailable.')).toBeInTheDocument();
         });
@@ -570,15 +584,12 @@ describe('<SearchResults />', () => {
         });
       });
 
-      describe('and showTablesOnlyResults is enabled', () => {
-        let searchResults: RenderResult;
+      describe('and showTablesOnly is true', () => {
         beforeEach(() => {
-          searchResults = render(
-            wrapWithContext(<SearchResults showTablesOnlyToggle={true} />, {}, context)
-          );
-          const toggle = searchResults.getByText('Show table results only');
-          fireEvent.click(toggle);
+          componentProps.showTablesOnly = true;
+          ({ searchResults } = setup({ queryResults, tableResults }, componentProps));
         });
+
         test('the empty state text is not displayed for the body result content', () => {
           expect(searchResults.queryByText('Excerpt unavailable.')).toBe(null);
         });
@@ -591,340 +602,280 @@ describe('<SearchResults />', () => {
       });
     });
 
-    describe('when displayedText only is present and no table results', () => {
-      let context: Partial<SearchContextIFC>;
+    describe('when body text only is present and there are no table results', () => {
       beforeEach(() => {
-        context = {
-          searchResponseStore: {
-            ...searchResponseStoreDefaults,
-            data: {
-              matching_results: 1,
-              results: [
-                {
-                  document_id: 'some document_id',
-                  result_metadata: {
-                    collection_id: '1'
-                  },
-                  text: 'I am text field.'
-                }
-              ],
-              table_results: []
-            }
+        queryResults = [
+          {
+            document_id: 'some document_id',
+            result_metadata: {
+              collection_id: '1'
+            },
+            text: 'I am text field.'
           }
-        };
+        ];
+        tableResults = [];
       });
 
-      describe('and showTablesOnlyResults is disabled', () => {
-        test('displayedText and not empty state text should be displayed', () => {
-          const { getByText, queryByText } = render(
-            wrapWithContext(<SearchResults />, {}, context)
-          );
-          expect(getByText('I am text field.')).toBeInTheDocument();
-          expect(getByText('View document')).toBeInTheDocument();
-          expect(queryByText('Excerpt unavailable.')).toBe(null);
+      describe('and showTablesOnly is disabled', () => {
+        beforeEach(() => {
+          componentProps.showTablesOnly = false;
+        });
+
+        test('body text and not empty state text should be displayed', () => {
+          ({ searchResults } = setup({ queryResults, tableResults }, componentProps));
+          expect(searchResults.getByText('I am text field.')).toBeInTheDocument();
+          expect(searchResults.getByText('View document')).toBeInTheDocument();
+          expect(searchResults.queryByText('Excerpt unavailable.')).toBe(null);
         });
       });
 
-      describe('and showTablesOnlyResults is enabled', () => {
-        test('neither displayedText nor empty state should render but noResultsFound text should', () => {
-          const { getByText, queryByText } = render(
-            wrapWithContext(<SearchResults showTablesOnlyToggle={true} />, {}, context)
-          );
-          const toggle = getByText('Show table results only');
-          fireEvent.click(toggle);
-          expect(queryByText('I am text field.')).toBe(null);
-          expect(queryByText('Excerpt unavailable.')).toBe(null);
-          expect(queryByText('View document')).toBe(null);
-          expect(getByText('There were no results found')).toBeInTheDocument();
+      describe('and showTablesOnly is enabled', () => {
+        beforeEach(() => {
+          componentProps.showTablesOnly = true;
+        });
+
+        test('display noResultsFound text', () => {
+          ({ searchResults } = setup({ queryResults, tableResults }, componentProps));
+          expect(searchResults.queryByText('I am text field.')).toBe(null);
+          expect(searchResults.queryByText('Excerpt unavailable.')).toBe(null);
+          expect(searchResults.queryByText('View document')).toBe(null);
+          expect(searchResults.getByText('There were no results found')).toBeInTheDocument();
         });
       });
     });
 
-    describe('when displayedText and tableHtml is present', () => {
-      let context: Partial<SearchContextIFC>;
+    describe('when body text and tableHtml are present', () => {
       beforeEach(() => {
-        context = {
-          searchResponseStore: {
-            ...searchResponseStoreDefaults,
-            data: {
-              matching_results: 1,
-              results: [
-                {
-                  document_id: 'some document_id',
-                  result_metadata: {
-                    collection_id: '1'
-                  },
-                  text: 'I am text field.'
-                }
-              ],
-              table_results: [
-                {
-                  table_id: '558ada041262d5b0aa02a05429d798c9',
-                  source_document_id: 'some document_id',
-                  collection_id: '8713a92b-28aa-b291-0000-016ddc68aa2a',
-                  table_html: '<html>I am table.</html>'
-                }
-              ]
-            }
+        queryResults = [
+          {
+            document_id: 'some document_id',
+            result_metadata: {
+              collection_id: '1'
+            },
+            text: 'I am text field.'
           }
-        };
+        ];
+        tableResults = [
+          {
+            table_id: '558ada041262d5b0aa02a05429d798c9',
+            source_document_id: 'some document_id',
+            collection_id: '8713a92b-28aa-b291-0000-016ddc68aa2a',
+            table_html: '<html>I am table.</html>'
+          }
+        ];
       });
 
-      describe('when showTablesOnlyResults is disabled', () => {
+      describe('when showTablesOnly is disabled', () => {
+        beforeEach(() => {
+          componentProps.showTablesOnly = false;
+        });
+
         test('displayedText and tableHtml and not empty state text should be displayed', () => {
-          const { getByText, queryByText } = render(
-            wrapWithContext(<SearchResults />, {}, context)
-          );
-          expect(getByText('I am text field.')).toBeInTheDocument();
-          expect(getByText('I am table.')).toBeInTheDocument();
-          expect(getByText('View document')).toBeInTheDocument();
-          expect(queryByText('Excerpt unavailable.')).toBe(null);
+          ({ searchResults } = setup({ queryResults, tableResults }, componentProps));
+          expect(searchResults.getByText('I am text field.')).toBeInTheDocument();
+          expect(searchResults.getByText('I am table.')).toBeInTheDocument();
+          expect(searchResults.getByText('View document')).toBeInTheDocument();
+          expect(searchResults.queryByText('Excerpt unavailable.')).toBe(null);
         });
       });
 
       describe('when showTablesOnlyResults is enabled', () => {
+        beforeEach(() => {
+          componentProps.showTablesOnly = true;
+        });
+
         test('tableHtml and not displayedText or empty state text should be displayed', () => {
-          const { getByText, queryByText } = render(
-            wrapWithContext(<SearchResults showTablesOnlyToggle={true} />, {}, context)
-          );
-          const toggle = getByText('Show table results only');
-          fireEvent.click(toggle);
-          expect(queryByText('I am text field.')).toBe(null);
-          expect(getByText('I am table.')).toBeInTheDocument();
-          expect(queryByText('Excerpt unavailable.')).toBe(null);
-          expect(queryByText('View document')).toBe(null);
+          ({ searchResults } = setup({ queryResults, tableResults }, componentProps));
+          expect(searchResults.queryByText('I am text field.')).toBe(null);
+          expect(searchResults.getByText('I am table.')).toBeInTheDocument();
+          expect(searchResults.queryByText('Excerpt unavailable.')).toBe(null);
+          expect(searchResults.queryByText('View document')).toBe(null);
         });
       });
     });
 
     describe('when tableHtml only is present', () => {
-      let context: Partial<SearchContextIFC>;
       beforeEach(() => {
-        context = {
-          searchResponseStore: {
-            ...searchResponseStoreDefaults,
-            data: {
-              matching_results: 1,
-              results: [
-                {
-                  document_id: 'some document_id',
-                  result_metadata: {
-                    collection_id: '1'
-                  }
-                }
-              ],
-              table_results: [
-                {
-                  table_id: '558ada041262d5b0aa02a05429d798c9',
-                  source_document_id: 'some document_id',
-                  collection_id: '8713a92b-28aa-b291-0000-016ddc68aa2a',
-                  table_html: '<html>I am table.</html>'
-                }
-              ]
+        queryResults = [
+          {
+            document_id: 'some document_id',
+            result_metadata: {
+              collection_id: '1'
             }
           }
-        };
+        ];
+        tableResults = [
+          {
+            table_id: '558ada041262d5b0aa02a05429d798c9',
+            source_document_id: 'some document_id',
+            collection_id: '8713a92b-28aa-b291-0000-016ddc68aa2a',
+            table_html: '<html>I am table.</html>'
+          }
+        ];
       });
 
-      describe('and showTablesOnlyResults is disabled', () => {
+      describe('and showTablesOnly is disabled', () => {
+        beforeEach(() => {
+          componentProps.showTablesOnly = false;
+        });
+
         test('tableHtml and not empty state text should be displayed', () => {
-          const { getByText, queryByText } = render(
-            wrapWithContext(<SearchResults />, {}, context)
-          );
-          expect(getByText('I am table.')).toBeInTheDocument();
-          expect(queryByText('Excerpt unavailable.')).toBe(null);
-          expect(queryByText('View document')).toBe(null);
+          ({ searchResults } = setup({ queryResults, tableResults }, componentProps));
+          expect(searchResults.getByText('I am table.')).toBeInTheDocument();
+          expect(searchResults.queryByText('Excerpt unavailable.')).toBe(null);
+          expect(searchResults.queryByText('View document')).toBe(null);
         });
       });
 
-      describe('and showTablesOnlyResults is enabled', () => {
+      describe('and showTablesOnly is enabled', () => {
+        beforeEach(() => {
+          componentProps.showTablesOnly = true;
+        });
+
         test('tableHtml and not empty state text should be displayed', () => {
-          const { getByText, queryByText } = render(
-            wrapWithContext(<SearchResults showTablesOnlyToggle={true} />, {}, context)
-          );
-          const toggle = getByText('Show table results only');
-          fireEvent.click(toggle);
-          expect(getByText('I am table.')).toBeInTheDocument();
-          expect(queryByText('Excerpt unavailable.')).toBe(null);
-          expect(queryByText('View document')).toBe(null);
+          ({ searchResults } = setup({ queryResults, tableResults }, componentProps));
+          expect(searchResults.getByText('I am table.')).toBeInTheDocument();
+          expect(searchResults.queryByText('Excerpt unavailable.')).toBe(null);
+          expect(searchResults.queryByText('View document')).toBe(null);
         });
       });
     });
   });
 
   describe('when showTablesOnlyToggle is undefined', () => {
-    const props: SearchResultsProps = {};
-    const context: Partial<SearchContextIFC> = {
-      searchResponseStore: {
-        ...searchResponseStoreDefaults
-      }
-    };
     beforeEach(() => {
-      props.showTablesOnlyToggle = undefined;
+      componentProps.showTablesOnlyToggle = undefined;
     });
 
     test('does not show the showTablesOnlyToggle', () => {
-      const { queryAllByText } = render(wrapWithContext(<SearchResults {...props} />, {}, context));
-      expect(queryAllByText('Show table results only')).toHaveLength(0);
+      ({ searchResults } = setup({}, componentProps));
+      expect(searchResults.queryAllByText('Show table results only')).toHaveLength(0);
     });
 
     describe('and there are tables', () => {
       beforeEach(() => {
-        context.searchResponseStore!.data = {
-          matching_results: 0,
-          table_results: [
-            {
-              table_id: 'table id',
-              source_document_id: '123',
-              collection_id: 'collection_id',
-              table_html: '<div>table html</div>',
-              table_html_offset: 5,
-              table: {}
-            }
-          ]
-        };
+        tableResults = [
+          {
+            table_id: 'table id',
+            source_document_id: '123',
+            collection_id: 'collection_id',
+            table_html: '<div>table html</div>',
+            table_html_offset: 5,
+            table: {}
+          }
+        ];
       });
 
       test('shows the showTablesOnlyToggle', () => {
-        const { getByText } = render(wrapWithContext(<SearchResults {...props} />, {}, context));
-        expect(getByText('Show table results only')).toBeInTheDocument();
+        ({ searchResults } = setup({ tableResults }, componentProps));
+        expect(searchResults.getByText('Show table results only')).toBeInTheDocument();
       });
     });
   });
 
   describe('when showTablesOnlyToggle is false', () => {
-    const props: SearchResultsProps = {};
-    const context: Partial<SearchContextIFC> = {
-      searchResponseStore: {
-        ...searchResponseStoreDefaults
-      }
-    };
     beforeEach(() => {
-      props.showTablesOnlyToggle = false;
+      componentProps.showTablesOnlyToggle = false;
     });
 
     test('does not show the showTablesOnlyToggle', () => {
-      const { queryAllByText } = render(wrapWithContext(<SearchResults {...props} />, {}, context));
-      expect(queryAllByText('Show table results only')).toHaveLength(0);
+      ({ searchResults } = setup({}, componentProps));
+      expect(searchResults.queryAllByText('Show table results only')).toHaveLength(0);
     });
 
     describe('and there are tables', () => {
       beforeEach(() => {
-        context.searchResponseStore!.data = {
-          matching_results: 0,
-          table_results: [
-            {
-              table_id: 'table id',
-              source_document_id: '123',
-              collection_id: 'collection_id',
-              table_html: '<div>table html</div>',
-              table_html_offset: 5,
-              table: {}
-            }
-          ]
-        };
+        tableResults = [
+          {
+            table_id: 'table id',
+            source_document_id: '123',
+            collection_id: 'collection_id',
+            table_html: '<div>table html</div>',
+            table_html_offset: 5,
+            table: {}
+          }
+        ];
       });
 
       test('does not show the showTablesOnlyToggle', () => {
-        const { queryAllByText } = render(
-          wrapWithContext(<SearchResults {...props} />, {}, context)
-        );
-        expect(queryAllByText('Show table results only')).toHaveLength(0);
+        ({ searchResults } = setup({ tableResults }, componentProps));
+        expect(searchResults.queryAllByText('Show table results only')).toHaveLength(0);
       });
     });
   });
 
   describe('when showTablesOnlyToggle is true', () => {
-    const props: SearchResultsProps = {};
-    const context: Partial<SearchContextIFC> = {
-      searchResponseStore: {
-        ...searchResponseStoreDefaults
-      }
-    };
     beforeEach(() => {
-      props.showTablesOnlyToggle = true;
+      componentProps.showTablesOnlyToggle = true;
     });
 
     test('shows the showTablesOnlyToggle even if there are no tables', () => {
-      const { getByText } = render(wrapWithContext(<SearchResults {...props} />, {}, context));
-      expect(getByText('Show table results only')).toBeInTheDocument();
+      ({ searchResults } = setup({}, componentProps));
+      expect(searchResults.getByText('Show table results only')).toBeInTheDocument();
     });
   });
 
   describe('when showTablesOnly is true', () => {
-    const context: Partial<SearchContextIFC> = {
-      searchResponseStore: {
-        ...searchResponseStoreDefaults
-      }
-    };
-    describe('and we have table results', () => {
+    beforeEach(() => {
+      componentProps.showTablesOnly = true;
+    });
+
+    describe('and we have table and query results', () => {
       beforeEach(() => {
-        context.searchResponseStore!.data = {
-          matching_results: 1,
-          results: [
-            {
-              document_id: '456',
-              result_metadata: {
-                collection_id: '1'
-              },
-              document_passages: [
-                {
-                  passage_text: 'document passage text'
-                }
-              ]
-            }
-          ],
-          table_results: [
-            {
-              table_id: 'table id',
-              source_document_id: '123',
-              collection_id: 'collection_id',
-              table_html: '<div>table html</div>',
-              table_html_offset: 5,
-              table: {}
-            }
-          ]
-        };
+        tableResults = [
+          {
+            table_id: 'table id',
+            source_document_id: '123',
+            collection_id: 'collection_id',
+            table_html: '<div>table html</div>',
+            table_html_offset: 5,
+            table: {}
+          }
+        ];
+        queryResults = [
+          {
+            document_id: '456',
+            result_metadata: {
+              collection_id: '1'
+            },
+            document_passages: [
+              {
+                passage_text: 'document passage text'
+              }
+            ]
+          }
+        ];
       });
 
       describe('and showTablesOnlyToggle is false', () => {
+        beforeEach(() => {
+          componentProps.showTablesOnlyToggle = false;
+        });
+
         test('will still display the tables only results', () => {
-          const { getByText, queryByText } = render(
-            wrapWithContext(
-              <SearchResults showTablesOnlyToggle={false} showTablesOnly={true} />,
-              {},
-              context
-            )
-          );
-          expect(getByText('table html')).toBeInTheDocument();
-          expect(queryByText('document passage text')).toBeNull();
+          ({ searchResults } = setup({ queryResults, tableResults }, componentProps));
+          expect(searchResults.getByText('table html')).toBeInTheDocument();
+          expect(searchResults.queryByText('document passage text')).toBeNull();
         });
       });
 
       describe('and showTablesOnlyToggle is true', () => {
-        test('the value of the toggle is enabled on first render', () => {
-          const { getByText } = render(
-            wrapWithContext(
-              <SearchResults showTablesOnlyToggle={true} showTablesOnly={true} />,
-              {},
-              context
-            )
-          );
-          const toggle = getByText('Show table results only');
-          expect(domGetByText(toggle, 'On')).toBeInTheDocument();
-          expect(getByText('table html')).toBeInTheDocument();
+        beforeEach(() => {
+          componentProps.showTablesOnlyToggle = true;
         });
+
+        test('the value of the toggle is enabled on first render', () => {
+          ({ searchResults } = setup({ queryResults, tableResults }, componentProps));
+          const toggle = searchResults.getByText('Show table results only');
+          expect(domGetByText(toggle, 'On')).toBeInTheDocument();
+          expect(searchResults.getByText('table html')).toBeInTheDocument();
+        });
+
         test('the user can click the toggle and see QueryResults as well', () => {
-          const { getByText } = render(
-            wrapWithContext(
-              <SearchResults showTablesOnlyToggle={true} showTablesOnly={true} />,
-              {},
-              context
-            )
-          );
-          const toggle = getByText('Show table results only');
+          ({ searchResults } = setup({ queryResults, tableResults }, componentProps));
+          const toggle = searchResults.getByText('Show table results only');
           fireEvent.click(toggle);
-          expect(getByText('document passage text')).toBeInTheDocument();
+          expect(searchResults.getByText('document passage text')).toBeInTheDocument();
         });
       });
     });
