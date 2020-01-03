@@ -25,7 +25,7 @@ export interface RemoveRuleRowButtonProps {
    */
   structuredQuerySelection: StructuredQuerySelection;
   /**
-   * used to set the groupAndRuleRows state
+   * used to set the structuredQuerySelection state
    */
   setStructuredQuerySelection: Dispatch<SetStateAction<StructuredQuerySelection>>;
 }

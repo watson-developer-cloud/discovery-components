@@ -14,7 +14,7 @@ export interface RuleRowProps {
    */
   messages: Messages;
   /**
-   * id of the group for the rule row to render, if it's not a top-level rule row
+   * id of the group for the rule row to render, or 'top-level' if the top-level rule group
    */
   groupId: number | 'top-level';
   /**
@@ -26,7 +26,7 @@ export interface RuleRowProps {
    */
   structuredQuerySelection: StructuredQuerySelection;
   /**
-   * used to set the groupAndRuleRows state
+   * used to set the structuredQuerySelection state
    */
   setStructuredQuerySelection: Dispatch<SetStateAction<StructuredQuerySelection>>;
 }
