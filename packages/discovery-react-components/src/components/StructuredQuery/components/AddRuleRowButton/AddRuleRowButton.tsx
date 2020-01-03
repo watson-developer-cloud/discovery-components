@@ -12,46 +12,48 @@ export interface AddRuleRowButtonProps {
   /**
    * id of the group for the rule row to add, if it's not a top-level rule row
    */
-  groupId?: number;
+  groupId: number | 'top-level';
   /**
    * state that represents the current rules and selections for the structured query
    */
-  groupAndRuleRows: StructuredQuerySelection;
+  structuredQuerySelection: StructuredQuerySelection;
   /**
    * used to set the groupAndRuleRows state
    */
-  setGroupAndRuleRows: Dispatch<SetStateAction<StructuredQuerySelection>>;
+  setStructuredQuerySelection: Dispatch<SetStateAction<StructuredQuerySelection>>;
 }
 
 const handleOnClick = (
-  groupAndRuleRows: StructuredQuerySelection,
-  setGroupAndRuleRows: Dispatch<SetStateAction<StructuredQuerySelection>>,
-  groupId: number | undefined
+  structuredQuerySelection: StructuredQuerySelection,
+  setStructuredQuerySelection: Dispatch<SetStateAction<StructuredQuerySelection>>,
+  groupId: number | 'top-level'
 ) => {
-  if (groupId !== undefined) {
+  if (groupId === 'top-level') {
     const newRuleRowId =
-      groupAndRuleRows.groups[groupId].rows[groupAndRuleRows.groups[groupId].rows.length - 1].id +
-      1;
+      structuredQuerySelection.rows[structuredQuerySelection.rows.length - 1].id + 1;
     const newRuleRow = { id: newRuleRowId };
-    setGroupAndRuleRows({
-      ...groupAndRuleRows,
-      groups: groupAndRuleRows.groups.map(group => {
+    setStructuredQuerySelection({
+      ...structuredQuerySelection,
+      rows: structuredQuerySelection.rows.concat(newRuleRow)
+    });
+  } else {
+    const newRuleRowId =
+      structuredQuerySelection.groups[groupId].rows[
+        structuredQuerySelection.groups[groupId].rows.length - 1
+      ].id + 1;
+    const newRuleRow = { id: newRuleRowId };
+    setStructuredQuerySelection({
+      ...structuredQuerySelection,
+      groups: structuredQuerySelection.groups.map(group => {
         if (group.id === groupId) {
           return {
-            ...groupAndRuleRows.groups[groupId],
-            rows: groupAndRuleRows.groups[groupId].rows.concat(newRuleRow)
+            ...structuredQuerySelection.groups[groupId],
+            rows: structuredQuerySelection.groups[groupId].rows.concat(newRuleRow)
           };
         } else {
           return group;
         }
       })
-    });
-  } else {
-    const newRuleRowId = groupAndRuleRows.rows[groupAndRuleRows.rows.length - 1].id + 1;
-    const newRuleRow = { id: newRuleRowId };
-    setGroupAndRuleRows({
-      ...groupAndRuleRows,
-      rows: groupAndRuleRows.rows.concat(newRuleRow)
     });
   }
 };
@@ -59,14 +61,14 @@ const handleOnClick = (
 export const AddRuleRowButton: FC<AddRuleRowButtonProps> = ({
   addRuleRowText,
   groupId,
-  groupAndRuleRows,
-  setGroupAndRuleRows
+  structuredQuerySelection,
+  setStructuredQuerySelection
 }) => {
   return (
     <Button
       kind="ghost"
       renderIcon={Add16}
-      onClick={() => handleOnClick(groupAndRuleRows, setGroupAndRuleRows, groupId)}
+      onClick={() => handleOnClick(structuredQuerySelection, setStructuredQuerySelection, groupId)}
     >
       {addRuleRowText}
     </Button>

@@ -4,7 +4,7 @@ import { AddRuleRowButton } from './components/AddRuleRowButton/AddRuleRowButton
 import { AddRuleGroupButton } from './components/AddRuleGroupButton/AddRuleGroupButton';
 import { defaultMessages, Messages } from './messages';
 import { structuredQueryClass, structuredQueryRulesButtonsClass } from './cssClasses';
-import { MAX_NUM_SIBLING_RULE_ROWS } from './constants';
+import { MAX_NUM_SIBLING_RULE_ROWS, MAX_NUM_RULE_GROUPS } from './constants';
 import { StructuredQuerySelection } from './utils/structuredQueryInterfaces';
 
 export interface StructuredQueryProps {
@@ -16,26 +16,31 @@ export interface StructuredQueryProps {
 
 export const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
-  const [groupAndRuleRows, setGroupAndRuleRows] = useState<StructuredQuerySelection>({
+  const [structuredQuerySelection, setStructuredQuerySelection] = useState<
+    StructuredQuerySelection
+  >({
     rows: [{ id: 0 }],
     groups: []
   });
-  const showAddRuleRowButton = groupAndRuleRows.rows.length < MAX_NUM_SIBLING_RULE_ROWS;
+  const showAddRuleRowButton = structuredQuerySelection.rows.length < MAX_NUM_SIBLING_RULE_ROWS;
+  const showAddRuleGroupButton = structuredQuerySelection.groups.length < MAX_NUM_RULE_GROUPS;
 
   return (
     <div className={structuredQueryClass}>
       <RuleGroup
         messages={mergedMessages}
-        groupAndRuleRows={groupAndRuleRows}
-        setGroupAndRuleRows={setGroupAndRuleRows}
+        groupId="top-level"
+        structuredQuerySelection={structuredQuerySelection}
+        setStructuredQuerySelection={setStructuredQuerySelection}
       />
-      {groupAndRuleRows.groups.map(group => {
+      {structuredQuerySelection.groups.map(group => {
         return (
           <RuleGroup
             messages={mergedMessages}
             groupId={group.id}
-            groupAndRuleRows={groupAndRuleRows}
-            setGroupAndRuleRows={setGroupAndRuleRows}
+            structuredQuerySelection={structuredQuerySelection}
+            setStructuredQuerySelection={setStructuredQuerySelection}
+            key={group.id}
           />
         );
       })}
@@ -43,15 +48,18 @@ export const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMe
         {showAddRuleRowButton && (
           <AddRuleRowButton
             addRuleRowText={mergedMessages.addRuleRowText}
-            setGroupAndRuleRows={setGroupAndRuleRows}
-            groupAndRuleRows={groupAndRuleRows}
+            setStructuredQuerySelection={setStructuredQuerySelection}
+            structuredQuerySelection={structuredQuerySelection}
+            groupId="top-level"
           />
         )}
-        <AddRuleGroupButton
-          addRuleGroupText={mergedMessages.addRuleGroupText}
-          setGroupAndRuleRows={setGroupAndRuleRows}
-          groupAndRuleRows={groupAndRuleRows}
-        />
+        {showAddRuleGroupButton && (
+          <AddRuleGroupButton
+            addRuleGroupText={mergedMessages.addRuleGroupText}
+            setStructuredQuerySelection={setStructuredQuerySelection}
+            structuredQuerySelection={structuredQuerySelection}
+          />
+        )}
       </div>
     </div>
   );

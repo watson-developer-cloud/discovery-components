@@ -20,35 +20,35 @@ export interface RuleGroupProps {
    */
   messages: Messages;
   /**
-   * id of the group for the rule row to render, if it's not a top-level rule row
+   * id of the group for the rule row to render, or 'top-level' if the top-level rule group
    */
-  groupId?: number;
+  groupId: number | 'top-level';
   /**
    * state that represents the current rules and selections for the structured query
    */
-  groupAndRuleRows: StructuredQuerySelection;
+  structuredQuerySelection: StructuredQuerySelection;
   /**
    * used to set the groupAndRuleRows state
    */
-  setGroupAndRuleRows: Dispatch<SetStateAction<StructuredQuerySelection>>;
+  setStructuredQuerySelection: Dispatch<SetStateAction<StructuredQuerySelection>>;
 }
 
 export const RuleGroup: FC<RuleGroupProps> = ({
   messages,
   groupId,
-  groupAndRuleRows,
-  setGroupAndRuleRows
+  structuredQuerySelection,
+  setStructuredQuerySelection
 }) => {
-  let rows: Row[] = groupAndRuleRows.rows;
-  if (groupId !== undefined) {
-    groupAndRuleRows.groups.map(group => {
+  const isTopLevelGroup = groupId === 'top-level';
+  let rows: Row[] = structuredQuerySelection.rows;
+  if (!isTopLevelGroup) {
+    structuredQuerySelection.groups.map(group => {
       if (group.id === groupId) {
         rows = group.rows;
       }
     });
   }
-  const isTopLevelGroup = groupId !== undefined ? false : true;
-  const showAddRuleRowButton = rows.length < MAX_NUM_SIBLING_RULE_ROWS;
+  const showAddRuleRowButton = rows.length < MAX_NUM_SIBLING_RULE_ROWS && !isTopLevelGroup;
   const ruleGroupClassNames = [structuredQueryRuleGroupClass];
   if (!isTopLevelGroup) {
     ruleGroupClassNames.push(structuredQueryNestedRuleGroupClass);
@@ -64,20 +64,19 @@ export const RuleGroup: FC<RuleGroupProps> = ({
             groupId={groupId}
             rowId={row.id}
             key={row.id}
-            setGroupAndRuleRows={setGroupAndRuleRows}
-            groupAndRuleRows={groupAndRuleRows}
+            setGroupAndRuleRows={setStructuredQuerySelection}
+            groupAndRuleRows={structuredQuerySelection}
           />
         );
       })}
       <div className={structuredQueryRulesButtonsClass}>
-        {/* Could make these two checks both be part of the showAddRuleRowButton variable to streamline here */}
-        {!isTopLevelGroup && showAddRuleRowButton && (
+        {showAddRuleRowButton && (
           <AddRuleRowButton
             addRuleRowText={messages.addRuleRowText}
             key={groupId}
             groupId={groupId}
-            setGroupAndRuleRows={setGroupAndRuleRows}
-            groupAndRuleRows={groupAndRuleRows}
+            setGroupAndRuleRows={setStructuredQuerySelection}
+            groupAndRuleRows={structuredQuerySelection}
           />
         )}
       </div>

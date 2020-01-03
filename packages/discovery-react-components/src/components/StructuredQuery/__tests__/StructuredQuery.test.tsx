@@ -244,7 +244,7 @@ describe('<StructuredQuery />', () => {
           addRuleGroupButton.click();
           addRuleGroupButton.click();
           const ruleGroups = structuredQuery.queryAllByTestId('structured-query__rule-group');
-          const ruleRowsTopLevel = structuredQuery.queryAllByTestId('rule-row-undefined');
+          const ruleRowsTopLevel = structuredQuery.queryAllByTestId('rule-row-top-level');
           const ruleRowsGroupZero = structuredQuery.queryAllByTestId('rule-row-0');
           const ruleRowsGroupOne = structuredQuery.queryAllByTestId('rule-row-1');
           expect(ruleGroups.length).toEqual(3);

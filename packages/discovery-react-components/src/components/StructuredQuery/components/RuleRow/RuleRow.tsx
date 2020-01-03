@@ -16,7 +16,7 @@ export interface RuleRowProps {
   /**
    * id of the group for the rule row to render, if it's not a top-level rule row
    */
-  groupId?: number;
+  groupId: number | 'top-level';
   /**
    * id of the rule row to render
    */
@@ -24,19 +24,19 @@ export interface RuleRowProps {
   /**
    * state that represents the current rules and selections for the structured query
    */
-  groupAndRuleRows: StructuredQuerySelection;
+  structuredQuerySelection: StructuredQuerySelection;
   /**
    * used to set the groupAndRuleRows state
    */
-  setGroupAndRuleRows: Dispatch<SetStateAction<StructuredQuerySelection>>;
+  setStructuredQuerySelection: Dispatch<SetStateAction<StructuredQuerySelection>>;
 }
 
 export const RuleRow: FC<RuleRowProps> = ({
   messages,
   groupId,
   rowId,
-  groupAndRuleRows,
-  setGroupAndRuleRows
+  structuredQuerySelection,
+  setStructuredQuerySelection
 }) => {
   const operatorDropdownItems = [
     { label: messages.operatorDropdownIsOptionText, value: '::' },
@@ -44,16 +44,8 @@ export const RuleRow: FC<RuleRowProps> = ({
     { label: messages.operatorDropdownContainsOptionText, value: ':' },
     { label: messages.operatorDropdownDoesNotContainOptionText, value: ':!' }
   ];
-  let rowsLength: number = groupAndRuleRows.rows.length;
-  if (groupId !== undefined) {
-    groupAndRuleRows.groups.map(group => {
-      if (group.id === groupId) {
-        rowsLength = group.rows.length;
-      }
-    });
-  }
-
-  const showRemoveRuleRowButton = groupId !== undefined ? rowsLength > 0 : rowsLength > 1;
+  const isTopLevelGroup = groupId === 'top-level';
+  const showRemoveRuleRowButton = structuredQuerySelection.rows.length > 1 || !isTopLevelGroup;
 
   return (
     <div className={structuredQueryRulesClass} data-testid={`rule-row-${groupId}`}>
@@ -81,8 +73,8 @@ export const RuleRow: FC<RuleRowProps> = ({
           removeRuleRowButtonIconDescription={messages.removeRuleRowButtonIconDescription}
           groupId={groupId}
           rowId={rowId}
-          groupAndRuleRows={groupAndRuleRows}
-          setGroupAndRuleRows={setGroupAndRuleRows}
+          groupAndRuleRows={structuredQuerySelection}
+          setGroupAndRuleRows={setStructuredQuerySelection}
         />
       )}
     </div>

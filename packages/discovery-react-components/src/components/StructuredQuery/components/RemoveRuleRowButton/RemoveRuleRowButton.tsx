@@ -15,7 +15,7 @@ export interface RemoveRuleRowButtonProps {
   /**
    * id of the group for the rule row to remove, if it's not a top-level rule row
    */
-  groupId?: number;
+  groupId: number | 'top-level';
   /**
    * id of the rule row to remove
    */
@@ -23,41 +23,43 @@ export interface RemoveRuleRowButtonProps {
   /**
    * state that represents the current rules and selections for the structured query
    */
-  groupAndRuleRows: StructuredQuerySelection;
+  structuredQuerySelection: StructuredQuerySelection;
   /**
    * used to set the groupAndRuleRows state
    */
-  setGroupAndRuleRows: Dispatch<SetStateAction<StructuredQuerySelection>>;
+  setStructuredQuerySelection: Dispatch<SetStateAction<StructuredQuerySelection>>;
 }
 
 export const RemoveRuleRowButton: FC<RemoveRuleRowButtonProps> = ({
   removeRuleRowButtonIconDescription,
   groupId,
   rowId,
-  groupAndRuleRows,
-  setGroupAndRuleRows
+  structuredQuerySelection,
+  setStructuredQuerySelection
 }) => {
   const handleOnClick = () => {
-    if (groupId !== undefined) {
-      setGroupAndRuleRows({
-        ...groupAndRuleRows,
-        groups: groupAndRuleRows.groups
+    if (groupId === 'top-level') {
+      setStructuredQuerySelection({
+        ...structuredQuerySelection,
+        rows: structuredQuerySelection.rows.filter((ruleRow: Row) => ruleRow.id !== rowId)
+      });
+    } else {
+      setStructuredQuerySelection({
+        ...structuredQuerySelection,
+        groups: structuredQuerySelection.groups
           .map((group, i) => {
             if (group.id === groupId) {
               return {
-                ...groupAndRuleRows.groups[i],
-                rows: groupAndRuleRows.groups[i].rows.filter((ruleRow: Row) => ruleRow.id !== rowId)
+                ...structuredQuerySelection.groups[i],
+                rows: structuredQuerySelection.groups[i].rows.filter(
+                  (ruleRow: Row) => ruleRow.id !== rowId
+                )
               };
             } else {
               return group;
             }
           })
           .filter(group => group.rows.length > 0)
-      });
-    } else {
-      setGroupAndRuleRows({
-        ...groupAndRuleRows,
-        rows: groupAndRuleRows.rows.filter((ruleRow: Row) => ruleRow.id !== rowId)
       });
     }
   };

@@ -12,27 +12,27 @@ export interface AddRuleGroupButtonProps {
   /**
    * state that represents the current rules and selections for the structured query
    */
-  groupAndRuleRows: StructuredQuerySelection;
+  structuredQuerySelection: StructuredQuerySelection;
   /**
    * used to set the groupAndRuleRows state
    */
-  setGroupAndRuleRows: Dispatch<SetStateAction<StructuredQuerySelection>>;
+  setStructuredQuerySelection: Dispatch<SetStateAction<StructuredQuerySelection>>;
 }
 
 export const AddRuleGroupButton: FC<AddRuleGroupButtonProps> = ({
   addRuleGroupText,
-  groupAndRuleRows,
-  setGroupAndRuleRows
+  structuredQuerySelection,
+  setStructuredQuerySelection
 }) => {
   const handleOnClick = () => {
     const newRuleGroupId =
-      groupAndRuleRows.groups.length !== 0
-        ? groupAndRuleRows.groups[groupAndRuleRows.groups.length - 1].id! + 1
+      structuredQuerySelection.groups.length !== 0
+        ? structuredQuerySelection.groups[structuredQuerySelection.groups.length - 1].id! + 1
         : 0;
     const newRuleGroup: Group = { id: newRuleGroupId, rows: [{ id: 0 }] };
-    setGroupAndRuleRows({
-      ...groupAndRuleRows,
-      groups: groupAndRuleRows.groups.concat(newRuleGroup)
+    setStructuredQuerySelection({
+      ...structuredQuerySelection,
+      groups: structuredQuerySelection.groups.concat(newRuleGroup)
     });
   };
 
