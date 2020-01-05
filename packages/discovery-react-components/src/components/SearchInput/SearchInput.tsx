@@ -15,6 +15,9 @@ import Search16 from '@carbon/icons-react/lib/search/16';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { useDeepCompareCallback } from 'utils/useDeepCompareMemoize';
 import { defaultMessages, Messages } from './messages';
+import { withErrorBoundary } from 'react-error-boundary';
+import onErrorCallback from 'utils/onErrorCallback';
+import { FallbackComponent } from 'utils/FallbackComponent';
 
 interface SearchInputProps {
   /**
@@ -60,7 +63,7 @@ interface SearchInputProps {
   [key: string]: any;
 }
 
-export const SearchInput: FC<SearchInputProps> = ({
+const SearchInput: FC<SearchInputProps> = ({
   className,
   id,
   splitSearchQuerySelector = ' ' as string,
@@ -283,4 +286,4 @@ export const SearchInput: FC<SearchInputProps> = ({
   );
 };
 
-export default SearchInput;
+export default withErrorBoundary(SearchInput, FallbackComponent('SearchInput'), onErrorCallback);

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { render, RenderResult, fireEvent } from '@testing-library/react';
 import { QueryTermAggregation } from 'ibm-watson/discovery/v2';
 import { wrapWithContext } from 'utils/testingUtils';
-import { SearchFacets } from '../SearchFacets';
+import SearchFacets from '../SearchFacets';
 import {
   SearchContextIFC,
   SearchApiIFC,

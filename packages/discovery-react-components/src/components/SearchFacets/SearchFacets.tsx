@@ -20,6 +20,9 @@ import { DynamicFacets } from './components/DynamicFacets';
 import { defaultMessages, Messages } from './messages';
 import { useDeepCompareEffect } from 'utils/useDeepCompareMemoize';
 import { collectionFacetIdPrefix } from './cssClasses';
+import onErrorCallback from 'utils/onErrorCallback';
+import { FallbackComponent } from 'utils/FallbackComponent';
+import { withErrorBoundary } from 'react-error-boundary';
 
 interface SearchFacetsProps {
   /**
@@ -44,7 +47,7 @@ interface SearchFacetsProps {
   collapsedFacetsCount?: number;
 }
 
-export const SearchFacets: FC<SearchFacetsProps> = ({
+const SearchFacets: FC<SearchFacetsProps> = ({
   showCollections = true,
   showDynamicFacets = true,
   messages = defaultMessages,
@@ -204,3 +207,5 @@ export const SearchFacets: FC<SearchFacetsProps> = ({
     return displayMessage(noAvailableFacetsMessage);
   }
 };
+
+export default withErrorBoundary(SearchFacets, FallbackComponent('SearchFacets'), onErrorCallback);
