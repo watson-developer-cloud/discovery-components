@@ -51,12 +51,32 @@ describe('Passage Results', () => {
 
     describe('and clicking on "View passage in document" for a result', () => {
       beforeEach(() => {
-        // cy.get('button[data-testid="search-result-element-preview-button"]').contains('View passage in document').click();
-        //TODO: this breaks the page, since passageResultsJSON isn't a perfect duplicate of passage results
+        cy.get('button[data-testid="search-result-element-preview-button"]')
+          .contains('View passage in document')
+          .click();
       });
 
       it('navigates to Document Preview for that document', () => {
-        //TODO
+        cy.get('p')
+          .contains('Document')
+          .should('exist');
+        cy.get('.bx--document-preview').should('exist');
+        cy.get('.bx--document-preview')
+          .contains(
+            'This is a document.\nThis result multiple passages, but you should only be able to see the first one. IBM if you can see this passage, something probably borked'
+          )
+          .should('exist');
+      });
+
+      describe('and clicking on the close preview button', () => {
+        beforeEach(() => {
+          cy.get('svg[aria-label="Back to search"]').click();
+        });
+
+        it('closes the document preview', () => {
+          cy.get('.bx--document-preview').should('not.exist');
+          cy.get('.bx--search-result').should('have.length', 4);
+        });
       });
     });
 
