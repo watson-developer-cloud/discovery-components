@@ -4,6 +4,9 @@ import { SearchApi, SearchContext } from 'components/DiscoverySearch/DiscoverySe
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import get from 'lodash/get';
 import { settings } from 'carbon-components';
+import { withErrorBoundary } from 'react-error-boundary';
+import { FallbackComponent } from 'utils/FallbackComponent';
+import onErrorCallback from 'utils/onErrorCallback';
 
 export interface ResultsPaginationProps {
   /**
@@ -34,7 +37,7 @@ interface ResultsPaginationEvent {
   pageSize: number;
 }
 
-export const ResultsPagination: FC<ResultsPaginationProps> = ({
+const ResultsPagination: FC<ResultsPaginationProps> = ({
   page = 1,
   pageSizes = [10, 20, 30, 40, 50],
   pageSize,
@@ -110,4 +113,8 @@ export const ResultsPagination: FC<ResultsPaginationProps> = ({
   return null;
 };
 
-export default ResultsPagination;
+export default withErrorBoundary(
+  ResultsPagination,
+  FallbackComponent('ResultsPagination'),
+  onErrorCallback
+);

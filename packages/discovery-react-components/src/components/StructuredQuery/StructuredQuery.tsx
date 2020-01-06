@@ -6,6 +6,9 @@ import { defaultMessages, Messages } from './messages';
 import { structuredQueryClass, structuredQueryRulesButtonsClass } from './cssClasses';
 import { MAX_NUM_SIBLING_RULE_ROWS, MAX_NUM_RULE_GROUPS } from './constants';
 import { StructuredQuerySelection } from './utils/structuredQueryInterfaces';
+import { withErrorBoundary } from 'react-error-boundary';
+import { FallbackComponent } from 'utils/FallbackComponent';
+import onErrorCallback from 'utils/onErrorCallback';
 
 export interface StructuredQueryProps {
   /**
@@ -14,7 +17,7 @@ export interface StructuredQueryProps {
   messages?: Partial<Messages>;
 }
 
-export const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages }) => {
+const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
   const [structuredQuerySelection, setStructuredQuerySelection] = useState<
     StructuredQuerySelection
@@ -64,3 +67,9 @@ export const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMe
     </div>
   );
 };
+
+export default withErrorBoundary(
+  StructuredQuery,
+  FallbackComponent('StructuredQuery'),
+  onErrorCallback
+);

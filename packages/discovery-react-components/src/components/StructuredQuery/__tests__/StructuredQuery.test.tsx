@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, RenderResult } from '@testing-library/react';
-import { StructuredQuery } from '../StructuredQuery';
+import StructuredQuery from '../StructuredQuery';
 
 describe('<StructuredQuery />', () => {
   describe('i18n messages', () => {

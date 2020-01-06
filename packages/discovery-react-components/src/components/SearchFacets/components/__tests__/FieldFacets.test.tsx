@@ -7,7 +7,7 @@ import {
   SearchApiIFC,
   searchResponseStoreDefaults
 } from 'components/DiscoverySearch/DiscoverySearch';
-import { SearchFacets } from 'components/SearchFacets/SearchFacets';
+import SearchFacets from 'components/SearchFacets/SearchFacets';
 import { weirdFacetsQueryResponse } from 'components/SearchFacets/__fixtures__/facetsQueryResponse';
 
 interface Setup {
