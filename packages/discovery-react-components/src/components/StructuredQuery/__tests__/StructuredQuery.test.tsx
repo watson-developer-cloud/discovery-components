@@ -222,16 +222,16 @@ describe('<StructuredQuery />', () => {
         });
 
         test('one new nested rule group is added', () => {
-          const ruleGroups = structuredQuery.queryAllByTestId('structured-query__rule-group');
+          const ruleGroups = structuredQuery.queryAllByTestId('rule-group');
           expect(ruleGroups.length).toEqual(2);
         });
 
         test('and it has a Remove rule button', () => {
-          const removeRuleRowButton = structuredQuery.queryAllByText('Remove rule');
+          const removeRuleRowButton = structuredQuery.queryAllByTestId('remove-rule-row-button-0');
           expect(removeRuleRowButton.length).toEqual(1);
         });
 
-        test('and it has a button to add a rule but not add another level of rule groups', () => {
+        test('and it has a button to add a rule', () => {
           const addRuleRowButtons = structuredQuery.queryAllByText('Add rule');
           expect(addRuleRowButtons.length).toEqual(2);
         });
@@ -251,7 +251,7 @@ describe('<StructuredQuery />', () => {
         });
 
         test('a new group of rules is added for each click of the Add group of rules button, with one rule row each', () => {
-          const ruleGroups = structuredQuery.queryAllByTestId('structured-query__rule-group');
+          const ruleGroups = structuredQuery.queryAllByTestId('rule-group');
           const ruleRowsTopLevel = structuredQuery.queryAllByTestId('rule-row-top-level');
           const ruleRowsGroupZero = structuredQuery.queryAllByTestId('rule-row-0');
           const ruleRowsGroupOne = structuredQuery.queryAllByTestId('rule-row-1');
@@ -261,106 +261,104 @@ describe('<StructuredQuery />', () => {
           expect(ruleRowsGroupOne.length).toEqual(1);
         });
 
-        test('new rule rows added when the Add rule button is clicked are added to the correct group', () => {
-          addRuleGroupButton.click();
-          const addRuleRowToGroupOneButton = structuredQuery.queryAllByText('Add rule')[1];
-          addRuleRowToGroupOneButton.click();
-          let ruleRowsGroupOne = structuredQuery.queryAllByTestId('rule-row-1');
-          expect(ruleRowsGroupOne.length).toEqual(2);
-          const addRuleRowToGroupTwoButton = structuredQuery.queryAllByText('Add rule')[2];
-          addRuleRowToGroupTwoButton.click();
-          const ruleRowsGroupTwo = structuredQuery.queryAllByTestId('rule-row-2');
-          expect(ruleRowsGroupTwo.length).toEqual(2);
-          addRuleRowToGroupOneButton.click();
-          ruleRowsGroupOne = structuredQuery.queryAllByTestId('rule-row-1');
-          expect(ruleRowsGroupOne.length).toEqual(3);
-        });
-
-        test('rule rows removed when the Remove rule button is clicked are removed from the correct group', () => {
-          addRuleGroupButton.click();
-          const addRuleRowToGroupOneButton = structuredQuery.queryAllByText('Add rule')[1];
-          addRuleRowToGroupOneButton.click();
-          let ruleRowsGroupOne = structuredQuery.queryAllByTestId('rule-row-1');
-          expect(ruleRowsGroupOne.length).toEqual(2);
-          const removeRuleRowFromGroupOneButton = structuredQuery.queryAllByTestId(
-            'remove-rule-row-button-1'
-          )[0];
-          removeRuleRowFromGroupOneButton.click();
-          ruleRowsGroupOne = structuredQuery.queryAllByTestId('rule-row-1');
-          expect(ruleRowsGroupOne.length).toEqual(1);
-          const addRuleRowToGroupTwoButton = structuredQuery.queryAllByText('Add rule')[2];
-          addRuleRowToGroupTwoButton.click();
-          addRuleRowToGroupTwoButton.click();
-          let ruleRowsGroupTwo:
-            | HTMLElement
-            | HTMLElement[]
-            | null = structuredQuery.queryAllByTestId('rule-row-2');
-          expect(ruleRowsGroupTwo.length).toEqual(3);
-          let removeRuleRowFromGroupTwoButton = structuredQuery.queryAllByTestId(
-            'remove-rule-row-button-2'
-          )[0];
-          removeRuleRowFromGroupTwoButton.click();
-          ruleRowsGroupTwo = structuredQuery.queryAllByTestId('rule-row-2');
-          expect(ruleRowsGroupTwo.length).toEqual(2);
-          removeRuleRowFromGroupTwoButton = structuredQuery.queryAllByTestId(
-            'remove-rule-row-button-2'
-          )[0];
-          removeRuleRowFromGroupTwoButton.click();
-          ruleRowsGroupTwo = structuredQuery.queryAllByTestId('rule-row-2');
-          expect(ruleRowsGroupTwo.length).toEqual(1);
-          removeRuleRowFromGroupTwoButton = structuredQuery.queryAllByTestId(
-            'remove-rule-row-button-2'
-          )[0];
-          removeRuleRowFromGroupTwoButton.click();
-          ruleRowsGroupTwo = structuredQuery.queryByTestId('rule-row-2');
-          expect(ruleRowsGroupTwo).toBe(null);
-        });
-
         test('the Add group of rule buttons is no longer displayed when the max number of nested rule groups has been added', () => {
           addRuleGroupButton.click();
           addRuleGroupButton.click();
           addRuleGroupButton = structuredQuery.getByText('Add group of rules');
           expect(addRuleGroupButton).toBeDefined();
           addRuleGroupButton.click();
-          const addRuleGroupButtonPossibleNull = structuredQuery.queryByText('Add group of rules');
-          expect(addRuleGroupButtonPossibleNull).toBe(null);
+          const addRuleGroupButtonQuery = structuredQuery.queryByText('Add group of rules');
+          expect(addRuleGroupButtonQuery).toBe(null);
         });
       });
     });
 
     describe('adding rule rows to nested rule groups', () => {
-      let addRuleButton: HTMLElement;
+      let addRuleToGroupZeroButton: HTMLElement;
+      let addRuleGroupButton: HTMLElement;
       beforeEach(() => {
-        const addRuleGroupButton = structuredQuery.getByText('Add group of rules');
+        addRuleGroupButton = structuredQuery.getByText('Add group of rules');
         addRuleGroupButton.click();
-        addRuleButton = structuredQuery.queryAllByText('Add rule')[0];
-        addRuleButton.click();
+        addRuleToGroupZeroButton = structuredQuery.queryAllByText('Add rule')[0];
+        addRuleToGroupZeroButton.click();
       });
       test('each click of the Add rule button adds one new rule to the correct nested rule group', () => {
-        let nestedRuleGroupRuleRows = structuredQuery.queryAllByTestId('rule-row-0');
-        expect(nestedRuleGroupRuleRows.length).toEqual(2);
-        addRuleButton.click();
-        nestedRuleGroupRuleRows = structuredQuery.queryAllByTestId('rule-row-0');
-        expect(nestedRuleGroupRuleRows.length).toEqual(3);
+        addRuleGroupButton.click();
+        let ruleGroupRuleRowZero = structuredQuery.queryAllByTestId('rule-row-0');
+        expect(ruleGroupRuleRowZero.length).toEqual(2);
+        let addRuleRowToGroupOneButton = structuredQuery.queryAllByText('Add rule')[1];
+        addRuleRowToGroupOneButton.click();
+        let ruleRowsGroupOne = structuredQuery.queryAllByTestId('rule-row-1');
+        expect(ruleRowsGroupOne.length).toEqual(2);
+        addRuleToGroupZeroButton.click();
+        ruleGroupRuleRowZero = structuredQuery.queryAllByTestId('rule-row-0');
+        expect(ruleGroupRuleRowZero.length).toEqual(3);
+        addRuleRowToGroupOneButton.click();
+        ruleRowsGroupOne = structuredQuery.queryAllByTestId('rule-row-1');
+        expect(ruleRowsGroupOne.length).toEqual(3);
       });
       test('no more rules can be added to a nested rule group past the max number of allowed rule row siblings', () => {
         expect(structuredQuery.queryAllByText('Add rule').length).toBe(2);
-        addRuleButton.click();
-        addRuleButton.click();
+        addRuleToGroupZeroButton.click();
+        addRuleToGroupZeroButton.click();
         expect(structuredQuery.queryAllByText('Add rule').length).toBe(1);
       });
     });
 
     describe('removing rule rows from nested rule groups', () => {
+      let addRuleGroupButton: HTMLElement;
       beforeEach(() => {
-        const addRuleGroupButton = structuredQuery.getByText('Add group of rules');
+        addRuleGroupButton = structuredQuery.getByText('Add group of rules');
         addRuleGroupButton.click();
-        const addRuleButton = structuredQuery.queryAllByText('Add rule')[0];
-        addRuleButton.click();
-        addRuleButton.click();
+      });
+      test('rule rows removed when the Remove rule button is clicked are removed from the correct group', () => {
+        addRuleGroupButton.click();
+        addRuleGroupButton.click();
+        // Test removing rule rows from group one first
+        let ruleRowsGroupOne = structuredQuery.queryAllByTestId('rule-row-1');
+        expect(ruleRowsGroupOne.length).toEqual(1);
+        let addRuleRowToGroupOneButton = structuredQuery.queryAllByText('Add rule')[1];
+        addRuleRowToGroupOneButton.click();
+        ruleRowsGroupOne = structuredQuery.queryAllByTestId('rule-row-1');
+        expect(ruleRowsGroupOne.length).toEqual(2);
+        const removeRuleRowFromGroupOneButton = structuredQuery.queryAllByTestId(
+          'remove-rule-row-button-1'
+        )[0];
+        removeRuleRowFromGroupOneButton.click();
+        ruleRowsGroupOne = structuredQuery.queryAllByTestId('rule-row-1');
+        expect(ruleRowsGroupOne.length).toEqual(1);
+        // Then test removing rule rows from group two
+        const addRuleRowToGroupTwoButton = structuredQuery.queryAllByText('Add rule')[2];
+        addRuleRowToGroupTwoButton.click();
+        addRuleRowToGroupTwoButton.click();
+        let ruleRowsGroupTwo: HTMLElement | HTMLElement[] | null = structuredQuery.queryAllByTestId(
+          'rule-row-2'
+        );
+        expect(ruleRowsGroupTwo.length).toEqual(3);
+        let removeRuleRowFromGroupTwoButton = structuredQuery.queryAllByTestId(
+          'remove-rule-row-button-2'
+        )[0];
+        removeRuleRowFromGroupTwoButton.click();
+        ruleRowsGroupTwo = structuredQuery.queryAllByTestId('rule-row-2');
+        expect(ruleRowsGroupTwo.length).toEqual(2);
+        removeRuleRowFromGroupTwoButton = structuredQuery.queryAllByTestId(
+          'remove-rule-row-button-2'
+        )[0];
+        removeRuleRowFromGroupTwoButton.click();
+        ruleRowsGroupTwo = structuredQuery.queryAllByTestId('rule-row-2');
+        expect(ruleRowsGroupTwo.length).toEqual(1);
+        removeRuleRowFromGroupTwoButton = structuredQuery.queryAllByTestId(
+          'remove-rule-row-button-2'
+        )[0];
+        removeRuleRowFromGroupTwoButton.click();
+        ruleRowsGroupTwo = structuredQuery.queryByTestId('rule-row-2');
+        expect(ruleRowsGroupTwo).toBe(null);
       });
       describe('when the Remove rule icon is clicked and it is not the last remaining rule row in a nested rule group', () => {
         test('one click removes one rule row from the correct nested rule group', () => {
+          const addRuleButton = structuredQuery.queryAllByText('Add rule')[0];
+          addRuleButton.click();
+          addRuleButton.click();
           const removeRuleRowButtons = structuredQuery.queryAllByText('Remove rule');
           expect(structuredQuery.queryAllByTestId('rule-row-0').length).toEqual(3);
           removeRuleRowButtons[2].click();
@@ -371,13 +369,16 @@ describe('<StructuredQuery />', () => {
       });
       describe('when the Remove rule icon is clicked for the last remaining rule row in a nested rule group', () => {
         test('the entire nested group is removed', () => {
+          const addRuleButton = structuredQuery.queryAllByText('Add rule')[0];
+          addRuleButton.click();
+          addRuleButton.click();
           const removeRuleRowButtons = structuredQuery.queryAllByText('Remove rule');
           removeRuleRowButtons[2].click();
           removeRuleRowButtons[1].click();
-          let ruleGroups = structuredQuery.queryAllByTestId('structured-query__rule-group');
+          let ruleGroups = structuredQuery.queryAllByTestId('rule-group');
           expect(ruleGroups.length).toEqual(2);
           removeRuleRowButtons[0].click();
-          ruleGroups = structuredQuery.queryAllByTestId('structured-query__rule-group');
+          ruleGroups = structuredQuery.queryAllByTestId('rule-group');
           expect(ruleGroups.length).toEqual(1);
         });
       });

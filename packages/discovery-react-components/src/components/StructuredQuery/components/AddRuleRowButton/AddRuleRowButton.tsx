@@ -10,7 +10,7 @@ export interface AddRuleRowButtonProps {
    */
   addRuleRowText: Messages['addRuleRowText'];
   /**
-   * id of the group for the rule row to add, if it's not a top-level rule row
+   * id of the group for the rule row to render, or 'top-level' if the top-level rule group
    */
   groupId: number | 'top-level';
   /**

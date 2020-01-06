@@ -28,7 +28,7 @@ export const AddRuleGroupButton: FC<AddRuleGroupButtonProps> = ({
   setStructuredQuerySelection
 }) => {
   const handleOnClick = () => {
-    const newRuleGroupId =
+    const newRuleGroupId: Group['id'] =
       structuredQuerySelection.groups.length !== 0
         ? structuredQuerySelection.groups[structuredQuerySelection.groups.length - 1].id! + 1
         : 0;

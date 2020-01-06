@@ -13,7 +13,7 @@ export interface RemoveRuleRowButtonProps {
    */
   removeRuleRowButtonIconDescription: Messages['removeRuleRowButtonIconDescription'];
   /**
-   * id of the group for the rule row to remove, if it's not a top-level rule row
+   * id of the group for the rule row to render, or 'top-level' if the top-level rule group
    */
   groupId: number | 'top-level';
   /**

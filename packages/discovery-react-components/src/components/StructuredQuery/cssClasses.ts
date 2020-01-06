@@ -2,7 +2,7 @@ import { settings } from 'carbon-components';
 
 export const structuredQueryClass = `${settings.prefix}--structured-query`;
 export const structuredQueryRuleGroupClass = `${structuredQueryClass}__rule-group`;
-export const structuredQueryNestedRuleGroupClass = `${structuredQueryClass}__rule-group--nested`;
+export const structuredQueryNestedRuleGroupClass = `${structuredQueryRuleGroupClass}--nested`;
 export const structuredQueryRuleGroupDropdownClass = `${structuredQueryRuleGroupClass}-dropdown`;
 export const structuredQueryRulesClass = `${structuredQueryClass}__rules`;
 export const structuredQueryRulesButtonsClass = `${structuredQueryRulesClass}__buttons`;
