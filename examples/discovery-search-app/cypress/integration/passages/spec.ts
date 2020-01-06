@@ -3,6 +3,10 @@ describe('Passage Results', () => {
     cy.server();
     cy.fixture('collections/collections.json').as('collectionsJSON');
     cy.fixture('query/passageResults.json').as('passageResultsJSON');
+    cy.fixture('component_settings/componentSettings.json').as('componentSettingsJSON');
+    cy.route('GET', '**/component_settings?version=2019-01-01', '@componentSettingsJSON').as(
+      'componentSettings'
+    );
     cy.route('GET', '**/collections?version=2019-01-01', '@collectionsJSON').as('getCollections');
     cy.route('POST', '**/query?version=2019-01-01', '@passageResultsJSON').as('passagesQuery');
     cy.visit('/');
@@ -13,16 +17,63 @@ describe('Passage Results', () => {
       cy.get('.bx--search-input').type('ibm{enter}');
     });
 
-    it('SearchResults displays the first passage text of the results that have passages', () => {
-      //TODO
+    it('SearchResults displays ONLY the first passage text of the results that have passages', () => {
+      cy.get('.bx--search-result')
+        .contains(
+          'This result multiple passages, but you should only be able to see the first one.'
+        )
+        .should('exist');
+      cy.get('.bx--search-result')
+        .contains('if you can see this passage, something probably borked')
+        .should('not.exist');
+      cy.get('.bx--search-result')
+        .contains('This result only has one passage, and it should be visible')
+        .should('exist');
     });
 
     it('each result with a passage has a link to view passage in document', () => {
-      //TODO
+      cy.get('button[data-testid="search-result-element-preview-button"]')
+        .filter(':contains("View passage in document")')
+        .should('have.length', 3);
+    });
+
+    it('each result without document passages or tables displays "Excerpt unavailable"', () => {
+      cy.get('.bx--search-result')
+        .filter(':contains("Excerpt unavailable.")')
+        .should('have.length', 1);
+    });
+
+    it('each result without document passages or tables has a link to the document', () => {
+      cy.get('button[data-testid="search-result-element-preview-button"]')
+        .filter(':contains("View document")')
+        .should('have.length', 1);
+    });
+
+    describe('and clicking on "View passage in document" for a result', () => {
+      beforeEach(() => {
+        // cy.get('button[data-testid="search-result-element-preview-button"]').contains('View passage in document').click();
+        //TODO: this breaks the page, since passageResultsJSON isn't a perfect duplicate of passage results
+      });
+
+      it('navigates to Document Preview for that document', () => {
+        //TODO
+      });
     });
 
     it('the passage text in each result is dangerously rendered', () => {
-      //TODO: check for em tags, etc.
+      cy.get('.bx--search-result')
+        .get('em')
+        .contains('IBM')
+        .should('exist');
+    });
+
+    it('passages and tables can be displayed in the same result', () => {
+      cy.get('.bx--search-result')
+        .filter(':contains("This result has a passage and a table")')
+        .as('combinedResult');
+      cy.get('@combinedResult').contains('table');
+      cy.get('@combinedResult').contains('View passage in document');
+      cy.get('@combinedResult').contains('View table in document');
     });
   });
 });
