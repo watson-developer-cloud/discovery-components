@@ -274,8 +274,8 @@ describe('<StructuredQuery />', () => {
     });
 
     describe('adding rule rows to nested rule groups', () => {
-      let addRuleToGroupZeroButton: HTMLElement;
       let addRuleGroupButton: HTMLElement;
+      let addRuleToGroupZeroButton: HTMLElement;
       beforeEach(() => {
         addRuleGroupButton = structuredQuery.getByText('Add group of rules');
         addRuleGroupButton.click();
@@ -283,16 +283,16 @@ describe('<StructuredQuery />', () => {
         addRuleToGroupZeroButton.click();
       });
       test('each click of the Add rule button adds one new rule to the correct nested rule group', () => {
-        let ruleGroupRuleRowZero = structuredQuery.queryAllByTestId('rule-row-0');
-        expect(ruleGroupRuleRowZero.length).toEqual(2);
+        let ruleRowsGroupZero = structuredQuery.queryAllByTestId('rule-row-0');
+        expect(ruleRowsGroupZero.length).toEqual(2);
         addRuleGroupButton.click();
-        let addRuleRowToGroupOneButton = structuredQuery.queryAllByText('Add rule')[1];
+        const addRuleRowToGroupOneButton = structuredQuery.queryAllByText('Add rule')[1];
         addRuleRowToGroupOneButton.click();
         let ruleRowsGroupOne = structuredQuery.queryAllByTestId('rule-row-1');
         expect(ruleRowsGroupOne.length).toEqual(2);
         addRuleToGroupZeroButton.click();
-        ruleGroupRuleRowZero = structuredQuery.queryAllByTestId('rule-row-0');
-        expect(ruleGroupRuleRowZero.length).toEqual(3);
+        ruleRowsGroupZero = structuredQuery.queryAllByTestId('rule-row-0');
+        expect(ruleRowsGroupZero.length).toEqual(3);
         addRuleRowToGroupOneButton.click();
         ruleRowsGroupOne = structuredQuery.queryAllByTestId('rule-row-1');
         expect(ruleRowsGroupOne.length).toEqual(3);
