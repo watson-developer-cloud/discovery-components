@@ -71,7 +71,7 @@ export const RemoveRuleRowButton: FC<RemoveRuleRowButtonProps> = ({
       renderIcon={SubtractAlt16}
       iconDescription={removeRuleRowButtonIconDescription}
       onClick={handleOnClick}
-      data-testid="remove-rule-row-button"
+      data-testid={`remove-rule-row-button-${groupId}`}
     />
   );
 };

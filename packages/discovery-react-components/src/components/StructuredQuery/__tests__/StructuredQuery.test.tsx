@@ -132,7 +132,7 @@ describe('<StructuredQuery />', () => {
       });
 
       test('and the one top-level rule row does not have a Remove rule button', () => {
-        const removeRuleButton = structuredQuery.queryByTestId('remove-rule-row-button');
+        const removeRuleButton = structuredQuery.queryByTestId('remove-rule-row-button-top-level');
         expect(removeRuleButton).toBe(null);
       });
 
@@ -158,7 +158,9 @@ describe('<StructuredQuery />', () => {
       });
 
       test('and both rule rows now include the Remove rule button', () => {
-        const removeRuleButtons = structuredQuery.queryAllByTestId('remove-rule-row-button');
+        const removeRuleButtons = structuredQuery.queryAllByTestId(
+          'remove-rule-row-button-top-level'
+        );
         expect(removeRuleButtons.length).toEqual(2);
       });
     });
@@ -167,7 +169,9 @@ describe('<StructuredQuery />', () => {
       beforeEach(() => {
         const addRuleButton = structuredQuery.getByText('Add rule');
         addRuleButton.click();
-        const removeRuleButton = structuredQuery.queryAllByTestId('remove-rule-row-button')[1];
+        const removeRuleButton = structuredQuery.queryAllByTestId(
+          'remove-rule-row-button-top-level'
+        )[1];
         removeRuleButton.click();
       });
 
@@ -181,7 +185,7 @@ describe('<StructuredQuery />', () => {
       });
 
       test('and no Remove rule buttons are displayed since only one rule row still remains', () => {
-        const removeRuleButton = structuredQuery.queryByTestId('remove-rule-row-button');
+        const removeRuleButton = structuredQuery.queryByTestId('remove-rule-row-button-top-level');
         expect(removeRuleButton).toBe(null);
       });
     });
@@ -239,10 +243,14 @@ describe('<StructuredQuery />', () => {
       });
 
       describe('when adding multiple groups of rules', () => {
+        let addRuleGroupButton: HTMLElement;
+        beforeEach(() => {
+          addRuleGroupButton = structuredQuery.getByText('Add group of rules');
+          addRuleGroupButton.click();
+          addRuleGroupButton.click();
+        });
+
         test('a new group of rules is added for each click of the Add group of rules button, with one rule row each', () => {
-          const addRuleGroupButton = structuredQuery.getByText('Add group of rules');
-          addRuleGroupButton.click();
-          addRuleGroupButton.click();
           const ruleGroups = structuredQuery.queryAllByTestId('structured-query__rule-group');
           const ruleRowsTopLevel = structuredQuery.queryAllByTestId('rule-row-top-level');
           const ruleRowsGroupZero = structuredQuery.queryAllByTestId('rule-row-0');
@@ -253,7 +261,60 @@ describe('<StructuredQuery />', () => {
           expect(ruleRowsGroupOne.length).toEqual(1);
         });
 
-        // Also test that rule rows are added to the correct groups when there are multiple groups
+        test('new rule rows added when the Add rule button is clicked are added to the correct group', () => {
+          addRuleGroupButton.click();
+          const addRuleRowToGroupOneButton = structuredQuery.queryAllByText('Add rule')[1];
+          addRuleRowToGroupOneButton.click();
+          let ruleRowsGroupOne = structuredQuery.queryAllByTestId('rule-row-1');
+          expect(ruleRowsGroupOne.length).toEqual(2);
+          const addRuleRowToGroupTwoButton = structuredQuery.queryAllByText('Add rule')[2];
+          addRuleRowToGroupTwoButton.click();
+          const ruleRowsGroupTwo = structuredQuery.queryAllByTestId('rule-row-2');
+          expect(ruleRowsGroupTwo.length).toEqual(2);
+          addRuleRowToGroupOneButton.click();
+          ruleRowsGroupOne = structuredQuery.queryAllByTestId('rule-row-1');
+          expect(ruleRowsGroupOne.length).toEqual(3);
+        });
+
+        test('rule rows removed when the Remove rule button is clicked are removed from the correct group', () => {
+          addRuleGroupButton.click();
+          const addRuleRowToGroupOneButton = structuredQuery.queryAllByText('Add rule')[1];
+          addRuleRowToGroupOneButton.click();
+          let ruleRowsGroupOne = structuredQuery.queryAllByTestId('rule-row-1');
+          expect(ruleRowsGroupOne.length).toEqual(2);
+          const removeRuleRowFromGroupOneButton = structuredQuery.queryAllByTestId(
+            'remove-rule-row-button-1'
+          )[0];
+          removeRuleRowFromGroupOneButton.click();
+          ruleRowsGroupOne = structuredQuery.queryAllByTestId('rule-row-1');
+          expect(ruleRowsGroupOne.length).toEqual(1);
+          const addRuleRowToGroupTwoButton = structuredQuery.queryAllByText('Add rule')[2];
+          addRuleRowToGroupTwoButton.click();
+          addRuleRowToGroupTwoButton.click();
+          let ruleRowsGroupTwo:
+            | HTMLElement
+            | HTMLElement[]
+            | null = structuredQuery.queryAllByTestId('rule-row-2');
+          expect(ruleRowsGroupTwo.length).toEqual(3);
+          let removeRuleRowFromGroupTwoButton = structuredQuery.queryAllByTestId(
+            'remove-rule-row-button-2'
+          )[0];
+          removeRuleRowFromGroupTwoButton.click();
+          ruleRowsGroupTwo = structuredQuery.queryAllByTestId('rule-row-2');
+          expect(ruleRowsGroupTwo.length).toEqual(2);
+          removeRuleRowFromGroupTwoButton = structuredQuery.queryAllByTestId(
+            'remove-rule-row-button-2'
+          )[0];
+          removeRuleRowFromGroupTwoButton.click();
+          ruleRowsGroupTwo = structuredQuery.queryAllByTestId('rule-row-2');
+          expect(ruleRowsGroupTwo.length).toEqual(1);
+          removeRuleRowFromGroupTwoButton = structuredQuery.queryAllByTestId(
+            'remove-rule-row-button-2'
+          )[0];
+          removeRuleRowFromGroupTwoButton.click();
+          ruleRowsGroupTwo = structuredQuery.queryByTestId('rule-row-2');
+          expect(ruleRowsGroupTwo).toBe(null);
+        });
       });
     });
 
