@@ -379,10 +379,14 @@ describe('<StructuredQuery />', () => {
             removeRuleRowButtons[2].click();
             removeRuleRowButtons[1].click();
             let ruleGroups = structuredQuery.queryAllByTestId('rule-group');
+            let nestedRuleGroupZero = structuredQuery.queryByTestId('rule-row-0');
             expect(ruleGroups.length).toEqual(2);
+            expect(nestedRuleGroupZero).toBeDefined();
             removeRuleRowButtons[0].click();
             ruleGroups = structuredQuery.queryAllByTestId('rule-group');
+            nestedRuleGroupZero = structuredQuery.queryByTestId('rule-row-0');
             expect(ruleGroups.length).toEqual(1);
+            expect(nestedRuleGroupZero).toBe(null);
           });
         });
       });
