@@ -4,6 +4,10 @@ describe('Basic search', () => {
     cy.fixture('collections/collections.json').as('collectionsJSON');
     cy.fixture('query/query.json').as('queryJSON');
     cy.fixture('query/noResults.json').as('noResultsJSON');
+    cy.fixture('component_settings/componentSettings.json').as('componentSettingsJSON');
+    cy.route('GET', '**/component_settings?version=2019-01-01', '@componentSettingsJSON').as(
+      'componentSettings'
+    );
     cy.route('GET', '**/collections?version=2019-01-01', '@collectionsJSON').as('getCollections');
     cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQuery');
     cy.visit('/');
@@ -23,15 +27,13 @@ describe('Basic search', () => {
   // Querying with results
   describe('When entering a query with results', () => {
     beforeEach(() => {
-      cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQuery');
       cy.get('.bx--search-input').type('abil{enter}');
+      cy.wait('@postQuery');
+      cy.wait('@postQuery').as('queryObject');
     });
 
     it('makes the appropriate query request', () => {
-      cy.wait('@postQuery')
-        .its('requestBody.count')
-        .should('eq', 0);
-      cy.wait('@postQuery')
+      cy.get('@queryObject')
         .its('requestBody.natural_language_query')
         .should('eq', 'abil');
     });
@@ -46,6 +48,7 @@ describe('Basic search', () => {
     beforeEach(() => {
       cy.route('POST', '**/query?version=2019-01-01', '@noResultsJSON').as('noResultsQuery');
       cy.get('.bx--search-input').type('abil{enter}');
+      cy.wait('@postQuery');
     });
 
     it('SearchResults displays "no results found" message', () => {

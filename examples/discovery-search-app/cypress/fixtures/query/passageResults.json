@@ -58,14 +58,12 @@
         "filename": "add-ons-integrations-328-337.pdf",
         "file_type": "pdf"
       },
-      "text": [
-        "1.\n2.\n3.\n4.\n5.\n6.\n7.\n-\n-\n-\n8.\n Upgrading your MongoDB installation \nWhen a new edition of MongoDB is released on IBM® Passport Advantage®, you\ncan upgrade the software installation on IBM Cloud Pak for Data. \n Before you begin \n \nBefore you upgrade an existing installation of the MongoDB database add-on, you\nshould run a full backup of the database. For more information on running a full\nbackup of your database, see Preparing to back up or restore MongoDB databases. \nAbout this task \n \nYou need to have the authority to download the PPA package to your cluster. Also,\nyour account must have authority to run kubectl exec and helm commands on the\nmaster node of your Cloud Pak for Data cluster."
-      ],
+      "text": ["This result only has one passage, and it should be visible"],
       "document_passages": [
         {
           "passage_text": "This result only has one passage, and it should be visible",
-          "start_offset": 8919,
-          "end_offset": 9315,
+          "start_offset": 0,
+          "end_offset": 58,
           "field": "text"
         }
       ]
@@ -96,6 +94,7 @@
         "collection_id": "COLLECTION_ID_1"
       },
       "title": "Alternate title",
+      "text": "This result has a passage and a table",
       "document_passages": [
         {
           "passage_text": "This result has a passage and a table"

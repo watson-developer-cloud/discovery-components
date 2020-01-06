@@ -45,6 +45,7 @@ describe('Pagination', () => {
     beforeEach(() => {
       cy.route('POST', '**/query?version=2019-01-01', '@multiPageResultsJSON').as('multiPageQuery');
       cy.get('.bx--search-input').type('abil{enter}');
+      cy.wait('@multiPageQuery');
     });
 
     it('lists the correct number of total pages', () => {
@@ -57,57 +58,63 @@ describe('Pagination', () => {
 
     describe('and the next page arrow is clicked', () => {
       beforeEach(() => {
-        cy.wait('@multiPageQuery');
         cy.get('.bx--pagination__button--forward').click();
+        cy.wait('@multiPageQuery').as('nextPageQueryObject');
       });
 
       it('correctly requests the next page', () => {
-        cy.wait('@multiPageQuery')
+        cy.get('@nextPageQueryObject')
           .its('requestBody.offset')
           .should('eq', 5);
       });
 
       describe('and the previous page arrow is clicked', () => {
         beforeEach(() => {
-          cy.wait('@multiPageQuery');
           cy.get('.bx--pagination__button--backward').click();
+          cy.wait('@multiPageQuery').as('prevPageQueryObject');
         });
 
         it('correctly requests the previous page', () => {
-          cy.wait('@multiPageQuery')
+          cy.get('@prevPageQueryObject')
             .its('requestBody.offset')
             .should('eq', 0);
         });
       });
     });
 
-    describe('and we use the page selector', () => {
+    describe('and we use the page selector to go to the second page', () => {
       beforeEach(() => {
-        cy.wait('@multiPageQuery');
+        cy.get('.bx--pagination__right')
+          .find('.bx--select-input')
+          .select('2');
+        cy.wait('@multiPageQuery').as('secondPageQueryObject');
       });
 
-      it('we can navigate to each page of results', () => {
-        for (let i = 0; i < 12; i++) {
-          cy.get('.bx--pagination__right')
-            .find('.bx--select-input')
-            .select(`${i + 1}`);
-          cy.wait('@multiPageQuery')
-            .its('requestBody.offset')
-            .should('eq', i * 5);
-        }
+      it('makes a query for the correct page of results', () => {
+        cy.get('@secondPageQueryObject')
+          .its('requestBody.offset')
+          .should('eq', 5);
+      });
+
+      it('should display the correct page number in the page selector', () => {
+        cy.get('span')
+          .contains('6–10 of 60 results')
+          .should('exist');
+        cy.get('.bx--pagination__right')
+          .find('.bx--select-input')
+          .should('have.value', '2');
       });
     });
 
     describe('and we navigate to the last page of results', () => {
       beforeEach(() => {
-        cy.wait('@multiPageQuery');
         cy.get('.bx--pagination__right')
           .find('.bx--select-input')
           .select('12');
+        cy.wait('@multiPageQuery');
       });
 
       it('the next page button is disabled', () => {
-        cy.wait('@multiPageQuery');
         cy.get('.bx--pagination__button--forward').should('be.disabled');
       });
 
@@ -116,14 +123,16 @@ describe('Pagination', () => {
           cy.get('.bx--pagination__left')
             .find('.bx--select-input')
             .select('50');
+          cy.wait('@multiPageQuery').as('largerMultiPageQueryObject');
         });
 
         it('returns to the first page, with the correct size', () => {
-          cy.wait('@multiPageQuery');
-          cy.wait('@multiPageQuery').then(xhr => {
-            expect(xhr.requestBody.count).to.eq(50);
-            expect(xhr.requestBody.offset).to.eq(0);
-          });
+          cy.get('@largerMultiPageQueryObject')
+            .its('requestBody.count')
+            .should('eq', 50);
+          cy.get('@largerMultiPageQueryObject')
+            .its('requestBody.offset')
+            .should('eq', 0);
           cy.get('.bx--pagination__right')
             .find('.bx--select-input')
             .should('have.value', '1');
@@ -136,18 +145,16 @@ describe('Pagination', () => {
         cy.get('.bx--pagination__left')
           .find('.bx--select-input')
           .select('5');
+        cy.wait('@multiPageQuery').as('fiveResultsMultiPageQueryObject');
       });
 
       it('makes a request for 5 results', () => {
-        cy.wait('@multiPageQuery'); // not the request we're looking for
-        cy.wait('@multiPageQuery')
+        cy.get('@fiveResultsMultiPageQueryObject')
           .its('requestBody.count')
           .should('eq', 5);
       });
 
       it('only lists twelve pages of results', () => {
-        cy.wait('@multiPageQuery');
-        cy.wait('@multiPageQuery');
         cy.get('.bx--pagination__text').should('contain', '12');
       });
     });
@@ -157,18 +164,16 @@ describe('Pagination', () => {
         cy.get('.bx--pagination__left')
           .find('.bx--select-input')
           .select('10');
+        cy.wait('@multiPageQuery').as('tenResultsPerPageQueryObject');
       });
 
       it('makes a request for 10 results', () => {
-        cy.wait('@multiPageQuery'); // not the request we're looking for
-        cy.wait('@multiPageQuery')
+        cy.get('@tenResultsPerPageQueryObject')
           .its('requestBody.count')
           .should('eq', 10);
       });
 
       it('only lists six pages of results', () => {
-        cy.wait('@multiPageQuery');
-        cy.wait('@multiPageQuery');
         cy.get('.bx--pagination__text').should('contain', '6');
       });
     });
@@ -178,18 +183,16 @@ describe('Pagination', () => {
         cy.get('.bx--pagination__left')
           .find('.bx--select-input')
           .select('50');
+        cy.wait('@multiPageQuery').as('fiftyResultsPerPageQueryObject');
       });
 
       it('makes a request for 50 results', () => {
-        cy.wait('@multiPageQuery'); // not the request we're looking for
-        cy.wait('@multiPageQuery')
+        cy.get('@fiftyResultsPerPageQueryObject')
           .its('requestBody.count')
           .should('eq', 50);
       });
 
       it('only lists two pages of results', () => {
-        cy.wait('@multiPageQuery');
-        cy.wait('@multiPageQuery');
         cy.get('.bx--pagination__text').should('contain', '2');
       });
     });

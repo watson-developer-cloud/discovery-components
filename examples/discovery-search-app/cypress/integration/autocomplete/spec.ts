@@ -1,6 +1,14 @@
 describe('Autocomplete', () => {
   beforeEach(() => {
     cy.server();
+    cy.fixture('component_settings/componentSettings.json').as('componentSettingsJSON');
+    cy.route('GET', '**/component_settings?version=2019-01-01', '@componentSettingsJSON').as(
+      'componentSettings'
+    );
+    cy.fixture('collections/collections.json').as('collectionsJSON');
+    cy.route('GET', '**/collections?version=2019-01-01', '@collectionsJSON').as('getCollections');
+    cy.fixture('query/query.json').as('queryJSON');
+    cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQuery');
     cy.visit('/');
   });
 
@@ -16,11 +24,10 @@ describe('Autocomplete', () => {
         '@autocompletionsJSON'
       ).as('getAutocompletions');
       cy.get('.bx--search-input').type('h');
+      cy.wait('@getAutocompletions');
     });
 
     it('displays a dropdown of autocomplete suggestions', () => {
-      cy.wait('@getAutocompletions');
-
       cy.get('.bx--search-autocompletion__term').each((autocompletionTerm, i) => {
         expect(autocompletionTerm).to.contain('h');
         expect(autocompletionTerm).to.contain(expectedAutocompletions[i].slice(1));
@@ -64,10 +71,12 @@ describe('Autocomplete', () => {
     describe('and hit enter', () => {
       beforeEach(() => {
         cy.get('.bx--search-input').type('{enter}');
+        cy.wait('@postQuery');
+        cy.wait('@postQuery').as('queryObject');
       });
 
       it('performs a query with the correct term', () => {
-        cy.wait('@postQuery')
+        cy.get('@queryObject')
           .its('requestBody.natural_language_query')
           .should('be.eq', ' ');
       });
