@@ -315,6 +315,16 @@ describe('<StructuredQuery />', () => {
           ruleRowsGroupTwo = structuredQuery.queryByTestId('rule-row-2');
           expect(ruleRowsGroupTwo).toBe(null);
         });
+
+        test('the Add group of rule buttons is no longer displayed when the max number of nested rule groups has been added', () => {
+          addRuleGroupButton.click();
+          addRuleGroupButton.click();
+          addRuleGroupButton = structuredQuery.getByText('Add group of rules');
+          expect(addRuleGroupButton).toBeDefined();
+          addRuleGroupButton.click();
+          const addRuleGroupButtonPossibleNull = structuredQuery.queryByText('Add group of rules');
+          expect(addRuleGroupButtonPossibleNull).toBe(null);
+        });
       });
     });
 
