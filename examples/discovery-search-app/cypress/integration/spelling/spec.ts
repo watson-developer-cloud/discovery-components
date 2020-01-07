@@ -1,16 +1,22 @@
 describe('Spelling', () => {
   beforeEach(() => {
+    // Sets up and handles the collections, component settings, and initial query requests that run on page-load
     cy.server();
     cy.fixture('collections/collections.json').as('collectionsJSON');
     cy.route('GET', '**/collections?version=2019-01-01', '@collectionsJSON').as('getCollections');
-    cy.fixture('query/misspelledQuery.json').as('misspelledQueryJSON');
-    cy.fixture('query/correctedQuery.json').as('correctedQueryJSON');
     cy.fixture('component_settings/componentSettings.json').as('componentSettingsJSON');
     cy.route('GET', '**/component_settings?version=2019-01-01', '@componentSettingsJSON').as(
-      'componentSettings'
+      'getComponentSettings'
     );
-    cy.route('POST', '**/query?version=2019-01-01', '@misspelledQueryJSON').as('misspelledQuery');
+    cy.fixture('query/query.json').as('queryJSON');
+    cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQuery');
     cy.visit('/');
+    cy.wait(['@getCollections', '@getComponentSettings', '@postQuery']);
+
+    // Set up/override routes & fixtures that are specific to this file
+    cy.fixture('query/misspelledQuery.json').as('misspelledQueryJSON');
+    cy.fixture('query/correctedQuery.json').as('correctedQueryJSON');
+    cy.route('POST', '**/query?version=2019-01-01', '@misspelledQueryJSON').as('misspelledQuery');
   });
 
   describe('When entering a misspelled query', () => {

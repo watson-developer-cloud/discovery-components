@@ -1,16 +1,21 @@
 describe('Basic search', () => {
   beforeEach(() => {
+    //TODO: move this section of code into support.js? Maybe just as a helper function
+    // Sets up and handles the collections, component settings, and initial query requests that run on page-load
     cy.server();
     cy.fixture('collections/collections.json').as('collectionsJSON');
-    cy.fixture('query/query.json').as('queryJSON');
-    cy.fixture('query/noResults.json').as('noResultsJSON');
+    cy.route('GET', '**/collections?version=2019-01-01', '@collectionsJSON').as('getCollections');
     cy.fixture('component_settings/componentSettings.json').as('componentSettingsJSON');
     cy.route('GET', '**/component_settings?version=2019-01-01', '@componentSettingsJSON').as(
-      'componentSettings'
+      'getComponentSettings'
     );
-    cy.route('GET', '**/collections?version=2019-01-01', '@collectionsJSON').as('getCollections');
+    cy.fixture('query/query.json').as('queryJSON');
     cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQuery');
     cy.visit('/');
+    cy.wait(['@getCollections', '@getComponentSettings', '@postQuery']);
+
+    // Set up/override routes & fixtures that are specific to this file
+    cy.fixture('query/noResults.json').as('noResultsJSON');
   });
 
   // Rendering initial page
@@ -28,7 +33,6 @@ describe('Basic search', () => {
   describe('When entering a query with results', () => {
     beforeEach(() => {
       cy.get('.bx--search-input').type('abil{enter}');
-      cy.wait('@postQuery');
       cy.wait('@postQuery').as('queryObject');
     });
 
@@ -48,7 +52,7 @@ describe('Basic search', () => {
     beforeEach(() => {
       cy.route('POST', '**/query?version=2019-01-01', '@noResultsJSON').as('noResultsQuery');
       cy.get('.bx--search-input').type('abil{enter}');
-      cy.wait('@postQuery');
+      cy.wait('@noResultsQuery');
     });
 
     it('SearchResults displays "no results found" message', () => {
