@@ -3,6 +3,9 @@
   "results": [
     {
       "document_id": "e5db21d93f99dd25aefd97d1d247f416",
+      "result_metadata": {
+        "collection_id": "COLLECTION_ID_0"
+      },
       "extracted_metadata": {
         "filename": "some file name",
         "title": "file 1 title"
@@ -16,6 +19,9 @@
     },
     {
       "document_id": "e5db21d93f99dd25aefd97d1d247f417",
+      "result_metadata": {
+        "collection_id": "COLLECTION_ID_0"
+      },
       "extracted_metadata": {
         "filename": "some other file name",
         "title": "file 2 title"
@@ -29,6 +35,9 @@
     },
     {
       "document_id": "e5db21d93f99dd25aefd97d1d247f418",
+      "result_metadata": {
+        "collection_id": "COLLECTION_ID_1"
+      },
       "extracted_metadata": {
         "filename": "some other other file name",
         "title": "file 3 title"
