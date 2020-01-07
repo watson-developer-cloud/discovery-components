@@ -14,7 +14,7 @@ describe('Autocomplete', () => {
     cy.wait(['@getCollections', '@getComponentSettings', '@postQuery']);
 
     // Set up/override routes & fixtures that are specific to this file
-    cy.fixture('query/noResults.json').as('noResultsJSON');
+    cy.fixture('autocompletion/autocompletions.json').as('autocompletionsJSON');
   });
 
   // Autocomplete tests
@@ -22,7 +22,6 @@ describe('Autocomplete', () => {
     const expectedAutocompletions = ['have', 'helm', 'how', 'hadoop', 'hive', 'hostname', 'high'];
 
     beforeEach(() => {
-      cy.fixture('autocompletion/autocompletions.json').as('autocompletionsJSON');
       cy.route(
         'GET',
         '**/autocompletion?version=2019-01-01&prefix=h&count=7',
@@ -64,7 +63,6 @@ describe('Autocomplete', () => {
 
   describe('When typing " " into the search input', () => {
     beforeEach(() => {
-      cy.fixture('query/query.json').as('queryJSON');
       cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQuery');
       cy.get('.bx--search-input').type(' ');
     });

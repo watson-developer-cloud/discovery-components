@@ -24,7 +24,7 @@ describe('Table Results', () => {
     });
 
     it('SearchResults displays ONLY the first table of the results that have tables', () => {
-      cy.get('.bx--search-result')
+      cy.get('table')
         .contains('You should be able to see this table')
         .should('exist');
       cy.get('.bx--search-result')
@@ -73,7 +73,7 @@ describe('Table Results', () => {
     describe('and "show table results only" is toggled on', () => {
       beforeEach(() => {
         cy.get('label')
-          .contains('Show table results only')
+          .filter(':contains("Show table results only")')
           .click();
       });
 

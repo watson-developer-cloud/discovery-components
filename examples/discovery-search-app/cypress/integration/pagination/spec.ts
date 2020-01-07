@@ -47,9 +47,11 @@ describe('Pagination', () => {
 
   describe('When there are multiple pages of results', () => {
     beforeEach(() => {
-      cy.route('POST', '**/query?version=2019-01-01', '@multiPageResultsJSON').as('multiPageQuery');
+      cy.route('POST', '**/query?version=2019-01-01', '@multiPageResultsJSON').as(
+        'postQueryMultiPage'
+      );
       cy.get('.bx--search-input').type('abil{enter}');
-      cy.wait('@multiPageQuery');
+      cy.wait('@postQueryMultiPage');
     });
 
     it('lists the correct number of total pages', () => {
@@ -63,7 +65,7 @@ describe('Pagination', () => {
     describe('and the next page arrow is clicked', () => {
       beforeEach(() => {
         cy.get('.bx--pagination__button--forward').click();
-        cy.wait('@multiPageQuery').as('nextPageQueryObject');
+        cy.wait('@postQueryMultiPage').as('nextPageQueryObject');
       });
 
       it('correctly requests the next page', () => {
@@ -75,7 +77,7 @@ describe('Pagination', () => {
       describe('and the previous page arrow is clicked', () => {
         beforeEach(() => {
           cy.get('.bx--pagination__button--backward').click();
-          cy.wait('@multiPageQuery').as('prevPageQueryObject');
+          cy.wait('@postQueryMultiPage').as('prevPageQueryObject');
         });
 
         it('correctly requests the previous page', () => {
@@ -91,7 +93,7 @@ describe('Pagination', () => {
         cy.get('.bx--pagination__right')
           .find('.bx--select-input')
           .select('2');
-        cy.wait('@multiPageQuery').as('secondPageQueryObject');
+        cy.wait('@postQueryMultiPage').as('secondPageQueryObject');
       });
 
       it('makes a query for the correct page of results', () => {
@@ -115,7 +117,7 @@ describe('Pagination', () => {
         cy.get('.bx--pagination__right')
           .find('.bx--select-input')
           .select('12');
-        cy.wait('@multiPageQuery');
+        cy.wait('@postQueryMultiPage');
       });
 
       it('the next page button is disabled', () => {
@@ -127,14 +129,14 @@ describe('Pagination', () => {
           cy.get('.bx--pagination__left')
             .find('.bx--select-input')
             .select('50');
-          cy.wait('@multiPageQuery').as('largerMultiPageQueryObject');
+          cy.wait('@postQueryMultiPage').as('largerpostQueryMultiPageObject');
         });
 
         it('returns to the first page, with the correct size', () => {
-          cy.get('@largerMultiPageQueryObject')
+          cy.get('@largerpostQueryMultiPageObject')
             .its('requestBody.count')
             .should('eq', 50);
-          cy.get('@largerMultiPageQueryObject')
+          cy.get('@largerpostQueryMultiPageObject')
             .its('requestBody.offset')
             .should('eq', 0);
           cy.get('.bx--pagination__right')
@@ -149,11 +151,11 @@ describe('Pagination', () => {
         cy.get('.bx--pagination__left')
           .find('.bx--select-input')
           .select('5');
-        cy.wait('@multiPageQuery').as('fiveResultsMultiPageQueryObject');
+        cy.wait('@postQueryMultiPage').as('fiveResultspostQueryMultiPageObject');
       });
 
       it('makes a request for 5 results', () => {
-        cy.get('@fiveResultsMultiPageQueryObject')
+        cy.get('@fiveResultspostQueryMultiPageObject')
           .its('requestBody.count')
           .should('eq', 5);
       });
@@ -168,7 +170,7 @@ describe('Pagination', () => {
         cy.get('.bx--pagination__left')
           .find('.bx--select-input')
           .select('10');
-        cy.wait('@multiPageQuery').as('tenResultsPerPageQueryObject');
+        cy.wait('@postQueryMultiPage').as('tenResultsPerPageQueryObject');
       });
 
       it('makes a request for 10 results', () => {
@@ -187,7 +189,7 @@ describe('Pagination', () => {
         cy.get('.bx--pagination__left')
           .find('.bx--select-input')
           .select('50');
-        cy.wait('@multiPageQuery').as('fiftyResultsPerPageQueryObject');
+        cy.wait('@postQueryMultiPage').as('fiftyResultsPerPageQueryObject');
       });
 
       it('makes a request for 50 results', () => {

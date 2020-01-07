@@ -15,7 +15,7 @@ describe('Passage Results', () => {
 
     // Set up/override routes & fixtures that are specific to this file
     cy.fixture('query/passageResults.json').as('passageResultsJSON');
-    cy.route('POST', '**/query?version=2019-01-01', '@passageResultsJSON').as('passagesQuery');
+    cy.route('POST', '**/query?version=2019-01-01', '@passageResultsJSON').as('postQueryPassages');
   });
 
   describe('When entering a query whose results contain passages', () => {
@@ -24,15 +24,15 @@ describe('Passage Results', () => {
     });
 
     it('SearchResults displays ONLY the first passage text of the results that have passages', () => {
-      cy.get('.bx--search-result')
+      cy.get('.bx--search-result__content-wrapper__body')
         .contains(
           'This result multiple passages, but you should only be able to see the first one.'
         )
         .should('exist');
-      cy.get('.bx--search-result')
+      cy.get('.bx--search-result__content-wrapper__body')
         .contains('if you can see this passage, something probably borked')
         .should('not.exist');
-      cy.get('.bx--search-result')
+      cy.get('.bx--search-result__content-wrapper__body')
         .contains('This result only has one passage, and it should be visible')
         .should('exist');
     });
@@ -44,7 +44,7 @@ describe('Passage Results', () => {
     });
 
     it('each result without document passages or tables displays "Excerpt unavailable"', () => {
-      cy.get('.bx--search-result')
+      cy.get('.bx--search-result__content-wrapper__body')
         .filter(':contains("Excerpt unavailable.")')
         .should('have.length', 1);
     });

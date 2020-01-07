@@ -68,9 +68,9 @@ describe('Basic search', () => {
   // Querying without results
   describe('When entering a query with no results', () => {
     beforeEach(() => {
-      cy.route('POST', '**/query?version=2019-01-01', '@noResultsJSON').as('noResultsQuery');
+      cy.route('POST', '**/query?version=2019-01-01', '@noResultsJSON').as('postQueryNoResults');
       cy.get('.bx--search-input').type('abil{enter}');
-      cy.wait('@noResultsQuery');
+      cy.wait('@postQueryNoResults');
     });
 
     it('SearchResults displays "no results found" message', () => {

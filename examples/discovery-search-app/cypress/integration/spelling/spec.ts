@@ -16,13 +16,15 @@ describe('Spelling', () => {
     // Set up/override routes & fixtures that are specific to this file
     cy.fixture('query/misspelledQuery.json').as('misspelledQueryJSON');
     cy.fixture('query/correctedQuery.json').as('correctedQueryJSON');
-    cy.route('POST', '**/query?version=2019-01-01', '@misspelledQueryJSON').as('misspelledQuery');
+    cy.route('POST', '**/query?version=2019-01-01', '@misspelledQueryJSON').as(
+      'postQueryMisspelled'
+    );
   });
 
   describe('When entering a misspelled query', () => {
     beforeEach(() => {
       cy.get('.bx--search-input').type('waston{enter}');
-      cy.wait('@misspelledQuery');
+      cy.wait('@postQueryMisspelled');
     });
 
     it('a spelling correction is displayed in SearchResults', () => {
@@ -33,11 +35,13 @@ describe('Spelling', () => {
 
     describe('and clicking on the suggested query term', () => {
       beforeEach(() => {
-        cy.route('POST', '**/query?version=2019-01-01', '@correctedQueryJSON').as('correctedQuery');
+        cy.route('POST', '**/query?version=2019-01-01', '@correctedQueryJSON').as(
+          'postQueryCorrected'
+        );
         cy.get('button')
           .contains('watson')
           .click();
-        cy.wait('@correctedQuery').as('correctedQueryObject');
+        cy.wait('@postQueryCorrected').as('correctedQueryObject');
       });
 
       it('updates the query with the suggested term', () => {
