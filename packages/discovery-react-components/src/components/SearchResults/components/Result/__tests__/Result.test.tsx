@@ -10,7 +10,7 @@ import {
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 
 import { wrapWithContext, browserWindow } from 'utils/testingUtils';
-import { SearchResults } from 'components/SearchResults/SearchResults';
+import SearchResults from 'components/SearchResults/SearchResults';
 
 describe('<Result />', () => {
   let context: Partial<SearchContextIFC>;

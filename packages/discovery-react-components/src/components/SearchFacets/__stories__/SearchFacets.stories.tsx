@@ -1,13 +1,13 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { text, object, boolean, number } from '@storybook/addon-knobs/react';
-import { SearchFacets } from '../SearchFacets';
+import SearchFacets from '../SearchFacets';
 import { facetsQueryResponse } from '../__fixtures__/facetsQueryResponse';
 import collectionsResponse from '../__fixtures__/collectionsResponse';
 import aggregationComponentSettingsResponse from '../__fixtures__/componentSettingsResponse';
 import { StoryWrapper, DummySearchClient } from 'utils/storybookUtils';
 import { createDummyResponsePromise } from 'utils/testingUtils';
-import { DiscoverySearch, DiscoverySearchProps } from 'components/DiscoverySearch/DiscoverySearch';
+import DiscoverySearch, { DiscoverySearchProps } from 'components/DiscoverySearch/DiscoverySearch';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { action } from '@storybook/addon-actions';
 import { defaultMessages } from '../messages';

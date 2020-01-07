@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import get from 'lodash/get';
 import { SkeletonText } from 'carbon-components-react';
 import { SearchApi, SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
@@ -16,6 +16,9 @@ import {
   searchResultsListClass
 } from './cssClasses';
 import { defaultMessages, Messages } from './messages';
+import { withErrorBoundary } from 'react-error-boundary';
+import { FallbackComponent } from 'utils/FallbackComponent';
+import onErrorCallback from '../../utils/onErrorCallback';
 
 const DEFAULT_LOADING_COUNT = 3;
 
@@ -72,7 +75,7 @@ export interface SearchResultsProps {
   messages?: Partial<Messages>;
 }
 
-export const SearchResults: FC<SearchResultsProps> = ({
+const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   resultLinkField,
   resultLinkTemplate,
   resultTitleField,
@@ -238,3 +241,9 @@ export const SearchResults: FC<SearchResultsProps> = ({
     </div>
   );
 };
+
+export default withErrorBoundary(
+  SearchResults,
+  FallbackComponent('SearchResults'),
+  onErrorCallback
+);
