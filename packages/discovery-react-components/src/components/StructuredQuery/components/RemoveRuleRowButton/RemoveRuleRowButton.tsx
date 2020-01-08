@@ -17,7 +17,7 @@ export interface RemoveRuleRowButtonProps {
   /**
    * id of the rule row to remove
    */
-  rowId?: number;
+  rowId: number;
   /**
    * state that represents the current rules and selections for the structured query
    */

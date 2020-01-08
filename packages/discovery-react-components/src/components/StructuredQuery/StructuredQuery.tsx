@@ -5,7 +5,7 @@ import { AddRuleRowButton } from './components/AddRuleRowButton/AddRuleRowButton
 import { AddRuleGroupButton } from './components/AddRuleGroupButton/AddRuleGroupButton';
 import { defaultMessages, Messages } from './messages';
 import { structuredQueryClass, structuredQueryRulesButtonsClass } from './cssClasses';
-import { MAX_NUM_SIBLING_RULE_ROWS, MAX_NUM_RULE_GROUPS } from './constants';
+import { MAX_NUM_SIBLING_RULE_ROWS, MAX_NUM_NESTED_RULE_GROUPS } from './constants';
 import { StructuredQuerySelection } from './utils/structuredQueryInterfaces';
 import { withErrorBoundary } from 'react-error-boundary';
 import { FallbackComponent } from 'utils/FallbackComponent';
@@ -31,7 +31,7 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
   const showAddRuleRowButton =
     structuredQuerySelection.groups[0].rows.length < MAX_NUM_SIBLING_RULE_ROWS;
   const showAddRuleGroupButton =
-    keys(structuredQuerySelection.groups).length - 1 < MAX_NUM_RULE_GROUPS;
+    keys(structuredQuerySelection.groups).length - 1 < MAX_NUM_NESTED_RULE_GROUPS;
 
   return (
     <div className={structuredQueryClass}>
