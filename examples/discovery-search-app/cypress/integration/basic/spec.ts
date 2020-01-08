@@ -1,18 +1,8 @@
+import { mockDefaultHomePage } from '../../support/utils';
+
 describe('Basic search', () => {
   beforeEach(() => {
-    //TODO: move this section of code into support.js? Maybe just as a helper function
-    // Sets up and handles the collections, component settings, and initial query requests that run on page-load
-    cy.server();
-    cy.fixture('collections/collections.json').as('collectionsJSON');
-    cy.route('GET', '**/collections?version=2019-01-01', '@collectionsJSON').as('getCollections');
-    cy.fixture('component_settings/componentSettings.json').as('componentSettingsJSON');
-    cy.route('GET', '**/component_settings?version=2019-01-01', '@componentSettingsJSON').as(
-      'getComponentSettings'
-    );
-    cy.fixture('query/query.json').as('queryJSON');
-    cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQuery');
-    cy.visit('/');
-    cy.wait(['@getCollections', '@getComponentSettings', '@postQuery']);
+    mockDefaultHomePage();
 
     // Set up/override routes & fixtures that are specific to this file
     cy.fixture('query/noResults.json').as('noResultsJSON');
@@ -38,6 +28,7 @@ describe('Basic search', () => {
 
     it('makes the appropriate query request', () => {
       cy.get('@queryObject')
+        // @ts-ignore
         .its('requestBody.natural_language_query')
         .should('eq', 'abil');
     });
