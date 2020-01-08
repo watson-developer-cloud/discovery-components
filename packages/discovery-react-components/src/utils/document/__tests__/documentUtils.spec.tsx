@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render } from '@testing-library/react';
-import { uniqRects, findOffsetInDOM } from '../documentUtils';
+import { uniqRects, findOffsetInDOM, getTextNodeAndOffset } from '../documentUtils';
 
 describe('uniqRects', () => {
   it('removes duplicate rects', () => {
@@ -106,8 +106,8 @@ describe('findOffsetInDOM', () => {
     );
 
     expect(beginTextNode).toEqual(endTextNode);
-    expect(beginOffset).toEqual(422 - childBegin);
-    expect(endOffset).toEqual(442 - childBegin);
+    expect(beginOffset).toEqual(369 - childBegin);
+    expect(endOffset).toEqual(382 - childBegin);
   });
 
   it('finds offsets across multiple nodes', () => {
@@ -149,7 +149,7 @@ describe('findOffsetInDOM', () => {
     );
 
     expect(beginTextNode).not.toEqual(endTextNode);
-    expect(beginOffset).toEqual(734);
-    expect(endOffset).toEqual(107);
+    expect(beginOffset).toEqual(608);
+    expect(endOffset).toEqual(89);
   });
 });
