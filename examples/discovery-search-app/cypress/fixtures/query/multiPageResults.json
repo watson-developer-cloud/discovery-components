@@ -1,0 +1,65 @@
+{
+  "matching_results": 60,
+  "results": [
+    {
+      "document_id": "e5db21d93f99dd25aefd97d1d247f416",
+      "extracted_metadata": {
+        "filename": "some file name",
+        "title": "file title"
+      }
+    },
+    {
+      "document_id": "e5db21d93f99dd25aefd97d1d247f416",
+      "extracted_metadata": {
+        "filename": "some file name",
+        "title": "file title"
+      }
+    },
+    {
+      "document_id": "e5db21d93f99dd25aefd97d1d247f416",
+      "extracted_metadata": {
+        "filename": "some file name",
+        "title": "file title"
+      }
+    },
+    {
+      "document_id": "e5db21d93f99dd25aefd97d1d247f416",
+      "extracted_metadata": {
+        "filename": "some file name",
+        "title": "file title"
+      }
+    },
+    {
+      "document_id": "e5db21d93f99dd25aefd97d1d247f416",
+      "extracted_metadata": {
+        "filename": "some file name",
+        "title": "file title"
+      }
+    }
+  ],
+  "aggregations": [
+    {
+      "type": "term",
+      "field": "subject",
+      "count": 4,
+      "results": [
+        {
+          "key": "Animals",
+          "matching_results": 138993
+        },
+        {
+          "key": "People",
+          "matching_results": 133760
+        },
+        {
+          "key": "Places",
+          "matching_results": 129139
+        },
+        {
+          "key": "Things",
+          "matching_results": 76403
+        }
+      ]
+    }
+  ]
+}
