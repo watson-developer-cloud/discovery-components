@@ -35,9 +35,9 @@ export const AddRuleRowButton: FC<AddRuleRowButtonProps> = ({
     groupId: number
   ) => {
     const newRuleRowId =
-      structuredQuerySelection.groups[groupId].rows[
-        structuredQuerySelection.groups[groupId].rows.length - 1
-      ] + 1;
+      structuredQuerySelection.groups[groupId].rows.reduce(function(a, b) {
+        return Math.max(a, b);
+      }) + 1;
     setStructuredQuerySelection({
       groups: {
         ...structuredQuerySelection.groups,
