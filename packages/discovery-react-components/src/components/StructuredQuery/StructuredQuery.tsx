@@ -36,7 +36,6 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
   return (
     <div className={structuredQueryClass}>
       {keys(structuredQuerySelection.groups).map(id => {
-        const group = structuredQuerySelection.groups[id];
         const groupId = parseInt(id);
         return (
           <RuleGroup
@@ -45,7 +44,6 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
             key={groupId}
             structuredQuerySelection={structuredQuerySelection}
             setStructuredQuerySelection={setStructuredQuerySelection}
-            rows={group.rows}
           />
         );
       })}

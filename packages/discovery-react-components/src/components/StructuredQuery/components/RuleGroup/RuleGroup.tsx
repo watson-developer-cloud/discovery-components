@@ -12,7 +12,6 @@ import {
 } from 'components/StructuredQuery/cssClasses';
 
 export interface RuleGroupProps {
-  rows: number[];
   /**
    * override default messages for the component by specifying custom and/or internationalized text strings
    */
@@ -32,12 +31,12 @@ export interface RuleGroupProps {
 }
 
 export const RuleGroup: FC<RuleGroupProps> = ({
-  rows,
   messages,
   groupId,
   structuredQuerySelection,
   setStructuredQuerySelection
 }) => {
+  const rows = structuredQuerySelection.groups[groupId].rows;
   const isTopLevelGroup = groupId === 0;
   const showAddRuleRowButton = rows.length < MAX_NUM_SIBLING_RULE_ROWS && !isTopLevelGroup;
   const ruleGroupClassNames = [structuredQueryRuleGroupClass];
