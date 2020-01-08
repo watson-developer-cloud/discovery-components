@@ -5,6 +5,8 @@ import parser from 'fast-xml-parser';
 import { processDoc, ProcessedDoc } from '../processDoc';
 import contractData from '../__fixtures__/contract.json';
 import escapedCharData from '../__fixtures__/escaped_char_document.json';
+import invoiceData from 'components/CIDocument/components/CIDocument/__fixtures__/invoice-index_op.json';
+import get from 'lodash/get';
 
 expect.extend({
   toBeValidXml(received): any {
@@ -29,6 +31,19 @@ describe('processDoc', () => {
   beforeAll(async () => {
     // parse doc for use in tests
     doc = await processDoc(contractData.results[0], { sections: true });
+  });
+
+  it('does not mutate the passed document data and metadata property are not be present in it', () => {
+    expect(doc.metadata).toHaveLength(4);
+    expect(get(contractData.results[0], 'enriched_html[0].contract.metadata')).toBeUndefined();
+  });
+
+  it('does not mutate the passed document data and attributes and relations properties are not present in it', async () => {
+    const invoiceDoc = await processDoc(invoiceData, { sections: true });
+    expect(invoiceDoc.attributes).toHaveLength(5);
+    expect(invoiceDoc.relations).toHaveLength(6);
+    expect(get(invoiceData, 'enriched_html[0].invoice.attributes')).toBeUndefined();
+    expect(get(invoiceData, 'enriched_html[0].invoice.relations')).toBeUndefined();
   });
 
   it('parses Disco document data', () => {
