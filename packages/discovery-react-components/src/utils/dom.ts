@@ -7,13 +7,12 @@ export function clearNodeChildren(node: Node): void {
 }
 
 /**
- * Return length of text node's HTML encoded length. Need to encode the string
- * before measuring, because the offsets are calculated from the HTML string,
- * which has encoded entities. However, `textNode.length` will return length
- * of decoded text (from DOM).
+ * Return HTML encoded text node. Need to encode the string before measuring
+ * the length, because the offsets are calculated from the HTML string,
+ * which has encoded entities.
  *
  * @param textNode DOM Text node
  */
-export function getEncodedTextNodeLength(textNode: Text): number {
-  return encodeHTML(textNode.data).length;
+export function getEncodedTextNode(textNode: Text): string {
+  return encodeHTML(textNode.data);
 }
