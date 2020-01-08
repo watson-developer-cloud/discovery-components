@@ -26,9 +26,9 @@ export const AddRuleGroupButton: FC<AddRuleGroupButtonProps> = ({
   setStructuredQuerySelection
 }) => {
   const handleOnClick = () => {
-    const maxGroupId = keys(structuredQuerySelection.groups).reduce(function(a, b) {
-      return Math.max(parseInt(a), parseInt(b)).toString();
-    });
+    const maxGroupId = keys(structuredQuerySelection.groups).reduce((previousId, currentId) =>
+      Math.max(parseInt(previousId), parseInt(currentId)).toString()
+    );
     const newRuleGroupId: number = parseInt(maxGroupId) + 1;
     setStructuredQuerySelection({
       groups: {
