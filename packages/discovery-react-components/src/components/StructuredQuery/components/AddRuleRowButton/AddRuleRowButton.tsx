@@ -29,16 +29,13 @@ export const AddRuleRowButton: FC<AddRuleRowButtonProps> = ({
   structuredQuerySelection,
   setStructuredQuerySelection
 }) => {
-  const handleOnClick = (
-    structuredQuerySelection: StructuredQuerySelection,
-    setStructuredQuerySelection: Dispatch<SetStateAction<StructuredQuerySelection>>,
-    groupId: number
-  ) => {
+  const handleOnClick = () => {
     const newRuleRowId =
       structuredQuerySelection.groups[groupId].rows.reduce((previousId, currentId) =>
         Math.max(previousId, currentId)
       ) + 1;
     setStructuredQuerySelection({
+      ...structuredQuerySelection,
       groups: {
         ...structuredQuerySelection.groups,
         [`${groupId}`]: {
@@ -50,11 +47,7 @@ export const AddRuleRowButton: FC<AddRuleRowButtonProps> = ({
   };
 
   return (
-    <Button
-      kind="ghost"
-      renderIcon={Add16}
-      onClick={() => handleOnClick(structuredQuerySelection, setStructuredQuerySelection, groupId)}
-    >
+    <Button kind="ghost" renderIcon={Add16} onClick={handleOnClick}>
       {addRuleRowText}
     </Button>
   );

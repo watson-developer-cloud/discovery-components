@@ -1,5 +1,4 @@
 import React, { FC, Dispatch, SetStateAction } from 'react';
-import keys from 'lodash/keys';
 import { Button } from 'carbon-components-react';
 import Add16 from '@carbon/icons-react/lib/add/16';
 import { Messages } from 'components/StructuredQuery/messages';
@@ -26,8 +25,8 @@ export const AddRuleGroupButton: FC<AddRuleGroupButtonProps> = ({
   setStructuredQuerySelection
 }) => {
   const handleOnClick = () => {
-    const maxGroupId = keys(structuredQuerySelection.groups).reduce((previousId, currentId) =>
-      Math.max(parseInt(previousId), parseInt(currentId)).toString()
+    const maxGroupId = Object.keys(structuredQuerySelection.groups).reduce(
+      (previousId, currentId) => Math.max(parseInt(previousId), parseInt(currentId)).toString()
     );
     const newRuleGroupId: number = parseInt(maxGroupId) + 1;
     setStructuredQuerySelection({
@@ -36,7 +35,8 @@ export const AddRuleGroupButton: FC<AddRuleGroupButtonProps> = ({
         [`${newRuleGroupId}`]: {
           rows: [0]
         }
-      }
+      },
+      group_order: structuredQuerySelection.group_order.concat(newRuleGroupId)
     });
   };
 

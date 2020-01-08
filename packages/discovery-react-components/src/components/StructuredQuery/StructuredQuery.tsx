@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-import keys from 'lodash/keys';
 import { RuleGroup } from './components/RuleGroup/RuleGroup';
 import { AddRuleRowButton } from './components/AddRuleRowButton/AddRuleRowButton';
 import { AddRuleGroupButton } from './components/AddRuleGroupButton/AddRuleGroupButton';
@@ -25,23 +24,23 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
   >({
     groups: {
       0: { rows: [0] }
-    }
+    },
+    group_order: [0]
   });
 
   const showAddRuleRowButton =
     structuredQuerySelection.groups[0].rows.length < MAX_NUM_SIBLING_RULE_ROWS;
   const showAddRuleGroupButton =
-    keys(structuredQuerySelection.groups).length - 1 < MAX_NUM_NESTED_RULE_GROUPS;
+    Object.keys(structuredQuerySelection.groups).length - 1 < MAX_NUM_NESTED_RULE_GROUPS;
 
   return (
     <div className={structuredQueryClass}>
-      {keys(structuredQuerySelection.groups).map(id => {
-        const groupId = parseInt(id);
+      {structuredQuerySelection.group_order.map(id => {
         return (
           <RuleGroup
             messages={mergedMessages}
-            groupId={groupId}
-            key={groupId}
+            groupId={id}
+            key={id}
             structuredQuerySelection={structuredQuerySelection}
             setStructuredQuerySelection={setStructuredQuerySelection}
           />

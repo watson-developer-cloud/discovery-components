@@ -8,4 +8,5 @@ export interface Group {
 
 export interface StructuredQuerySelection {
   groups: Group;
+  group_order: number[];
 }

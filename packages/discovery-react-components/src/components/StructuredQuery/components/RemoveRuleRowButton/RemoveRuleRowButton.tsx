@@ -44,10 +44,12 @@ export const RemoveRuleRowButton: FC<RemoveRuleRowButtonProps> = ({
       setStructuredQuerySelection({
         groups: {
           ...omit(structuredQuerySelection.groups, groupId)
-        }
+        },
+        group_order: structuredQuerySelection.group_order.filter(id => id !== groupId)
       });
     } else {
       setStructuredQuerySelection({
+        ...structuredQuerySelection,
         groups: {
           ...structuredQuerySelection.groups,
           [`${groupId}`]: {
