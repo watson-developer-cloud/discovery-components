@@ -71,7 +71,7 @@ export interface Table {
  * Convert document data into structure that is more palatable for use by
  * CIDocument
  *
- * @param {Object} query Discovery document data
+ * @param {Object} queryData Discovery document data
  * @param {Object} options
  * @param {Boolean} options.sections return array of HTML sections
  * @param {Boolean} options.tables return array of tables' bboxes
@@ -81,10 +81,10 @@ export interface Table {
  */
 export async function processDoc(
   // eslint-disable-next-line @typescript-eslint/camelcase
-  query: QueryResult,
+  queryData: QueryResult,
   options?: Options
 ): Promise<ProcessedDoc> {
-  const { html, enriched_html: enrichedHtml } = cloneDeep(query);
+  const { html, enriched_html: enrichedHtml } = cloneDeep(queryData);
   options = {
     ...DEFAULT_OPTIONS,
     ...(options || {})

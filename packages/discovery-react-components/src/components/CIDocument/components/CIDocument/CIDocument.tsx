@@ -43,7 +43,7 @@ import {
   Field,
   Attributes,
   Relations
-} from '../../types';
+} from 'components/CIDocument/types';
 import { Address, Mention } from '../MetadataPane/types';
 import { Items } from '../DetailsPane/types';
 import { defaultTheme, Theme } from 'utils/theme';
