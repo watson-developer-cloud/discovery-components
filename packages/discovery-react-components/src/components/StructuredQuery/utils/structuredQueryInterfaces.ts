@@ -1,13 +1,11 @@
 export interface Row {
-  id: number;
+  rows: number[];
 }
 
 export interface Group {
-  id: number;
-  rows: Row[];
+  [key: number]: Row;
 }
 
 export interface StructuredQuerySelection {
-  rows: Row[];
-  groups: Group[];
+  groups: Group;
 }

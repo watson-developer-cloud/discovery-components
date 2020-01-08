@@ -3,10 +3,7 @@ import { ComboBox, TextInput } from 'carbon-components-react';
 import { RemoveRuleRowButton } from '../RemoveRuleRowButton/RemoveRuleRowButton';
 import { Messages } from 'components/StructuredQuery/messages';
 import { structuredQueryRulesClass } from 'components/StructuredQuery/cssClasses';
-import {
-  Row,
-  StructuredQuerySelection
-} from 'components/StructuredQuery/utils/structuredQueryInterfaces';
+import { StructuredQuerySelection } from 'components/StructuredQuery/utils/structuredQueryInterfaces';
 
 export interface RuleRowProps {
   /**
@@ -16,11 +13,11 @@ export interface RuleRowProps {
   /**
    * id of the group for the rule row to render, or 'top-level' if the top-level rule group
    */
-  groupId: number | 'top-level';
+  groupId: number;
   /**
    * id of the rule row to render
    */
-  rowId: Row['id'];
+  rowId: number;
   /**
    * state that represents the current rules and selections for the structured query
    */
@@ -44,13 +41,14 @@ export const RuleRow: FC<RuleRowProps> = ({
     { label: messages.operatorDropdownContainsOptionText, value: ':' },
     { label: messages.operatorDropdownDoesNotContainOptionText, value: ':!' }
   ];
-  const isTopLevelGroup = groupId === 'top-level';
-  const showRemoveRuleRowButton = structuredQuerySelection.rows.length > 1 || !isTopLevelGroup;
+  const isTopLevelGroup = groupId === 0;
+  const showRemoveRuleRowButton =
+    structuredQuerySelection.groups[groupId].rows.length > 1 || !isTopLevelGroup;
 
   return (
     <div className={structuredQueryRulesClass} data-testid={`rule-row-${groupId}`}>
       <ComboBox
-        id={`structured-query-rules-field-${rowId}`}
+        id={`structured-query-rules-field-${groupId}`}
         // TODO: Items is empty for now as it's a required field and retrieving fields for the dropdown
         // and adding them as items will be addressed in a future issue
         items={[]}
@@ -58,13 +56,13 @@ export const RuleRow: FC<RuleRowProps> = ({
         titleText={messages.fieldDropdownTitleText}
       />
       <ComboBox
-        id={`structured-query-rules-operator-${rowId}`}
+        id={`structured-query-rules-operator-${groupId}`}
         items={operatorDropdownItems}
         placeholder={messages.operatorDropdownPlaceholderText}
         titleText={messages.operatorDropdownTitleText}
       />
       <TextInput
-        id={`structured-query-rules-value-${rowId}`}
+        id={`structured-query-rules-value-${groupId}`}
         labelText={messages.valueInputLabelText}
         placeholder={messages.valueInputPlaceholderText}
       />

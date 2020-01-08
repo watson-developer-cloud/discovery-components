@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+import keys from 'lodash/keys';
 import { RuleGroup } from './components/RuleGroup/RuleGroup';
 import { AddRuleRowButton } from './components/AddRuleRowButton/AddRuleRowButton';
 import { AddRuleGroupButton } from './components/AddRuleGroupButton/AddRuleGroupButton';
@@ -22,28 +23,29 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
   const [structuredQuerySelection, setStructuredQuerySelection] = useState<
     StructuredQuerySelection
   >({
-    rows: [{ id: 0 }],
-    groups: []
+    groups: {
+      0: { rows: [0] }
+    }
   });
-  const showAddRuleRowButton = structuredQuerySelection.rows.length < MAX_NUM_SIBLING_RULE_ROWS;
-  const showAddRuleGroupButton = structuredQuerySelection.groups.length < MAX_NUM_RULE_GROUPS;
+
+  const showAddRuleRowButton =
+    structuredQuerySelection.groups[0].rows.length < MAX_NUM_SIBLING_RULE_ROWS;
+  const showAddRuleGroupButton =
+    keys(structuredQuerySelection.groups).length - 1 < MAX_NUM_RULE_GROUPS;
 
   return (
     <div className={structuredQueryClass}>
-      <RuleGroup
-        messages={mergedMessages}
-        groupId="top-level"
-        structuredQuerySelection={structuredQuerySelection}
-        setStructuredQuerySelection={setStructuredQuerySelection}
-      />
-      {structuredQuerySelection.groups.map(group => {
+      {keys(structuredQuerySelection.groups).map(id => {
+        const group = structuredQuerySelection.groups[id];
+        const groupId = parseInt(id);
         return (
           <RuleGroup
             messages={mergedMessages}
-            groupId={group.id}
+            groupId={groupId}
+            key={groupId}
             structuredQuerySelection={structuredQuerySelection}
             setStructuredQuerySelection={setStructuredQuerySelection}
-            key={group.id}
+            rows={group.rows}
           />
         );
       })}
@@ -53,7 +55,7 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
             addRuleRowText={mergedMessages.addRuleRowText}
             setStructuredQuerySelection={setStructuredQuerySelection}
             structuredQuerySelection={structuredQuerySelection}
-            groupId="top-level"
+            groupId={0}
           />
         )}
         {showAddRuleGroupButton && (

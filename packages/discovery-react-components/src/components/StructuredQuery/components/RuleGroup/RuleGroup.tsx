@@ -3,10 +3,7 @@ import { Messages } from 'components/StructuredQuery/messages';
 import { RuleGroupDropdown } from '../RuleGroupDropdown/RuleGroupDropdown';
 import { RuleRow } from '../RuleRow/RuleRow';
 import { AddRuleRowButton } from '../AddRuleRowButton/AddRuleRowButton';
-import {
-  StructuredQuerySelection,
-  Row
-} from 'components/StructuredQuery/utils/structuredQueryInterfaces';
+import { StructuredQuerySelection } from 'components/StructuredQuery/utils/structuredQueryInterfaces';
 import { MAX_NUM_SIBLING_RULE_ROWS } from 'components/StructuredQuery/constants';
 import {
   structuredQueryRuleGroupClass,
@@ -15,6 +12,7 @@ import {
 } from 'components/StructuredQuery/cssClasses';
 
 export interface RuleGroupProps {
+  rows: number[];
   /**
    * override default messages for the component by specifying custom and/or internationalized text strings
    */
@@ -22,7 +20,7 @@ export interface RuleGroupProps {
   /**
    * id of the group for the rule row to render, or 'top-level' if the top-level rule group
    */
-  groupId: number | 'top-level';
+  groupId: number;
   /**
    * state that represents the current rules and selections for the structured query
    */
@@ -34,20 +32,13 @@ export interface RuleGroupProps {
 }
 
 export const RuleGroup: FC<RuleGroupProps> = ({
+  rows,
   messages,
   groupId,
   structuredQuerySelection,
   setStructuredQuerySelection
 }) => {
-  const isTopLevelGroup = groupId === 'top-level';
-  let rows: Row[] = structuredQuerySelection.rows;
-  if (!isTopLevelGroup) {
-    structuredQuerySelection.groups.map(group => {
-      if (group.id === groupId) {
-        rows = group.rows;
-      }
-    });
-  }
+  const isTopLevelGroup = groupId === 0;
   const showAddRuleRowButton = rows.length < MAX_NUM_SIBLING_RULE_ROWS && !isTopLevelGroup;
   const ruleGroupClassNames = [structuredQueryRuleGroupClass];
   if (!isTopLevelGroup) {
@@ -58,12 +49,13 @@ export const RuleGroup: FC<RuleGroupProps> = ({
     <div className={ruleGroupClassNames.join(' ')} data-testid="rule-group">
       <RuleGroupDropdown messages={messages} />
       {rows.map(row => {
+        const uniqueKey = groupId.toString() + row.toString();
         return (
           <RuleRow
             messages={messages}
             groupId={groupId}
-            rowId={row.id}
-            key={row.id}
+            rowId={row}
+            key={uniqueKey}
             setStructuredQuerySelection={setStructuredQuerySelection}
             structuredQuerySelection={structuredQuerySelection}
           />

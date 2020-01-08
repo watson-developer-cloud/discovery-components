@@ -1,11 +1,9 @@
 import React, { FC, Dispatch, SetStateAction } from 'react';
+import omit from 'lodash/omit';
 import { Button } from 'carbon-components-react';
 import SubtractAlt16 from '@carbon/icons-react/lib/subtract--alt/16';
 import { Messages } from 'components/StructuredQuery/messages';
-import {
-  StructuredQuerySelection,
-  Row
-} from 'components/StructuredQuery/utils/structuredQueryInterfaces';
+import { StructuredQuerySelection } from 'components/StructuredQuery/utils/structuredQueryInterfaces';
 
 export interface RemoveRuleRowButtonProps {
   /**
@@ -15,11 +13,11 @@ export interface RemoveRuleRowButtonProps {
   /**
    * id of the group for the rule row to render, or 'top-level' if the top-level rule group
    */
-  groupId: number | 'top-level';
+  groupId: number;
   /**
    * id of the rule row to remove
    */
-  rowId: Row['id'];
+  rowId?: number;
   /**
    * state that represents the current rules and selections for the structured query
    */
@@ -38,28 +36,25 @@ export const RemoveRuleRowButton: FC<RemoveRuleRowButtonProps> = ({
   setStructuredQuerySelection
 }) => {
   const handleOnClick = () => {
-    if (groupId === 'top-level') {
+    const filteredRow = structuredQuerySelection.groups[groupId].rows.filter(
+      (row: number) => row !== rowId
+    );
+    const isLastRuleInRuleGroup = filteredRow.length === 0;
+    if (isLastRuleInRuleGroup) {
       setStructuredQuerySelection({
-        ...structuredQuerySelection,
-        rows: structuredQuerySelection.rows.filter((ruleRow: Row) => ruleRow.id !== rowId)
+        groups: {
+          ...omit(structuredQuerySelection.groups, groupId)
+        }
       });
     } else {
       setStructuredQuerySelection({
-        ...structuredQuerySelection,
-        groups: structuredQuerySelection.groups
-          .map((group, i) => {
-            if (group.id === groupId) {
-              return {
-                ...structuredQuerySelection.groups[i],
-                rows: structuredQuerySelection.groups[i].rows.filter(
-                  (ruleRow: Row) => ruleRow.id !== rowId
-                )
-              };
-            } else {
-              return group;
-            }
-          })
-          .filter(group => group.rows.length > 0)
+        groups: {
+          ...structuredQuerySelection.groups,
+          [`${groupId}`]: {
+            ...structuredQuerySelection.groups[groupId],
+            rows: filteredRow
+          }
+        }
       });
     }
   };

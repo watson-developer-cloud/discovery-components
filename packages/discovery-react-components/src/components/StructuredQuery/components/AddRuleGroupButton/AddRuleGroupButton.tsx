@@ -1,11 +1,9 @@
 import React, { FC, Dispatch, SetStateAction } from 'react';
+import keys from 'lodash/keys';
 import { Button } from 'carbon-components-react';
 import Add16 from '@carbon/icons-react/lib/add/16';
 import { Messages } from 'components/StructuredQuery/messages';
-import {
-  Group,
-  StructuredQuerySelection
-} from 'components/StructuredQuery/utils/structuredQueryInterfaces';
+import { StructuredQuerySelection } from 'components/StructuredQuery/utils/structuredQueryInterfaces';
 
 export interface AddRuleGroupButtonProps {
   /**
@@ -28,14 +26,17 @@ export const AddRuleGroupButton: FC<AddRuleGroupButtonProps> = ({
   setStructuredQuerySelection
 }) => {
   const handleOnClick = () => {
-    const newRuleGroupId: Group['id'] =
-      structuredQuerySelection.groups.length !== 0
-        ? structuredQuerySelection.groups[structuredQuerySelection.groups.length - 1].id! + 1
-        : 0;
-    const newRuleGroup: Group = { id: newRuleGroupId, rows: [{ id: 0 }] };
+    const maxGroupId = keys(structuredQuerySelection.groups).reduce(function(a, b) {
+      return Math.max(parseInt(a), parseInt(b)).toString();
+    });
+    const newRuleGroupId: number = parseInt(maxGroupId) + 1;
     setStructuredQuerySelection({
-      ...structuredQuerySelection,
-      groups: structuredQuerySelection.groups.concat(newRuleGroup)
+      groups: {
+        ...structuredQuerySelection.groups,
+        [`${newRuleGroupId}`]: {
+          rows: [0]
+        }
+      }
     });
   };
 
