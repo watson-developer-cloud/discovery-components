@@ -1,6 +1,5 @@
 import uniqWith from 'lodash/uniqWith';
-import { getEncodedTextNode } from '../dom';
-import { decodeHTML } from 'entities';
+import { decodeHTML, encodeHTML } from 'entities';
 
 interface FindOffsetResults {
   beginTextNode: Text;
@@ -78,7 +77,7 @@ export function getTextNodeAndOffset(node: Node, offset: number): NodeOffset {
     textNode = iterator.nextNode() as Text;
   } while (
     textNode &&
-    (encodedText = getEncodedTextNode(textNode)) &&
+    (encodedText = encodeHTML(textNode.data)) &&
     (len = encodedText.length) &&
     offset > runningOffset + len &&
     (runningOffset += len)
@@ -90,18 +89,18 @@ export function getTextNodeAndOffset(node: Node, offset: number): NodeOffset {
 
   let textOffset = Math.max(0, offset - runningOffset);
 
-  // If attribute 'original-text' is present then
+  // If attribute 'data-orig-text' is present then
   // the string contains some encoded entities
   // so, we need adjust the text offset
-  const originalText = nodeElement.getAttribute('data-orig-text');
+  const originalText = nodeElement.dataset.origText;
   if (originalText) {
     // To properly calculate the offset of the string we want to highlight
     // we need to get the offset from the decoded html text and subtract
     // it from the original encoded html offset. we doing this because the
     // offsets are based on the original html string which may contain
-    // html entities (eg. &quot;), however those entities get rendered in
-    // the dom which throws off the offsets values, for example &quot;
-    // becomes ", going from 6 characters to 1.
+    // html entities (eg. `&quot;`), however those entities get rendered in
+    // the dom which throws off the offsets values, for example `&quot;`
+    // becomes `"`, going from 6 characters to 1.
     const encodedTextSubstring = originalText.substring(0, textOffset);
     const decodedText = decodeHTML(encodedTextSubstring);
     const adjustment = textOffset - decodedText.length;
