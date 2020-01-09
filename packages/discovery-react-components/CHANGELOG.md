@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-beta.11](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.10...@ibm-watson/discovery-react-components@1.1.0-beta.11) (2020-01-09)
+
+
+### Features
+
+* structured query add and remove group rules ([#42](https://github.com/watson-developer-cloud/discovery-components/issues/42)) ([8f9ebb1](https://github.com/watson-developer-cloud/discovery-components/commit/8f9ebb1))
+
+
+
+
+
 # [1.1.0-beta.10](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.9...@ibm-watson/discovery-react-components@1.1.0-beta.10) (2020-01-03)
 
 **Note:** Version bump only for package @ibm-watson/discovery-react-components
