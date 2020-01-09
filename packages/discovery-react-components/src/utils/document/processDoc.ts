@@ -6,7 +6,7 @@ import { getId } from './idUtils';
 import transformEnrichment from './transformEnrichment';
 import { getEnrichmentName } from 'components/CIDocument/utils/enrichmentUtils';
 import { spansIntersect } from './documentUtils';
-import { decodeHTML } from 'entities';
+import { decodeHTML, encodeHTML } from 'entities';
 
 // split HTML into "sections" based on these top level tag(s)
 const SECTION_NAMES = ['p', 'ul', 'table'];
@@ -253,7 +253,10 @@ function setupSectionParser(
     ontext: (_: Parser, text: string): void => {
       if (decodeHTML(text).length != text.length) {
         const lastElem = sectionHtml.length - 1;
-        sectionHtml[lastElem] = sectionHtml[lastElem].replace(/>$/, ` original-text="${text}">`);
+        sectionHtml[lastElem] = sectionHtml[lastElem].replace(
+          />$/,
+          ` original-text="${encodeHTML(text)}">`
+        );
       }
 
       sectionHtml.push(text);

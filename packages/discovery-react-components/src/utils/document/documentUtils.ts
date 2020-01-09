@@ -90,22 +90,16 @@ export function getTextNodeAndOffset(node: Node, offset: number): NodeOffset {
 
   let textOffset = Math.max(0, offset - runningOffset);
 
+  const originalText = nodeElement.getAttribute('original-text');
+
   // If attribute 'original-text' is present then
   // the string contains some encoded entities
   // so, we need adjust the text offset
-  if (nodeElement.getAttribute('original-text')) {
+  if (originalText) {
     // To properly calculate the offset of the string we want to highlight
     // we need to get the offset from the decoded html text and subtract
     // it from the original encoded html offset
-
-    const encodedText = nodeElement.outerHTML
-      .slice(
-        nodeElement.outerHTML.indexOf('original-text') + 14,
-        nodeElement.outerHTML.indexOf('data-child-end') - 1
-      )
-      .replace(/\"/g, '');
-
-    const encodedTextSubstring = encodedText.substring(0, textOffset);
+    const encodedTextSubstring = originalText.substring(0, textOffset);
 
     const decodedText = decodeHTML(encodedTextSubstring);
 
