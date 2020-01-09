@@ -1,0 +1,116 @@
+{
+  "matching_results": 4,
+  "retrieval_details": {
+    "document_retrieval_strategy": "untrained"
+  },
+  "suggested_refinements": [],
+  "aggregations": [],
+  "results": [
+    {
+      "document_id": "4b3cd13b-520c-4944-918f-2950dbfa2f96",
+      "result_metadata": {
+        "collection_id": "fbafd5e1-9cf1-c24c-0000-016eeb0a5c9f",
+        "document_retrieval_source": "search",
+        "confidence": 0.04793
+      },
+      "enriched_text": [],
+      "metadata": {
+        "parent_document_id": "4b3cd13b-520c-4944-918f-2950dbfa2f96"
+      },
+      "extracted_metadata": {
+        "sha1": "C430CF959216D050CA8C077B6372F78B804E0E7D",
+        "numPages": "10",
+        "filename": "add-ons-integrations-328-337.pdf",
+        "file_type": "pdf"
+      },
+      "text": [
+        "This is a document.\nThis result multiple passages, but you should only be able to see the first one. IBM if you can see this passage, something probably borked"
+      ],
+      "document_passages": [
+        {
+          "passage_text": "This result multiple passages, but you should only be able to see the first one. <em>IBM</em>",
+          "start_offset": 0,
+          "end_offset": 104,
+          "field": "text"
+        },
+        {
+          "passage_text": "if you can see this passage, something probably borked",
+          "start_offset": 105,
+          "end_offset": 159,
+          "field": "text"
+        }
+      ]
+    },
+    {
+      "document_id": "4b3cd13b-520c-4944-918f-2950dbfa2f97",
+      "result_metadata": {
+        "collection_id": "fbafd5e1-9cf1-c24c-0000-016eeb0a5c9f",
+        "document_retrieval_source": "search",
+        "confidence": 0.04793
+      },
+      "enriched_text": [],
+      "metadata": {
+        "parent_document_id": "4b3cd13b-520c-4944-918f-2950dbfa2f96"
+      },
+      "extracted_metadata": {
+        "sha1": "C430CF959216D050CA8C077B6372F78B804E0E7D",
+        "numPages": "10",
+        "filename": "add-ons-integrations-328-337.pdf",
+        "file_type": "pdf"
+      },
+      "text": ["This result only has one passage, and it should be visible"],
+      "document_passages": [
+        {
+          "passage_text": "This result only has one passage, and it should be visible",
+          "start_offset": 0,
+          "end_offset": 58,
+          "field": "text"
+        }
+      ]
+    },
+    {
+      "document_id": "4b3cd13b-520c-4944-918f-2950dbfa2f98",
+      "result_metadata": {
+        "collection_id": "fbafd5e1-9cf1-c24c-0000-016eeb0a5c9f",
+        "document_retrieval_source": "search",
+        "confidence": 0.04793
+      },
+      "enriched_text": [],
+      "metadata": {
+        "parent_document_id": "4b3cd13b-520c-4944-918f-2950dbfa2f96"
+      },
+      "extracted_metadata": {
+        "sha1": "C430CF959216D050CA8C077B6372F78B804E0E7D",
+        "numPages": "10",
+        "filename": "add-ons-integrations-328-337.pdf",
+        "file_type": "pdf"
+      },
+      "text": ["This is a result that doesn't have any passages in the results."]
+    },
+    {
+      "document_id": "59ee2403f45647091eafe392664588cd",
+      "linkField": "http://example.com",
+      "result_metadata": {
+        "collection_id": "COLLECTION_ID_1"
+      },
+      "title": "Alternate title",
+      "text": "This result has a passage and a table",
+      "document_passages": [
+        {
+          "passage_text": "This result has a passage and a table"
+        }
+      ],
+      "extracted_metadata": {
+        "title": "IBM_Analytics_Machine_Learning.pdf"
+      }
+    }
+  ],
+  "table_results": [
+    {
+      "table_id": "558ada041262d5b0aa02a05429d798c9",
+      "source_document_id": "59ee2403f45647091eafe392664588cd",
+      "collection_id": "COLLECTION_ID_1",
+      "table_html": "<table style='width:100%'><tr><th>Supervised Learning</th><th>Unsupervised Learning</th></tr><tr><td>Support Vector Machines</td><td>K-Means</td></tr><tr><td>Nearest Neighbor</td><td>Hidden Markov Model</td></tr></table>"
+    }
+  ]
+}

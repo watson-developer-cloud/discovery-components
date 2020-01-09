@@ -1,0 +1,21 @@
+{
+  "results_per_page": 5,
+  "structured_search": false,
+  "fields_shown": {
+    "body": {
+      "use_passage": true,
+      "field": ""
+    },
+    "title": {
+      "field": "title"
+    }
+  },
+  "aggregations": [
+    {
+      "name": "entities",
+      "label": "Top Entities",
+      "multiple_selections_allowed": true
+    }
+  ],
+  "autocomplete": true
+}
