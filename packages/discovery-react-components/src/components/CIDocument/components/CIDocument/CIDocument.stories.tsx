@@ -5,22 +5,19 @@ import CIDocument from './CIDocument';
 import contract from './__fixtures__/contract.json';
 import invoice from './__fixtures__/invoice-index_op.json';
 import po from './__fixtures__/po-index_op.json';
-import highlights from './__fixtures__/highlights.pdf.json';
 
 const label = 'Document';
 
 const options = {
   Contract: 'contracts',
   Invoice: 'invoices',
-  'Purchase Order': 'purchase_orders',
-  highlights: 'highlights'
+  'Purchase Order': 'purchase_orders'
 };
 
 const docs = {
   contracts: contract,
   invoices: invoice,
-  purchase_orders: po,
-  highlights: highlights
+  purchase_orders: po
 };
 const defaultValue = 'contracts';
 const groupId = 'GROUP-DOCUMENTS';
