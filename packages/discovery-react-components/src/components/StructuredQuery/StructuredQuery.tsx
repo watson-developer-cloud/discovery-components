@@ -1,11 +1,11 @@
 import React, { FC, useState } from 'react';
-import { Button } from 'carbon-components-react';
-import Add16 from '@carbon/icons-react/lib/add/16';
-import { RuleGroupDropdown } from './components/RuleGroupDropdown/RuleGroupDropdown';
-import { RuleRow } from './components/RuleRow/RuleRow';
+import { RuleGroup } from './components/RuleGroup/RuleGroup';
+import { AddRuleRowButton } from './components/AddRuleRowButton/AddRuleRowButton';
+import { AddRuleGroupButton } from './components/AddRuleGroupButton/AddRuleGroupButton';
 import { defaultMessages, Messages } from './messages';
 import { structuredQueryClass, structuredQueryRulesButtonsClass } from './cssClasses';
-import { MAX_NUM_SIBLING_RULE_ROWS } from './constants';
+import { MAX_NUM_SIBLING_RULE_ROWS, MAX_NUM_NESTED_RULE_GROUPS } from './constants';
+import { StructuredQuerySelection } from './utils/structuredQueryInterfaces';
 import { withErrorBoundary } from 'react-error-boundary';
 import { FallbackComponent } from 'utils/FallbackComponent';
 import onErrorCallback from 'utils/onErrorCallback';
@@ -19,41 +19,49 @@ export interface StructuredQueryProps {
 
 const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
-  const [ruleRows, setRuleRows] = useState({ rows: [{ id: 0 }] });
-  const showAddRuleRowButton = ruleRows.rows.length < MAX_NUM_SIBLING_RULE_ROWS;
+  const [structuredQuerySelection, setStructuredQuerySelection] = useState<
+    StructuredQuerySelection
+  >({
+    groups: {
+      0: { rows: [0] }
+    },
+    group_order: [0]
+  });
 
-  const handleAddRuleRowOnClick = () => {
-    const newRuleRowId = ruleRows.rows[ruleRows.rows.length - 1].id + 1;
-    const newRuleRow = { id: newRuleRowId };
-    setRuleRows({
-      ...ruleRows,
-      rows: ruleRows.rows.concat(newRuleRow)
-    });
-  };
+  const showAddRuleRowButton =
+    structuredQuerySelection.groups[0].rows.length < MAX_NUM_SIBLING_RULE_ROWS;
+  const showAddRuleGroupButton =
+    Object.keys(structuredQuerySelection.groups).length - 1 < MAX_NUM_NESTED_RULE_GROUPS;
 
   return (
     <div className={structuredQueryClass}>
-      <RuleGroupDropdown messages={mergedMessages} />
-      {ruleRows.rows.map(row => {
+      {structuredQuerySelection.group_order.map(id => {
         return (
-          <RuleRow
+          <RuleGroup
             messages={mergedMessages}
-            rowId={row.id}
-            key={row.id}
-            setRuleRows={setRuleRows}
-            ruleRows={ruleRows}
+            groupId={id}
+            key={id}
+            structuredQuerySelection={structuredQuerySelection}
+            setStructuredQuerySelection={setStructuredQuerySelection}
           />
         );
       })}
       <div className={structuredQueryRulesButtonsClass}>
         {showAddRuleRowButton && (
-          <Button kind="ghost" renderIcon={Add16} onClick={handleAddRuleRowOnClick}>
-            {mergedMessages.addRuleRowText}
-          </Button>
+          <AddRuleRowButton
+            addRuleRowText={mergedMessages.addRuleRowText}
+            setStructuredQuerySelection={setStructuredQuerySelection}
+            structuredQuerySelection={structuredQuerySelection}
+            groupId={0}
+          />
         )}
-        <Button kind="ghost" renderIcon={Add16}>
-          {mergedMessages.addRuleGroupText}
-        </Button>
+        {showAddRuleGroupButton && (
+          <AddRuleGroupButton
+            addRuleGroupText={mergedMessages.addRuleGroupText}
+            setStructuredQuerySelection={setStructuredQuerySelection}
+            structuredQuerySelection={structuredQuerySelection}
+          />
+        )}
       </div>
     </div>
   );
