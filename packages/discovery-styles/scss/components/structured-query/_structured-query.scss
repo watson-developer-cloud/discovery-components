@@ -20,6 +20,10 @@
   }
 }
 
+.#{$prefix}--structured-query__rule-group--nested {
+  padding-left: $spacing-xl;
+}
+
 .#{$prefix}--structured-query__rules {
   display: flex;
   padding: $spacing-md;
