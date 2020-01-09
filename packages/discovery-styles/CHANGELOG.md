@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-beta.6](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-styles@1.1.0-beta.5...@ibm-watson/discovery-styles@1.1.0-beta.6) (2020-01-09)
+
+
+### Features
+
+* structured query add and remove group rules ([#42](https://github.com/watson-developer-cloud/discovery-components/issues/42)) ([8f9ebb1](https://github.com/watson-developer-cloud/discovery-components/commit/8f9ebb1))
+
+
+
+
+
 # [1.1.0-beta.5](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-styles@1.1.0-beta.4...@ibm-watson/discovery-styles@1.1.0-beta.5) (2020-01-02)
 
 
