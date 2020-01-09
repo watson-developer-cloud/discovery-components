@@ -66,7 +66,8 @@ export function findOffsetInDOM(
 }
 
 export function getTextNodeAndOffset(node: Node, offset: number): NodeOffset {
-  const nodeOffset = parseInt((node as HTMLElement).dataset.childBegin || '0', 10);
+  const nodeElement = node as HTMLElement;
+  const nodeOffset = parseInt(nodeElement.dataset.childBegin || '0', 10);
   const iterator = document.createNodeIterator(node, NodeFilter.SHOW_TEXT);
 
   let textNode: Text,
@@ -87,16 +88,31 @@ export function getTextNodeAndOffset(node: Node, offset: number): NodeOffset {
     throw new Error(`Failed to find text node. Node: ${node.textContent}, offset: ${offset}`);
   }
 
-  // To properly calculate the offset of the string we want to highlight
-  // we need to get the offset from the decoded html text and subtract
-  // it from the original encoded html offset
-  const originalOffset = Math.max(0, offset - runningOffset);
+  let textOffset = Math.max(0, offset - runningOffset);
 
-  const encodedTextSubstring = encodedText.substring(0, originalOffset);
+  // If attribute 'original-text' is present then
+  // the string contains some encoded entities
+  // so, we need adjust the text offset
+  if (nodeElement.getAttribute('original-text')) {
+    // To properly calculate the offset of the string we want to highlight
+    // we need to get the offset from the decoded html text and subtract
+    // it from the original encoded html offset
 
-  const adjustment = originalOffset - decodeHTML(encodedTextSubstring).length;
+    const encodedText = nodeElement.outerHTML
+      .slice(
+        nodeElement.outerHTML.indexOf('original-text') + 14,
+        nodeElement.outerHTML.indexOf('data-child-end') - 1
+      )
+      .replace(/\"/g, '');
 
-  const textOffset = Math.max(0, originalOffset - adjustment);
+    const encodedTextSubstring = encodedText.substring(0, textOffset);
+
+    const decodedText = decodeHTML(encodedTextSubstring);
+
+    const adjustment = textOffset - decodedText.length;
+
+    textOffset = Math.max(0, textOffset - adjustment);
+  }
 
   return { textNode, textOffset };
 }
