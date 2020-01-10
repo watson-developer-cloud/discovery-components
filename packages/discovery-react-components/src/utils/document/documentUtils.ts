@@ -71,14 +71,12 @@ export function getTextNodeAndOffset(node: Node, offset: number): NodeOffset {
 
   let textNode: Text,
     runningOffset = nodeOffset,
-    len: number,
-    encodedText = '';
+    len: number;
   do {
     textNode = iterator.nextNode() as Text;
   } while (
     textNode &&
-    (encodedText = encodeHTML(textNode.data)) &&
-    (len = encodedText.length) &&
+    (len = encodeHTML(textNode.data).length) &&
     offset > runningOffset + len &&
     (runningOffset += len)
   );
