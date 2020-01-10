@@ -35,18 +35,6 @@ describe('processDoc', () => {
     doc = await processDoc(contractData.results[0], { sections: true });
   });
 
-  it('does not mutate the passed document data and metadata property are not be present in it', () => {
-    expect(isEqual(cloneDeep(contractData.results[0]), contractData.results[0])).toBeTruthy();
-    expect(get(contractData.results[0], 'enriched_html[0].contract.metadata')).toBeUndefined();
-  });
-
-  it('does not mutate the passed document data and attributes and relations properties are not present in it', async () => {
-    await processDoc(invoiceData, { sections: true });
-    expect(isEqual(cloneDeep(invoiceData), invoiceData)).toBeTruthy();
-    expect(get(invoiceData, 'enriched_html[0].invoice.attributes')).toBeUndefined();
-    expect(get(invoiceData, 'enriched_html[0].invoice.relations')).toBeUndefined();
-  });
-
   it('parses Disco document data', () => {
     expect(doc.styles).toHaveLength(2029);
     expect(doc.sections).toHaveLength(237);
@@ -126,5 +114,27 @@ describe('processDoc', () => {
 
       getByText(test, { exact: false });
     });
+  });
+});
+
+describe('processDoc', () => {
+  const clonedData = cloneDeep(contractData.results[0]);
+
+  beforeAll(async () => {
+    // parse doc for use in tests
+    await processDoc(clonedData, { sections: true });
+  });
+
+  it('does not mutate the passed contracts data and metadata is not be present in original data', () => {
+    expect(isEqual(clonedData, contractData.results[0])).toBeTruthy();
+    expect(get(contractData.results[0], 'enriched_html[0].contract.metadata')).toBeUndefined();
+  });
+
+  it('does not mutate the passed document data and attributes and relations properties are not present in the original data', async () => {
+    const clonedInvoiceData = cloneDeep(invoiceData);
+    await processDoc(clonedInvoiceData, { sections: true });
+    expect(isEqual(clonedInvoiceData, invoiceData)).toBeTruthy();
+    expect(get(invoiceData, 'enriched_html[0].invoice.attributes')).toBeUndefined();
+    expect(get(invoiceData, 'enriched_html[0].invoice.relations')).toBeUndefined();
   });
 });
