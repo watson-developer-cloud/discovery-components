@@ -29,7 +29,6 @@ expect.extend({
 
 describe('processDoc', () => {
   let doc: ProcessedDoc;
-  //const clonedData = cloneDeep(contractData.results[0]);
 
   beforeAll(async () => {
     // parse doc for use in tests
@@ -42,7 +41,7 @@ describe('processDoc', () => {
   });
 
   it('does not mutate the passed document data and attributes and relations properties are not present in it', async () => {
-    const invoiceDoc = await processDoc(invoiceData, { sections: true });
+    await processDoc(invoiceData, { sections: true });
     expect(isEqual(cloneDeep(invoiceData), invoiceData)).toBeTruthy();
     expect(get(invoiceData, 'enriched_html[0].invoice.attributes')).toBeUndefined();
     expect(get(invoiceData, 'enriched_html[0].invoice.relations')).toBeUndefined();
