@@ -5,6 +5,10 @@ import parser from 'fast-xml-parser';
 import processDoc, { ProcessedDoc } from '../processDoc';
 import contractData from '../__fixtures__/contract.json';
 import escapedCharData from '../__fixtures__/escaped_char_document.json';
+import invoiceData from 'components/CIDocument/components/CIDocument/__fixtures__/invoice-index_op.json';
+import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
+import isEqual from 'lodash/isEqual';
 
 expect.extend({
   toBeValidXml(received): any {
@@ -110,5 +114,27 @@ describe('processDoc', () => {
 
       getByText(test, { exact: false });
     });
+  });
+});
+
+describe('processDoc', () => {
+  const clonedData = cloneDeep(contractData.results[0]);
+
+  beforeAll(async () => {
+    // parse doc for use in tests
+    await processDoc(clonedData, { sections: true });
+  });
+
+  it('does not mutate the passed contracts data and metadata is not be present in original data', () => {
+    expect(isEqual(clonedData, contractData.results[0])).toBeTruthy();
+    expect(get(contractData.results[0], 'enriched_html[0].contract.metadata')).toBeUndefined();
+  });
+
+  it('does not mutate the passed document data and attributes and relations properties are not present in the original data', async () => {
+    const clonedInvoiceData = cloneDeep(invoiceData);
+    await processDoc(clonedInvoiceData, { sections: true });
+    expect(isEqual(clonedInvoiceData, invoiceData)).toBeTruthy();
+    expect(get(invoiceData, 'enriched_html[0].invoice.attributes')).toBeUndefined();
+    expect(get(invoiceData, 'enriched_html[0].invoice.relations')).toBeUndefined();
   });
 });
