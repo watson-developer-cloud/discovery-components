@@ -7,6 +7,8 @@ import contractData from '../__fixtures__/contract.json';
 import escapedCharData from '../__fixtures__/escaped_char_document.json';
 import invoiceData from 'components/CIDocument/components/CIDocument/__fixtures__/invoice-index_op.json';
 import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
+import isEqual from 'lodash/isEqual';
 
 expect.extend({
   toBeValidXml(received): any {
@@ -27,6 +29,7 @@ expect.extend({
 
 describe('processDoc', () => {
   let doc: ProcessedDoc;
+  //const clonedData = cloneDeep(contractData.results[0]);
 
   beforeAll(async () => {
     // parse doc for use in tests
@@ -34,14 +37,13 @@ describe('processDoc', () => {
   });
 
   it('does not mutate the passed document data and metadata property are not be present in it', () => {
-    expect(doc.metadata).toHaveLength(4);
+    expect(isEqual(cloneDeep(contractData.results[0]), contractData.results[0])).toBeTruthy();
     expect(get(contractData.results[0], 'enriched_html[0].contract.metadata')).toBeUndefined();
   });
 
   it('does not mutate the passed document data and attributes and relations properties are not present in it', async () => {
     const invoiceDoc = await processDoc(invoiceData, { sections: true });
-    expect(invoiceDoc.attributes).toHaveLength(5);
-    expect(invoiceDoc.relations).toHaveLength(6);
+    expect(isEqual(cloneDeep(invoiceData), invoiceData)).toBeTruthy();
     expect(get(invoiceData, 'enriched_html[0].invoice.attributes')).toBeUndefined();
     expect(get(invoiceData, 'enriched_html[0].invoice.relations')).toBeUndefined();
   });
