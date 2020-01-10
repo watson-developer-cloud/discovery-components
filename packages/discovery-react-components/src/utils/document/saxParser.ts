@@ -43,7 +43,7 @@ export class SaxParser {
       return handler;
     }, {});
 
-    this.parser = new Parser(handler);
+    this.parser = new Parser(handler, { decodeEntities: false });
   }
 
   /**

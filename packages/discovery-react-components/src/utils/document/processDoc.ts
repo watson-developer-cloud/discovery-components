@@ -6,6 +6,7 @@ import { getId } from './idUtils';
 import transformEnrichment from './transformEnrichment';
 import { getEnrichmentName } from '../../components/CIDocument/utils/enrichmentUtils';
 import { spansIntersect } from './documentUtils';
+import { decodeHTML, encodeHTML } from 'entities';
 
 // split HTML into "sections" based on these top level tag(s)
 const SECTION_NAMES = ['p', 'ul', 'table'];
@@ -250,6 +251,21 @@ function setupSectionParser(
     },
 
     ontext: (_: Parser, text: string): void => {
+      // In order to properly highlight texts in the DOM we need
+      // to know if the original text contains some encoded
+      // html entities, and if so, we pass that value down to
+      // be used later.
+      if (decodeHTML(text).length != text.length) {
+        const lastElemIndex = openTagIndices[openTagIndices.length - 1];
+        // For us to be able to access the original text, we need to
+        // encode it again because otherwise the dom will decode it
+        // when we try to access it later
+        sectionHtml[lastElemIndex] = sectionHtml[lastElemIndex].replace(
+          />$/,
+          ` data-orig-text="${encodeHTML(text)}">`
+        );
+      }
+
       sectionHtml.push(text);
     },
 

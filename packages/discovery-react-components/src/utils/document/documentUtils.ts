@@ -1,5 +1,5 @@
 import uniqWith from 'lodash/uniqWith';
-import { getEncodedTextNodeLength } from '../dom';
+import { decodeHTML, encodeHTML } from 'entities';
 
 interface FindOffsetResults {
   beginTextNode: Text;
@@ -65,17 +65,20 @@ export function findOffsetInDOM(
 }
 
 export function getTextNodeAndOffset(node: Node, offset: number): NodeOffset {
-  const nodeOffset = parseInt((node as HTMLElement).dataset.childBegin || '0', 10);
+  const nodeElement = node as HTMLElement;
+  const nodeOffset = parseInt(nodeElement.dataset.childBegin || '0', 10);
   const iterator = document.createNodeIterator(node, NodeFilter.SHOW_TEXT);
 
   let textNode: Text,
     runningOffset = nodeOffset,
-    len: number;
+    len: number,
+    encodedText = '';
   do {
     textNode = iterator.nextNode() as Text;
   } while (
     textNode &&
-    (len = getEncodedTextNodeLength(textNode)) &&
+    (encodedText = encodeHTML(textNode.data)) &&
+    (len = encodedText.length) &&
     offset > runningOffset + len &&
     (runningOffset += len)
   );
@@ -84,7 +87,26 @@ export function getTextNodeAndOffset(node: Node, offset: number): NodeOffset {
     throw new Error(`Failed to find text node. Node: ${node.textContent}, offset: ${offset}`);
   }
 
-  const textOffset = Math.max(0, offset - runningOffset);
+  let textOffset = Math.max(0, offset - runningOffset);
+
+  // If attribute 'data-orig-text' is present then
+  // the string contains some encoded entities
+  // so, we need adjust the text offset
+  const originalText = nodeElement.dataset.origText;
+  if (originalText) {
+    // To properly calculate the offset of the string we want to highlight
+    // we need to get the offset from the decoded html text and subtract
+    // it from the original encoded html offset. we doing this because the
+    // offsets are based on the original html string which may contain
+    // html entities (eg. `&quot;`), however those entities get rendered in
+    // the dom which throws off the offsets values, for example `&quot;`
+    // becomes `"`, going from 6 characters to 1.
+    const encodedTextSubstring = originalText.substring(0, textOffset);
+    const decodedText = decodeHTML(encodedTextSubstring);
+    const adjustment = textOffset - decodedText.length;
+    textOffset = Math.max(0, textOffset - adjustment);
+  }
+
   return { textNode, textOffset };
 }
 
