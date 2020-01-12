@@ -1,0 +1,9 @@
+@import './mixins';
+
+.#{$prefix}--html {
+  max-width: 80ch;
+  margin: 0 auto;
+
+  @include htmlReset;
+  @include htmlOverride;
+}
