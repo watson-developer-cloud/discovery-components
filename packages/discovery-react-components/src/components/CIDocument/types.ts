@@ -1,4 +1,14 @@
-import { Metadata, MetadataData } from '../CIDocument/components/MetadataPane/types';
+export interface Metadata {
+  metadataType: string;
+  data: MetadataData[];
+}
+
+export interface MetadataData extends Item {
+  text: string;
+  text_normalized: string;
+  confidence_level: 'High' | 'Medium' | 'Low';
+  metadataType?: string;
+}
 
 export interface Location {
   begin: number;
