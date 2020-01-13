@@ -70,15 +70,15 @@ export const HtmlView: FC<Props> = ({
             <style>${processedDoc.styles}</style>
             ${DOMPurify.sanitize(fullHtml, SANITIZE_CONFIG)}
           </div>`);
+          setLoading(false);
         };
         process();
       } else {
         // if no highlight, then no need to "process"
         setHtml(docHtml ? DOMPurify.sanitize(docHtml, SANITIZE_CONFIG) : '');
+        setLoading(false);
       }
     }
-
-    setLoading(false);
   }, [document, highlight, setLoading]);
 
   // highlight table and scroll into view
@@ -98,7 +98,7 @@ export const HtmlView: FC<Props> = ({
       return;
     }
 
-    const { begin, end } = get(highlight, 'table.location');
+    const { begin, end } = get(highlight, 'table.location', {});
     if (typeof begin === 'undefined' || typeof end === 'undefined') {
       return;
     }
