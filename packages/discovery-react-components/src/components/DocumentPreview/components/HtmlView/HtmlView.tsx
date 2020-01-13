@@ -56,25 +56,28 @@ export const HtmlView: FC<Props> = ({
   useEffect(() => {
     if (document) {
       const docHtml = document.html;
-      const html = docHtml ? DOMPurify.sanitize(docHtml, SANITIZE_CONFIG) : '';
-
-      if (html && highlight) {
+      if (docHtml && highlight) {
+        // "process" the original HTML string in order to find offsets for DOM nodes
         const process = async (): Promise<void> => {
-          const processedDoc = await processDoc({ ...document, html }, { sections: true });
+          const processedDoc = await processDoc({ ...document, docHtml }, { sections: true });
           const fullHtml = processedDoc.sections
             ? processedDoc.sections.map(section => section.html).join('')
             : '';
+
+          // set sanitized HTML (removing scripts, etc)
           setHtml(`
           <div>
             <style>${processedDoc.styles}</style>
-            ${fullHtml}
+            ${DOMPurify.sanitize(fullHtml, SANITIZE_CONFIG)}
           </div>`);
         };
         process();
       } else {
-        setHtml(html);
+        // if no highlight, then no need to "process"
+        setHtml(docHtml ? DOMPurify.sanitize(docHtml, SANITIZE_CONFIG) : '');
       }
     }
+
     setLoading(false);
   }, [document, highlight, setLoading]);
 
