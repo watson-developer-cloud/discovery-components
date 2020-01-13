@@ -6,10 +6,10 @@ import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/di
 import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import { PreviewToolbar } from './components/PreviewToolbar/PreviewToolbar';
 // import PdfViewer from './components/PdfViewer/PdfViewer';
-import { supportsPdfFallback } from './components/PdfFallback/PdfFallback';
+// import PdfFallback, { supportsPdfFallback } from './components/PdfFallback/PdfFallback';
 import SimpleDocument from './components/SimpleDocument/SimpleDocument';
 // import HtmlView from './components/HtmlView/HtmlView';
-import Highlight from './components/Highlight/Highlight';
+// import Highlight from './components/Highlight/Highlight';
 // import { getTextMappings } from './utils/documentData';
 import withErrorBoundary, { WithErrorBoundaryProps } from '../../utils/hoc/withErrorBoundary';
 import { defaultMessages, Messages } from './messages';
@@ -67,14 +67,14 @@ const DocumentPreview: FC<Props> = ({
 
   // If highlight, initialize first page to that of highlight; otherwise
   // default to first page
-  const [highlightFirstPage, setHighlightFirstPage] = useState(0);
-  useEffect(() => {
-    if (!highlight) {
-      setCurrentPage(1);
-    } else if (highlightFirstPage > 0) {
-      setCurrentPage(highlightFirstPage);
-    }
-  }, [highlight, highlightFirstPage]);
+  // const [highlightFirstPage, setHighlightFirstPage] = useState(0);
+  // useEffect(() => {
+  //   if (!highlight) {
+  //     setCurrentPage(1);
+  //   } else if (highlightFirstPage > 0) {
+  //     setCurrentPage(highlightFirstPage);
+  //   }
+  // }, [highlight, highlightFirstPage]);
 
   /* Disabled, textmappings currently not used
   const [textMappings, setTextMappings] = useState<TextMappings | null>(null);
@@ -133,7 +133,7 @@ const DocumentPreview: FC<Props> = ({
               setLoading={setLoading}
               setHideToolbarControls={setHideToolbarControls}
             />
-            {/* highlight on top of document view */
+            {/* highlight on top of document view
             (file || supportsPdfFallback(doc)) && (
               <div className={`${base}__highlight-overlay`}>
                 <Highlight
@@ -144,7 +144,7 @@ const DocumentPreview: FC<Props> = ({
                   setHighlightFirstPage={setHighlightFirstPage}
                 />
               </div>
-            )}
+            ) */}
           </div>
           {loading && (
             <div className={`${base}__skeleton`}>
