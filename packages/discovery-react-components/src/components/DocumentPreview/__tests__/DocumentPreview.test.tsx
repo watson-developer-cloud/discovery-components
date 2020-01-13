@@ -7,7 +7,7 @@ import { DiscoverySearch } from '../../DiscoverySearch/DiscoverySearch';
 import DocumentPreview from '../DocumentPreview';
 import { document as doc } from '../__fixtures__/Art Effects.pdf';
 import docJson from '../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
-import htmlDoc from '../__fixtures__/MovieHtml.json';
+//import htmlDoc from '../__fixtures__/MovieHtml.json';
 import passages from '../__fixtures__/passages';
 
 describe('DocumentPreview', () => {
