@@ -1,19 +1,19 @@
 import React, { FC, ReactElement, useContext, useEffect, useState } from 'react';
 import { SkeletonText } from 'carbon-components-react';
-import get from 'lodash/get';
+// import get from 'lodash/get';
 import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import { PreviewToolbar } from './components/PreviewToolbar/PreviewToolbar';
-import PdfViewer from './components/PdfViewer/PdfViewer';
-import PdfFallback, { supportsPdfFallback } from './components/PdfFallback/PdfFallback';
+// import PdfViewer from './components/PdfViewer/PdfViewer';
+import { supportsPdfFallback } from './components/PdfFallback/PdfFallback';
 import SimpleDocument from './components/SimpleDocument/SimpleDocument';
-import HtmlView from './components/HtmlView/HtmlView';
+// import HtmlView from './components/HtmlView/HtmlView';
 import Highlight from './components/Highlight/Highlight';
-import { getTextMappings } from './utils/documentData';
+// import { getTextMappings } from './utils/documentData';
 import withErrorBoundary, { WithErrorBoundaryProps } from '../../utils/hoc/withErrorBoundary';
 import { defaultMessages, Messages } from './messages';
-import { TextMappings } from './types';
+// import { TextMappings } from './types';
 
 const { ZOOM_IN, ZOOM_OUT } = PreviewToolbar;
 
@@ -76,6 +76,7 @@ const DocumentPreview: FC<Props> = ({
     }
   }, [highlight, highlightFirstPage]);
 
+  /* Disabled, textmappings currently not used
   const [textMappings, setTextMappings] = useState<TextMappings | null>(null);
   useEffect(() => {
     const mappings = getTextMappings(doc);
@@ -83,9 +84,11 @@ const DocumentPreview: FC<Props> = ({
       setTextMappings(mappings);
     }
   }, [doc]);
+  */
 
   // Pull total page count from either the PDF file or the structural
   // data list
+  /* Disabled
   const [pageCount, setPageCount] = useState(0);
   const [pdfPageCount, setPdfPageCount] = useState(pageCount);
   useEffect(() => {
@@ -96,6 +99,7 @@ const DocumentPreview: FC<Props> = ({
       setPageCount(get(textMappings, `text_mappings[${last}].page.page_number`, 1));
     }
   }, [textMappings, file, pdfPageCount]);
+  */
 
   const base = `${settings.prefix}--document-preview`;
 
@@ -107,7 +111,8 @@ const DocumentPreview: FC<Props> = ({
             loading={loading}
             hideControls={hideToolbarControls}
             current={currentPage}
-            total={loading ? 0 : pageCount}
+            //total={loading ? 0 : pageCount}
+            total={0}
             onChange={setCurrentPage}
             onZoom={(zoom: any): void => {
               if (zoom === ZOOM_IN || zoom === ZOOM_OUT) {
@@ -124,7 +129,7 @@ const DocumentPreview: FC<Props> = ({
               scale={scale}
               document={doc}
               highlight={highlight}
-              setPdfPageCount={setPdfPageCount}
+              //setPdfPageCount={setPdfPageCount}
               setLoading={setLoading}
               setHideToolbarControls={setHideToolbarControls}
             />
@@ -168,17 +173,18 @@ interface PreviewDocumentProps {
 }
 
 function PreviewDocument({
-  file,
-  currentPage,
-  scale,
+  // file,
+  // currentPage,
+  // scale,
+  // setPdfPageCount,
   document,
-  setPdfPageCount,
   setLoading,
   setHideToolbarControls,
   highlight
 }: PreviewDocumentProps): ReactElement | null {
   // if we have PDF data, render that
   // otherwise, render fallback document view
+  /* Disabling PdfViewer temporarily
   if (file) {
     return (
       <PdfViewer
@@ -190,9 +196,10 @@ function PreviewDocument({
         setHideToolbarControls={setHideToolbarControls}
       />
     );
-  }
+  } */
 
   if (document) {
+    /* Disabling PdfFallback and HtmlView temporarily
     if (supportsPdfFallback(document)) {
       return (
         <PdfFallback
@@ -217,7 +224,7 @@ function PreviewDocument({
         />
       );
     }
-
+    */
     return (
       <SimpleDocument
         document={document}
