@@ -26,29 +26,27 @@ storiesOf('DocumentPreview/components/HtmlView', module)
 
     const highlights = [
       {
-        table_id: '558ada041262d5b0aa02a05429d798c7',
-        source_document_id: '7e8ada041262d5b0aa02a05429d798c7',
-        collection_id: '8713a92b-28aa-b291-0000-016ddc68aa2a',
-        table_html: '<table><tr><th>Hello</th><tr><td>How are ya?</td></tr></table>',
-        table_html_offset: 42500,
+        table_id: 'c0b39e49-e4cf-4fae-97b0-d547b0af6bc2',
+        source_document_id: '903461f8843ef9f10daecd2a14994308',
+        collection_id: 'd1714ef9-647c-288c-0000-016fa082490f',
+        table_html: 'Something',
+        table_html_offset: 274502,
         table: {
-          location: {
-            begin: 346735,
-            end: 349601
-          }
+          location: { end: 279877, begin: 274994 },
+          text:
+            'Section 7 - Agreed Rates Resource Type Day Rate Project Manager $550 Customer Delivery Manager $800 Product Analyst $800 Solution Architect $800 Technical Architect $800 Handset Developer $400 Server Developer $400 Tester /Test Analyst $400 Release Manager $400 Security Analyst $800 DBA $400 Senior Developer/Development Manager $800 Operations Manager $800 Infrastructure Architect $800 Senior Unix Developer $600 Unix Developer $400 Operations Staff $400 Security Office $400'
         }
       },
       {
-        table_id: '558ada041262d5b0aa02a05429d798c7',
-        source_document_id: '7e8ada041262d5b0aa02a05429d798c7',
-        collection_id: '8713a92b-28aa-b291-0000-016ddc68aa2a',
-        table_html: '<table><tr><th>Hello</th><tr><td>How are ya?</td></tr></table>',
-        table_html_offset: 42500,
+        table_id: 'c120373e-34fc-428d-b442-29e20679bc7f',
+        source_document_id: '903461f8843ef9f10daecd2a14994308',
+        collection_id: 'd1714ef9-647c-288c-0000-016fa082490f',
+        table_html: 'Something else',
+        table_html_offset: 238525,
         table: {
-          location: {
-            begin: 413504,
-            end: 420492
-          }
+          location: { end: 239777, begin: 239019 },
+          text:
+            'ii. all ancillary documents relating to this Base Agreement; iii. SOWs pursuant to this Base Agreement and'
         }
       }
     ];
