@@ -24,7 +24,7 @@ describe('Passage Results', () => {
     });
 
     it('SearchResults displays ONLY the first passage text of the results that have passages', () => {
-      cy.get('.bx--search-result__content-wrapper__body')
+      cy.get('div[data-testid="search-result-element-body-passage"]')
         .contains(
           'This result multiple passages, but you should only be able to see the first one.'
         )

@@ -31,7 +31,7 @@ describe('Autocomplete', () => {
       cy.wait('@getAutocompletions');
     });
 
-    it('displays a dropdown of autocomplete suggestions', () => {
+    it.only('displays a dropdown of autocomplete suggestions', () => {
       cy.get('.bx--search-autocompletion__term').each((autocompletionTerm, i) => {
         expect(autocompletionTerm).to.contain('h');
         expect(autocompletionTerm).to.contain(expectedAutocompletions[i].slice(1));
