@@ -117,33 +117,34 @@ describe('DocumentPreview', () => {
     getByText('<text> <username> <password>', { exact: false });
   });
 
-  it('renders html document', () => {
-    let getByText: NonNullable<any>;
+  // Disabling these tests until HTML view is added back
+  // it('renders html document', () => {
+  //   let getByText: NonNullable<any>;
 
-    act(() => {
-      ({ getByText } = render(<DocumentPreview document={htmlDoc} />));
-    });
+  //   act(() => {
+  //     ({ getByText } = render(<DocumentPreview document={htmlDoc} />));
+  //   });
 
-    getByText((content: string, element: HTMLElement) => {
-      return element.tagName.toLowerCase() === 'a' && content.includes('Ritcher, The');
-    });
-  });
+  //   getByText((content: string, element: HTMLElement) => {
+  //     return element.tagName.toLowerCase() === 'a' && content.includes('Ritcher, The');
+  //   });
+  // });
 
-  it('renders HTML doc without `html` field as text', () => {
-    const docWithoutHtmlField = omit(htmlDoc, 'html');
-    let getByText: NonNullable<any>, queryByText: NonNullable<any>;
+  // it('renders HTML doc without `html` field as text', () => {
+  //   const docWithoutHtmlField = omit(htmlDoc, 'html');
+  //   let getByText: NonNullable<any>, queryByText: NonNullable<any>;
 
-    act(() => {
-      ({ getByText, queryByText } = render(<DocumentPreview document={docWithoutHtmlField} />));
-    });
+  //   act(() => {
+  //     ({ getByText, queryByText } = render(<DocumentPreview document={docWithoutHtmlField} />));
+  //   });
 
-    // there shouldn't be HTML elements
-    const match = queryByText((content: string, element: HTMLElement) => {
-      return element.tagName.toLowerCase() === 'a' && content.includes('Ritcher, The');
-    });
-    expect(match).toBeNull();
+  //   // there shouldn't be HTML elements
+  //   const match = queryByText((content: string, element: HTMLElement) => {
+  //     return element.tagName.toLowerCase() === 'a' && content.includes('Ritcher, The');
+  //   });
+  //   expect(match).toBeNull();
 
-    // but there should be text
-    getByText('Ritcher, The', { exact: false });
-  });
+  //   // but there should be text
+  //   getByText('Ritcher, The', { exact: false });
+  // });
 });
