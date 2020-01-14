@@ -100,13 +100,13 @@ export default async function processDoc(
   const doc: ProcessedDoc = {
     styles: ''
   };
-  if (enrichment.metadata) {
+  if (enrichment && enrichment.metadata) {
     doc.metadata = enrichment.metadata;
   }
-  if (enrichment.attributes) {
+  if (enrichment && enrichment.attributes) {
     doc.attributes = enrichment.attributes;
   }
-  if (enrichment.relations) {
+  if (enrichment && enrichment.relations) {
     doc.relations = enrichment.relations;
   }
   if (options.sections) {

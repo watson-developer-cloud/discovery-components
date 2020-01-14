@@ -48,7 +48,7 @@ describe('PdfFallback', () => {
     });
 
     if (svgTag !== null) {
-      expect(svgTag.children.length).toEqual(31);
+      expect(svgTag.children.length).toEqual(10);
     } else {
       throw new Error('expected to find SVG element');
     }
@@ -65,11 +65,12 @@ describe('PdfFallback', () => {
       ));
     });
 
-    await waitForElement(() => getByText('1.0 Definitions'));
+    await waitForElement(() => getByText('1.0 Definitions', { exact: false }));
 
-    getByText('1.0 Definitions');
+    getByText('1.0 Definitions', { exact: false });
     getByText(
-      'materials basis as set out in the relevant SOW and charged in accordance with Clause 5 (Pricing) and additional terms within'
+      'materials basis as set out in the relevant SOW and charged in accordance with Clause 5 (Pricing) and additional terms within',
+      { exact: false }
     );
   });
 
