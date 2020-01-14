@@ -13,22 +13,22 @@
 - [Prerequisites](#prerequisites)
 - [Running the example app](#running-the-example-app)
 - [Using Discovery Components in a React application](#using-discovery-components-in-a-react-application)
-  * [Interacting with Discovery data in custom components](#interacting-with-discovery-data-in-custom-components)
+  - [Interacting with Discovery data in custom components](#interacting-with-discovery-data-in-custom-components)
 - [Development](#development)
-  * [Project structure](#project-structure)
-  * [Install](#install)
-  * [Available commands](#available-commands)
-    + [Root directory](#root-directory)
-    + [Example app (examples/discovery-search-app)](#example-app-examplesdiscovery-search-app)
-    + [React components (packages/discovery-react-components)](#react-components-packagesdiscovery-react-components)
-    + [Styles (packages/discovery-styles)](#styles-packagesdiscovery-styles)
-  * [Running the project](#running-the-project)
-  * [Running Storybook](#running-storybook)
-  * [Testing](#testing)
-    + [Unit/Integration testing](#unitintegration-testing)
-    + [Feature tests](#feature-tests)
-    + [Continuous integration](#continuous-integration)
-  * [Branching and Releasing](#branching-and-releasing)
+  - [Project structure](#project-structure)
+  - [Install](#install)
+  - [Available commands](#available-commands)
+    - [Root directory](#root-directory)
+    - [Example app (examples/discovery-search-app)](#example-app-examplesdiscovery-search-app)
+    - [React components (packages/discovery-react-components)](#react-components-packagesdiscovery-react-components)
+    - [Styles (packages/discovery-styles)](#styles-packagesdiscovery-styles)
+  - [Running the project](#running-the-project)
+  - [Running Storybook](#running-storybook)
+  - [Testing](#testing)
+    - [Unit/Integration testing](#unitintegration-testing)
+    - [Feature tests](#feature-tests)
+    - [Continuous integration](#continuous-integration)
+  - [Branching and Releasing](#branching-and-releasing)
 - [Helpful links](#helpful-links)
 - [Contributors](#contributors)
 
@@ -68,21 +68,21 @@ The example app is a catalogue of the core components provided by this library. 
 
 4. Create an environment file
 
-   Create a file at `examples/discovery-search-app/.env.local` file, and populate the following values from your Discovery project:
+   Copy the `examples/discovery-search-app/.env` file to `examples/discovery-search-app/.env.local` file, and populate the following values from your Discovery project:
 
    ```
-   REACT_APP_PROJECT_ID=<project_id to query>
-   CLUSTER_USERNAME=<cluster username>
-   CLUSTER_PASSWORD=<cluster password>
-   CLUSTER_PORT=<cluster port>
-   CLUSTER_HOST=<cluster hostname>
+   REACT_APP_PROJECT_ID={REPLACE_ME}
+   CLUSTER_USERNAME={REPLACE_ME}
+   CLUSTER_PASSWORD={REPLACE_ME}
+   CLUSTER_PORT={REPLACE_ME}
+   CLUSTER_HOST={REPLACE_ME}
    ```
 
-   1. `REACT_APP_PROJECT_ID` is contained in the URL when viewing your Discovery project on the CP4D cluster (ex. `https://{CLUSTER_HOST}:{CLUSTER_PORT}/discovery/{RELEASE_NAME}/projects/{REACT_APP_PROJECT_ID}/workspace`)
-   2. `CLUSTER_USERNAME` the username used to log in to your CP4D dashboard and access your instance of Discovery
-   3. `CLUSTER_PASSWORD` the password used to log in to your CP4D dashboard and access your instance of Discovery
+   1. `REACT_APP_PROJECT_ID` is a guid contained in the URL (sample URL: `https://{CLUSTER_HOST}:{CLUSTER_PORT}/discovery/{RELEASE_NAME}/projects/{REACT_APP_PROJECT_ID}/workspace`) when viewing your Discovery project on the CP4D cluster (ex. `97ba736d-6563-4270-a489-c19d682b6369`)
+   2. `CLUSTER_USERNAME` the username used to log in to your CP4D dashboard and access your instance of Discovery (ex. `my_cp4d_username`)
+   3. `CLUSTER_PASSWORD` the password used to log in to your CP4D dashboard and access your instance of Discovery (ex. `my_cp4d_password`)
    4. `CLUSTER_PORT` defaults to `443` unless configured otherwise
-   5. `CLUSTER_HOST` the base URL of your CP4D cluster (ex. `{}.com`)
+   5. `CLUSTER_HOST` the base URL of your CP4D cluster (ex. `example.com` - no protocol/port)
 
 For more information about configuring your Cloud Pak for Data cluster, see https://www.ibm.com/support/producthub/icpdata/docs/content/SSQNUZ_current/cpd/overview/overview.html
 
@@ -92,13 +92,22 @@ For more information about configuring your Cloud Pak for Data cluster, see http
    yarn workspace @ibm-watson/discovery-react-components run build
    ```
 
-6. In one terminal, start the server:
+6. Perform one of the two steps
 
-   ```
-   yarn workspace discovery-search-app run server
-   ```
+   - Run the setup script
+     ```
+     yarn workspace discovery-search-app run server:setup
+     ```
+   - Create a `examples/discovery-search-app/.server.env` file with the following values:
+     ```
+     RELEASE_PATH={REPLACE_ME}
+     BASE_URL={REPLACE_ME}
+     ```
+     where:
+     - `RELEASE_PATH` is the url path part of the API URL shown in the CP4D UI (ex. `/discovery/release-name/instances/1578610482214/api`)
+     - `BASE_URL` is the protocol + host + port of the location that CP4D UI is hosted (ex. `https://zen-25-cpd-zen-25.apps.my-cluster-name.com:443`)
 
-7. In another terminal, start the example app:
+7. Start the example app:
 
    ```
    yarn workspace discovery-search-app run start
@@ -107,67 +116,6 @@ For more information about configuring your Cloud Pak for Data cluster, see http
 8. Go to [localhost:3000](localhost:3000) in your browser. If everything is working, you should see something like this:
 
    ![Example app](./docs/images/example-app.png)
-
-## Using Discovery Components in a React application
-
-If you don't have a React application already, start with [create react app](https://github.com/facebook/create-react-app) then modify the following in your `src/App.js`. Otherwise, you may use Discovery Components inside of any existing React component.
-
-Add the component, style, and client library to your application:
-
-```
-yarn add @ibm-watson/discovery-react-components @ibm-watson/discovery-styles ibm-watson
-```
-
-or
-
-```
-npm i @ibm-watson/discovery-react-components @ibm-watson/discovery-styles ibm-watson
-```
-
-Add the `DiscoverySearch` component with corresponding `searchClient` and optionally any components you would like to use to display Discovery Search Results.
-
-```jsx
-// src/App.js
-
-import React from 'react';
-import {
-  DiscoverySearch,
-  SearchInput,
-  SearchResults,
-  SearchFacets,
-  ResultsPagination,
-  DocumentPreview
-} from '@ibm-watson/discovery-react-components';
-import { CloudPackForDataAuthenticator, DiscoveryV2 } from 'ibm-watson';
-
-// optionally import SASS styles
-import '@ibm-watson/discovery-styles/scss/index.scss';
-// or load vanilla CSS
-// import '@ibm-watson/discovery-styles/css/index.css';
-
-// Replace these values
-const username = '<your cluster username>';
-const password = '<your cluster password>';
-const url = '<your cluster url>';
-const serviceUrl = '<your discovery url>';
-const version = '<YYYY-MM-DD discovery version>';
-const projectId = '<your discovery project id>';
-
-const App = () => {
-  const authenticator = new CloudPakForDataAuthenticator({ username, password, url });
-  const searchClient = new DiscoveryV2({ url: serviceUrl, version, authenticator });
-
-  return (
-    <DiscoverySearch searchClient={searchClient} projectId={'<your discovery project id>'}>
-      <SearchInput />
-      <SearchResults />
-      <SearchFacets />
-      <ResultsPagination />
-      <DocumentPreview />
-    </DiscoverySearch>
-  );
-};
-```
 
 For more information on how each component can be customized and configured, check out our hosted [storybook](https://watson-developer-cloud.github.io/discovery-components)
 
@@ -186,7 +134,7 @@ import { DiscoverySearch } from '@ibm-watson/discovery-react-components';
 const App = () => {
   // see more detailed searchClient example above
   return (
-    <DiscoverySearch searchClient={searchClient} projectId={'<your discovery project id>'}>
+    <DiscoverySearch searchClient={searchClient} projectId={'REPLACE_ME'}>
       <MyCustomComponent />
     </DiscoverySearch>
   );
@@ -217,7 +165,6 @@ const MyCustomComponent = () => {
           performSearch(searchParameters);
         }}
       >
-        {' '}
         Click here to search
       </button>
     </div>
