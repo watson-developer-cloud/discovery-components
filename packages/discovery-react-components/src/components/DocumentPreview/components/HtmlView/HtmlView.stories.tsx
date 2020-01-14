@@ -32,7 +32,7 @@ storiesOf('DocumentPreview/components/HtmlView', module)
         table_html: 'Something',
         table_html_offset: 274502,
         table: {
-          location: { end: 279877, begin: 274994 },
+          location: { begin: 274994, end: 279877 },
           text:
             'Section 7 - Agreed Rates Resource Type Day Rate Project Manager $550 Customer Delivery Manager $800 Product Analyst $800 Solution Architect $800 Technical Architect $800 Handset Developer $400 Server Developer $400 Tester /Test Analyst $400 Release Manager $400 Security Analyst $800 DBA $400 Senior Developer/Development Manager $800 Operations Manager $800 Infrastructure Architect $800 Senior Unix Developer $600 Unix Developer $400 Operations Staff $400 Security Office $400'
         }
@@ -44,9 +44,9 @@ storiesOf('DocumentPreview/components/HtmlView', module)
         table_html: 'Something else',
         table_html_offset: 238525,
         table: {
-          location: { end: 239777, begin: 239019 },
+          location: { begin: 230169, end: 234407 },
           text:
-            'ii. all ancillary documents relating to this Base Agreement; iii. SOWs pursuant to this Base Agreement and'
+            'Supplier Role 3rd Base Ltd Registered number: 981 of 1999 Registered Address: Phone Support Company X Registered number: Registered Address : Development Registered number: Registered Address: Design Registered number: Registered Address: Hosting Registered number: Registered Address: Messaging Registered number: Registered Address: Managed Services (Call Centre)'
         }
       }
     ];
