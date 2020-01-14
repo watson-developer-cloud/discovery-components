@@ -116,7 +116,7 @@ export const SimpleDocument: FC<Props> = ({
 
   const base = `${settings.prefix}--simple-document`;
   return html ? (
-    <div className={`${base}`}>
+    <div className={base}>
       <div className={`${base}__wrapper`}>
         <div ref={highlightRef} />
         <div
