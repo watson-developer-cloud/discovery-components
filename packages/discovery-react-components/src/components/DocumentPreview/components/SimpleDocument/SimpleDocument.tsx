@@ -6,6 +6,7 @@ import get from 'lodash/get';
 import { clearNodeChildren } from '../../../../utils/dom';
 import { findOffsetInDOM, createFieldRects } from '../../../../utils/document/documentUtils';
 import { isPassage } from '../Highlight/passages';
+import { SearchContext } from '../../../DiscoverySearch/DiscoverySearch';
 
 interface Props {
   /**
@@ -34,6 +35,7 @@ export const SimpleDocument: FC<Props> = ({
 }) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
+  const { componentSettings } = React.useContext(SearchContext);
 
   let html,
     passage: QueryResultPassage | null = null;
@@ -44,7 +46,10 @@ export const SimpleDocument: FC<Props> = ({
     if (isJsonType && (!highlight || !isPassage(highlight))) {
       html = `<p>${cannotPreviewMessage}</p>`;
     } else {
-      let text = get(document, 'text', '');
+      // Look for a custom field name that contains the document body (fallback to field name 'text')
+      // Could be combined with getDisplaySettings in SearchResults, which does something similar
+      const field = get(componentSettings, 'fields_shown.body.field', 'text');
+      let text = get(document, field, '');
       if (Array.isArray(text)) {
         text = text[0];
       }
