@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC, useContext, useEffect, useRef } from 'react';
 import { encodeHTML } from 'entities';
 import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
@@ -35,7 +35,7 @@ export const SimpleDocument: FC<Props> = ({
 }) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
-  const { componentSettings } = React.useContext(SearchContext);
+  const { componentSettings } = useContext(SearchContext);
 
   let html,
     passage: QueryResultPassage | null = null;
