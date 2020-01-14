@@ -16,6 +16,22 @@
           "passage_text": "<em>restaurants</em>: Great Plains Sauce and Dough"
         }
       ]
+    },
+    {
+      "document_id": "DOCUMENT_ID_9",
+      "result_metadata": {
+        "collection_id": "COLLECTION_ID_9"
+      },
+      "extracted_metadata": {
+        "filename": "Chipotle",
+        "title": "Chipotle"
+      },
+      "document_passages": [
+        {
+          "field": "text",
+          "passage_text": "<em>restaurants</em>: Chipotle"
+        }
+      ]
     }
   ],
   "aggregations": [

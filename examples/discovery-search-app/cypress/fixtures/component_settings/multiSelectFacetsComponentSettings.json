@@ -12,8 +12,18 @@
   },
   "aggregations": [
     {
-      "name": "entities",
-      "label": "Top Entities",
+      "name": "location",
+      "label": "City",
+      "multiple_selections_allowed": true
+    },
+    {
+      "name": "style",
+      "label": "Cuisine",
+      "multiple_selections_allowed": true
+    },
+    {
+      "name": "price",
+      "label": "Price Range",
       "multiple_selections_allowed": true
     }
   ],
