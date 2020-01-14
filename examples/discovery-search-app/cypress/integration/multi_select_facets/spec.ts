@@ -26,7 +26,7 @@ describe('Multi-Select Facets', () => {
     // Set up/override routes & fixtures that are specific to this file
     cy.fixture('query/facetsQueryAmes.json').as('facetsQueryAmesJSON');
     cy.fixture('query/facetsQueryAmesLowPrice.json').as('facetsQueryAmesLowPriceJSON');
-    cy.fixture('query/facetsQueryAmesAndPittsburgh.json').as('facetsQueryAmesAndPittsburghJSON');
+    cy.fixture('query/facetsQueryAmesOrPittsburgh.json').as('facetsQueryAmesOrPittsburghJSON');
   });
 
   describe('When a query is made, and facets are returned', () => {
@@ -90,13 +90,13 @@ describe('Multi-Select Facets', () => {
 
       describe('and a different filter is selected from the same facet', () => {
         beforeEach(() => {
-          cy.route('POST', '**/query?version=2019-01-01', '@facetsQueryAmesAndPittsburghJSON').as(
-            'postQueryFacetsAmesAndPittsburgh'
+          cy.route('POST', '**/query?version=2019-01-01', '@facetsQueryAmesOrPittsburghJSON').as(
+            'postQueryFacetsAmesOrPittsburgh'
           );
           cy.get('label')
             .contains('Pittsburgh, PA')
             .click();
-          cy.wait('@postQueryFacetsAmesAndPittsburgh').as('multiFilterQueryObject');
+          cy.wait('@postQueryFacetsAmesOrPittsburgh').as('multiFilterQueryObject');
         });
 
         it('makes a query for both filters in the facet', () => {
