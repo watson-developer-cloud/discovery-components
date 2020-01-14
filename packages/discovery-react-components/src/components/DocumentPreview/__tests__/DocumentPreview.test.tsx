@@ -7,7 +7,6 @@ import { DiscoverySearch } from '../../DiscoverySearch/DiscoverySearch';
 import DocumentPreview from '../DocumentPreview';
 import { document as doc } from '../__fixtures__/Art Effects.pdf';
 import docJson from '../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
-//import htmlDoc from '../__fixtures__/MovieHtml.json';
 import passages from '../__fixtures__/passages';
 
 describe('DocumentPreview', () => {
@@ -116,35 +115,4 @@ describe('DocumentPreview', () => {
 
     getByText('<text> <username> <password>', { exact: false });
   });
-
-  // Disabling these tests until HTML view is added back
-  // it('renders html document', () => {
-  //   let getByText: NonNullable<any>;
-
-  //   act(() => {
-  //     ({ getByText } = render(<DocumentPreview document={htmlDoc} />));
-  //   });
-
-  //   getByText((content: string, element: HTMLElement) => {
-  //     return element.tagName.toLowerCase() === 'a' && content.includes('Ritcher, The');
-  //   });
-  // });
-
-  // it('renders HTML doc without `html` field as text', () => {
-  //   const docWithoutHtmlField = omit(htmlDoc, 'html');
-  //   let getByText: NonNullable<any>, queryByText: NonNullable<any>;
-
-  //   act(() => {
-  //     ({ getByText, queryByText } = render(<DocumentPreview document={docWithoutHtmlField} />));
-  //   });
-
-  //   // there shouldn't be HTML elements
-  //   const match = queryByText((content: string, element: HTMLElement) => {
-  //     return element.tagName.toLowerCase() === 'a' && content.includes('Ritcher, The');
-  //   });
-  //   expect(match).toBeNull();
-
-  //   // but there should be text
-  //   getByText('Ritcher, The', { exact: false });
-  // });
 });

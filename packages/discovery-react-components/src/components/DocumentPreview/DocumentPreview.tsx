@@ -1,19 +1,12 @@
 import React, { FC, ReactElement, useContext, useEffect, useState } from 'react';
 import { SkeletonText } from 'carbon-components-react';
-// import get from 'lodash/get';
 import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
 import { PreviewToolbar } from './components/PreviewToolbar/PreviewToolbar';
-// import PdfViewer from './components/PdfViewer/PdfViewer';
-// import PdfFallback, { supportsPdfFallback } from './components/PdfFallback/PdfFallback';
 import SimpleDocument from './components/SimpleDocument/SimpleDocument';
-// import HtmlView from './components/HtmlView/HtmlView';
-// import Highlight from './components/Highlight/Highlight';
-// import { getTextMappings } from './utils/documentData';
 import withErrorBoundary, { WithErrorBoundaryProps } from '../../utils/hoc/withErrorBoundary';
 import { defaultMessages, Messages } from './messages';
-// import { TextMappings } from './types';
 
 const { ZOOM_IN, ZOOM_OUT } = PreviewToolbar;
 
@@ -65,42 +58,6 @@ const DocumentPreview: FC<Props> = ({
     // setLoading(true);
   }, [doc]);
 
-  // If highlight, initialize first page to that of highlight; otherwise
-  // default to first page
-  // const [highlightFirstPage, setHighlightFirstPage] = useState(0);
-  // useEffect(() => {
-  //   if (!highlight) {
-  //     setCurrentPage(1);
-  //   } else if (highlightFirstPage > 0) {
-  //     setCurrentPage(highlightFirstPage);
-  //   }
-  // }, [highlight, highlightFirstPage]);
-
-  /* Disabled, textmappings currently not used
-  const [textMappings, setTextMappings] = useState<TextMappings | null>(null);
-  useEffect(() => {
-    const mappings = getTextMappings(doc);
-    if (mappings) {
-      setTextMappings(mappings);
-    }
-  }, [doc]);
-  */
-
-  // Pull total page count from either the PDF file or the structural
-  // data list
-  /* Disabled
-  const [pageCount, setPageCount] = useState(0);
-  const [pdfPageCount, setPdfPageCount] = useState(pageCount);
-  useEffect(() => {
-    if (file && pdfPageCount > 0) {
-      setPageCount(pdfPageCount);
-    } else if (textMappings) {
-      const last = textMappings.text_mappings.length - 1;
-      setPageCount(get(textMappings, `text_mappings[${last}].page.page_number`, 1));
-    }
-  }, [textMappings, file, pdfPageCount]);
-  */
-
   const base = `${settings.prefix}--document-preview`;
 
   return (
@@ -111,7 +68,6 @@ const DocumentPreview: FC<Props> = ({
             loading={loading}
             hideControls={hideToolbarControls}
             current={currentPage}
-            //total={loading ? 0 : pageCount}
             total={0}
             onChange={setCurrentPage}
             onZoom={(zoom: any): void => {
@@ -124,27 +80,11 @@ const DocumentPreview: FC<Props> = ({
           />
           <div className={`${base}__document`}>
             <PreviewDocument
-              file={file}
-              currentPage={currentPage}
-              scale={scale}
               document={doc}
               highlight={highlight}
-              //setPdfPageCount={setPdfPageCount}
               setLoading={setLoading}
               setHideToolbarControls={setHideToolbarControls}
             />
-            {/* highlight on top of document view
-            (file || supportsPdfFallback(doc)) && (
-              <div className={`${base}__highlight-overlay`}>
-                <Highlight
-                  highlightClassname={`${base}__highlight`}
-                  document={doc}
-                  currentPage={currentPage}
-                  highlight={highlight}
-                  setHighlightFirstPage={setHighlightFirstPage}
-                />
-              </div>
-            ) */}
           </div>
           {loading && (
             <div className={`${base}__skeleton`}>
@@ -163,68 +103,18 @@ const DocumentPreview: FC<Props> = ({
 
 interface PreviewDocumentProps {
   document?: QueryResult | null;
-  file?: string;
   highlight?: any;
-  currentPage: number;
-  scale: number;
-  setPdfPageCount?: (count: number) => void;
   setLoading: (loading: boolean) => void;
   setHideToolbarControls?: (disabled: boolean) => void;
 }
 
 function PreviewDocument({
-  // file,
-  // currentPage,
-  // scale,
-  // setPdfPageCount,
   document,
   setLoading,
   setHideToolbarControls,
   highlight
 }: PreviewDocumentProps): ReactElement | null {
-  // if we have PDF data, render that
-  // otherwise, render fallback document view
-  /* Disabling PdfViewer temporarily
-  if (file) {
-    return (
-      <PdfViewer
-        file={file}
-        page={currentPage}
-        scale={scale}
-        setPageCount={setPdfPageCount}
-        setLoading={setLoading}
-        setHideToolbarControls={setHideToolbarControls}
-      />
-    );
-  } */
-
   if (document) {
-    /* Disabling PdfFallback and HtmlView temporarily
-    if (supportsPdfFallback(document)) {
-      return (
-        <PdfFallback
-          key={document && document.id}
-          document={document}
-          currentPage={currentPage}
-          scale={scale}
-          setLoading={setLoading}
-          setHideToolbarControls={setHideToolbarControls}
-        />
-      );
-    }
-
-    const isHtmlType = get(document, 'extracted_metadata.file_type') === 'html';
-
-    if (isHtmlType && document.html) {
-      return (
-        <HtmlView
-          document={document}
-          setLoading={setLoading}
-          setHideToolbarControls={setHideToolbarControls}
-        />
-      );
-    }
-    */
     return (
       <SimpleDocument
         document={document}
