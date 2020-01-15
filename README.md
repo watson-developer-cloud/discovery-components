@@ -119,6 +119,8 @@ For more information about configuring your Cloud Pak for Data cluster, see http
 
 For more information on how each component can be customized and configured, check out our hosted [storybook](https://watson-developer-cloud.github.io/discovery-components)
 
+**NOTE**: If you wish to run inside a new/existing [create react app](https://create-react-app.dev/docs/getting-started) project outside of this repository, you MUST [configure the manual proxy](https://create-react-app.dev/docs/proxying-api-requests-in-development/#configuring-the-proxy-manually) to avoid CORS issues.
+
 ### Interacting with Discovery data in custom components
 
 Interacting with Discovery data is facilitated by the use of [React Context](https://reactjs.org/docs/context.html). The only requirement for a component to consume or request data is that it be nested underneath the `DiscoverySearch` component.
