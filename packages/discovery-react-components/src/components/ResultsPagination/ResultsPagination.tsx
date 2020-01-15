@@ -44,7 +44,6 @@ interface ResultsPaginationEvent {
 }
 
 const ResultsPagination: FC<ResultsPaginationProps> = ({
-  numberDelimiter = ',',
   page = 1,
   pageSizes = [10, 20, 30, 40, 50],
   pageSize,
@@ -100,6 +99,10 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
     return formatMessage(mergedMessages.itemRangeText, false, { min: min, max: max, total: total });
   };
 
+  const handlePageRangeText = (_current: number, total: number) => {
+    return formatMessage(mergedMessages.pageRangeText, false, { total: total });
+  };
+
   if (!!componentSettings) {
     return (
       <>
@@ -112,6 +115,8 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
             pageSizes={pageSizes}
             onChange={handleOnChange}
             itemRangeText={handleItemRangeText}
+            itemsPerPage={mergedMessages.itemsPerPageText}
+            pageRangeText={handlePageRangeText}
             {...inputProps}
           />
         )}

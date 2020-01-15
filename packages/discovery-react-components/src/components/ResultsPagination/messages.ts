@@ -5,13 +5,17 @@ export interface Messages {
    */
   itemRangeText: string;
   /**
-   * The character that should be used to delimit large numbers with at least 4 digits.
-   * Use an empty string if no delimiter is desired.
+   * override the default text indicating the number of items per page
    */
-  numberDelimiter: string;
+  itemsPerPageText: string;
+  /**
+   * override the default text showing where the current page is out of the total pages
+   */
+  pageRangeText: string;
 }
 
 export const defaultMessages: Messages = {
   itemRangeText: '{min}–{max} of {total} results',
-  numberDelimiter: ','
+  itemsPerPageText: 'Items per page:',
+  pageRangeText: 'of {total} pages'
 };
