@@ -7,6 +7,8 @@ import { settings } from 'carbon-components';
 import { withErrorBoundary } from 'react-error-boundary';
 import { FallbackComponent } from 'utils/FallbackComponent';
 import onErrorCallback from 'utils/onErrorCallback';
+import { defaultMessages, Messages } from './messages';
+import { formatMessage } from 'utils/formatMessage';
 
 export interface ResultsPaginationProps {
   /**
@@ -26,6 +28,10 @@ export interface ResultsPaginationProps {
    */
   showPageSizeSelector?: boolean;
   /**
+   * override default messages for the component by specifying custom and/or internationalized text strings
+   */
+  messages?: Partial<Messages>;
+  /**
    * Additional props to be passed into Carbon's Pagination component
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -38,12 +44,15 @@ interface ResultsPaginationEvent {
 }
 
 const ResultsPagination: FC<ResultsPaginationProps> = ({
+  numberDelimiter = ',',
   page = 1,
   pageSizes = [10, 20, 30, 40, 50],
   pageSize,
   showPageSizeSelector = true,
+  messages = defaultMessages,
   ...inputProps
 }) => {
+  const mergedMessages = { ...defaultMessages, ...messages };
   const { performSearch, setSearchParameters } = useContext(SearchApi);
   const {
     searchResponseStore: { data: searchResponse, parameters: searchParameters },
@@ -88,7 +97,7 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
   };
 
   const handleItemRangeText = (min: number, max: number, total: number) => {
-    return `${min}–${max} of ${total} results`;
+    return formatMessage(mergedMessages.itemRangeText, false, { min: min, max: max, total: total });
   };
 
   if (!!componentSettings) {

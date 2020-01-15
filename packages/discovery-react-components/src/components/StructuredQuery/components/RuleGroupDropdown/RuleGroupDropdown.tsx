@@ -30,7 +30,7 @@ export const RuleGroupDropdown: FC<RuleGroupDropdownProps> = ({ messages }) => {
 
   return (
     <div className={structuredQueryRuleGroupDropdownClass}>
-      {formatMessage(messages.ruleGroupDropdownText, { dropdown: ruleGroupDropdownElement })}
+      {formatMessage(messages.ruleGroupDropdownText, true, { dropdown: ruleGroupDropdownElement })}
     </div>
   );
 };
