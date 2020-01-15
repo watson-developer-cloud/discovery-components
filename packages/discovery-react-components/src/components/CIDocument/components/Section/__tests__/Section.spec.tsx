@@ -1,6 +1,6 @@
 import React from 'react';
 import { act, render, waitForElement } from '@testing-library/react';
-import '../../../utils/test/createRange.mock';
+import '../../../../../utils/test/createRange.mock';
 import Section from '../Section';
 import sectionData from '../__fixtures__/sectionData';
 

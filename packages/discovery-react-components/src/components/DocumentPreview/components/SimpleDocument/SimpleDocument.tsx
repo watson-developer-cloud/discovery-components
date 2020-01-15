@@ -46,32 +46,39 @@ export const SimpleDocument: FC<Props> = ({
     if (isJsonType && (!highlight || !isPassage(highlight))) {
       html = `<p>${cannotPreviewMessage}</p>`;
     } else {
-      // Look for a custom field name that contains the document body (fallback to field name 'text')
-      // Could be combined with getDisplaySettings in SearchResults, which does something similar
-      const field = get(componentSettings, 'fields_shown.body.field', 'text');
-      let text = get(document, field, '');
-      if (Array.isArray(text)) {
-        text = text[0];
-      }
-      text = encodeHTML(text);
-      html = `<p data-child-begin="0" data-child-end=${text.length - 1}>${text}</p>`;
-
+      let field;
+      // if there is a passage highlight, use text values from field specified in passage
       if (highlight && isPassage(highlight)) {
         passage = highlight as QueryResultPassage;
-        const { field } = passage;
-        if (field && field !== 'text') {
-          let rollingStart = 0;
-          html = document[field]
-            .map((val: string) => {
-              val = encodeHTML(val);
-              const end = rollingStart + val.length - 1;
-              const res = `<p data-child-begin=${rollingStart} data-child-end=${end}>${val}</p>`;
-              rollingStart = end + 1;
-              return res;
-            })
-            .join('\n');
-        }
+        field = passage.field;
+      } else {
+        // see if user has specified a body field; default to 'text' field
+        field = get(componentSettings, 'fields_shown.body.field', 'text');
       }
+
+      let text;
+      if (typeof document[field] === 'undefined') {
+        // such a field doesn't exist in the document; fall back to 'text'
+        text = document.text || '';
+        passage = null;
+      } else {
+        text = document[field];
+      }
+
+      if (!Array.isArray(text)) {
+        text = [text];
+      }
+      let rollingStart = 0;
+      html = text
+        .map((val: string) => {
+          const end = rollingStart + val.length - 1;
+          const res = `<p data-child-begin=${rollingStart} data-child-end=${end}>${encodeHTML(
+            val
+          )}</p>`;
+          rollingStart = end + 1;
+          return res;
+        })
+        .join('\n');
     }
 
     // set parent states
