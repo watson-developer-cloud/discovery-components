@@ -161,7 +161,8 @@ If you don't have a React application already, start with [create react app](htt
      ResultsPagination,
      DocumentPreview
    } from '@ibm-watson/discovery-react-components';
-   import { BearerTokenAuthenticator, DiscoveryV2 } from 'ibm-watson';
+   import DiscoveryV2 from 'ibm-watson/discovery/v2';
+   import { BearerTokenAuthenticator } from 'ibm-watson/auth';
    import '@ibm-watson/discovery-styles/scss/index.scss';
 
    // Replace these values
