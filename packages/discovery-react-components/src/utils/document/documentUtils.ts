@@ -1,5 +1,5 @@
 import uniqWith from 'lodash/uniqWith';
-import { decodeHTML, encodeHTML } from 'entities';
+import { decodeHTML } from 'entities';
 
 interface FindOffsetResults {
   beginTextNode: Text;
@@ -34,7 +34,6 @@ export function findOffsetInDOM(
 
   do {
     beginNode = allNodes[idx];
-    beginNode.normalize();
   } while (
     ++idx &&
     idx < allNodes.length &&
@@ -45,7 +44,6 @@ export function findOffsetInDOM(
 
   do {
     endNode = allNodes[idx];
-    endNode.normalize();
   } while (
     ++idx &&
     idx < allNodes.length &&
@@ -68,27 +66,16 @@ export function findOffsetInDOM(
 
 export function getTextNodeAndOffset(node: Node, offset: number): NodeOffset {
   const nodeElement = node as HTMLElement;
+  nodeElement.normalize();
   const nodeOffset = parseInt(nodeElement.dataset.childBegin || '0', 10);
-  const iterator = document.createNodeIterator(node, NodeFilter.SHOW_TEXT);
 
-  let textNode: Text,
-    runningOffset = nodeOffset,
-    len: number;
-
-  do {
-    textNode = iterator.nextNode() as Text;
-  } while (
-    textNode &&
-    (len = encodeHTML(textNode.data).length) &&
-    offset > runningOffset + len &&
-    (runningOffset += len)
-  );
+  const textNode = nodeElement.firstChild as Text;
 
   if (textNode === null) {
     throw new Error(`Failed to find text node. Node: ${node.textContent}, offset: ${offset}`);
   }
 
-  let textOffset = Math.max(0, offset - runningOffset);
+  let textOffset = Math.max(0, offset - nodeOffset);
 
   // If attribute 'data-orig-text' is present then
   // the string contains some encoded entities
