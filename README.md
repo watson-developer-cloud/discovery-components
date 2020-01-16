@@ -84,8 +84,6 @@ The example app is a catalogue of the core components provided by this library. 
    4. `CLUSTER_PORT` defaults to `443` unless configured otherwise
    5. `CLUSTER_HOST` the base URL of your CP4D cluster (ex. `example.com` - no protocol/port)
 
-For more information about configuring your Cloud Pak for Data cluster, see https://www.ibm.com/support/producthub/icpdata/docs/content/SSQNUZ_current/cpd/overview/overview.html
-
 5. Build the React components:
 
    ```
