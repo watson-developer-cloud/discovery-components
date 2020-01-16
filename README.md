@@ -119,7 +119,75 @@ For more information about configuring your Cloud Pak for Data cluster, see http
 
 For more information on how each component can be customized and configured, check out our hosted [storybook](https://watson-developer-cloud.github.io/discovery-components)
 
-**NOTE**: If you wish to run inside a new/existing [create react app](https://create-react-app.dev/docs/getting-started) project outside of this repository, you MUST [configure the manual proxy](https://create-react-app.dev/docs/proxying-api-requests-in-development/#configuring-the-proxy-manually) to avoid CORS issues.
+## Using Discovery Components in a React application
+
+If you don't have a React application already, start with [create react app](https://github.com/facebook/create-react-app) then modify the following in your `src/App.js`. Otherwise, you may use Discovery Components inside of any existing React component.
+
+1. Add the component, style, and client library to your application:
+
+   ```
+   yarn add @ibm-watson/discovery-react-components @ibm-watson/discovery-styles ibm-watson carbon-components carbon-components-react
+   ```
+
+   or
+
+   ```
+   npm install --save @ibm-watson/discovery-react-components @ibm-watson/discovery-styles ibm-watson carbon-components carbon-components-react
+   ```
+
+2. Add `node-sass` as a dev dependency
+
+   ```
+   yarn add -D node-sass
+   ```
+
+   or
+
+   ```
+   npm install --save-dev node-sass
+   ```
+
+3. Add the `DiscoverySearch` component with corresponding `searchClient` and optionally any components you would like to use to display Discovery Search Results.
+
+   ```jsx
+   // src/App.js
+
+   import React from 'react';
+   import {
+     DiscoverySearch,
+     SearchInput,
+     SearchResults,
+     SearchFacets,
+     ResultsPagination,
+     DocumentPreview
+   } from '@ibm-watson/discovery-react-components';
+   import { BearerTokenAuthenticator, DiscoveryV2 } from 'ibm-watson';
+   import '@ibm-watson/discovery-styles/scss/index.scss';
+
+   // Replace these values
+   const bearerToken = '{REPLACE_ME}'; // retrieved from CP4D Admin UI under instance details
+   const url = '{REPLACE_ME}'; // retrieved from CP4D Admin UI under instance details
+   const version = '{REPLACE_ME}'; // YYYY-MM-DD date format
+   const projectId = '{REPLACE_ME}'; // retrieved from Discovery Tooling UI
+
+   const App = () => {
+     // see https://github.com/IBM/node-sdk-core/blob/master/AUTHENTICATION.md#bearer-token-authentication
+     const authenticator = new BearerTokenAuthenticator({ bearerToken });
+     const searchClient = new DiscoveryV2({ url, version, authenticator });
+
+     return (
+       <DiscoverySearch searchClient={searchClient} projectId={projectId}>
+         <SearchInput />
+         <SearchResults />
+         <SearchFacets />
+         <ResultsPagination />
+         <DocumentPreview />
+       </DiscoverySearch>
+     );
+   };
+   ```
+
+For more information on how each component can be customized and configured, check out our hosted [storybook](https://watson-developer-cloud.github.io/discovery-components)
 
 ### Interacting with Discovery data in custom components
 
@@ -156,9 +224,13 @@ const MyCustomComponent = () => {
   } = React.useContext(SearchContext);
 
   const { performSearch } = useContext(SearchApi);
-
   // for more information about the params needed to perform searches, see the Watson Developer Cloud SDK
-  // https://github.com/watson-developer-cloud/node-sdk/tree/master/discovery
+  // DiscoveryV2.QueryParams in https://github.com/watson-developer-cloud/node-sdk/blob/master/discovery/v2.ts
+  const searchParameters = {
+    projectId: 'REPLACE_ME',
+    naturalLanguageQuery: 'IBM'
+  };
+
   return (
     <div>
       There are {searchResponse.matching_results} results
