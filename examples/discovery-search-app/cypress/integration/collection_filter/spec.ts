@@ -20,7 +20,7 @@ describe('Collection Filter', () => {
   });
 
   describe('when the example app loads', () => {
-    it.only('the collection facet select does not appear', () => {
+    it('the collection facet select does not appear', () => {
       cy.contains('Available collections').should('exist');
     });
   });
@@ -74,7 +74,7 @@ describe('Collection Filter', () => {
         });
 
         it('the clear all selected collections button appears', () => {
-          cy.get('div[aria-label="Clear Selection"]').should('exist');
+          cy.findByLabelText('Clear Selection').should('exist');
         });
 
         describe('and we click the clear selected collections button', () => {

@@ -33,7 +33,7 @@ describe('Dynamic Facets', () => {
 
   describe('When a query is made, and dynamic facets are returned', () => {
     beforeEach(() => {
-      cy.get('.bx--search-input').type('restaurants{enter}');
+      cy.findByLabelText('Search').type('restaurants{enter}');
       cy.wait('@postQueryFacets');
       cy.get('.bx--search-facet')
         .filter(':contains("Dynamic Facets")')
@@ -125,6 +125,7 @@ describe('Dynamic Facets', () => {
         });
 
         it('the "Clear all" button disappears', () => {
+          cy.findByText('Dynamic Facets').should('exist'); // make sure this test doesn't pass when the page is blank
           cy.get('button')
             .contains('Clear all')
             .should('not.exist');

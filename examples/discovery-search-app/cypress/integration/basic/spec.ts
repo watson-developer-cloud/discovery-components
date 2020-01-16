@@ -21,18 +21,18 @@ describe('Basic search', () => {
   // Rendering initial page
   describe('When the example app loads', () => {
     it('SearchInput has placeholder text "Search"', () => {
-      cy.get('.bx--search-input').should('have.attr', 'placeholder', 'Search');
+      cy.findByPlaceholderText('Search').should('have.attr', 'placeholder', 'Search');
     });
 
     it('SearchInput has magnifying glass icon', () => {
-      cy.get('.bx--search-magnifier').should('be.visible');
+      cy.get('svg.bx--search-magnifier').should('be.visible');
     });
   });
 
   // Querying with results
   describe('When entering a query with results', () => {
     beforeEach(() => {
-      cy.get('.bx--search-input').type('abil{enter}');
+      cy.findByPlaceholderText('Search').type('abil{enter}');
       cy.wait('@postQuery').as('queryObject');
     });
 
@@ -69,7 +69,7 @@ describe('Basic search', () => {
   describe('When entering a query with no results', () => {
     beforeEach(() => {
       cy.route('POST', '**/query?version=2019-01-01', '@noResultsJSON').as('postQueryNoResults');
-      cy.get('.bx--search-input').type('abil{enter}');
+      cy.findByPlaceholderText('Search').type('abil{enter}');
       cy.wait('@postQueryNoResults');
     });
 

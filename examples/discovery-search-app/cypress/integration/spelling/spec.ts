@@ -23,7 +23,7 @@ describe('Spelling', () => {
 
   describe('When entering a misspelled query', () => {
     beforeEach(() => {
-      cy.get('.bx--search-input').type('waston{enter}');
+      cy.findByLabelText('Search').type('waston{enter}');
       cy.wait('@postQueryMisspelled');
     });
 
