@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { render } from '@testing-library/react';
-import { uniqRects, findOffsetInDOM } from '../documentUtils';
+import { uniqRects, findOffsetInDOM, getTextNodeAndOffset } from '../documentUtils';
+import { data as textNodesData, watsonIndex } from '../__fixtures__/textNodeData';
 
 describe('uniqRects', () => {
   it('removes duplicate rects', () => {
@@ -151,5 +152,28 @@ describe('findOffsetInDOM', () => {
     expect(beginTextNode).not.toEqual(endTextNode);
     expect(beginOffset).toEqual(734);
     expect(endOffset).toEqual(107);
+  });
+
+  it.only('finds offset when text spans multiple TextNodes', () => {
+    const MAX_TEXT_NODE_LEN = 65536;
+
+    const { container } = render(<div className="textNodesParent"></div>);
+    const node = container.querySelector('.textNodesParent') as HTMLElement;
+
+    // split text data into 2 text nodes
+    const texts = [
+      textNodesData.substring(0, MAX_TEXT_NODE_LEN),
+      textNodesData.substring(MAX_TEXT_NODE_LEN)
+    ];
+    node.appendChild(document.createTextNode(texts[0]));
+    node.appendChild(document.createTextNode(texts[1]));
+
+    const { textNode, textOffset } = getTextNodeAndOffset(node, watsonIndex);
+
+    // expect to get 2nd text node
+    expect(textNode).toEqual(node.childNodes[1]);
+    // expect that offset will be within 2nd text node, therefore subtract 1st text node length
+    const firstNode = node.childNodes[0] as Node;
+    expect(textOffset).toEqual(watsonIndex - firstNode.textContent!.length);
   });
 });
