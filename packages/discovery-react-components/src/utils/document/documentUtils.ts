@@ -1,5 +1,5 @@
 import uniqWith from 'lodash/uniqWith';
-import { decodeHTML, encodeHTML } from 'entities';
+import { decodeHTML } from 'entities';
 
 interface FindOffsetResults {
   beginTextNode: Text;
@@ -72,11 +72,17 @@ export function getTextNodeAndOffset(node: Node, offset: number): NodeOffset {
   let textNode: Text,
     runningOffset = nodeOffset,
     len: number;
+
+  // If attribute 'data-orig-text' is present then
+  // the string contains some encoded entities
+  // so, we need adjust the text offset
+  const originalText = nodeElement.dataset.origText;
+
   do {
     textNode = iterator.nextNode() as Text;
   } while (
     textNode &&
-    (len = encodeHTML(textNode.data).length) &&
+    (len = originalText ? originalText.length : textNode.data.length) &&
     offset > runningOffset + len &&
     (runningOffset += len)
   );
@@ -87,10 +93,6 @@ export function getTextNodeAndOffset(node: Node, offset: number): NodeOffset {
 
   let textOffset = Math.max(0, offset - runningOffset);
 
-  // If attribute 'data-orig-text' is present then
-  // the string contains some encoded entities
-  // so, we need adjust the text offset
-  const originalText = nodeElement.dataset.origText;
   if (originalText) {
     // To properly calculate the offset of the string we want to highlight
     // we need to get the offset from the decoded html text and subtract

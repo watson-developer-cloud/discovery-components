@@ -48,8 +48,7 @@ export const SimpleDocument: FC<Props> = ({
       if (Array.isArray(text)) {
         text = text[0];
       }
-      text = encodeHTML(text);
-      html = `<p data-child-begin="0" data-child-end=${text.length - 1}>${text}</p>`;
+      html = `<p data-child-begin="0" data-child-end=${text.length - 1}>${encodeHTML(text)}</p>`;
 
       if (highlight && isPassage(highlight)) {
         passage = highlight as QueryResultPassage;
@@ -58,9 +57,10 @@ export const SimpleDocument: FC<Props> = ({
           let rollingStart = 0;
           html = document[field]
             .map((val: string) => {
-              val = encodeHTML(val);
               const end = rollingStart + val.length - 1;
-              const res = `<p data-child-begin=${rollingStart} data-child-end=${end}>${val}</p>`;
+              const res = `<p data-child-begin=${rollingStart} data-child-end=${end}>${encodeHTML(
+                val
+              )}</p>`;
               rollingStart = end + 1;
               return res;
             })
