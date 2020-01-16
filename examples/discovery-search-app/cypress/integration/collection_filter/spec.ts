@@ -20,7 +20,7 @@ describe('Collection Filter', () => {
   });
 
   describe('when the example app loads', () => {
-    it('the collection facet select does not appear', () => {
+    it.only('the collection facet select does not appear', () => {
       cy.contains('Available collections').should('exist');
     });
   });
