@@ -186,6 +186,8 @@ If you don't have a React application already, start with [create react app](htt
        </DiscoverySearch>
      );
    };
+
+   export default App;
    ```
 
 For more information on how each component can be customized and configured, check out our hosted [storybook](https://watson-developer-cloud.github.io/discovery-components)
@@ -201,15 +203,18 @@ ex.
 
 import React from 'react';
 import { DiscoverySearch } from '@ibm-watson/discovery-react-components';
+import { MyCustomComponent } from './MyCustomComponent.js';
 
 const App = () => {
-  // see more detailed searchClient example above
+  // see more detailed searchClient example above for `searchClient` variable
   return (
     <DiscoverySearch searchClient={searchClient} projectId={'REPLACE_ME'}>
       <MyCustomComponent />
     </DiscoverySearch>
   );
 };
+
+export default App;
 ```
 
 ```jsx
@@ -245,6 +250,8 @@ const MyCustomComponent = () => {
     </div>
   );
 };
+
+export default MyCustomComponent;
 ```
 
 ## Development
