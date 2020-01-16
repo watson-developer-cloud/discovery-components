@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.7-rc.1](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.0.7-rc.0...@ibm-watson/discovery-react-components@1.0.7-rc.1) (2020-01-15)
+
+
+### Features
+
+* allow custom document text field name ([#55](https://github.com/watson-developer-cloud/discovery-components/issues/55)) ([c24363f](https://github.com/watson-developer-cloud/discovery-components/commit/c24363f))
+
+
+
+
+
 ## [1.0.7-rc.0](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.0.6...@ibm-watson/discovery-react-components@1.0.7-rc.0) (2020-01-14)
 
 
