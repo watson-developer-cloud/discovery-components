@@ -1,6 +1,7 @@
+const path = require('path');
 const dotenv = require('dotenv');
-const serverEnv = dotenv.config({ path: '.server-env' });
-const clusterEnv = dotenv.config({ path: '.env.local' });
+const serverEnv = dotenv.config({ path: path.join(__dirname, '../', '.server-env') });
+const clusterEnv = dotenv.config({ path: path.join(__dirname, '../', '.env.local') });
 const proxy = require('http-proxy-middleware');
 const { CloudPakForDataAuthenticator } = require('ibm-watson/auth');
 const cors = require('cors');
