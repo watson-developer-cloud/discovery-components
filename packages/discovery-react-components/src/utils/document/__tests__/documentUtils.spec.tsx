@@ -154,7 +154,7 @@ describe('findOffsetInDOM', () => {
     expect(endOffset).toEqual(107);
   });
 
-  it.only('finds offset when text spans multiple TextNodes', () => {
+  it('finds offset when text spans multiple TextNodes', () => {
     const MAX_TEXT_NODE_LEN = 65536;
 
     const { container } = render(<div className="textNodesParent"></div>);
