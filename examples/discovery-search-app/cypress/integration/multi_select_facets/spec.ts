@@ -10,7 +10,7 @@ describe('Multi-Select Facets', () => {
     cy.fixture('query/facetsQuery.json').as('facetsQueryJSON');
     cy.route('POST', '**/query?version=2019-01-01', '@facetsQueryJSON').as('postQueryFacets');
 
-    //override the component settings to make facets single-select
+    //override the component settings to make facets multi-select
     cy.fixture('component_settings/multiSelectFacetsComponentSettings.json').as(
       'multiSelectComponentSettingsJSON'
     );

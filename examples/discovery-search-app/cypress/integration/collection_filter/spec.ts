@@ -21,7 +21,7 @@ describe('Collection Filter', () => {
 
   describe('when the example app loads', () => {
     it('the collection facet select does not appear', () => {
-      cy.get('.collection-facet-select').should('not.exist');
+      cy.contains('Available collections').should('exist');
     });
   });
 
@@ -134,6 +134,20 @@ describe('Collection Filter', () => {
         });
 
         it('the collection filter dropdown disappears', () => {
+          cy.get('#collection-facet-select').should('exist'); // keeps a white screen from passing the test
+          cy.get('#collection-facet-select__menu').should('not.exist');
+        });
+      });
+
+      describe('and we click away from the selection box', () => {
+        beforeEach(() => {
+          cy.get('.bx--search-result')
+            .first()
+            .click();
+        });
+
+        it('the collection filter dropdown disappears', () => {
+          cy.get('#collection-facet-select').should('exist'); // keeps a white screen from passing the test
           cy.get('#collection-facet-select__menu').should('not.exist');
         });
       });
