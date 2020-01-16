@@ -5,7 +5,11 @@ interface SubstitutionValues {
 }
 const SPLIT_VARIABLES_REGEX = /({[^}]+})/;
 
-export const formatMessage = (message: string, outputJsx: boolean, values: SubstitutionValues) => {
+export const formatMessage = (
+  message: string,
+  values: SubstitutionValues,
+  outputJsx: boolean = true
+) => {
   return message.split(SPLIT_VARIABLES_REGEX).map((part, i) => {
     const variableWithoutBraces = part.replace(/{/g, '').replace(/}/g, '');
     if (part === '') {

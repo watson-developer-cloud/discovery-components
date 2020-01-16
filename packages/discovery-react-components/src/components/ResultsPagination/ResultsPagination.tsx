@@ -96,11 +96,11 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
   };
 
   const handleItemRangeText = (min: number, max: number, total: number) => {
-    return formatMessage(mergedMessages.itemRangeText, false, { min: min, max: max, total: total });
+    return formatMessage(mergedMessages.itemRangeText, { min: min, max: max, total: total }, false);
   };
 
   const handlePageRangeText = (_current: number, total: number) => {
-    return formatMessage(mergedMessages.pageRangeText, false, { total: total });
+    return formatMessage(mergedMessages.pageRangeText, { total: total }, false);
   };
 
   if (!!componentSettings) {

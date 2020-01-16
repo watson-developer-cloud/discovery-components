@@ -8,7 +8,7 @@ describe('formatMessage util', () => {
     const button = <button>I am button</button>;
     const link = <a>I am link</a>;
     const formattedMessage = render(
-      <div>{formatMessage(messageToFormat, true, { button: button, link: link })}</div>
+      <div>{formatMessage(messageToFormat, { button: button, link: link })}</div>
     );
     const buttonMatch = formattedMessage.getByText('I am button');
     const linkMatch = formattedMessage.getByText('I am link');
