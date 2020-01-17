@@ -8,30 +8,31 @@
 
 ## Table of contents
 
-- [Discovery Components](#discovery-components)
-  - [Table of contents](#table-of-contents)
-  - [Prerequisites](#prerequisites)
-  - [Running the example app](#running-the-example-app)
-  - [Using Discovery Components in a React application](#using-discovery-components-in-a-react-application)
-    - [Interacting with Discovery data in custom components](#interacting-with-discovery-data-in-custom-components)
-  - [Development](#development)
-    - [Project structure](#project-structure)
-    - [Install](#install)
-    - [Available commands](#available-commands)
-      - [Root directory](#root-directory)
-      - [Example app (examples/discovery-search-app)](#example-app-examplesdiscovery-search-app)
-      - [React components (packages/discovery-react-components)](#react-components-packagesdiscovery-react-components)
-      - [Styles (packages/discovery-styles)](#styles-packagesdiscovery-styles)
-    - [Running the project](#running-the-project)
-    - [Running Storybook](#running-storybook)
-    - [Testing](#testing)
-      - [Unit/Integration testing](#unitintegration-testing)
-      - [Feature tests](#feature-tests)
-      - [Continuous integration](#continuous-integration)
-    - [Releasing](#releasing)
-      - [A note on versioning](#a-note-on-versioning)
-  - [Helpful links](#helpful-links)
-  - [Contributors](#contributors)
+<!-- toc -->
+
+- [Prerequisites](#prerequisites)
+- [Running the example app](#running-the-example-app)
+- [Using Discovery Components in a React application](#using-discovery-components-in-a-react-application)
+  * [Interacting with Discovery data in custom components](#interacting-with-discovery-data-in-custom-components)
+- [Development](#development)
+  * [Project structure](#project-structure)
+  * [Install](#install)
+  * [Available commands](#available-commands)
+    + [Root directory](#root-directory)
+    + [Example app (examples/discovery-search-app)](#example-app-examplesdiscovery-search-app)
+    + [React components (packages/discovery-react-components)](#react-components-packagesdiscovery-react-components)
+    + [Styles (packages/discovery-styles)](#styles-packagesdiscovery-styles)
+  * [Running the project](#running-the-project)
+  * [Running Storybook](#running-storybook)
+  * [Testing](#testing)
+    + [Unit/Integration testing](#unitintegration-testing)
+    + [Feature tests](#feature-tests)
+    + [Continuous integration](#continuous-integration)
+  * [Branching and Releasing](#branching-and-releasing)
+- [Helpful links](#helpful-links)
+- [Contributors](#contributors)
+
+<!-- tocstop -->
 
 ## Prerequisites
 
