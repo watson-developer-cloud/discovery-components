@@ -70,7 +70,8 @@ describe('Collection Filter', () => {
           cy.get('@singleCollectionQueryObject')
             //@ts-ignore
             .its('requestBody.collection_ids')
-            .should('contain', 'paris19221939');
+            .should('contain', 'paris19221939')
+            .and('have.length', 1);
         });
 
         it('the clear all selected collections button appears', () => {
