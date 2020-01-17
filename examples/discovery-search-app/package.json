@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "discovery-search-app",
-  "version": "1.0.2-beta.19",
+  "version": "1.0.2-beta.20",
   "description": "Discovery components example application used to showcase components in a full application",
   "license": "Apache-2.0",
   "author": "IBM Corp.",
@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@carbon/icons": "^10.5.0",
-    "@ibm-watson/discovery-react-components": "^1.1.0-beta.13",
+    "@ibm-watson/discovery-react-components": "^1.1.0-beta.14",
     "@ibm-watson/discovery-styles": "^1.1.0-beta.6",
     "body-parser": "^1.19.0",
     "carbon-components": "^10.6.0",
