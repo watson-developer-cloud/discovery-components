@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { array, text, boolean, number } from '@storybook/addon-knobs/react';
+import { array, text, boolean, number, object } from '@storybook/addon-knobs/react';
 import DiscoverySearch, { DiscoverySearchProps } from 'components/DiscoverySearch/DiscoverySearch';
 import { DummySearchClient } from 'utils/storybookUtils';
 import overrideSearchResults from '../__fixtures__/searchResults';
@@ -8,6 +8,7 @@ import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { action } from '@storybook/addon-actions';
 import { createDummyResponsePromise } from 'utils/testingUtils';
 import ResultsPagination from '../ResultsPagination';
+import { defaultMessages } from '../messages';
 
 export const props = () => ({
   page: number('The current page (page)', 1),
@@ -16,7 +17,8 @@ export const props = () => ({
   showPageSizeSelector: boolean(
     'Show selector for dynamically changing `pageSize` (showPageSizeSelector)',
     true
-  )
+  ),
+  messages: object("Default messages for the component's text strings", defaultMessages)
 });
 
 class DummySearchClientWithQuery extends DummySearchClient {

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-beta.14](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.13...@ibm-watson/discovery-react-components@1.1.0-beta.14) (2020-01-16)
+
+
+### Features
+
+* add i18n for ResultsPagination component ([#58](https://github.com/watson-developer-cloud/discovery-components/issues/58)) ([1bacb7b](https://github.com/watson-developer-cloud/discovery-components/commit/1bacb7b))
+
+
+
+
+
 # [1.1.0-beta.13](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.12...@ibm-watson/discovery-react-components@1.1.0-beta.13) (2020-01-10)
 
 **Note:** Version bump only for package @ibm-watson/discovery-react-components

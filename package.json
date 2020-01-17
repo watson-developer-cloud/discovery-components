@@ -53,6 +53,7 @@
     "lint-staged": "^9.2.5",
     "lorem-ipsum": "^2.0.3",
     "madge": "^3.6.0",
+    "markdown-toc": "^1.2.0",
     "marked": "^0.7.0",
     "node-sass": "^4.12.0",
     "prettier": "^1.18.2",
@@ -85,6 +86,10 @@
     ],
     "{packages,examples}/**/*.{js,jsx,ts,tsx}": [
       "eslint --resolve-plugins-relative-to './node_modules/react-scripts/node_modules' --fix",
+      "git add"
+    ],
+    "README.md": [
+      "markdown-toc -i",
       "git add"
     ]
   },
