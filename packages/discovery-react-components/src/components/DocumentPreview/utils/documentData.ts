@@ -1,4 +1,4 @@
-import get from 'lodash.get';
+import get from 'lodash/get';
 import { QueryResult } from 'ibm-watson/discovery/v2';
 import { TextMappings } from '../types';
 

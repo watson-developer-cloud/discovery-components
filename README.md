@@ -8,30 +8,31 @@
 
 ## Table of contents
 
-- [Discovery Components](#discovery-components)
-  - [Table of contents](#table-of-contents)
-  - [Prerequisites](#prerequisites)
-  - [Running the example app](#running-the-example-app)
-  - [Using Discovery Components in a React application](#using-discovery-components-in-a-react-application)
-    - [Interacting with Discovery data in custom components](#interacting-with-discovery-data-in-custom-components)
-  - [Development](#development)
-    - [Project structure](#project-structure)
-    - [Install](#install)
-    - [Available commands](#available-commands)
-      - [Root directory](#root-directory)
-      - [Example app (examples/discovery-search-app)](#example-app-examplesdiscovery-search-app)
-      - [React components (packages/discovery-react-components)](#react-components-packagesdiscovery-react-components)
-      - [Styles (packages/discovery-styles)](#styles-packagesdiscovery-styles)
-    - [Running the project](#running-the-project)
-    - [Running Storybook](#running-storybook)
-    - [Testing](#testing)
-      - [Unit/Integration testing](#unitintegration-testing)
-      - [Feature tests](#feature-tests)
-      - [Continuous integration](#continuous-integration)
-    - [Releasing](#releasing)
-      - [A note on versioning](#a-note-on-versioning)
-  - [Helpful links](#helpful-links)
-  - [Contributors](#contributors)
+<!-- toc -->
+
+- [Prerequisites](#prerequisites)
+- [Running the example app](#running-the-example-app)
+- [Using Discovery Components in a React application](#using-discovery-components-in-a-react-application)
+  * [Interacting with Discovery data in custom components](#interacting-with-discovery-data-in-custom-components)
+- [Development](#development)
+  * [Project structure](#project-structure)
+  * [Install](#install)
+  * [Available commands](#available-commands)
+    + [Root directory](#root-directory)
+    + [Example app (examples/discovery-search-app)](#example-app-examplesdiscovery-search-app)
+    + [React components (packages/discovery-react-components)](#react-components-packagesdiscovery-react-components)
+    + [Styles (packages/discovery-styles)](#styles-packagesdiscovery-styles)
+  * [Running the project](#running-the-project)
+  * [Running Storybook](#running-storybook)
+  * [Testing](#testing)
+    + [Unit/Integration testing](#unitintegration-testing)
+    + [Feature tests](#feature-tests)
+    + [Continuous integration](#continuous-integration)
+  * [Branching and Releasing](#branching-and-releasing)
+- [Helpful links](#helpful-links)
+- [Contributors](#contributors)
+
+<!-- tocstop -->
 
 ## Prerequisites
 
@@ -275,6 +276,7 @@ See the following for [more info about Lerna](https://github.com/lerna/lerna) or
 | `yarn start`        | runs the client at http://localhost:3000/         |
 | `yarn build`        | creates a production build of the example project |
 | `yarn cypress`      | opens the cypress application for feature testing |
+| `yarn lint`         | runs `eslint` on `src` and `cypress`              |
 | `yarn server`       | configures and runs an express server             |
 | `yarn server:setup` | configures express server only                    |
 | `yarn server:run`   | runs an express server without configuring first  |
@@ -288,7 +290,10 @@ See the following for [more info about Lerna](https://github.com/lerna/lerna) or
 | `yarn build`                   | uses `rollup` to create a production build of component library    |
 | `yarn test`                    | runs the unit/integration tests for the component library          |
 | `yarn test:watch`              | runs the unit/integration tests in watch mode                      |
-| `yarn code-coverage`           | runs the unit/integration tests code coverage report               |
+| `yarn test:coverage`           | runs the unit/integration tests code coverage report               |
+| `yarn circular`                | runs `madge` to identify any circular dependencies                 |
+| `yarn eslint`                  | runs `eslint` on `src` and `.storybook`                            |
+| `yarn lint`                    | runs both `eslint` and `circular` commands                         |
 | `yarn storybook`               | runs storybook on http://localhost:9002                            |
 | `yarn storybook:build`         | builds storybook artifacts locally (primarily for testing build)   |
 | `yarn storybook:build:release` | builds storybook artifacts and outputs into `/docs`                |

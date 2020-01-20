@@ -1,5 +1,5 @@
 import React from 'react';
-import { SelectedResult } from '../../../DiscoverySearch/DiscoverySearch';
+import { SelectedResult } from 'components/DiscoverySearch/DiscoverySearch';
 import { Button, Tile } from 'carbon-components-react';
 import Launch from '@carbon/icons-react/lib/launch/16';
 import TableSplit from '@carbon/icons-react/lib/table--split/16';
@@ -8,7 +8,7 @@ import {
   searchResultContentWrapperBodyClass,
   searchResultContentWrapperBodyButtonClass,
   searchResultContentWrapperBodyPassageHighlightsClass
-} from '../../cssClasses';
+} from 'components/SearchResults/cssClasses';
 
 export interface ResultElementProps {
   /**

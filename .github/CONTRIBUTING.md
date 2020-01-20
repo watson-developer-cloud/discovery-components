@@ -76,16 +76,23 @@ Note that we are using [Carbon](https://www.carbondesignsystem.com/) components 
 
 - We are using [Typescript](https://www.typescriptlang.org/) throughout our project.
 
-##### Naming
+##### Variables
 
 - Variables should use `camelCase`.
 - Variable names should be as descriptive as possible. We try to avoid abbreviations and very short names for const/vars, to make it easier for future developers to understand.
+- Variable interpolation should be represented by including brackets around the variable you want to interpolate. For example, `{replaceMe}`.
+
+##### Imports
+
+* We are using module path aliases for our imports. In the root `tsconfig.json` file for the `discovery-react-components` package, we have set up aliases. You can include the path from the package's `src` folder as an absolute path for any import.
+* If you are adding a new import and it is complex (i.e., `../../`), please use an absolute module path. There's no need to use an absolute import path for simple imports (i.e., `./`).
 
 #### React components
 
 ##### General
 
 - Use `<></>` fragments to wrap components so as not to add extra markup wherever possible.
+- When importing React into a file, please use the convention `import React from 'react'`. Don't mix `React.Thing` with just importing the thing from React and then using it. This keeps us consistent and ensures that Storybook can correctly use the file.
 
 ##### Props
 

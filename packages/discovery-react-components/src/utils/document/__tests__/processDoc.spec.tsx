@@ -2,10 +2,10 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import parser from 'fast-xml-parser';
-import processDoc, { ProcessedDoc } from '../processDoc';
+import { processDoc, ProcessedDoc } from '../processDoc';
 import contractData from '../__fixtures__/contract.json';
 import escapedCharData from '../__fixtures__/escaped_char_document.json';
-import invoiceData from '../../../components/CIDocument/components/CIDocument/__fixtures__/invoice-index_op.json';
+import invoiceData from 'components/CIDocument/components/CIDocument/__fixtures__/invoice-index_op.json';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';

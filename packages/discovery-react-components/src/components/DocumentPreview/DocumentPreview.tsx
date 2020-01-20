@@ -2,10 +2,10 @@ import React, { FC, ReactElement, useContext, useEffect, useState } from 'react'
 import { SkeletonText } from 'carbon-components-react';
 import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
-import { SearchContext } from '../DiscoverySearch/DiscoverySearch';
+import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import { PreviewToolbar } from './components/PreviewToolbar/PreviewToolbar';
 import SimpleDocument from './components/SimpleDocument/SimpleDocument';
-import withErrorBoundary, { WithErrorBoundaryProps } from '../../utils/hoc/withErrorBoundary';
+import withErrorBoundary, { WithErrorBoundaryProps } from 'utils/hoc/withErrorBoundary';
 import { defaultMessages, Messages } from './messages';
 
 const { ZOOM_IN, ZOOM_OUT } = PreviewToolbar;

@@ -8,13 +8,16 @@ import React, { FC, useContext, useEffect, useState, SyntheticEvent, KeyboardEve
 import { settings } from 'carbon-components';
 import { Search as CarbonSearchInput } from 'carbon-components-react';
 import ListBox from 'carbon-components-react/lib/components/ListBox';
-import { SearchApi, SearchContext } from '../DiscoverySearch/DiscoverySearch';
-import useDebounce from '../../utils/useDebounce';
+import { SearchApi, SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
+import useDebounce from 'utils/useDebounce';
 import uuid from 'uuid';
 import Search16 from '@carbon/icons-react/lib/search/16';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
-import { useDeepCompareCallback } from '../../utils/useDeepCompareMemoize';
+import { useDeepCompareCallback } from 'utils/useDeepCompareMemoize';
 import { defaultMessages, Messages } from './messages';
+import { withErrorBoundary } from 'react-error-boundary';
+import onErrorCallback from 'utils/onErrorCallback';
+import { FallbackComponent } from 'utils/FallbackComponent';
 
 interface SearchInputProps {
   /**
@@ -26,15 +29,15 @@ interface SearchInputProps {
    */
   id?: string;
   /**
-   * Value to split words in the search query (Default: ' ')
+   * Value to split words in the search query (default: ' ')
    */
   splitSearchQuerySelector?: string;
   /**
-   * Number of autocomplete suggestions to show in the autocomplete dropdown (default: 5)
+   * Number of autocomplete suggestions to show in the autocomplete dropdown
    */
   completionsCount?: number;
   /**
-   * Prop to show/hide the autocomplete dropdown (default: true)
+   * Prop to show/hide the autocomplete dropdown
    */
   showAutocomplete?: boolean;
   /**
@@ -60,23 +63,21 @@ interface SearchInputProps {
   [key: string]: any;
 }
 
-export const SearchInput: FC<SearchInputProps> = props => {
-  const {
-    className,
-    id,
-    splitSearchQuerySelector = ' ' as string,
-    completionsCount = 5,
-    showAutocomplete,
-    minCharsToAutocomplete = 0,
-    spellingSuggestions,
-    messages = defaultMessages,
-    autocompleteDelay = 200,
-    placeHolderText,
-    labelText,
-    closeButtonLabelText,
-    ...inputProps
-  } = props;
-
+const SearchInput: FC<SearchInputProps> = ({
+  className,
+  id,
+  splitSearchQuerySelector = ' ' as string,
+  completionsCount = 5,
+  showAutocomplete = true,
+  minCharsToAutocomplete = 0,
+  spellingSuggestions,
+  messages = defaultMessages,
+  autocompleteDelay = 200,
+  placeHolderText,
+  labelText,
+  closeButtonLabelText,
+  ...inputProps
+}) => {
   const mergedMessages = { ...defaultMessages, ...messages };
 
   const inputId = id || `search-input__${uuid.v4()}`;
@@ -285,4 +286,4 @@ export const SearchInput: FC<SearchInputProps> = props => {
   );
 };
 
-export default SearchInput;
+export default withErrorBoundary(SearchInput, FallbackComponent('SearchInput'), onErrorCallback);

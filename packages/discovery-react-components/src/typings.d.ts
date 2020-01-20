@@ -21,3 +21,7 @@ declare module '*.md';
 declare module 'marked';
 declare module 'uuid';
 declare module 'carbon-components-react/lib/components/ListBox';
+
+// Required for storybook build
+// https://github.com/storybookjs/storybook/issues/8233#issuecomment-558563086
+declare module '@storybook/addon-knobs/react';

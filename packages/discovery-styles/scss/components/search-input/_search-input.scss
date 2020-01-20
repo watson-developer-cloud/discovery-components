@@ -1,6 +1,6 @@
 // Component styles
-@import '~carbon-components/scss/components/search/search';
-@import '~carbon-components/scss/components/list-box/list-box';
+@import 'carbon-components/scss/components/search/search';
+@import 'carbon-components/scss/components/list-box/list-box';
 
 .#{$prefix}--search-input--discovery {
   padding: 0;
@@ -30,14 +30,20 @@
   align-items: center;
   display: flex;
   padding: 0 $spacing-md;
+
+  &:focus {
+    border: none;
+    position: relative;
+    z-index: z('overlay');
+  }
 }
 
 .#{$prefix}--search-autocompletion__term {
-  padding: $spacing-sm 0 $spacing-md;
+  padding: $spacing-sm 0 $spacing-xs 0;
 }
 
 .#{$prefix}--search-autocompletion__icon {
-  padding: $spacing-sm $spacing-md $spacing-sm 0;
+  padding: $spacing-sm $spacing-md $spacing-xs 0;
 
   svg {
     fill: $interactive-04;

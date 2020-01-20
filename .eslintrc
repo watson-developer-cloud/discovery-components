@@ -1,45 +1,7 @@
 {
-  "parser": "@typescript-eslint/parser",
-  "extends": [
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended"
-  ],
-  "env": {
-    "es6": true
-  },
-  "plugins": ["react", "react-hooks"],
-  "parserOptions": {
-    "ecmaVersion": 2018,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
-  },
-  "settings": {
-    "react": {
-      "version": "detect"
-    }
-  },
+  "extends": ["./node_modules/react-scripts/node_modules/eslint-config-react-app/index.js"],
+  "plugins": ["prettier"],
   "rules": {
-    "@typescript-eslint/indent": "off",
-    "@typescript-eslint/camelcase": ["error", {
-      "properties": "never"
-    }],
-    "@typescript-eslint/explicit-function-return-type": [
-      "warn",
-      {
-        "allowTypedFunctionExpressions": true
-      }
-    ],
-    "@typescript-eslint/no-use-before-define": [
-      "error",
-      {
-        "functions": false
-      }
-    ],
-    "react/prop-types": "off",
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "prettier/prettier": "error"
   }
 }

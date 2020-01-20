@@ -1,15 +1,16 @@
 export {
-  DiscoverySearch,
+  default as DiscoverySearch,
   SearchApi,
   SearchContext
 } from './components/DiscoverySearch/DiscoverySearch';
-export { SearchInput } from './components/SearchInput/SearchInput';
-export { SearchFacets } from './components/SearchFacets/SearchFacets';
-export { ResultsPagination } from './components/ResultsPagination/ResultsPagination';
+export { default as SearchInput } from './components/SearchInput/SearchInput';
+export { default as SearchFacets } from './components/SearchFacets/SearchFacets';
+export { default as ResultsPagination } from './components/ResultsPagination/ResultsPagination';
 export { DocumentPreview } from './components/DocumentPreview/DocumentPreview';
 export {
   HtmlView,
   canRenderHtmlView
 } from './components/DocumentPreview/components/HtmlView/HtmlView';
-export { SearchResults } from './components/SearchResults/SearchResults';
+export { default as SearchResults } from './components/SearchResults/SearchResults';
 export { CIDocument, canRenderCIDocument } from './components/CIDocument/CIDocument';
+export { default as StructuredQuery } from './components/StructuredQuery/StructuredQuery';

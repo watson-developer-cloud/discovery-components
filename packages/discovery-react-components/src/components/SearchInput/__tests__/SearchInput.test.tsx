@@ -16,9 +16,9 @@ import {
   SearchContextIFC,
   SearchApiIFC,
   autocompletionStoreDefaults
-} from '../../DiscoverySearch/DiscoverySearch';
-import { wrapWithContext } from '../../../utils/testingUtils';
-import { SearchInput } from '../SearchInput';
+} from 'components/DiscoverySearch/DiscoverySearch';
+import { wrapWithContext } from 'utils/testingUtils';
+import SearchInput from '../SearchInput';
 
 const COMPLETIONS = ['some', 'someone', 'solar', 'somatic', 'soke'];
 const SEARCHINPUTVALUE = 'so';
@@ -168,7 +168,11 @@ describe('<SearchInput />', () => {
           });
 
           test('no autocompletions are displayed', () => {
-            expectNoCompletionsDropdown(container);
+            waitForElementToBeRemoved(() =>
+              queryByTestId(container, 'completions-dropdown-test-id')
+            ).then(() => {
+              expectNoCompletionsDropdown(container);
+            });
           });
         });
       });

@@ -33,7 +33,7 @@ describe('withErrorBoundary', () => {
       act(() => {
         render(<TestComponent doError={true} didCatch={false} />);
       });
-    }).toThrow;
+    }).toThrow();
   });
 
   it('renders error state (and does not crash)', () => {

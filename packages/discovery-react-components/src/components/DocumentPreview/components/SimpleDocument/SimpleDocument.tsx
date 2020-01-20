@@ -3,8 +3,8 @@ import { encodeHTML } from 'entities';
 import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import get from 'lodash/get';
-import { clearNodeChildren } from '../../../../utils/dom';
-import { findOffsetInDOM, createFieldRects } from '../../../../utils/document/documentUtils';
+import { clearNodeChildren } from 'utils/dom';
+import { findOffsetInDOM, createFieldRects } from 'utils/document/documentUtils';
 import { isPassage } from '../Highlight/passages';
 import { SearchContext } from '../../../DiscoverySearch/DiscoverySearch';
 

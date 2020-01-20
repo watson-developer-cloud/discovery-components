@@ -3,9 +3,9 @@ import { settings } from 'carbon-components';
 import { QueryResult, QueryTableResult } from 'ibm-watson/discovery/v2';
 import DOMPurify from 'dompurify';
 import get from 'lodash/get';
-import processDoc from '../../../../utils/document/processDoc';
-import { findOffsetInDOM, createFieldRects } from '../../../../utils/document/documentUtils';
-import { clearNodeChildren } from '../../../../utils/dom';
+import { processDoc } from 'utils/document/processDoc';
+import { findOffsetInDOM, createFieldRects } from 'utils/document/documentUtils';
+import { clearNodeChildren } from 'utils/dom';
 
 interface Props {
   /**

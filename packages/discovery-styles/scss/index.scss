@@ -2,11 +2,11 @@ $css--plex: true !default;
 $css--use-layer: true !default;
 
 // Global styles
-@import '~carbon-components/scss/globals/scss/_css--font-face.scss';
-@import '~carbon-components/scss/globals/scss/_typography.scss';
-@import '~carbon-components/scss/globals/scss/_colors.scss';
-@import '~carbon-components/scss/globals/scss/_layer.scss';
-@import '~carbon-components/scss/globals/scss/_layout.scss';
+@import 'carbon-components/scss/globals/scss/_css--font-face.scss';
+@import 'carbon-components/scss/globals/scss/_typography.scss';
+@import 'carbon-components/scss/globals/scss/_colors.scss';
+@import 'carbon-components/scss/globals/scss/_layer.scss';
+@import 'carbon-components/scss/globals/scss/_layout.scss';
 
 // Component styles
 @import 'components/search-input/search-input';
@@ -27,3 +27,4 @@ $css--use-layer: true !default;
 @import 'components/ci-document/ci-document-toolbar';
 @import 'components/ci-document/ci-document-virtual-scroll';
 @import 'components/ci-document/ci-document';
+@import 'components/structured-query/structured-query';

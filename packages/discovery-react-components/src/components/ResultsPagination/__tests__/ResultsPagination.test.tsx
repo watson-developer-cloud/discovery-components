@@ -3,10 +3,10 @@ import {
   SearchApiIFC,
   SearchContextIFC,
   searchResponseStoreDefaults
-} from '../../DiscoverySearch/DiscoverySearch';
+} from 'components/DiscoverySearch/DiscoverySearch';
 import { render, fireEvent, RenderResult } from '@testing-library/react';
-import { ResultsPagination, ResultsPaginationProps } from '../ResultsPagination';
-import { wrapWithContext } from '../../../utils/testingUtils';
+import ResultsPagination, { ResultsPaginationProps } from '../ResultsPagination';
+import { wrapWithContext } from 'utils/testingUtils';
 import '@testing-library/jest-dom/extend-expect';
 
 interface Setup extends RenderResult {
@@ -173,23 +173,57 @@ describe('ResultsPaginationComponent', () => {
     });
   });
 
-  describe('itemRangeText', () => {
-    test('itemRangeText uses the word results instead of the word items', () => {
-      const { getByText } = setup(
-        {},
-        {
-          searchResponseStore: {
-            ...searchResponseStoreDefaults,
-            parameters: { projectId: '', count: 25 },
-            data: {
-              matching_results: 55
+  describe('i18n messages', () => {
+    describe('when default messages are used and not overridden', () => {
+      describe('itemRangeText', () => {
+        test('itemRangeText uses the word results instead of the word items', () => {
+          const { getByText } = setup(
+            {},
+            {
+              searchResponseStore: {
+                ...searchResponseStoreDefaults,
+                parameters: { projectId: '', count: 25 },
+                data: {
+                  matching_results: 55
+                }
+              }
             }
-          }
-        }
-      );
+          );
 
-      const itemRangeText = getByText('1–25 of 55 results');
-      expect(itemRangeText).toBeInTheDocument();
+          const itemRangeText = getByText('1–25 of 55 results');
+          expect(itemRangeText).toBeInTheDocument();
+        });
+      });
+    });
+
+    describe('when default messages are overridden', () => {
+      describe('when itemRangeText and pageRangeText are overridden', () => {
+        test('it uses and correctly formats overridden messages and default messages', () => {
+          const { getByText } = setup(
+            {
+              messages: {
+                itemRangeText: 'of {total} results {min} to {max}',
+                pageRangeText: 'of pages {total}'
+              }
+            },
+            {
+              searchResponseStore: {
+                ...searchResponseStoreDefaults,
+                parameters: { projectId: '', count: 25 },
+                data: {
+                  matching_results: 55
+                }
+              }
+            }
+          );
+          const overriddenItemRangeText = getByText('of 55 results 1 to 25');
+          const overriddenPageRangeText = getByText('of pages 3');
+          const defaultItemsPerPageText = getByText('Items per page:');
+          expect(overriddenItemRangeText).toBeInTheDocument();
+          expect(overriddenPageRangeText).toBeInTheDocument();
+          expect(defaultItemsPerPageText).toBeInTheDocument();
+        });
+      });
     });
   });
 });
