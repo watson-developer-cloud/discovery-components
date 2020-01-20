@@ -9,10 +9,10 @@
   "module": "dist/index.es.js",
   "scripts": {
     "test": "cross-env CI=1 react-scripts test",
+    "test:coverage": "cross-env CI=1 react-scripts test --coverage",
     "test:watch": "react-scripts test --watch",
     "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
     "circular": "madge --circular src/*",
-    "code-coverage": "jest --collectCoverage",
     "build": "rollup -c",
     "eslint": "eslint --resolve-plugins-relative-to '../../node_modules/react-scripts/node_modules' './{src,.storybook}/**/*.{js,jsx,ts,tsx}' --quiet",
     "lint": "yarn run eslint && yarn run circular",
