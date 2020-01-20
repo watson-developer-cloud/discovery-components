@@ -290,10 +290,10 @@ See the following for [more info about Lerna](https://github.com/lerna/lerna) or
 | `yarn build`                   | uses `rollup` to create a production build of component library    |
 | `yarn test`                    | runs the unit/integration tests for the component library          |
 | `yarn test:watch`              | runs the unit/integration tests in watch mode                      |
+| `yarn test:coverage`           | runs the unit/integration tests code coverage report               |
 | `yarn circular`                | runs `madge` to identify any circular dependencies                 |
 | `yarn eslint`                  | runs `eslint` on `src` and `.storybook`                            |
 | `yarn lint`                    | runs both `eslint` and `circular` commands                         |
-| `yarn code-coverage`           | runs the unit/integration tests code coverage report               |
 | `yarn storybook`               | runs storybook on http://localhost:9002                            |
 | `yarn storybook:build`         | builds storybook artifacts locally (primarily for testing build)   |
 | `yarn storybook:build:release` | builds storybook artifacts and outputs into `/docs`                |
