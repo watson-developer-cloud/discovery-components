@@ -1,5 +1,3 @@
-export {}; //forces this file to be considered a module, which prevents a TS compilation error
-
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -25,3 +23,5 @@ export {}; //forces this file to be considered a module, which prevents a TS com
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+export {}; //forces this file to be considered a module, which prevents a TS compilation error
