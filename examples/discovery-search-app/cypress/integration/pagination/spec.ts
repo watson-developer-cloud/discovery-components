@@ -61,7 +61,7 @@ describe('Pagination', () => {
 
       it('correctly requests the next page', () => {
         cy.get('@nextPageQueryObject')
-          // @ts-ignore
+          //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
           .its('requestBody.offset')
           .should('eq', 5);
       });
@@ -74,7 +74,7 @@ describe('Pagination', () => {
 
         it('correctly requests the previous page', () => {
           cy.get('@prevPageQueryObject')
-            // @ts-ignore
+            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.offset')
             .should('eq', 0);
         });
@@ -91,7 +91,7 @@ describe('Pagination', () => {
 
       it('makes a query for the correct page of results', () => {
         cy.get('@secondPageQueryObject')
-          // @ts-ignore
+          //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
           .its('requestBody.offset')
           .should('eq', 5);
       });
@@ -128,11 +128,11 @@ describe('Pagination', () => {
 
         it('returns to the first page, with the correct size', () => {
           cy.get('@largerpostQueryMultiPageObject')
-            // @ts-ignore
+            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.count')
             .should('eq', 50);
           cy.get('@largerpostQueryMultiPageObject')
-            // @ts-ignore
+            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.offset')
             .should('eq', 0);
           cy.get('.bx--pagination__right')
@@ -152,7 +152,7 @@ describe('Pagination', () => {
 
       it('makes a request for 5 results', () => {
         cy.get('@fiveResultspostQueryMultiPageObject')
-          // @ts-ignore
+          //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
           .its('requestBody.count')
           .should('eq', 5);
       });
@@ -172,7 +172,7 @@ describe('Pagination', () => {
 
       it('makes a request for 10 results', () => {
         cy.get('@tenResultsPerPageQueryObject')
-          // @ts-ignore
+          //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
           .its('requestBody.count')
           .should('eq', 10);
       });
@@ -192,7 +192,7 @@ describe('Pagination', () => {
 
       it('makes a request for 50 results', () => {
         cy.get('@fiftyResultsPerPageQueryObject')
-          // @ts-ignore
+          //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
           .its('requestBody.count')
           .should('eq', 50);
       });

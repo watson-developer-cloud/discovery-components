@@ -14,7 +14,7 @@
     "baseUrl": "../node_modules",
     "target": "es5",
     "lib": ["es5", "dom", "dom.iterable", "esnext"],
-    "types": ["cypress", "jest"]
+    "types": ["cypress"]
   },
   "include": ["../node_modules/cypress", "**/*.ts"]
 }
