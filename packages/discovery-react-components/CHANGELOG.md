@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-beta.15](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.14...@ibm-watson/discovery-react-components@1.1.0-beta.15) (2020-01-20)
+
+
+### Bug Fixes
+
+* use react-scripts to run with code-coverage ([#61](https://github.com/watson-developer-cloud/discovery-components/issues/61)) ([1f78203](https://github.com/watson-developer-cloud/discovery-components/commit/1f78203))
+
+
+
+
+
 # [1.1.0-beta.14](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.13...@ibm-watson/discovery-react-components@1.1.0-beta.14) (2020-01-16)
 
 
