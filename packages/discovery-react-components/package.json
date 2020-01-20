@@ -56,5 +56,16 @@
     "pdfjs-dist": "^2.2.228",
     "react-error-boundary": "^1.2.5",
     "react-virtualized": "^9.21.1"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx,js,jsx}",
+      "!src/**/messages.{ts,js}",
+      "!src/**/types.{ts,js}",
+      "!src/**/typings.d.ts",
+      "!src/**/__fixtures__/**",
+      "!src/**/__stories__/**",
+      "!src/**/*.stories.*"
+    ]
   }
 }
