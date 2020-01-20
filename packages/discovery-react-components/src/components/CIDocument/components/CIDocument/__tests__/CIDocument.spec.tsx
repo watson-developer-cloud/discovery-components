@@ -11,7 +11,7 @@ import {
   GetByText,
   FindByText
 } from '@testing-library/react';
-import 'components/CIDocument/utils/test/createRange.mock';
+import '../../../../../utils/test/createRange.mock';
 import CIDocument from '../CIDocument';
 import contract from '../__fixtures__/contract.json';
 

@@ -43,10 +43,10 @@ import {
   Field,
   Attributes,
   Relations
-} from 'components/CIDocument/types';
+} from '../../types';
 import { Address, Mention } from '../MetadataPane/types';
 import { Items } from '../DetailsPane/types';
-import { defaultTheme, Theme } from 'utils/theme';
+import { defaultTheme, Theme } from '../../../../utils/theme';
 import {
   defaultMessages as detailsPaneDefaultMsgs,
   Messages as DetailsPaneMessages

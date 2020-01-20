@@ -1,0 +1,93 @@
+// css--reset removes the default styling for some components; set those up again
+@mixin htmlReset {
+  sup {
+    vertical-align: super;
+  }
+
+  sub {
+    vertical-align: sub;
+  }
+
+  ul {
+    list-style-type: disc;
+    list-style-position: inside;
+  }
+
+  ol {
+    list-style-type: decimal;
+    list-style-position: inside;
+  }
+
+  ul ul,
+  ol ul {
+    list-style-type: circle;
+    list-style-position: inside;
+    margin-left: 15px;
+  }
+
+  ol ol,
+  ul ol {
+    list-style-type: lower-latin;
+    list-style-position: inside;
+    margin-left: 15px;
+  }
+
+  table,
+  th,
+  td {
+    border: 1px solid #dcdcdc;
+  }
+
+  table {
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    padding: $spacing-02;
+  }
+}
+
+// Here we override default HTML tag styles to make the document formatting
+// more natural
+@mixin htmlOverride {
+  p,
+  span,
+  div {
+    line-height: unset;
+  }
+
+  p {
+    margin-top: $spacing-05;
+  }
+
+  table {
+    margin-top: $spacing-05;
+
+    p {
+      margin-top: unset;
+    }
+  }
+
+  li {
+    margin-top: $spacing-03;
+  }
+
+  ul {
+    margin-left: $spacing-03;
+  }
+
+  a {
+    color: currentColor;
+    text-decoration: none;
+    pointer-events: none;
+    padding-left: $spacing-03;
+    padding-right: $spacing-03;
+  }
+
+  p,
+  table,
+  li {
+    margin-bottom: $spacing-01;
+  }
+}

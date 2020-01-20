@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC, useContext, useEffect, useRef } from 'react';
 import { encodeHTML } from 'entities';
 import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
@@ -6,6 +6,7 @@ import get from 'lodash/get';
 import { clearNodeChildren } from 'utils/dom';
 import { findOffsetInDOM, createFieldRects } from 'utils/document/documentUtils';
 import { isPassage } from '../Highlight/passages';
+import { SearchContext } from '../../../DiscoverySearch/DiscoverySearch';
 
 interface Props {
   /**
@@ -34,6 +35,7 @@ export const SimpleDocument: FC<Props> = ({
 }) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
+  const { componentSettings } = useContext(SearchContext);
 
   let html,
     passage: QueryResultPassage | null = null;
@@ -44,29 +46,39 @@ export const SimpleDocument: FC<Props> = ({
     if (isJsonType && (!highlight || !isPassage(highlight))) {
       html = `<p>${cannotPreviewMessage}</p>`;
     } else {
-      let text = get(document, 'text', '');
-      if (Array.isArray(text)) {
-        text = text[0];
-      }
-      text = encodeHTML(text);
-      html = `<p data-child-begin="0" data-child-end=${text.length - 1}>${text}</p>`;
-
+      let field;
+      // if there is a passage highlight, use text values from field specified in passage
       if (highlight && isPassage(highlight)) {
         passage = highlight as QueryResultPassage;
-        const { field } = passage;
-        if (field && field !== 'text') {
-          let rollingStart = 0;
-          html = document[field]
-            .map((val: string) => {
-              val = encodeHTML(val);
-              const end = rollingStart + val.length - 1;
-              const res = `<p data-child-begin=${rollingStart} data-child-end=${end}>${val}</p>`;
-              rollingStart = end + 1;
-              return res;
-            })
-            .join('\n');
-        }
+        field = passage.field;
+      } else {
+        // see if user has specified a body field; default to 'text' field
+        field = get(componentSettings, 'fields_shown.body.field', 'text');
       }
+
+      let text;
+      if (typeof document[field] === 'undefined') {
+        // such a field doesn't exist in the document; fall back to 'text'
+        text = document.text || '';
+        passage = null;
+      } else {
+        text = document[field];
+      }
+
+      if (!Array.isArray(text)) {
+        text = [text];
+      }
+      let rollingStart = 0;
+      html = text
+        .map((val: string) => {
+          const end = rollingStart + val.length - 1;
+          const res = `<p data-child-begin=${rollingStart} data-child-end=${end}>${encodeHTML(
+            val
+          )}</p>`;
+          rollingStart = end + 1;
+          return res;
+        })
+        .join('\n');
     }
 
     // set parent states
@@ -116,7 +128,7 @@ export const SimpleDocument: FC<Props> = ({
 
   const base = `${settings.prefix}--simple-document`;
   return html ? (
-    <div className={`${base}`}>
+    <div className={base}>
       <div className={`${base}__wrapper`}>
         <div ref={highlightRef} />
         <div
