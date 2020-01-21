@@ -164,7 +164,7 @@ If you don't have a React application already, start with [create react app](htt
    import '@ibm-watson/discovery-styles/scss/index.scss';
 
    // Replace these values
-   const bearerToken = '{REPLACE_ME}'; // retrieved from CP4D Admin UI under instance details
+   const bearerToken = '{REPLACE_ME}'; // retrieved from CP4D Admin UI under instance details which expires daily
    const url = '{REPLACE_ME}'; // retrieved from CP4D Admin UI under instance details
    const version = '{REPLACE_ME}'; // YYYY-MM-DD date format
    const projectId = '{REPLACE_ME}'; // retrieved from Discovery Tooling UI
