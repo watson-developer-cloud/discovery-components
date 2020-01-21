@@ -1,0 +1,16 @@
+{
+  "matching_results": 0,
+  "retrieval_details": {
+    "document_retrieval_strategy": "untrained"
+  },
+  "suggested_refinements": [],
+  "aggregations": [
+    {
+      "type": "term",
+      "field": "enriched_text.entities.text",
+      "name": "entities"
+    }
+  ],
+  "results": [],
+  "suggested_query": "able"
+}

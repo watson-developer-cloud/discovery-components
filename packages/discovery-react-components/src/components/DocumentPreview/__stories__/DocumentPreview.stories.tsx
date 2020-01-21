@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, radios } from '@storybook/addon-knobs';
+import { radios } from '@storybook/addon-knobs';
 import { QueryResult, QueryResultPassage } from 'ibm-watson/discovery/v2';
 import DocumentPreview from '../DocumentPreview';
 import docArtEffects from '../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
@@ -19,7 +19,7 @@ const Wrapper: FC<WrapperProps> = ({ children, style = {} }) => (
 const doc = docArtEffects;
 
 storiesOf('DocumentPreview', module)
-  .addDecorator(withKnobs)
+  .addParameters({ component: DocumentPreview })
   .add('default', () => {
     return (
       <Wrapper>

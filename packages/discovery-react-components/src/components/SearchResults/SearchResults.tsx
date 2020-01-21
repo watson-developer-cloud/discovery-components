@@ -1,13 +1,13 @@
-import * as React from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import get from 'lodash/get';
 import { SkeletonText } from 'carbon-components-react';
-import { SearchApi, SearchContext } from '../DiscoverySearch/DiscoverySearch';
+import { SearchApi, SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { TablesOnlyToggle } from './components/TablesOnlyToggle/TablesOnlyToggle';
 import { Result } from './components/Result/Result';
 import { SpellingSuggestion } from './components/SpellingSuggestion/SpellingSuggestion';
 import { findCollectionName, getDisplaySettings, findTablesWithoutResults } from './utils';
-import { useDeepCompareEffect } from '../../utils/useDeepCompareMemoize';
+import { useDeepCompareEffect } from 'utils/useDeepCompareMemoize';
 import {
   baseClass,
   searchResultClass,
@@ -16,6 +16,9 @@ import {
   searchResultsListClass
 } from './cssClasses';
 import { defaultMessages, Messages } from './messages';
+import { withErrorBoundary } from 'react-error-boundary';
+import { FallbackComponent } from 'utils/FallbackComponent';
+import onErrorCallback from '../../utils/onErrorCallback';
 
 const DEFAULT_LOADING_COUNT = 3;
 
@@ -72,7 +75,7 @@ export interface SearchResultsProps {
   messages?: Partial<Messages>;
 }
 
-export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
+const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   resultLinkField,
   resultLinkTemplate,
   resultTitleField,
@@ -91,16 +94,16 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
     searchResponseStore: { data: searchResponse, isLoading, parameters },
     collectionsResults,
     componentSettings
-  } = React.useContext(SearchContext);
-  const [showTablesOnlyResults, setShowTablesOnlyResults] = React.useState(showTablesOnly);
-  const [hasFetchedDocuments, setHasFetchedDocuments] = React.useState(false);
+  } = useContext(SearchContext);
+  const [showTablesOnlyResults, setShowTablesOnlyResults] = useState(showTablesOnly);
+  const [hasFetchedDocuments, setHasFetchedDocuments] = useState(false);
 
   const displaySettings = getDisplaySettings(
     { resultTitleField, bodyField, usePassages },
     componentSettings
   );
 
-  const { setSearchParameters, fetchDocuments } = React.useContext(SearchApi);
+  const { setSearchParameters, fetchDocuments } = useContext(SearchApi);
   const matchingResults = (searchResponse && searchResponse.matching_results) || 0;
   const results = (searchResponse && searchResponse.results) || [];
   const tableResults = (searchResponse && searchResponse.table_results) || [];
@@ -108,11 +111,11 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   const hasTables = tableResults && tableResults.length > 0;
   const hasMatchingResults = matchingResults && matchingResults > 0;
   const resultsFound = showTablesOnlyResults ? hasTables : hasMatchingResults;
-  const [showTablesOnlyToggleState, setShowTablesOnlyToggleState] = React.useState(
+  const [showTablesOnlyToggleState, setShowTablesOnlyToggleState] = useState(
     typeof showTablesOnlyToggle === 'undefined' ? hasTables : showTablesOnlyToggle
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (passageLength) {
       setSearchParameters((currentSearchParameters: DiscoveryV2.QueryParams) => {
         return {
@@ -126,15 +129,15 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
     }
   }, [passageLength, setSearchParameters]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setShowTablesOnlyResults(showTablesOnly);
   }, [showTablesOnly]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setHasFetchedDocuments(false);
   }, [parameters.naturalLanguageQuery]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setShowTablesOnlyToggleState(
       typeof showTablesOnlyToggle === 'undefined' ? hasTables : showTablesOnlyToggle
     );
@@ -153,7 +156,7 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
     }
   }, [searchResponse, fetchDocuments, hasFetchedDocuments]);
 
-  const skeletons = React.useMemo(() => {
+  const skeletons = useMemo(() => {
     const searchResultLoadingClasses = [searchResultClass, searchResultLoadingClass];
     const numberOfSkeletons = Math.min(parameters.count || 10, DEFAULT_LOADING_COUNT);
     const size = Array.from(Array(numberOfSkeletons).keys());
@@ -238,3 +241,9 @@ export const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
     </div>
   );
 };
+
+export default withErrorBoundary(
+  SearchResults,
+  FallbackComponent('SearchResults'),
+  onErrorCallback
+);

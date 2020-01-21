@@ -1,10 +1,10 @@
 import React from 'react';
 import { act, render, BoundFunction, GetByText } from '@testing-library/react';
-import '../../../../../utils/test/createRange.mock';
+import 'utils/test/createRange.mock';
 import SimpleDocument from '../SimpleDocument';
-import docArrayJson from '../../../__fixtures__/ArtEffectsTextArray.json';
-import { SearchApiIFC, SearchContextIFC } from '../../../../DiscoverySearch/DiscoverySearch';
-import { wrapWithContext } from '../../../../../utils/testingUtils';
+import docArrayJson from 'components/DocumentPreview/__fixtures__/ArtEffectsTextArray.json';
+import { SearchApiIFC, SearchContextIFC } from 'components/DiscoverySearch/DiscoverySearch';
+import { wrapWithContext } from 'utils/testingUtils';
 
 const noop = (): any => {
   throw new Error();

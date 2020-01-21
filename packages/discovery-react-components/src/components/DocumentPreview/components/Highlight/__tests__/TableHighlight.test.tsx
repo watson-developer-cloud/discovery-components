@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { act, render, waitForElement } from '@testing-library/react';
 import Highlight from '../Highlight';
-import docJson from '../../../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
+import docJson from 'components/DocumentPreview/__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
 
 const tableResult = {
   table_id: 'c120373e-34fc-428d-b442-29e20679bc7f',

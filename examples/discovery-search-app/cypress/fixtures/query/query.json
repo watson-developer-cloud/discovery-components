@@ -1,0 +1,78 @@
+{
+  "matching_results": 3,
+  "results": [
+    {
+      "document_id": "e5db21d93f99dd25aefd97d1d247f416",
+      "result_metadata": {
+        "collection_id": "COLLECTION_ID_0"
+      },
+      "extracted_metadata": {
+        "filename": "some file name",
+        "title": "file 1 title"
+      },
+      "document_passages": [
+        {
+          "field": "text",
+          "passage_text": "Cry <em>abil</em>! And let slip the dogs of war!"
+        }
+      ]
+    },
+    {
+      "document_id": "e5db21d93f99dd25aefd97d1d247f417",
+      "result_metadata": {
+        "collection_id": "COLLECTION_ID_0"
+      },
+      "extracted_metadata": {
+        "filename": "some other file name",
+        "title": "file 2 title"
+      },
+      "document_passages": [
+        {
+          "field": "text",
+          "passage_text": "Too late, my time has <em>abil</em>, sends shivers down my <em>abil</em>, <em>abil</em>'s aching all the time"
+        }
+      ]
+    },
+    {
+      "document_id": "e5db21d93f99dd25aefd97d1d247f418",
+      "result_metadata": {
+        "collection_id": "COLLECTION_ID_1"
+      },
+      "extracted_metadata": {
+        "filename": "some other other file name",
+        "title": "file 3 title"
+      },
+      "document_passages": [
+        {
+          "field": "text",
+          "passage_text": "riverrun, past Eve and Adam's, from swerve of shore to bend of bay, brings us by a commodius vicus of recirculation back to Howth Castle and <em>abil</em>."
+        }
+      ]
+    }
+  ],
+  "aggregations": [
+    {
+      "type": "term",
+      "field": "subject",
+      "count": 4,
+      "results": [
+        {
+          "key": "Animals",
+          "matching_results": 138993
+        },
+        {
+          "key": "People",
+          "matching_results": 133760
+        },
+        {
+          "key": "Places",
+          "matching_results": 129139
+        },
+        {
+          "key": "Things",
+          "matching_results": 76403
+        }
+      ]
+    }
+  ]
+}

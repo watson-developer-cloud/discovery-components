@@ -5,7 +5,7 @@ import { QueryResult } from 'ibm-watson/discovery/v2';
 import { isRelationObject } from './nonContractUtils';
 import { getId } from './idUtils';
 import transformEnrichment from './transformEnrichment';
-import { getEnrichmentName } from '../../components/CIDocument/utils/enrichmentUtils';
+import { getEnrichmentName } from 'components/CIDocument/utils/enrichmentUtils';
 import { spansIntersect } from './documentUtils';
 import { decodeHTML, encodeHTML } from 'entities';
 
@@ -80,7 +80,7 @@ export interface Table {
  * @param {Boolean} options.itemMap return item mapping into 'sections'
  * @throws {ParsingError}
  */
-export default async function processDoc(
+export async function processDoc(
   // eslint-disable-next-line @typescript-eslint/camelcase
   queryData: QueryResult,
   options?: Options

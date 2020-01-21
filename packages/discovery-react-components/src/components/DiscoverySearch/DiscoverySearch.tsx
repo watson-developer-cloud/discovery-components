@@ -4,7 +4,7 @@ import {
   useDeepCompareEffect,
   useDeepCompareCallback,
   useDeepCompareMemo
-} from '../../utils/useDeepCompareMemoize';
+} from 'utils/useDeepCompareMemoize';
 import {
   FetchDocumentsResponseStore,
   SearchResponseStore,
@@ -12,8 +12,11 @@ import {
   useSearchResultsApi,
   useFetchDocumentsApi,
   useAutocompleteApi
-} from '../../utils/useDataApi';
+} from 'utils/useDataApi';
 import { SearchClient } from './types';
+import { withErrorBoundary } from 'react-error-boundary';
+import { FallbackComponent } from 'utils/FallbackComponent';
+import onErrorCallback from 'utils/onErrorCallback';
 
 export type SearchParams = Omit<DiscoveryV2.QueryParams, 'projectId' | 'headers'>;
 
@@ -186,7 +189,7 @@ export const searchContextDefaults = {
 export const SearchApi = createContext<SearchApiIFC>(searchApiDefaults);
 export const SearchContext = createContext<SearchContextIFC>(searchContextDefaults);
 
-export const DiscoverySearch: FC<DiscoverySearchProps> = ({
+const DiscoverySearch: FC<DiscoverySearchProps> = ({
   searchClient,
   projectId,
   overrideAggregationResults = null,
@@ -246,7 +249,7 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
         }
       });
     },
-    [performSearch, setSearchParameters]
+    [performSearch, searchClient, setSearchParameters]
   );
 
   const [autocompletionStore, { fetchAutocompletions, setAutocompletions }] = useAutocompleteApi(
@@ -440,3 +443,9 @@ export const DiscoverySearch: FC<DiscoverySearchProps> = ({
     </SearchApi.Provider>
   );
 };
+
+export default withErrorBoundary(
+  DiscoverySearch,
+  FallbackComponent('DiscoverySearch'),
+  onErrorCallback
+);

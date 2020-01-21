@@ -1,6 +1,6 @@
 {
   "name": "@ibm-watson/discovery-react-components",
-  "version": "1.0.7-rc.1",
+  "version": "1.1.0-beta.17",
   "description": "Discovery components built with the React framework and IBM Carbon components",
   "license": "Apache-2.0",
   "author": "IBM Corp.",
@@ -9,14 +9,17 @@
   "module": "dist/index.es.js",
   "scripts": {
     "test": "cross-env CI=1 react-scripts test",
+    "test:coverage": "cross-env CI=1 react-scripts test --coverage",
     "test:watch": "react-scripts test --watch",
     "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
-    "code-coverage": "jest --collectCoverage",
+    "circular": "madge --circular src/*",
     "build": "rollup -c",
+    "eslint": "eslint --resolve-plugins-relative-to '../../node_modules/react-scripts/node_modules' './{src,.storybook}/**/*.{js,jsx,ts,tsx}' --quiet",
+    "lint": "yarn run eslint && yarn run circular",
     "start": "rollup -c -w",
-    "storybook": "start-storybook --ci --port=9002",
-    "storybook:build": "build-storybook",
-    "storybook:build:release": "STORYBOOK_BUILD_MODE=production build-storybook -o ../../docs/storybook",
+    "storybook": "SASS_PATH='../../node_modules' start-storybook --ci --port=9002",
+    "storybook:build": "SASS_PATH='../../node_modules' build-storybook",
+    "storybook:build:release": "SASS_PATH='../../node_modules' STORYBOOK_BUILD_MODE=production build-storybook -o ../../docs/storybook",
     "analyze": "source-map-explorer 'dist/index.js'",
     "prepublish": "yarn run build",
     "preversion": "yarn run storybook:build:release",
@@ -46,14 +49,23 @@
     "classnames": "^2.2.6",
     "debounce": "^1.2.0",
     "dompurify": "^2.0.7",
+    "entities": "^2.0.0",
     "htmlparser2": "^4.0.0",
     "lodash": "^4.17.15",
     "mustache": "^3.1.0",
     "pdfjs-dist": "^2.2.228",
+    "react-error-boundary": "^1.2.5",
     "react-virtualized": "^9.21.1"
   },
-  "devDependencies": {
-    "lorem-ipsum": "^2.0.3",
-    "seedrandom": "^3.0.5"
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx,js,jsx}",
+      "!src/**/messages.{ts,js}",
+      "!src/**/types.{ts,js}",
+      "!src/**/typings.d.ts",
+      "!src/**/__fixtures__/**",
+      "!src/**/__stories__/**",
+      "!src/**/*.stories.*"
+    ]
   }
 }

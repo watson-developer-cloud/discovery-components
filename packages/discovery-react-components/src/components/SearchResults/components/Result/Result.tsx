@@ -1,9 +1,13 @@
 import React, { useContext } from 'react';
 import get from 'lodash/get';
-import isEqual from 'lodash.isequal';
+import isEqual from 'lodash/isEqual';
 import mustache from 'mustache';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
-import { SearchApi, SearchContext, SelectedResult } from '../../../DiscoverySearch/DiscoverySearch';
+import {
+  SearchApi,
+  SearchContext,
+  SelectedResult
+} from 'components/DiscoverySearch/DiscoverySearch';
 import { ResultElement } from '../ResultElement/ResultElement';
 import { SkeletonText } from 'carbon-components-react';
 import {
@@ -15,8 +19,8 @@ import {
   searchResultFooterClass,
   searchResultFooterTitleClass,
   searchResultFooterCollectionNameClass
-} from '../../cssClasses';
-import { Messages } from '../../messages';
+} from 'components/SearchResults/cssClasses';
+import { Messages } from 'components/SearchResults/messages';
 
 export interface ResultProps {
   /**

@@ -3,7 +3,7 @@ import { QueryResultPassage, QueryResult, QueryTableResult } from 'ibm-watson/di
 import TableHighlight from './TableHighlight';
 import PassageHighlight from './PassageHighlight';
 import { isPassage } from './passages';
-import { Bbox, Origin } from '../../types';
+import { Bbox, Origin } from 'components/DocumentPreview/types';
 import { PADDING } from './constants';
 
 interface Props {

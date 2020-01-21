@@ -12,7 +12,7 @@ describe('<NavigationToolbar />', () => {
     const onChangeSpy = jest.fn();
     const { getByTitle } = render(<NavigationToolbar index={1} max={50} onChange={onChangeSpy} />);
 
-    expect(onChangeSpy).not.toHaveBeenCalled;
+    expect(onChangeSpy).not.toHaveBeenCalled();
 
     fireEvent.click(getByTitle('Previous'));
 
@@ -24,7 +24,7 @@ describe('<NavigationToolbar />', () => {
     const onChangeSpy = jest.fn();
     const { getByTitle } = render(<NavigationToolbar index={1} max={50} onChange={onChangeSpy} />);
 
-    expect(onChangeSpy).not.toHaveBeenCalled;
+    expect(onChangeSpy).not.toHaveBeenCalled();
 
     fireEvent.click(getByTitle('Next'));
 

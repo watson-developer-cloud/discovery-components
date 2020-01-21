@@ -9,8 +9,8 @@ import { settings } from 'carbon-components';
 import { SkeletonText } from 'carbon-components-react';
 import Section, { OnFieldClickFn } from '../Section/Section';
 import VirtualScroll from '../VirtualScroll/VirtualScroll';
-import { defaultTheme, Theme } from '../../../../utils/theme';
-import { SectionType, ItemMap } from '../../types';
+import { defaultTheme, Theme } from 'utils/theme';
+import { SectionType, ItemMap } from 'components/CIDocument/types';
 
 const baseClassName = `${settings.prefix}--ci-doc-content`;
 
