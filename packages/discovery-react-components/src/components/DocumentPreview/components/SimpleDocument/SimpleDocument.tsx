@@ -6,7 +6,7 @@ import get from 'lodash/get';
 import { clearNodeChildren } from 'utils/dom';
 import { findOffsetInDOM, createFieldRects } from 'utils/document/documentUtils';
 import { isPassage } from '../Highlight/passages';
-import { SearchContext } from '../../../DiscoverySearch/DiscoverySearch';
+import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 
 interface Props {
   /**
