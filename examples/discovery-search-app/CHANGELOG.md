@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2-beta.22](https://github.com/watson-developer-cloud/discovery-components/compare/discovery-search-app@1.0.7...discovery-search-app@1.0.2-beta.22) (2020-01-21)
+
+
+### Bug Fixes
+
+* Remove node tilde ([#40](https://github.com/watson-developer-cloud/discovery-components/issues/40)) ([303ccb1](https://github.com/watson-developer-cloud/discovery-components/commit/303ccb1))
+
+
+
+
+
 ## [1.0.2-beta.21](https://github.com/watson-developer-cloud/discovery-components/compare/discovery-search-app@1.0.2-beta.20...discovery-search-app@1.0.2-beta.21) (2020-01-20)
 
 **Note:** Version bump only for package discovery-search-app

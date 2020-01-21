@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-beta.16](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.0.7...@ibm-watson/discovery-react-components@1.1.0-beta.16) (2020-01-21)
+
+
+### Bug Fixes
+
+* cidocument test issue ([#21](https://github.com/watson-developer-cloud/discovery-components/issues/21)) ([257b2e8](https://github.com/watson-developer-cloud/discovery-components/commit/257b2e8))
+* cidocument test quickfix ([#20](https://github.com/watson-developer-cloud/discovery-components/issues/20)) ([3586fc7](https://github.com/watson-developer-cloud/discovery-components/commit/3586fc7))
+* error in document preview with split docs ([#29](https://github.com/watson-developer-cloud/discovery-components/issues/29)) ([ed47956](https://github.com/watson-developer-cloud/discovery-components/commit/ed47956))
+* Remove node tilde ([#40](https://github.com/watson-developer-cloud/discovery-components/issues/40)) ([303ccb1](https://github.com/watson-developer-cloud/discovery-components/commit/303ccb1))
+* use react-scripts to run with code-coverage ([#61](https://github.com/watson-developer-cloud/discovery-components/issues/61)) ([1f78203](https://github.com/watson-developer-cloud/discovery-components/commit/1f78203))
+
+
+### Features
+
+* add i18n for ResultsPagination component ([#58](https://github.com/watson-developer-cloud/discovery-components/issues/58)) ([1bacb7b](https://github.com/watson-developer-cloud/discovery-components/commit/1bacb7b))
+* structured query add and remove group rules ([#42](https://github.com/watson-developer-cloud/discovery-components/issues/42)) ([8f9ebb1](https://github.com/watson-developer-cloud/discovery-components/commit/8f9ebb1))
+* structured query add and remove rules ([#27](https://github.com/watson-developer-cloud/discovery-components/issues/27)) ([eab1d3b](https://github.com/watson-developer-cloud/discovery-components/commit/eab1d3b))
+* structured query basic ([#22](https://github.com/watson-developer-cloud/discovery-components/issues/22)) ([b992f63](https://github.com/watson-developer-cloud/discovery-components/commit/b992f63))
+* upgrade storybook to 5.3 ([#25](https://github.com/watson-developer-cloud/discovery-components/issues/25)) ([93db599](https://github.com/watson-developer-cloud/discovery-components/commit/93db599))
+
+
+
+
+
 ## [1.0.7](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.0.7-rc.1...@ibm-watson/discovery-react-components@1.0.7) (2020-01-21)
 
 **Note:** Version bump only for package @ibm-watson/discovery-react-components
