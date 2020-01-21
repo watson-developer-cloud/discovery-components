@@ -82,7 +82,7 @@ The example app is a catalogue of the core components provided by this library. 
    2. `CLUSTER_USERNAME` the username used to log in to your CP4D dashboard and access your instance of Discovery (ex. `my_cp4d_username`)
    3. `CLUSTER_PASSWORD` the password used to log in to your CP4D dashboard and access your instance of Discovery (ex. `my_cp4d_password`)
    4. `CLUSTER_PORT` defaults to `443` unless configured otherwise
-   5. `CLUSTER_HOST` the base URL of your CP4D cluster (ex. `example.com` - no protocol/port)
+   5. `CLUSTER_HOST` the base URL of your CP4D cluster (ex. `example.com`)
 
 5. Build the React components:
 
@@ -92,7 +92,7 @@ The example app is a catalogue of the core components provided by this library. 
 
 6. Perform one of the two steps
 
-   - Run the setup script
+   - Run the setup script (which does the same thing as the below step using the username/password provided in `.env.local`)
      ```
      yarn workspace discovery-search-app run server:setup
      ```
@@ -115,7 +115,7 @@ The example app is a catalogue of the core components provided by this library. 
 
    ![Example app](./docs/images/example-app.png)
 
-For more information on how each component can be customized and configured, check out our hosted [storybook](https://watson-developer-cloud.github.io/discovery-components)
+For more information on how each component can be customized and configured, check out our hosted [storybook](https://watson-developer-cloud.github.io/discovery-components/storybook)
 
 ## Using Discovery Components in a React application
 
