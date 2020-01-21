@@ -38,6 +38,7 @@ describe('Spelling', () => {
         cy.route('POST', '**/query?version=2019-01-01', '@correctedQueryJSON').as(
           'postQueryCorrected'
         );
+        cy.contains('There were no results found').click(); // Makes this test less flakey, but there's a race condition in SearchInput we should solve at some point
         cy.get('button')
           .contains('watson')
           .click();
