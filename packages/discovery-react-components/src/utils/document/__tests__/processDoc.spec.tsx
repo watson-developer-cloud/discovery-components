@@ -138,3 +138,25 @@ describe('processDoc', () => {
     expect(get(invoiceData, 'enriched_html[0].invoice.relations')).toBeUndefined();
   });
 });
+
+describe('processDoc', () => {
+  it('stores original un-encoded text in attribute', async () => {
+    const html = `<html>
+      <body>
+        <p data-testid="one">one two three four</p>
+        <p data-testid="two">five &amp; six</p>
+      </body>
+    </html>`;
+
+    const doc = await processDoc({ html }, { sections: true });
+    const processedHtml = doc.sections!.map(section => section.html).join('');
+    const { getByTestId } = render(<div dangerouslySetInnerHTML={{ __html: processedHtml }} />);
+
+    const elemOne = getByTestId('one');
+    const elemTwo = getByTestId('two');
+
+    expect(elemOne.getAttribute('data-orig-text')).toBeFalsy();
+    expect(elemTwo.textContent).toEqual('five & six');
+    expect(elemTwo.getAttribute('data-orig-text')).toEqual('five &amp; six');
+  });
+});
