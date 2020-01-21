@@ -4,26 +4,23 @@ import Highlight from '../Highlight';
 import docJson from 'components/DocumentPreview/__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
 
 const tableResult = {
-  table_id: '558ada041262d5b0aa02a05429d798c7',
-  source_document_id: '7e8ada041262d5b0aa02a05429d798c7',
-  collection_id: '8713a92b-28aa-b291-0000-016ddc68aa2a',
-  table_html: '<table><tr><th>Hello</th><tr><td>How are ya?</td></tr></table>',
-  table_html_offset: 42500,
+  table_id: 'c120373e-34fc-428d-b442-29e20679bc7f',
+  source_document_id: '903461f8843ef9f10daecd2a14994308',
+  collection_id: 'd1714ef9-647c-288c-0000-016fa082490f',
+  table_html: 'Something',
+  table_html_offset: 238525,
   table: {
-    location: {
-      begin: 346183,
-      end: 349624
-    }
+    location: { begin: 230169, end: 234407 }
   }
 };
 
-describe('Highlight', () => {
+describe.skip('TableHighlight', () => {
   it('renders highlight', async () => {
     let getAllByTestId: NonNullable<any>;
 
     act(() => {
       ({ getAllByTestId } = render(
-        <Highlight document={docJson} currentPage={39} highlight={tableResult} />
+        <Highlight document={docJson} currentPage={46} highlight={tableResult} />
       ));
     });
 

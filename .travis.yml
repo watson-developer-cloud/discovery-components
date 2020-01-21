@@ -9,6 +9,7 @@ addons:
 branches:
   only:
     - develop
+    - january_fix_pack
 script:
   - yarn lint
   - lerna run build
