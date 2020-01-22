@@ -1,5 +1,5 @@
 import uniqWith from 'lodash/uniqWith';
-import { decodeHTML, encodeHTML } from 'entities';
+import { decodeHTML } from 'entities';
 
 interface FindOffsetResults {
   beginTextNode: Text;
@@ -64,32 +64,22 @@ export function findOffsetInDOM(
   };
 }
 
-export function getTextNodeAndOffset(node: Node, offset: number): NodeOffset {
+/**
+ * Find the appropriate DOM TextNode and offset within to match the given
+ * string offset
+ * @param {HTMLElement} node
+ * @param {number} strOffset - offset into HTML string
+ * @return TextNode and DOM offset matching the given string offset
+ */
+export function getTextNodeAndOffset(node: Node, strOffset: number): NodeOffset {
   const nodeElement = node as HTMLElement;
-  const nodeOffset = parseInt(nodeElement.dataset.childBegin || '0', 10);
-  const iterator = document.createNodeIterator(node, NodeFilter.SHOW_TEXT);
+  // beginOffset - offset into HTML string for beginning of this node's content
+  const beginStrOffset = parseInt(nodeElement.dataset.childBegin || '0', 10);
+  // domOffset - offset within DOM node
+  let domOffset = Math.max(0, strOffset - beginStrOffset);
 
-  let textNode: Text,
-    runningOffset = nodeOffset,
-    len: number;
-  do {
-    textNode = iterator.nextNode() as Text;
-  } while (
-    textNode &&
-    (len = encodeHTML(textNode.data).length) &&
-    offset > runningOffset + len &&
-    (runningOffset += len)
-  );
-
-  if (textNode === null) {
-    throw new Error(`Failed to find text node. Node: ${node.textContent}, offset: ${offset}`);
-  }
-
-  let textOffset = Math.max(0, offset - runningOffset);
-
-  // If attribute 'data-orig-text' is present then
-  // the string contains some encoded entities
-  // so, we need adjust the text offset
+  // If attribute 'data-orig-text' is present then the string contains some
+  // encoded entities so, we need adjust the `domOffset`
   const originalText = nodeElement.dataset.origText;
   if (originalText) {
     // To properly calculate the offset of the string we want to highlight
@@ -99,13 +89,26 @@ export function getTextNodeAndOffset(node: Node, offset: number): NodeOffset {
     // html entities (eg. `&quot;`), however those entities get rendered in
     // the dom which throws off the offsets values, for example `&quot;`
     // becomes `"`, going from 6 characters to 1.
-    const encodedTextSubstring = originalText.substring(0, textOffset);
+    const encodedTextSubstring = originalText.substring(0, domOffset);
     const decodedText = decodeHTML(encodedTextSubstring);
-    const adjustment = textOffset - decodedText.length;
-    textOffset = Math.max(0, textOffset - adjustment);
+    const adjustment = domOffset - decodedText.length;
+    domOffset = Math.max(0, domOffset - adjustment);
   }
 
-  return { textNode, textOffset };
+  // In certain cases (i.e. text length > 65536 chars), the DOM will break
+  // up text into multiple TextNodes. Loop through TextNodes, finding which
+  // contains the `domOffset`
+  const iterator = document.createNodeIterator(node, NodeFilter.SHOW_TEXT);
+  let textNode: Text, len: number;
+  do {
+    textNode = iterator.nextNode() as Text;
+  } while (textNode && (len = textNode.data.length) && domOffset > len && (domOffset -= len));
+
+  if (textNode === null) {
+    throw new Error(`Failed to find text node. Node: ${node.textContent}, offset: ${strOffset}`);
+  }
+
+  return { textNode, textOffset: domOffset };
 }
 
 interface CreateFieldRectsProps {
