@@ -1,5 +1,5 @@
 @import '~carbon-components/scss/globals/grid/grid';
-
+@import '~carbon-components/scss/components/tabs/tabs';
 $search-app-background-color: $gray-10;
 $nav-toolbar-background-color: $black-100;
 $nav-toolbar-height: 42px;
@@ -108,7 +108,6 @@ $nav-toolbar-height: 42px;
   .#{$prefix}--search-app__nav-toolbar,
   .#{$prefix}--preview-toolbar {
     height: $nav-toolbar-height;
-    position: fixed;
     width: 100%;
     z-index: 3;
   }
@@ -128,5 +127,19 @@ $nav-toolbar-height: 42px;
   .#{$prefix}--document-preview__document {
     margin-top: $nav-toolbar-height;
     padding: $spacing-xl;
+  }
+
+  .#{$prefix}--search-app__tabs {
+    flex: 0 0 auto;
+  }
+
+  .#{$prefix}--search-app__tabs-hidden {
+    display: none;
+  }
+
+  .#{$prefix}--search-app__content {
+    min-height: 0;
+    height: 100%;
+    overflow-y: auto;
   }
 }

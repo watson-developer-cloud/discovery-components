@@ -5,6 +5,8 @@ import './app.scss';
 import { settings } from 'carbon-components';
 import { Button } from 'carbon-components-react';
 import Close from '@carbon/icons-react/lib/close/16';
+import { Tabs, Tab } from 'carbon-components-react';
+import cx from 'classnames';
 
 import {
   DiscoverySearch,
@@ -14,7 +16,9 @@ import {
   SearchResults,
   SearchFacets,
   ResultsPagination,
-  DocumentPreview
+  DocumentPreview,
+  CIDocument,
+  canRenderCIDocument
 } from '@ibm-watson/discovery-react-components';
 
 const App = () => {
@@ -37,7 +41,7 @@ function AppView() {
   const {
     selectedResult: { document }
   } = useContext(SearchContext);
-  return !document ? <SearchPage /> : <PreviewPage />;
+  return !document ? <SearchPage /> : <PreviewPage document={document} />;
 }
 
 function SearchPage() {
@@ -85,8 +89,27 @@ function SearchPage() {
   );
 }
 
-function PreviewPage() {
+function PreviewPage(props) {
   const { setSelectedResult } = useContext(SearchApi);
+
+  function doRenderTab(testResult, content) {
+    if (testResult) {
+      return [content];
+    }
+    return [];
+  }
+
+  const tabs = [
+    {
+      name: 'Document',
+      Component: DocumentPreview
+    },
+    // Check if Content Intelligence (chewy) feature is enabled
+    ...doRenderTab(canRenderCIDocument(props.document), {
+      name: 'CI',
+      Component: CIDocument
+    })
+  ];
 
   function back(evt) {
     evt.preventDefault();
@@ -106,7 +129,29 @@ function PreviewPage() {
           tooltipAlignment="start"
         />
       </div>
-      <DocumentPreview />
+      <Tabs
+        className={`${settings.prefix}--search-app__tabs`}
+        selected={0}
+        aria-label="Document details tabs"
+      >
+        {tabs.map(({ name, Component, ...restProps }) => (
+          <Tab
+            key={name}
+            label={name}
+            {...restProps}
+            renderContent={({ selected }) => (
+              <div
+                className={cx({
+                  [`${settings.prefix}--search-app__tabs-hidden`]: !selected,
+                  [`${settings.prefix}--search-app__content`]: true
+                })}
+              >
+                <Component document={props.document} />
+              </div>
+            )}
+          />
+        ))}
+      </Tabs>
     </div>
   );
 }
