@@ -35,6 +35,24 @@
         "indexing_failures": 0,
         "conversion_failures": 0
       }
+    },
+    {
+      "name": "finnegans wake",
+      "description": "source of confusion",
+      "language": "en",
+      "collection_id": "paris19221939",
+      "project_id": "ada8c1c4-dbf9-4992-b4d0-eca6eab59d6f",
+      "created": "2019-09-30T14:41:31.428Z",
+      "updated": "2019-09-30T14:43:24.625Z",
+      "document_counts": {
+        "uploaded": 0,
+        "available": 17,
+        "converted": 0,
+        "indexing": 0,
+        "converting": 0,
+        "indexing_failures": 0,
+        "conversion_failures": 0
+      }
     }
   ]
 }

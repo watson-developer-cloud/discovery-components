@@ -1,0 +1,158 @@
+{
+  "matching_results": 2,
+  "results": [
+    {
+      "document_id": "DOCUMENT_ID_5",
+      "result_metadata": {
+        "collection_id": "COLLECTION_ID_5"
+      },
+      "extracted_metadata": {
+        "filename": "sauceanddough.pdf",
+        "title": "Great Plains Sauce and Dough"
+      },
+      "document_passages": [
+        {
+          "field": "text",
+          "passage_text": "<em>restaurants</em>: Great Plains Sauce and Dough"
+        }
+      ]
+    },
+    {
+      "document_id": "DOCUMENT_ID_6",
+      "result_metadata": {
+        "collection_id": "COLLECTION_ID_6"
+      },
+      "extracted_metadata": {
+        "filename": "hickorypark.pdf",
+        "title": "Hickory Park"
+      },
+      "document_passages": [
+        {
+          "field": "text",
+          "passage_text": "<em>restaurants</em>: Hickory Park"
+        }
+      ]
+    },
+    {
+      "document_id": "DOCUMENT_ID_9",
+      "result_metadata": {
+        "collection_id": "COLLECTION_ID_9"
+      },
+      "extracted_metadata": {
+        "filename": "Chipotle",
+        "title": "Chipotle"
+      },
+      "document_passages": [
+        {
+          "field": "text",
+          "passage_text": "<em>restaurants</em>: Chipotle"
+        }
+      ]
+    }
+  ],
+  "aggregations": [
+    {
+      "type": "term",
+      "field": "location",
+      "name": "location",
+      "count": 5,
+      "results": [
+        {
+          "key": "Boston, MA",
+          "matching_results": 30000
+        },
+        {
+          "key": "Pittsburgh, PA",
+          "matching_results": 2800
+        },
+        {
+          "key": "Minneapolis, MN",
+          "matching_results": 2303
+        },
+        {
+          "key": "Ames, IA",
+          "matching_results": 46
+        },
+        {
+          "key": "Hancock, MN",
+          "matching_results": 1
+        }
+      ]
+    },
+    {
+      "type": "term",
+      "field": "style",
+      "name": "style",
+      "count": 5,
+      "results": [
+        {
+          "key": "Pasta",
+          "matching_results": 7800
+        },
+        {
+          "key": "American",
+          "matching_results": 6800
+        },
+        {
+          "key": "Pastries",
+          "matching_results": 5800
+        },
+        {
+          "key": "Mexican",
+          "matching_results": 4800
+        },
+        {
+          "key": "Indian",
+          "matching_results": 3800
+        },
+        {
+          "key": "Mediterranean",
+          "matching_results": 2800
+        },
+        {
+          "key": "Seafood",
+          "matching_results": 1800
+        },
+        {
+          "key": "Confectionary",
+          "matching_results": 800
+        },
+        {
+          "key": "Gagh",
+          "matching_results": 1
+        }
+      ]
+    },
+    {
+      "type": "term",
+      "field": "price",
+      "name": "price",
+      "count": 5,
+      "results": [
+        {
+          "key": "High",
+          "matching_results": 10000
+        },
+        {
+          "key": "Medium",
+          "matching_results": 20000
+        },
+        {
+          "key": "Low",
+          "matching_results": 30000
+        }
+      ]
+    }
+  ],
+  "suggested_refinements": [
+    {
+      "text": "regression"
+    },
+    {
+      "text": "classification"
+    },
+    {
+      "text": "naive bayes"
+    }
+  ]
+}
