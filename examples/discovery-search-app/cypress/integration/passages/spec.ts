@@ -86,17 +86,30 @@ describe('Passage Results', () => {
       });
     });
 
-    describe('clicking on "View passage in document" for a result with CI Document', () => {
+    it('the passage text in each result is dangerously rendered', () => {
+      cy.get('.bx--search-result')
+        .get('em')
+        .contains('IBM')
+        .should('exist');
+    });
+
+    it('passages and tables can be displayed in the same result', () => {
+      cy.get('.bx--search-result')
+        .filter(':contains("This result has a passage and a table")')
+        .as('combinedResult');
+      cy.get('@combinedResult').contains('table');
+      cy.get('@combinedResult').contains('View passage in document');
+      cy.get('@combinedResult').contains('View table in document');
+    });
+
+    describe('and clicking on "CI Document" for a result', () => {
       beforeEach(() => {
         cy.get('button[data-testid="search-result-element-preview-button"]')
           .last()
           .click();
       });
 
-      it('Verify that CI Document loaded correctly', () => {
-        cy.get('p')
-          .contains('Document')
-          .should('exist');
+      it('verify that CI Document loaded correctly', () => {
         cy.get('ul')
           .contains('CI')
           .should('exist');
@@ -126,22 +139,6 @@ describe('Passage Results', () => {
           .contains('Invoice parts')
           .should('exist');
       });
-    });
-
-    it('the passage text in each result is dangerously rendered', () => {
-      cy.get('.bx--search-result')
-        .get('em')
-        .contains('IBM')
-        .should('exist');
-    });
-
-    it('passages and tables can be displayed in the same result', () => {
-      cy.get('.bx--search-result')
-        .filter(':contains("This result has a passage and a table")')
-        .as('combinedResult');
-      cy.get('@combinedResult').contains('table');
-      cy.get('@combinedResult').contains('View passage in document');
-      cy.get('@combinedResult').contains('View table in document');
     });
   });
 });
