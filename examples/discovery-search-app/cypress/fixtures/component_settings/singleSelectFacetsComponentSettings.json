@@ -1,0 +1,31 @@
+{
+  "results_per_page": 5,
+  "structured_search": false,
+  "fields_shown": {
+    "body": {
+      "use_passage": true,
+      "field": ""
+    },
+    "title": {
+      "field": "title"
+    }
+  },
+  "aggregations": [
+    {
+      "name": "location",
+      "label": "City",
+      "multiple_selections_allowed": false
+    },
+    {
+      "name": "style",
+      "label": "Cuisine",
+      "multiple_selections_allowed": false
+    },
+    {
+      "name": "price",
+      "label": "Price Range",
+      "multiple_selections_allowed": false
+    }
+  ],
+  "autocomplete": false
+}
