@@ -1,0 +1,3 @@
+#### Overview
+
+The `DocumentPreview` component displays the text content of the document either as a PDF or an unstructured document. PDF view is only supported if the original file uploaded was in PDF format. You may choose to use the `DocumentPreview` component to display the text with or without passage highlighting, or with table highlighting. The `DocumentPreview` component accepts the props `document` as the JSON file, `file` for the original PDF file (if that was the type of document uploaded), `highlight` as the passage which will be highlighted, and `messages` to internationalize the tooltips on the PDF document type toolbar.
