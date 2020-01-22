@@ -3,6 +3,7 @@ import purchaseOrderOntology from './ontology/purchase_orders';
 import flattenDeep from 'lodash/flattenDeep';
 import { getId } from './idUtils';
 import { ENRICHMENTS, getEnrichmentName } from 'components/CIDocument/utils/enrichmentUtils';
+import cloneDeep from 'lodash/cloneDeep';
 import {
   EnrichedHtml,
   Contract,
@@ -153,7 +154,7 @@ function isValidAttribute(attr: Attributes): boolean {
 }
 
 export default function transformEnrichment(enrichedHtml: EnrichedHtml[]): EnrichedHtml[] {
-  const newEnrichedHtml = { ...enrichedHtml };
+  const newEnrichedHtml = cloneDeep(enrichedHtml);
 
   if (newEnrichedHtml && newEnrichedHtml[0]) {
     const enrichmentName = getEnrichmentName(newEnrichedHtml[0]);
