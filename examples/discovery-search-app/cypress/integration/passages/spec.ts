@@ -86,6 +86,48 @@ describe('Passage Results', () => {
       });
     });
 
+    describe('clicking on "View passage in document" for a result with CI Document', () => {
+      beforeEach(() => {
+        cy.get('button[data-testid="search-result-element-preview-button"]')
+          .last()
+          .click();
+      });
+
+      it('Verify that CI Document loaded correctly', () => {
+        cy.get('p')
+          .contains('Document')
+          .should('exist');
+        cy.get('ul')
+          .contains('CI')
+          .should('exist');
+        cy.get('ul')
+          .contains('CI')
+          .click();
+        cy.get('.bx--document-preview').should('exist');
+        cy.get('.bx--ci-doc__sidebar').should('exist');
+        cy.get('.bx--ci-doc__doc').should('exist');
+        cy.get('.bx--ci-doc__details').should('exist');
+        cy.get('.bx--ci-doc-filter')
+          .contains('Select labels to filter elements')
+          .should('exist');
+        cy.get('.bx--ci-doc-filter')
+          .contains('Attribute')
+          .should('exist');
+        cy.get('.bx--ci-doc-filter')
+          .contains('Currency')
+          .should('exist');
+        cy.get('.bx--tabs__nav-item')
+          .contains('Relations')
+          .click();
+        cy.get('.bx--ci-doc-filter')
+          .contains('Relation')
+          .should('exist');
+        cy.get('.bx--ci-doc-filter')
+          .contains('Invoice parts')
+          .should('exist');
+      });
+    });
+
     it('the passage text in each result is dangerously rendered', () => {
       cy.get('.bx--search-result')
         .get('em')
