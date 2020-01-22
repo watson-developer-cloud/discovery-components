@@ -6,23 +6,26 @@ describe('Basic search', () => {
 
     // Set up/override routes & fixtures that are specific to this file
     cy.fixture('query/noResults.json').as('noResultsJSON');
+
+    // set an alias for the search input, since we're using that a lot
+    cy.findByPlaceholderText('Search').as('searchInput');
   });
 
   // Rendering initial page
   describe('When the example app loads', () => {
-    it('SearchInput has placeholder text "Search"', () => {
-      cy.get('.bx--search-input').should('have.attr', 'placeholder', 'Search');
+    it('SearchInput should appear', () => {
+      cy.get('@searchInput').should('be.visible');
     });
 
     it('SearchInput has magnifying glass icon', () => {
-      cy.get('.bx--search-magnifier').should('be.visible');
+      cy.get('svg.bx--search-magnifier').should('be.visible');
     });
   });
 
   // Querying with results
   describe('When entering a query with results', () => {
     beforeEach(() => {
-      cy.get('.bx--search-input').type('abil{enter}');
+      cy.get('@searchInput').type('abil{enter}');
       cy.wait('@postQuery').as('queryObject');
     });
 
@@ -60,7 +63,7 @@ describe('Basic search', () => {
   describe('When entering a query with no results', () => {
     beforeEach(() => {
       cy.route('POST', '**/query?version=2019-01-01', '@noResultsJSON').as('postQueryNoResults');
-      cy.get('.bx--search-input').type('abil{enter}');
+      cy.get('@searchInput').type('abil{enter}');
       cy.wait('@postQueryNoResults');
     });
 

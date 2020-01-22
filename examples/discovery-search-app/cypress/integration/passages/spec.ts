@@ -15,21 +15,19 @@ describe('Passage Results', () => {
     });
 
     it('SearchResults displays ONLY the first passage text of the results that have passages', () => {
-      cy.get('.bx--search-result__content-wrapper__body')
-        .contains(
-          'This result multiple passages, but you should only be able to see the first one.'
-        )
-        .should('exist');
-      cy.get('.bx--search-result__content-wrapper__body')
-        .contains('if you can see this passage, something probably borked')
-        .should('not.exist');
-      cy.get('.bx--search-result__content-wrapper__body')
-        .contains('This result only has one passage, and it should be visible')
-        .should('exist');
+      cy.findByText(
+        'This result multiple passages, but you should only be able to see the first one.'
+      ).should('be.visible');
+      cy.findByText('if you can see this passage, something probably borked').should(
+        'not.be.visible'
+      );
+      cy.findByText('This result only has one passage, and it should be visible').should(
+        'be.visible'
+      );
     });
 
     it('each result with a passage has a link to view passage in document', () => {
-      cy.get('button[data-testid="search-result-element-preview-button"]')
+      cy.findAllByTestId('search-result-element-preview-button')
         .filter(':contains("View passage in document")')
         .should('have.length', 3);
     });
@@ -41,14 +39,14 @@ describe('Passage Results', () => {
     });
 
     it('each result without document passages or tables has a link to the document', () => {
-      cy.get('button[data-testid="search-result-element-preview-button"]')
+      cy.findAllByTestId('search-result-element-preview-button')
         .filter(':contains("View document")')
         .should('have.length', 1);
     });
 
     describe('and clicking on "View passage in document" for a result', () => {
       beforeEach(() => {
-        cy.get('button[data-testid="search-result-element-preview-button"]')
+        cy.findAllByTestId('search-result-element-preview-button')
           .contains('View passage in document')
           .click();
       });
@@ -67,7 +65,7 @@ describe('Passage Results', () => {
 
       describe('and clicking on the close preview button', () => {
         beforeEach(() => {
-          cy.get('svg[aria-label="Back to search"]').click();
+          cy.findByLabelText('Back to search').click();
         });
 
         it('closes the document preview', () => {

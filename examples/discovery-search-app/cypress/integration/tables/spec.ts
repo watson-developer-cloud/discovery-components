@@ -27,14 +27,14 @@ describe('Table Results', () => {
     });
 
     it('each result with a table has a link to view table in document', () => {
-      cy.get('button[data-testid="search-result-element-preview-button"]')
+      cy.findAllByTestId('search-result-element-preview-button')
         .filter(':contains("View table in document")')
         .should('have.length', 3);
     });
 
     describe('and clicking on "View table in document" for a result', () => {
       beforeEach(() => {
-        cy.get('button[data-testid="search-result-element-preview-button"]')
+        cy.findAllByTestId('search-result-element-preview-button')
           .contains('View table in document')
           .click();
       });
@@ -51,7 +51,7 @@ describe('Table Results', () => {
 
       describe('and clicking on the close preview button', () => {
         beforeEach(() => {
-          cy.get('svg[aria-label="Back to search"]').click();
+          cy.findByLabelText('Back to search').click();
         });
 
         it('closes the document preview', () => {

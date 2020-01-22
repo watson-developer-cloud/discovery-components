@@ -6,6 +6,9 @@ describe('Autocomplete', () => {
 
     // Set up/override routes & fixtures that are specific to this file
     cy.fixture('autocompletion/autocompletions.json').as('autocompletionsJSON');
+
+    // Set an alias for the search input
+    cy.findByPlaceholderText('Search').as('searchInput');
   });
 
   // Autocomplete tests
@@ -18,7 +21,7 @@ describe('Autocomplete', () => {
         '**/autocompletion?version=2019-01-01&prefix=h&count=7',
         '@autocompletionsJSON'
       ).as('getAutocompletions');
-      cy.get('.bx--search-input').type('h');
+      cy.get('@searchInput').type('h');
       cy.wait('@getAutocompletions');
     });
 
@@ -31,23 +34,24 @@ describe('Autocomplete', () => {
 
     describe('and clicking on an autocomplete option', () => {
       beforeEach(() => {
-        cy.get('.bx--search-autocompletion__term')
+        cy.get('.bx--search-autocompletion__item')
           .first()
           .click();
       });
 
       it('updates the query with the correct completion', () => {
-        cy.get('.bx--search-input').should('have.value', `${expectedAutocompletions[0]} `);
+        cy.get('@searchInput').should('have.value', `${expectedAutocompletions[0]} `);
       });
     });
 
     describe('and clicking away from the SearchInput', () => {
       beforeEach(() => {
-        cy.get('.bx--search-input').blur();
+        cy.get('@searchInput').blur();
       });
 
       it('autocomplete dropdown disappears', () => {
-        cy.get('.bx--search-autocompletion__term').should('not.exist');
+        cy.get('@searchInput').should('exist'); // make sure that this test doesn't pass on whitescreen
+        cy.findByTestId('completions-dropdown-test-id').should('not.exist');
       });
     });
   });
@@ -55,16 +59,17 @@ describe('Autocomplete', () => {
   describe('When typing " " into the search input', () => {
     beforeEach(() => {
       cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQuery');
-      cy.get('.bx--search-input').type(' ');
+      cy.get('@searchInput').type(' ');
     });
 
     it('does not display the autocomplete dropdown', () => {
-      cy.get('.bx--search-autocompletion__term').should('not.exist');
+      cy.get('@searchInput').should('exist'); // make sure that this test doesn't pass on whitescreen
+      cy.findByTestId('completions-dropdown-test-id').should('not.exist');
     });
 
     describe('and hit enter', () => {
       beforeEach(() => {
-        cy.get('.bx--search-input').type('{enter}');
+        cy.get('@searchInput').type('{enter}');
         cy.wait('@postQuery').as('queryObject');
       });
 
