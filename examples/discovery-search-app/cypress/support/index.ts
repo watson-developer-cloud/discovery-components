@@ -13,9 +13,8 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-//TODO: once the typescript + cypress PR is merged, we can change commands.js -> commands.ts
 // Import commands.js using ES2015 syntax:
-import './commands.js';
+import './commands.ts';
 
 // import the default settings for cy.server()
 import './serverDefaults.ts';

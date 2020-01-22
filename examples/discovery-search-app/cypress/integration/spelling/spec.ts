@@ -1,8 +1,8 @@
-import { mockDefaultHomePage } from '../../support/utils';
+import { mockHomePage } from '../../support/utils';
 
 describe('Spelling', () => {
   beforeEach(() => {
-    mockDefaultHomePage();
+    mockHomePage();
 
     // Set up/override routes & fixtures that are specific to this file
     cy.fixture('query/misspelledQuery.json').as('misspelledQueryJSON');

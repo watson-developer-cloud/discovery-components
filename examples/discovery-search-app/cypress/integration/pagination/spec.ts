@@ -1,10 +1,10 @@
-import { mockDefaultHomePage } from '../../support/utils';
+import { mockHomePage } from '../../support/utils';
 
 const itemsPerPageOptions = ['5', '10', '20', '30', '40', '50'];
 
 describe('Pagination', () => {
   beforeEach(() => {
-    mockDefaultHomePage();
+    mockHomePage();
 
     // Set up/override routes & fixtures that are specific to this file
     cy.fixture('query/multiPageResults.json').as('multiPageResultsJSON');

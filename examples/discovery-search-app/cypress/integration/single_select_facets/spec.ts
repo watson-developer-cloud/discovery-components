@@ -1,27 +1,11 @@
+import { mockHomePage } from '../../support/utils';
+
 describe('Single-Select Facets', () => {
   beforeEach(() => {
-    //TODO: we'll need to make sure we can pass in an override for the query, as we want specific facets to come back
-    // Sets up and handles the collections, component settings, and initial query requests that run on page-load
-    cy.server();
-    cy.fixture('collections/collections.json').as('collectionsJSON');
-    cy.route('GET', '**/collections?version=2019-01-01', '@collectionsJSON').as('getCollections');
-
-    //override the standard query with one that has more facets
-    cy.fixture('query/facetsQuery.json').as('facetsQueryJSON');
-    cy.route('POST', '**/query?version=2019-01-01', '@facetsQueryJSON').as('postQueryFacets');
-
-    //override the component settings to make facets single-select
-    cy.fixture('component_settings/singleSelectFacetsComponentSettings.json').as(
-      'singleSelectComponentSettingsJSON'
-    );
-    cy.route(
-      'GET',
-      '**/component_settings?version=2019-01-01',
-      '@singleSelectComponentSettingsJSON'
-    ).as('getComponentSettings');
-
-    cy.visit('/');
-    cy.wait(['@getCollections', '@getComponentSettings', '@postQueryFacets']);
+    mockHomePage({
+      component_settings: 'component_settings/singleSelectFacetsComponentSettings.json',
+      query: 'query/facetsQuery.json'
+    });
 
     // Set up/override routes & fixtures that are specific to this file
     cy.fixture('query/facetsQueryAmes.json').as('facetsQueryAmesJSON');
@@ -32,7 +16,7 @@ describe('Single-Select Facets', () => {
   describe('When a query is made, and facets are returned', () => {
     beforeEach(() => {
       cy.get('.bx--search-input').type('restaurants{enter}');
-      cy.wait('@postQueryFacets');
+      cy.wait('@postQuery');
       cy.get('.bx--search-facet')
         .filter(':contains("City")')
         .as('cityFacet');
@@ -78,6 +62,7 @@ describe('Single-Select Facets', () => {
 
       it('makes a query for the right facets', () => {
         cy.get('@amesFilterQueryObject')
+          //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
           .its('requestBody.filter')
           .should('eq', 'location:"Ames, IA"');
       });
@@ -95,6 +80,7 @@ describe('Single-Select Facets', () => {
 
         it('makes a query for only the new facet', () => {
           cy.get('@hancockFilterQueryObject')
+            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.filter')
             .should('eq', 'location:"Hancock, MN"');
         });
@@ -106,11 +92,12 @@ describe('Single-Select Facets', () => {
           cy.get('button')
             .contains('Clear all')
             .click();
-          cy.wait('@postQueryFacets').as('clearedFacetsQueryObject');
+          cy.wait('@postQuery').as('clearedFacetsQueryObject');
         });
 
         it('makes a query without any selected facets', () => {
           cy.get('@clearedFacetsQueryObject')
+            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.filter')
             .should('eq', '');
         });
@@ -128,11 +115,12 @@ describe('Single-Select Facets', () => {
           cy.get('label')
             .contains('Ames, IA')
             .click();
-          cy.wait('@postQueryFacets').as('clearedFacetsQueryObject');
+          cy.wait('@postQuery').as('clearedFacetsQueryObject');
         });
 
         it('makes a query without any selected facets', () => {
           cy.get('@clearedFacetsQueryObject')
+            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.filter')
             .should('eq', '');
         });
@@ -151,6 +139,7 @@ describe('Single-Select Facets', () => {
 
         it('makes a query with both filters', () => {
           cy.get('@combinedFacetQueryObject')
+            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.filter')
             .should('eq', 'location:"Ames, IA",price:"Low"');
         });

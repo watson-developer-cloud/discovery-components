@@ -1,8 +1,8 @@
-import { mockDefaultHomePage } from '../../support/utils';
+import { mockHomePage } from '../../support/utils';
 
 describe('Passage Results', () => {
   beforeEach(() => {
-    mockDefaultHomePage();
+    mockHomePage();
 
     // Set up/override routes & fixtures that are specific to this file
     cy.fixture('query/passageResults.json').as('passageResultsJSON');

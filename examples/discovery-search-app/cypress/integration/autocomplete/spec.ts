@@ -1,8 +1,8 @@
-import { mockDefaultHomePage } from '../../support/utils';
+import { mockHomePage } from '../../support/utils';
 
 describe('Autocomplete', () => {
   beforeEach(() => {
-    mockDefaultHomePage();
+    mockHomePage();
 
     // Set up/override routes & fixtures that are specific to this file
     cy.fixture('autocompletion/autocompletions.json').as('autocompletionsJSON');

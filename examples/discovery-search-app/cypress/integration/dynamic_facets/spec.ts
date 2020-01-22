@@ -1,27 +1,11 @@
+import { mockHomePage } from '../../support/utils';
+
 describe('Dynamic Facets', () => {
   beforeEach(() => {
-    //TODO: we'll need to make sure we can pass in an override for the query, as we want specific facets to come back
-    // Sets up and handles the collections, component settings, and initial query requests that run on page-load
-    cy.server();
-    cy.fixture('collections/collections.json').as('collectionsJSON');
-    cy.route('GET', '**/collections?version=2019-01-01', '@collectionsJSON').as('getCollections');
-
-    //override the standard query with one that has more facets
-    cy.fixture('query/facetsQuery.json').as('facetsQueryJSON');
-    cy.route('POST', '**/query?version=2019-01-01', '@facetsQueryJSON').as('postQueryFacets');
-
-    //override the component settings to return specific dynamic facets
-    cy.fixture('component_settings/multiSelectFacetsComponentSettings.json').as(
-      'multiSelectComponentSettingsJSON'
-    );
-    cy.route(
-      'GET',
-      '**/component_settings?version=2019-01-01',
-      '@multiSelectComponentSettingsJSON'
-    ).as('getComponentSettings');
-
-    cy.visit('/');
-    cy.wait(['@getCollections', '@getComponentSettings', '@postQueryFacets']);
+    mockHomePage({
+      component_settings: 'component_settings/multiSelectFacetsComponentSettings.json',
+      query: 'query/facetsQuery.json'
+    });
 
     // Set up/override routes & fixtures that are specific to this file
     cy.fixture('query/facetsQuerySingleRefinement.json').as('facetsQuerySingleRefinementJSON');
@@ -34,7 +18,7 @@ describe('Dynamic Facets', () => {
   describe('When a query is made, and dynamic facets are returned', () => {
     beforeEach(() => {
       cy.findByLabelText('Search').type('restaurants{enter}');
-      cy.wait('@postQueryFacets');
+      cy.wait('@postQuery');
       cy.get('.bx--search-facet')
         .filter(':contains("Dynamic Facets")')
         .as('dynamicFacets');
@@ -75,6 +59,7 @@ describe('Dynamic Facets', () => {
 
       it('makes a query for the right facets', () => {
         cy.get('@singleRefinementQueryObject')
+          //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
           .its('requestBody.filter')
           .should('eq', '"regression"');
       });
@@ -98,6 +83,7 @@ describe('Dynamic Facets', () => {
 
         it('makes a query for both filters', () => {
           cy.get('@multiRefinementQueryObject')
+            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.filter')
             .should('eq', '"regression","classification"');
         });
@@ -115,11 +101,12 @@ describe('Dynamic Facets', () => {
           cy.get('button')
             .contains('Clear all')
             .click();
-          cy.wait('@postQueryFacets').as('clearedFacetsQueryObject');
+          cy.wait('@postQuery').as('clearedFacetsQueryObject');
         });
 
         it('makes a query without any selected facets', () => {
           cy.get('@clearedFacetsQueryObject')
+            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.filter')
             .should('eq', '');
         });
@@ -138,11 +125,12 @@ describe('Dynamic Facets', () => {
           cy.get('label')
             .contains('regression')
             .click();
-          cy.wait('@postQueryFacets').as('clearedFacetsQueryObject');
+          cy.wait('@postQuery').as('clearedFacetsQueryObject');
         });
 
         it('makes a query without any selected facets', () => {
           cy.get('@clearedFacetsQueryObject')
+            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.filter')
             .should('eq', '');
         });
@@ -163,6 +151,7 @@ describe('Dynamic Facets', () => {
 
         it('makes a query with both filters', () => {
           cy.get('@dynamicAndNonDynamicQueryObject')
+            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.filter')
             .should('eq', 'location:"Hancock, MN","regression"');
         });
