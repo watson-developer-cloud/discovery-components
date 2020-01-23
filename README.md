@@ -39,8 +39,6 @@
 - [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [nvm](https://github.com/nvm-sh/nvm#installation-and-update)
 - [yarn](https://yarnpkg.com/en/docs/install) or [npm](https://www.npmjs.com/get-npm)
-- jq (When running the server in the Discovery components example application)
-  - `brew install jq`
 
 ## Running the example app
 
@@ -92,7 +90,7 @@ The example app is a catalogue of the core components provided by this library. 
 
 6. Perform one of the two steps
 
-   - Run the setup script (which does the same thing as the below step using the username/password provided in `.env.local`)
+   - Run the setup script (which does the same thing as the below step using the username/password provided in `.env.local` but requires `jq` to be installed locally -> Mac OSX: `brew install jq`)
      ```
      yarn workspace discovery-search-app run server:setup
      ```
