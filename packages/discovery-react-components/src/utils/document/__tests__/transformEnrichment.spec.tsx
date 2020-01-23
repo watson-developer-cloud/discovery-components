@@ -5,7 +5,7 @@ import invoiceData from 'components/CIDocument/components/CIDocument/__fixtures_
 import purchaseOrderData from 'components/CIDocument/components/CIDocument/__fixtures__/po-index_op.json';
 import { EnrichedHtml } from 'components/CIDocument/types';
 
-describe('transformEnrichment', () => {
+describe('transformEnrichment - contracts', () => {
   let transformedDoc: EnrichedHtml[];
   const enriched_html = contractData.enriched_html;
 
@@ -31,7 +31,7 @@ describe('transformEnrichment', () => {
   });
 });
 
-describe('transformEnrichment', () => {
+describe('transformEnrichment - Invoice', () => {
   let transformedDoc: EnrichedHtml[];
   const enriched_html = invoiceData.enriched_html;
 
@@ -56,7 +56,7 @@ describe('transformEnrichment', () => {
   });
 });
 
-describe('transformEnrichment', () => {
+describe('transformEnrichment - Purchase orders', () => {
   let transformedDoc: EnrichedHtml[];
   const enriched_html = purchaseOrderData.enriched_html;
 
