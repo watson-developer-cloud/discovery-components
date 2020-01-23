@@ -73,7 +73,7 @@ describe('Autocomplete', () => {
         cy.wait('@postQuery').as('queryObject');
       });
 
-      it.only('performs a query with the correct term', () => {
+      it('performs a query with the correct term', () => {
         cy.get('@queryObject')
           //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
           .its('requestBody.natural_language_query')

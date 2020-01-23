@@ -97,11 +97,11 @@ describe('Dynamic Facets', () => {
 
       describe('and the "Clear all" button is clicked', () => {
         beforeEach(() => {
-          cy.route('POST', '**/query?version=2019-01-01', '@facetsQueryJSON').as('postQueryFacets');
+          cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQueryFacets');
           cy.get('button')
             .contains('Clear all')
             .click();
-          cy.wait('@postQuery').as('clearedFacetsQueryObject');
+          cy.wait('@postQueryFacets').as('clearedFacetsQueryObject');
         });
 
         it('makes a query without any selected facets', () => {
@@ -121,11 +121,11 @@ describe('Dynamic Facets', () => {
 
       describe('and the same facet checkbox is clicked', () => {
         beforeEach(() => {
-          cy.route('POST', '**/query?version=2019-01-01', '@facetsQueryJSON').as('postQueryFacets');
+          cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQueryFacets');
           cy.get('label')
             .contains('regression')
             .click();
-          cy.wait('@postQuery').as('clearedFacetsQueryObject');
+          cy.wait('@postQueryFacets').as('clearedFacetsQueryObject');
         });
 
         it('makes a query without any selected facets', () => {

@@ -8,6 +8,7 @@ describe('Multi-Select Facets', () => {
     });
 
     // Set up/override routes & fixtures that are specific to this file
+    cy.fixture('query/facetsQuery.json').as('facetsQueryJSON');
     cy.fixture('query/facetsQueryAmes.json').as('facetsQueryAmesJSON');
     cy.fixture('query/facetsQueryAmesLowPrice.json').as('facetsQueryAmesLowPriceJSON');
     cy.fixture('query/facetsQueryAmesOrPittsburgh.json').as('facetsQueryAmesOrPittsburghJSON');
@@ -104,7 +105,7 @@ describe('Multi-Select Facets', () => {
           cy.get('button')
             .contains('Clear all')
             .click();
-          cy.wait('@postQuery').as('clearedFacetsQueryObject');
+          cy.wait('@postQueryFacets').as('clearedFacetsQueryObject');
         });
 
         it('makes a query without any selected facets', () => {
@@ -127,7 +128,7 @@ describe('Multi-Select Facets', () => {
           cy.get('label')
             .contains('Ames, IA')
             .click();
-          cy.wait('@postQuery').as('clearedFacetsQueryObject');
+          cy.wait('@postQueryFacets').as('clearedFacetsQueryObject');
         });
 
         it('makes a query without any selected facets', () => {
