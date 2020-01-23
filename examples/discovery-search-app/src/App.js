@@ -88,7 +88,7 @@ function SearchPage() {
   );
 }
 
-function PreviewPage(props) {
+function PreviewPage({ document }) {
   const { setSelectedResult } = useContext(SearchApi);
 
   const tabs = [
@@ -98,7 +98,7 @@ function PreviewPage(props) {
     }
   ];
 
-  if (canRenderCIDocument(props.document)) {
+  if (canRenderCIDocument(document)) {
     tabs.push({ name: 'CI', Component: CIDocument });
   }
 
@@ -137,7 +137,7 @@ function PreviewPage(props) {
                   [`${settings.prefix}--search-app__content`]: true
                 })}
               >
-                <Component document={props.document} />
+                <Component document={document} />
               </div>
             )}
           />
