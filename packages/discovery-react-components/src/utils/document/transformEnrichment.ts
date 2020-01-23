@@ -75,9 +75,7 @@ function createAttributeObjects(
         (att: Attributes): Attributes => createAttributeObject(att, attr)
       );
     } else {
-      return (
-        isValidAttribute(parsedObject[attr]) && createAttributeObject(parsedObject[attr], attr)
-      );
+      return hasLocationData(parsedObject[attr]) && createAttributeObject(parsedObject[attr], attr);
     }
   });
 
@@ -146,7 +144,7 @@ function getAllAttributesInRelation({ relations }: Relations): Attributes[] {
 
 // Function checks if attribute is valid and has location data in it.
 // Since have observed noisy data before so this function is required.
-function isValidAttribute(attr: Attributes): boolean {
+function hasLocationData(attr: Attributes): boolean {
   return !!(attr && attr.location && attr.location.begin && attr.location.end);
 }
 

@@ -46,11 +46,7 @@ export interface ItemMap {
   bySection: any;
 }
 
-export type EnrichedHtml =
-  | EnrichedHtmlContract
-  | EnrichedHtmlInvoice
-  | EnrichedHtmlPurchaseOrder
-  | any;
+export type EnrichedHtml = EnrichedHtmlContract | EnrichedHtmlInvoice | EnrichedHtmlPurchaseOrder;
 
 interface EnrichedHtmlContract {
   contract: Contract;
