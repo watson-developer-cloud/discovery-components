@@ -133,7 +133,7 @@ function PreviewPage(props) {
             renderContent={({ selected }) => (
               <div
                 className={cx({
-                  [`${settings.prefix}--search-app__tabs-hidden`]: !selected,
+                  [`${settings.prefix}--search-app__tabs--hidden`]: !selected,
                   [`${settings.prefix}--search-app__content`]: true
                 })}
               >
