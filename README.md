@@ -230,7 +230,7 @@ const MyCustomComponent = () => {
   // DiscoveryV2.QueryParams in https://github.com/watson-developer-cloud/node-sdk/blob/master/discovery/v2.ts
   const searchParameters = {
     projectId: 'REPLACE_ME',
-    naturalLanguageQuery: 'IBM'
+    naturalLanguageQuery: 'SEARCH TERM'
   };
 
   return (
