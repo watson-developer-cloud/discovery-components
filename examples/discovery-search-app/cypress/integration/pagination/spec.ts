@@ -1,19 +1,10 @@
+import { mockHomePage } from '../../support/utils';
+
 const itemsPerPageOptions = ['5', '10', '20', '30', '40', '50'];
 
 describe('Pagination', () => {
   beforeEach(() => {
-    // Sets up and handles the collections, component settings, and initial query requests that run on page-load
-    cy.server();
-    cy.fixture('collections/collections.json').as('collectionsJSON');
-    cy.route('GET', '**/collections?version=2019-01-01', '@collectionsJSON').as('getCollections');
-    cy.fixture('component_settings/componentSettings.json').as('componentSettingsJSON');
-    cy.route('GET', '**/component_settings?version=2019-01-01', '@componentSettingsJSON').as(
-      'getComponentSettings'
-    );
-    cy.fixture('query/query.json').as('queryJSON');
-    cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQuery');
-    cy.visit('/');
-    cy.wait(['@getCollections', '@getComponentSettings', '@postQuery']);
+    mockHomePage();
 
     // Set up/override routes & fixtures that are specific to this file
     cy.fixture('query/multiPageResults.json').as('multiPageResultsJSON');
@@ -70,6 +61,7 @@ describe('Pagination', () => {
 
       it('correctly requests the next page', () => {
         cy.get('@nextPageQueryObject')
+          //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
           .its('requestBody.offset')
           .should('eq', 5);
       });
@@ -82,6 +74,7 @@ describe('Pagination', () => {
 
         it('correctly requests the previous page', () => {
           cy.get('@prevPageQueryObject')
+            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.offset')
             .should('eq', 0);
         });
@@ -98,6 +91,7 @@ describe('Pagination', () => {
 
       it('makes a query for the correct page of results', () => {
         cy.get('@secondPageQueryObject')
+          //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
           .its('requestBody.offset')
           .should('eq', 5);
       });
@@ -134,9 +128,11 @@ describe('Pagination', () => {
 
         it('returns to the first page, with the correct size', () => {
           cy.get('@largerpostQueryMultiPageObject')
+            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.count')
             .should('eq', 50);
           cy.get('@largerpostQueryMultiPageObject')
+            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.offset')
             .should('eq', 0);
           cy.get('.bx--pagination__right')
@@ -156,6 +152,7 @@ describe('Pagination', () => {
 
       it('makes a request for 5 results', () => {
         cy.get('@fiveResultspostQueryMultiPageObject')
+          //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
           .its('requestBody.count')
           .should('eq', 5);
       });
@@ -175,6 +172,7 @@ describe('Pagination', () => {
 
       it('makes a request for 10 results', () => {
         cy.get('@tenResultsPerPageQueryObject')
+          //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
           .its('requestBody.count')
           .should('eq', 10);
       });
@@ -194,6 +192,7 @@ describe('Pagination', () => {
 
       it('makes a request for 50 results', () => {
         cy.get('@fiftyResultsPerPageQueryObject')
+          //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
           .its('requestBody.count')
           .should('eq', 50);
       });
