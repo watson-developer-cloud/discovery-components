@@ -106,5 +106,8 @@
     "packages/*",
     "examples/*"
   ],
-  "dependencies": {}
+  "dependencies": {},
+  "resolutions": {
+    "cypress": "3.8.2"
+  }
 }
