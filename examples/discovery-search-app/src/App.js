@@ -3,9 +3,8 @@ import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { NoAuthAuthenticator } from 'ibm-watson/auth';
 import './app.scss';
 import { settings } from 'carbon-components';
-import { Button } from 'carbon-components-react';
+import { Button, Tabs, Tab } from 'carbon-components-react';
 import Close from '@carbon/icons-react/lib/close/16';
-import { Tabs, Tab } from 'carbon-components-react';
 import cx from 'classnames';
 
 import {
@@ -92,24 +91,16 @@ function SearchPage() {
 function PreviewPage(props) {
   const { setSelectedResult } = useContext(SearchApi);
 
-  function doRenderTab(testResult, content) {
-    if (testResult) {
-      return [content];
-    }
-    return [];
-  }
-
   const tabs = [
     {
       name: 'Document',
       Component: DocumentPreview
-    },
-    // Check if Content Intelligence (chewy) feature is enabled
-    ...doRenderTab(canRenderCIDocument(props.document), {
-      name: 'CI',
-      Component: CIDocument
-    })
+    }
   ];
+
+  if (canRenderCIDocument(props.document)) {
+    tabs.push({ name: 'CI', Component: CIDocument });
+  }
 
   function back(evt) {
     evt.preventDefault();
