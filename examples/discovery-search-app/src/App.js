@@ -21,7 +21,7 @@ const App = () => {
   // TODO: this is a dummy client to route requests to the server since CP4D doesn't support CORS
   const authenticator = new NoAuthAuthenticator();
   const searchClient = new DiscoveryV2({
-    url: 'http://localhost:4000/api',
+    url: `${window.location.href}api`,
     version: '2019-01-01',
     authenticator
   });
