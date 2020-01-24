@@ -9,72 +9,154 @@ import {
   BoundFunction,
   GetAllBy,
   GetByText,
-  FindByText
+  FindByText,
+  QueryByText
 } from '@testing-library/react';
 import 'utils/test/createRange.mock';
 import CIDocument from '../CIDocument';
 import contract from '../__fixtures__/contract.json';
+import purchaseOrder from '../__fixtures__/po-index_op.json';
+import invoice from '../__fixtures__/invoice-index_op.json';
 
 describe('<CIDocument />', () => {
   let getAllByRole: BoundFunction<GetAllBy<any[]>>,
     getByTestId: BoundFunction<GetByText>,
     getByText: BoundFunction<GetByText>,
-    getByTitle: BoundFunction<GetByText>,
-    findByText: BoundFunction<FindByText>;
+    findByText: BoundFunction<FindByText>,
+    findByTitle: BoundFunction<FindByText>,
+    queryByTitle: BoundFunction<QueryByText>;
 
-  beforeEach(() => {
-    act(() => {
-      ({ getAllByRole, getByTestId, getByText, getByTitle, findByText } = render(
-        <CIDocument document={contract} overrideDocWidth={400} overrideDocHeight={600} />
-      ));
+  describe('Invoice Document', () => {
+    beforeEach(() => {
+      act(() => {
+        ({ getAllByRole, getByTestId, getByText, findByText, findByTitle, queryByTitle } = render(
+          <CIDocument document={invoice} overrideDocWidth={400} overrideDocHeight={600} />
+        ));
+      });
     });
-  });
 
-  it('filters and navigates forward through the list of elements', async () => {
-    const filterCheckbox = await waitForElement(() => {
+    it('loads correct document', async () => {
+      // check for (partial) document text
+      await findByText('New Zealand - BOC New Zealand Ltd - Weekly - Service Fee Per Employee', {
+        exact: false
+      });
+      // check for file name
+      getByText('invoice.pdf');
+      // check for a filter name
       const filters = getByTestId('Filters');
-      return globalGetByLabelText(filters, 'Confidentiality(16)');
+      globalGetByText(filters, 'Currency');
     });
-    fireEvent.click(filterCheckbox);
 
-    const nextButton = getByTitle('Next', { selector: 'button' });
+    it('selects Relations and checks details panel', async () => {
+      const tabButton = await waitForElement(() => {
+        const tabs = getByTestId('tabs');
+        return globalGetByText(tabs, 'Relations');
+      });
+      fireEvent.click(tabButton);
 
-    const nav = getAllByRole('navigation')[0];
-    globalGetByText(nav, '1 / 16');
+      const filterSet = await waitForElement(() => {
+        const filters = getByTestId('Filters');
+        return globalGetByLabelText(filters, 'Invoice parts(5)');
+      });
+      fireEvent.click(filterSet);
 
-    fireEvent.click(nextButton);
-    globalGetByText(nav, '2 / 16');
-
-    fireEvent.click(nextButton);
-    globalGetByText(nav, '3 / 16');
+      const detailsPane = getByTestId('detailsPane');
+      globalGetByText(detailsPane, 'Invoice parts');
+      globalGetByText(detailsPane, 'Part description');
+    });
   });
 
-  it('filters and navigates backward through the list of elements', async () => {
-    const filterCheckbox = await waitForElement(() => {
+  describe('Purchase Order', () => {
+    beforeEach(() => {
+      act(() => {
+        ({ getAllByRole, getByTestId, getByText, findByText, findByTitle } = render(
+          <CIDocument document={purchaseOrder} overrideDocWidth={400} overrideDocHeight={600} />
+        ));
+      });
+    });
+
+    it('loads correct document', async () => {
+      // check for (partial) document text
+      await findByText('Line Price in EUR', { exact: false });
+      // check for file name
+      getByText('purchase_orders.pdf');
+      // check for a filter name
       const filters = getByTestId('Filters');
-      return globalGetByLabelText(filters, 'Communication(96)');
+      globalGetByText(filters, 'Currency');
     });
-    fireEvent.click(filterCheckbox);
 
-    const previousButton = getByTitle('Previous', { selector: 'button' });
+    it('filters and navigates forward through the list of elements', async () => {
+      const filterCheckbox = await waitForElement(() => {
+        const filters = getByTestId('Filters');
+        return globalGetByLabelText(filters, 'Currency(2)');
+      });
+      fireEvent.click(filterCheckbox);
 
-    const nav = getAllByRole('navigation')[0];
-    globalGetByText(nav, '1 / 96');
+      const nextButton = await findByTitle('Next', { selector: 'button' });
 
-    fireEvent.click(previousButton);
-    globalGetByText(nav, '96 / 96');
+      const nav = getAllByRole('navigation')[0];
+      globalGetByText(nav, '1 / 2');
 
-    fireEvent.click(previousButton);
-    globalGetByText(nav, '95 / 96');
+      fireEvent.click(nextButton);
+      globalGetByText(nav, '2 / 2');
+
+      fireEvent.click(nextButton);
+      globalGetByText(nav, '1 / 2');
+    });
+
+    it('filters and navigates backward through the list of elements', async () => {
+      const filterCheckbox = await waitForElement(() => {
+        const filters = getByTestId('Filters');
+        return globalGetByLabelText(filters, 'Currency(2)');
+      });
+      fireEvent.click(filterCheckbox);
+
+      const previousButton = await findByTitle('Previous', { selector: 'button' });
+
+      const nav = getAllByRole('navigation')[0];
+      globalGetByText(nav, '1 / 2');
+
+      fireEvent.click(previousButton);
+      globalGetByText(nav, '2 / 2');
+
+      fireEvent.click(previousButton);
+      globalGetByText(nav, '1 / 2');
+    });
+
+    it('selects a filter and then resets filters', async () => {
+      const filterCheckbox = await waitForElement(() => {
+        const filters = getByTestId('Filters');
+        return globalGetByLabelText(filters, 'Suppliers(1)');
+      });
+      fireEvent.click(filterCheckbox);
+
+      const filters = getByTestId('Filters');
+      const resetButton = globalGetByText(filters, 'Reset filters');
+      fireEvent.click(resetButton);
+
+      // Navigation should be disabled now
+      expect(queryByTitle('Next', { selector: 'button' })).toBeNull();
+    });
   });
 
-  it('renders without crashing', async () => {
-    // check for (partial) document text
-    findByText('On 22 December 2008 ART EFFECTS LIMITED and Customer', { exact: false });
-    // check for file name
-    getByText('Art Effects Koya Creative Base TSA 2008.pdf');
-    // check for a filter name
-    const filters = getByTestId('Filters');
-    globalGetByText(filters, 'Amendments');
+  // Minimal tests should be done here as this is a larger file
+  describe('Contract', () => {
+    beforeEach(() => {
+      act(() => {
+        ({ getAllByRole, getByTestId, getByText, findByText, findByTitle } = render(
+          <CIDocument document={contract} overrideDocWidth={400} overrideDocHeight={600} />
+        ));
+      });
+    });
+
+    it('loads correct document', async () => {
+      // check for (partial) document text
+      await findByText('On 22 December 2008 ART EFFECTS LIMITED and Customer', { exact: false });
+      // check for file name
+      getByText('Art Effects Koya Creative Base TSA 2008.pdf');
+      // check for a filter name
+      const filters = getByTestId('Filters');
+      globalGetByText(filters, 'Amendments');
+    });
   });
 });
