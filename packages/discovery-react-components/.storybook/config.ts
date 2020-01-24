@@ -15,8 +15,10 @@ addParameters({
 
 const req =
   process.env.STORYBOOK_BUILD_MODE == 'production'
-    ? require.context('../src', true, /.*\/__stories__\/.*\.stories.tsx$/)
-    : require.context('../src', true, /\.stories.tsx$/);
+    ? require.context('../src', true, /.*\/__stories__\/.*\.stories.(tsx|mdx)$/)
+    : require.context('../src', true, /\.stories.(tsx|mdx)$/);
+
+console.log('keys', req.keys())
 
 function loadStories() {
   req.keys().forEach(req);
