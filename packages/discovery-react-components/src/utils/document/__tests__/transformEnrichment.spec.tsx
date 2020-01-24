@@ -1,5 +1,4 @@
 import transformEnrichment from '../transformEnrichment';
-import isEqual from 'lodash/isEqual';
 import contractData from 'components/CIDocument/components/CIDocument/__fixtures__/contract.json';
 import invoiceData from 'components/CIDocument/components/CIDocument/__fixtures__/invoice-index_op.json';
 import purchaseOrderData from 'components/CIDocument/components/CIDocument/__fixtures__/po-index_op.json';
@@ -20,7 +19,6 @@ describe('transformEnrichment - contracts', () => {
   });
 
   it('adds metadata to contracts', () => {
-    expect(isEqual(enriched_html, transformedDoc)).toBeFalsy();
     expect(transformedDoc[0].contract.metadata).toHaveLength(2);
     expect(transformedDoc[0].contract.metadata[0].metadataType).toEqual('effective_dates');
   });
@@ -41,7 +39,6 @@ describe('transformEnrichment - Invoice', () => {
   });
 
   it('adds attributes and relations to invoices', () => {
-    expect(isEqual(enriched_html, transformedDoc)).toBeFalsy();
     expect(transformedDoc[0].invoice.attributes).toHaveLength(5);
     expect(transformedDoc[0].invoice.attributes[0]).toEqual({
       type: 'suppliers',
@@ -66,7 +63,6 @@ describe('transformEnrichment - Purchase orders', () => {
   });
 
   it('adds attributes and relations to purchase order data', () => {
-    expect(isEqual(enriched_html, transformedDoc)).toBeFalsy();
     expect(transformedDoc[0].purchase_order.attributes).toHaveLength(5);
     expect(transformedDoc[0].purchase_order.attributes[0]).toEqual({
       type: 'purchase_order_numbers',

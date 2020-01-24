@@ -3,7 +3,6 @@ import purchaseOrderOntology from './ontology/purchase_orders';
 import flattenDeep from 'lodash/flattenDeep';
 import { getId } from './idUtils';
 import { ENRICHMENTS, getEnrichmentName } from 'components/CIDocument/utils/enrichmentUtils';
-import cloneDeep from 'lodash/cloneDeep';
 import {
   EnrichedHtml,
   Contract,
@@ -149,15 +148,13 @@ function hasLocationData(attr: Attributes): boolean {
 }
 
 export default function transformEnrichment(enrichedHtml: EnrichedHtml[]): EnrichedHtml[] {
-  const newEnrichedHtml = cloneDeep(enrichedHtml);
-
-  if (newEnrichedHtml && newEnrichedHtml[0]) {
-    const enrichmentName = getEnrichmentName(newEnrichedHtml[0]);
-    const enrichment = newEnrichedHtml[0][enrichmentName];
+  if (enrichedHtml && enrichedHtml[0]) {
+    const enrichmentName = getEnrichmentName(enrichedHtml[0]);
+    const enrichment = enrichedHtml[0][enrichmentName];
     if (enrichment) {
       modelMapping[enrichmentName](enrichment, enrichmentName);
     }
   }
 
-  return newEnrichedHtml;
+  return enrichedHtml;
 }
