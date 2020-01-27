@@ -1,0 +1,1 @@
+export { mockHomePage } from './defaultHomepage';

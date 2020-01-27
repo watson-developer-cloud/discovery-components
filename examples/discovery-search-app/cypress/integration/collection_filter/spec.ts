@@ -1,18 +1,8 @@
+import { mockHomePage } from '../../support/utils';
+
 describe('Collection Filter', () => {
   beforeEach(() => {
-    //TODO: swap this section with the helper function, once that code is merged in
-    // Sets up and handles the collections, component settings, and initial query requests that run on page-load
-    cy.server();
-    cy.fixture('collections/collections.json').as('collectionsJSON');
-    cy.route('GET', '**/collections?version=2019-01-01', '@collectionsJSON').as('getCollections');
-    cy.fixture('component_settings/componentSettings.json').as('componentSettingsJSON');
-    cy.route('GET', '**/component_settings?version=2019-01-01', '@componentSettingsJSON').as(
-      'getComponentSettings'
-    );
-    cy.fixture('query/query.json').as('queryJSON');
-    cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQuery');
-    cy.visit('/');
-    cy.wait(['@getCollections', '@getComponentSettings', '@postQuery']);
+    mockHomePage();
 
     // Set up/override routes & fixtures that are specific to this file
     cy.fixture('query/singleCollectionQuery.json').as('singleCollectionQueryJSON');
@@ -68,7 +58,7 @@ describe('Collection Filter', () => {
 
         it('should make a query against only the selected collection', () => {
           cy.get('@singleCollectionQueryObject')
-            //@ts-ignore
+            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.collection_ids')
             .should('contain', 'paris19221939')
             .and('have.length', 1);
@@ -87,7 +77,7 @@ describe('Collection Filter', () => {
 
           it('makes a query against all available collections', () => {
             cy.get('@clearedCollectionsQueryObject')
-              //@ts-ignore
+              //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
               .its('requestBody.collection_ids')
               .should('be.empty');
           });
@@ -106,7 +96,7 @@ describe('Collection Filter', () => {
 
           it('makes a query against both of the selected collections', () => {
             cy.get('@doubleCollectionQueryObject')
-              //@ts-ignore
+              //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string//@ts-ignore
               .its('requestBody.collection_ids')
               .should('contain', 'deadspin9876')
               .and('contain', 'paris19221939');
@@ -121,7 +111,7 @@ describe('Collection Filter', () => {
 
             it('makes a query against all available collections', () => {
               cy.get('@originalQueryObject')
-                //@ts-ignore
+                //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
                 .its('requestBody.collection_ids')
                 .should('be.empty');
             });
