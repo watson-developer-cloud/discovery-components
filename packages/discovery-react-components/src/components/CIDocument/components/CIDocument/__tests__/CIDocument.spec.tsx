@@ -14,9 +14,9 @@ import {
 } from '@testing-library/react';
 import 'utils/test/createRange.mock';
 import CIDocument from '../CIDocument';
-import contract from '../__fixtures__/contract.json';
 import purchaseOrder from '../__fixtures__/po-index_op.json';
 import invoice from '../__fixtures__/invoice-index_op.json';
+import shortContract from '../__fixtures__/shortenedContract.json';
 
 describe('<CIDocument />', () => {
   let getAllByRole: BoundFunction<GetAllBy<any[]>>,
@@ -139,12 +139,12 @@ describe('<CIDocument />', () => {
     });
   });
 
-  // Minimal tests should be done here as this is a larger file
+  // Uses a shorter version of the contract.json file as larger files will cause long test times
   describe('Contract', () => {
     beforeEach(() => {
       act(() => {
         ({ getAllByRole, getByTestId, getByText, findByText, findByTitle } = render(
-          <CIDocument document={contract} overrideDocWidth={400} overrideDocHeight={600} />
+          <CIDocument document={shortContract} overrideDocWidth={400} overrideDocHeight={600} />
         ));
       });
     });
@@ -156,7 +156,7 @@ describe('<CIDocument />', () => {
       getByText('Art Effects Koya Creative Base TSA 2008.pdf');
       // check for a filter name
       const filters = getByTestId('Filters');
-      globalGetByText(filters, 'Amendments');
+      globalGetByText(filters, 'Intellectual Property');
     });
   });
 });
