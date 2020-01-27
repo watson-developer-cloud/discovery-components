@@ -49,7 +49,7 @@ describe('<CIDocument />', () => {
 
     it('selects Relations and checks details panel', async () => {
       const tabButton = await waitForElement(() => {
-        const tabs = getByTestId('tabs');
+        const tabs = getByTestId('contract-tabs');
         return globalGetByText(tabs, 'Relations');
       });
       fireEvent.click(tabButton);
