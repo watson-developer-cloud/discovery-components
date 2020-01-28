@@ -15,11 +15,17 @@ export function getTextMappings(
       try {
         mappings = JSON.parse(mappings);
       } catch (err) {
-        // fail gracefully
+        // fail gracefully - text mapping cannot be parsed
         console.error('Failure parsing text_mappings', err);
         mappings = null;
       }
+    } else {
+      // text mapping is not a string
+      mappings = null;
     }
+  } else {
+    // no text mappings are present
+    mappings = null;
   }
   return mappings;
 }
