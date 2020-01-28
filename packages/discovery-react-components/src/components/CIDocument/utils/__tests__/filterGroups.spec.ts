@@ -1,17 +1,18 @@
 import { getBaseFilterGroups, FilterGroupWithFns } from '../filterGroups';
 
-describe('filterGroups', () => {
-  const contractMessages = {
-    FILTER_GROUP_A: 'Filter Group A',
-    FILTER_GROUP_B: 'Filter Group B',
-    FILTER_GROUP_C: 'Filter Group C'
-  };
-  const invoiceMessages = {
-    relations: 'Filter Group A',
-    attributes: 'Filter Group B'
-    //attributes: 'Filter Group C'
-  };
+const contractMessages = {
+  contractCategoryLabel: 'Filter Group A',
+  contractNatureLabel: 'Filter Group B',
+  contractPartyLabel: 'Filter Group C',
+  contractAttributeLabel: 'Filter Group D'
+};
 
+const invoiceMessages = {
+  invoiceAttributeLabel: 'Filter Group E',
+  invoiceRelationsLabel: 'Filter Group F'
+};
+
+describe('filterGroups', () => {
   it('getBaseFilterGroups', () => {
     console.log(getBaseFilterGroups('foobar', contractMessages));
     console.log(getBaseFilterGroups('contract', contractMessages));
