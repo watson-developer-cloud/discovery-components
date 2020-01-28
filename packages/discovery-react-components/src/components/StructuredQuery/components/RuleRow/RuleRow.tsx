@@ -75,8 +75,7 @@ export const RuleRow: FC<RuleRowProps> = ({
   // }
 
   const handleValueInputChange = (event: SyntheticEvent<HTMLInputElement>) => {
-    const target: HTMLInputElement = event.currentTarget;
-    const valueText = target.value;
+    const valueText: HTMLInputElement['value'] = event.currentTarget.value;
     setStructuredQuerySelection({
       ...structuredQuerySelection,
       rows: {
