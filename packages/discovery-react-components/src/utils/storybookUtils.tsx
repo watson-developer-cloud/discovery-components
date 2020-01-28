@@ -52,4 +52,9 @@ export class DummySearchClient {
     action('getComponentSettings')(getComponentSettingsParams);
     return createDummyResponsePromise({});
   }
+
+  public async listFields(listFieldsParams: DiscoveryV2.ListFieldsParams): Promise<any> {
+    action('listFields')(listFieldsParams);
+    return createDummyResponsePromise({});
+  }
 }
