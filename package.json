@@ -6,6 +6,7 @@
     "@carbon/icons": "^10.5.0",
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
+    "@cypress/webpack-preprocessor": "^4.1.1",
     "@rollup/plugin-commonjs": "^11.0.0",
     "@rollup/plugin-json": "^4.0.1",
     "@rollup/plugin-node-resolve": "^6.0.0",
@@ -40,7 +41,7 @@
     "carbon-components-react": "^7.7.0",
     "carbon-icons": "^7.0.7",
     "cross-env": "^5.1.4",
-    "cypress": "3.8.0",
+    "cypress": "3.8.2",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.2.0",
     "eslint-plugin-prettier": "^3.1.0",
@@ -71,6 +72,7 @@
     "seedrandom": "^3.0.5",
     "source-map-explorer": "2.0.1",
     "start-server-and-test": "^1.10.0",
+    "ts-loader": "^6.2.1",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
     "typescript": "~3.6.2",
     "vue": "^2.6.11",
@@ -104,5 +106,8 @@
     "packages/*",
     "examples/*"
   ],
-  "dependencies": {}
+  "dependencies": {},
+  "resolutions": {
+    "cypress": "3.8.2"
+  }
 }
