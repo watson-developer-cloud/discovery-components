@@ -327,7 +327,7 @@ const CIDocument: FC<CIDocumentProps> = ({
             selected={nonContractTabs.indexOf(selectedType)}
             onSelectionChange={(index: number): void => setSelectedType(nonContractTabs[index])}
             aria-label={messages.filtersTabLabel}
-            data-testid="contract-tabs"
+            data-testid="document-info-tabs"
           >
             {nonContractTabs.map(tab => (
               <Tab tabIndex={0} label={tabLabels[tab]} key={tab}>
@@ -351,7 +351,7 @@ const CIDocument: FC<CIDocumentProps> = ({
               onSelectionChangeContractTabs(index, setSelectedContractFilter, resetStates)
             }
             aria-label={messages.filtersTabLabel}
-            data-testid="contract-tabs"
+            data-testid="document-info-tabs"
           >
             <Tab tabIndex={0} label={messages.filtersTabLabel}>
               {!hasError &&
