@@ -196,12 +196,13 @@ export const useFieldsApi = (
     searchClient.listFields,
     searchClient
   );
+  function fetchFields() {
+    setFetchToken({ trigger: true });
+  }
   return [
     fieldsState,
     {
-      fetchFields: () => {
-        setFetchToken({ trigger: true });
-      },
+      fetchFields,
       setFieldsResponse
     }
   ];
@@ -252,6 +253,11 @@ export const useSearchResultsApi = (
     setData: setSearchResponse,
     setFetchToken
   } = useDataApi(searchParameters, overrideSearchResults, searchClient.query, searchClient);
+  // callback can be passed in here to return back data to the invoker of the search
+  // in the specific case here, we need to set our aggregation store after performing a search
+  function performSearch(callback?: (result: any) => void) {
+    setFetchToken({ trigger: true, callback });
+  }
   return [
     {
       ...searchState,
@@ -260,10 +266,7 @@ export const useSearchResultsApi = (
     {
       setSearchParameters,
       setSearchResponse,
-      // callback can be passed in here to return back data to the invoker of the search
-      // in the specific case here, we need to set our aggregation store after performing a search
-      performSearch: (callback?: (result: any) => void): void =>
-        setFetchToken({ trigger: true, callback })
+      performSearch
     }
   ];
 };
@@ -302,18 +305,18 @@ export const useFetchDocumentsApi = (
     searchClient.query,
     searchClient
   );
+
+  function fetchDocuments(filter: string, callback: (result: DiscoveryV2.QueryResponse) => void) {
+    setSearchParameters((currentSearchParameters: DiscoveryV2.QueryParams) => {
+      return { ...currentSearchParameters, filter };
+    });
+    setFetchToken({ trigger: true, callback });
+  }
+
   return [
     searchState,
     {
-      fetchDocuments: (
-        filter: string,
-        callback: (result: DiscoveryV2.QueryResponse) => void
-      ): void => {
-        setSearchParameters((currentSearchParameters: DiscoveryV2.QueryParams) => {
-          return { ...currentSearchParameters, filter };
-        });
-        setFetchToken({ trigger: true, callback });
-      }
+      fetchDocuments
     }
   ];
 };
@@ -361,6 +364,11 @@ export const useAutocompleteApi = (
     searchClient.getAutocompletion,
     searchClient
   );
+
+  function fetchAutocompletions(autocompleteParameters: DiscoveryV2.GetAutocompletionParams): void {
+    setAutocompleteParameters(autocompleteParameters);
+    setFetchToken({ trigger: true });
+  }
   return [
     {
       ...autocompletionsState,
@@ -368,10 +376,7 @@ export const useAutocompleteApi = (
     },
     {
       setAutocompletions,
-      fetchAutocompletions: (autocompleteParameters: DiscoveryV2.GetAutocompletionParams): void => {
-        setAutocompleteParameters(autocompleteParameters);
-        setFetchToken({ trigger: true });
-      }
+      fetchAutocompletions
     }
   ];
 };
