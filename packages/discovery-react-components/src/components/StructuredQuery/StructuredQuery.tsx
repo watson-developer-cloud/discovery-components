@@ -6,7 +6,7 @@ import { AddRuleGroupButton } from './components/AddRuleGroupButton/AddRuleGroup
 import { defaultMessages, Messages } from './messages';
 import { structuredQueryClass, structuredQueryRulesButtonsClass } from './cssClasses';
 import { MAX_NUM_SIBLING_RULE_ROWS, MAX_NUM_NESTED_RULE_GROUPS } from './constants';
-import { StructuredQuerySelection } from './utils/structuredQueryInterfaces';
+import { StructuredQuerySelection, stringifyStructuredQuerySelection } from './utils';
 import { withErrorBoundary } from 'react-error-boundary';
 import { FallbackComponent } from 'utils/FallbackComponent';
 import onErrorCallback from 'utils/onErrorCallback';
@@ -47,6 +47,10 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
     fetchFields();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleOnClick = () => {
+    stringifyStructuredQuerySelection(structuredQuerySelection);
+  };
 
   return (
     <div className={structuredQueryClass}>

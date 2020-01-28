@@ -6,7 +6,7 @@ import { formatMessage } from 'utils/formatMessage';
 import {
   StructuredQuerySelection,
   RuleGroupDropdownSelectedItem
-} from 'components/StructuredQuery/utils/structuredQueryInterfaces';
+} from 'components/StructuredQuery/utils';
 
 export interface RuleGroupDropdownProps {
   /**
@@ -42,6 +42,7 @@ export const RuleGroupDropdown: FC<RuleGroupDropdownProps> = ({
     setStructuredQuerySelection({
       ...structuredQuerySelection,
       groups: {
+        ...structuredQuerySelection.groups,
         [`${groupId}`]: {
           ...structuredQuerySelection.groups[groupId],
           operator: ruleGroupDropdownSelection.selectedItem.value

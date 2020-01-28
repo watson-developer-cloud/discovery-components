@@ -8,7 +8,7 @@ import {
   OperatorDropdownSelectedItem
 } from 'components/StructuredQuery/utils/structuredQueryInterfaces';
 import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
-import { getFieldNames } from 'components/StructuredQuery/utils/getFieldNames';
+import { getFieldNames } from 'components/StructuredQuery/utils';
 
 export interface RuleRowProps {
   /**

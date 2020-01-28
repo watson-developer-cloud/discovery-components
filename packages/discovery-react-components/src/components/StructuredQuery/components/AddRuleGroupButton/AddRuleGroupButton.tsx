@@ -2,8 +2,7 @@ import React, { FC, Dispatch, SetStateAction } from 'react';
 import { Button } from 'carbon-components-react';
 import Add16 from '@carbon/icons-react/lib/add/16';
 import { Messages } from 'components/StructuredQuery/messages';
-import { StructuredQuerySelection } from 'components/StructuredQuery/utils/structuredQueryInterfaces';
-import { getNewId } from 'components/StructuredQuery/utils/getNewId';
+import { StructuredQuerySelection, getNewId } from 'components/StructuredQuery/utils';
 
 export interface AddRuleGroupButtonProps {
   /**
@@ -29,7 +28,7 @@ export const AddRuleGroupButton: FC<AddRuleGroupButtonProps> = ({
     const newRuleGroupId = getNewId(structuredQuerySelection.groups);
     const newRuleRowId = getNewId(structuredQuerySelection.rows);
     setStructuredQuerySelection({
-      operator: ',',
+      ...structuredQuerySelection,
       groups: {
         ...structuredQuerySelection.groups,
         [`${newRuleGroupId}`]: {
