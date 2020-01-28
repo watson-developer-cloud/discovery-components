@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-beta.22](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.21...@ibm-watson/discovery-react-components@1.1.0-beta.22) (2020-01-28)
+
+
+### Features
+
+* implement fields API and use it in StructuredQuery ([#59](https://github.com/watson-developer-cloud/discovery-components/issues/59)) ([2a51e80](https://github.com/watson-developer-cloud/discovery-components/commit/2a51e80))
+
+
+
+
+
+# [1.1.0-beta.21](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.19...@ibm-watson/discovery-react-components@1.1.0-beta.21) (2020-01-23)
+
+
+### Bug Fixes
+
+* calculate DOM offset first, followed by TextNode ([#57](https://github.com/watson-developer-cloud/discovery-components/issues/57)) ([4215c2d](https://github.com/watson-developer-cloud/discovery-components/commit/4215c2d))
+* public storybook build ([#67](https://github.com/watson-developer-cloud/discovery-components/issues/67)) ([03a98e9](https://github.com/watson-developer-cloud/discovery-components/commit/03a98e9))
+* udpate CI Document documentation ([#70](https://github.com/watson-developer-cloud/discovery-components/issues/70)) ([0b2072b](https://github.com/watson-developer-cloud/discovery-components/commit/0b2072b))
+
+
+### Features
+
+* remove pdfFallback component ([#66](https://github.com/watson-developer-cloud/discovery-components/issues/66)) ([2d56124](https://github.com/watson-developer-cloud/discovery-components/commit/2d56124))
+
+
+
+
+
 # [1.1.0-beta.20](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.19...@ibm-watson/discovery-react-components@1.1.0-beta.20) (2020-01-22)
 
 

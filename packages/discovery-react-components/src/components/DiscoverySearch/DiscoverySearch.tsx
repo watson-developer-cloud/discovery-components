@@ -1,4 +1,4 @@
-import React, { createContext, FC, useEffect, useState, useCallback, useMemo } from 'react';
+import React, { createContext, FC, useEffect, useState, useMemo, useCallback } from 'react';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import {
   useDeepCompareEffect,
@@ -11,7 +11,9 @@ import {
   AutocompleteStore,
   useSearchResultsApi,
   useFetchDocumentsApi,
-  useAutocompleteApi
+  useAutocompleteApi,
+  useFieldsApi,
+  FieldsStore
 } from 'utils/useDataApi';
 import { SearchClient } from './types';
 import { withErrorBoundary } from 'react-error-boundary';
@@ -99,6 +101,7 @@ export interface SearchContextIFC {
   autocompletionStore: AutocompleteStore;
   componentSettings: DiscoveryV2.ComponentSettingsResponse | null;
   isResultsPaginationComponentHidden: boolean | undefined;
+  fieldsStore: FieldsStore;
 }
 
 export interface SearchApiIFC {
@@ -116,6 +119,7 @@ export interface SearchApiIFC {
   setIsResultsPaginationComponentHidden: (
     isResultsPaginationComponentHidden: boolean | React.SetStateAction<boolean | undefined>
   ) => void;
+  fetchFields: () => void;
 }
 
 export const searchApiDefaults = {
@@ -127,7 +131,8 @@ export const searchApiDefaults = {
   setSelectedResult: (): void => {},
   setAutocompletionOptions: (): void => {},
   setSearchParameters: (): void => {},
-  setIsResultsPaginationComponentHidden: (): void => {}
+  setIsResultsPaginationComponentHidden: (): void => {},
+  fetchFields: (): Promise<void> => Promise.resolve()
 };
 
 export const searchResponseStoreDefaults: SearchResponseStore = {
@@ -175,6 +180,15 @@ const aggregationQueryDefaults: Partial<DiscoveryV2.QueryParams> = {
   }
 };
 
+const fieldsStoreDefaults: FieldsStore = {
+  parameters: {
+    projectId: ''
+  },
+  data: null,
+  isLoading: false,
+  isError: false
+};
+
 export const searchContextDefaults = {
   aggregationResults: null,
   searchResponseStore: searchResponseStoreDefaults,
@@ -183,7 +197,8 @@ export const searchContextDefaults = {
   autocompletionStore: autocompletionStoreDefaults,
   collectionsResults: null,
   componentSettings: null,
-  isResultsPaginationComponentHidden: false
+  isResultsPaginationComponentHidden: false,
+  fieldsStore: fieldsStoreDefaults
 };
 
 export const SearchApi = createContext<SearchApiIFC>(searchApiDefaults);
@@ -396,6 +411,12 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
     [fetchDocuments, setSearchResponse]
   );
 
+  const [fieldsStore, { fetchFields }] = useFieldsApi({ projectId }, searchClient);
+
+  const handleFetchFields = useCallback(() => {
+    fetchFields();
+  }, [fetchFields]);
+
   const api = useMemo((): SearchApiIFC => {
     return {
       performSearch: handleSearch,
@@ -405,14 +426,16 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       setSelectedResult: handleSetSelectedResult,
       setAutocompletionOptions,
       setSearchParameters,
-      setIsResultsPaginationComponentHidden
+      setIsResultsPaginationComponentHidden,
+      fetchFields: handleFetchFields
     };
   }, [
+    handleSearch,
     handleFetchAggregations,
     handleFetchAutocompletions,
-    handleSearch,
     handleFetchDocuments,
-    setSearchParameters
+    setSearchParameters,
+    handleFetchFields
   ]);
 
   const state = useDeepCompareMemo(() => {
@@ -424,7 +447,8 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       selectedResult,
       collectionsResults,
       componentSettings,
-      isResultsPaginationComponentHidden
+      isResultsPaginationComponentHidden,
+      fieldsStore
     };
   }, [
     aggregationResults,
@@ -434,7 +458,8 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
     selectedResult,
     collectionsResults,
     componentSettings,
-    isResultsPaginationComponentHidden
+    isResultsPaginationComponentHidden,
+    fieldsStore
   ]);
 
   return (
