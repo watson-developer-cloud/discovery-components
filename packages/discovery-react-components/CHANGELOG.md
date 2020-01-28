@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-beta.23](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.22...@ibm-watson/discovery-react-components@1.1.0-beta.23) (2020-01-28)
+
+
+### Bug Fixes
+
+* endless fetch loop caused by eslint ([#79](https://github.com/watson-developer-cloud/discovery-components/issues/79)) ([0c5349d](https://github.com/watson-developer-cloud/discovery-components/commit/0c5349d))
+
+
+
+
+
 # [1.1.0-beta.22](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.21...@ibm-watson/discovery-react-components@1.1.0-beta.22) (2020-01-28)
 
 
