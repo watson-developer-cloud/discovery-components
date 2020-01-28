@@ -3,6 +3,7 @@ import { Button } from 'carbon-components-react';
 import Add16 from '@carbon/icons-react/lib/add/16';
 import { Messages } from 'components/StructuredQuery/messages';
 import { StructuredQuerySelection } from 'components/StructuredQuery/utils/structuredQueryInterfaces';
+import { getNewId } from 'components/StructuredQuery/utils/getNewId';
 
 export interface AddRuleRowButtonProps {
   /**
@@ -30,10 +31,7 @@ export const AddRuleRowButton: FC<AddRuleRowButtonProps> = ({
   setStructuredQuerySelection
 }) => {
   const handleOnClick = () => {
-    const newRuleRowId =
-      structuredQuerySelection.groups[groupId].rows.reduce((previousId, currentId) =>
-        Math.max(previousId, currentId)
-      ) + 1;
+    const newRuleRowId = getNewId(structuredQuerySelection.rows);
     setStructuredQuerySelection({
       ...structuredQuerySelection,
       groups: {
