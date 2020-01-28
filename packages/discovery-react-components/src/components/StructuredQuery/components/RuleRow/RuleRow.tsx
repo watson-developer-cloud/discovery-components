@@ -55,6 +55,19 @@ export const RuleRow: FC<RuleRowProps> = ({
   const showRemoveRuleRowButton =
     structuredQuerySelection.groups[groupId].rows.length > 1 || !isTopLevelGroup;
 
+  const handleFieldDropdownChange = (fieldSelection: { selectedItem: string }) => {
+    setStructuredQuerySelection({
+      ...structuredQuerySelection,
+      rows: {
+        ...structuredQuerySelection.rows,
+        [`${rowId}`]: {
+          ...structuredQuerySelection.rows[rowId],
+          field: fieldSelection.selectedItem
+        }
+      }
+    });
+  };
+
   const handleOperatorDropdownChange = (operatorSelection: OperatorDropdownSelectedItem) => {
     setStructuredQuerySelection({
       ...structuredQuerySelection,
@@ -67,19 +80,6 @@ export const RuleRow: FC<RuleRowProps> = ({
       }
     });
   };
-
-  // const handleFieldDropdownChange = (fieldSelection: { selectedItem: { label: string; value: string } }) => {
-  //   setStructuredQuerySelection({
-  //     ...structuredQuerySelection,
-  //     rows: {
-  //       ...structuredQuerySelection.rows,
-  //       [`${rowId}`]: {
-  //         ...structuredQuerySelection.rows[rowId],
-  //         field: fieldSelection.selectedItem.value
-  //       }
-  //     }
-  //   })
-  // }
 
   const handleValueInputChange = (event: SyntheticEvent<HTMLInputElement>) => {
     const valueText: HTMLInputElement['value'] = event.currentTarget.value;
@@ -112,7 +112,7 @@ export const RuleRow: FC<RuleRowProps> = ({
         placeholder={placeholderText}
         titleText={messages.fieldDropdownTitleText}
         disabled={fieldStoreLoading || fieldStoreError}
-        onChange={() => {}} // TODO make use of this param as well as 'selectedItem' to make this component controlled and start assembling queries with the dropdown selections
+        onChange={handleFieldDropdownChange}
       />
       <ComboBox
         id={`structured-query-rules-operator-${groupId}`}
