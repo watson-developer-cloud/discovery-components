@@ -30,10 +30,18 @@ export const AddRuleGroupButton: FC<AddRuleGroupButtonProps> = ({
     );
     const newRuleGroupId: number = parseInt(maxGroupId) + 1;
     setStructuredQuerySelection({
+      operator: ',',
       groups: {
         ...structuredQuerySelection.groups,
         [`${newRuleGroupId}`]: {
           rows: [0]
+        }
+      },
+      rows: {
+        0: {
+          field: '',
+          operator: '',
+          value: ''
         }
       },
       group_order: structuredQuerySelection.group_order.concat(newRuleGroupId)

@@ -42,6 +42,14 @@ export const AddRuleRowButton: FC<AddRuleRowButtonProps> = ({
           ...structuredQuerySelection.groups[groupId],
           rows: structuredQuerySelection.groups[groupId].rows.concat(newRuleRowId)
         }
+      },
+      rows: {
+        ...structuredQuerySelection.rows,
+        [`${newRuleRowId}`]: {
+          field: '',
+          operator: '',
+          value: ''
+        }
       }
     });
   };

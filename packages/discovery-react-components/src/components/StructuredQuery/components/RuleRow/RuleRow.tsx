@@ -1,9 +1,12 @@
-import React, { FC, Dispatch, SetStateAction } from 'react';
+import React, { FC, Dispatch, SetStateAction, SyntheticEvent } from 'react';
 import { ComboBox, TextInput } from 'carbon-components-react';
 import { RemoveRuleRowButton } from '../RemoveRuleRowButton/RemoveRuleRowButton';
 import { Messages } from 'components/StructuredQuery/messages';
 import { structuredQueryRulesClass } from 'components/StructuredQuery/cssClasses';
-import { StructuredQuerySelection } from 'components/StructuredQuery/utils/structuredQueryInterfaces';
+import {
+  StructuredQuerySelection,
+  OperatorDropdownSelectedItem
+} from 'components/StructuredQuery/utils/structuredQueryInterfaces';
 
 export interface RuleRowProps {
   /**
@@ -45,6 +48,47 @@ export const RuleRow: FC<RuleRowProps> = ({
   const showRemoveRuleRowButton =
     structuredQuerySelection.groups[groupId].rows.length > 1 || !isTopLevelGroup;
 
+  const handleOperatorDropdownChange = (operatorSelection: OperatorDropdownSelectedItem) => {
+    setStructuredQuerySelection({
+      ...structuredQuerySelection,
+      rows: {
+        ...structuredQuerySelection.rows,
+        [`${rowId}`]: {
+          ...structuredQuerySelection.rows[rowId],
+          operator: operatorSelection.selectedItem.value
+        }
+      }
+    });
+  };
+
+  // const handleFieldDropdownChange = (fieldSelection: { selectedItem: { label: string; value: string } }) => {
+  //   setStructuredQuerySelection({
+  //     ...structuredQuerySelection,
+  //     rows: {
+  //       ...structuredQuerySelection.rows,
+  //       [`${rowId}`]: {
+  //         ...structuredQuerySelection.rows[rowId],
+  //         field: fieldSelection.selectedItem.value
+  //       }
+  //     }
+  //   })
+  // }
+
+  const handleValueInputChange = (event: SyntheticEvent<HTMLInputElement>) => {
+    const target: HTMLInputElement = event.currentTarget;
+    const valueText = target.value;
+    setStructuredQuerySelection({
+      ...structuredQuerySelection,
+      rows: {
+        ...structuredQuerySelection.rows,
+        [`${rowId}`]: {
+          ...structuredQuerySelection.rows[rowId],
+          value: valueText
+        }
+      }
+    });
+  };
+
   return (
     <div className={structuredQueryRulesClass} data-testid={`rule-row-${groupId}`}>
       <ComboBox
@@ -54,17 +98,20 @@ export const RuleRow: FC<RuleRowProps> = ({
         items={[]}
         placeholder={messages.fieldDropdownPlaceholderText}
         titleText={messages.fieldDropdownTitleText}
+        // onChange={handleFieldDropdownChange}
       />
       <ComboBox
         id={`structured-query-rules-operator-${groupId}`}
         items={operatorDropdownItems}
         placeholder={messages.operatorDropdownPlaceholderText}
         titleText={messages.operatorDropdownTitleText}
+        onChange={handleOperatorDropdownChange}
       />
       <TextInput
         id={`structured-query-rules-value-${groupId}`}
         labelText={messages.valueInputLabelText}
         placeholder={messages.valueInputPlaceholderText}
+        onChange={handleValueInputChange}
       />
       {showRemoveRuleRowButton && (
         <RemoveRuleRowButton

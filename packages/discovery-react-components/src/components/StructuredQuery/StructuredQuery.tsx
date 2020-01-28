@@ -22,8 +22,16 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
   const [structuredQuerySelection, setStructuredQuerySelection] = useState<
     StructuredQuerySelection
   >({
+    operator: ',',
     groups: {
       0: { rows: [0] }
+    },
+    rows: {
+      0: {
+        field: '',
+        operator: '',
+        value: ''
+      }
     },
     group_order: [0]
   });

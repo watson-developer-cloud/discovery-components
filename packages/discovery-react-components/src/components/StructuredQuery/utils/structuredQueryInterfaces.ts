@@ -1,12 +1,27 @@
 export interface Row {
-  rows: number[];
+  [key: number]: {
+    field: string;
+    operator: '' | ',' | '|';
+    value: string;
+  };
 }
 
 export interface Group {
-  [key: number]: Row;
+  [key: number]: {
+    rows: number[];
+  };
 }
 
 export interface StructuredQuerySelection {
+  operator: ',' | '|';
   groups: Group;
   group_order: number[];
+  rows: Row;
+}
+
+export interface OperatorDropdownSelectedItem {
+  selectedItem: {
+    label: string;
+    value: '::' | '::!' | ':' | ':!';
+  };
 }
