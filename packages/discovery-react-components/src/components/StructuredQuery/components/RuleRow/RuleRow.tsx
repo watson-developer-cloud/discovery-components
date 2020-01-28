@@ -1,4 +1,4 @@
-import React, { FC, Dispatch, SetStateAction, SyntheticEvent } from 'react';
+import React, { FC, Dispatch, SetStateAction, useContext, SyntheticEvent } from 'react';
 import { ComboBox, TextInput } from 'carbon-components-react';
 import { RemoveRuleRowButton } from '../RemoveRuleRowButton/RemoveRuleRowButton';
 import { Messages } from 'components/StructuredQuery/messages';
@@ -7,6 +7,8 @@ import {
   StructuredQuerySelection,
   OperatorDropdownSelectedItem
 } from 'components/StructuredQuery/utils/structuredQueryInterfaces';
+import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
+import { getFieldNames } from 'components/StructuredQuery/utils/getFieldNames';
 
 export interface RuleRowProps {
   /**
@@ -38,6 +40,11 @@ export const RuleRow: FC<RuleRowProps> = ({
   structuredQuerySelection,
   setStructuredQuerySelection
 }) => {
+  const {
+    fieldsStore: { data: fieldsResponse, isLoading: fieldStoreLoading, isError: fieldStoreError }
+  } = useContext(SearchContext);
+  const projectFields: string[] = getFieldNames(fieldsResponse);
+
   const operatorDropdownItems = [
     { label: messages.operatorDropdownIsOptionText, value: '::' },
     { label: messages.operatorDropdownIsNotOptionText, value: '::!' },
@@ -88,16 +95,24 @@ export const RuleRow: FC<RuleRowProps> = ({
     });
   };
 
+  let placeholderText: string;
+  if (fieldStoreLoading) {
+    placeholderText = messages.fieldDropdownLoadingText;
+  } else if (fieldStoreError) {
+    placeholderText = messages.fieldDropdownErrorText;
+  } else {
+    placeholderText = messages.fieldDropdownPlaceholderText;
+  }
+
   return (
     <div className={structuredQueryRulesClass} data-testid={`rule-row-${groupId}`}>
       <ComboBox
         id={`structured-query-rules-field-${groupId}`}
-        // TODO: Items is empty for now as it's a required field and retrieving fields for the dropdown
-        // and adding them as items will be addressed in a future issue
-        items={[]}
-        placeholder={messages.fieldDropdownPlaceholderText}
+        items={projectFields}
+        placeholder={placeholderText}
         titleText={messages.fieldDropdownTitleText}
-        // onChange={handleFieldDropdownChange}
+        disabled={fieldStoreLoading || fieldStoreError}
+        onChange={() => {}} // TODO make use of this param as well as 'selectedItem' to make this component controlled and start assembling queries with the dropdown selections
       />
       <ComboBox
         id={`structured-query-rules-operator-${groupId}`}

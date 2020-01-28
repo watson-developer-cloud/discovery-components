@@ -25,6 +25,14 @@ export interface Messages {
    */
   fieldDropdownTitleText: string;
   /**
+   * override the default text to display when projectFields are being fetched
+   */
+  fieldDropdownLoadingText: string;
+  /**
+   * override the default text to display when there was an error loading project fields
+   */
+  fieldDropdownErrorText: string;
+  /**
    * override the default placeholder text for the Operator dropdown
    */
   operatorDropdownPlaceholderText: string;
@@ -77,6 +85,8 @@ export const defaultMessages: Messages = {
   ruleGroupDropdownLabelText: 'Choose whether to satisfy all or any of the following rules',
   fieldDropdownPlaceholderText: 'Select field',
   fieldDropdownTitleText: 'Field',
+  fieldDropdownLoadingText: 'Loading project fields',
+  fieldDropdownErrorText: 'Error loading project fields',
   operatorDropdownIsOptionText: 'is',
   operatorDropdownIsNotOptionText: 'is not',
   operatorDropdownContainsOptionText: 'contains',
