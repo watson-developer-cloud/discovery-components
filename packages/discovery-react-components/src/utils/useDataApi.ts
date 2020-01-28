@@ -83,14 +83,12 @@ interface FetchToken {
  * @param searchClientMethod - api method reference on the searchClient
  * @param searchClient - the client used to do data fetching
  */
+
 const useDataApi = (
   initialParameters: any,
   initialData: any,
   searchClientMethod: (params: any, callback?: any) => void | Promise<any>,
-  searchClient: Pick<
-    DiscoveryV2,
-    'query' | 'getAutocompletion' | 'listCollections' | 'getComponentSettings'
-  >
+  searchClient: SearchClient
 ): UseDataApiReturn => {
   // useRef stores state without rerenders
   // token to pass by reference instead of by value to keep track of cancellation state on unmount
@@ -161,6 +159,53 @@ interface ReducerState {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   parameters: any;
 }
+
+/**
+ * concrete implementation of the reducer state for fetchFields
+ */
+export interface FieldsStore extends ReducerState {
+  data: DiscoveryV2.ListFieldsResponse | null;
+  parameters: DiscoveryV2.ListFieldsParams;
+}
+
+/**
+ * actions used to interact with the fields api and fields state
+ */
+export interface FieldsStoreActions {
+  /**
+   * method used to invoke the search request with an optional callback to return the response data
+   */
+  fetchFields: () => void;
+  setFieldsResponse: (overrideResults: DiscoveryV2.ListFieldsResponse | null) => void;
+}
+
+/**
+ * concrete usage of the useDataApi helper method for fetching project fields
+ * @param searchParameters - initial search parameters to set
+ * @param searchClient - search client used to perform requests
+ * @return a 2-element array containing the fields store data and fields-specific store actions
+ */
+
+export const useFieldsApi = (
+  fetchFieldsParams: DiscoveryV2.ListFieldsParams,
+  searchClient: SearchClient
+): [FieldsStore, FieldsStoreActions] => {
+  const { state: fieldsState, setData: setFieldsResponse, setFetchToken } = useDataApi(
+    fetchFieldsParams,
+    null,
+    searchClient.listFields,
+    searchClient
+  );
+  return [
+    fieldsState,
+    {
+      fetchFields: () => {
+        setFetchToken({ trigger: true });
+      },
+      setFieldsResponse
+    }
+  ];
+};
 
 /**
  * concrete implementation of the reducer state for search
