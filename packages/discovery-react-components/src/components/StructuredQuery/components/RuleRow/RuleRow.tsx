@@ -14,7 +14,7 @@ export interface RuleRowProps {
    */
   messages: Messages;
   /**
-   * id of the group for the rule row to render, or 'top-level' if the top-level rule group
+   * id of the group for the rule row to render
    */
   groupId: number;
   /**

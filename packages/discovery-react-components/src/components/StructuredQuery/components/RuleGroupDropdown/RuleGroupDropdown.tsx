@@ -21,12 +21,17 @@ export interface RuleGroupDropdownProps {
    * used to set the structuredQuerySelection state
    */
   setStructuredQuerySelection: Dispatch<SetStateAction<StructuredQuerySelection>>;
+  /**
+   * id of the group for the rule row to render
+   */
+  groupId: number;
 }
 
 export const RuleGroupDropdown: FC<RuleGroupDropdownProps> = ({
   messages,
   structuredQuerySelection,
-  setStructuredQuerySelection
+  setStructuredQuerySelection,
+  groupId
 }) => {
   const ruleGroupDropdownItems = [
     { label: messages.ruleGroupDropdownAllOptionText, value: ',' },
@@ -36,7 +41,12 @@ export const RuleGroupDropdown: FC<RuleGroupDropdownProps> = ({
   const handleOnChange = (ruleGroupDropdownSelection: RuleGroupDropdownSelectedItem) => {
     setStructuredQuerySelection({
       ...structuredQuerySelection,
-      operator: ruleGroupDropdownSelection.selectedItem.value
+      groups: {
+        [`${groupId}`]: {
+          ...structuredQuerySelection.groups[groupId],
+          operator: ruleGroupDropdownSelection.selectedItem.value
+        }
+      }
     });
   };
 

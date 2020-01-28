@@ -9,11 +9,11 @@ export interface Row {
 export interface Group {
   [key: number]: {
     rows: number[];
+    operator: ',' | '|';
   };
 }
 
 export interface StructuredQuerySelection {
-  operator: ',' | '|';
   groups: Group;
   group_order: number[];
   rows: Row;
