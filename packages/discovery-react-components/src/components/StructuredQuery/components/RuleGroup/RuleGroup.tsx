@@ -46,7 +46,11 @@ export const RuleGroup: FC<RuleGroupProps> = ({
 
   return (
     <div className={ruleGroupClassNames.join(' ')} data-testid="rule-group">
-      <RuleGroupDropdown messages={messages} />
+      <RuleGroupDropdown
+        messages={messages}
+        setStructuredQuerySelection={setStructuredQuerySelection}
+        structuredQuerySelection={structuredQuerySelection}
+      />
       {rows.map(row => {
         const uniqueKey = groupId.toString() + row.toString();
         return (

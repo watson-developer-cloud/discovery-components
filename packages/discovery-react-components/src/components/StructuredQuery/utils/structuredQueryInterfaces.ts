@@ -25,3 +25,10 @@ export interface OperatorDropdownSelectedItem {
     value: '::' | '::!' | ':' | ':!';
   };
 }
+
+export interface RuleGroupDropdownSelectedItem {
+  selectedItem: {
+    label: 'any' | 'all';
+    value: ',' | '|';
+  };
+}
