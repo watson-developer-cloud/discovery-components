@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-beta.22](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.21...@ibm-watson/discovery-react-components@1.1.0-beta.22) (2020-01-28)
+
+
+### Features
+
+* implement fields API and use it in StructuredQuery ([#59](https://github.com/watson-developer-cloud/discovery-components/issues/59)) ([2a51e80](https://github.com/watson-developer-cloud/discovery-components/commit/2a51e80))
+
+
+
+
+
 # [1.1.0-beta.21](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.19...@ibm-watson/discovery-react-components@1.1.0-beta.21) (2020-01-23)
 
 
