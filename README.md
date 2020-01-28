@@ -12,6 +12,8 @@
 
 - [Prerequisites](#prerequisites)
 - [Running the example app](#running-the-example-app)
+  * [Setup script](#setup-script)
+  * [Manual setup](#manual-setup)
 - [Using Discovery Components in a React application](#using-discovery-components-in-a-react-application)
   * [Interacting with Discovery data in custom components](#interacting-with-discovery-data-in-custom-components)
 - [Development](#development)
@@ -43,6 +45,24 @@
 ## Running the example app
 
 The example app is a catalogue of the core components provided by this library. With little effort, you can see the functionality of each component using your real data. You can also modify the example code to see how you can customize Discovery Components to fit your needs.
+
+### Setup script
+
+The `runExampleApp.sh` script (located in `examples/discovery-search-app/scripts`) provides prompts to help configure and run the example application. The script iterates through the following steps:
+
+1. Verify all prerequite programs are installed
+1. Prompt user for necessary cluster information
+1. Configure the example application server
+1. Build the React components
+1. Ask the user if they'd like to start the example application
+
+If a user chooses not to start the example application, all previous configuration steps will be left intact so the application can be run at another time by running
+
+```
+yarn workspace discovery-search-app run start
+```
+
+### Manual setup
 
 1. Install [Yarn](https://yarnpkg.com/lang/en/docs/install), as it is required build the components locally.
 
