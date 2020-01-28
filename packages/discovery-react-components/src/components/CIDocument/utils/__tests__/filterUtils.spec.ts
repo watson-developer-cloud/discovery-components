@@ -25,13 +25,6 @@ const filterPartB2 = {
   type: 'radio'
 };
 
-const filterPartC1 = {
-  optionId: 'Filter C-1',
-  groupId: 'FILTER_GROUP_C',
-  type: 'checkbox',
-  checked: false
-};
-
 describe('filterUtils', () => {
   describe('isFilterEmpty', () => {
     it('returns true for an empty filter', () => {
@@ -63,17 +56,25 @@ describe('filterUtils', () => {
       filter = updateFilter(filter, filterPartA2);
       filter = updateFilter(filter, filterPartB1);
       filter = updateFilter(filter, filterPartB2);
-      filter = updateFilter(filter, filterPartC1);
 
       expect(filter.FILTER_GROUP_A.length).toBe(2);
       expect(filter.FILTER_GROUP_B.length).toBe(1);
-      expect(filter.FILTER_GROUP_C.length).toBe(0);
-      expect(filter.FILTER_GROUP_D).toBe(undefined);
+      expect(filter.FILTER_GROUP_D).toBeUndefined();
 
       expect(filter.FILTER_GROUP_A[0]).toBe('Filter A-1');
       expect(filter.FILTER_GROUP_A[1]).toBe('Filter A-2');
       expect(filter.FILTER_GROUP_B[0]).toBe('Filter B-2');
-      expect(filter.FILTER_GROUP_C[0]).toBe(undefined);
+
+      // Unchecks a previously selected filter
+      filter = updateFilter(filter, {
+        optionId: 'Filter A-2',
+        groupId: 'FILTER_GROUP_A',
+        type: 'checkbox',
+        checked: false
+      });
+
+      expect(filter.FILTER_GROUP_A.length).toBe(1);
+      expect(filter.FILTER_GROUP_A[1]).toBeUndefined();
     });
   });
 });
