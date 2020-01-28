@@ -10,21 +10,16 @@ export function getTextMappings(
   doc: QueryResult | null | undefined
 ): TextMappings | null | undefined {
   let mappings = get(doc, 'extracted_metadata.text_mappings');
-  if (mappings) {
-    if (typeof mappings === 'string') {
-      try {
-        mappings = JSON.parse(mappings);
-      } catch (err) {
-        // fail gracefully - text mapping cannot be parsed
-        console.error('Failure parsing text_mappings', err);
-        mappings = null;
-      }
-    } else {
-      // text mapping is not a string
+  if (mappings && typeof mappings === 'string') {
+    try {
+      mappings = JSON.parse(mappings);
+    } catch (err) {
+      // fail gracefully - text mapping cannot be parsed
+      console.error('Failure parsing text_mappings', err);
       mappings = null;
     }
   } else {
-    // no text mappings are present
+    // text mapping is not a string or no mappings are present
     mappings = null;
   }
   return mappings;
