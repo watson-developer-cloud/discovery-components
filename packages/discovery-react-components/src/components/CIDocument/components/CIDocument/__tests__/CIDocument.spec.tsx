@@ -49,7 +49,7 @@ describe('<CIDocument />', () => {
 
     it('selects Relations and checks details panel', async () => {
       const tabButton = await waitForElement(() => {
-        const tabs = getByTestId('contract-tabs');
+        const tabs = getByTestId('document-info-tabs');
         return globalGetByText(tabs, 'Relations');
       });
       fireEvent.click(tabButton);
@@ -60,7 +60,7 @@ describe('<CIDocument />', () => {
       });
       fireEvent.click(filterSet);
 
-      const detailsPane = getByTestId('detailsPane');
+      const detailsPane = getByTestId('details-pane');
       globalGetByText(detailsPane, 'Invoice parts');
       globalGetByText(detailsPane, 'Part description');
     });
