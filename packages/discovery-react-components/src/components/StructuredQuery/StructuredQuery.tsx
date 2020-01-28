@@ -1,4 +1,5 @@
 import React, { FC, useState, useContext, useEffect } from 'react';
+import { Button } from 'carbon-components-react';
 import { RuleGroup } from './components/RuleGroup/RuleGroup';
 import { AddRuleRowButton } from './components/AddRuleRowButton/AddRuleRowButton';
 import { AddRuleGroupButton } from './components/AddRuleGroupButton/AddRuleGroupButton';
@@ -76,6 +77,7 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
           />
         )}
       </div>
+      <Button onClick={handleOnClick}>Run query</Button>
     </div>
   );
 };
