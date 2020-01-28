@@ -12,8 +12,8 @@ const mockData = {
 };
 
 const mockDataNoMeta = { text: '24th October 2011' };
-const mockDetails = [{ heading: 'type', items: ['effective_dates'] }];
-const mockDetailsNoMeta = [{ heading: 'party', items: ['24TH OCTOBER 2011'] }];
+const mockResponseWithType = [{ heading: 'type', items: ['effective_dates'] }];
+const mockResponseNoType = [{ heading: 'party', items: ['24TH OCTOBER 2011'] }];
 const mockItem = { type: 'invoice_parts' };
 
 const mockItemWithAttributes = {
@@ -61,11 +61,11 @@ describe('details utility', () => {
   describe('getDetailsFromMetadata', () => {
     it('contract', () => {
       const metadataDetails = getDetailsFromMetadata(mockData);
-      expect(metadataDetails).toEqual(mockDetails);
+      expect(metadataDetails).toEqual(mockResponseWithType);
     });
     it('no metadata type', () => {
       const metadataDetails = getDetailsFromMetadata(mockDataNoMeta);
-      expect(metadataDetails).toEqual(mockDetailsNoMeta);
+      expect(metadataDetails).toEqual(mockResponseNoType);
     });
   });
 
