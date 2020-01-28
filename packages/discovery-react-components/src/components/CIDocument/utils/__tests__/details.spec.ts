@@ -6,42 +6,6 @@ import {
   getAttributesWithinRelation
 } from '../details';
 
-const mockData = {
-  metadataType: 'effective_dates',
-  text: '24th October 2011'
-};
-
-const mockDataNoMeta = { text: '24th October 2011' };
-const mockResponseWithType = [{ heading: 'type', items: ['effective_dates'] }];
-const mockResponseNoType = [{ heading: 'party', items: ['24TH OCTOBER 2011'] }];
-const mockItem = { type: 'invoice_parts' };
-
-const mockItemWithAttributes = {
-  type: 'invoice_parts',
-  attributes: [
-    {
-      type: 'quantity_ordered',
-      text: '252',
-      location: { begin: 1876, end: 1879 }
-    }
-  ],
-  relations: [
-    {
-      type: 'unit_price',
-      attributes: [
-        {
-          type: 'amount',
-          text: '11.80',
-          location: { begin: 2435, end: 2440 }
-        }
-      ],
-      relations: [],
-      allAttributeIds: ['2435_2440', '1618_1621']
-    }
-  ],
-  allAttributeIds: ['2435_2440', '1618_1621']
-};
-
 describe('details utility', () => {
   describe('getDetailsFromItem', () => {
     it('contract', () => {
@@ -59,6 +23,16 @@ describe('details utility', () => {
   });
 
   describe('getDetailsFromMetadata', () => {
+    const mockData = {
+      metadataType: 'effective_dates',
+      text: '24th October 2011'
+    };
+
+    const mockDataNoMeta = { text: '24th October 2011' };
+
+    const mockResponseWithType = [{ heading: 'type', items: ['effective_dates'] }];
+    const mockResponseNoType = [{ heading: 'party', items: ['24TH OCTOBER 2011'] }];
+
     it('contract', () => {
       const metadataDetails = getDetailsFromMetadata(mockData);
       expect(metadataDetails).toEqual(mockResponseWithType);
@@ -70,6 +44,34 @@ describe('details utility', () => {
   });
 
   describe('nonContractDetailsFromItem with item attributes', () => {
+    const mockItem = { type: 'invoice_parts' };
+
+    const mockItemWithAttributes = {
+      type: 'invoice_parts',
+      attributes: [
+        {
+          type: 'quantity_ordered',
+          text: '252',
+          location: { begin: 1876, end: 1879 }
+        }
+      ],
+      relations: [
+        {
+          type: 'unit_price',
+          attributes: [
+            {
+              type: 'amount',
+              text: '11.80',
+              location: { begin: 2435, end: 2440 }
+            }
+          ],
+          relations: [],
+          allAttributeIds: ['2435_2440', '1618_1621']
+        }
+      ],
+      allAttributeIds: ['2435_2440', '1618_1621']
+    };
+
     it('invoice', () => {
       const itemDetails = nonContractDetailsFromItem(mockItem);
       const itemDetailsWithAttributes = nonContractDetailsFromItem(mockItemWithAttributes);
