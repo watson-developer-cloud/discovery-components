@@ -7,16 +7,10 @@ const contractMessages = {
   contractAttributeLabel: 'Filter Group D'
 };
 
-const invoiceMessages = {
-  invoiceAttributeLabel: 'Filter Group E',
-  invoiceRelationsLabel: 'Filter Group F'
-};
-
 describe('filterGroups', () => {
-  it('getBaseFilterGroups', () => {
-    console.log(getBaseFilterGroups('foobar', contractMessages));
-    const contract = getBaseFilterGroups('contract', contractMessages);
-    console.log(contract);
-    console.log(getBaseFilterGroups('invoice', invoiceMessages));
+  it('handles invalid ducment types correctly', () => {
+    const invalidDocType = getBaseFilterGroups('foobar', contractMessages);
+    console.log(invalidDocType);
+    expect(invalidDocType).toEqual([]);
   });
 });
