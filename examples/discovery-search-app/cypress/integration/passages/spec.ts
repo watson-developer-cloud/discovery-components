@@ -100,13 +100,13 @@ describe('Passage Results', () => {
         cy.findByText('CI').click();
       });
 
-      it('verify that CI Document contains filters', () => {
+      it('diplays filters under Attribute', () => {
         cy.findByText('Select labels to filter elements').should('exist');
         cy.findByText('Attribute').should('exist');
         cy.findByText('Currency').should('exist');
       });
 
-      it('verify that CI Document navigation tabs work', () => {
+      it('navigate to relations tab and display filters', () => {
         cy.findByText('Relations').click();
         cy.findByText('Relation').should('exist');
         cy.findByText('Invoice parts').should('exist');
