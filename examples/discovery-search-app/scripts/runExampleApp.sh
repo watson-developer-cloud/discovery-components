@@ -2,7 +2,7 @@
 
 set -e
 
-PREREQUISTES=("yarn" "jq")
+PREREQUISITES=("yarn" "jq")
 SCRIPT_DIR=$(
     cd "$(dirname "$0")"
     pwd
@@ -37,7 +37,7 @@ function paddedMessage() {
 function checkForDependencies() {
   boldMessage "Checking for prerequisites..."
   missing=0
-  for i in "${PREREQUISTES[@]}"; do
+  for i in "${PREREQUISITES[@]}"; do
     echo -n "  $i: "
 
     set +e
