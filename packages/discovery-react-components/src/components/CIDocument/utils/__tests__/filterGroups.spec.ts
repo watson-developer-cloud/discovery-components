@@ -15,7 +15,8 @@ const invoiceMessages = {
 describe('filterGroups', () => {
   it('getBaseFilterGroups', () => {
     console.log(getBaseFilterGroups('foobar', contractMessages));
-    console.log(getBaseFilterGroups('contract', contractMessages));
+    const contract = getBaseFilterGroups('contract', contractMessages);
+    console.log(contract);
     console.log(getBaseFilterGroups('invoice', invoiceMessages));
   });
 });

@@ -1,5 +1,5 @@
 import { getFilterHelper, ProcessFilter } from '../filterHelper';
-
+import { getBaseFilterGroups, FilterGroupWithFns } from '../filterGroups';
 import mockFilterGroups from '../__fixtures__/filterGroups';
 import mockFilterElements from '../__fixtures__/filterMockElements.json';
 import { FilterGroup } from 'components/CIDocument/components/FilterPanel/types';
@@ -22,6 +22,7 @@ describe('filterHelper', () => {
 
   describe('processFilter', () => {
     it('returns the default list and filter groups if the filter is empty', () => {
+      console.log('test 1');
       const { filteredList, filterGroups } = filterHelper.processFilter({});
 
       expect(filteredList.length).toBe(mockFilterElements.length);
@@ -33,7 +34,9 @@ describe('filterHelper', () => {
       ).toBe(true);
     });
 
-    it('returns a filtered list and filter groups based on the given filter (1)', () => {
+    it.only('returns a filtered list and filter groups based on the given filter (1)', () => {
+      console.log('test 2');
+      console.log(filterHelper);
       const { filteredList, filterGroups } = filterHelper.processFilter({
         FILTER_GROUP_A: ['Filter A-3'],
         FILTER_GROUP_B: ['Filter B-3'],
@@ -44,6 +47,9 @@ describe('filterHelper', () => {
       expect(filterGroups[1].optionsList).toBeTruthy();
       expect(filterGroups[2].optionsList).toBeTruthy();
 
+      console.log(filterGroups[0].optionsList);
+      console.log(filterGroups[1].optionsList);
+      console.log(filterGroups[2].optionsList);
       if (
         filterGroups[0].optionsList &&
         filterGroups[1].optionsList &&
@@ -65,6 +71,7 @@ describe('filterHelper', () => {
     });
 
     it('returns a filtered list and filter groups based on the given filter (2)', () => {
+      console.log('test 3');
       const { filteredList, filterGroups } = filterHelper.processFilter({
         FILTER_GROUP_A: ['Filter A-1'],
         FILTER_GROUP_B: ['Filter B-1'],
@@ -96,6 +103,7 @@ describe('filterHelper', () => {
     });
 
     it('returns a filtered list and filter groups based on the given filter (3)', () => {
+      console.log('test 4');
       const { filteredList, filterGroups } = filterHelper.processFilter({
         FILTER_GROUP_A: ['Filter A-1'],
         FILTER_GROUP_B: ['Filter B-3'],
@@ -127,6 +135,7 @@ describe('filterHelper', () => {
     });
 
     it('returns a filtered list and filter groups based on the given filter (4)', () => {
+      console.log('test 5');
       const { filteredList, filterGroups } = filterHelper.processFilter({
         FILTER_GROUP_A: ['Filter A-1']
       });
@@ -156,6 +165,7 @@ describe('filterHelper', () => {
     });
 
     it('returns a filtered list and filter groups based on the given filter (5)', () => {
+      console.log('test 6');
       const { filteredList, filterGroups } = filterHelper.processFilter({
         FILTER_GROUP_C: ['Filter C-1']
       });
