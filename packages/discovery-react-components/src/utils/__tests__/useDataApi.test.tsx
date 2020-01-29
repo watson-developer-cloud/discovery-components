@@ -8,11 +8,13 @@ import {
   useFetchDocumentsApi,
   FetchDocumentsResponseStore,
   useAutocompleteApi,
-  AutocompleteStore
+  AutocompleteStore,
+  useFieldsApi,
+  FieldsStore
 } from '../useDataApi';
 import { SearchClient } from 'components/DiscoverySearch/types';
 
-class BaseSearchClient {
+class BaseSearchClient implements SearchClient {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async query(): Promise<any> {
     return createDummyResponsePromise({});
@@ -32,6 +34,10 @@ class BaseSearchClient {
   public async getComponentSettings(): Promise<any> {
     return createDummyResponsePromise({});
   }
+
+  public async listFields(): Promise<any> {
+    return createDummyResponsePromise({});
+  }
 }
 
 class SingleQueryResultSearchClient extends BaseSearchClient {
@@ -44,9 +50,13 @@ class ErrorSearchClient extends BaseSearchClient {
   public async query(): Promise<any> {
     return Promise.reject();
   }
+
+  public async listFields(): Promise<any> {
+    return Promise.reject();
+  }
 }
 
-class SlowQueryClient extends BaseSearchClient {
+class SlowClient extends BaseSearchClient {
   public async query(): Promise<any> {
     return await new Promise(resolve => {
       setTimeout(() => {
@@ -217,7 +227,7 @@ describe('useSearchResultsApi', () => {
 
       test('does not attempt to set state when unmounted (to prevent memory leaks)', () => {
         jest.useFakeTimers();
-        const result = render(<TestSearchStoreComponent searchClient={new SlowQueryClient()} />);
+        const result = render(<TestSearchStoreComponent searchClient={new SlowClient()} />);
         const { unmount, getByTestId } = result;
         const performSearchButton = getByTestId('performSearch');
 
@@ -741,9 +751,7 @@ describe('useFetchDocumentsApi', () => {
 
       test('does not attempt to set state when unmounted (to prevent memory leaks)', () => {
         jest.useFakeTimers();
-        const result = render(
-          <TestFetchDocumentsStoreComponent searchClient={new SlowQueryClient()} />
-        );
+        const result = render(<TestFetchDocumentsStoreComponent searchClient={new SlowClient()} />);
         const { unmount, getByTestId } = result;
         const fetchDocumentsButton = getByTestId('fetchDocuments');
 
@@ -814,6 +822,90 @@ describe('useFetchDocumentsApi', () => {
             matching_results: FAST_TOTAL
           })
         );
+      });
+    });
+  });
+});
+
+describe('useFieldsApi', () => {
+  interface TestFieldsStoreComponentProps {
+    searchParameters?: DiscoveryV2.QueryParams;
+    searchClient?: SearchClient;
+  }
+
+  const TestFieldsStoreComponent: FC<TestFieldsStoreComponentProps> = ({
+    searchParameters = {
+      projectId: ''
+    },
+    searchClient = new BaseSearchClient()
+  }) => {
+    const [fieldsStore, fieldsApi] = useFieldsApi(searchParameters, searchClient);
+    return (
+      <>
+        <button data-testid="fetchFields" onClick={() => fieldsApi.fetchFields()} />
+        <div data-testid="fieldsStore">{JSON.stringify(fieldsStore)}</div>
+      </>
+    );
+  };
+
+  describe('initial state', () => {
+    test('can initialize reducer state', () => {
+      const result = render(<TestFieldsStoreComponent />);
+      const json: FieldsStore = JSON.parse(result.getByTestId('fieldsStore').textContent || '{}');
+
+      expect(json.isError).toEqual(false);
+      expect(json.isLoading).toEqual(false);
+    });
+  });
+
+  describe('when calling fetchFields', () => {
+    test('it sets the loading state', () => {
+      const result = render(<TestFieldsStoreComponent searchClient={new BaseSearchClient()} />);
+
+      const fetchFieldsButton = result.getByTestId('fetchFields');
+
+      fireEvent.click(fetchFieldsButton);
+      const json: FieldsStore = JSON.parse(result.getByTestId('fieldsStore').textContent || '{}');
+      expect(json.isLoading).toEqual(true);
+    });
+
+    test('it sets error state', async () => {
+      const result = render(<TestFieldsStoreComponent searchClient={new ErrorSearchClient()} />);
+      const fetchFieldsButton = result.getByTestId('fetchFields');
+
+      fireEvent.click(fetchFieldsButton);
+      await waitForDomChange({ container: result.container });
+      const json: FieldsStore = JSON.parse(result.getByTestId('fieldsStore').textContent || '{}');
+      expect(json.isError).toEqual(true);
+    });
+
+    describe('cancellation', () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      let consoleError: jest.SpyInstance<any, any>;
+      beforeAll(() => {
+        consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+      });
+
+      afterAll(() => {
+        consoleError.mockRestore();
+      });
+
+      afterEach(() => {
+        jest.clearAllMocks();
+        jest.useRealTimers();
+      });
+
+      test('does not attempt to set state when unmounted (to prevent memory leaks)', () => {
+        jest.useFakeTimers();
+        const result = render(<TestFieldsStoreComponent searchClient={new SlowClient()} />);
+        const { unmount, getByTestId } = result;
+        const fetchDocumentsButton = getByTestId('fetchFields');
+
+        fireEvent.click(fetchDocumentsButton);
+        unmount();
+
+        jest.runOnlyPendingTimers();
+        expect(consoleError).not.toHaveBeenCalled();
       });
     });
   });
