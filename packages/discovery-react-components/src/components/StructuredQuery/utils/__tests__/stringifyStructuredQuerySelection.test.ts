@@ -20,7 +20,7 @@ describe('stringifyStructuredQuerySelection', () => {
         };
 
         expect(stringifyStructuredQuerySelection(structuredQuerySelectionWithOneRow)).toEqual(
-          '(example_field::watson)'
+          'example_field::watson'
         );
       });
     });
@@ -52,7 +52,7 @@ describe('stringifyStructuredQuerySelection', () => {
         };
 
         expect(stringifyStructuredQuerySelection(structuredQuerySelectionWithThreeRows)).toEqual(
-          '(example_field_0::watson,example_field_1:!machine,example_field_2:learning)'
+          'example_field_0::watson,example_field_1:!machine,example_field_2:learning'
         );
       });
     });
@@ -114,7 +114,7 @@ describe('stringifyStructuredQuerySelection', () => {
       expect(
         stringifyStructuredQuerySelection(structuredQuerySelectionWithMultipleGroupsAndRows)
       ).toEqual(
-        '(example_field_0::watson,example_field_1:!machine,example_field_2:learning),(example_field_3:IBM|example_field_4::!regression|example_field_5:!neural),(example_field_6:network,example_field_7::classification)'
+        'example_field_0::watson,example_field_1:!machine,example_field_2:learning,(example_field_3:IBM|example_field_4::!regression|example_field_5:!neural),(example_field_6:network,example_field_7::classification)'
       );
     });
   });

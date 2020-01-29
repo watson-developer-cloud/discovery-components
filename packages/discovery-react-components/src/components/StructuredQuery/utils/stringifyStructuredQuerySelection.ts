@@ -6,7 +6,9 @@ export const stringifyStructuredQuerySelection = (
   let stringifiedStructuredQuerySelection: string = '';
   stringifiedStructuredQuerySelection += Object.keys(structuredQuerySelection.groups)
     .map(groupId => {
-      return '(' + stringifyRows(structuredQuerySelection, groupId) + ')';
+      return groupId === '0'
+        ? stringifyRows(structuredQuerySelection, groupId)
+        : '(' + stringifyRows(structuredQuerySelection, groupId) + ')';
     })
     .join(structuredQuerySelection.groups[0].operator);
   return stringifiedStructuredQuerySelection;

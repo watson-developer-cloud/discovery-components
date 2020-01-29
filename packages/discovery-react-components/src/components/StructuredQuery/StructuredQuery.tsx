@@ -1,16 +1,12 @@
 import React, { FC, useState, useContext, useEffect } from 'react';
-import { Button } from 'carbon-components-react';
+import { CodeSnippet } from 'carbon-components-react';
 import { RuleGroup } from './components/RuleGroup/RuleGroup';
 import { AddRuleRowButton } from './components/AddRuleRowButton/AddRuleRowButton';
 import { AddRuleGroupButton } from './components/AddRuleGroupButton/AddRuleGroupButton';
 import { defaultMessages, Messages } from './messages';
 import { structuredQueryClass, structuredQueryRulesButtonsClass } from './cssClasses';
 import { MAX_NUM_SIBLING_RULE_ROWS, MAX_NUM_NESTED_RULE_GROUPS } from './constants';
-import {
-  StructuredQuerySelection,
-  stringifyStructuredQuerySelection,
-  isValidSelection
-} from './utils';
+import { StructuredQuerySelection, stringifyStructuredQuerySelection } from './utils';
 import { withErrorBoundary } from 'react-error-boundary';
 import { FallbackComponent } from 'utils/FallbackComponent';
 import onErrorCallback from 'utils/onErrorCallback';
@@ -33,15 +29,15 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
     },
     rows: {
       0: {
-        field: null,
-        operator: null,
+        field: '',
+        operator: '',
         value: ''
       }
     },
     group_order: [0]
   });
 
-  const [touched, setStateTouched] = useState<boolean>(false);
+  const stringifiedSelection = stringifyStructuredQuerySelection(structuredQuerySelection);
 
   const showAddRuleRowButton =
     structuredQuerySelection.groups[0].rows.length < MAX_NUM_SIBLING_RULE_ROWS;
@@ -54,14 +50,6 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleOnClick = () => {
-    setStateTouched(true);
-    const validSelection: boolean = isValidSelection(structuredQuerySelection);
-    if (validSelection) {
-      stringifyStructuredQuerySelection(structuredQuerySelection);
-    }
-  };
-
   return (
     <div className={structuredQueryClass}>
       {structuredQuerySelection.group_order.map(id => {
@@ -72,7 +60,6 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
             key={id}
             structuredQuerySelection={structuredQuerySelection}
             setStructuredQuerySelection={setStructuredQuerySelection}
-            touched={touched}
           />
         );
       })}
@@ -93,7 +80,7 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
           />
         )}
       </div>
-      <Button onClick={handleOnClick}>Run query</Button>
+      <CodeSnippet>{stringifiedSelection}</CodeSnippet>
     </div>
   );
 };

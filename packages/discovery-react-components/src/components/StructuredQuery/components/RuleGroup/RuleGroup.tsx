@@ -28,15 +28,13 @@ export interface RuleGroupProps {
    * used to set the structuredQuerySelection state
    */
   setStructuredQuerySelection: Dispatch<SetStateAction<StructuredQuerySelection>>;
-  touched: boolean;
 }
 
 export const RuleGroup: FC<RuleGroupProps> = ({
   messages,
   groupId,
   structuredQuerySelection,
-  setStructuredQuerySelection,
-  touched = false
+  setStructuredQuerySelection
 }) => {
   const rows = structuredQuerySelection.groups[groupId].rows;
   const isTopLevelGroup = groupId === 0;
@@ -64,7 +62,6 @@ export const RuleGroup: FC<RuleGroupProps> = ({
             key={uniqueKey}
             setStructuredQuerySelection={setStructuredQuerySelection}
             structuredQuerySelection={structuredQuerySelection}
-            touched={touched}
           />
         );
       })}
