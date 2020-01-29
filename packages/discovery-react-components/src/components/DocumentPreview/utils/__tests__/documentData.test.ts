@@ -45,10 +45,12 @@ describe('documentData', () => {
   it('returns correct text mapping data', () => {
     const mappings = getTextMappings(correctTextMapping)!;
     expect(mappings).not.toEqual(null);
-    expect(mappings.pages[0].page_number).toEqual(0);
-    expect(mappings.pages[0].height).toEqual(792);
-    expect(mappings.pages[0].width).toEqual(612);
-    expect(mappings.pages[0].origin).toEqual('TopLeft');
+    expect(mappings.pages[0]).toEqual({
+      page_number: 0,
+      height: 792,
+      width: 612,
+      origin: 'TopLeft'
+    });
     expect(consoleError).not.toHaveBeenCalled();
   });
 
