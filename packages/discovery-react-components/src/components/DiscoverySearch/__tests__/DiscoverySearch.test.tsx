@@ -5,12 +5,12 @@ import DiscoverySearch, {
   SearchApi,
   SearchContext
 } from '../DiscoverySearch';
-import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { createDummyResponsePromise } from 'utils/testingUtils';
+import { SearchClient } from '../types';
 interface Setup {
   fullTree: JSX.Element;
   result: RenderResult;
-  searchClient: Pick<DiscoveryV2, 'query' | 'getAutocompletion' | 'listCollections'>;
+  searchClient: SearchClient;
 }
 
 const setup = (props: Partial<DiscoverySearchProps>, children: JSX.Element): Setup => {
@@ -25,6 +25,9 @@ const setup = (props: Partial<DiscoverySearchProps>, children: JSX.Element): Set
       return createDummyResponsePromise({});
     }
     getComponentSettings() {
+      return createDummyResponsePromise({});
+    }
+    listFields() {
       return createDummyResponsePromise({});
     }
   }
@@ -316,6 +319,26 @@ describe('DiscoverySearch', () => {
         projectId: '',
         prefix: 'foo',
         count: 1
+      });
+    });
+
+    it('can call fetchFields', async () => {
+      const tree = (
+        <SearchApi.Consumer>
+          {({ fetchFields }) => <button onClick={() => fetchFields()}>Action</button>}
+        </SearchApi.Consumer>
+      );
+      const {
+        result: { getByText },
+        searchClient
+      } = setup({}, tree);
+      const spy = jest.spyOn(searchClient, 'listFields');
+      expect(spy).not.toHaveBeenCalled();
+      act(() => {
+        fireEvent.click(getByText('Action'));
+      });
+      expect(spy).toHaveBeenCalledWith({
+        projectId: ''
       });
     });
   });

@@ -1,16 +1,79 @@
 import React from 'react';
-import { render, RenderResult } from '@testing-library/react';
-import StructuredQuery from '../StructuredQuery';
+import { render, RenderResult, fireEvent } from '@testing-library/react';
+import StructuredQuery, { StructuredQueryProps } from '../StructuredQuery';
+import { wrapWithContext } from 'utils/testingUtils';
+import {
+  SearchContextIFC,
+  searchResponseStoreDefaults,
+  fetchDocumentsResponseStoreDefaults,
+  SearchApiIFC
+} from 'components/DiscoverySearch/DiscoverySearch';
+import DiscoveryV2 from 'ibm-watson/discovery/v2';
+import '@testing-library/jest-dom/extend-expect';
+
+interface SetupParams {
+  projectFields?: DiscoveryV2.Field[];
+  fieldsStoreLoadingState?: boolean;
+  fieldsStoreErrorState?: boolean;
+  apiOverrides?: Partial<SearchApiIFC>;
+}
+interface Setup {
+  structuredQuery: RenderResult;
+}
+
+function setup(
+  {
+    projectFields,
+    fieldsStoreLoadingState = false,
+    fieldsStoreErrorState = false,
+    apiOverrides = {}
+  }: SetupParams,
+  componentProps: Partial<StructuredQueryProps> = {}
+): Setup {
+  let context: Partial<SearchContextIFC> = {
+    searchResponseStore: {
+      ...searchResponseStoreDefaults
+    },
+    fetchDocumentsResponseStore: {
+      ...fetchDocumentsResponseStoreDefaults
+    },
+    fieldsStore: {
+      data: { fields: projectFields },
+      isLoading: fieldsStoreLoadingState,
+      isError: fieldsStoreErrorState,
+      parameters: {
+        projectId: ''
+      }
+    }
+  };
+  const structuredQuery = render(
+    wrapWithContext(<StructuredQuery {...componentProps} />, apiOverrides, context)
+  );
+  return {
+    structuredQuery
+  };
+}
 
 describe('<StructuredQuery />', () => {
+  let structuredQuery: RenderResult;
+  let projectFields: DiscoveryV2.Field[] | undefined = undefined;
+  let fieldsStoreLoadingState: boolean;
+  let fieldsStoreErrorState: boolean;
+
+  afterEach(() => {
+    projectFields = undefined;
+    fieldsStoreLoadingState = false;
+    fieldsStoreErrorState = false;
+  });
+
   describe('i18n messages', () => {
     describe('when no messages are provided', () => {
-      let structuredQuery: RenderResult;
-      beforeEach(() => {
-        structuredQuery = render(<StructuredQuery />);
-      });
-
       describe('has the correct default text', () => {
+        let structuredQuery: RenderResult;
+        beforeEach(() => {
+          structuredQuery = render(<StructuredQuery />);
+        });
+
         test('rule group dropdown has the correct default messages', () => {
           const ruleGroupDropdownTextOne = structuredQuery.getByText('Satisfy', {
             exact: false
@@ -29,12 +92,6 @@ describe('<StructuredQuery />', () => {
           expect(addRuleRowText).toBeDefined();
           expect(addGroupRulesText).toBeDefined();
         });
-        test('field dropdown has the correct default messages', () => {
-          const fieldDropdownTitleText = structuredQuery.getByText('Field');
-          const fieldDropdownPlaceholderText = structuredQuery.getByPlaceholderText('Select field');
-          expect(fieldDropdownTitleText).toBeDefined();
-          expect(fieldDropdownPlaceholderText).toBeDefined();
-        });
         test('operator dropdown has the correct default messages', () => {
           const operatorDropdownTitleText = structuredQuery.getByText('Operator');
           const operatorDropdownPlaceholderText = structuredQuery.getByPlaceholderText(
@@ -49,6 +106,49 @@ describe('<StructuredQuery />', () => {
           expect(valueInputLabelText).toBeDefined();
           expect(valueInputPlaceholderText).toBeDefined();
         });
+      });
+    });
+
+    describe('when isLoading is true in fieldsStore', () => {
+      beforeEach(() => {
+        fieldsStoreLoadingState = true;
+      });
+
+      it('dropdown displays default loading text and is disabled', () => {
+        ({ structuredQuery } = setup({ fieldsStoreLoadingState }));
+        const fieldDropdownLoading = structuredQuery.getByPlaceholderText('Loading project fields');
+        const fieldDropdownTitleText = structuredQuery.getByText('Field');
+        expect(fieldDropdownLoading).toBeDefined();
+        expect(fieldDropdownLoading).toHaveAttribute('disabled');
+        expect(fieldDropdownTitleText).toBeDefined();
+      });
+    });
+
+    describe('when isError is true in fieldsStore', () => {
+      beforeEach(() => {
+        fieldsStoreErrorState = true;
+      });
+
+      test('dropdown displays default error text and is disabled', () => {
+        ({ structuredQuery } = setup({ fieldsStoreErrorState }));
+        const fieldDropdownError = structuredQuery.getByPlaceholderText(
+          'Error loading project fields'
+        );
+        expect(fieldDropdownError).toBeDefined();
+        expect(fieldDropdownError).toHaveAttribute('disabled');
+      });
+    });
+
+    describe('when there are fields in fieldsStore', () => {
+      beforeEach(() => {
+        projectFields = [{ field: 'field 1' }, { field: 'field 2' }];
+      });
+
+      it('displays default placeholder text and is not disabled', () => {
+        ({ structuredQuery } = setup({ projectFields }));
+        const fieldDropdown = structuredQuery.getByPlaceholderText('Select field');
+        expect(fieldDropdown).toBeDefined();
+        expect(fieldDropdown).not.toHaveAttribute('disabled');
       });
     });
 
@@ -84,33 +184,32 @@ describe('<StructuredQuery />', () => {
           expect(ruleGroupDropdownText).toBeDefined();
         });
       });
+
       describe('when some messages are overridden and others are not', () => {
         test('only the provided messages are overridden and defaults are used for the rest', () => {
           const structuredQuery = render(
             <StructuredQuery
               messages={{
                 addRuleGroupText: 'A new rules group',
-                fieldDropdownPlaceholderText: 'Field choice selection',
-                operatorDropdownTitleText: 'Hello operator'
+                operatorDropdownTitleText: 'Hello operator',
+                fieldDropdownPlaceholderText: 'Placeholder text'
               }}
             />
           );
           const addRuleGroupTextOverride = structuredQuery.getByText('A new rules group');
-          const fieldDropdownPlaceholderTextOverride = structuredQuery.getByPlaceholderText(
-            'Field choice selection'
-          );
           const operatorDropdownTitleText = structuredQuery.getByText('Hello operator');
           const addRuleRowText = structuredQuery.getByText('Add rule');
           const operatorDropdownPlaceholderText = structuredQuery.getByPlaceholderText(
             'Select operator'
           );
           const valueInputPlaceholderText = structuredQuery.getByPlaceholderText('Enter value');
+          const fieldLoadingOverride = structuredQuery.getByPlaceholderText('Placeholder text');
           expect(addRuleGroupTextOverride).toBeDefined();
-          expect(fieldDropdownPlaceholderTextOverride).toBeDefined();
           expect(operatorDropdownTitleText).toBeDefined();
           expect(addRuleRowText).toBeDefined();
           expect(operatorDropdownPlaceholderText).toBeDefined();
           expect(valueInputPlaceholderText).toBeDefined();
+          expect(fieldLoadingOverride).toBeDefined();
         });
       });
     });
@@ -385,6 +484,33 @@ describe('<StructuredQuery />', () => {
             expect(nestedRuleGroupZero).toBe(null);
           });
         });
+      });
+    });
+  });
+
+  describe('On mount', () => {
+    it('Calls fetch fields', () => {
+      const mockFetchFields = jest.fn();
+      ({ structuredQuery } = setup({ apiOverrides: { fetchFields: mockFetchFields } }));
+      expect(mockFetchFields).toBeCalledTimes(1);
+      expect(mockFetchFields).toBeCalledWith();
+    });
+  });
+
+  describe('when there are fields available', () => {
+    beforeEach(() => {
+      projectFields = [{ field: 'field name 1' }, { field: 'field name 2' }];
+    });
+
+    describe('and I choose field name 1 in the fieldname combobox', () => {
+      beforeEach(() => {
+        ({ structuredQuery } = setup({ projectFields }));
+        const input = structuredQuery.getByPlaceholderText('Select field');
+        fireEvent.change(input, { target: { value: 'field name 1' } });
+      });
+
+      it('should display field name 1', () => {
+        expect(structuredQuery.getByText('field name 1')).toBeInTheDocument();
       });
     });
   });
