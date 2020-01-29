@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useContext, useEffect } from 'react';
 import { RuleGroup } from './components/RuleGroup/RuleGroup';
 import { AddRuleRowButton } from './components/AddRuleRowButton/AddRuleRowButton';
 import { AddRuleGroupButton } from './components/AddRuleGroupButton/AddRuleGroupButton';
@@ -9,6 +9,7 @@ import { StructuredQuerySelection } from './utils/structuredQueryInterfaces';
 import { withErrorBoundary } from 'react-error-boundary';
 import { FallbackComponent } from 'utils/FallbackComponent';
 import onErrorCallback from 'utils/onErrorCallback';
+import { SearchApi } from 'components/DiscoverySearch/DiscoverySearch';
 
 export interface StructuredQueryProps {
   /**
@@ -32,6 +33,12 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
     structuredQuerySelection.groups[0].rows.length < MAX_NUM_SIBLING_RULE_ROWS;
   const showAddRuleGroupButton =
     Object.keys(structuredQuerySelection.groups).length - 1 < MAX_NUM_NESTED_RULE_GROUPS;
+
+  const { fetchFields } = useContext(SearchApi);
+  useEffect(() => {
+    fetchFields();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className={structuredQueryClass}>
