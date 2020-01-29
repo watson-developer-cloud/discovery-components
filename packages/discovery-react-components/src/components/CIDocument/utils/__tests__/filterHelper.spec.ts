@@ -32,7 +32,7 @@ describe('filterHelper', () => {
       ).toBe(true);
     });
 
-    it.only('returns a filtered list and filter groups based on the given filter (1)', () => {
+    it('returns a filtered list and filter groups based on the given filter (1)', () => {
       const { filteredList, filterGroups } = filterHelper.processFilter({
         FILTER_GROUP_A: ['Filter A-3'],
         FILTER_GROUP_B: ['Filter B-3'],
