@@ -6,7 +6,11 @@ import { AddRuleGroupButton } from './components/AddRuleGroupButton/AddRuleGroup
 import { defaultMessages, Messages } from './messages';
 import { structuredQueryClass, structuredQueryRulesButtonsClass } from './cssClasses';
 import { MAX_NUM_SIBLING_RULE_ROWS, MAX_NUM_NESTED_RULE_GROUPS } from './constants';
-import { StructuredQuerySelection, stringifyStructuredQuerySelection } from './utils';
+import {
+  StructuredQuerySelection,
+  stringifyStructuredQuerySelection,
+  isValidSelection
+} from './utils';
 import { withErrorBoundary } from 'react-error-boundary';
 import { FallbackComponent } from 'utils/FallbackComponent';
 import onErrorCallback from 'utils/onErrorCallback';
@@ -49,19 +53,6 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
     fetchFields();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const isValidSelection = (structuredQuerySelection: StructuredQuerySelection) => {
-    const missingFields = Object.keys(structuredQuerySelection.rows).filter(
-      row => structuredQuerySelection.rows[row].field === null
-    );
-    const missingOperators = Object.keys(structuredQuerySelection.rows).filter(
-      row => structuredQuerySelection.rows[row].operator === null
-    );
-    const missingValues = Object.keys(structuredQuerySelection.rows).filter(
-      row => structuredQuerySelection.rows[row].value === ''
-    );
-    return missingFields.length + missingOperators.length + missingValues.length === 0;
-  };
 
   const handleOnClick = () => {
     setStateTouched(true);

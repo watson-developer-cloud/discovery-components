@@ -1,7 +1,7 @@
 export interface Row {
   [key: number]: {
     field: string | null;
-    operator: '' | ',' | '|' | null;
+    operator: string | null;
     value: string;
   };
 }
@@ -9,7 +9,7 @@ export interface Row {
 export interface Group {
   [key: number]: {
     rows: number[];
-    operator: ',' | '|';
+    operator: string;
   };
 }
 
