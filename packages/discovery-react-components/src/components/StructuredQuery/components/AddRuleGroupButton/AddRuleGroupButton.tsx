@@ -38,8 +38,8 @@ export const AddRuleGroupButton: FC<AddRuleGroupButtonProps> = ({
       rows: {
         ...structuredQuerySelection.rows,
         [`${newRuleRowId}`]: {
-          field: '',
-          operator: '',
+          field: null,
+          operator: null,
           value: ''
         }
       },

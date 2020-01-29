@@ -29,13 +29,15 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
     },
     rows: {
       0: {
-        field: '',
-        operator: '',
+        field: null,
+        operator: null,
         value: ''
       }
     },
     group_order: [0]
   });
+
+  const [touched, setStateTouched] = useState<boolean>(false);
 
   const showAddRuleRowButton =
     structuredQuerySelection.groups[0].rows.length < MAX_NUM_SIBLING_RULE_ROWS;
@@ -48,8 +50,25 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const isValidSelection = (structuredQuerySelection: StructuredQuerySelection) => {
+    const missingFields = Object.keys(structuredQuerySelection.rows).filter(
+      row => structuredQuerySelection.rows[row].field === null
+    );
+    const missingOperators = Object.keys(structuredQuerySelection.rows).filter(
+      row => structuredQuerySelection.rows[row].operator === null
+    );
+    const missingValues = Object.keys(structuredQuerySelection.rows).filter(
+      row => structuredQuerySelection.rows[row].value === ''
+    );
+    return missingFields.length + missingOperators.length + missingValues.length === 0;
+  };
+
   const handleOnClick = () => {
-    stringifyStructuredQuerySelection(structuredQuerySelection);
+    setStateTouched(true);
+    const validSelection: boolean = isValidSelection(structuredQuerySelection);
+    if (validSelection) {
+      stringifyStructuredQuerySelection(structuredQuerySelection);
+    }
   };
 
   return (
@@ -62,6 +81,7 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
             key={id}
             structuredQuerySelection={structuredQuerySelection}
             setStructuredQuerySelection={setStructuredQuerySelection}
+            touched={touched}
           />
         );
       })}

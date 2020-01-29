@@ -1,7 +1,7 @@
 export interface Row {
   [key: number]: {
-    field: string;
-    operator: '' | ',' | '|';
+    field: string | null;
+    operator: '' | ',' | '|' | null;
     value: string;
   };
 }

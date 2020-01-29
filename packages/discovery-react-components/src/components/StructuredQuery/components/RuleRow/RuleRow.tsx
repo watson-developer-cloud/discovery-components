@@ -31,6 +31,7 @@ export interface RuleRowProps {
    * used to set the structuredQuerySelection state
    */
   setStructuredQuerySelection: Dispatch<SetStateAction<StructuredQuerySelection>>;
+  touched: boolean;
 }
 
 export const RuleRow: FC<RuleRowProps> = ({
@@ -38,7 +39,8 @@ export const RuleRow: FC<RuleRowProps> = ({
   groupId,
   rowId,
   structuredQuerySelection,
-  setStructuredQuerySelection
+  setStructuredQuerySelection,
+  touched
 }) => {
   const {
     fieldsStore: { data: fieldsResponse, isLoading: fieldStoreLoading, isError: fieldStoreError }
@@ -69,13 +71,15 @@ export const RuleRow: FC<RuleRowProps> = ({
   };
 
   const handleOperatorDropdownChange = (operatorSelection: OperatorDropdownSelectedItem) => {
+    const newValue =
+      operatorSelection.selectedItem === null ? null : operatorSelection.selectedItem.value;
     setStructuredQuerySelection({
       ...structuredQuerySelection,
       rows: {
         ...structuredQuerySelection.rows,
         [`${rowId}`]: {
           ...structuredQuerySelection.rows[rowId],
-          operator: operatorSelection.selectedItem.value
+          operator: newValue
         }
       }
     });
@@ -113,6 +117,7 @@ export const RuleRow: FC<RuleRowProps> = ({
         titleText={messages.fieldDropdownTitleText}
         disabled={fieldStoreLoading || fieldStoreError}
         onChange={handleFieldDropdownChange}
+        invalid={touched && structuredQuerySelection.rows[rowId].field === null}
       />
       <ComboBox
         id={`structured-query-rules-operator-${groupId}`}
@@ -120,12 +125,14 @@ export const RuleRow: FC<RuleRowProps> = ({
         placeholder={messages.operatorDropdownPlaceholderText}
         titleText={messages.operatorDropdownTitleText}
         onChange={handleOperatorDropdownChange}
+        invalid={touched && structuredQuerySelection.rows[rowId].operator === null}
       />
       <TextInput
         id={`structured-query-rules-value-${groupId}`}
         labelText={messages.valueInputLabelText}
         placeholder={messages.valueInputPlaceholderText}
         onChange={handleValueInputChange}
+        invalid={touched && structuredQuerySelection.rows[rowId].value === ''}
       />
       {showRemoveRuleRowButton && (
         <RemoveRuleRowButton
