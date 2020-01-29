@@ -1,10 +1,11 @@
 import { stringifyStructuredQuerySelection } from '../stringifyStructuredQuerySelection';
+import { StructuredQuerySelection } from '../structuredQueryInterfaces';
 
 describe('stringifyStructuredQuerySelection', () => {
   describe('when given one top-level group of selections', () => {
     describe('and one row of selections', () => {
       it('returns the expected query string', () => {
-        const structuredQuerySelectionWithOneRow = {
+        const structuredQuerySelectionWithOneRow: StructuredQuerySelection = {
           groups: {
             0: { rows: [0], operator: ',' }
           },
@@ -26,7 +27,7 @@ describe('stringifyStructuredQuerySelection', () => {
 
     describe('and three rows of selections', () => {
       it('returns the expected query string', () => {
-        const structuredQuerySelectionWithThreeRows = {
+        const structuredQuerySelectionWithThreeRows: StructuredQuerySelection = {
           groups: {
             0: { rows: [0, 1, 2], operator: ',' }
           },
@@ -59,7 +60,7 @@ describe('stringifyStructuredQuerySelection', () => {
 
   describe('when given a top-level group and nested groups of selections', () => {
     describe('with multiple groups with multiple rows each and different operators', () => {
-      const structuredQuerySelectionWithMultipleGroupsAndRows = {
+      const structuredQuerySelectionWithMultipleGroupsAndRows: StructuredQuerySelection = {
         groups: {
           0: { rows: [0, 1, 2], operator: ',' },
           1: { rows: [3, 4, 5], operator: '|' },

@@ -9,7 +9,6 @@ export const stringifyStructuredQuerySelection = (
       return '(' + stringifyRows(structuredQuerySelection, groupId) + ')';
     })
     .join(structuredQuerySelection.groups[0].operator);
-  console.log(stringifiedStructuredQuerySelection);
   return stringifiedStructuredQuerySelection;
 };
 
