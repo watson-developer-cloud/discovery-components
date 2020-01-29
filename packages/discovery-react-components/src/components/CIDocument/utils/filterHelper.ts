@@ -179,7 +179,6 @@ function _applyFilter(list: any[], filter: any, filterGroups: FilterGroup[]): an
 
     if (foundGroup) {
       (activeLabels as any[]).forEach(activeLabel => {
-        console.log('FilterGroups');
         filteredList = ((foundGroup as unknown) as FilterGroupWithFns).applyFilter(
           filteredList,
           activeLabel
