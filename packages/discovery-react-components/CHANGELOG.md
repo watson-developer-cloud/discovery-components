@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-beta.24](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.23...@ibm-watson/discovery-react-components@1.1.0-beta.24) (2020-01-29)
+
+
+### Bug Fixes
+
+* added tests for idUtils to improve test coverage ([#77](https://github.com/watson-developer-cloud/discovery-components/issues/77)) ([3bf5e6c](https://github.com/watson-developer-cloud/discovery-components/commit/3bf5e6c))
+
+
+
+
+
 # [1.1.0-beta.23](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.22...@ibm-watson/discovery-react-components@1.1.0-beta.23) (2020-01-28)
 
 
