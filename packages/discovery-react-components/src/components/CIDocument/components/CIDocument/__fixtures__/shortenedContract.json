@@ -1,0 +1,1070 @@
+{
+  "id": "903461f8843ef9f10daecd2a14994308",
+  "metadata": {
+    "parent_document_id": "a7f6bd77d4c9d73ce72b12247f662755"
+  },
+  "enriched_html": [
+    {
+      "enrichment1": {},
+      "contract": {
+        "elements": [
+          {
+            "location": {
+              "begin": 2530,
+              "end": 3018
+            },
+            "text": "On 22 December 2008 ART EFFECTS LIMITED and Customer entered into an Information Technology Procurement Framework Agreement (\"the Prime-Contract \").",
+            "attributes": [
+              {
+                "type": "DateTime",
+                "text": "22 December 2008",
+                "location": {
+                  "begin": 2533,
+                  "end": 2549
+                }
+              },
+              {
+                "type": "Organization",
+                "text": "ART EFFECTS LIMITED",
+                "location": {
+                  "begin": 2550,
+                  "end": 2569
+                }
+              }
+            ],
+            "categories": [],
+            "types": []
+          },
+          {
+            "location": {
+              "begin": 3019,
+              "end": 3208
+            },
+            "text": "Buyer is seeking information technology services (and certain related services) for its business operations and to meet obligations in connection with transactions under the Prime-Contract.",
+            "attributes": [],
+            "categories": [],
+            "types": []
+          },
+          {
+            "location": {
+              "begin": 3209,
+              "end": 4538
+            },
+            "text": "This Base Agreement ( \"Base Agreement\" ) between Art Effects Limited ( \"Buyer\" ) and Koya Creative LLC ( \"Supplier\" ) establishes the basis which enables Buyer to obtain such Services from the Supplier from time to time solely for Customer as described in SOWs and/or WAs issued under this Base Agreement.",
+            "attributes": [
+              {
+                "type": "Organization",
+                "text": "Art Effects Limited",
+                "location": {
+                  "begin": 3604,
+                  "end": 3623
+                }
+              },
+              {
+                "type": "Organization",
+                "text": "Koya Creative LLC",
+                "location": {
+                  "begin": 3990,
+                  "end": 4007
+                }
+              }
+            ],
+            "categories": [],
+            "types": []
+          },
+          {
+            "location": {
+              "begin": 4539,
+              "end": 4987
+            },
+            "text": "This Base Agreement is effective from 24th October 2011 (\"Effective Date\") and will remain in effect until terminated.",
+            "attributes": [
+              {
+                "type": "DateTime",
+                "text": "24th October 2011",
+                "location": {
+                  "begin": 4577,
+                  "end": 4594
+                }
+              }
+            ],
+            "categories": [
+              {
+                "label": "Term & Termination",
+                "provenance_ids": [
+                  "CWhoYUAWadjjLkLDMWjlkp3NtdkCjTYKhupTdz1Uvwkb5SANqe5LiN3Eu0AXtT6TkMF9QeAt3DQtyWNlT4z4k9Q=="
+                ]
+              }
+            ],
+            "types": []
+          },
+          {
+            "location": {
+              "begin": 5236,
+              "end": 5251
+            },
+            "text": "1.0 Definitions",
+            "attributes": [],
+            "categories": [],
+            "types": []
+          },
+          {
+            "location": {
+              "begin": 5456,
+              "end": 6003
+            },
+            "text": "\"Acceptance Criteria\" means the documented acceptance criteria for the Services (or any part thereof, including Deliverables), set out in a SOW (if any) against which Supplier's achievement of the Services (or any part thereof, including Deliverables) will be tested by the Buyer for the purpose of assessing whether or not they meet the Buyer's Requirements and Deliverable Specification;",
+            "attributes": [
+              {
+                "type": "DefinedTerm",
+                "text": "Acceptance Criteria",
+                "location": {
+                  "begin": 5457,
+                  "end": 5476
+                }
+              }
+            ],
+            "categories": [],
+            "types": [
+              {
+                "label": {
+                  "nature": "Definition",
+                  "party": "None"
+                },
+                "provenance_ids": [
+                  "NTsgDtyMRhDFihJ8VMkjdr6RGPoqKUwO4tsXv0qUCWtQjtf1dE/gq+AFi98z8J4y5",
+                  "PZhORqxxBCCtSUECV/h0aIA==",
+                  "NW7tBNwbe88uliwGMf/MSc8BgHuLvm+rD2czS8xmKZ14="
+                ]
+              }
+            ]
+          },
+          {
+            "location": {
+              "begin": 6200,
+              "end": 6949
+            },
+            "text": "\"Acceptance Tests\" or \" Acceptance Testing\" means the acceptance tests (if any) to be conducted by Buyer in accordance with the relevant SOW in order to determine whether the Deliverables and/or Services comply with the Acceptance Criteria;",
+            "attributes": [
+              {
+                "type": "DefinedTerm",
+                "text": "Acceptance Tests",
+                "location": {
+                  "begin": 6201,
+                  "end": 6217
+                }
+              },
+              {
+                "type": "DefinedTerm",
+                "text": "Acceptance Testing",
+                "location": {
+                  "begin": 6574,
+                  "end": 6592
+                }
+              }
+            ],
+            "categories": [],
+            "types": [
+              {
+                "label": {
+                  "nature": "Definition",
+                  "party": "None"
+                },
+                "provenance_ids": [
+                  "NTsgDtyMRhDFihJ8VMkjdr6RGPoqKUwO4tsXv0qUCWtQjtf1dE/gq+AFi98z8J4y5",
+                  "PZhORqxxBCCtSUECV/h0aIA==",
+                  "NW7tBNwbe88uliwGMf/MSc8BgHuLvm+rD2czS8xmKZ14="
+                ]
+              }
+            ]
+          },
+          {
+            "location": {
+              "begin": 7147,
+              "end": 7579
+            },
+            "text": "\"Affiliates\" means any corporation or other business entity controlling, controlled by or under common control with Buyer, Supplier or Customer (as applicable) from time to time and, for the purposes of this definition, \"control\" shall mean direct or indirect ownership of:",
+            "attributes": [
+              {
+                "type": "DefinedTerm",
+                "text": "Affiliates",
+                "location": {
+                  "begin": 7148,
+                  "end": 7158
+                }
+              },
+              {
+                "type": "DefinedTerm",
+                "text": "control",
+                "location": {
+                  "begin": 7527,
+                  "end": 7534
+                }
+              }
+            ],
+            "categories": [],
+            "types": [
+              {
+                "label": {
+                  "nature": "Definition",
+                  "party": "None"
+                },
+                "provenance_ids": [
+                  "NBHoT4Zk63q3hoVUP1arU+lzPlarTbNs4ouy8+eRcYGA=",
+                  "PZhORqxxBCCtSUECV/h0aIA==",
+                  "NTsgDtyMRhDFihJ8VMkjdr6RGPoqKUwO4tsXv0qUCWtQjtf1dE/gq+AFi98z8J4y5",
+                  "NW7tBNwbe88uliwGMf/MSc8BgHuLvm+rD2czS8xmKZ14="
+                ]
+              }
+            ]
+          },
+          {
+            "location": {
+              "begin": 7580,
+              "end": 7696
+            },
+            "text": "(i) fifty per cent (50%) or more of the voting securities or voting interest in such corporation or other entity; or",
+            "attributes": [
+              {
+                "type": "DefinedTerm",
+                "text": "Affiliates",
+                "location": {
+                  "begin": 7148,
+                  "end": 7158
+                }
+              },
+              {
+                "type": "DefinedTerm",
+                "text": "control",
+                "location": {
+                  "begin": 7527,
+                  "end": 7534
+                }
+              },
+              {
+                "type": "Number",
+                "text": "fifty",
+                "location": {
+                  "begin": 7584,
+                  "end": 7589
+                }
+              },
+              {
+                "type": "Percentage",
+                "text": "50%",
+                "location": {
+                  "begin": 7600,
+                  "end": 7603
+                }
+              }
+            ],
+            "categories": [],
+            "types": [
+              {
+                "label": {
+                  "nature": "Definition",
+                  "party": "None"
+                },
+                "provenance_ids": [
+                  "NBHoT4Zk63q3hoVUP1arU+lqJJvoIcEkSXia8L2Uw6xT5l3dPMjMwMFzt4qa6sUrr",
+                  "Ph0E36axn7yj8THcd3xjpYvrYPv8vXxJHOidl4ZzNsbDEmjpbfkjEidDOPcU6QMPg",
+                  "NTsgDtyMRhDFihJ8VMkjdr6RGPoqKUwO4tsXv0qUCWtTNFCu7esomIGXBGCrBNovI+tg+/y9fEkc6J2XhnM2xsMSaOlt+SMSJ0M49xTpAw+A="
+                ]
+              }
+            ]
+          },
+          {
+            "location": {
+              "begin": 7697,
+              "end": 7832
+            },
+            "text": "(ii) fifty per cent (50%) or more of the interest in the profit or income in the case of a business entity other than a corporation; or",
+            "attributes": [
+              {
+                "type": "DefinedTerm",
+                "text": "Affiliates",
+                "location": {
+                  "begin": 7148,
+                  "end": 7158
+                }
+              },
+              {
+                "type": "DefinedTerm",
+                "text": "control",
+                "location": {
+                  "begin": 7527,
+                  "end": 7534
+                }
+              },
+              {
+                "type": "Number",
+                "text": "fifty",
+                "location": {
+                  "begin": 7702,
+                  "end": 7707
+                }
+              },
+              {
+                "type": "Percentage",
+                "text": "50%",
+                "location": {
+                  "begin": 7718,
+                  "end": 7721
+                }
+              }
+            ],
+            "categories": [],
+            "types": [
+              {
+                "label": {
+                  "nature": "Definition",
+                  "party": "None"
+                },
+                "provenance_ids": [
+                  "NBHoT4Zk63q3hoVUP1arU+lqJJvoIcEkSXia8L2Uw6xT5l3dPMjMwMFzt4qa6sUrr",
+                  "Ph0E36axn7yj8THcd3xjpYvrYPv8vXxJHOidl4ZzNsbDEmjpbfkjEidDOPcU6QMPg",
+                  "NTsgDtyMRhDFihJ8VMkjdr6RGPoqKUwO4tsXv0qUCWtTNFCu7esomIGXBGCrBNovI+tg+/y9fEkc6J2XhnM2xsMSaOlt+SMSJ0M49xTpAw+A="
+                ]
+              }
+            ]
+          },
+          {
+            "location": {
+              "begin": 7833,
+              "end": 7922
+            },
+            "text": "(iii) in the case of a partnership, any other comparable interest in the general partner;",
+            "attributes": [
+              {
+                "type": "DefinedTerm",
+                "text": "Affiliates",
+                "location": {
+                  "begin": 7148,
+                  "end": 7158
+                }
+              },
+              {
+                "type": "DefinedTerm",
+                "text": "control",
+                "location": {
+                  "begin": 7527,
+                  "end": 7534
+                }
+              }
+            ],
+            "categories": [],
+            "types": [
+              {
+                "label": {
+                  "nature": "Definition",
+                  "party": "None"
+                },
+                "provenance_ids": [
+                  "NBHoT4Zk63q3hoVUP1arU+lqJJvoIcEkSXia8L2Uw6xT5l3dPMjMwMFzt4qa6sUrr",
+                  "Ph0E36axn7yj8THcd3xjpYvrYPv8vXxJHOidl4ZzNsbDEmjpbfkjEidDOPcU6QMPg",
+                  "NTsgDtyMRhDFihJ8VMkjdr6RGPoqKUwO4tsXv0qUCWtTNFCu7esomIGXBGCrBNovI+tg+/y9fEkc6J2XhnM2xsMSaOlt+SMSJ0M49xTpAw+A="
+                ]
+              }
+            ]
+          },
+          {
+            "location": {
+              "begin": 8119,
+              "end": 8823
+            },
+            "text": "\"Agreed Rates\" means the rates applicable for each Day (which rates may vary dependent on the role or seniority of the applicable Supplier Personnel and/or if incurred on a non-Working Day) to Services which are charged for on a time and materials basis as set out in the relevant SOW and charged in accordance with Clause 5 (Pricing) and additional terms within the relevant SOW, which current Agreed Rates are set out in Section 7, as may be varied from time to time by the agreement of the parties and increased in accordance with Clause 5.19;",
+            "attributes": [
+              {
+                "type": "DefinedTerm",
+                "text": "Agreed Rates",
+                "location": {
+                  "begin": 8120,
+                  "end": 8132
+                }
+              },
+              {
+                "type": "Number",
+                "text": "5",
+                "location": {
+                  "begin": 8600,
+                  "end": 8601
+                }
+              }
+            ],
+            "categories": [],
+            "types": [
+              {
+                "label": {
+                  "nature": "Definition",
+                  "party": "None"
+                },
+                "provenance_ids": [
+                  "NW7tBNwbe88uliwGMf/MSc8BgHuLvm+rD2czS8xmKZ14=",
+                  "PZhORqxxBCCtSUECV/h0aIA=="
+                ]
+              }
+            ]
+          },
+          {
+            "location": {
+              "begin": 9021,
+              "end": 10058
+            },
+            "text": "\"Agreement\" means this Base Agreement and any relevant Statements of Work (\" SOW\" ), Work Authorizations (\" WA\" ), and other attachments or appendices specifically referenced in this Agreement.",
+            "attributes": [
+              {
+                "type": "DefinedTerm",
+                "text": "Agreement",
+                "location": {
+                  "begin": 9022,
+                  "end": 9031
+                }
+              }
+            ],
+            "categories": [],
+            "types": [
+              {
+                "label": {
+                  "nature": "Definition",
+                  "party": "None"
+                },
+                "provenance_ids": [
+                  "NBHoT4Zk63q3hoVUP1arU+lzPlarTbNs4ouy8+eRcYGA=",
+                  "PZhORqxxBCCtSUECV/h0aIA==",
+                  "NTsgDtyMRhDFihJ8VMkjdr6RGPoqKUwO4tsXv0qUCWtQjtf1dE/gq+AFi98z8J4y5",
+                  "NW7tBNwbe88uliwGMf/MSc8BgHuLvm+rD2czS8xmKZ14="
+                ]
+              }
+            ]
+          },
+          {
+            "location": {
+              "begin": 10255,
+              "end": 10523
+            },
+            "text": "\"Assigned Rights\" has the meaning set out in Clause 15.4 (Intellectual Property Rights and Buyer Data);",
+            "attributes": [
+              {
+                "type": "DefinedTerm",
+                "text": "Assigned Rights",
+                "location": {
+                  "begin": 10256,
+                  "end": 10271
+                }
+              },
+              {
+                "type": "Number",
+                "text": "15.4",
+                "location": {
+                  "begin": 10472,
+                  "end": 10476
+                }
+              }
+            ],
+            "categories": [
+              {
+                "label": "Intellectual Property",
+                "provenance_ids": [
+                  "ChZvNbY7Z8gaW8A/IBrHphjIxwlFbug6QiPH5kkORJuE=",
+                  "C7gL9edy0Q8AUnO8EczRcrv+dF48ZlAa9rKINx/Ic7rAjQ5Ugei5Lzl5LxXserhSj"
+                ]
+              }
+            ],
+            "types": [
+              {
+                "label": {
+                  "nature": "Definition",
+                  "party": "None"
+                },
+                "provenance_ids": [
+                  "N6oFnFtVaghtayP1BcmJOlXfaXcxmwSj4VOoif1s+zpU=",
+                  "PZhORqxxBCCtSUECV/h0aIA=="
+                ]
+              }
+            ]
+          },
+          {
+            "location": {
+              "begin": 10721,
+              "end": 11253
+            },
+            "text": "\"Authorised Representative\" m eans in relation to a power or activity, any person authorised in accordance with the SOW from time to time by Buyer (in the case of Buyer's Authorised Representative), or the Supplier (in the case of Supplier's Authorised Representative), to exercise that power and/or undertake that activity on behalf of Buyer or the Supplier (as applicable);",
+            "attributes": [],
+            "categories": [],
+            "types": []
+          },
+          {
+            "location": {
+              "begin": 11451,
+              "end": 11636
+            },
+            "text": "\"Background Materials\" means",
+            "attributes": [
+              {
+                "type": "DefinedTerm",
+                "text": "Background Materials",
+                "location": {
+                  "begin": 11452,
+                  "end": 11472
+                }
+              }
+            ],
+            "categories": [],
+            "types": []
+          },
+          {
+            "location": {
+              "begin": 11637,
+              "end": 11707
+            },
+            "text": "(i) in the case of the Supplier the Supplier Background Materials; and",
+            "attributes": [
+              {
+                "type": "DefinedTerm",
+                "text": "Background Materials",
+                "location": {
+                  "begin": 11452,
+                  "end": 11472
+                }
+              }
+            ],
+            "categories": [],
+            "types": [
+              {
+                "label": {
+                  "nature": "Definition",
+                  "party": "None"
+                },
+                "provenance_ids": [
+                  "NW7tBNwbe88uliwGMf/MScxgOIwdFzfaZ/5ecI7d+IX7c2vK1qsLyUpQ0ctlC2KiPcz5Ebb5TiJ24y3OOIJjjfQ==",
+                  "Ph0E36axn7yj8THcd3xjpYvrYPv8vXxJHOidl4ZzNsbDEmjpbfkjEidDOPcU6QMPg"
+                ]
+              }
+            ]
+          },
+          {
+            "location": {
+              "begin": 11708,
+              "end": 11769
+            },
+            "text": "(ii) in the case of the Buyer the Buyer Background Materials.",
+            "attributes": [
+              {
+                "type": "DefinedTerm",
+                "text": "Background Materials",
+                "location": {
+                  "begin": 11452,
+                  "end": 11472
+                }
+              }
+            ],
+            "categories": [],
+            "types": [
+              {
+                "label": {
+                  "nature": "Definition",
+                  "party": "None"
+                },
+                "provenance_ids": [
+                  "NW7tBNwbe88uliwGMf/MScxgOIwdFzfaZ/5ecI7d+IX7c2vK1qsLyUpQ0ctlC2KiPcz5Ebb5TiJ24y3OOIJjjfQ==",
+                  "Ph0E36axn7yj8THcd3xjpYvrYPv8vXxJHOidl4ZzNsbDEmjpbfkjEidDOPcU6QMPg"
+                ]
+              }
+            ]
+          },
+          {
+            "location": {
+              "begin": 11966,
+              "end": 12497
+            },
+            "text": "\"Buyer Audit Representatives\" means representatives of any member of Buyer and/ or Customer Group (including its internal auditors), its appointed consultants, external auditors and their appointed consultants and any other auditors, regulators, inspectors or consultants that any member of Buyer may designate as \"Buyer Audit Representatives\" in writing from time to time;",
+            "attributes": [
+              {
+                "type": "DefinedTerm",
+                "text": "Buyer Audit Representatives",
+                "location": {
+                  "begin": 11967,
+                  "end": 11994
+                }
+              }
+            ],
+            "categories": [],
+            "types": [
+              {
+                "label": {
+                  "nature": "Definition",
+                  "party": "None"
+                },
+                "provenance_ids": [
+                  "NBHoT4Zk63q3hoVUP1arU+lzPlarTbNs4ouy8+eRcYGA=",
+                  "PZhORqxxBCCtSUECV/h0aIA==",
+                  "NTsgDtyMRhDFihJ8VMkjdr6RGPoqKUwO4tsXv0qUCWtQjtf1dE/gq+AFi98z8J4y5",
+                  "NW7tBNwbe88uliwGMf/MSc8BgHuLvm+rD2czS8xmKZ14="
+                ]
+              }
+            ]
+          },
+          {
+            "location": {
+              "begin": 12696,
+              "end": 13070
+            },
+            "text": "\"Buyer Authorised Representative\" means the Authorised Representative of Buyer most relevant or suitable to the activity, issue or area in question as notified in writing by Buyer to the Supplier from time to time;",
+            "attributes": [
+              {
+                "type": "DefinedTerm",
+                "text": "Buyer Authorised Representative",
+                "location": {
+                  "begin": 12697,
+                  "end": 12728
+                }
+              }
+            ],
+            "categories": [],
+            "types": [
+              {
+                "label": {
+                  "nature": "Definition",
+                  "party": "None"
+                },
+                "provenance_ids": [
+                  "NW7tBNwbe88uliwGMf/MSc8BgHuLvm+rD2czS8xmKZ14=",
+                  "PZhORqxxBCCtSUECV/h0aIA=="
+                ]
+              }
+            ]
+          },
+          {
+            "location": {
+              "begin": 13268,
+              "end": 13474
+            },
+            "text": "\"Buyer Background Material\" means:",
+            "attributes": [
+              {
+                "type": "DefinedTerm",
+                "text": "Buyer Background Material",
+                "location": {
+                  "begin": 13269,
+                  "end": 13294
+                }
+              }
+            ],
+            "categories": [],
+            "types": [
+              {
+                "label": {
+                  "nature": "Definition",
+                  "party": "None"
+                },
+                "provenance_ids": [
+                  "NW7tBNwbe88uliwGMf/MSc8BgHuLvm+rD2czS8xmKZ14=",
+                  "PZhORqxxBCCtSUECV/h0aIA=="
+                ]
+              }
+            ]
+          },
+          {
+            "location": {
+              "begin": 13717,
+              "end": 14171
+            },
+            "text": "a) any Material provided by Buyer or its Affiliates, or for and/or on behalf of any member of the Customer Group and/or by the Consortium Members to the Supplier in connection with the performance or receipt of the Services, other than New Materials and Supplier Background Materials; and",
+            "attributes": [
+              {
+                "type": "DefinedTerm",
+                "text": "Buyer Background Material",
+                "location": {
+                  "begin": 13269,
+                  "end": 13294
+                }
+              }
+            ],
+            "categories": [],
+            "types": [
+              {
+                "label": {
+                  "nature": "Definition",
+                  "party": "None"
+                },
+                "provenance_ids": [
+                  "NW7tBNwbe88uliwGMf/MScxgOIwdFzfaZ/5ecI7d+IX7c2vK1qsLyUpQ0ctlC2KiPcz5Ebb5TiJ24y3OOIJjjfQ==",
+                  "Ph0E36axn7yj8THcd3xjpYvrYPv8vXxJHOidl4ZzNsbDEmjpbfkjEidDOPcU6QMPg"
+                ]
+              }
+            ]
+          },
+          {
+            "location": {
+              "begin": 14383,
+              "end": 14887
+            },
+            "text": "b) any Material (including Modifications to Material) which is acquired or created by, for or on behalf of (other than from or by the Supplier Group) Buyer and/or any member of the Customer Group (including by the Consortium Members) in anticipation of, in connection with and/or in the course of the performance or receipt of the Services;",
+            "attributes": [
+              {
+                "type": "DefinedTerm",
+                "text": "Buyer Background Material",
+                "location": {
+                  "begin": 13269,
+                  "end": 13294
+                }
+              }
+            ],
+            "categories": [],
+            "types": [
+              {
+                "label": {
+                  "nature": "Definition",
+                  "party": "None"
+                },
+                "provenance_ids": [
+                  "NW7tBNwbe88uliwGMf/MScxgOIwdFzfaZ/5ecI7d+IX7c2vK1qsLyUpQ0ctlC2KiPcz5Ebb5TiJ24y3OOIJjjfQ==",
+                  "Ph0E36axn7yj8THcd3xjpYvrYPv8vXxJHOidl4ZzNsbDEmjpbfkjEidDOPcU6QMPg"
+                ]
+              }
+            ]
+          },
+          {
+            "location": {
+              "begin": 15088,
+              "end": 15287
+            },
+            "text": "\"Buyer Data\" means any data:",
+            "attributes": [
+              {
+                "type": "DefinedTerm",
+                "text": "Buyer Data",
+                "location": {
+                  "begin": 15089,
+                  "end": 15099
+                }
+              }
+            ],
+            "categories": [],
+            "types": [
+              {
+                "label": {
+                  "nature": "Definition",
+                  "party": "None"
+                },
+                "provenance_ids": [
+                  "NBHoT4Zk63q3hoVUP1arU+lzPlarTbNs4ouy8+eRcYGA=",
+                  "PZhORqxxBCCtSUECV/h0aIA==",
+                  "NTsgDtyMRhDFihJ8VMkjdr6RGPoqKUwO4tsXv0qUCWtQjtf1dE/gq+AFi98z8J4y5",
+                  "NW7tBNwbe88uliwGMf/MSc8BgHuLvm+rD2czS8xmKZ14="
+                ]
+              }
+            ]
+          },
+          {
+            "location": {
+              "begin": 15507,
+              "end": 15876
+            },
+            "text": "a) held by any member of Buyer which is supplied, transferred or disclosed to the Supplier, or which is accessible by the Supplier pursuant to the Agreement (including, in all cases, Customer data); and",
+            "attributes": [
+              {
+                "type": "DefinedTerm",
+                "text": "Buyer Data",
+                "location": {
+                  "begin": 15089,
+                  "end": 15099
+                }
+              }
+            ],
+            "categories": [],
+            "types": [
+              {
+                "label": {
+                  "nature": "Definition",
+                  "party": "None"
+                },
+                "provenance_ids": [
+                  "NBHoT4Zk63q3hoVUP1arU+lqJJvoIcEkSXia8L2Uw6xT5l3dPMjMwMFzt4qa6sUrr",
+                  "Ph0E36axn7yj8THcd3xjpYvrYPv8vXxJHOidl4ZzNsbDEmjpbfkjEidDOPcU6QMPg",
+                  "NTsgDtyMRhDFihJ8VMkjdr6RGPoqKUwO4tsXv0qUCWtTNFCu7esomIGXBGCrBNovI+tg+/y9fEkc6J2XhnM2xsMSaOlt+SMSJ0M49xTpAw+A="
+                ]
+              }
+            ]
+          },
+          {
+            "location": {
+              "begin": 16064,
+              "end": 16646
+            },
+            "text": "b) (other than data referred to in (a) above) which is created, obtained, collected, stored, used or processed by or on behalf of the Supplier solely for Buyer (and not for the Supplier's own internal or administrative purposes) as part of the Services pursuant to the relevant SOW; but, for the avoidance of doubt, excludes any Supplier Background Materials and Type A Materials, Type B Materials and Type C Materials;",
+            "attributes": [
+              {
+                "type": "DefinedTerm",
+                "text": "Buyer Data",
+                "location": {
+                  "begin": 15089,
+                  "end": 15099
+                }
+              }
+            ],
+            "categories": [],
+            "types": [
+              {
+                "label": {
+                  "nature": "Definition",
+                  "party": "None"
+                },
+                "provenance_ids": [
+                  "NBHoT4Zk63q3hoVUP1arU+lqJJvoIcEkSXia8L2Uw6xT5l3dPMjMwMFzt4qa6sUrr",
+                  "Ph0E36axn7yj8THcd3xjpYvrYPv8vXxJHOidl4ZzNsbDEmjpbfkjEidDOPcU6QMPg",
+                  "NTsgDtyMRhDFihJ8VMkjdr6RGPoqKUwO4tsXv0qUCWtTNFCu7esomIGXBGCrBNovI+tg+/y9fEkc6J2XhnM2xsMSaOlt+SMSJ0M49xTpAw+A="
+                ]
+              }
+            ]
+          },
+          {
+            "location": {
+              "begin": 16850,
+              "end": 17391
+            },
+            "text": "\"Buyer Information Systems\" means the electronic information systems comprising hardware, equipment, software, peripherals, and/or communications networks owned, controlled, operated and/or used by Buyer (including, where applicable, any member of Customer Group) from time to time, excluding any Deliverables or Materials provided by the Supplier to Buyer pursuant to the relevant SOW;",
+            "attributes": [
+              {
+                "type": "DefinedTerm",
+                "text": "Buyer Information Systems",
+                "location": {
+                  "begin": 16851,
+                  "end": 16876
+                }
+              }
+            ],
+            "categories": [],
+            "types": [
+              {
+                "label": {
+                  "nature": "Definition",
+                  "party": "None"
+                },
+                "provenance_ids": [
+                  "NBHoT4Zk63q3hoVUP1arU+lzPlarTbNs4ouy8+eRcYGA=",
+                  "PZhORqxxBCCtSUECV/h0aIA==",
+                  "NTsgDtyMRhDFihJ8VMkjdr6RGPoqKUwO4tsXv0qUCWtQjtf1dE/gq+AFi98z8J4y5",
+                  "NW7tBNwbe88uliwGMf/MSc8BgHuLvm+rD2czS8xmKZ14="
+                ]
+              }
+            ]
+          },
+          {
+            "location": {
+              "begin": 17758,
+              "end": 17985
+            },
+            "text": "\"Buyer Material\" means Buyer Background Material and Type A;",
+            "attributes": [
+              {
+                "type": "DefinedTerm",
+                "text": "Buyer Material",
+                "location": {
+                  "begin": 17759,
+                  "end": 17773
+                }
+              }
+            ],
+            "categories": [],
+            "types": [
+              {
+                "label": {
+                  "nature": "Definition",
+                  "party": "None"
+                },
+                "provenance_ids": [
+                  "NBHoT4Zk63q3hoVUP1arU+lzPlarTbNs4ouy8+eRcYGA=",
+                  "PZhORqxxBCCtSUECV/h0aIA==",
+                  "NTsgDtyMRhDFihJ8VMkjdr6RGPoqKUwO4tsXv0qUCWtQjtf1dE/gq+AFi98z8J4y5",
+                  "NW7tBNwbe88uliwGMf/MSc8BgHuLvm+rD2czS8xmKZ14="
+                ]
+              }
+            ]
+          },
+          {
+            "location": {
+              "begin": 18177,
+              "end": 18466
+            },
+            "text": "\"Buyer Premises\" means premises owned, leased, licensed or otherwise controlled or used by Buyer and/or a member of the Customer Group;",
+            "attributes": [
+              {
+                "type": "DefinedTerm",
+                "text": "Buyer Premises",
+                "location": {
+                  "begin": 18178,
+                  "end": 18192
+                }
+              }
+            ],
+            "categories": [],
+            "types": [
+              {
+                "label": {
+                  "nature": "Definition",
+                  "party": "None"
+                },
+                "provenance_ids": [
+                  "NW7tBNwbe88uliwGMf/MSc8BgHuLvm+rD2czS8xmKZ14=",
+                  "PZhORqxxBCCtSUECV/h0aIA=="
+                ]
+              }
+            ]
+          },
+          {
+            "location": {
+              "begin": 18664,
+              "end": 19332
+            },
+            "text": "\"Buyer Policies and Standards\" means Buyer's policies, standard operating procedures, rules and regulations (including where applicable the Customer's policies and standards) which have been provided to Supplier in durable form and agreed by the Supplier prior to the date of this Base Agreement, and which are set out in Section 6 together with any additional policies that may be agreed between the parties pursuant to a SOW and any additional policies which may be notified to Supplier pursuant to Clause 26.4;",
+            "attributes": [
+              {
+                "type": "DefinedTerm",
+                "text": "Buyer Policies and Standards",
+                "location": {
+                  "begin": 18665,
+                  "end": 18693
+                }
+              }
+            ],
+            "categories": [],
+            "types": [
+              {
+                "label": {
+                  "nature": "Definition",
+                  "party": "None"
+                },
+                "provenance_ids": [
+                  "NW7tBNwbe88uliwGMf/MSc8BgHuLvm+rD2czS8xmKZ14=",
+                  "PZhORqxxBCCtSUECV/h0aIA=="
+                ]
+              }
+            ]
+          },
+          {
+            "location": {
+              "begin": 19527,
+              "end": 19929
+            },
+            "text": "\"Buyer Requirements\" means the document (if any) setting out the requirements to be fulfilled by a Deliverable which the Supplier shall use to draft the Specification for such Deliverable, in accordance with and as referenced in the relevant SOW;",
+            "attributes": [
+              {
+                "type": "DefinedTerm",
+                "text": "Buyer Requirements",
+                "location": {
+                  "begin": 19528,
+                  "end": 19546
+                }
+              }
+            ],
+            "categories": [
+              {
+                "label": "Deliverables",
+                "provenance_ids": [
+                  "CmUIEbgW4esTR7vcYPUI5UVLT3b71q7tT2r2yFp00vVeGpOMWebBfdcPkv7QDkYgoRwH418uq1ncLEi+qEAgt3EBeWFfF998OYQiPYViD2yI="
+                ]
+              }
+            ],
+            "types": [
+              {
+                "label": {
+                  "nature": "Definition",
+                  "party": "None"
+                },
+                "provenance_ids": [
+                  "NBHoT4Zk63q3hoVUP1arU+lzPlarTbNs4ouy8+eRcYGA=",
+                  "PZhORqxxBCCtSUECV/h0aIA==",
+                  "NTsgDtyMRhDFihJ8VMkjdr6RGPoqKUwO4tsXv0qUCWtQjtf1dE/gq+AFi98z8J4y5",
+                  "NW7tBNwbe88uliwGMf/MSc8BgHuLvm+rD2czS8xmKZ14="
+                ]
+              }
+            ]
+          },
+          {
+            "location": {
+              "begin": 20126,
+              "end": 20401
+            },
+            "text": "\"Buyer Obligations\" means the obligations of Buyer, set out in this Base Agreement or the relevant SOW;",
+            "attributes": [
+              {
+                "type": "DefinedTerm",
+                "text": "Buyer Obligations",
+                "location": {
+                  "begin": 20127,
+                  "end": 20144
+                }
+              }
+            ],
+            "categories": [],
+            "types": [
+              {
+                "label": {
+                  "nature": "Definition",
+                  "party": "None"
+                },
+                "provenance_ids": [
+                  "NBHoT4Zk63q3hoVUP1arU+lzPlarTbNs4ouy8+eRcYGA=",
+                  "PZhORqxxBCCtSUECV/h0aIA==",
+                  "NTsgDtyMRhDFihJ8VMkjdr6RGPoqKUwO4tsXv0qUCWtQjtf1dE/gq+AFi98z8J4y5",
+                  "NW7tBNwbe88uliwGMf/MSc8BgHuLvm+rD2czS8xmKZ14="
+                ]
+              }
+            ]
+          },
+          {
+            "location": {
+              "begin": 20598,
+              "end": 20978
+            },
+            "text": "\"Change\" means any actual, proposed or anticipated change to a SOW, the Services and/or Deliverables, including the method or timing of their performance or delivery which is not a Contract Change or an Operational Change;",
+            "attributes": [
+              {
+                "type": "DefinedTerm",
+                "text": "Change",
+                "location": {
+                  "begin": 20599,
+                  "end": 20605
+                }
+              }
+            ],
+            "categories": [
+              {
+                "label": "Scope of Work",
+                "provenance_ids": [
+                  "CmUIEbgW4esTR7vcYPUI5UVLT3b71q7tT2r2yFp00vVcccHlzXkP62+lS51H+z+HsZ2Y4JVCysC4TlzEmIW/28g=="
+                ]
+              }
+            ],
+            "types": [
+              {
+                "label": {
+                  "nature": "Definition",
+                  "party": "None"
+                },
+                "provenance_ids": [
+                  "NBHoT4Zk63q3hoVUP1arU+lzPlarTbNs4ouy8+eRcYGA=",
+                  "PZhORqxxBCCtSUECV/h0aIA==",
+                  "NTsgDtyMRhDFihJ8VMkjdr6RGPoqKUwO4tsXv0qUCWtQjtf1dE/gq+AFi98z8J4y5",
+                  "NW7tBNwbe88uliwGMf/MSc8BgHuLvm+rD2czS8xmKZ14="
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "enrichment2": {}
+    }
+  ],
+  "extracted_metadata": {
+    "publicationdate": "2018-10-24",
+    "sha1": "754836ffd690207d39b9f8db08b8099e787c61fa",
+    "filename": "Art Effects Koya Creative Base TSA 2008.pdf",
+    "file_type": "pdf",
+    "title": "Microsoft Word - Art Effects Koya Creative Base TSA 2008.doc"
+  },
+  "html": [
+    "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><html>\n<head>\n    <meta content=\"text/html; charset=UTF-8\" http-equiv=\"Content-Type\"/><meta content=\"2018-10-24\" name=\"publicationdate\"/><meta content=\"58\" name=\"numPages\"/><title>Microsoft Word - Art Effects Koya Creative Base TSA 2008.doc</title><style>/**/\n .Arial_BoldMT_Black_10_08_bold{font-size: 10.08pt; font-family: Arial-BoldMT; color: Black; font-weight: bold;} .ArialMT_Black_10_08{font-size: 10.08pt; font-family: ArialMT; color: Black; } .SymbolMT_Black_10_08{font-size: 10.08pt; font-family: SymbolMT; color: Black; } .TimesNewRomanPS_BoldItalicMT_Black_10_08_bold_italic{font-size: 10.08pt; font-family: TimesNewRomanPS-BoldItalicMT; color: Black; font-weight: bold; font-style: italic;} .TimesNewRomanPS_BoldMT_Black_10_08_bold{font-size: 10.08pt; font-family: TimesNewRomanPS-BoldMT; color: Black; font-weight: bold;} .TimesNewRomanPS_ItalicMT_Black_10_08_italic{font-size: 10.08pt; font-family: TimesNewRomanPS-ItalicMT; color: Black;  font-style: italic;} .TimesNewRomanPSMT_Black_10_08{font-size: 10.08pt; font-family: TimesNewRomanPSMT; color: Black; } .TimesNewRomanPSMT_Red_10_08{font-size: 10.08pt; font-family: TimesNewRomanPSMT; color: Red; } .TimesNewRomanPS_BoldMT_Black_11_04_bold{font-size: 11.04pt; font-family: TimesNewRomanPS-BoldMT; color: Black; font-weight: bold;} .TimesNewRomanPSMT_Black_11_04{font-size: 11.04pt; font-family: TimesNewRomanPSMT; color: Black; } .Helvetica_Bold_Black_12_0_bold{font-size: 12.0pt; font-family: Helvetica-Bold; color: Black; font-weight: bold;} .Helvetica_Black_12_0{font-size: 12.0pt; font-family: Helvetica; color: Black; } .TimesNewRomanPS_BoldMT_Black_12_0_bold{font-size: 12.0pt; font-family: TimesNewRomanPS-BoldMT; color: Black; font-weight: bold;} .TimesNewRomanPSMT_Black_12_0{font-size: 12.0pt; font-family: TimesNewRomanPSMT; color: Black; } .TimesNewRomanPSMT_Black_6_48{font-size: 6.48pt; font-family: TimesNewRomanPSMT; color: Black; } .TimesNewRomanPSMT_Black_7_9199996{font-size: 7.9199996pt; font-family: TimesNewRomanPSMT; color: Black; } .ArialMT_Black_9_12{font-size: 9.12pt; font-family: ArialMT; color: Black; } .SymbolMT_Black_9_12{font-size: 9.12pt; font-family: SymbolMT; color: Black; } .TimesNewRomanPSMT_Black_9_12{font-size: 9.12pt; font-family: TimesNewRomanPSMT; color: Black; }\n/**/</style></head>\n<body><p text-alignment=\"left\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872972011566162\" page=\"1\" width=\"506.5294189453125\" x=\"54.0\" y=\"89.32704162597656\">On 22 December 2008 ART EFFECTS LIMITED and Customer entered into an Information Technology Procurement Framework Agreement (\"the </bbox></span><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"1\" width=\"67.77618408203125\" x=\"178.95774841308594\" y=\"102.52705383300781\">Prime-Contract</bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07298421859741\" page=\"1\" width=\"506.57171630859375\" x=\"54.0\" y=\"102.52705383300781\">\"). Buyer is seeking information technology services (and certain related services) for its business operations and to meet obligations in connection with transactions under the Prime-Contract. This Base Agreement (</bbox></span><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"1\" width=\"82.63580322265625\" x=\"132.04591369628906\" y=\"128.9270782470703\">\"Base Agreement\"</bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"1\" width=\"137.51495361328125\" x=\"214.669921875\" y=\"128.9270782470703\">) between Art Effects Limited (</bbox></span><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"1\" width=\"36.146881103515625\" x=\"352.1582336425781\" y=\"128.9270782470703\">\"Buyer\"</bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"1\" width=\"119.75018310546875\" x=\"388.2666931152344\" y=\"128.9270782470703\">) and Koya Creative LLC (</bbox></span><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"1\" width=\"46.73095703125\" x=\"507.990234375\" y=\"128.9270782470703\">\"Supplier\"</bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"46.27293539047241\" page=\"1\" width=\"506.5203857421875\" x=\"54.0\" y=\"128.9270782470703\">) establishes the basis which enables Buyer to obtain such Services from the Supplier from time to time solely for Customer as described in SOWs and/or WAs issued under this Base Agreement. This Base Agreement is effective from 24th October 2011 </bbox></span><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"1\" width=\"80.5311279296875\" x=\"76.5\" y=\"168.5270538330078\">(\"Effective Date\") </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"1\" width=\"169.4046630859375\" x=\"157.0078125\" y=\"168.5270538330078\">and will remain in effect until terminated. </bbox></span></p><section data-level=\"1\" id=\"1\"><p text-alignment=\"left\"><span class=\"title\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"7.217286586761475\" page=\"1\" width=\"69.68992614746094\" x=\"54.0\" y=\"206.38275146484375\">1.0 Definitions </bbox></span></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"1\" width=\"98.27998352050781\" x=\"54.0\" y=\"233.56703186035156\">\"Acceptance Criteria\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"46.2729811668396\" page=\"1\" width=\"506.45404052734375\" x=\"54.0\" y=\"233.56703186035156\">means the documented acceptance criteria for the Services (or any part thereof, including Deliverables), set out in a SOW (if any) against which Supplier's achievement of the Services (or any part thereof, including Deliverables) will be tested by the Buyer for the purpose of assessing whether or not they meet the Buyer's Requirements and Deliverable Specification; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"1\" width=\"86.67791748046875\" x=\"54.0\" y=\"299.5670471191406\">\"Acceptance Tests\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"1\" width=\"15.896163940429688\" x=\"141.26805114746094\" y=\"299.5670471191406\">or \"</bbox></span><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"1\" width=\"91.14669799804688\" x=\"157.126220703125\" y=\"299.5670471191406\">Acceptance Testing\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872941493988037\" page=\"1\" width=\"506.51971435546875\" x=\"54.0\" y=\"299.5670471191406\">means the acceptance tests (if any) to be conducted by Buyer in accordance with the relevant SOW in order to determine whether the Deliverables and/or Services comply with the Acceptance Criteria; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"1\" width=\"52.50048065185547\" x=\"54.0\" y=\"339.16705322265625\">\"Affiliates\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"59.71293783187866\" page=\"1\" width=\"506.63494873046875\" x=\"54.0\" y=\"339.16705322265625\">means any corporation or other business entity controlling, controlled by or under common control with Buyer, Supplier or Customer (as applicable) from time to time and, for the purposes of this definition, \"control\" shall mean direct or indirect ownership of: (i) fifty per cent (50%) or more of the voting securities or voting interest in such corporation or other entity; or (ii) fifty per cent (50%) or more of the interest in the profit or income in the case of a business entity other than a corporation; or (iii) in the case of a partnership, any other comparable interest in the general partner; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"1\" width=\"71.01535034179688\" x=\"54.0\" y=\"418.6070556640625\">\"Agreed Rates\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"59.47294759750366\" page=\"1\" width=\"506.58673095703125\" x=\"54.0\" y=\"418.6070556640625\">means the rates applicable for each Day (which rates may vary dependent on the role or seniority of the applicable Supplier Personnel and/or if incurred on a non-Working Day) to Services which are charged for on a time and materials basis as set out in the relevant SOW and charged in accordance with Clause 5 (Pricing) and additional terms within the relevant SOW, which current Agreed Rates are set out in Section 7, as may be varied from time to time by the agreement of the parties and increased in accordance with Clause 5.19; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"1\" width=\"60.820770263671875\" x=\"54.0\" y=\"497.8070373535156\">\"Agreement\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"1\" width=\"279.19287109375\" x=\"115.3359375\" y=\"497.8070373535156\">means this Base Agreement and any relevant Statements of Work (\"</bbox></span><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"1\" width=\"28.933685302734375\" x=\"394.4864501953125\" y=\"497.8070373535156\">SOW\"</bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"1\" width=\"106.0615234375\" x=\"423.37774658203125\" y=\"497.8070373535156\">), Work Authorizations (\"</bbox></span><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"1\" width=\"22.817138671875\" x=\"529.3969116210938\" y=\"497.8070373535156\">WA\"</bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"20.112992763519287\" page=\"1\" width=\"506.52423095703125\" x=\"54.0\" y=\"497.8070373535156\">), and other attachments or appendices specifically referenced in this Agreement. </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"1\" width=\"81.14793395996094\" x=\"54.0\" y=\"537.6470336914062\">\"Assigned Rights\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"1\" width=\"344.10693359375\" x=\"135.1279296875\" y=\"537.6470336914062\">has the meaning set out in Clause 15.4 (Intellectual Property Rights and Buyer Data); </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"1\" width=\"136.17068481445312\" x=\"54.0\" y=\"564.0469970703125\">\"Authorised Representative\" m</bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"46.27299642562866\" page=\"1\" width=\"506.62030029296875\" x=\"54.0\" y=\"564.0469970703125\">eans in relation to a power or activity, any person authorised in accordance with the SOW from time to time by Buyer (in the case of Buyer's Authorised Representative), or the Supplier (in the case of Supplier's Authorised Representative), to exercise that power and/or undertake that activity on behalf of Buyer or the Supplier (as applicable); </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"1\" width=\"109.08570861816406\" x=\"54.0\" y=\"630.0469970703125\">\"Background Materials\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"20.113023281097412\" page=\"1\" width=\"506.457763671875\" x=\"54.0\" y=\"630.0469970703125\">means (i) in the case of the Supplier the Supplier Background Materials; and (ii) in the case of the Buyer the Buyer Background Materials. </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"1\" width=\"139.0031280517578\" x=\"54.0\" y=\"669.8870239257812\">\"Buyer Audit Representatives\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"46.27299642562866\" page=\"1\" width=\"506.72174072265625\" x=\"54.0\" y=\"669.8870239257812\">means representatives of any member of Buyer and/ or Customer Group (including its internal auditors), its appointed consultants, external auditors and their appointed consultants and any other auditors, regulators, inspectors or consultants that any member of Buyer may designate as \"Buyer Audit Representatives\" in writing from time to time; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"2\" width=\"155.37400817871094\" x=\"54.0\" y=\"102.52705383300781\">\"Buyer Authorised Representative\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872972011566162\" page=\"2\" width=\"506.59088134765625\" x=\"54.0\" y=\"102.52705383300781\">means the Authorised Representative of Buyer most relevant or suitable to the activity, issue or area in question as notified in writing by Buyer to the Supplier from time to time; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"2\" width=\"133.6204376220703\" x=\"54.0\" y=\"142.12709045410156\">\"Buyer Background Material\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"2\" width=\"33.34519958496094\" x=\"187.60350036621094\" y=\"142.12709045410156\">means: </bbox></span></p><ul style=\"list-style-type: none;\"><li><span class=\"number\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"7.217286586761475\" page=\"2\" width=\"11.132328033447266\" x=\"61.1000862121582\" y=\"154.78271484375\">a) </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07298421859741\" page=\"2\" width=\"506.47906494140625\" x=\"54.0\" y=\"155.32704162597656\">any Material provided by Buyer or its Affiliates, or for and/or on behalf of any member of the Customer Group and/or by the Consortium Members to the Supplier in connection with the performance or receipt of the Services, other than New Materials and Supplier Background Materials; and </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"7.217286586761475\" page=\"2\" width=\"11.693859100341797\" x=\"61.1000862121582\" y=\"194.38275146484375\">b) </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.31291341781616\" page=\"2\" width=\"506.6690673828125\" x=\"54.0\" y=\"194.9270782470703\">any Material (including Modifications to Material) which is acquired or created by, for or on behalf of (other than from or by the Supplier Group) Buyer and/or any member of the Customer Group (including by the Consortium Members) in anticipation of, in connection with and/or in the course of the performance or receipt of the Services; </bbox></span></li></ul><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"2\" width=\"61.66943359375\" x=\"54.0\" y=\"247.96705627441406\">\"Buyer Data\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"2\" width=\"66.9389419555664\" x=\"115.66014862060547\" y=\"247.96705627441406\">means any data: </bbox></span></p><ul style=\"list-style-type: none;\"><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.8745598793029785\" page=\"2\" width=\"10.57080078125\" x=\"54.0\" y=\"260.9654541015625\">a) </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872941493988037\" page=\"2\" width=\"506.41363525390625\" x=\"54.0\" y=\"261.16705322265625\">held by any member of Buyer which is supplied, transferred or disclosed to the Supplier, or which is accessible by the Supplier pursuant to the Agreement (including, in all cases, Customer data); and </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"2\" width=\"37.45726776123047\" x=\"54.0\" y=\"287.5670471191406\">b) </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"46.27296590805054\" page=\"2\" width=\"506.519287109375\" x=\"54.0\" y=\"287.5670471191406\">(other than data referred to in (a) above) which is created, obtained, collected, stored, used or processed by or on behalf of the Supplier solely for Buyer (and not for the Supplier's own internal or administrative purposes) as part of the Services pursuant to the relevant SOW; but, for the avoidance of doubt, excludes any Supplier Background Materials and Type A Materials, Type B Materials and Type C Materials; </bbox></span></li></ul><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"2\" width=\"135.97157287597656\" x=\"54.0\" y=\"353.8070373535156\">\"Buyer Information Systems\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"46.27296590805054\" page=\"2\" width=\"506.53955078125\" x=\"54.0\" y=\"353.8070373535156\">means the electronic information systems comprising hardware, equipment, software, peripherals, and/or communications networks owned, controlled, operated and/or used by Buyer (including, where applicable, any member of Customer Group) from time to time, excluding any Deliverables or Materials provided by the Supplier to Buyer pursuant to the relevant SOW; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"2\" width=\"2.520000457763672\" x=\"54.0\" y=\"419.8070373535156\"></bbox></span><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"2\" width=\"78.32161712646484\" x=\"56.50000762939453\" y=\"419.8070373535156\">\"Buyer Material\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"2\" width=\"195.23959350585938\" x=\"134.810546875\" y=\"419.8070373535156\">means Buyer Background Material and Type A; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"2\" width=\"79.54129028320312\" x=\"54.0\" y=\"446.20703125\">\"Buyer Premises\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872972011566162\" page=\"2\" width=\"506.48101806640625\" x=\"54.0\" y=\"446.20703125\">means premises owned, leased, licensed or otherwise controlled or used by Buyer and/or a member of the Customer Group; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"2\" width=\"141.82559204101562\" x=\"54.0\" y=\"485.8070373535156\">\"Buyer Policies and Standards\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"59.71296834945679\" page=\"2\" width=\"506.52197265625\" x=\"54.0\" y=\"485.8070373535156\">means Buyer's policies, standard operating procedures, rules and regulations (including where applicable the Customer's policies and standards) which have been provided to Supplier in durable form and agreed by the Supplier prior to the date of this Base Agreement, and which are set out in Section 6 together with any additional policies that may be agreed between the parties pursuant to a SOW and any additional policies which may be notified to Supplier pursuant to Clause 26.4; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"2\" width=\"101.51565551757812\" x=\"54.0\" y=\"565.2470703125\">\"Buyer Requirements\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872910976409912\" page=\"2\" width=\"506.62322998046875\" x=\"54.0\" y=\"565.2470703125\">means the document (if any) setting out the requirements to be fulfilled by a Deliverable which the Supplier shall use to draft the Specification for such Deliverable, in accordance with and as referenced in the relevant SOW; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"2\" width=\"90.59902954101562\" x=\"54.0\" y=\"604.8470458984375\">\"Buyer Obligations\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"2\" width=\"345.22032165527344\" x=\"144.56639099121094\" y=\"604.8470458984375\">means the obligations of Buyer, set out in this Base Agreement or the relevant SOW; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"2\" width=\"45.303192138671875\" x=\"54.0\" y=\"631.487060546875\">\"Change\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872910976409912\" page=\"2\" width=\"506.53863525390625\" x=\"54.0\" y=\"631.487060546875\">means any actual, proposed or anticipated change to a SOW, the Services and/or Deliverables, including the method or timing of their performance or delivery which is not a Contract Change or an Operational Change; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"2\" width=\"103.60223388671875\" x=\"54.0\" y=\"671.0870361328125\">\"Change Control Note\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"2\" width=\"372.43214416503906\" x=\"157.60350036621094\" y=\"671.0870361328125\">has the meaning set out in Clause 36.4 (Change Control Procedure (and Contract Changes)); </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"2\" width=\"128.05709838867188\" x=\"54.0\" y=\"697.487060546875\">\"Change Control Procedure\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"2\" width=\"346.8607177734375\" x=\"182.037109375\" y=\"697.487060546875\">means the change control procedure set out in Clause 36 (Change Control Procedure); </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"3\" width=\"48.06144714355469\" x=\"54.0\" y=\"89.32704162597656\">\"Charges\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"3\" width=\"168.32573699951172\" x=\"102.05176544189453\" y=\"89.32704162597656\">has the meaning given to it in Clause 5.1; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"3\" width=\"38.626556396484375\" x=\"54.0\" y=\"115.72706604003906\">\"Claim\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872972011566162\" page=\"3\" width=\"506.5125732421875\" x=\"54.0\" y=\"115.72706604003906\">means any claim, action, proceeding, demand or bona fide allegation or any threatened claim, action, proceeding, demand or allegation of whatever nature, whether in contract, tort (including negligence) or otherwise; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"3\" width=\"157.18748474121094\" x=\"54.0\" y=\"155.32704162597656\">\"Commercially Reasonable Efforts\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07298421859741\" page=\"3\" width=\"506.536865234375\" x=\"54.0\" y=\"155.32704162597656\">means that the party obliged to perform shall take all such steps and perform in such a manner as if that party were acting, in a determined, prudent and reasonable manner to achieve the desired result for its own benefit ; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"3\" width=\"120.58151245117188\" x=\"54.0\" y=\"208.1270294189453\">\"Confidential Information\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"3\" width=\"190.24951171875\" x=\"174.5615234375\" y=\"208.1270294189453\">is as defined in the Confidentiality Agreement; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"3\" width=\"119.36759948730469\" x=\"54.0\" y=\"234.7670440673828\">\"Confidentiality Agreement</bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07296895980835\" page=\"3\" width=\"506.640380859375\" x=\"54.0\" y=\"234.7670440673828\">\" means the Procurement Agreement for the Exchange of Confidential Information (Agreement #4911027836) and Modifications to the Procurement Agreement for the Exchange of Confidential Information (Agreement #4911029066) between Buyer and Supplier. </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"3\" width=\"95.63133239746094\" x=\"54.0\" y=\"287.5670471191406\">\"Conflict of Interest\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07295370101929\" page=\"3\" width=\"506.56036376953125\" x=\"54.0\" y=\"287.5670471191406\">means, where the Supplier is engaged by Buyer to provide advice or recommendations, a situation exists, or is likely to exist, where the financial interests or other commercial considerations of the Supplier interferes with or compromises the exercise of the Supplier's professional judgment in providing such advice or recommendations; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"3\" width=\"102.79415893554688\" x=\"54.0\" y=\"340.3670349121094\">\"Consortium Member\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"46.51295614242554\" page=\"3\" width=\"506.64404296875\" x=\"54.0\" y=\"340.3670349121094\">means any third party (excluding contractors) providing goods and/or services to any member of the Customer Group and with whom Buyer reasonably requires the Supplier to co-operate or interact in connection with the services and deliverables to be performed or delivered (as applicable) by or on behalf of the Supplier pursuant to (i) this Agreement, ii) the SOW; and (ii) each Related SOW (if any); </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"3\" width=\"86.12351989746094\" x=\"54.0\" y=\"406.6070556640625\">\"Contract Change\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"3\" width=\"193.02296447753906\" x=\"140.10350036621094\" y=\"406.6070556640625\">means any amendment to this Base Agreement; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"3\" width=\"55.835426330566406\" x=\"54.0\" y=\"433.00701904296875\">\"Customer\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"3\" width=\"103.88229370117188\" x=\"109.8154296875\" y=\"433.00701904296875\">means Buyer's customer. </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"3\" width=\"87.69598388671875\" x=\"54.0\" y=\"459.40704345703125\">\"Customer Group\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"46.51295614242554\" page=\"3\" width=\"506.59332275390625\" x=\"54.0\" y=\"459.40704345703125\">means Customer and each of its affiliated members (the term \"affiliated members\" has the same meaning as the defined term \"Affiliates\" but only to the extent controlling, controlled by or under common control of the Customer) for the time being and, where appropriate, any building society or company to whom all or the majority of the business of Customer is transferred following any transaction under section 93 to 98 of the Building Societies Act 1986; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"3\" width=\"102.79583740234375\" x=\"54.0\" y=\"525.6470336914062\">\"Customer Obligation\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"3\" width=\"394.0922393798828\" x=\"156.77830505371094\" y=\"525.6470336914062\">means an obligation of the Customer identified as such in this Base Agreement or relevant SOW; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"3\" width=\"162.44921875\" x=\"54.0\" y=\"552.0469970703125\">\"Data Controller\", \"Data Processor\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"3\" width=\"22.167953491210938\" x=\"217.23240661621094\" y=\"552.0469970703125\">and \"</bbox></span><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"3\" width=\"66.04258728027344\" x=\"239.35887145996094\" y=\"552.0469970703125\">Data Subject,\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.873033046722412\" page=\"3\" width=\"506.53131103515625\" x=\"54.0\" y=\"552.0469970703125\">shall have the respective meanings given to such terms in the Data Protection Act 1998; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"3\" width=\"130.25387573242188\" x=\"54.0\" y=\"591.6470336914062\">\"Data Protection Legislation\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872972011566162\" page=\"3\" width=\"506.5360107421875\" x=\"54.0\" y=\"591.6470336914062\">shall mean the Data Protection Act 1998 and its related regulations as amended from time to time; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"3\" width=\"82.94830322265625\" x=\"54.0\" y=\"631.487060546875\">\"Date Compliant\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872910976409912\" page=\"3\" width=\"506.57818603515625\" x=\"54.0\" y=\"631.487060546875\">means that no date change has had or will have any adverse impact upon the provision, receipt, performance or functionality of any Deliverables and the performance of the Services; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"3\" width=\"29.74169158935547\" x=\"54.0\" y=\"671.0870361328125\">\"Day\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872910976409912\" page=\"3\" width=\"502.16632080078125\" x=\"54.0\" y=\"671.0870361328125\">means a period of 8 hours on any calendar day or as otherwise specified in the SOW. For the avoidance of doubt, any additional hours above 8 hours per Day will be deemed overtime and will be subject to Clause 5.4.3; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"3\" width=\"102.45310974121094\" x=\"54.0\" y=\"710.68701171875\">\"Default Interest Rate\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"3\" width=\"356.84132385253906\" x=\"156.47068786621094\" y=\"710.68701171875\">means four per cent (4%) above the base rate of the Bank of England from time to time; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"4\" width=\"105.27268981933594\" x=\"54.0\" y=\"102.52705383300781\">\"Delay Remedy Period\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"4\" width=\"168.32569885253906\" x=\"159.25389099121094\" y=\"102.52705383300781\">has the meaning given to it in Clause 9.4; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"4\" width=\"66.38719177246094\" x=\"54.0\" y=\"128.9270782470703\">\"Deliverables\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"4\" width=\"437.41273498535156\" x=\"120.36717224121094\" y=\"128.9270782470703\">means items that Supplier prepares for or provides to Buyer or Customer as described in a SOW and/or WA; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"4\" width=\"71.17488861083984\" x=\"54.0\" y=\"155.32704162597656\">\"Delivery Date\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872972011566162\" page=\"4\" width=\"506.53076171875\" x=\"54.0\" y=\"155.32704162597656\">means the date on which parties have agreed that the Supplier will deliver a Deliverable to Buyer, as set out in the Timetable (as may be amended in accordance with Clauses 9.7 and 2.3); </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"4\" width=\"64.73375701904297\" x=\"54.0\" y=\"194.9270782470703\">\"Dependency\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872910976409912\" page=\"4\" width=\"506.6312255859375\" x=\"54.0\" y=\"194.9270782470703\">means (i) Buyer's failure to perform the relevant Buyer Obligation; or (ii) Customer's failure to perform a Customer Obligation; or (iii) a Third Party's failure to perform a Third Party Obligation; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"4\" width=\"47.799522399902344\" x=\"54.0\" y=\"234.7670440673828\"> \"Dispute\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"4\" width=\"417.93505096435547\" x=\"101.78321075439453\" y=\"234.7670440673828\">means any dispute or difference between the parties arising out of or in connection with the Agreement; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"4\" width=\"107.77389526367188\" x=\"54.0\" y=\"261.16705322265625\">\"Document Deliverable\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"4\" width=\"171.90487670898438\" x=\"161.75390625\" y=\"261.16705322265625\">means a Deliverable which is a document; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"4\" width=\"78.05950927734375\" x=\"54.0\" y=\"287.5670471191406\">\"Documentation\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"46.27296590805054\" page=\"4\" width=\"506.60491943359375\" x=\"54.0\" y=\"287.5670471191406\">means the documentation (if any) identified in the SOW and other documentation as agreed between the parties in writing from time to time relating to the specification, structure, operation or use of a Deliverable, which may include the operational and user reference manuals which explains the operation and use of such Deliverables, and all instruction manuals, tutorial materials and other ancillary materials; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"4\" width=\"33.06239318847656\" x=\"54.0\" y=\"353.8070373535156\">\"DPA\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07295370101929\" page=\"4\" width=\"506.519775390625\" x=\"54.0\" y=\"353.8070373535156\">means all Relevant Laws pertaining to privacy, confidentiality and/or the protection of Personal Data or corporate data as are in force in the jurisdiction in which or from which the Services are being provided, including the Data Protection Act 1998; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"4\" width=\"61.10496520996094\" x=\"54.0\" y=\"406.6070556640625\">\"Fixed Price\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"4\" width=\"331.32360076904297\" x=\"115.08887481689453\" y=\"406.6070556640625\">means the Prices described as such in Clause 5 (Pricing) and detailed in the SOW; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"4\" width=\"98.58932495117188\" x=\"54.0\" y=\"433.00701904296875\">\"Force Majeure Event </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"4\" width=\"192.7445526123047\" x=\"152.56935119628906\" y=\"433.00701904296875\">means, unless otherwise agreed in a SOW, any: </bbox></span></p><ul style=\"list-style-type: none;\"><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.8745598793029785\" page=\"4\" width=\"10.570793151855469\" x=\"72.0\" y=\"446.00543212890625\">a) </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"4\" width=\"349.3315124511719\" x=\"90.0\" y=\"446.20703125\">fire, flood, earthquake, unusually severe weather or elements of nature or acts of God; </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.8745598793029785\" page=\"4\" width=\"11.132301330566406\" x=\"72.0\" y=\"459.2054443359375\">b) </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"46.51295614242554\" page=\"4\" width=\"506.63568115234375\" x=\"54.0\" y=\"459.40704345703125\">war, embargo, riot, civil disorder, rebellion, acts of terrorism, revolution; or other causes beyond a party's reasonable control which, for the avoidance of doubt, shall not include any industrial dispute, or any event affecting a subcontractor (and, for the purposes of this definition of Force Majeure Event only, the term subcontractor shall not include any member of the Supplier Group); </bbox></span></li></ul><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"4\" width=\"31.409271240234375\" x=\"54.0\" y=\"525.6470336914062\">\"FSA\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"4\" width=\"256.62638092041016\" x=\"85.39159393310547\" y=\"525.6470336914062\">means the Financial Services Authority or any successor body; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"4\" width=\"113.92411804199219\" x=\"54.0\" y=\"552.0469970703125\">\"Good Industry Practice\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"59.47300863265991\" page=\"4\" width=\"506.51983642578125\" x=\"54.0\" y=\"552.0469970703125\">means, in relation to the Supplier (or any Supplier Personnel, as applicable), the exercise of that degree of skill, prudence, care and foresight, and the practices and professional standards which would reasonably and ordinarily be expected to be exercised by a well-managed, skilled and experienced contractor similar to and of the same nature as the Supplier, and engaged in the performance of services, and/or provision of deliverables similar to the Services and/or Deliverables under the same or similar circumstances or conditions; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPSMT_Black_9_12\"><bbox height=\"6.037439823150635\" page=\"4\" width=\"2.279998779296875\" x=\"54.0\" y=\"623.7225952148438\"></bbox></span><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"4\" width=\"58.643035888671875\" x=\"56.25\" y=\"623.0870361328125\">\"Indexation\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"18.192979335784912\" page=\"4\" width=\"490.4937744140625\" x=\"54.0\" y=\"623.0870361328125\">is the process of applying an annual increase to the Agreed Rates. The Indexation calculation will apply an increase in the rates which will be performed on the following basis: </bbox></span></p><ul style=\"list-style-type: none;\"><li><span class=\"number\"><span class=\"SymbolMT_Black_9_12\"><bbox height=\"6.219850063323975\" page=\"4\" width=\"6.674995422363281\" x=\"72.0\" y=\"651.6201171875\">• </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672964572906494\" page=\"4\" width=\"157.4913787841797\" x=\"90.0\" y=\"651.1669921875\">The ASHE index for relevant job roles </bbox></span></li></ul><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"4\" width=\"131.927001953125\" x=\"54.0\" y=\"679.967041015625\">\"Intellectual Property Rights\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"4\" width=\"30.845199584960938\" x=\"185.923828125\" y=\"679.967041015625\">means: </bbox></span></p><ul style=\"list-style-type: none;\"><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.8745598793029785\" page=\"4\" width=\"10.570793151855469\" x=\"90.0\" y=\"692.9653930664062\">a) </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"4\" width=\"33.62351989746094\" x=\"108.0\" y=\"693.1669921875\">patents; </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.8745598793029785\" page=\"4\" width=\"11.132301330566406\" x=\"90.0\" y=\"706.1654663085938\">b) </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"4\" width=\"433.5062255859375\" x=\"108.0\" y=\"706.3670654296875\">trade marks, service marks, trade names and business names (including rights in goodwill attached thereto); </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.8745598793029785\" page=\"5\" width=\"10.570793151855469\" x=\"90.0\" y=\"89.12544250488281\">c) </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"56.68504333496094\" x=\"108.0\" y=\"89.32704162597656\">design rights; </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.8745598793029785\" page=\"5\" width=\"11.132301330566406\" x=\"90.0\" y=\"102.32545471191406\">d) </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"261.06982421875\" x=\"108.0\" y=\"102.52705383300781\">rights in and/or to internet domain names and website addresses; </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.8745598793029785\" page=\"5\" width=\"10.570793151855469\" x=\"90.0\" y=\"115.52546691894531\">e) </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"140.82568359375\" x=\"108.0\" y=\"115.72706604003906\">semi-conductor topography rights; </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.8745598793029785\" page=\"5\" width=\"9.462387084960938\" x=\"90.0\" y=\"128.72547912597656\">f) </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"157.75918579101562\" x=\"108.0\" y=\"128.9270782470703\">copyright (including future copyright); </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.8745598793029785\" page=\"5\" width=\"11.132301330566406\" x=\"90.0\" y=\"141.9254913330078\">g) </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"65.00047302246094\" x=\"108.0\" y=\"142.12709045410156\">database rights; </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.8745598793029785\" page=\"5\" width=\"11.132301330566406\" x=\"90.0\" y=\"155.1254425048828\">h) </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"59.47294759750366\" page=\"5\" width=\"506.51593017578125\" x=\"54.0\" y=\"155.32704162597656\">all other intellectual property rights; in each case subsisting at any time in any part of the world (whether registered or unregistered) and: (i) any pending applications or rights to apply for registrations of any of these rights that are capable of registration in any country or jurisdiction; and (ii) any similar or analogous rights to any of these rights, whether arising or granted under the laws of England &amp; Wales or in any other jurisdiction; </bbox></span></li></ul><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"73.88640594482422\" x=\"54.0\" y=\"234.7670440673828\">\"Key Milestone\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"251.33822631835938\" x=\"127.8720703125\" y=\"234.7670440673828\">means a Milestone identified as a \"Key Milestone\" in a SOW; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"74.45327758789062\" x=\"54.0\" y=\"261.16705322265625\">\"Key Personnel\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"308.5404052734375\" x=\"128.43359375\" y=\"261.16705322265625\">means a member of Key Personnel identified as \"Key Personnel\" in a SOW; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"96.98974609375\" x=\"54.0\" y=\"287.5670471191406\">\"Licence Agreement\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872941493988037\" page=\"5\" width=\"506.51611328125\" x=\"54.0\" y=\"287.5670471191406\">means a separate Licence Agreement to be entered into between the Customer and Supplier in relation to the Customer's use (and Buyer's limited as necessary to facilitate Customer's use) of the Mobile Money Manager; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"101.14268493652344\" x=\"54.0\" y=\"327.16705322265625\">\"Liquidated Damages\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"267.7056121826172\" x=\"155.12303161621094\" y=\"327.16705322265625\">means liquidated damages (if any) specifically detailed in a SOW; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"124.48628234863281\" x=\"54.0\" y=\"353.8070373535156\">\"Liquidated Damages Period</bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"302.6909942626953\" x=\"178.44825744628906\" y=\"353.8070373535156\">\" means liquidated damages period (if any) specifically detailed in a SOW; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"42.78907775878906\" x=\"54.0\" y=\"380.20703125\"> \"Losses\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07298421859741\" page=\"5\" width=\"506.47747802734375\" x=\"54.0\" y=\"380.20703125\">means all losses, liabilities (including provision for contingent liabilities), damages, fines, costs and expenses including reasonable legal fees on a solicitor/client basis and disbursements and costs of investigation, litigation, settlement, judgment and interest; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"49.714569091796875\" x=\"54.0\" y=\"433.00701904296875\">\"Material\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"46.27296590805054\" page=\"5\" width=\"506.68707275390625\" x=\"54.0\" y=\"433.00701904296875\">means literary works or other works of authorship or other material (in whatever form) including software, firmware, documented methodology, process and procedure (including any reports, specifications, business rules and requirements, user manuals, user guides, operations manuals, training materials and instruction), and any other output (in whatever form). </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"56.66992950439453\" x=\"54.0\" y=\"499.2470397949219\"> \"Milestone\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"194.13609313964844\" x=\"110.65525817871094\" y=\"499.2470397949219\">means any event identified as such in the SOW; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"78.3115234375\" x=\"54.0\" y=\"525.6470336914062\">\"Milestone Date\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872972011566162\" page=\"5\" width=\"506.49395751953125\" x=\"54.0\" y=\"525.6470336914062\">means in relation to a Milestone, the date by which such Milestone is to be achieved (including, by achieving if relevant the applicable Acceptance Criteria) (as may be amended in accordance with Clauses 9.7 and 2.3) </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"116.32318115234375\" x=\"54.0\" y=\"565.2470703125\">\"Mobile Money Manager\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07292318344116\" page=\"5\" width=\"506.51849365234375\" x=\"54.0\" y=\"565.2470703125\">means the Supplier's proprietary Mobile Banking, Mobile Servicing, Mobile Wallet and Mobile Shopping base technology platform, including without limitation, software, messaging gateways and integrations proprietary to the Supplier as Modified from time to time; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"43.62840270996094\" x=\"54.0\" y=\"618.0469970703125\">\"Modify\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"382.0116271972656\" x=\"99.796630859375\" y=\"618.0469970703125\">means to add to, enhance, detract, reduce, change, replace, vary, derive or improve; and </bbox></span><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"57.515045166015625\" x=\"483.8783874511719\" y=\"618.0469970703125\">Modification </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"16.963623046875\" x=\"543.5615844726562\" y=\"618.0469970703125\">and </bbox></span><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"41.40672302246094\" x=\"54.0\" y=\"631.487060546875\">Modified </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"127.2026138305664\" x=\"95.38672637939453\" y=\"631.487060546875\">shall be construed accordingly; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"74.99557495117188\" x=\"54.0\" y=\"657.8870239257812\">\"New Materials\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"268.2767333984375\" x=\"128.9755859375\" y=\"657.8870239257812\">means Type A Materials, Type B Materials and Type C Materials; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"5\" width=\"93.04537963867188\" x=\"54.0\" y=\"684.2869873046875\">\"Open Source Code\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07298421859741\" page=\"5\" width=\"506.54608154296875\" x=\"54.0\" y=\"684.2869873046875\">means any computer software whose source code is available under a licence (or arrangement such as the public domain) that permits users to study, change and improve the software, and to redistribute it in modified or unmodified form. It is often developed in a public, collaborative manner and is available to the public without charge; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"99.87376403808594\" x=\"54.0\" y=\"102.52705383300781\">\"Operational Change\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"40.99296712875366\" page=\"6\" width=\"506.5863037109375\" x=\"54.0\" y=\"102.52705383300781\">means any actual, proposed or anticipated change to the Services and/or Deliverables, including the method or timing of their performance or delivery which do not have a material commercial impact; \"</bbox></span><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"113.99577331542969\" x=\"59.55206298828125\" y=\"136.84706115722656\">Participation Agreement\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"16.547988891601562\" x=\"173.65138244628906\" y=\"136.84706115722656\">or \"</bbox></span><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"21.401535034179688\" x=\"190.1570281982422\" y=\"136.84706115722656\">PA\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.31297445297241\" page=\"6\" width=\"506.61187744140625\" x=\"54.0\" y=\"136.84706115722656\">means an agreement signed by one or more Affiliates which incorporates by reference the terms and conditions in this Base Agreement, any relevant SOWs, and other attachments or appendices specifically referenced in the PA. </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"72.2332763671875\" x=\"54.0\" y=\"189.8870391845703\">\"Payment Plan\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"387.12451934814453\" x=\"126.21678924560547\" y=\"189.8870391845703\">means the plan applicable to the payment of Fixed Price charges as set out in the relevant SOW; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"73.89205932617188\" x=\"54.0\" y=\"216.2870635986328\">\"Personal Data\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"303.2768859863281\" x=\"127.8720703125\" y=\"216.2870635986328\">shall have the meaning given to such term in the Data Protection Act 1998; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"55.29685974121094\" x=\"54.0\" y=\"242.68702697753906\">\"Personnel\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"397.14392852783203\" x=\"109.26854705810547\" y=\"242.68702697753906\">means agents, employees or subcontractors engaged or appointed by Buyer, Customer or Supplier. </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"39.717262268066406\" x=\"54.0\" y=\"269.0870361328125\">\"Prices\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872972011566162\" page=\"6\" width=\"506.46173095703125\" x=\"54.0\" y=\"269.0870361328125\">means the agreed upon payment and currency for Deliverables and Services, exclusive of Taxes but including all applicable fees and payments, as specified in this Base Agreement, relevant SOW and/or (subject to Clause 2.2.2) WA. </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"47.49696350097656\" x=\"54.0\" y=\"308.9270324707031\">\"Records\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872972011566162\" page=\"6\" width=\"506.4677734375\" x=\"54.0\" y=\"308.9270324707031\">means books, documents, manuals, reports and all other records, in each case in physical or electronic form, created, modified, maintained and/or held by the Supplier or any Contractor in connection with this Agreement; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"107.22703552246094\" x=\"54.0\" y=\"348.52703857421875\">\"Recoverable Expenses\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"197.20751953125\" x=\"161.20703125\" y=\"348.52703857421875\">has the meaning set out in Clause 5.12 (Pricing); </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"105.11419677734375\" x=\"54.0\" y=\"374.9270324707031\">\"Regulatory Authority\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872972011566162\" page=\"6\" width=\"506.46160888671875\" x=\"54.0\" y=\"374.9270324707031\">means any body which has the responsibility of supervising and/or regulating a party or that party's Affiliates and in relation to the Customer Group includes the FSA; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"71.12446594238281\" x=\"54.0\" y=\"414.52703857421875\">\"Related SOW\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"183.03768920898438\" x=\"125.1083984375\" y=\"414.52703857421875\">has the meaning in Clause 3.0 Related SOW; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"108.3297119140625\" x=\"54.0\" y=\"441.16705322265625\">\"Relationship Manager\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872941493988037\" page=\"6\" width=\"506.50372314453125\" x=\"54.0\" y=\"441.16705322265625\">means the person appointed by the Supplier or Buyer as the primary representative in connection with the Base Agreement; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"71.68014526367188\" x=\"54.0\" y=\"480.76702880859375\">\"Relevant Law\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"30.84520721435547\" x=\"125.66016387939453\" y=\"480.76702880859375\">means: </bbox></span></p><ul style=\"list-style-type: none;\"><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.8745598793029785\" page=\"6\" width=\"10.570793151855469\" x=\"72.0\" y=\"493.76544189453125\">a) </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872910976409912\" page=\"6\" width=\"470.52142333984375\" x=\"90.0\" y=\"493.967041015625\">any statute, regulation, bye-law, ordinance or subordinate legislation which is in force for the time being to which a party is subject (including in the case of Customer the Financial Services and Markets Act 2000); </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.8745598793029785\" page=\"6\" width=\"11.132301330566406\" x=\"72.0\" y=\"520.1654663085938\">b) </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"265.2102966308594\" x=\"90.0\" y=\"520.3670654296875\">the common law as applicable to the parties (or any one of them); </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.8745598793029785\" page=\"6\" width=\"10.570793151855469\" x=\"72.0\" y=\"533.3654174804688\">c) </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"380.9966125488281\" x=\"90.0\" y=\"533.5670166015625\">any binding court order, judgment or decree applicable to the parties (or any one of them); and </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.8745598793029785\" page=\"6\" width=\"11.132301330566406\" x=\"72.0\" y=\"546.5654296875\">d) </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"20.112962245941162\" page=\"6\" width=\"470.58648681640625\" x=\"90.0\" y=\"546.7670288085938\">any applicable industry code, policy, guidance, standard or accreditation terms (i) enforceable by law which is in force for the time being, and/or (ii) stipulated by any Regulatory Authority to which a party is subject. </bbox></span></li></ul><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"106.23309326171875\" x=\"54.0\" y=\"586.6070556640625\">\"Replacement Services\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872910976409912\" page=\"6\" width=\"506.45086669921875\" x=\"54.0\" y=\"586.6070556640625\">means services which Buyer obtains or itself provides in substitution for the Services or any part thereof following any Service Transfer and/or termination or expiry of the relevant SOW; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"71.66516876220703\" x=\"54.0\" y=\"626.20703125\">\"Retention Fee\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"263.2670440673828\" x=\"125.64549255371094\" y=\"626.20703125\">means the Retention Fee (if any) specifically detailed in a SOW; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"113.05726623535156\" x=\"54.0\" y=\"652.6070556640625\">\"Sensitive Personal Data\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"303.2768096923828\" x=\"167.04685974121094\" y=\"652.6070556640625\">shall have the meaning given to such term in the Data Protection Act 1998; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"48.60887145996094\" x=\"54.0\" y=\"679.0070190429688\">\"Services\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"6\" width=\"380.2054138183594\" x=\"102.5888671875\" y=\"679.0070190429688\">means work that Supplier performs for Buyer or Customer as described in a SOW and/or WA. </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"7\" width=\"84.32225036621094\" x=\"54.0\" y=\"89.32704162597656\">\"Service Transfer\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872972011566162\" page=\"7\" width=\"506.57745361328125\" x=\"54.0\" y=\"89.32704162597656\">means any transfer of the Services (or any part thereof), for whatever reason, from the Supplier (or any subcontractor) to Buyer or any third party; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"7\" width=\"67.51710510253906\" x=\"54.0\" y=\"128.9270782470703\">\"Specification\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07292318344116\" page=\"7\" width=\"506.759521484375\" x=\"54.0\" y=\"128.9270782470703\">in respect of a Deliverable, means the relevant functional and non-functional specification for that Deliverable agreed by the parties and set out in the SOW, or (where applicable) to be produced by or on behalf of the Supplier to meet Buyer's Requirements, and approved by Buyer, pursuant to the SOW; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"7\" width=\"95.27391052246094\" x=\"54.0\" y=\"181.72706604003906\">\"Statement of Work\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"7\" width=\"16.424468994140625\" x=\"149.25390625\" y=\"181.72706604003906\">or \"</bbox></span><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"7\" width=\"31.411285400390625\" x=\"165.63604736328125\" y=\"181.72706604003906\">SOW\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"7\" width=\"109.71232604980469\" x=\"197.02735900878906\" y=\"181.72706604003906\">means any document that: </bbox></span></p><ul style=\"list-style-type: none;\"><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"7\" width=\"10.019515991210938\" x=\"54.0\" y=\"194.9270782470703\">1. </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"7\" width=\"159.97669982910156\" x=\"63.999359130859375\" y=\"194.9270782470703\">identifies itself as a statement of work; </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"7\" width=\"10.019515991210938\" x=\"54.0\" y=\"208.1270294189453\">2. </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"7\" width=\"105.0108642578125\" x=\"63.999359130859375\" y=\"208.1270294189453\">is signed by both parties; </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"7\" width=\"10.019515991210938\" x=\"54.0\" y=\"221.56703186035156\">3. </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"7\" width=\"323.52166748046875\" x=\"63.999359130859375\" y=\"221.56703186035156\">incorporates by reference the terms and conditions of this Base Agreement; and </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"7\" width=\"10.019515991210938\" x=\"54.0\" y=\"234.7670440673828\">4. </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"7\" width=\"389.8936462402344\" x=\"63.999359130859375\" y=\"234.7670440673828\">describes the Deliverables and Services, including any requirements, specifications or schedules. </bbox></span></li></ul><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"7\" width=\"93.3609619140625\" x=\"54.0\" y=\"261.16705322265625\">\"Successor Supplier\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"7\" width=\"346.3139953613281\" x=\"147.33984375\" y=\"261.16705322265625\">means any party Buyer appoints or invites to tender to provide Replacement Services; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"7\" width=\"165.98793029785156\" x=\"54.0\" y=\"287.5670471191406\">\"Supplier Authorised Representative\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872941493988037\" page=\"7\" width=\"506.50677490234375\" x=\"54.0\" y=\"287.5670471191406\">means the Authorised Representative of the Supplier most relevant or suitable to the activity, issue or area in question; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"7\" width=\"145.09176635742188\" x=\"54.0\" y=\"327.16705322265625\">\"Supplier Background Material\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.31294393539429\" page=\"7\" width=\"506.68109130859375\" x=\"54.0\" y=\"327.16705322265625\">means any Material (including Modifications to Material) acquired or created by, for or on behalf of the Supplier Group otherwise than in the course of the performance or receipt of the Services, and provided by the Supplier to Buyer and/or used in connection with the performance and/or receipt of the Services; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"7\" width=\"76.44671630859375\" x=\"54.0\" y=\"380.20703125\">\"Supplier Fault\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872972011566162\" page=\"7\" width=\"506.4835205078125\" x=\"54.0\" y=\"380.20703125\">means a failure by the Supplier to perform in accordance with the terms of this Agreement but not including any failure (i) which results from failure of any Dependency; or (ii) which is caused by a Force Majeure Event. </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"7\" width=\"80.05535888671875\" x=\"54.0\" y=\"419.8070373535156\">\"Supplier Group\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"7\" width=\"151.09902954101562\" x=\"134.01953125\" y=\"419.8070373535156\">means the Supplier and its Affiliates; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"7\" width=\"143.6132354736328\" x=\"54.0\" y=\"446.20703125\">\"Supplier Operations Meetings\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872972011566162\" page=\"7\" width=\"506.50201416015625\" x=\"54.0\" y=\"446.20703125\">means Buyer's meetings with the Supplier that are known as the \"Supplier Operations Meetings\" or any meetings which are known by a different name but which replace or supersede such meetings; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"7\" width=\"37.519996643066406\" x=\"54.0\" y=\"485.8070373535156\">\"Taxes\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"72.91291952133179\" page=\"7\" width=\"506.5999755859375\" x=\"54.0\" y=\"485.8070373535156\">means any and all applicable taxes, charges, fees, levies or other assessments imposed or collected by any governmental entity worldwide or any political subdivision thereof and however designated or levied on sales of Deliverables or Services, or sales, use, transfer, goods and services or value added tax or any other duties or fees related to any payment made by Buyer to Supplier for Deliverables and/or Services provided by Supplier to Buyer under or pursuant to this Agreement; exclusive, however, of any taxes imposed upon the net income or capital of Supplier, any taxes in lieu of such net income taxes and any other taxes which are to be borne by Supplier under law. </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"7\" width=\"116.40379333496094\" x=\"54.0\" y=\"578.447021484375\">\"Termination Assistance\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872972011566162\" page=\"7\" width=\"506.519287109375\" x=\"54.0\" y=\"578.447021484375\">means the termination assistance to be provided by the Supplier pursuant to Clause 31 (Termination Assistance and Employment Matters) of this Base Agreement </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"7\" width=\"147.20826721191406\" x=\"54.0\" y=\"618.0469970703125\">\"Termination Assistance Period\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"20.113023281097412\" page=\"7\" width=\"506.5670166015625\" x=\"54.0\" y=\"618.0469970703125\">means the period specified as the \"Termination Assistance Period\" in a SOW during which Termination Assistance is required by Buyer; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"7\" width=\"83.89584350585938\" x=\"54.0\" y=\"657.8870239257812\">\"Termination Fee\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"20.352952480316162\" page=\"7\" width=\"506.5107421875\" x=\"54.0\" y=\"657.8870239257812\">means in addition to any other sums due under this Base Agreement any termination charges specified in the relevant SOW. </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"8\" width=\"65.13182067871094\" x=\"54.0\" y=\"89.32704162597656\">\"Third Party\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07298421859741\" page=\"8\" width=\"506.52728271484375\" x=\"54.0\" y=\"89.32704162597656\">means any agent or third party engaged by Buyer or Customer to provide services to Buyer or Customer (where such services interrelate with or could have a material impact on the Supplier's ability to perform its obligations under this Agreement); </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"8\" width=\"110.81948852539062\" x=\"54.0\" y=\"142.12709045410156\">\"Third Party Materials\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07292318344116\" page=\"8\" width=\"506.59857177734375\" x=\"54.0\" y=\"142.12709045410156\">means any Materials, the Intellectual Property Rights in which are owned by the third party, supplied or provided by or on behalf of the Supplier pursuant to a SOW, whether or not such Materials are incorporated within, or otherwise form part of, the Deliverables, or otherwise used to perform the Services; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"8\" width=\"116.80220031738281\" x=\"54.0\" y=\"194.9270782470703\">\"Third Party Obligations\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872910976409912\" page=\"8\" width=\"506.51287841796875\" x=\"54.0\" y=\"194.9270782470703\">means any obligations of any Third Party which affect the ability of the Supplier to perform its obligations under this Base Agreement including any identified as such in the relevant SOW; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"8\" width=\"55.84319305419922\" x=\"54.0\" y=\"234.7670440673828\">\"Timetable\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"8\" width=\"294.37056732177734\" x=\"109.82520294189453\" y=\"234.7670440673828\">means the relevant timetable (or timetables) (if any) set out in the SOW; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"8\" width=\"89.17036437988281\" x=\"54.0\" y=\"261.16705322265625\">\"Type A Materials\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07295370101929\" page=\"8\" width=\"506.5362548828125\" x=\"54.0\" y=\"261.16705322265625\">means any Deliverables and/or other Materials that are identified as \"Type A Materials\" in the SOW and in which the Intellectual Property Rights are owned by the Customer pursuant to Clause 15.2a) (Intellectual Property Rights and Buyer Data; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_12_0_bold\"><bbox height=\"7.944000244140625\" page=\"8\" width=\"6.0\" x=\"54.0\" y=\"314.6159973144531\">\"</bbox></span><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"8\" width=\"83.6226806640625\" x=\"60.0\" y=\"315.88702392578125\">Type B Materials\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.79296875\" page=\"8\" width=\"506.57867431640625\" x=\"54.0\" y=\"315.88702392578125\">means any Deliverables and/or other Materials that are identified as \"Type B Materials\" in the SOW and in which the Intellectual Property Rights are owned by the Supplier pursuant to Clause 15.2.b (Intellectual Property Rights and Buyer Data) and in respect of which Customer is granted a licence pursuant to Clause 15.10; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"8\" width=\"4.475517272949219\" x=\"54.0\" y=\"372.28704833984375\">\"</bbox></span><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"8\" width=\"76.87514114379883\" x=\"58.4384880065918\" y=\"372.28704833984375\">Type C Materials</bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07295370101929\" page=\"8\" width=\"506.53204345703125\" x=\"54.0\" y=\"372.28704833984375\">\" means any Deliverables and/or other Materials that are identified as \"Type C Materials\" in the SOW and in which the Intellectual Property Rights are owned by the Supplier pursuant to Clause 15.2.c (Intellectual Property Rights and Buyer Data) and in respect of which Customer and Buyer is granted a licence as detailed in Clause 15.11] </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"8\" width=\"4.475517272949219\" x=\"54.0\" y=\"438.28704833984375\">\"</bbox></span><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"8\" width=\"74.74724197387695\" x=\"58.4384880065918\" y=\"438.28704833984375\">Warranty Period</bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07295370101929\" page=\"8\" width=\"506.5858154296875\" x=\"54.0\" y=\"438.28704833984375\">\" means a period of time during which the Supplier will be obliged to provide Services to support the implementation of the Deliverables provided under a SOW. The duration of the Warranty Period and the charges and charging mechanisms for the Warranty Period will be defined in the relevant SOW; </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"8\" width=\"101.52073669433594\" x=\"54.0\" y=\"491.3270263671875\">\"Work Authorization\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"8\" width=\"16.821701049804688\" x=\"155.89794921875\" y=\"491.3270263671875\">or \"</bbox></span><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"8\" width=\"25.2930908203125\" x=\"172.6773223876953\" y=\"491.3270263671875\">WA\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07298421859741\" page=\"8\" width=\"506.57464599609375\" x=\"54.0\" y=\"491.3270263671875\">means Buyer's authorization in either electronic or tangible form for Supplier to conduct transactions under this Agreement in accordance with the applicable SOW (i.e., a purchase order, bill of lading, or other Buyer designated document). A SOW is a WA only if designated as such in writing by Buyer. </bbox></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"8\" width=\"72.3239974975586\" x=\"54.0\" y=\"544.1270751953125\">\"Working Day\" </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872910976409912\" page=\"8\" width=\"506.49029541015625\" x=\"54.0\" y=\"544.1270751953125\">means standard business hours Monday to Friday excluding bank and public holidays in England and Wales. </bbox></span></p></section><section data-level=\"1\" id=\"2\"><p text-alignment=\"left\"><span class=\"title\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"7.217280387878418\" page=\"8\" width=\"105.77049255371094\" x=\"54.0\" y=\"596.3826904296875\">2.0 Statement of Work </bbox></span></span></p><ul style=\"list-style-type: none;\"><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"8\" width=\"15.019195556640625\" x=\"54.0\" y=\"610.1270751953125\">2.1 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"8\" width=\"379.90870666503906\" x=\"68.99903869628906\" y=\"610.1270751953125\">Supplier will provide Deliverables and Services as specified in the relevant SOW and/or WA. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"8\" width=\"15.019195556640625\" x=\"54.0\" y=\"633.1669921875\">2.2 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"8\" width=\"91.64109802246094\" x=\"69.0\" y=\"633.1669921875\">The parties agree that: </bbox></span><ul style=\"list-style-type: none;\"><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"8\" width=\"22.519996643066406\" x=\"90.0\" y=\"656.20703125\">2.2.1 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"18.192979335784912\" page=\"8\" width=\"429.8846435546875\" x=\"126.0\" y=\"656.20703125\">(subject at all times to Clause 10.4) the Buyer will be required to issue a WA to Supplier before Buyer will have committed to purchase any Deliverables or Services under a SOW; and </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"8\" width=\"38.519989013671875\" x=\"90.0\" y=\"690.7670288085938\">2.2.2 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"18.192918300628662\" page=\"8\" width=\"428.7381591796875\" x=\"126.0\" y=\"690.7670288085938\">no SOW will be binding and Supplier shall not commence any work under a SOW unless and until it has received a valid WA which conforms to the agreed terms of the relevant SOW. For the avoidance of doubt </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"18.192979335784912\" page=\"9\" width=\"436.56787109375\" x=\"126.0\" y=\"89.08705139160156\">the Supplier reserves the right to reject any WA that is inconsistent with the terms of the relevant SOW including without limitation where there exists a conflict between the quantity, payment and delivery terms. </bbox></span></li></ul></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"9\" width=\"31.600784301757812\" x=\"54.0\" y=\"123.64704895019531\">2.3 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"64.27299737930298\" page=\"9\" width=\"474.46094512939453\" x=\"86.14989471435547\" y=\"123.64704895019531\">It is assumed that the Buyer will issue a WA on or before the date on which the Supplier commences the Services required under a signed SOW. In the event that there is a delay between the required start date of the Services as detailed in the relevant SOW and the issue of a corresponding WA (and subject at all times to Clause 10.4 below) and the Supplier believes that this delay will have an impact on the Timetable or any Milestone Date or Delivery Date the parties shall discuss and if the Supplier can provide reasonable evidence of such impact amend or extend such dates accordingly. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"9\" width=\"17.520004272460938\" x=\"54.0\" y=\"204.7670440673828\">2.4 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872972011566162\" page=\"9\" width=\"470.61676025390625\" x=\"90.0\" y=\"204.7670440673828\">Any Changes, Contract Changes and Operational Changes shall be dealt with in accordance with the Change Control Procedure. </bbox></span></li></ul></section><section data-level=\"1\" id=\"3\"><p text-alignment=\"left\"><span class=\"title\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"7.217286586761475\" page=\"9\" width=\"82.72848510742188\" x=\"54.0\" y=\"243.82275390625\">3.0 Related SOW </bbox></span></span></p><ul style=\"list-style-type: none;\"><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"9\" width=\"15.019195556640625\" x=\"54.0\" y=\"270.76702880859375\">3.1 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"46.51298666000366\" page=\"9\" width=\"506.6644287109375\" x=\"54.0\" y=\"270.76702880859375\">Where a SOW is entered into for the provision of Services and Deliverables which Relate to the Services, and Deliverables provided or to be provided under one or more separate SOW entered into between such parties, then, provided that such is expressly agreed by the parties, the SOW shall identify each such related SOW and shall specify each such related SOW to be a \"</bbox></span><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"9\" width=\"72.71041870117188\" x=\"141.66111755371094\" y=\"310.6070556640625\">Related SOW\". </bbox></span></li></ul></section><section data-level=\"1\" id=\"4\"><p text-alignment=\"left\"><span class=\"title\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"9\" width=\"171.14303588867188\" x=\"54.0\" y=\"335.8070373535156\">4.0 Governance and Dispute Resolution </bbox></span></span></p><ul style=\"list-style-type: none;\"><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"9\" width=\"15.019195556640625\" x=\"54.0\" y=\"361.00701904296875\">4.1 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"46.27299642562866\" page=\"9\" width=\"474.26556396484375\" x=\"54.0\" y=\"361.00701904296875\">Buyer and the Supplier shall each appoint a Relationship Manager who shall have overall responsibility for the relationship between Buyer and the Supplier and the management of this Base Agreement. Each party's Authorised Representative shall have authority to act on behalf of Buyer or the Supplier as applicable and shall be responsible for providing information, data and decisions to the other party on a timely basis. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"9\" width=\"15.019195556640625\" x=\"54.0\" y=\"425.8070373535156\">4.2 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872941493988037\" page=\"9\" width=\"481.93927001953125\" x=\"54.0\" y=\"425.8070373535156\">Buyer's Relationship Manager and Supplier's Relationship Manager shall meet as required following a request from either to do so in order to discuss opportunities and any issues relating to the relationship between the parties. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"9\" width=\"15.019195556640625\" x=\"54.0\" y=\"464.20703125\">4.3 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872972011566162\" page=\"9\" width=\"496.2650146484375\" x=\"54.0\" y=\"464.20703125\">In the event of a dispute relating to the overall relationship of the parties or to issues arising from more than one current SOW (\"</bbox></span><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"9\" width=\"93.29721069335938\" x=\"86.1337890625\" y=\"477.40704345703125\">Relationship Dispute\"</bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"9\" width=\"331.0595245361328\" x=\"179.40077209472656\" y=\"477.40704345703125\">), such Relationship Dispute shall be dealt with in accordance with this Clause 4. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"9\" width=\"15.019195556640625\" x=\"54.0\" y=\"502.8470458984375\">4.4 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"46.27293539047241\" page=\"9\" width=\"504.74432373046875\" x=\"54.0\" y=\"502.8470458984375\">In the event of a Relationship Dispute, Buyer's Authorised Representative or the Supplier's Authorised Representative may serve a notice on the other party's Authorised Representative notifying it of the Relationship Dispute, referring explicitly to this Clause 4 and providing sufficient information to enable the other party to appreciate the nature of the Relationship Dispute, and the Relationship Dispute shall be referred by the Authorised Representatives to the Relationship Managers who </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"9\" width=\"15.019195556640625\" x=\"54.0\" y=\"555.6470336914062\">4.5 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"9\" width=\"393.2474365234375\" x=\"69.0\" y=\"555.6470336914062\">shall meet within seven (7) days of any such referral to seek to resolve the Relationship Dispute. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"9\" width=\"15.019195556640625\" x=\"54.0\" y=\"580.8470458984375\">4.6 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07298421859741\" page=\"9\" width=\"505.434326171875\" x=\"54.0\" y=\"580.8470458984375\">In the event that the Relationship Managers are unable to resolve the Relationship Dispute, either party may elect to seek recourse through the courts of England and the provisions of Clause 22.3 (Choice of Law; Waiver of Jury Trial; Limitation of Action ) shall apply. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"9\" width=\"15.019195556640625\" x=\"54.0\" y=\"632.447021484375\">4.7 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"9\" width=\"398.0179138183594\" x=\"69.0\" y=\"632.447021484375\">Nothing in this Clause 4 shall prevent a party from notifying the other in writing of its intention to: </bbox></span><ul style=\"list-style-type: none;\"><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"9\" width=\"22.519996643066406\" x=\"90.0\" y=\"657.6470336914062\">4.7.1 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"9\" width=\"285.4936828613281\" x=\"126.0\" y=\"657.6470336914062\">seek injunctive relief at any time it considers it appropriate to do so; or </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"9\" width=\"22.519996643066406\" x=\"89.44994354248047\" y=\"683.0870361328125\">4.7.2 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872910976409912\" page=\"9\" width=\"434.60693359375\" x=\"126.0\" y=\"683.0870361328125\">withdraw from the dispute resolution processes set out in this Clause 4 and commence court proceedings relating to any Relationship Dispute at any time. </bbox></span></li></ul></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"10\" width=\"15.019195556640625\" x=\"54.0\" y=\"89.32704162597656\">4.8 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07298421859741\" page=\"10\" width=\"481.23760986328125\" x=\"54.0\" y=\"89.32704162597656\">Buyer and the Supplier will continue to perform their respective obligations under this Base Agreement pending the resolution of a Relationship Dispute, provided that nothing in this Clause prevents or restricts a party from lawfully exercising any of its rights in accordance with Clause 21.1 (Termination of this Base Agreement) above at any time. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"10\" width=\"15.019195556640625\" x=\"54.0\" y=\"140.9270782470703\">4.9 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872972011566162\" page=\"10\" width=\"473.51690673828125\" x=\"54.0\" y=\"140.9270782470703\">For the avoidance of doubt, any dispute between the parties arising in relation to a SOW other than a Relationship Dispute shall be dealt with in accordance with Clause 37 (Dispute Resolution Procedure) of this Base Agreement. </bbox></span></li></ul></section><section data-level=\"1\" id=\"5\"><p text-alignment=\"left\"><span class=\"title\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"10\" width=\"48.623512268066406\" x=\"54.0\" y=\"179.32704162597656\">5.0 Pricing </bbox></span></span></p><ul style=\"list-style-type: none;\"><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"10\" width=\"15.019195556640625\" x=\"54.0\" y=\"206.9270782470703\">5.1 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07292318344116\" page=\"10\" width=\"506.5291748046875\" x=\"54.0\" y=\"206.9270782470703\">Supplier will provide Deliverables and Services to Buyer for the Prices. The Prices for Deliverables and Services specified and agreed in the SOW and/or WA plus the payment of applicable Taxes and Recoverable Expenses where appropriate (together the \"</bbox></span><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"10\" width=\"35.58641052246094\" x=\"160.69822692871094\" y=\"233.32704162597656\">Charges</bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872972011566162\" page=\"10\" width=\"506.47259521484375\" x=\"54.0\" y=\"233.32704162597656\">\") will be the only amounts due to Supplier from Buyer. The relevant SOW or (subject to Clause 2.2.2) WA shall contain Prices for each country receiving Deliverables and Services under this Agreement. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"10\" width=\"15.019195556640625\" x=\"54.0\" y=\"271.967041015625\">5.2 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872972011566162\" page=\"10\" width=\"506.51995849609375\" x=\"54.0\" y=\"271.967041015625\">In consideration of the performance of the Supplier's obligations under a SOW Buyer shall pay the Supplier the Charges in accordance with this Clause 5, and any additional terms specified in the relevant SOW. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"10\" width=\"15.019195556640625\" x=\"54.0\" y=\"310.3670349121094\">5.3 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"10\" width=\"305.72398376464844\" x=\"68.99903869628906\" y=\"310.3670349121094\">Where the Prices for Services and/or Deliverables (or any part of them) are: </bbox></span><ul style=\"list-style-type: none;\"><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"10\" width=\"22.518722534179688\" x=\"90.0\" y=\"335.5670471191406\">5.3.1 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"10\" width=\"331.6166076660156\" x=\"112.5\" y=\"335.5670471191406\">based on Agreed Rates for time spent by the Supplier, Clause 5.4 shall apply; and </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"10\" width=\"22.518722534179688\" x=\"90.0\" y=\"360.76702880859375\">5.3.2 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"31.872972011566162\" page=\"10\" width=\"242.46142578125\" x=\"54.0\" y=\"360.76702880859375\">on Fixed Price, Clause 5.5 shall apply, and the remainder of this Clause 5 shall apply in both cases. </bbox></span></li></ul></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"10\" width=\"15.019195556640625\" x=\"54.0\" y=\"411.16705322265625\">5.4 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"10\" width=\"312.4281463623047\" x=\"68.99903869628906\" y=\"411.16705322265625\">Where Prices are on the basis of Agreed Rates for time spent by the Supplier: </bbox></span><ul style=\"list-style-type: none;\"><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"10\" width=\"25.019996643066406\" x=\"90.0\" y=\"436.3670349121094\">5.4.1 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872941493988037\" page=\"10\" width=\"443.5457763671875\" x=\"117.0\" y=\"436.3670349121094\">subject to Clause 5.18, the applicable Agreed Rates will be set out in the relevant SOW will be fixed for the term of the SOW; </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"10\" width=\"25.019996643066406\" x=\"90.0\" y=\"474.76702880859375\">5.4.2 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"20.112962245941162\" page=\"10\" width=\"443.44549560546875\" x=\"117.0\" y=\"474.76702880859375\">the Prices will be calculated based on the Agreed Rate applicable to each Supplier Personnel multiplied by the number of Days worked by each Supplier Personnel during the relevant period; </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"10\" width=\"25.019996643066406\" x=\"90.0\" y=\"513.4070434570312\">5.4.3 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07292318344116\" page=\"10\" width=\"443.51983642578125\" x=\"117.0\" y=\"513.4070434570312\">the Supplier shall not be entitled to charge for, and shall not be obliged to perform, overtime unless agreed in advance in writing by Buyer provided always that where the Buyer agrees such overtime, such overtime shall be charged at the Agreed Rates; </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"10\" width=\"25.019996643066406\" x=\"90.0\" y=\"565.007080078125\">5.4.4 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872910976409912\" page=\"10\" width=\"443.42938232421875\" x=\"117.0\" y=\"565.007080078125\">the Supplier shall ensure that all Supplier Personnel complete, on a prompt basis, accurate timesheets and the Supplier shall provide Buyer with copies of such timesheets on a weekly basis; and </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"10\" width=\"25.019996643066406\" x=\"90.0\" y=\"603.4070434570312\">5.4.6 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872972011566162\" page=\"10\" width=\"443.55938720703125\" x=\"117.0\" y=\"603.4070434570312\">the Supplier shall itemise in each invoice the time spent by Supplier Personnel, the applicable Agreed Rates and the Recoverable Expenses incurred during the period. </bbox></span></li></ul></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"10\" width=\"15.019195556640625\" x=\"54.0\" y=\"641.8070068359375\">5.5 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"10\" width=\"118.03366088867188\" x=\"68.99903869628906\" y=\"641.8070068359375\">Where a Fixed Price applies: </bbox></span><ul style=\"list-style-type: none;\"><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"10\" width=\"22.518722534179688\" x=\"90.0\" y=\"667.0070190429688\">5.5.1 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"20.112962245941162\" page=\"10\" width=\"448.0184326171875\" x=\"112.5\" y=\"667.0070190429688\">the applicable Fixed Price shall be as set out in the SOW and, unless otherwise agreed between the parties, will be fully inclusive of all costs and Recoverable Expenses; </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"11\" width=\"22.518722534179688\" x=\"90.0\" y=\"89.32704162597656\">5.5.2 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07298421859741\" page=\"11\" width=\"448.0584716796875\" x=\"112.5\" y=\"89.32704162597656\">without prejudice to Clause 5.5.1 and Clause 9.3, and subject always to any claims in accordance with Clause 17 (Limitation of Liability Between Buyer and Supplier), the Supplier shall not be entitled to any sums in addition to the Fixed Price unless agreed in advance in writing by Buyer; </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"11\" width=\"22.519996643066406\" x=\"90.0\" y=\"140.9270782470703\">5.5.3 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872972011566162\" page=\"11\" width=\"448.03851318359375\" x=\"112.5\" y=\"140.9270782470703\">the Supplier shall submit invoices in accordance with the Payment Plan in the SOW and shall itemise in each invoice the applicable Milestone or stage in the Payment Plan to which the invoice relates; </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"11\" width=\"22.519996643066406\" x=\"90.0\" y=\"179.32704162597656\">5.5.4 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07298421859741\" page=\"11\" width=\"448.0224609375\" x=\"112.5\" y=\"179.32704162597656\">where the Payment Plan is linked to the achievement of one or more Milestones the Supplier shall be entitled to submit an invoice in respect of the relevant Milestone(s) specified in the Payment Plan only following the successful completion of all Acceptance Tests relevant to that Milestone(s); and </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"11\" width=\"22.518722534179688\" x=\"90.0\" y=\"230.9270782470703\">5.5.5 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"46.51291036605835\" page=\"11\" width=\"448.0379638671875\" x=\"112.5\" y=\"230.9270782470703\">in the event that the SOW is terminated in accordance with the provisions of the Agreement before the completion of all the Services and/or the provision of all the Deliverables, but subject at all times to Clause 21.4, Buyer shall be entitled to a rebate of any portion of the Fixed Price paid to the Supplier as at the date of termination which represents an advance payment. </bbox></span></li></ul></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"11\" width=\"15.019195556640625\" x=\"54.0\" y=\"295.967041015625\">5.6 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07295370101929\" page=\"11\" width=\"506.52191162109375\" x=\"54.0\" y=\"295.967041015625\">The Supplier shall invoice Buyer for the Charges by means of Buyer's web order invoice system which is the electronic transmission and receipt of legally binding purchase and sale obligations. For the avoidance of doubt, Buyer shall be entitled to withhold payment in respect of any invoice which does not comply with this Clause 5.6. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"11\" width=\"15.019195556640625\" x=\"54.0\" y=\"347.5670471191406\">5.7 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872941493988037\" page=\"11\" width=\"506.50482177734375\" x=\"54.0\" y=\"347.5670471191406\">Buyer shall pay undisputed invoices in accordance with the payment terms specified within the relevant SOW if no such terms are specified within 45 days. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"11\" width=\"15.019195556640625\" x=\"54.0\" y=\"385.967041015625\">5.8 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"11\" width=\"223.5806427001953\" x=\"68.99903869628906\" y=\"385.967041015625\">If at any time Buyer disputes, in good faith, an invoice: </bbox></span><ul style=\"list-style-type: none;\"><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"11\" width=\"22.518722534179688\" x=\"90.0\" y=\"411.16705322265625\">5.8.1 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.31294393539429\" page=\"11\" width=\"448.10052490234375\" x=\"112.5\" y=\"411.16705322265625\">Buyer shall notify the Supplier within twelve (12) Working Days after the date on which a proper invoice for the Prices is properly raised and submitted in accordance with Clause 5.6 and received by Buyer specifying in full and proper detail Buyer's valid reasons for disputing the invoice; </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"11\" width=\"22.518722534179688\" x=\"90.0\" y=\"463.0070495605469\">5.8.2 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872941493988037\" page=\"11\" width=\"448.0164794921875\" x=\"112.5\" y=\"463.0070495605469\">the Supplier shall provide such additional information and documentation as Buyer may reasonably require in order to enable it to evaluate the invoice. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"11\" width=\"22.518722534179688\" x=\"90.0\" y=\"501.40704345703125\">5.8.3 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"46.27299642562866\" page=\"11\" width=\"448.02032470703125\" x=\"112.5\" y=\"501.40704345703125\">The Supplier shall be entitled to issue Buyer a new invoice for any Prices and/or amounts in the original invoice that are not disputed by Buyer and Buyer shall pay to the Supplier, in accordance with the payment terms specified in the SOW upon receipt of the new valid invoice, all relevant payments and amounts not disputed by Buyer specified in that new invoice; </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"11\" width=\"22.518722534179688\" x=\"90.0\" y=\"566.20703125\">5.8.4 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872972011566162\" page=\"11\" width=\"448.02349853515625\" x=\"112.5\" y=\"566.20703125\">subject to Clause 5.8.3, Buyer shall be entitled to withhold payment of any disputed invoice pending resolution of the dispute; and </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"11\" width=\"22.519996643066406\" x=\"90.0\" y=\"604.6070556640625\">5.8.5 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.31297445297241\" page=\"11\" width=\"447.99652099609375\" x=\"112.5\" y=\"604.6070556640625\">if the parties are unable to resolve the dispute within twenty (20) Working Days of notice given in accordance with Clause 5.8.1, the matter having been treated as a Dispute and either party may escalate the matter for resolution under the dispute resolution procedure set out in Clause 37 (Dispute Resolution Procedure). </bbox></span></li></ul></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"11\" width=\"15.019195556640625\" x=\"54.0\" y=\"656.447021484375\">5.9 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"46.27293539047241\" page=\"11\" width=\"506.56005859375\" x=\"54.0\" y=\"656.447021484375\">Upon resolution of the Dispute, as referred to in Clause 5.8 above, (i) any sum which Buyer agrees to pay (whether such agreed sum is in the amount originally invoiced, or a reduced or increased amount) shall be payable, within fifteen (15) Working Days of the resolution of the dispute and (ii) any sum which the Supplier agrees to pay or refund to Customer shall be payable to an account designated by Buyer by BACS within fifteen (15) Working Days of the resolution of the Dispute or, </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872972011566162\" page=\"12\" width=\"506.5247802734375\" x=\"54.0\" y=\"89.32704162597656\">if agreed by Buyer, shall be set off against amounts payable by Buyer to the Supplier against the next quarterly invoice for the Services. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"12\" width=\"20.018875122070312\" x=\"54.0\" y=\"127.72706604003906\">5.10 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872972011566162\" page=\"12\" width=\"506.5330810546875\" x=\"54.0\" y=\"127.72706604003906\">Buyer shall have the right to offset from any payment due under a valid invoice against any sums owed to Buyer by the Supplier under the relevant SOW. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"12\" width=\"20.018875122070312\" x=\"54.0\" y=\"166.12709045410156\">5.11 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07292318344116\" page=\"12\" width=\"506.5181884765625\" x=\"54.0\" y=\"166.12709045410156\">All Prices and expenses quoted in this Base Agreement or relevant SOW are exclusive of Value Added Tax which shall also be paid by Buyer if it is required by law to do so and if a receipt which is valid for such tax purposes is provided by the Supplier to Buyer. All other taxes and charges are included in the Prices. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"12\" width=\"20.018875122070312\" x=\"54.0\" y=\"217.72706604003906\">5.12 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872972011566162\" page=\"12\" width=\"506.44781494140625\" x=\"54.0\" y=\"217.72706604003906\">If agreed in a SOW, buyer shall pay to the Supplier expenses reasonably and necessarily incurred in the performance of its obligations under this Base Agreement and SOWs provided that: </bbox></span><ul style=\"list-style-type: none;\"><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"12\" width=\"27.518402099609375\" x=\"90.0\" y=\"256.12701416015625\">5.12.2 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"20.112962245941162\" page=\"12\" width=\"440.74217224121094\" x=\"119.77632141113281\" y=\"256.12701416015625\">such expenses are incurred in accordance with Customer expenses policy as set out in the SOW, any proposed expenses outside the Customer expenses policy to be pre-agreed in writing by Buyer; and </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"12\" width=\"30.019989013671875\" x=\"90.0\" y=\"294.76702880859375\">5.12.3 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872972011566162\" page=\"12\" width=\"439.10870361328125\" x=\"121.5\" y=\"294.76702880859375\">supported by reasonably sufficient documentary evidence to enable Buyer to verify that the expenditure is in accordance with the applicable expenses policy, </bbox></span><p text-alignment=\"left\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"12\" width=\"7.4430694580078125\" x=\"121.5\" y=\"333.16705322265625\">(\"</bbox></span><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"12\" width=\"98.81965637207031\" x=\"128.912109375\" y=\"333.16705322265625\">Recoverable Expenses\"</bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"12\" width=\"13.349700927734375\" x=\"227.7015380859375\" y=\"333.16705322265625\">). </bbox></span></p></li></ul></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"12\" width=\"20.018875122070312\" x=\"54.0\" y=\"358.3670349121094\">5.13 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"46.27296590805054\" page=\"12\" width=\"506.5672607421875\" x=\"54.0\" y=\"358.3670349121094\">Unless otherwise agreed between the parties in the relevant SOW, Recoverable Expenses will be recoverable from Buyer on an 'at cost' basis only. The Supplier shall seek reimbursement of Recoverable Expenses net of any Value Added Tax reclaimable by the Supplier from HM Revenue &amp; Customs. The Supplier will charge Value Added Tax on the net amount of Recoverable Expenses where required. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"12\" width=\"20.018875122070312\" x=\"54.0\" y=\"423.16705322265625\">5.14 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"12\" width=\"459.03978729248047\" x=\"73.99872589111328\" y=\"423.16705322265625\">Any payment made by Buyer shall not indicate or imply acceptance by Buyer of the Services and/or Deliverables. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"12\" width=\"20.018875122070312\" x=\"54.0\" y=\"448.3670349121094\">5.15 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"59.71296834945679\" page=\"12\" width=\"506.58074951171875\" x=\"54.0\" y=\"448.3670349121094\">If any sum due and payable under this Agreement is not paid by the party liable to make such payment within the payment terms set out in the SOW, the Party to whom such money is owed shall be entitled (without prejudice to any of its other rights) following receipt by the party in default of written notice from the Party to whom the money is owed, to charge interest at the Default Interest Rate in force from the date of such notice until the date of actual payment. Interest shall not accrue or be payable on any monies which are the subject of a disputed invoice or where monies are offset pursuant to Clause </bbox></span><ul style=\"list-style-type: none;\"><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"12\" width=\"20.018875122070312\" x=\"54.0\" y=\"514.6070556640625\">5.10.</bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"12\" width=\"7.521278381347656\" x=\"73.99872589111328\" y=\"514.6070556640625\"></bbox></span></li></ul></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"12\" width=\"20.018875122070312\" x=\"54.0\" y=\"539.8070068359375\">5.16 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07298421859741\" page=\"12\" width=\"506.5203857421875\" x=\"54.0\" y=\"539.8070068359375\">The Parties agree that the right to claim interest under Clause 5.15 is a substantial remedy for late payment and is in substitution for any statutory or other right to claim interest and/or other remedy for late payment under the Late Payment of Commercial Debts (Interest) Act 1998. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"12\" width=\"20.020004272460938\" x=\"54.0\" y=\"591.4070434570312\">5.17 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"34.27293539047241\" page=\"12\" width=\"506.51556396484375\" x=\"54.0\" y=\"591.4070434570312\">Buyer may retain the Retention Fee (if any) until the relevant Milestone to which the Retention Fee relates has been achieved, where set out in the SOW. The Supplier may invoice Buyer for any Retention Fee once the Acceptance Criteria in respect of the relevant Milestone(s) have been met. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"12\" width=\"20.020004272460938\" x=\"54.0\" y=\"644.927001953125\">5.18 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"12\" width=\"78.61861419677734\" x=\"73.99999237060547\" y=\"644.927001953125\">The Supplier shall: </bbox></span><ul style=\"list-style-type: none;\"><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"12\" width=\"30.019989013671875\" x=\"90.0\" y=\"670.1270751953125\">5.18.1 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07292318344116\" page=\"12\" width=\"439.06292724609375\" x=\"121.5\" y=\"670.1270751953125\">maintain records, which are complete and accurate in all material respects, of and supporting documentation for all invoices submitted to Buyer and all payments made by Buyer the relevant SOW, in accordance with generally accepted accounting principles applied on a consistent basis; and </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"13\" width=\"30.019989013671875\" x=\"90.0\" y=\"89.32704162597656\">5.18.2 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07298421859741\" page=\"13\" width=\"439.0447998046875\" x=\"121.5\" y=\"89.32704162597656\">provide Buyer or its nominated representatives with such reasonable documentation and other information with respect to each invoice as may reasonably be requested by Buyer to verify the accuracy of the invoice and compliance with the provisions of this Base Agreement and the relevant SOW. </bbox></span></li></ul></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"13\" width=\"20.020004272460938\" x=\"54.0\" y=\"140.9270782470703\">5.19 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"13\" width=\"484.55408477783203\" x=\"75.97386932373047\" y=\"140.9270782470703\">The Agreed Rates shall be reviewed on 31 December each year starting from 31 December 2012 at which point </bbox></span><p text-alignment=\"left\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"8.604005336761475\" page=\"13\" width=\"193.00299072265625\" x=\"54.0\" y=\"154.59600830078125\">Indexation will be applied to the Agreed Rates. </bbox></span></p></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"13\" width=\"20.018875122070312\" x=\"54.0\" y=\"187.24708557128906\">5.20 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"49.63292074203491\" page=\"13\" width=\"506.50909423828125\" x=\"54.0\" y=\"187.24708557128906\">Notwithstanding the provisions of Clause 5,19, in significant bid situations, the Buyer may request special pricing on a case by case basis as necessary to submit a more competitive bid. Any such special pricing shall be agreed to by the parties in writing, and as set out in the respective SOW for such situation. For the avoidance of doubt the Supplier shall not be obliged to accept any request by the Buyer for 'special pricing'. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"13\" width=\"20.018875122070312\" x=\"54.0\" y=\"256.6070556640625\">5.21 </bbox></span></span><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"13\" width=\"90.8500747680664\" x=\"73.99999237060547\" y=\"256.6070556640625\">Miscellaneous Costs </bbox></span></li></ul><p text-alignment=\"left\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"34.27296590805054\" page=\"13\" width=\"506.59844970703125\" x=\"54.0\" y=\"282.52703857421875\">The Supplier will notify Buyer of any miscellaneous costs that require to be incurred that will be charged to Buyer under the relevant SOW. Such miscellaneous costs will be agreed in writing by Buyer and the Supplier prior to the Supplier incurring such costs. </bbox></span></p></section><section data-level=\"1\" id=\"6\"><p text-alignment=\"left\"><span class=\"title\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"13\" width=\"42.52000427246094\" x=\"54.0\" y=\"335.8070373535156\">6.0 Taxes </bbox></span></span></p><ul style=\"list-style-type: none;\"><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"13\" width=\"15.019195556640625\" x=\"54.0\" y=\"362.447021484375\">6.1 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"112.27296590805054\" page=\"13\" width=\"502.31976318359375\" x=\"54.0\" y=\"362.447021484375\">Supplier's invoices shall state all applicable Taxes, if any, by tax jurisdiction and with a proper breakdown between taxable and non-taxable Deliverables and Services. Supplier assumes responsibility to timely remit all Tax payments to the appropriate governmental authority in each respective jurisdiction. Supplier and Buyer agree to cooperate to minimize, wherever possible and appropriate, any applicable Taxes and provide reasonable notice and cooperation in connection with any audit. Each party shall bear sole responsibility for all taxes, assessments, or other levies on its own income, leased or purchased property, equipment or software. If Buyer provides a direct pay certificate, certification of an exemption from Tax or reduced rate of Tax imposed by an applicable taxing authority, then Supplier agrees not to invoice or pay any such Tax unless and until the applicable taxing authority assesses such Tax, at which time Supplier shall invoice and Buyer agrees to pay any such Tax that is legally owed. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"13\" width=\"15.019195556640625\" x=\"54.0\" y=\"494.6870422363281\">6.2 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"59.47297811508179\" page=\"13\" width=\"505.74176025390625\" x=\"54.0\" y=\"494.6870422363281\">Buyer may withhold taxes as required under applicable law on payments made to Supplier hereunder and shall be required to remit to Supplier only the net proceeds thereof. If Buyer does withhold such taxes the Buyer agrees to remit in a timely manner all taxes withheld to the appropriate government authority in each respective jurisdiction. Upon Buyer request, Supplier will deliver the appropriate documentation as required by the corresponding jurisdictional tax laws, within a reasonable period from such request. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"13\" width=\"15.019195556640625\" x=\"54.0\" y=\"573.8870239257812\">6.3 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"59.71293783187866\" page=\"13\" width=\"504.727783203125\" x=\"54.0\" y=\"573.8870239257812\">If the Supplier fails to invoice the Buyer for the correct amount of Tax then the Supplier agrees that it will reimburse the Buyer for any amounts formally requested from the Buyer by a taxing jurisdiction for penalties, fines, additions to Tax and the amount of interest thereon caused by Supplier's failure to invoice Buyer for the correct amount of Tax. For the avoidance of doubt, notwithstanding the foregoing the Buyer shall at all times remain liable for payment of the actual amount of tax that should have been due but for the incorrect invoice. </bbox></span></li></ul></section><section data-level=\"1\" id=\"7\"><p text-alignment=\"left\"><span class=\"title\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"13\" width=\"129.17039489746094\" x=\"54.0\" y=\"653.3270263671875\">7.0 Payments and Acceptance </bbox></span></span></p><ul style=\"list-style-type: none;\"><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"13\" width=\"15.019195556640625\" x=\"54.0\" y=\"679.72705078125\">7.1 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872910976409912\" page=\"13\" width=\"472.5706787109375\" x=\"54.0\" y=\"679.72705078125\">Terms for payment of the Charges shall be 45 days from date of receipt of invoice or as otherwise specified in the relevant SOW and/or WA. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"14\" width=\"15.019195556640625\" x=\"54.0\" y=\"89.32704162597656\">7.2 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07298421859741\" page=\"14\" width=\"500.0482177734375\" x=\"54.0\" y=\"89.32704162597656\">Payment of invoices will not be deemed acceptance of Deliverables or Services, but rather such Deliverables or Services will be subject to inspection, test, acceptance or rejection in accordance with the acceptance or completion criteria as specified in the relevant SOW and/or (subject to Clause 2.2.2) WA. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"14\" width=\"15.019195556640625\" x=\"54.0\" y=\"142.12709045410156\">7.3 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07292318344116\" page=\"14\" width=\"497.61767578125\" x=\"54.0\" y=\"142.12709045410156\">Unless otherwise provided by local law without the possibility of contractual waiver or limitation, Supplier will submit invoices, corrected invoices, or other such claims for reimbursement, to Buyer within six (6) months from the date of acceptance of Deliverables or the satisfactory completion of Services. Exceptions must be specifically authorized by Buyer. </bbox></span></li></ul></section><section data-level=\"1\" id=\"8\"><p text-alignment=\"left\"><span class=\"title\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"14\" width=\"110.52778625488281\" x=\"54.0\" y=\"194.9270782470703\">8.0 Electronic Commerce </bbox></span></span></p><p text-alignment=\"left\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"59.71298360824585\" page=\"14\" width=\"491.27752685546875\" x=\"54.0\" y=\"208.1270294189453\">To the extent permitted by local law, the parties will conduct transactions using an electronic commerce approach under which the parties will electronically transmit and receive legally binding purchase and sale obligations (\"Documents\"), including electronic credit entries transmitted by Buyer to the Supplier account specified in the relevant SOW and/or WA. The parties will enter into a separate agreement governing the transmission of such electronic transactions and associated responsibilities of the parties. </bbox></span></p></section><section data-level=\"1\" id=\"9\"><p text-alignment=\"left\"><span class=\"title\"><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"7.217280387878418\" page=\"14\" width=\"113.29833984375\" x=\"54.0\" y=\"287.0227355957031\">9.0 Timetable and Delays </bbox></span></span></p><ul style=\"list-style-type: none;\"><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.8745598793029785\" page=\"14\" width=\"15.302230834960938\" x=\"54.0\" y=\"313.76544189453125\">9.1 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"14\" width=\"379.9418029785156\" x=\"72.0\" y=\"313.967041015625\">Subject to Clause 10 (Buyer Obligations), and Clause 22.9 (Force Majeure) the Supplier shall: </bbox></span><ul style=\"list-style-type: none;\"><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.672959804534912\" page=\"14\" width=\"25.019996643066406\" x=\"94.5\" y=\"339.16705322265625\">9.1.1 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872941493988037\" page=\"14\" width=\"420.7127685546875\" x=\"126.0\" y=\"339.16705322265625\">perform the Services so as to achieve any Key Milestones and delivery of the associated Deliverables by the corresponding Milestone Dates. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.8745598793029785\" page=\"14\" width=\"22.802230834960938\" x=\"94.5\" y=\"377.6054382324219\">9.1.2 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07295370101929\" page=\"14\" width=\"428.4820556640625\" x=\"126.0\" y=\"377.8070373535156\">use Commercially Reasonable Efforts to (i) provide all other Deliverables in accordance with the Delivery Dates (if any) set out in the Timetable; and (ii) achieve Milestones (other than Key Milestones) by the corresponding Milestone Dates. </bbox></span></li></ul></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.8745598793029785\" page=\"14\" width=\"15.302230834960938\" x=\"72.0\" y=\"429.2054443359375\">9.2 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"72.67295980453491\" page=\"14\" width=\"465.89776611328125\" x=\"92.25\" y=\"429.40704345703125\">The Supplier shall, within 1 Working Day, notify in writing the applicable Buyer Authorised Representative stated in the SOW if it considers that there shall be or may be a delay in meeting any date in the Timetable or in achieving a Milestone by the relevant Milestone Date, or otherwise in the performance of the Services and provision of any Deliverables by a Delivery Date, giving to Buyer, either together with such notification or as soon as reasonably practicable afterwards, written details of causes for and potential impact of any such delay and its recommendations for correcting or minimising the impact of the delay. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.8745598793029785\" page=\"14\" width=\"15.302230834960938\" x=\"72.0\" y=\"520.4054565429688\">9.3 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"72.91295003890991\" page=\"14\" width=\"458.18768310546875\" x=\"92.25\" y=\"520.6070556640625\">If any Milestone is not achieved by the applicable Milestone Date, or a Deliverable and/or Services are not delivered or performed by the applicable Delivery Date, then the Supplier shall take all such additional steps necessary to achieve such Delivery Date or Milestone as early as reasonably practicable thereafter at no extra cost to Buyer, provided always that where such delay or non-performance is not due to a Supplier Fault then the Supplier shall be entitled to charge for any and all additional costs reasonably incurred as a result of such delay in accordance with the Agreed Rates, such charges to be agreed between the parties in writing. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.8745598793029785\" page=\"14\" width=\"15.302230834960938\" x=\"72.0\" y=\"611.8453979492188\">9.4 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"86.11302328109741\" page=\"14\" width=\"452.12286376953125\" x=\"92.25\" y=\"612.0469970703125\">Without prejudice to the provisions of Clause 9.3, if any Milestone is not achieved by the applicable Milestone Date, or a Deliverable and/or Services are not delivered or performed by the applicable Delivery Date or fail to meet the agreed Acceptance Criteria within the period set out in the relevant Timetable, and such failure is as a result of a Supplier Fault then Supplier shall repair or replace such Deliverables or re-perform such Services, without charge by the revised date notified to Supplier by Buyer (provided that such notice shall be either (i) not less than twenty (20) Working Days after the originally scheduled delivery date; or (ii) after the end of any Liquidated Damages Period as detailed in Clause 9.5 below (whichever is later) (\"</bbox></span><span class=\"TimesNewRomanPS_BoldMT_Black_10_08_bold\"><bbox height=\"6.672959804534912\" page=\"14\" width=\"92.81863403320312\" x=\"423.8075866699219\" y=\"691.487060546875\">Delay Remedy Period</bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872910976409912\" page=\"14\" width=\"449.58270263671875\" x=\"92.25\" y=\"691.487060546875\">\")). If Delivery is not achieved by such Delay Remedy Period due to Supplier Fault or Supplier is not able to repair or </bbox></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"33.07298421859741\" page=\"15\" width=\"452.79962158203125\" x=\"92.25\" y=\"89.32704162597656\">replace then the Buyer shall be entitled to terminate the relevant SOW in whole or in part, for Supplier Fault and receive a refund in respect of the element or elements of the Deliverables(s) and/or Services which were not so delivered or accepted. </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.8745598793029785\" page=\"15\" width=\"15.302230834960938\" x=\"72.0\" y=\"140.72547912597656\">9.5 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"46.27293539047241\" page=\"15\" width=\"463.18994140625\" x=\"92.25\" y=\"140.9270782470703\">In addition to the Buyer's rights under Clause 9.4, if the Supplier fails to deliver a Deliverable and/or perform the Services, by any applicable Delivery Date, or achieve a Key Milestone by the applicable Milestone Date, and if the parties have expressly agreed in the relevant SOW that Liquidated Damages will apply, then the following provisions will apply: </bbox></span><ul style=\"list-style-type: none;\"><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.8745598793029785\" page=\"15\" width=\"22.802230834960938\" x=\"90.0\" y=\"205.5254669189453\">9.5.2 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"19.872972011566162\" page=\"15\" width=\"420.69085693359375\" x=\"126.0\" y=\"205.72706604003906\">the Supplier shall pay to Buyer the applicable Liquidated Damages , if any are specified in the SOW, for the applicable Liquidated Damages Period; </bbox></span></li><li><span class=\"number\"><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"6.8745598793029785\" page=\"15\" width=\"22.802230834960938\" x=\"90.0\" y=\"243.92543029785156\">9.5.3 </bbox></span></span><span class=\"TimesNewRomanPSMT_Black_10_08\"><bbox height=\"72.91296529769897\" page=\"15\" width=\"433.20574951171875\" x=\"126.0\" y=\"244.1270294189453\">Buyer and the Supplier agree that the Liquidated Damages are fair and reasonable in all the circumstances and represent a genuine pre-estimate of the likely losses that Buyer is likely to suffer as a result of the failure to deliver the relevant Deliverable and/or perform the relevant Services or achieve the relevant Key Milestone by the applicable Delivery Date or Key Milestone Date and represent the Buyer's sole remedy (save for termination pursuant to Clause 9.4) in respect of any failure by the Supplier to meet such Delivery date or Milestone Date; and </bbox></span></li></ul></li></section></body></html>"
+  ]
+}
