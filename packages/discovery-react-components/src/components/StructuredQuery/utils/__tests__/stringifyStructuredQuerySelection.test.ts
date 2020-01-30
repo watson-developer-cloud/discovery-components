@@ -23,6 +23,30 @@ describe('stringifyStructuredQuerySelection', () => {
           'example_field::watson'
         );
       });
+
+      describe('and the selections include reserved characters', () => {
+        it('returns the expected query string with quotes around the fields/values with reserved characters', () => {
+          const structuredQuerySelectionWithOneRowAndReservedCharacters: StructuredQuerySelection = {
+            groups: {
+              0: { rows: [0], operator: ',' }
+            },
+            rows: {
+              0: {
+                field: 'example,field',
+                operator: '::',
+                value: 'watso!n'
+              }
+            },
+            group_order: [0]
+          };
+
+          expect(
+            stringifyStructuredQuerySelection(
+              structuredQuerySelectionWithOneRowAndReservedCharacters
+            )
+          ).toEqual('"example,field"::"watso!n"');
+        });
+      });
     });
 
     describe('and three rows of selections', () => {
@@ -54,6 +78,42 @@ describe('stringifyStructuredQuerySelection', () => {
         expect(stringifyStructuredQuerySelection(structuredQuerySelectionWithThreeRows)).toEqual(
           'example_field_0::watson,example_field_1:!machine,example_field_2:learning'
         );
+      });
+
+      describe('and the selections include reserved characters', () => {
+        it('returns the expected query string with quotes around the fields/values with reserved characters', () => {
+          const structuredQuerySelectionWithThreeRowsAndReservedCharacters: StructuredQuerySelection = {
+            groups: {
+              0: { rows: [0, 1, 2], operator: ',' }
+            },
+            rows: {
+              0: {
+                field: 'example_field,0',
+                operator: '::',
+                value: 'wat::!son'
+              },
+              1: {
+                field: 'examp!le_field_1',
+                operator: ':!',
+                value: 'machine'
+              },
+              2: {
+                field: 'example_field:_2',
+                operator: ':',
+                value: 'learnin::g'
+              }
+            },
+            group_order: [0]
+          };
+
+          expect(
+            stringifyStructuredQuerySelection(
+              structuredQuerySelectionWithThreeRowsAndReservedCharacters
+            )
+          ).toEqual(
+            '"example_field,0"::"wat::!son","examp!le_field_1":!machine,"example_field:_2":"learnin::g"'
+          );
+        });
       });
     });
   });

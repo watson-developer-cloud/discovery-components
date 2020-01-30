@@ -18,7 +18,15 @@ const stringifyRows = (structuredQuerySelection: StructuredQuerySelection, group
   return structuredQuerySelection.groups[groupId].rows
     .map((rowId: string) => {
       const row = structuredQuerySelection.rows[rowId];
-      return `${row.field}${row.operator}${row.value}`;
+      const rowField = containsReservedCharacters(row.field) ? '"' + row.field + '"' : row.field;
+      const rowValue = containsReservedCharacters(row.value) ? '"' + row.value + '"' : row.value;
+      return `${rowField}${row.operator}${rowValue}`;
     })
     .join(structuredQuerySelection.groups[groupId].operator);
+};
+
+const containsReservedCharacters = (fieldOrValue: string) => {
+  // Reserved characters include , | : ! as they are used as operators in the query
+  const regexForReservedCharacters = /([,|:!])+/g;
+  return fieldOrValue.match(regexForReservedCharacters) !== null;
 };
