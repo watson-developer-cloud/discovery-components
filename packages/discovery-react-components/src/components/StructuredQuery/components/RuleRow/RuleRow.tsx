@@ -56,28 +56,29 @@ export const RuleRow: FC<RuleRowProps> = ({
     structuredQuerySelection.groups[groupId].rows.length > 1 || !isTopLevelGroup;
 
   const handleFieldDropdownChange = (fieldSelection: { selectedItem: string }) => {
+    const newFieldValue = fieldSelection.selectedItem === null ? '' : fieldSelection.selectedItem;
     setStructuredQuerySelection({
       ...structuredQuerySelection,
       rows: {
         ...structuredQuerySelection.rows,
         [`${rowId}`]: {
           ...structuredQuerySelection.rows[rowId],
-          field: fieldSelection.selectedItem
+          field: newFieldValue
         }
       }
     });
   };
 
   const handleOperatorDropdownChange = (operatorSelection: OperatorDropdownSelectedItem) => {
-    const newValue =
-      operatorSelection.selectedItem === null ? null : operatorSelection.selectedItem.value;
+    const newOperatorValue =
+      operatorSelection.selectedItem === null ? '' : operatorSelection.selectedItem.value;
     setStructuredQuerySelection({
       ...structuredQuerySelection,
       rows: {
         ...structuredQuerySelection.rows,
         [`${rowId}`]: {
           ...structuredQuerySelection.rows[rowId],
-          operator: newValue
+          operator: newOperatorValue
         }
       }
     });

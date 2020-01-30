@@ -50,6 +50,16 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleOnClick = () => {
+    const stringifiedSelectionText = document.querySelector('.bx--snippet-container')!.textContent;
+    const textArea = document.createElement('textarea');
+    textArea.textContent = stringifiedSelectionText;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textArea);
+  };
+
   return (
     <div className={structuredQueryClass}>
       {structuredQuerySelection.group_order.map(id => {
@@ -80,7 +90,9 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
           />
         )}
       </div>
-      <CodeSnippet>{stringifiedSelection}</CodeSnippet>
+      {stringifiedSelection && (
+        <CodeSnippet onClick={handleOnClick}>{stringifiedSelection}</CodeSnippet>
+      )}
     </div>
   );
 };
