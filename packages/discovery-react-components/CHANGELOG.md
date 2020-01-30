@@ -3,6 +3,55 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-beta.26](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.25...@ibm-watson/discovery-react-components@1.1.0-beta.26) (2020-01-30)
+
+**Note:** Version bump only for package @ibm-watson/discovery-react-components
+
+
+
+
+
+# [1.1.0-beta.25](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.24...@ibm-watson/discovery-react-components@1.1.0-beta.25) (2020-01-30)
+
+**Note:** Version bump only for package @ibm-watson/discovery-react-components
+
+
+
+
+
+# [1.1.0-beta.24](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.23...@ibm-watson/discovery-react-components@1.1.0-beta.24) (2020-01-29)
+
+
+### Bug Fixes
+
+* added tests for idUtils to improve test coverage ([#77](https://github.com/watson-developer-cloud/discovery-components/issues/77)) ([3bf5e6c](https://github.com/watson-developer-cloud/discovery-components/commit/3bf5e6c))
+
+
+
+
+
+# [1.1.0-beta.23](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.22...@ibm-watson/discovery-react-components@1.1.0-beta.23) (2020-01-28)
+
+
+### Bug Fixes
+
+* endless fetch loop caused by eslint ([#79](https://github.com/watson-developer-cloud/discovery-components/issues/79)) ([0c5349d](https://github.com/watson-developer-cloud/discovery-components/commit/0c5349d))
+
+
+
+
+
+# [1.1.0-beta.22](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.21...@ibm-watson/discovery-react-components@1.1.0-beta.22) (2020-01-28)
+
+
+### Features
+
+* implement fields API and use it in StructuredQuery ([#59](https://github.com/watson-developer-cloud/discovery-components/issues/59)) ([2a51e80](https://github.com/watson-developer-cloud/discovery-components/commit/2a51e80))
+
+
+
+
+
 # [1.1.0-beta.21](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.19...@ibm-watson/discovery-react-components@1.1.0-beta.21) (2020-01-23)
 
 
