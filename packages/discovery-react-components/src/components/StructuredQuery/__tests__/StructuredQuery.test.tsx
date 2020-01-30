@@ -516,20 +516,13 @@ describe('<StructuredQuery />', () => {
   });
 
   describe('query conversion and display', () => {
-    let structuredQuery: RenderResult;
-    beforeEach(() => {
-      projectFields = [
-        { field: 'field name 1' },
-        { field: 'field name 2' },
-        { field: 'field name 3' },
-        { field: 'field name 4' },
-        { field: 'field name 5' },
-        { field: 'field name 6' }
-      ];
-      ({ structuredQuery } = setup({ projectFields }));
-    });
-
     describe('when one row field, operator, and value are selected in one top-level group', () => {
+      let structuredQuery: RenderResult;
+      beforeEach(() => {
+        projectFields = [{ field: 'field name 1' }];
+        ({ structuredQuery } = setup({ projectFields }));
+      });
+
       it('should render the correct query', () => {
         const field = structuredQuery.getByPlaceholderText('Select field');
         const operator = structuredQuery.getByPlaceholderText('Select operator');
@@ -551,7 +544,14 @@ describe('<StructuredQuery />', () => {
     });
 
     describe('when multiple rows of field, operator, and value are selected in one top-level group', () => {
+      let structuredQuery: RenderResult;
       beforeEach(() => {
+        projectFields = [
+          { field: 'field name 1' },
+          { field: 'field name 2' },
+          { field: 'field name 3' }
+        ];
+        ({ structuredQuery } = setup({ projectFields }));
         const addRuleButton = structuredQuery.getByText('Add rule');
         addRuleButton.click();
         addRuleButton.click();
@@ -593,7 +593,17 @@ describe('<StructuredQuery />', () => {
     });
 
     describe('when fields, operators, and values are selected across top-level and nested groups', () => {
+      let structuredQuery: RenderResult;
       beforeEach(() => {
+        projectFields = [
+          { field: 'field name 1' },
+          { field: 'field name 2' },
+          { field: 'field name 3' },
+          { field: 'field name 4' },
+          { field: 'field name 5' },
+          { field: 'field name 6' }
+        ];
+        ({ structuredQuery } = setup({ projectFields }));
         let addRuleButton = structuredQuery.getByText('Add rule');
         addRuleButton.click();
         addRuleButton.click();
@@ -647,6 +657,49 @@ describe('<StructuredQuery />', () => {
         const query = structuredQuery.getByLabelText('code-snippet');
         expect(query.textContent).toEqual(
           'field name 1:Watson,field name 2::!machine,field name 3:!learning,(field name 4::classification,field name 5::!regression,field name 6:IBM)'
+        );
+      });
+    });
+
+    describe('when there are reserved characters in selections', () => {
+      let structuredQuery: RenderResult;
+      beforeEach(() => {
+        projectFields = [
+          { field: 'field !name 1' },
+          { field: 'field name:: 2' },
+          { field: '|field name 3' }
+        ];
+        ({ structuredQuery } = setup({ projectFields }));
+        const addRuleButton = structuredQuery.getByText('Add rule');
+        addRuleButton.click();
+        addRuleButton.click();
+      });
+
+      it('should render the correct query with double quotes around reserved characters', () => {
+        const fields = structuredQuery.queryAllByPlaceholderText('Select field');
+        const operators = structuredQuery.queryAllByPlaceholderText('Select operator');
+        const values = structuredQuery.queryAllByPlaceholderText('Enter value');
+        fireEvent.click(fields[0]);
+        fireEvent.click(structuredQuery.getByText('field !name 1'));
+        fireEvent.click(operators[0]);
+        fireEvent.click(structuredQuery.getByText('contains'));
+        fireEvent.click(values[0]);
+        fireEvent.change(values[0], { target: { value: 'Watso,n' } });
+        fireEvent.click(fields[1]);
+        fireEvent.click(structuredQuery.getByText('field name:: 2'));
+        fireEvent.click(operators[1]);
+        fireEvent.click(structuredQuery.getByText('is not'));
+        fireEvent.click(values[1]);
+        fireEvent.change(values[1], { target: { value: 'machine' } });
+        fireEvent.click(fields[2]);
+        fireEvent.click(structuredQuery.getByText('|field name 3'));
+        fireEvent.click(operators[2]);
+        fireEvent.click(structuredQuery.getByText('does not contain'));
+        fireEvent.click(values[2]);
+        fireEvent.change(values[2], { target: { value: 'learning' } });
+        const query = structuredQuery.getByLabelText('code-snippet');
+        expect(query.textContent).toEqual(
+          '"field !name 1":"Watso,n","field name:: 2"::!machine,"|field name 3":!learning'
         );
       });
     });
