@@ -1,7 +1,7 @@
 export interface Row {
   [key: number]: {
     field: string;
-    operator: string;
+    operator: '::' | '::!' | ':' | ':!' | '';
     value: string;
   };
 }
@@ -9,7 +9,7 @@ export interface Row {
 export interface Group {
   [key: number]: {
     rows: number[];
-    operator: string;
+    operator: ',' | '|' | '';
   };
 }
 
@@ -17,6 +17,10 @@ export interface StructuredQuerySelection {
   groups: Group;
   group_order: number[];
   rows: Row;
+}
+
+export interface FieldDropdownSelectedItem {
+  selectedItem: string;
 }
 
 export interface OperatorDropdownSelectedItem {

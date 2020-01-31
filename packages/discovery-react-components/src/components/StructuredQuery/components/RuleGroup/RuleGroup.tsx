@@ -3,7 +3,7 @@ import { Messages } from 'components/StructuredQuery/messages';
 import { RuleGroupDropdown } from '../RuleGroupDropdown/RuleGroupDropdown';
 import { RuleRow } from '../RuleRow/RuleRow';
 import { AddRuleRowButton } from '../AddRuleRowButton/AddRuleRowButton';
-import { StructuredQuerySelection } from 'components/StructuredQuery/utils';
+import { StructuredQuerySelection } from 'components/StructuredQuery/utils/structuredQueryInterfaces';
 import { MAX_NUM_SIBLING_RULE_ROWS } from 'components/StructuredQuery/constants';
 import {
   structuredQueryRuleGroupClass,

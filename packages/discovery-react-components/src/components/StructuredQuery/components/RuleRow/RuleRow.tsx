@@ -3,12 +3,13 @@ import { ComboBox, TextInput } from 'carbon-components-react';
 import { RemoveRuleRowButton } from '../RemoveRuleRowButton/RemoveRuleRowButton';
 import { Messages } from 'components/StructuredQuery/messages';
 import { structuredQueryRulesClass } from 'components/StructuredQuery/cssClasses';
+import { getFieldNames } from 'components/StructuredQuery/utils';
+import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import {
   StructuredQuerySelection,
-  OperatorDropdownSelectedItem,
-  getFieldNames
-} from 'components/StructuredQuery/utils';
-import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
+  FieldDropdownSelectedItem,
+  OperatorDropdownSelectedItem
+} from 'components/StructuredQuery/utils/structuredQueryInterfaces';
 
 export interface RuleRowProps {
   /**
@@ -55,7 +56,7 @@ export const RuleRow: FC<RuleRowProps> = ({
   const showRemoveRuleRowButton =
     structuredQuerySelection.groups[groupId].rows.length > 1 || !isTopLevelGroup;
 
-  const handleFieldDropdownChange = (fieldSelection: { selectedItem: string }) => {
+  const handleFieldDropdownChange = (fieldSelection: FieldDropdownSelectedItem) => {
     const newFieldValue = fieldSelection.selectedItem === null ? '' : fieldSelection.selectedItem;
     setStructuredQuerySelection({
       ...structuredQuerySelection,

@@ -10,7 +10,8 @@ import {
   structuredQueryCopyQueryClass
 } from './cssClasses';
 import { MAX_NUM_SIBLING_RULE_ROWS, MAX_NUM_NESTED_RULE_GROUPS } from './constants';
-import { StructuredQuerySelection, stringifyStructuredQuerySelection } from './utils';
+import { stringifyStructuredQuerySelection } from './utils';
+import { StructuredQuerySelection } from './utils/structuredQueryInterfaces';
 import { withErrorBoundary } from 'react-error-boundary';
 import { FallbackComponent } from 'utils/FallbackComponent';
 import onErrorCallback from 'utils/onErrorCallback';

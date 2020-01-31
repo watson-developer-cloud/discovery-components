@@ -2,7 +2,8 @@ import React, { FC, Dispatch, SetStateAction } from 'react';
 import { Button } from 'carbon-components-react';
 import Add16 from '@carbon/icons-react/lib/add/16';
 import { Messages } from 'components/StructuredQuery/messages';
-import { StructuredQuerySelection, getNewId } from 'components/StructuredQuery/utils';
+import { getNewId } from 'components/StructuredQuery/utils';
+import { StructuredQuerySelection } from 'components/StructuredQuery/utils/structuredQueryInterfaces';
 
 export interface AddRuleGroupButtonProps {
   /**

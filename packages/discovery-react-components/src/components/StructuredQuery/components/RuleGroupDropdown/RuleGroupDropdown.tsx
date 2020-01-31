@@ -6,7 +6,7 @@ import { formatMessage } from 'utils/formatMessage';
 import {
   StructuredQuerySelection,
   RuleGroupDropdownSelectedItem
-} from 'components/StructuredQuery/utils';
+} from 'components/StructuredQuery/utils/structuredQueryInterfaces';
 
 export interface RuleGroupDropdownProps {
   /**
@@ -38,7 +38,9 @@ export const RuleGroupDropdown: FC<RuleGroupDropdownProps> = ({
     { label: messages.ruleGroupDropdownAnyOptionText, value: '|' }
   ];
 
-  const handleOnChange = (ruleGroupDropdownSelection: RuleGroupDropdownSelectedItem) => {
+  const handleOnChangeRuleGroupDropdown = (
+    ruleGroupDropdownSelection: RuleGroupDropdownSelectedItem
+  ) => {
     setStructuredQuerySelection({
       ...structuredQuerySelection,
       groups: {
@@ -59,7 +61,7 @@ export const RuleGroupDropdown: FC<RuleGroupDropdownProps> = ({
       initialSelectedItem={messages.ruleGroupDropdownAllOptionText}
       label={messages.ruleGroupDropdownLabelText}
       key="structured-query-dropdown"
-      onChange={handleOnChange}
+      onChange={handleOnChangeRuleGroupDropdown}
     />
   );
 

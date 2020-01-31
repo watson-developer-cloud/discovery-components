@@ -3,7 +3,7 @@ import omit from 'lodash/omit';
 import { Button } from 'carbon-components-react';
 import SubtractAlt16 from '@carbon/icons-react/lib/subtract--alt/16';
 import { Messages } from 'components/StructuredQuery/messages';
-import { StructuredQuerySelection } from 'components/StructuredQuery/utils';
+import { StructuredQuerySelection } from 'components/StructuredQuery/utils/structuredQueryInterfaces';
 
 export interface RemoveRuleRowButtonProps {
   /**
