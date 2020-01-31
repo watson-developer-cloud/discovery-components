@@ -24,6 +24,7 @@ describe('<CIDocument />', () => {
     getByText: BoundFunction<GetByText>,
     findByText: BoundFunction<FindByText>,
     findByTitle: BoundFunction<FindByText>,
+    findByTestId: BoundFunction<FindByText>,
     queryByTitle: BoundFunction<QueryByText>;
 
   describe('Invoice Document', () => {
@@ -143,7 +144,7 @@ describe('<CIDocument />', () => {
   describe('Contract', () => {
     beforeEach(() => {
       act(() => {
-        ({ getAllByRole, getByTestId, getByText, findByText, findByTitle } = render(
+        ({ getAllByRole, getByTestId, getByText, findByText, findByTitle, findByTestId } = render(
           <CIDocument document={shortContract} overrideDocWidth={400} overrideDocHeight={600} />
         ));
       });
@@ -157,6 +158,27 @@ describe('<CIDocument />', () => {
       // check for a filter name
       const filters = getByTestId('Filters');
       globalGetByText(filters, 'Intellectual Property');
+    });
+
+    it('correctly filters contract elements', async () => {
+      const filters = await findByTestId('Filters');
+
+      const categoryCheckbox = globalGetByLabelText(filters, 'Intellectual Property(1)');
+      fireEvent.click(categoryCheckbox);
+
+      const natureCheckbox = globalGetByLabelText(filters, 'Definition(1)');
+      fireEvent.click(natureCheckbox);
+
+      const partyCheckbox = globalGetByLabelText(filters, 'None(1)');
+      fireEvent.click(partyCheckbox);
+
+      const attributeCheckbox = globalGetByLabelText(filters, 'DefinedTerm(1)');
+      fireEvent.click(attributeCheckbox);
+
+      // unselect filter
+      fireEvent.click(categoryCheckbox);
+      // other filter should reflect changes
+      globalGetByLabelText(filters, 'DefinedTerm(26)');
     });
   });
 });
