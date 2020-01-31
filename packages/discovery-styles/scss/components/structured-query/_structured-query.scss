@@ -2,17 +2,6 @@
 @import 'carbon-components/scss/components/combo-box/combo-box';
 @import 'carbon-components/scss/components/dropdown/dropdown';
 
-.#{$prefix}--structured-query {
-  .#{$prefix}--snippet {
-    align-items: center;
-    display: flex;
-
-    .#{$prefix}--snippet-container {
-      padding-right: $spacing-md;
-    }
-  }
-}
-
 .#{$prefix}--structured-query__rule-group-dropdown {
   align-items: center;
   display: flex;
@@ -69,5 +58,14 @@
       margin-left: 0;
       margin-right: $spacing-xs;
     }
+  }
+}
+
+.#{$prefix}--structured-query__copy-query {
+  align-items: center;
+  display: flex;
+
+  .#{$prefix}--snippet-container {
+    padding-right: $spacing-md;
   }
 }

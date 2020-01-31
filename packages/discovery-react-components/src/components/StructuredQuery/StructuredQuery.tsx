@@ -4,7 +4,11 @@ import { RuleGroup } from './components/RuleGroup/RuleGroup';
 import { AddRuleRowButton } from './components/AddRuleRowButton/AddRuleRowButton';
 import { AddRuleGroupButton } from './components/AddRuleGroupButton/AddRuleGroupButton';
 import { defaultMessages, Messages } from './messages';
-import { structuredQueryClass, structuredQueryRulesButtonsClass } from './cssClasses';
+import {
+  structuredQueryClass,
+  structuredQueryRulesButtonsClass,
+  structuredQueryCopyQueryClass
+} from './cssClasses';
 import { MAX_NUM_SIBLING_RULE_ROWS, MAX_NUM_NESTED_RULE_GROUPS } from './constants';
 import { StructuredQuerySelection, stringifyStructuredQuerySelection } from './utils';
 import { withErrorBoundary } from 'react-error-boundary';
@@ -51,7 +55,8 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
   }, []);
 
   const handleCopyQueryOnClick = () => {
-    const stringifiedSelectionText = document.querySelector('.bx--snippet-container')!.textContent;
+    const stringifiedSelectionText = document.querySelector(`.${structuredQueryCopyQueryClass}`)!
+      .textContent;
     const textArea = document.createElement('textarea');
     textArea.textContent = stringifiedSelectionText;
     document.body.appendChild(textArea);
@@ -91,7 +96,12 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
         )}
       </div>
       {stringifiedSelection && (
-        <CodeSnippet onClick={handleCopyQueryOnClick}>{stringifiedSelection}</CodeSnippet>
+        <CodeSnippet
+          className={`${structuredQueryCopyQueryClass}`}
+          onClick={handleCopyQueryOnClick}
+        >
+          {stringifiedSelection}
+        </CodeSnippet>
       )}
     </div>
   );
