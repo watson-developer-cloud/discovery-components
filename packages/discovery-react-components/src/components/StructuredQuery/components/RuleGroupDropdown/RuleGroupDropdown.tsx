@@ -22,7 +22,7 @@ export interface RuleGroupDropdownProps {
    */
   setStructuredQuerySelection: Dispatch<SetStateAction<StructuredQuerySelection>>;
   /**
-   * id of the group for the rule row to render
+   * id of the group for the rule group dropdown
    */
   groupId: number;
 }

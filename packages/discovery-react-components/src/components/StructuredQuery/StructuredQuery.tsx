@@ -50,7 +50,7 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleOnClick = () => {
+  const handleCopyQueryOnClick = () => {
     const stringifiedSelectionText = document.querySelector('.bx--snippet-container')!.textContent;
     const textArea = document.createElement('textarea');
     textArea.textContent = stringifiedSelectionText;
@@ -91,7 +91,7 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
         )}
       </div>
       {stringifiedSelection && (
-        <CodeSnippet onClick={handleOnClick}>{stringifiedSelection}</CodeSnippet>
+        <CodeSnippet onClick={handleCopyQueryOnClick}>{stringifiedSelection}</CodeSnippet>
       )}
     </div>
   );
