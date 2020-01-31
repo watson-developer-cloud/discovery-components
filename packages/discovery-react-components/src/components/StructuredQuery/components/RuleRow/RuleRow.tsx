@@ -57,6 +57,8 @@ export const RuleRow: FC<RuleRowProps> = ({
     structuredQuerySelection.groups[groupId].rows.length > 1 || !isTopLevelGroup;
 
   const handleFieldDropdownChange = (fieldSelection: FieldDropdownSelectedItem) => {
+    // The value resets to null on deselection, but we don't want to show null in the copyable query
+    // so in this case we set the new field value to an empty string
     const newFieldValue = fieldSelection.selectedItem === null ? '' : fieldSelection.selectedItem;
     setStructuredQuerySelection({
       ...structuredQuerySelection,
@@ -71,6 +73,8 @@ export const RuleRow: FC<RuleRowProps> = ({
   };
 
   const handleOperatorDropdownChange = (operatorSelection: OperatorDropdownSelectedItem) => {
+    // The value resets to null on deselection, but we don't want to show null in the copyable query
+    // so in this case we set the new operator value to an empty string
     const newOperatorValue =
       operatorSelection.selectedItem === null ? '' : operatorSelection.selectedItem.value;
     setStructuredQuerySelection({

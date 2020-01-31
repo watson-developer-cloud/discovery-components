@@ -7,7 +7,7 @@ import { defaultMessages, Messages } from './messages';
 import {
   structuredQueryClass,
   structuredQueryRulesButtonsClass,
-  structuredQueryCopyQueryClass
+  structuredQueryCopyableQueryClass
 } from './cssClasses';
 import { MAX_NUM_SIBLING_RULE_ROWS, MAX_NUM_NESTED_RULE_GROUPS } from './constants';
 import { stringifyStructuredQuerySelection } from './utils';
@@ -56,8 +56,9 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
   }, []);
 
   const handleCopyQueryOnClick = () => {
-    const stringifiedSelectionText = document.querySelector(`.${structuredQueryCopyQueryClass}`)!
-      .textContent;
+    const stringifiedSelectionText = document.querySelector(
+      `.${structuredQueryCopyableQueryClass}`
+    )!.textContent;
     const textArea = document.createElement('textarea');
     textArea.textContent = stringifiedSelectionText;
     document.body.appendChild(textArea);
@@ -98,7 +99,7 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
       </div>
       {stringifiedSelection && (
         <CodeSnippet
-          className={`${structuredQueryCopyQueryClass}`}
+          className={`${structuredQueryCopyableQueryClass}`}
           onClick={handleCopyQueryOnClick}
         >
           {stringifiedSelection}
