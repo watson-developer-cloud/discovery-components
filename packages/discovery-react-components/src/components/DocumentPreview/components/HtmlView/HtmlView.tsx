@@ -1,11 +1,14 @@
 import React, { FC, useEffect, useState, useRef } from 'react';
 import { settings } from 'carbon-components';
-import { QueryResult, QueryTableResult } from 'ibm-watson/discovery/v2';
+import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import DOMPurify from 'dompurify';
 import get from 'lodash/get';
-import { processDoc } from 'utils/document/processDoc';
+import { processDoc, ProcessedDoc, ProcessedBbox, Location } from 'utils/document/processDoc';
+import { getTextMappings } from 'components/DocumentPreview/utils/documentData';
+import { findMatchingBbox } from 'components/DocumentPreview/utils/box';
 import { findOffsetInDOM, createFieldRects } from 'utils/document/documentUtils';
 import { clearNodeChildren } from 'utils/dom';
+import { getPassagePageInfo, isPassage } from '../Highlight/passages';
 
 interface Props {
   /**
@@ -15,7 +18,7 @@ interface Props {
   /**
    * table to highlight in document. Reference to item with `document.table_results`
    */
-  highlight?: QueryTableResult;
+  highlight?: QueryTableResult | QueryResultPassage;
   /**
    * Check to disable toolbar in parent
    */
@@ -53,13 +56,47 @@ export const HtmlView: FC<Props> = ({
   }
 
   const [html, setHtml] = useState<string | null>(null);
+  const [processedDoc, setProcessedDoc] = useState<ProcessedDoc | null>(null);
+  const [locationArray, setLocationArray] = useState<Array<Location> | null>(null);
+
+  useEffect(() => {
+    if (highlight) {
+      if (isPassage(highlight)) {
+        const textMapping = getTextMappings(document);
+        if (processedDoc && textMapping) {
+          const textMappingBbox = getPassagePageInfo(textMapping, highlight as QueryResultPassage);
+          let processedDocBbox: ProcessedBbox[] = [];
+          textMappingBbox &&
+            processedDoc.bboxes &&
+            textMappingBbox.forEach(Bbox => {
+              const tempBboxs = findMatchingBbox(Bbox, processedDoc.bboxes as ProcessedBbox[]);
+              processedDocBbox = processedDocBbox.concat(tempBboxs);
+            });
+          let passageLocs: Array<Location> = [];
+          processedDocBbox &&
+            processedDocBbox.forEach(Bbox => {
+              passageLocs.push(Bbox.location);
+            });
+          setLocationArray(passageLocs);
+        }
+      } else {
+        const tableLoc = get(highlight, 'table.location', {});
+        setLocationArray([tableLoc]);
+      }
+    }
+  }, [document, highlight, processedDoc]);
+
   useEffect(() => {
     if (document) {
       const docHtml = document.html;
       if (docHtml && highlight) {
         // "process" the original HTML string in order to find offsets for DOM nodes
         const process = async (): Promise<void> => {
-          const processedDoc = await processDoc({ ...document, docHtml }, { sections: true });
+          const processedDoc = await processDoc(
+            { ...document, docHtml },
+            { sections: true, bbox: true }
+          );
+          setProcessedDoc(processedDoc);
           const fullHtml = processedDoc.sections
             ? processedDoc.sections.map(section => section.html).join('')
             : '';
@@ -83,7 +120,7 @@ export const HtmlView: FC<Props> = ({
 
   // highlight table and scroll into view
   useEffect(() => {
-    if (!html) {
+    if (!html || !locationArray) {
       return;
     }
 
@@ -98,30 +135,32 @@ export const HtmlView: FC<Props> = ({
       return;
     }
 
-    const { begin, end } = get(highlight, 'table.location', {});
-    if (typeof begin === 'undefined' || typeof end === 'undefined') {
-      return;
-    }
+    locationArray.forEach(location => {
+      const { begin, end } = location;
+      if (typeof begin === 'undefined' || typeof end === 'undefined') {
+        return;
+      }
 
-    const offsets = findOffsetInDOM(contentNode, begin, end);
+      const offsets = findOffsetInDOM(contentNode, begin, end);
 
-    const fragment = window.document.createDocumentFragment();
-    const parentRect = contentNode.getBoundingClientRect() as DOMRect;
-    createFieldRects({
-      fragment,
-      parentRect,
-      fieldType: 'highlight',
-      fieldId: begin.toString(),
-      ...offsets
+      const fragment = window.document.createDocumentFragment();
+      const parentRect = contentNode.getBoundingClientRect() as DOMRect;
+      createFieldRects({
+        fragment,
+        parentRect,
+        fieldType: 'highlight',
+        fieldId: begin.toString(),
+        ...offsets
+      });
+      highlightNode.appendChild(fragment);
     });
-    highlightNode.appendChild(fragment);
 
     // scroll highlight into view
     const firstFieldRect = highlightNode.querySelector('.field--rect');
     if (firstFieldRect) {
       firstFieldRect.scrollIntoView({ block: 'center' });
     }
-  }, [html, highlight]);
+  }, [highlight, html, locationArray]);
 
   return (
     <div className={base}>
