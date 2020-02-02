@@ -1,5 +1,4 @@
 import { getFilterHelper, ProcessFilter } from '../filterHelper';
-
 import mockFilterGroups from '../__fixtures__/filterGroups';
 import mockFilterElements from '../__fixtures__/filterMockElements.json';
 import { FilterGroup } from 'components/CIDocument/components/FilterPanel/types';

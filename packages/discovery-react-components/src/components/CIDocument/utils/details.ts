@@ -2,7 +2,7 @@ import countby from 'lodash/countBy';
 import capitalize from 'lodash/capitalize';
 import { Items, Item } from '../components/DetailsPane/types';
 
-const contractDetailsFromItem = (item: any): Items[] => [
+export const contractDetailsFromItem = (item: any): Items[] => [
   {
     heading: 'categories',
     items: item.categories
@@ -14,7 +14,7 @@ const contractDetailsFromItem = (item: any): Items[] => [
   { heading: 'attributes', items: getContractAttributes(item.attributes) }
 ];
 
-const nonContractDetailsFromItem = (item: any): Items[] => {
+export const nonContractDetailsFromItem = (item: any): Items[] => {
   const details = [
     {
       heading: 'type',
@@ -52,7 +52,7 @@ function getContractAttributes(attributes: any): Item[] {
   });
 }
 
-function getAttributesWithinRelation(attributes: any): Item[] {
+export function getAttributesWithinRelation(attributes: any): Item[] {
   return attributes.map(({ type, text }: { type: string; text: string }) => {
     return {
       type: type,
