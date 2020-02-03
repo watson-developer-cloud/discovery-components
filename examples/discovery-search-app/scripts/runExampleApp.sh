@@ -95,7 +95,7 @@ CLUSTER_HOST=${host}
 EOL
 
   if [ $OSTYPE == 'msys' ]; then
-    echo "SASS_PATH=../../node_modules;src" >> $ENV_LOCAL
+    echo "SASS_PATH=\"../../node_modules;src\"" >> $ENV_LOCAL
   fi
   echo
 }
