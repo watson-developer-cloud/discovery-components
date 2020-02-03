@@ -2,7 +2,7 @@
 
 set -e
 
-PREREQUISITES=("yarn" "jq")
+PREREQUISITES=("yarn" "node" "jq")
 SCRIPT_DIR=$(
     cd "$(dirname "$0")"
     pwd
@@ -11,6 +11,7 @@ USE_FORMAT=$(
   type tput >/dev/null 2>&1
   if [ $? -eq 0 ]; then echo "true"; else echo "false"; fi
 )
+ENV_LOCAL="${SCRIPT_DIR}/../.env.local"
 
 function boldMessage() {
   if [ "$USE_FORMAT" == "true" ]; then
@@ -51,7 +52,9 @@ function checkForDependencies() {
       colorMessage "N" 1
     fi
 
-    (( missing += exists ))
+    if [ $exists -ne 0 ]; then
+      (( missing+=1 ))
+    fi
   done
 
   if [[ $missing > 0 ]]; then
@@ -83,7 +86,7 @@ function updateEnvFile() {
     exit 1
   fi
 
-  cat >"$SCRIPT_DIR/../.env.local" <<EOL
+  cat >$ENV_LOCAL <<EOL
 REACT_APP_PROJECT_ID=${projectId}
 CLUSTER_USERNAME=${username}
 CLUSTER_PASSWORD=${password}
@@ -91,6 +94,9 @@ CLUSTER_PORT=${port}
 CLUSTER_HOST=${host}
 EOL
 
+  if [ $OSTYPE == 'msys' ]; then
+    echo "SASS_PATH=../../node_modules;src" >> $ENV_LOCAL
+  fi
   echo
 }
 
@@ -111,7 +117,7 @@ colorMessage "done" 2
 #
 # collection discovery instance information
 #
-if [ -f "$SCRIPT_DIR/../.env.local" ]; then
+if [ -f $ENV_LOCAL ]; then
   paddedMessage "File already exists:"
   colorMessage "$SCRIPT_DIR/../.env.local" 3
   read -p "$(paddedMessage 'Update file before configuring server (y/n)? ')" updateEnvValues

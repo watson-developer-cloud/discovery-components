@@ -1,7 +1,12 @@
 #!/bin/bash
 
+SCRIPT_DIR=$(
+    cd "$(dirname "$0")"
+    pwd
+)
+
 set -a
-source .env.local
+source ${SCRIPT_DIR}/../.env.local
 set +a
 
 if [[ -z $CLUSTER_USERNAME || -z $CLUSTER_PASSWORD || -z $CLUSTER_HOST || -z $CLUSTER_PORT ]]; then
@@ -9,9 +14,9 @@ if [[ -z $CLUSTER_USERNAME || -z $CLUSTER_PASSWORD || -z $CLUSTER_HOST || -z $CL
   exit 1
 fi
 
-clusterHost=$(echo ${CLUSTER_HOST#*//})
-baseUrl=https://${clusterHost}:${CLUSTER_PORT}
-accessToken=$(curl -s -k -u ${CLUSTER_USERNAME}:${CLUSTER_PASSWORD} ${baseUrl}/v1/preauth/validateAuth -H "Content-Type: application/json" | jq --raw-output '.accessToken')
+clusterHost=$(echo ${CLUSTER_HOST#*//} | tr -cd '[:print:]')
+baseUrl="https://${clusterHost}:${CLUSTER_PORT}"
+accessToken=$(curl -s -k -u ${CLUSTER_USERNAME}:${CLUSTER_PASSWORD} ${baseUrl}/v1/preauth/validateAuth -H 'Content-Type: application/json' | jq --raw-output '.accessToken')
 if [ -z "$accessToken" ]; then
   echo "Unable to retrieve access token with provided cluster information"
   exit 1
