@@ -44,6 +44,6 @@ describe('Highlight', () => {
     });
 
     const highlights = getAllByTestId('highlight');
-    expect(highlights).toHaveLength(1);
+    expect(highlights).toHaveLength(2);
   });
 });

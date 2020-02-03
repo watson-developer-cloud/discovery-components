@@ -4,11 +4,10 @@ import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/di
 import DOMPurify from 'dompurify';
 import get from 'lodash/get';
 import { processDoc, ProcessedDoc, ProcessedBbox, Location } from 'utils/document/processDoc';
-import { getTextMappings } from 'components/DocumentPreview/utils/documentData';
 import { findMatchingBbox } from 'components/DocumentPreview/utils/box';
 import { findOffsetInDOM, createFieldRects } from 'utils/document/documentUtils';
 import { clearNodeChildren } from 'utils/dom';
-import { getPassagePageInfo, isPassage } from '../Highlight/passages';
+import { usePassage, isPassage } from '../Highlight/passages';
 
 interface Props {
   /**
@@ -59,12 +58,11 @@ export const HtmlView: FC<Props> = ({
   const [processedDoc, setProcessedDoc] = useState<ProcessedDoc | null>(null);
   const [locationArray, setLocationArray] = useState<Array<Location> | null>(null);
 
+  const textMappingBbox = usePassage(document, highlight as QueryResultPassage);
   useEffect(() => {
     if (highlight) {
       if (isPassage(highlight)) {
-        const textMapping = getTextMappings(document);
-        if (processedDoc && textMapping) {
-          const textMappingBbox = getPassagePageInfo(textMapping, highlight as QueryResultPassage);
+        if (processedDoc && textMappingBbox) {
           let processedDocBbox: ProcessedBbox[] = [];
           textMappingBbox &&
             processedDoc.bboxes &&
@@ -84,7 +82,7 @@ export const HtmlView: FC<Props> = ({
         setLocationArray([tableLoc]);
       }
     }
-  }, [document, highlight, processedDoc]);
+  }, [document, highlight, processedDoc, textMappingBbox]);
 
   useEffect(() => {
     if (document) {
