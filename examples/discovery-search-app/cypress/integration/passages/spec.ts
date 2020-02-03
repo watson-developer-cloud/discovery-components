@@ -63,6 +63,28 @@ describe('Passage Results', () => {
           .should('exist');
       });
 
+      describe('and clicking on "CI Document" for a result', () => {
+        beforeEach(() => {
+          cy.findByLabelText('Back to search').click();
+          cy.get('button[data-testid="search-result-element-preview-button"]')
+            .contains('View table in document')
+            .click();
+          cy.findByText('Content Intelligence').click();
+        });
+
+        it('diplays filters under Attribute', () => {
+          cy.findByText('Select labels to filter elements').should('exist');
+          cy.findByText('Attribute').should('exist');
+          cy.findByText('Currency').should('exist');
+        });
+
+        it('navigate to relations tab and display filters', () => {
+          cy.findByText('Relations').click();
+          cy.findByText('Relation').should('exist');
+          cy.findByText('Invoice parts').should('exist');
+        });
+      });
+
       describe('and clicking on the close preview button', () => {
         beforeEach(() => {
           cy.findByLabelText('Back to search').click();
@@ -89,28 +111,6 @@ describe('Passage Results', () => {
       cy.get('@combinedResult').contains('table');
       cy.get('@combinedResult').contains('View passage in document');
       cy.get('@combinedResult').contains('View table in document');
-    });
-
-    describe('and clicking on "CI Document" for a result', () => {
-      beforeEach(() => {
-        cy.get('button[data-testid="search-result-element-preview-button"]')
-          .contains('View table in document')
-          .click();
-        cy.findByText('CI');
-        cy.findByText('CI').click();
-      });
-
-      it('diplays filters under Attribute', () => {
-        cy.findByText('Select labels to filter elements').should('exist');
-        cy.findByText('Attribute').should('exist');
-        cy.findByText('Currency').should('exist');
-      });
-
-      it('navigate to relations tab and display filters', () => {
-        cy.findByText('Relations').click();
-        cy.findByText('Relation').should('exist');
-        cy.findByText('Invoice parts').should('exist');
-      });
     });
   });
 });

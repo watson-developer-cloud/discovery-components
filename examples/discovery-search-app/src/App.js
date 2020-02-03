@@ -99,7 +99,7 @@ function PreviewPage({ document }) {
   ];
 
   if (canRenderCIDocument(document)) {
-    tabs.push({ name: 'CI', Component: CIDocument });
+    tabs.push({ name: 'Content Intelligence', Component: CIDocument });
   }
 
   function back(evt) {
