@@ -104,6 +104,18 @@ describe('Pagination', () => {
           .find('.bx--select-input')
           .should('have.value', '2');
       });
+
+      describe('and we submit a new query', () => {
+        it.only('should return to the first page', () => {
+          cy.get('.bx--pagination__right')
+            .find('.bx--select-input')
+            .should('have.value', '2');
+          cy.findByPlaceholderText('Search').type('something{enter}');
+          cy.get('.bx--pagination__right')
+            .find('.bx--select-input')
+            .should('have.value', '1');
+        });
+      });
     });
 
     describe('and we navigate to the last page of results', () => {
