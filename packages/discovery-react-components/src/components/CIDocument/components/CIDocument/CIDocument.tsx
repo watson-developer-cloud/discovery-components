@@ -193,6 +193,7 @@ const CIDocument: FC<CIDocumentProps> = ({
     setHighlightedList([]);
     setCurrentFilter({});
     setActiveMetadataIds([]);
+    setClickedItemType('');
   };
 
   useEffect(() => {
@@ -256,6 +257,7 @@ const CIDocument: FC<CIDocumentProps> = ({
         const { filteredList, filterGroups: groups } = filterHelper.processFilter(currentFilter);
         setHighlightedList(filteredList);
         setFilterGroups(groups);
+        setClickedItemType('');
       }
     }
   }, [filterHelper, currentFilter, itemList, didCatch]);
@@ -269,6 +271,7 @@ const CIDocument: FC<CIDocumentProps> = ({
       if (hasRelation(highlightedList)) {
         setActiveIds(highlightedList[0].allAttributeIds);
       } else {
+        setClickedItemType('');
         setActiveIds([getId(highlightedList[0])]);
       }
     }
@@ -298,6 +301,14 @@ const CIDocument: FC<CIDocumentProps> = ({
     if (activeMetadataIds.length > 0 && !(activeIds && activeIds.length > 0)) {
       activeDetails = getDetailsFromMetadata(highlightedList[activeIndex]);
     }
+  }
+
+  // In contracts, only elements should be highlighted and clickable.
+  // Currently attributes can be hovered and clicked.
+  // This can be removed once hover/click ability on attributes in sections is removed.
+  const [clickedItemType, setClickedItemType] = useState<string>('');
+  if (clickedItemType === ATTRIBUTES && !isInvoiceOrPurchaseOrder(enrichmentName)) {
+    activeDetails = getDetailsForAttribute(activeElement, activeIds);
   }
 
   let highlightedIds = [];
@@ -417,7 +428,8 @@ const CIDocument: FC<CIDocumentProps> = ({
               onChange={onNavigationChange({
                 setActiveIds:
                   selectedContractFilter === METADATA ? setActiveMetadataIds : setActiveIds,
-                highlightedList
+                highlightedList,
+                setClickedItemType
               })}
             />
             <div className={`${base}__rightGutter`} />
@@ -441,7 +453,8 @@ const CIDocument: FC<CIDocumentProps> = ({
               activePartIds={activePartIds}
               onItemClick={onItemClick({
                 setActiveIds,
-                elementList: itemList
+                elementList: itemList,
+                setClickedItemType
               })}
               activeMetadataIds={activeMetadataIds}
               theme={theme}
@@ -550,16 +563,19 @@ function onFilterChange({
 
 function onNavigationChange({
   setActiveIds,
-  highlightedList
+  highlightedList,
+  setClickedItemType
 }: {
   setActiveIds: Dispatch<SetStateAction<string[]>>;
   highlightedList: any[];
+  setClickedItemType: Dispatch<SetStateAction<string>>;
 }) {
   return function(index: number): void {
     const activeItem = highlightedList[index - 1]; // turn 1-based index to 0-based index
     if (isRelationObject(activeItem)) {
       setActiveIds(activeItem.allAttributeIds);
     } else {
+      setClickedItemType('');
       setActiveIds([getId(activeItem)]);
     }
   };
@@ -567,10 +583,12 @@ function onNavigationChange({
 
 function onItemClick({
   setActiveIds,
-  elementList
+  elementList,
+  setClickedItemType
 }: {
   setActiveIds: Dispatch<SetStateAction<string[]>>;
   elementList: any[];
+  setClickedItemType: Dispatch<SetStateAction<string>>;
 }) {
   return function(clickedItem: Field): void {
     if (clickedItem) {
@@ -580,6 +598,9 @@ function onItemClick({
           setActiveIds(relation.allAttributeIds);
         }
       } else if (clickedItem.id) {
+        if (clickedItem.type) {
+          setClickedItemType(clickedItem.type);
+        }
         setActiveIds([clickedItem.id]);
       }
     }
@@ -611,11 +632,19 @@ function getActiveIndex(activeIds: string[], highlightedList: any[]): number {
 
 function getActiveElement(activeIds: string[], itemList: any[]): any {
   return itemList.find(item => {
-    if (item.allAttributeIds) {
+    if ('allAttributeIds' in item) {
       return isEqual(item.allAttributeIds.sort(), activeIds.sort());
+    } else if (isEqualId(item, activeIds)) {
+      return true;
+    } else if ('attributes' in item) {
+      return item.attributes.find((attribute: any) => isEqualId(attribute, activeIds));
     }
     return isEqual([getId(item)].sort(), activeIds.sort());
   });
+}
+
+function isEqualId(item: any, id: string[]): boolean {
+  return isEqual([getId(item)].sort(), id.sort());
 }
 
 function getActiveDetails(activeElement: any, getDetailsFn: (item: any) => Items[]): Items[] {
@@ -624,6 +653,20 @@ function getActiveDetails(activeElement: any, getDetailsFn: (item: any) => Items
 
 function getAllClickableIds(itemList: any[]): string[] {
   return flattenDeep(itemList.map(item => item.allAttributeIds || getId(item)));
+}
+
+//Special case where user clicks on an attribute within contract element.
+function getDetailsForAttribute(activeElement: any, activeIds: string[]): any[] {
+  if (activeElement && activeElement.attributes) {
+    const attribute = activeElement.attributes.find((attr: any) => isEqualId(attr, activeIds));
+    return [
+      {
+        heading: ATTRIBUTES,
+        items: [attribute.type]
+      }
+    ];
+  }
+  return [];
 }
 
 function getSelectedLink({

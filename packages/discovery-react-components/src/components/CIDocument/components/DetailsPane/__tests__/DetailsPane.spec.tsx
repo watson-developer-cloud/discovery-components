@@ -3,6 +3,10 @@ import { render, BoundFunction, GetByText, AllByText, fireEvent } from '@testing
 import DetailsPane from '../DetailsPane';
 import { Items, OnActiveLinkChangeFn } from '../types';
 
+let getByText: BoundFunction<GetByText>,
+  getAllByText: BoundFunction<AllByText>,
+  onActiveLinkChange: OnActiveLinkChangeFn;
+
 describe('<DetailsPane />', () => {
   const dummyData: Items[] = [
     {
@@ -22,10 +26,6 @@ describe('<DetailsPane />', () => {
       ]
     }
   ];
-
-  let getByText: BoundFunction<GetByText>,
-    getAllByText: BoundFunction<AllByText>,
-    onActiveLinkChange: OnActiveLinkChangeFn;
 
   beforeEach(() => {
     onActiveLinkChange = jest.fn();
@@ -58,5 +58,21 @@ describe('<DetailsPane />', () => {
       sectionTitle: 'attributes',
       type: 'Number'
     });
+  });
+});
+
+describe('<DetailsPane /> - When attribute is clicked within element', () => {
+  const contractAttributeData: Items[] = [
+    {
+      heading: 'attributes',
+      items: ['DateTime']
+    }
+  ];
+  it('shows attribute type when clicked on attribute within element', () => {
+    ({ getByText, getAllByText } = render(
+      <DetailsPane items={contractAttributeData} onActiveLinkChange={onActiveLinkChange} />
+    ));
+    getByText('Attributes');
+    getByText('DateTime');
   });
 });
