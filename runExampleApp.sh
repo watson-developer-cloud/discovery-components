@@ -11,7 +11,7 @@ USE_FORMAT=$(
   type tput >/dev/null 2>&1
   if [ $? -eq 0 ]; then echo "true"; else echo "false"; fi
 )
-ENV_LOCAL="${SCRIPT_DIR}/../.env.local"
+ENV_LOCAL="${SCRIPT_DIR}/examples/discovery-search-app/.env.local"
 
 function boldMessage() {
   if [ "$USE_FORMAT" == "true" ]; then
@@ -119,7 +119,7 @@ colorMessage "done" 2
 #
 if [ -f $ENV_LOCAL ]; then
   paddedMessage "File already exists:"
-  colorMessage "$SCRIPT_DIR/../.env.local" 3
+  colorMessage "  $ENV_LOCAL" 3
   read -p "$(paddedMessage 'Update file before configuring server (y/n)? ')" updateEnvValues
 
   if [[ "${updateEnvValues}" =~ ^(Y|y)$ ]]; then
