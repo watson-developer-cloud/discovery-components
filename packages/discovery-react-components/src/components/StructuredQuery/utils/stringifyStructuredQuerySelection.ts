@@ -4,9 +4,9 @@ export const stringifyStructuredQuerySelection = (
   structuredQuerySelection: StructuredQuerySelection
 ) => {
   let stringifiedStructuredQuerySelection: string = '';
-  stringifiedStructuredQuerySelection += Object.keys(structuredQuerySelection.groups)
+  stringifiedStructuredQuerySelection += structuredQuerySelection.group_order
     .map(groupId => {
-      return groupId === '0'
+      return groupId === 0
         ? stringifyRows(structuredQuerySelection, groupId)
         : '(' + stringifyRows(structuredQuerySelection, groupId) + ')';
     })
@@ -14,19 +14,21 @@ export const stringifyStructuredQuerySelection = (
   return stringifiedStructuredQuerySelection;
 };
 
-const stringifyRows = (structuredQuerySelection: StructuredQuerySelection, groupId: string) => {
+const stringifyRows = (structuredQuerySelection: StructuredQuerySelection, groupId: number) => {
   return structuredQuerySelection.groups[groupId].rows
-    .map((rowId: string) => {
+    .map((rowId: number) => {
       const row = structuredQuerySelection.rows[rowId];
-      const rowField = containsReservedCharacters(row.field) ? '"' + row.field + '"' : row.field;
-      const rowValue = containsReservedCharacters(row.value) ? '"' + row.value + '"' : row.value;
+      const rowField = escapeReservedCharacters(row.field);
+      const rowValue = row.value === '' ? row.value : '"' + row.value + '"';
       return `${rowField}${row.operator}${rowValue}`;
     })
     .join(structuredQuerySelection.groups[groupId].operator);
 };
 
-const containsReservedCharacters = (fieldOrValue: string) => {
-  // Reserved characters include , | : ! as they are used as operators in the query
-  const regexForReservedCharacters = /([,|:!])+/g;
-  return fieldOrValue.match(regexForReservedCharacters) !== null;
+const escapeReservedCharacters = (field: string) => {
+  const escapeCharacters = (match: string) => {
+    return match.replace(match, `\\${match}`);
+  };
+  const regexForReservedCharacters = /([,|:!"\\()\[\]^~<>*])+/g;
+  return field.replace(regexForReservedCharacters, escapeCharacters);
 };
