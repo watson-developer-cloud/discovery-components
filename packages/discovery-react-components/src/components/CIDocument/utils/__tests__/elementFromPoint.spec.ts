@@ -7,9 +7,9 @@ import {
 
 const clientX = 50;
 const clientY = 50;
-const className = 'field--rect';
-const stopElem = null;
 
+// classList mocks the find function that is within elementFromPoint
+// it returns an element that has a classList that contains a specified className
 const classList = (list: string[]): any => {
   return {
     contains: (name: string): boolean => {
@@ -21,44 +21,65 @@ const classList = (list: string[]): any => {
 const mockElements = [
   { classList: classList(['mockName']), style: { pointerEvents: null } },
   { classList: classList(['mockClass']), style: { pointerEvents: null } },
-  { classList: classList([className]), style: { pointerEvents: null } }
+  { classList: classList(['field--rect']), style: { pointerEvents: null } }
 ];
 
-describe('elementFromPoint', () => {
-  it('elementsFromPoint', () => {
-    const originalElementsFromPoint = document.elementsFromPoint;
+describe('elementFromPoint returns expected mock element', () => {
+  let originalElementsFromPoint: any;
+  let originalMsElementsFromPoint: any;
+  let originalElementFromPoint: any;
+
+  beforeAll(() => {
+    originalElementsFromPoint = document.elementsFromPoint;
+    originalMsElementsFromPoint = (document as MsDocument).msElementsFromPoint;
+    originalElementFromPoint = document.elementFromPoint;
+  });
+
+  afterAll(() => {
+    document.elementsFromPoint = originalElementsFromPoint;
+    (document as MsDocument).msElementsFromPoint = originalMsElementsFromPoint;
+    document.elementFromPoint = originalElementFromPoint;
+  });
+
+  it('runs elementsFromPoint function for standard web browsers', () => {
     document.elementsFromPoint = (x: number, y: number): Element[] => {
       return (mockElements as unknown) as Element[];
     };
 
-    const elementResult = elementFromPoint(clientX, clientY, className);
+    const elementResult = elementFromPoint(clientX, clientY, 'field--rect');
     expect(elementResult).toEqual(mockElements[2]);
-
-    document.elementsFromPoint = originalElementsFromPoint;
   });
 
-  it('elementFromPointMs', () => {
-    const originalElementsFromPoint = (document as MsDocument).msElementsFromPoint;
+  it('runs elementFromPointMs function for MS Edge browser', () => {
     (document as MsDocument).msElementsFromPoint = (x: number, y: number): HTMLElement[] => {
       return (mockElements as unknown) as HTMLElement[];
     };
 
-    const elementResult = elementFromPointMs(clientX, clientY, className);
+    const elementResult = elementFromPointMs(clientX, clientY, 'field--rect');
     expect(elementResult).toEqual(mockElements[2]);
-
-    document.elementsFromPoint = originalElementsFromPoint;
   });
 
-  it('elementFromPointFallback', () => {
-    const originalElementFromPoint = document.elementFromPoint;
-    let test = 0;
+  it('runs elementFromPointFallback function for older browsers', () => {
+    let nextElementIndex = 0;
     document.elementFromPoint = (x: number, y: number): Element | null => {
-      return (mockElements[test++] as unknown) as Element;
+      return nextElementIndex < mockElements.length
+        ? ((mockElements[nextElementIndex++] as unknown) as Element)
+        : null;
     };
 
-    const elementResult = elementFromPointFallback(clientX, clientY, className, stopElem);
+    const elementResult = elementFromPointFallback(clientX, clientY, 'field--rect', null);
     expect(elementResult).toEqual(mockElements[2]);
+  });
 
-    document.elementFromPoint = originalElementFromPoint;
+  it('runs elementFromPointFallback and fails to find element', () => {
+    let nextElementIndex = 0;
+    document.elementFromPoint = (x: number, y: number): Element | null => {
+      return nextElementIndex < mockElements.length
+        ? ((mockElements[nextElementIndex++] as unknown) as Element)
+        : null;
+    };
+
+    const elementResult = elementFromPointFallback(clientX, clientY, 'should-be-null', null);
+    expect(elementResult).toEqual(null);
   });
 });
