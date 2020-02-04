@@ -81,7 +81,7 @@ describe('stringifyStructuredQuerySelection', () => {
       });
 
       describe('and the selections include reserved characters', () => {
-        it('returns the expected query string with backslashes before the fields with reserved characters', () => {
+        it('returns expected query string with backslashes before fields with reserved characters and values with double quotes', () => {
           const structuredQuerySelectionWithThreeRowsAndReservedCharacters: StructuredQuerySelection = {
             groups: {
               0: { rows: [0, 1, 2], operator: ',' }
@@ -90,12 +90,12 @@ describe('stringifyStructuredQuerySelection', () => {
               0: {
                 field: 'example_field,0',
                 operator: '::',
-                value: 'watson'
+                value: 'wat"son'
               },
               1: {
                 field: 'examp!le_field_1',
                 operator: ':!',
-                value: 'machine'
+                value: 'machine"'
               },
               2: {
                 field: 'example_field:_2',
@@ -111,7 +111,7 @@ describe('stringifyStructuredQuerySelection', () => {
               structuredQuerySelectionWithThreeRowsAndReservedCharacters
             )
           ).toEqual(
-            'example_field\\,0::"watson",examp\\!le_field_1:!"machine",example_field\\:_2:"learning"'
+            'example_field\\,0::"wat\\"son",examp\\!le_field_1:!"machine\\"",example_field\\:_2:"learning"'
           );
         });
       });

@@ -19,10 +19,14 @@ const stringifyRows = (structuredQuerySelection: StructuredQuerySelection, group
     .map((rowId: number) => {
       const row = structuredQuerySelection.rows[rowId];
       const rowField = escapeReservedCharacters(row.field);
-      const rowValue = row.value === '' ? row.value : '"' + row.value + '"';
+      const rowValue = row.value === '' ? row.value : '"' + escapeDoubleQuotes(row.value) + '"';
       return `${rowField}${row.operator}${rowValue}`;
     })
     .join(structuredQuerySelection.groups[groupId].operator);
+};
+
+const escapeDoubleQuotes = (value: string) => {
+  return value.replace('"', '\\"');
 };
 
 const escapeReservedCharacters = (field: string) => {
