@@ -633,7 +633,7 @@ function getActiveIndex(activeIds: string[], highlightedList: any[]): number {
 function getActiveElement(activeIds: string[], itemList: any[]): any {
   return itemList.find(item => {
     if ('allAttributeIds' in item) {
-      return isEqualId(item.allAttributeIds, activeIds);
+      return isEqual(item.allAttributeIds.sort(), activeIds.sort());
     } else if (isEqualId(item, activeIds)) {
       return true;
     } else if ('attributes' in item) {
