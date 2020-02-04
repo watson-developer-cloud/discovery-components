@@ -186,14 +186,7 @@ function setupBodyParser(parser: SaxParser, doc: ProcessedDoc): void {
   parser.pushState({
     onopentag: (p: Parser, tagName: string, attributes: Attributes): void => {
       if (SECTION_NAMES.includes(tagName)) {
-        setupSectionParser(
-          parser,
-          doc,
-          tagName,
-          attributes,
-          p.startIndex,
-          getChildBeginFromOpenTag(p)
-        );
+        setupSectionParser(parser, doc, tagName, attributes, getChildBeginFromOpenTag(p), p);
       }
     }
   });
@@ -205,17 +198,17 @@ function setupSectionParser(
   sectionTagName: string,
   sectionTagAttrs: Attributes,
   sectionStartIndex: number,
-  sectionChildBegin: number
+  sectionParser: Parser
 ): void {
   let lastClassName = '';
   let currentTable: Table | null = null;
 
   // track nested nodes of same tag name
-  let stackCount = 1;
+  let stackCount = 0;
   const openTagIndices = [0];
-  const sectionHtml = [openTagToString(sectionTagName, sectionTagAttrs, sectionChildBegin)];
+  const sectionHtml: string[] = [];
 
-  parser.pushState({
+  const actionState = {
     onopentag: (p: Parser, tagName: string, attributes: Attributes): void => {
       if (attributes.class) {
         lastClassName = attributes.class as string;
@@ -322,8 +315,16 @@ function setupSectionParser(
           parser.popState();
         }
       }
+      if (tagName === 'body') {
+        parser.popState();
+      }
     }
-  });
+  };
+
+  // Ensures the current section open tag is called first and then
+  // continues through tags inside of that section.
+  parser.pushState(actionState);
+  actionState.onopentag(sectionParser, sectionTagName, sectionTagAttrs);
 }
 
 function getChildBeginFromOpenTag(p: Parser): number {
