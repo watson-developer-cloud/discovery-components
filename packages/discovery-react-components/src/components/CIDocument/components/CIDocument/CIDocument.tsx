@@ -308,7 +308,7 @@ const CIDocument: FC<CIDocumentProps> = ({
   // This can be removed once hover/click ability on attributes in sections is removed.
   const [clickedItemType, setClickedItemType] = useState<string>('');
   if (clickedItemType === ATTRIBUTES && !isInvoiceOrPurchaseOrder(enrichmentName)) {
-    activeDetails = getDetailsForAttribute(activeElement, activeIds);
+    activeDetails = getAttributeDetails(activeElement, activeIds);
   }
 
   let highlightedIds = [];
@@ -633,13 +633,13 @@ function getActiveIndex(activeIds: string[], highlightedList: any[]): number {
 function getActiveElement(activeIds: string[], itemList: any[]): any {
   return itemList.find(item => {
     if ('allAttributeIds' in item) {
-      return isEqual(item.allAttributeIds.sort(), activeIds.sort());
+      return isEqualId(item.allAttributeIds, activeIds);
     } else if (isEqualId(item, activeIds)) {
       return true;
     } else if ('attributes' in item) {
       return item.attributes.find((attribute: any) => isEqualId(attribute, activeIds));
     }
-    return isEqual([getId(item)].sort(), activeIds.sort());
+    return false;
   });
 }
 
@@ -656,7 +656,7 @@ function getAllClickableIds(itemList: any[]): string[] {
 }
 
 //Special case where user clicks on an attribute within contract element.
-function getDetailsForAttribute(activeElement: any, activeIds: string[]): any[] {
+function getAttributeDetails(activeElement: any, activeIds: string[]): any[] {
   if (activeElement && activeElement.attributes) {
     const attribute = activeElement.attributes.find((attr: any) => isEqualId(attr, activeIds));
     return [
