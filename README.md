@@ -62,7 +62,7 @@ Run the following command from the project root directory
 ./runExampleApp.sh
 ```
 
-If you chooses not to start the example application, all previous configuration steps will be left intact so the application can be run at another time by running
+If you choose not to start the example application, all previous configuration steps will be left intact so the application can be run at another time by running
 
 ```
 yarn workspace discovery-search-app run start
