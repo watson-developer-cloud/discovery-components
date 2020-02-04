@@ -685,7 +685,7 @@ describe('<StructuredQuery />', () => {
         fireEvent.click(operators[0]);
         fireEvent.click(structuredQuery.getByText('contains'));
         fireEvent.click(values[0]);
-        fireEvent.change(values[0], { target: { value: 'Watso,n' } });
+        fireEvent.change(values[0], { target: { value: 'Watson' } });
         fireEvent.click(fields[1]);
         fireEvent.click(structuredQuery.getByText('field_name::_2'));
         fireEvent.click(operators[1]);
@@ -700,10 +700,10 @@ describe('<StructuredQuery />', () => {
         fireEvent.change(values[2], { target: { value: 'learning' } });
       });
 
-      it('should render the correct query with double quotes around reserved characters', () => {
+      it('should render the correct query with escaped reserved characters in fields', () => {
         const query = structuredQuery.getByLabelText('code-snippet');
         expect(query.textContent).toEqual(
-          'field_\\!name_1:"Watso,n",field_name\\::_2::!"machine",\\|field_name_3:!"learning"'
+          'field_\\!name_1:"Watson",field_name\\::_2::!"machine",\\|field_name_3:!"learning"'
         );
       });
     });
