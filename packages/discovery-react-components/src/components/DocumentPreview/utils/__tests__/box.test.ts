@@ -8,6 +8,10 @@ const originalDocBbox = [
   {
     page_number: 13,
     bbox: [54, 256.6070556640625, 558.1146850585938, 316.8000044822693]
+  },
+  {
+    page_number: 43,
+    bbox: [54, 559.2470703125, 558.0707397460938, 592.3199934959412]
   }
 ];
 
@@ -230,6 +234,18 @@ const processedDocBbox = [
   },
   {
     left: 54,
+    right: 558.0707397460938,
+    top: 559.2470703125,
+    bottom: 592.3199934959412,
+    page: 43,
+    className: 'text css_1808944156',
+    location: {
+      begin: 211003,
+      end: 211388
+    }
+  },
+  {
+    left: 54,
     right: 558.036376953125,
     top: 612.0469970703125,
     bottom: 707.5200057029724,
@@ -259,6 +275,41 @@ describe('box', () => {
       }
     ];
     expect(findMatchingBbox(originalDocBbox[0] as CellPage, processedDocBbox)).toEqual(result);
+  });
+
+  it('find matching bbox on correct page', () => {
+    const result = [
+      {
+        left: 54,
+        right: 558.0707397460938,
+        top: 559.2470703125,
+        bottom: 592.3199934959412,
+        page: 42,
+        className: 'text css_1808944156',
+        location: {
+          begin: 211003,
+          end: 211388
+        }
+      }
+    ];
+
+    const result2 = [
+      {
+        left: 54,
+        right: 558.0707397460938,
+        top: 559.2470703125,
+        bottom: 592.3199934959412,
+        page: 43,
+        className: 'text css_1808944156',
+        location: {
+          begin: 211003,
+          end: 211388
+        }
+      }
+    ];
+
+    expect(findMatchingBbox(originalDocBbox[2] as CellPage, processedDocBbox)).not.toEqual(result);
+    expect(findMatchingBbox(originalDocBbox[2] as CellPage, processedDocBbox)).toEqual(result2);
   });
 
   it('find matching bbox where end intersection is exclusive', () => {

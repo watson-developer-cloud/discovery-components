@@ -3,11 +3,13 @@ import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import DOMPurify from 'dompurify';
 import get from 'lodash/get';
+import flatMap from 'lodash/flatMap';
 import { processDoc, ProcessedDoc, ProcessedBbox, Location } from 'utils/document/processDoc';
 import { findMatchingBbox } from 'components/DocumentPreview/utils/box';
 import { findOffsetInDOM, createFieldRects } from 'utils/document/documentUtils';
 import { clearNodeChildren } from 'utils/dom';
-import { usePassage, isPassage } from '../Highlight/passages';
+import { getTextMappings } from 'components/DocumentPreview/utils/documentData';
+import { isPassage, getPassagePageInfo } from '../Highlight/passages';
 
 interface Props {
   /**
@@ -56,33 +58,7 @@ export const HtmlView: FC<Props> = ({
 
   const [html, setHtml] = useState<string | null>(null);
   const [processedDoc, setProcessedDoc] = useState<ProcessedDoc | null>(null);
-  const [locationArray, setLocationArray] = useState<Array<Location> | null>(null);
-
-  const textMappingBbox = usePassage(document, highlight as QueryResultPassage);
-  useEffect(() => {
-    if (highlight) {
-      if (isPassage(highlight)) {
-        if (processedDoc && textMappingBbox) {
-          let processedDocBbox: ProcessedBbox[] = [];
-          textMappingBbox &&
-            processedDoc.bboxes &&
-            textMappingBbox.forEach(Bbox => {
-              const tempBboxs = findMatchingBbox(Bbox, processedDoc.bboxes as ProcessedBbox[]);
-              processedDocBbox = processedDocBbox.concat(tempBboxs);
-            });
-          let passageLocs: Array<Location> = [];
-          processedDocBbox &&
-            processedDocBbox.forEach(Bbox => {
-              passageLocs.push(Bbox.location);
-            });
-          setLocationArray(passageLocs);
-        }
-      } else {
-        const tableLoc = get(highlight, 'table.location', {});
-        setLocationArray([tableLoc]);
-      }
-    }
-  }, [document, highlight, processedDoc, textMappingBbox]);
+  const [highlightLocations, setHighlightLocations] = useState<Location[] | null>(null);
 
   useEffect(() => {
     if (document) {
@@ -116,9 +92,29 @@ export const HtmlView: FC<Props> = ({
     }
   }, [document, highlight, setLoading]);
 
+  useEffect(() => {
+    if (highlight) {
+      const textMappings = getTextMappings(document);
+      if (isPassage(highlight) && textMappings) {
+        const textMappingBbox = getPassagePageInfo(textMappings, highlight as QueryResultPassage);
+        if (processedDoc && processedDoc.bboxes && textMappingBbox) {
+          const passageLocs: Location[] = flatMap(textMappingBbox, Bbox => {
+            return findMatchingBbox(Bbox, processedDoc.bboxes as ProcessedBbox[]);
+          }).map(Bbox => {
+            return Bbox.location;
+          });
+          setHighlightLocations(passageLocs);
+        }
+      } else {
+        const tableLoc = get(highlight, 'table.location', {});
+        setHighlightLocations([tableLoc]);
+      }
+    }
+  }, [document, highlight, processedDoc]);
+
   // highlight table and scroll into view
   useEffect(() => {
-    if (!html || !locationArray) {
+    if (!html || !highlightLocations) {
       return;
     }
 
@@ -133,7 +129,7 @@ export const HtmlView: FC<Props> = ({
       return;
     }
 
-    locationArray.forEach(location => {
+    highlightLocations.forEach(location => {
       const { begin, end } = location;
       if (typeof begin === 'undefined' || typeof end === 'undefined') {
         return;
@@ -158,7 +154,7 @@ export const HtmlView: FC<Props> = ({
     if (firstFieldRect) {
       firstFieldRect.scrollIntoView({ block: 'center' });
     }
-  }, [highlight, html, locationArray]);
+  }, [highlight, html, highlightLocations]);
 
   return (
     <div className={base}>

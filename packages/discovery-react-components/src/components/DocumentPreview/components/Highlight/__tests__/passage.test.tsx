@@ -3,7 +3,7 @@ import { FC } from 'react';
 import docJson from 'components/DocumentPreview/__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
 import { usePassage, isPassage } from '../passages';
 import { QueryResultPassage } from 'ibm-watson/discovery/v2';
-import { act, render } from '@testing-library/react';
+import { renderHook, act } from '@testing-library/react-hooks';
 
 describe('Passage', () => {
   it('returns passage bbox data from document', () => {
@@ -14,23 +14,14 @@ describe('Passage', () => {
       field: 'text'
     };
 
-    let bboxes;
+    //Use specifically to test hooks https://github.com/testing-library/react-hooks-testing-library
+    const { result } = renderHook(() => usePassage(docJson, passage as QueryResultPassage));
 
-    // Since usePassage uses hooks got to wrap in a test component to test it
-    const TestComponent: FC = () => {
-      bboxes = usePassage(docJson, passage as QueryResultPassage);
-      return <div>Test</div>;
-    };
-
-    act(() => {
-      render(<TestComponent />);
-    });
-
-    const result = [
+    const resultBbox = [
       { page_number: 13, bbox: [54, 256.6070556640625, 558.1146850585938, 316.8000044822693] }
     ];
 
-    expect(bboxes).toEqual(result);
+    expect(result.current).toEqual(resultBbox);
   });
 
   it('checks the validity of a passage', () => {
