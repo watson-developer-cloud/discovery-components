@@ -6,19 +6,34 @@ import { ENRICHMENTS, getEnrichmentName } from 'components/CIDocument/utils/enri
 import {
   EnrichedHtml,
   Contract,
+  Invoice,
+  PurchaseOrder,
   Attributes,
   Relations,
   Metadata
 } from 'components/CIDocument/types';
 import { Ontology } from './ontology/types';
 
-const modelMapping = {
-  contract: setMetadata,
-  invoice: setAttributesAndRelations,
-  purchase_order: setAttributesAndRelations
+const ontologyModelMapping = {
+  invoice: invoiceOntology,
+  purchase_order: purchaseOrderOntology
 };
 
-function setMetadata(enrichedHtml: Contract): void {
+function getupdatedEnrichment(enrichmentName: string, enrichment: any): EnrichedHtml {
+  if (enrichmentName === ENRICHMENTS.CONTRACT) {
+    enrichment.metadata = setMetadata(enrichment);
+  } else if (
+    enrichmentName === ENRICHMENTS.INVOICE ||
+    enrichmentName === ENRICHMENTS.PURCHASE_ORDER
+  ) {
+    const { attributes, relations } = setAttributesAndRelations(enrichmentName, enrichment);
+    enrichment.attributes = attributes;
+    enrichment.relations = relations;
+  }
+  return enrichment;
+}
+
+function setMetadata(enrichedHtml: Contract): Metadata[] {
   const meta = {
     contract_amounts: enrichedHtml.contract_amounts,
     effective_dates: enrichedHtml.effective_dates,
@@ -28,54 +43,43 @@ function setMetadata(enrichedHtml: Contract): void {
     payment_terms: enrichedHtml.payment_terms
   };
 
-  const updatedMetadata: Metadata[] = [];
+  const metadata: Metadata[] = [];
   Object.keys(meta).forEach(key => {
     const metadataObj = meta[key];
     if (typeof metadataObj === 'object' && !!metadataObj.length) {
-      updatedMetadata.push({
+      metadata.push({
         metadataType: key,
         data: metadataObj
       });
     }
   });
-  enrichedHtml.metadata = updatedMetadata;
+  return metadata;
 }
 
-function getOntology(enrichmentName: string): Ontology | undefined {
-  let ontology;
-  if (enrichmentName === ENRICHMENTS.INVOICE) {
-    ontology = invoiceOntology;
-  } else if (enrichmentName === ENRICHMENTS.PURCHASE_ORDER) {
-    ontology = purchaseOrderOntology;
-  }
-  return ontology;
-}
-
-function setAttributesAndRelations(doc: any, enrichmentName: string): void {
-  const ontology = getOntology(enrichmentName);
-  if (ontology) {
-    doc.attributes = createAttributeObjects(ontology.attributes, doc);
-    doc.relations = createRelationObjects(ontology, doc);
-  }
+function setAttributesAndRelations(
+  enrichmentName: string,
+  enrichment: any
+): Invoice | PurchaseOrder {
+  const ontology = ontologyModelMapping[enrichmentName];
+  const attributes = setAttributes(ontology.attributes, enrichment);
+  const relations = setRelations(ontology, enrichment);
+  return { attributes, relations };
 }
 
 // find any instances of attribute types that are defined in the ontology and create attribute objects
-function createAttributeObjects(
-  ontologyAttributesDefArray: string[],
-  parsedObject: any
-): Attributes[] {
+function setAttributes(ontologyAttributesDefArray: string[], parsedObject: any): Attributes[] {
   const filteredAttributes = ontologyAttributesDefArray.filter(
     attributeDef => parsedObject[attributeDef]
   );
 
   const attributes = filteredAttributes.map(attr => {
-    if (Array.isArray(parsedObject[attr])) {
-      return parsedObject[attr].map(
-        (att: Attributes): Attributes => createAttributeObject(att, attr)
-      );
-    } else {
-      return hasLocationData(parsedObject[attr]) && createAttributeObject(parsedObject[attr], attr);
+    const parsedAttributes = parsedObject[attr];
+    if (Array.isArray(parsedAttributes)) {
+      return parsedAttributes.map(att => createAttributeObject(att, attr));
+    } else if (hasLocationData(parsedAttributes)) {
+      return createAttributeObject(parsedAttributes, attr);
     }
+    return parsedAttributes;
   });
 
   return flattenDeep(attributes);
@@ -90,7 +94,7 @@ function createAttributeObject({ text, location }: Attributes, type: string): At
 }
 
 // find any instances of relation types that are defined in the ontology and create relation objects
-function createRelationObjects(ontology: Ontology, parsedObject: any): Relations[] {
+function setRelations(ontology: Ontology, parsedObject: any): Relations[] {
   const filteredRelations = ontology.relations.filter(relation => parsedObject[relation]);
 
   const relations = filteredRelations.map(relation =>
@@ -110,8 +114,8 @@ function createRelationObject(
 
   const result = relationArray.map(
     (rel: Relations): Relations => {
-      const attributes = createAttributeObjects(ontology.attributes, rel);
-      const relations = createRelationObjects(ontology, rel);
+      const attributes = setAttributes(ontology.attributes, rel);
+      const relations = setRelations(ontology, rel);
       return {
         type,
         attributes: attributes.length > 0 ? attributes : [],
@@ -151,10 +155,8 @@ export default function transformEnrichment(enrichedHtml: EnrichedHtml[]): Enric
   if (enrichedHtml && enrichedHtml[0]) {
     const enrichmentName = getEnrichmentName(enrichedHtml[0]);
     const enrichment = enrichedHtml[0][enrichmentName];
-    if (enrichment) {
-      modelMapping[enrichmentName](enrichment, enrichmentName);
-    }
+    const updatedEnrichment = getupdatedEnrichment(enrichmentName, enrichment);
+    enrichedHtml[0][enrichmentName] = updatedEnrichment;
   }
-
   return enrichedHtml;
 }
