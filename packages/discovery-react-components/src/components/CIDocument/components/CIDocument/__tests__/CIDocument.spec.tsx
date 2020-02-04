@@ -160,6 +160,28 @@ describe('<CIDocument />', () => {
       globalGetByText(filters, 'Intellectual Property');
     });
 
+    it.only('loads the correct tabs and pane sections titles', async () => {
+      // Tabs = Filters and Metadata exists
+      const filterTab = getByTestId('filters-tab');
+      const metadataTab = getByTestId('metadata-tab');
+      expect(filterTab.textContent).toEqual('Filters');
+      expect(metadataTab.textContent).toEqual('Metadata');
+
+      // Once something is selected in FiltersPane, DetailsPane has Categories, Types, and Attributes sections
+      const filters = await findByTestId('Filters');
+      const categoryCheckbox = globalGetByLabelText(filters, 'Intellectual Property(1)');
+      fireEvent.click(categoryCheckbox);
+
+      const detailsCategories = getByTestId('details-pane-categories');
+      const detailsTypes = getByTestId('details-pane-types');
+      const detailsAttributes = getByTestId('details-pane-attributes');
+      expect(detailsCategories.textContent).toContain('Intellectual Property');
+      expect(detailsTypes.textContent).toContain('Nature: Definition, Party: None');
+      expect(detailsAttributes.textContent).toContain('DefinedTerm (1)');
+
+      // If a party is selected in metadataPane, detailsPane has section header Party
+    });
+
     it('correctly filters contract elements', async () => {
       const filters = await findByTestId('Filters');
 

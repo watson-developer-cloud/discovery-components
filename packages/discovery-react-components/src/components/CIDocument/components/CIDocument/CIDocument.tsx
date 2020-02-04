@@ -353,7 +353,7 @@ const CIDocument: FC<CIDocumentProps> = ({
             aria-label={messages.filtersTabLabel}
             data-testid="document-info-tabs"
           >
-            <Tab tabIndex={0} label={messages.filtersTabLabel}>
+            <Tab tabIndex={0} label={messages.filtersTabLabel} data-testid="filters-tab">
               {!hasError &&
                 renderFilterPanel(
                   currentFilter,
@@ -363,7 +363,7 @@ const CIDocument: FC<CIDocumentProps> = ({
                   messages
                 )}
             </Tab>
-            <Tab tabIndex={0} label={messages.metadataTabLabel}>
+            <Tab tabIndex={0} label={messages.metadataTabLabel} data-testid="metadata-tab">
               {!hasError && (
                 <MetadataPane
                   metadata={state.metadata}

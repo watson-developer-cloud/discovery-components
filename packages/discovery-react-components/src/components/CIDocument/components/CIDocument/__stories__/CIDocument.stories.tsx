@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, radios } from '@storybook/addon-knobs';
 import CIDocument from '../CIDocument';
-import contract from '../__fixtures__/contract.json';
+import contract from '../__fixtures__/shortenedContract.json';
 import invoice from '../__fixtures__/invoice-index_op.json';
 import po from '../__fixtures__/po-index_op.json';
 
