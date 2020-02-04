@@ -183,6 +183,16 @@ describe('processDoc', () => {
         </table>
       </body>
     </html>`;
+
+    const bboxData = {
+      left: 40.7528076171875,
+      right: 60.08714294433594,
+      top: 74.65092468261719,
+      bottom: 82.76208591461182,
+      page: 1,
+      className: ''
+    };
+
     const doc = await processDoc({ html }, { sections: true, tables: true });
     const processedHtml = doc.sections!.map(section => section.html).join('');
     const { getByTestId } = render(<div dangerouslySetInnerHTML={{ __html: processedHtml }} />);
@@ -192,9 +202,12 @@ describe('processDoc', () => {
     const tableThree = getByTestId('table-three');
     expect(tableOne.textContent).toEqual('Table 1');
     expect(tableTwo.textContent).toEqual('Table 2');
-    expect(tableThree.textContent).toContain('Column 1' && 'Column 2');
+    expect(tableThree.textContent).toContain('Column 1');
+    expect(tableThree.textContent).toContain('Column 2');
 
     expect(doc.tables!.length).toEqual(3);
+    expect(doc.tables![0].location).toEqual({ begin: 28, end: 82 });
     expect(doc.tables![2].bboxes.length).toEqual(2);
+    expect(doc.tables![2].bboxes[0]).toEqual(bboxData);
   });
 });
