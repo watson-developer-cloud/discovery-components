@@ -2249,7 +2249,7 @@
     "@hapi/hoek" "8.x.x"
 
 "@ibm-watson/discovery-react-components@file:packages/discovery-react-components":
-  version "1.1.0-beta.24"
+  version "1.1.0-beta.28"
   dependencies:
     classnames "^2.2.6"
     debounce "^1.2.0"
@@ -15529,10 +15529,15 @@ prettier-package-json@^2.1.0:
     sort-object-keys "^1.1.2"
     sort-order "^1.0.1"
 
-prettier@^1.16.4, prettier@^1.18.2:
+prettier@^1.16.4:
   version "1.18.2"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.18.2.tgz#6823e7c5900017b4bd3acf46fe9ac4b4d7bda9ea"
   integrity sha512-OeHeMc0JhFE9idD4ZdtNibzY0+TPHSpSSb9h8FqtP+YnoZZ1sl8Vc9b1sasjfymH3SonAF4QcA2+mzHPhMvIiw==
+
+prettier@^1.19.1:
+  version "1.19.1"
+  resolved "https://na.artifactory.swg-devops.com:443/artifactory/api/npm/wcp-cnc-ui-npm-virtual/prettier/-/prettier-1.19.1.tgz?dl=https%3A%2F%2Fregistry.npmjs.org%2Fprettier%2F-%2Fprettier-1.19.1.tgz#f7d7f5ff8a9cd872a7be4ca142095956a60797cb"
+  integrity sha1-99f1/4qc2HKnvkyhQglZVqYHl8s=
 
 pretty-bytes@^5.1.0:
   version "5.3.0"
@@ -19096,10 +19101,10 @@ typescript@^3.0.3, typescript@^3.6.4:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.3.tgz#b36840668a16458a7025b9eabfad11b66ab85c69"
   integrity sha512-Mcr/Qk7hXqFBXMN7p7Lusj1ktCBydylfQM/FZCk5glCNQJrCUKPkMHdo9R0MTFWsC/4kPFvDS0fDPvukfCkFsw==
 
-typescript@~3.6.2:
-  version "3.6.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.6.4.tgz#b18752bb3792bc1a0281335f7f6ebf1bbfc5b91d"
-  integrity sha512-unoCll1+l+YK4i4F8f22TaNVPRHcD9PA3yCuZ8g5e0qGqlVlJ/8FSateOLLSagn+Yg5+ZwuPkL8LFUc0Jcvksg==
+typescript@~3.7.5:
+  version "3.7.5"
+  resolved "https://na.artifactory.swg-devops.com:443/artifactory/api/npm/wcp-cnc-ui-npm-virtual/typescript/-/typescript-3.7.5.tgz?dl=https%3A%2F%2Fregistry.npmjs.org%2Ftypescript%2F-%2Ftypescript-3.7.5.tgz#0692e21f65fd4108b9330238aac11dd2e177a1ae"
+  integrity sha1-BpLiH2X9QQi5MwI4qsEd0uF3oa4=
 
 ua-parser-js@^0.7.18:
   version "0.7.20"

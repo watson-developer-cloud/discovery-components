@@ -148,9 +148,9 @@ function getAllAttributesInRelation({ relations }: Relations): Attributes[] {
 // Function checks if attribute is valid and has location data in it.
 // Since have observed noisy data before so this function is required.
 function hasLocationData(attr: Attributes): boolean {
-  return !!(attr && attr.location && attr.location.begin && attr.location.end);
+  return !!(typeof attr?.location?.begin !== undefined && attr?.location?.end);
 }
-
+//attr?.location?.begin
 export default function transformEnrichment(enrichedHtml: EnrichedHtml[]): EnrichedHtml[] {
   if (enrichedHtml && enrichedHtml[0]) {
     const enrichmentName = getEnrichmentName(enrichedHtml[0]);
