@@ -330,7 +330,7 @@ const CIDocument: FC<CIDocumentProps> = ({
             data-testid="document-info-tabs"
           >
             {nonContractTabs.map(tab => (
-              <Tab tabIndex={0} label={tabLabels[tab]} key={tab}>
+              <Tab tabIndex={0} label={tabLabels[tab]} key={tab} data-testid={tab + '-tab'}>
                 {!hasError &&
                   tab === selectedType &&
                   renderFilterPanel(

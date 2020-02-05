@@ -30,7 +30,15 @@ describe('<CIDocument />', () => {
   describe('Invoice Document', () => {
     beforeEach(() => {
       act(() => {
-        ({ getAllByRole, getByTestId, getByText, findByText, findByTitle, queryByTitle } = render(
+        ({
+          getAllByRole,
+          getByTestId,
+          getByText,
+          findByText,
+          findByTestId,
+          findByTitle,
+          queryByTitle
+        } = render(
           <CIDocument document={invoice} overrideDocWidth={400} overrideDocHeight={600} />
         ));
       });
@@ -46,6 +54,29 @@ describe('<CIDocument />', () => {
       // check for a filter name
       const filters = getByTestId('Filters');
       globalGetByText(filters, 'Currency');
+    });
+
+    it.only('loads the correct tabs and pane sections titles', async () => {
+      // Tabs = Attribute and Relations exists
+      const attributesTab = getByTestId('attributes-tab');
+      const relationsTab = getByTestId('relations-tab');
+      expect(attributesTab.textContent).toEqual('Attributes');
+      expect(relationsTab.textContent).toEqual('Relations');
+
+      // If an attribute is selected, DetailsPane type value is the same as the selected attribute
+      let filters = await findByTestId('Filters');
+      const currencyRadio = globalGetByLabelText(filters, 'Currency(2)');
+      fireEvent.click(currencyRadio);
+      let detailsType = getByTestId('details-pane-type');
+      expect(detailsType.textContent).toContain('Currency');
+
+      // If a relation is selected, DetailsPane type value is that selection and section header Attributes is now present
+      fireEvent.click(relationsTab);
+      filters = await findByTestId('Filters');
+      const invoiceRadio = globalGetByLabelText(filters, 'Invoice parts(5)');
+      fireEvent.click(invoiceRadio);
+      detailsType = getByTestId('details-pane-type');
+      expect(detailsType.textContent).toContain('Invoice parts');
     });
 
     it('selects Relations and checks details panel', async () => {
@@ -160,7 +191,7 @@ describe('<CIDocument />', () => {
       globalGetByText(filters, 'Intellectual Property');
     });
 
-    it.only('loads the correct tabs and pane sections titles', async () => {
+    it('loads the correct tabs and pane sections titles', async () => {
       // Tabs = Filters and Metadata exists
       const filterTab = getByTestId('filters-tab');
       const metadataTab = getByTestId('metadata-tab');
