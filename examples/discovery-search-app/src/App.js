@@ -3,8 +3,9 @@ import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { NoAuthAuthenticator } from 'ibm-watson/auth';
 import './app.scss';
 import { settings } from 'carbon-components';
-import { Button } from 'carbon-components-react';
+import { Button, Tabs, Tab } from 'carbon-components-react';
 import Close from '@carbon/icons-react/lib/close/16';
+import cx from 'classnames';
 
 import {
   DiscoverySearch,
@@ -14,7 +15,9 @@ import {
   SearchResults,
   SearchFacets,
   ResultsPagination,
-  DocumentPreview
+  DocumentPreview,
+  CIDocument,
+  canRenderCIDocument
 } from '@ibm-watson/discovery-react-components';
 
 const App = () => {
@@ -37,7 +40,7 @@ function AppView() {
   const {
     selectedResult: { document }
   } = useContext(SearchContext);
-  return !document ? <SearchPage /> : <PreviewPage />;
+  return !document ? <SearchPage /> : <PreviewPage document={document} />;
 }
 
 function SearchPage() {
@@ -85,8 +88,19 @@ function SearchPage() {
   );
 }
 
-function PreviewPage() {
+function PreviewPage({ document }) {
   const { setSelectedResult } = useContext(SearchApi);
+
+  const tabs = [
+    {
+      name: 'Document',
+      Component: DocumentPreview
+    }
+  ];
+
+  if (canRenderCIDocument(document)) {
+    tabs.push({ name: 'Content Intelligence', Component: CIDocument });
+  }
 
   function back(evt) {
     evt.preventDefault();
@@ -106,7 +120,29 @@ function PreviewPage() {
           tooltipAlignment="start"
         />
       </div>
-      <DocumentPreview />
+      <Tabs
+        className={`${settings.prefix}--search-app__tabs`}
+        selected={0}
+        aria-label="Document details tabs"
+      >
+        {tabs.map(({ name, Component, ...restProps }) => (
+          <Tab
+            key={name}
+            label={name}
+            {...restProps}
+            renderContent={({ selected }) => (
+              <div
+                className={cx({
+                  [`${settings.prefix}--search-app__tabs--hidden`]: !selected,
+                  [`${settings.prefix}--search-app__content`]: true
+                })}
+              >
+                <Component document={document} />
+              </div>
+            )}
+          />
+        ))}
+      </Tabs>
     </div>
   );
 }
