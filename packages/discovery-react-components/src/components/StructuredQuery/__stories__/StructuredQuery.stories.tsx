@@ -20,12 +20,12 @@ class DummySearchClientReturnsFields extends DummySearchClient {
     action('listFields')(fetchFieldsParams);
     return createDummyResponsePromise({
       fields: [
-        { field: 'field name 1' },
-        { field: 'field name 2' },
-        { field: 'field name 3' },
-        { field: 'field name 4' },
-        { field: 'field name 5' },
-        { field: 'field name 6' }
+        { field: 'field_name_1' },
+        { field: 'field_name_2' },
+        { field: 'field_name_3' },
+        { field: 'field_name_4' },
+        { field: 'field_name_5' },
+        { field: 'field_name_6' }
       ]
     });
   }
