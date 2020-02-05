@@ -1,9 +1,7 @@
-import * as React from 'react';
-import { FC } from 'react';
 import docJson from 'components/DocumentPreview/__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
 import { usePassage, isPassage } from '../passages';
 import { QueryResultPassage } from 'ibm-watson/discovery/v2';
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react-hooks';
 
 describe('Passage', () => {
   it('returns passage bbox data from document', () => {
