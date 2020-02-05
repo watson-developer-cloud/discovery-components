@@ -26,13 +26,13 @@ const stringifyRows = (structuredQuerySelection: StructuredQuerySelection, group
 };
 
 const escapeDoubleQuotes = (value: string) => {
-  return value.replace('"', '\\"');
+  return value.replace(/(["])/g, '\\"');
 };
 
 const escapeReservedCharacters = (field: string) => {
   const escapeCharacters = (match: string) => {
     return match.replace(match, `\\${match}`);
   };
-  const regexForReservedCharacters = /([,|:!"\\()\[\]^~<>*])+/g;
+  const regexForReservedCharacters = /([,|:!"\\()\[\]^~<>*])/g;
   return field.replace(regexForReservedCharacters, escapeCharacters);
 };

@@ -697,13 +697,13 @@ describe('<StructuredQuery />', () => {
         fireEvent.click(operators[2]);
         fireEvent.click(structuredQuery.getByText('does not contain'));
         fireEvent.click(values[2]);
-        fireEvent.change(values[2], { target: { value: 'l"earning' } });
+        fireEvent.change(values[2], { target: { value: 'l"earn"ing' } });
       });
 
       it('should render the correct query with escaped reserved characters in fields and double quotes in values', () => {
         const query = structuredQuery.getByLabelText('code-snippet');
         expect(query.textContent).toEqual(
-          'field_\\!name_1:"Watson",field_name\\::_2::!"machine",\\|field_name_3:!"l\\"earning"'
+          'field_\\!name_1:"Watson",field_name\\:\\:_2::!"machine",\\|field_name_3:!"l\\"earn\\"ing"'
         );
       });
     });
