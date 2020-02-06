@@ -55,18 +55,6 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleCopyQueryOnClick = () => {
-    const stringifiedSelectionText = document.querySelector(
-      `.${structuredQueryCopyableQueryClass}`
-    )!.textContent;
-    const textArea = document.createElement('textarea');
-    textArea.textContent = stringifiedSelectionText;
-    document.body.appendChild(textArea);
-    textArea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textArea);
-  };
-
   return (
     <div className={structuredQueryClass}>
       {structuredQuerySelection.group_order.map(id => {
