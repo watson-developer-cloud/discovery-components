@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-beta.8](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-styles@1.1.0-beta.7...@ibm-watson/discovery-styles@1.1.0-beta.8) (2020-02-06)
+
+
+### Features
+
+* structured query convert inputs ([#83](https://github.com/watson-developer-cloud/discovery-components/issues/83)) ([6c0b19d](https://github.com/watson-developer-cloud/discovery-components/commit/6c0b19d))
+
+
+
+
+
 # [1.1.0-beta.7](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-styles@1.0.7...@ibm-watson/discovery-styles@1.1.0-beta.7) (2020-01-21)
 
 

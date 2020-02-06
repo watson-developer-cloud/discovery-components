@@ -60,3 +60,16 @@
     }
   }
 }
+
+.#{$prefix}--structured-query__copyable-query {
+  align-items: center;
+  display: flex;
+
+  .#{$prefix}--snippet-container {
+    padding-right: $spacing-md;
+  }
+
+  button {
+    display: none;
+  }
+}

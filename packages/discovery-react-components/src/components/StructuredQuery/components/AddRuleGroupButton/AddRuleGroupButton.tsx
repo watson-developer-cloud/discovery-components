@@ -2,6 +2,7 @@ import React, { FC, Dispatch, SetStateAction } from 'react';
 import { Button } from 'carbon-components-react';
 import Add16 from '@carbon/icons-react/lib/add/16';
 import { Messages } from 'components/StructuredQuery/messages';
+import { getNewId } from 'components/StructuredQuery/utils';
 import { StructuredQuerySelection } from 'components/StructuredQuery/utils/structuredQueryInterfaces';
 
 export interface AddRuleGroupButtonProps {
@@ -25,15 +26,22 @@ export const AddRuleGroupButton: FC<AddRuleGroupButtonProps> = ({
   setStructuredQuerySelection
 }) => {
   const handleOnClick = () => {
-    const maxGroupId = Object.keys(structuredQuerySelection.groups).reduce(
-      (previousId, currentId) => Math.max(parseInt(previousId), parseInt(currentId)).toString()
-    );
-    const newRuleGroupId: number = parseInt(maxGroupId) + 1;
+    const newRuleGroupId = getNewId(structuredQuerySelection.groups);
+    const newRuleRowId = getNewId(structuredQuerySelection.rows);
     setStructuredQuerySelection({
+      ...structuredQuerySelection,
       groups: {
         ...structuredQuerySelection.groups,
         [`${newRuleGroupId}`]: {
-          rows: [0]
+          rows: [newRuleRowId]
+        }
+      },
+      rows: {
+        ...structuredQuerySelection.rows,
+        [`${newRuleRowId}`]: {
+          field: '',
+          operator: '',
+          value: ''
         }
       },
       group_order: structuredQuerySelection.group_order.concat(newRuleGroupId)
