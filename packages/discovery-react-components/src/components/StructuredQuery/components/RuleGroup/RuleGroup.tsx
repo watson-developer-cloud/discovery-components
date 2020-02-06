@@ -17,7 +17,7 @@ export interface RuleGroupProps {
    */
   messages: Messages;
   /**
-   * id of the group for the rule row to render, or 'top-level' if the top-level rule group
+   * id of the group for the rule row to render
    */
   groupId: number;
   /**
@@ -46,7 +46,12 @@ export const RuleGroup: FC<RuleGroupProps> = ({
 
   return (
     <div className={ruleGroupClassNames.join(' ')} data-testid="rule-group">
-      <RuleGroupDropdown messages={messages} />
+      <RuleGroupDropdown
+        messages={messages}
+        setStructuredQuerySelection={setStructuredQuerySelection}
+        structuredQuerySelection={structuredQuerySelection}
+        groupId={groupId}
+      />
       {rows.map(row => {
         const uniqueKey = groupId.toString() + row.toString();
         return (
