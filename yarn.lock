@@ -15536,8 +15536,8 @@ prettier@^1.16.4:
 
 prettier@^1.19.1:
   version "1.19.1"
-  resolved "https://na.artifactory.swg-devops.com:443/artifactory/api/npm/wcp-cnc-ui-npm-virtual/prettier/-/prettier-1.19.1.tgz?dl=https%3A%2F%2Fregistry.npmjs.org%2Fprettier%2F-%2Fprettier-1.19.1.tgz#f7d7f5ff8a9cd872a7be4ca142095956a60797cb"
-  integrity sha1-99f1/4qc2HKnvkyhQglZVqYHl8s=
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.19.1.tgz#f7d7f5ff8a9cd872a7be4ca142095956a60797cb"
+  integrity sha512-s7PoyDv/II1ObgQunCbB9PdLmUcBZcnWOcxDh7O0N/UwDEsHyqkW+Qh28jW+mVuCdx7gLB0BotYI1Y6uI9iyew==
 
 pretty-bytes@^5.1.0:
   version "5.3.0"
@@ -19103,8 +19103,8 @@ typescript@^3.0.3, typescript@^3.6.4:
 
 typescript@~3.7.5:
   version "3.7.5"
-  resolved "https://na.artifactory.swg-devops.com:443/artifactory/api/npm/wcp-cnc-ui-npm-virtual/typescript/-/typescript-3.7.5.tgz?dl=https%3A%2F%2Fregistry.npmjs.org%2Ftypescript%2F-%2Ftypescript-3.7.5.tgz#0692e21f65fd4108b9330238aac11dd2e177a1ae"
-  integrity sha1-BpLiH2X9QQi5MwI4qsEd0uF3oa4=
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.5.tgz#0692e21f65fd4108b9330238aac11dd2e177a1ae"
+  integrity sha512-/P5lkRXkWHNAbcJIiHPfRoKqyd7bsyCma1hZNUGfn20qm64T6ZBlrzprymeu918H+mB/0rIg2gGK/BXkhhYgBw==
 
 ua-parser-js@^0.7.18:
   version "0.7.20"
