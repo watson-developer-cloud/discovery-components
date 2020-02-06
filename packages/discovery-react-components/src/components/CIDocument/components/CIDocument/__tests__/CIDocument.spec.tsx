@@ -10,9 +10,7 @@ import {
   GetAllBy,
   GetByText,
   FindByText,
-  QueryByText,
-  prettyDOM,
-  getByLabelText
+  QueryByText
 } from '@testing-library/react';
 import 'utils/test/createRange.mock';
 import CIDocument from '../CIDocument';
