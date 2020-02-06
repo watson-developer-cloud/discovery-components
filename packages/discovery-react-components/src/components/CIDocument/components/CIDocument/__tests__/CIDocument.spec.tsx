@@ -118,7 +118,7 @@ describe('<CIDocument />', () => {
       const nextButton = await findByTitle('Next', { selector: 'button' });
 
       const nav = getAllByRole('navigation')[0];
-      expect(globalGetByText(nav, '1 / 2'));
+      globalGetByText(nav, '1 / 2');
 
       fireEvent.click(nextButton);
       globalGetByText(nav, '2 / 2');
