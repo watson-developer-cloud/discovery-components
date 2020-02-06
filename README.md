@@ -12,6 +12,9 @@
 
 - [Prerequisites](#prerequisites)
 - [Running the example app](#running-the-example-app)
+  * [Setup script](#setup-script)
+  * [Manual setup](#manual-setup)
+    + [Windows Only](#windows-only)
 - [Using Discovery Components in a React application](#using-discovery-components-in-a-react-application)
   * [Interacting with Discovery data in custom components](#interacting-with-discovery-data-in-custom-components)
 - [Development](#development)
@@ -43,6 +46,29 @@
 ## Running the example app
 
 The example app is a catalogue of the core components provided by this library. With little effort, you can see the functionality of each component using your real data. You can also modify the example code to see how you can customize Discovery Components to fit your needs.
+
+### Setup script
+
+The `runExampleApp.sh` script provides prompts to help configure and run the example application. The script iterates through the following steps:
+
+1. Verify all prerequisite programs are installed
+1. Prompt you for necessary cluster information
+1. Configure the example application server
+1. Build the React components
+1. Ask you if you'd like to start the example application
+
+Run the following command from the project root directory
+```
+./runExampleApp.sh
+```
+
+If you choose not to start the example application, all previous configuration steps will be left intact so the application can be run at another time by running
+
+```
+yarn workspace discovery-search-app run start
+```
+
+### Manual setup
 
 1. Install [Yarn](https://yarnpkg.com/lang/en/docs/install), as it is required build the components locally.
 
@@ -81,6 +107,13 @@ The example app is a catalogue of the core components provided by this library. 
    3. `CLUSTER_PASSWORD` the password used to log in to your CP4D dashboard and access your instance of Discovery (ex. `my_cp4d_password`)
    4. `CLUSTER_PORT` defaults to `443` unless configured otherwise
    5. `CLUSTER_HOST` the base URL of your CP4D cluster (ex. `example.com`)
+
+    #### Windows Only
+    On Windows, the default `SASS_PATH` environmnt variable must be updated. Append the following to the `.env.local` file:
+
+    ```
+    SASS_PATH="./node_modules;./src"
+    ```
 
 5. Build the React components:
 
