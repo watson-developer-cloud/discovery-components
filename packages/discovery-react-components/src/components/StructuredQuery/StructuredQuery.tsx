@@ -1,10 +1,16 @@
 import React, { FC, useState, useContext, useEffect } from 'react';
+import { CodeSnippet } from 'carbon-components-react';
 import { RuleGroup } from './components/RuleGroup/RuleGroup';
 import { AddRuleRowButton } from './components/AddRuleRowButton/AddRuleRowButton';
 import { AddRuleGroupButton } from './components/AddRuleGroupButton/AddRuleGroupButton';
 import { defaultMessages, Messages } from './messages';
-import { structuredQueryClass, structuredQueryRulesButtonsClass } from './cssClasses';
+import {
+  structuredQueryClass,
+  structuredQueryRulesButtonsClass,
+  structuredQueryCopyableQueryClass
+} from './cssClasses';
 import { MAX_NUM_SIBLING_RULE_ROWS, MAX_NUM_NESTED_RULE_GROUPS } from './constants';
+import { stringifyStructuredQuerySelection } from './utils';
 import { StructuredQuerySelection } from './utils/structuredQueryInterfaces';
 import { withErrorBoundary } from 'react-error-boundary';
 import { FallbackComponent } from 'utils/FallbackComponent';
@@ -24,10 +30,19 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
     StructuredQuerySelection
   >({
     groups: {
-      0: { rows: [0] }
+      0: { rows: [0], operator: ',' }
+    },
+    rows: {
+      0: {
+        field: '',
+        operator: '',
+        value: ''
+      }
     },
     group_order: [0]
   });
+
+  const stringifiedSelection = stringifyStructuredQuerySelection(structuredQuerySelection);
 
   const showAddRuleRowButton =
     structuredQuerySelection.groups[0].rows.length < MAX_NUM_SIBLING_RULE_ROWS;
@@ -70,6 +85,11 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
           />
         )}
       </div>
+      {stringifiedSelection && (
+        <CodeSnippet className={`${structuredQueryCopyableQueryClass}`}>
+          {stringifiedSelection}
+        </CodeSnippet>
+      )}
     </div>
   );
 };
