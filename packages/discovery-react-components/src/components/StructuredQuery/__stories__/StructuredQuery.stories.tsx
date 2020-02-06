@@ -19,7 +19,14 @@ class DummySearchClientReturnsFields extends DummySearchClient {
   public async listFields(fetchFieldsParams: DiscoveryV2.ListFieldsParams): Promise<any> {
     action('listFields')(fetchFieldsParams);
     return createDummyResponsePromise({
-      fields: [{ field: 'field_name_1' }, { field: 'field_name_2' }]
+      fields: [
+        { field: 'field_name_1' },
+        { field: 'field_name_2' },
+        { field: 'field_name_3' },
+        { field: 'field_name_4' },
+        { field: 'field_name_5' },
+        { field: 'field_name_6' }
+      ]
     });
   }
 }
