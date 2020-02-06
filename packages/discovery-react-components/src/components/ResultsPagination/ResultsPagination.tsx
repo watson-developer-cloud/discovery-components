@@ -124,7 +124,7 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
             pageSizes={pageSizes}
             onChange={handleOnChange}
             itemRangeText={handleItemRangeText}
-            itemsPerPageText={'YAY'}
+            itemsPerPageText={mergedMessages.itemsPerPageText}
             pageRangeText={handlePageRangeText}
             {...inputProps}
           />

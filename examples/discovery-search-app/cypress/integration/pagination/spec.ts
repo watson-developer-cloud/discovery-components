@@ -106,7 +106,7 @@ describe('Pagination', () => {
       });
 
       describe('and we submit a new query', () => {
-        it.only('should return to the first page', () => {
+        it('should return to the first page', () => {
           cy.get('.bx--pagination__right')
             .find('.bx--select-input')
             .should('have.value', '2');
