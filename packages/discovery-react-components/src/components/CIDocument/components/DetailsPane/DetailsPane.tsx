@@ -20,7 +20,7 @@ const DetailsPane: FC<DetailsPaneProps> = ({
   onActiveLinkChange
 }) => {
   return (
-    <div className={base}>
+    <div className={base} data-testid="details-pane">
       <h2 className="title" id="documentDetailsId">
         {messages.detailsTitle}
       </h2>

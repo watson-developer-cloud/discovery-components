@@ -68,4 +68,8 @@
   .#{$prefix}--snippet-container {
     padding-right: $spacing-md;
   }
+
+  button {
+    display: none;
+  }
 }

@@ -20,12 +20,12 @@ describe('stringifyStructuredQuerySelection', () => {
         };
 
         expect(stringifyStructuredQuerySelection(structuredQuerySelectionWithOneRow)).toEqual(
-          'example_field::watson'
+          'example_field::"watson"'
         );
       });
 
       describe('and the selections include reserved characters', () => {
-        it('returns the expected query string with quotes around the fields/values with reserved characters', () => {
+        it('returns the expected query string with backslashes before the fields with reserved characters', () => {
           const structuredQuerySelectionWithOneRowAndReservedCharacters: StructuredQuerySelection = {
             groups: {
               0: { rows: [0], operator: ',' }
@@ -34,7 +34,7 @@ describe('stringifyStructuredQuerySelection', () => {
               0: {
                 field: 'example,field',
                 operator: '::',
-                value: 'watso!n'
+                value: 'watson'
               }
             },
             group_order: [0]
@@ -44,7 +44,7 @@ describe('stringifyStructuredQuerySelection', () => {
             stringifyStructuredQuerySelection(
               structuredQuerySelectionWithOneRowAndReservedCharacters
             )
-          ).toEqual('"example,field"::"watso!n"');
+          ).toEqual('example\\,field::"watson"');
         });
       });
     });
@@ -76,12 +76,12 @@ describe('stringifyStructuredQuerySelection', () => {
         };
 
         expect(stringifyStructuredQuerySelection(structuredQuerySelectionWithThreeRows)).toEqual(
-          'example_field_0::watson,example_field_1:!machine,example_field_2:learning'
+          'example_field_0::"watson",example_field_1:!"machine",example_field_2:"learning"'
         );
       });
 
       describe('and the selections include reserved characters', () => {
-        it('returns the expected query string with quotes around the fields/values with reserved characters', () => {
+        it('returns expected query string with backslashes before fields with reserved characters and values with double quotes', () => {
           const structuredQuerySelectionWithThreeRowsAndReservedCharacters: StructuredQuerySelection = {
             groups: {
               0: { rows: [0, 1, 2], operator: ',' }
@@ -90,17 +90,17 @@ describe('stringifyStructuredQuerySelection', () => {
               0: {
                 field: 'example_field,0',
                 operator: '::',
-                value: 'wat::!son'
+                value: 'wat"son'
               },
               1: {
                 field: 'examp!le_field_1',
                 operator: ':!',
-                value: 'machine'
+                value: 'machine"'
               },
               2: {
                 field: 'example_field:_2',
                 operator: ':',
-                value: 'learnin::g'
+                value: 'learning'
               }
             },
             group_order: [0]
@@ -111,7 +111,7 @@ describe('stringifyStructuredQuerySelection', () => {
               structuredQuerySelectionWithThreeRowsAndReservedCharacters
             )
           ).toEqual(
-            '"example_field,0"::"wat::!son","examp!le_field_1":!machine,"example_field:_2":"learnin::g"'
+            'example_field\\,0::"wat\\"son",examp\\!le_field_1:!"machine\\"",example_field\\:_2:"learning"'
           );
         });
       });
@@ -171,11 +171,13 @@ describe('stringifyStructuredQuerySelection', () => {
         group_order: [0, 1, 2]
       };
 
-      expect(
-        stringifyStructuredQuerySelection(structuredQuerySelectionWithMultipleGroupsAndRows)
-      ).toEqual(
-        'example_field_0::watson,example_field_1:!machine,example_field_2:learning,(example_field_3:IBM|example_field_4::!regression|example_field_5:!neural),(example_field_6:network,example_field_7::classification)'
-      );
+      it('should return the expected query string', () => {
+        expect(
+          stringifyStructuredQuerySelection(structuredQuerySelectionWithMultipleGroupsAndRows)
+        ).toEqual(
+          'example_field_0::"watson",example_field_1:!"machine",example_field_2:"learning",(example_field_3:"IBM"|example_field_4::!"regression"|example_field_5:!"neural"),(example_field_6:"network",example_field_7::"classification")'
+        );
+      });
     });
   });
 });

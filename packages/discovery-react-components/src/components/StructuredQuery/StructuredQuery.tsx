@@ -98,10 +98,7 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
         )}
       </div>
       {stringifiedSelection && (
-        <CodeSnippet
-          className={`${structuredQueryCopyableQueryClass}`}
-          onClick={handleCopyQueryOnClick}
-        >
+        <CodeSnippet className={`${structuredQueryCopyableQueryClass}`}>
           {stringifiedSelection}
         </CodeSnippet>
       )}
