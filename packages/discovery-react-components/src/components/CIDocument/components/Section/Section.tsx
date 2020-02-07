@@ -15,11 +15,13 @@ import React, {
 import cx from 'classnames';
 import debounce from 'debounce';
 import { settings } from 'carbon-components';
-import { getId } from 'utils/document/idUtils';
-import { createFieldRects, findOffsetInDOM } from 'utils/document/documentUtils';
-import { clearNodeChildren } from 'utils/dom';
-import elementFromPoint from 'components/CIDocument/utils/elementFromPoint';
-import { SectionType, Field, Item } from 'components/CIDocument/types';
+import ResizeObserver from 'react-resize-observer';
+
+import { getId } from '../../../../utils/document/idUtils';
+import { createFieldRects, findOffsetInDOM } from '../../../../utils/document/documentUtils';
+import { clearNodeChildren } from '../../../../utils/dom';
+import elementFromPoint from '../../utils/elementFromPoint';
+import { SectionType, Field, Item } from '../../types';
 
 export type OnFieldClickFn = (field: Field) => void;
 
@@ -60,15 +62,7 @@ export const Section: FC<SectionProps> = ({ section, onFieldClick }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [section]);
 
-  useEffect(() => {
-    const resizeFn = debounce(createSectionFields, 100);
-    window.addEventListener('resize', resizeFn);
-    return (): void => {
-      window.removeEventListener('resize', resizeFn);
-    };
-    // passing empty array to `useEffect` so that this only runs on mount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const resizeFn = debounce(createSectionFields, 100);
 
   return (
     <div
@@ -84,6 +78,8 @@ export const Section: FC<SectionProps> = ({ section, onFieldClick }) => {
         ref={contentNode}
         dangerouslySetInnerHTML={{ __html: html }}
       />
+
+      <ResizeObserver onResize={resizeFn} />
     </div>
   );
 };
