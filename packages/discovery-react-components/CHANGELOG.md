@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-beta.29](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.28...@ibm-watson/discovery-react-components@1.1.0-beta.29) (2020-02-06)
+
+
+### Features
+
+* structured query convert inputs ([#83](https://github.com/watson-developer-cloud/discovery-components/issues/83)) ([6c0b19d](https://github.com/watson-developer-cloud/discovery-components/commit/6c0b19d))
+
+
+
+
+
 # [1.1.0-beta.28](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.27...@ibm-watson/discovery-react-components@1.1.0-beta.28) (2020-01-31)
 
 **Note:** Version bump only for package @ibm-watson/discovery-react-components
