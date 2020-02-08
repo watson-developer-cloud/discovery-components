@@ -106,11 +106,7 @@ describe('processDoc', () => {
   });
 
   it('renders as correct entities', () => {
-    const tests = [
-      { idx: 0, test: '<' },
-      { idx: 47, test: '‹' },
-      { idx: 51, test: '™' }
-    ];
+    const tests = [{ idx: 0, test: '<' }, { idx: 47, test: '‹' }, { idx: 51, test: '™' }];
 
     tests.forEach(({ idx, test }) => {
       const section = doc.sections![idx];
