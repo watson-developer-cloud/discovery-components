@@ -2,7 +2,7 @@ import invoiceOntology from './ontology/invoices';
 import purchaseOrderOntology from './ontology/purchase_orders';
 import flattenDeep from 'lodash/flattenDeep';
 import { getId } from './idUtils';
-import { ENRICHMENTS, getEnrichmentName } from 'components/CIDocument/utils/enrichmentUtils';
+import { getEnrichmentName } from 'components/CIDocument/utils/enrichmentUtils';
 import {
   EnrichedHtml,
   Contract,
@@ -14,26 +14,25 @@ import {
 } from 'components/CIDocument/types';
 import { Ontology } from './ontology/types';
 
-const ontologyModelMapping = {
+const ontologyMapping = {
   invoice: invoiceOntology,
   purchase_order: purchaseOrderOntology
 };
 
-function getupdatedEnrichment(enrichmentName: string, enrichment: any): EnrichedHtml {
-  if (enrichmentName === ENRICHMENTS.CONTRACT) {
-    enrichment.metadata = setMetadata(enrichment);
-  } else if (
-    enrichmentName === ENRICHMENTS.INVOICE ||
-    enrichmentName === ENRICHMENTS.PURCHASE_ORDER
-  ) {
-    const { attributes, relations } = setAttributesAndRelations(enrichmentName, enrichment);
-    enrichment.attributes = attributes;
-    enrichment.relations = relations;
+const modelMapping = {
+  contract: setMetadata,
+  invoice: setAttributesAndRelations,
+  purchase_order: setAttributesAndRelations
+};
+
+function getUpdatedEnrichment(enrichment: EnrichedHtml, enrichmentName: string): EnrichedHtml {
+  if (enrichmentName in modelMapping) {
+    enrichment = modelMapping[enrichmentName](enrichment, enrichmentName);
   }
   return enrichment;
 }
 
-function setMetadata(enrichedHtml: Contract): Metadata[] {
+function setMetadata(enrichedHtml: Contract): Contract {
   const meta = {
     contract_amounts: enrichedHtml.contract_amounts,
     effective_dates: enrichedHtml.effective_dates,
@@ -43,27 +42,31 @@ function setMetadata(enrichedHtml: Contract): Metadata[] {
     payment_terms: enrichedHtml.payment_terms
   };
 
-  const metadata: Metadata[] = [];
+  const updatedMetadata: Metadata[] = [];
   Object.keys(meta).forEach(key => {
     const metadataObj = meta[key];
     if (typeof metadataObj === 'object' && !!metadataObj.length) {
-      metadata.push({
+      updatedMetadata.push({
         metadataType: key,
         data: metadataObj
       });
     }
   });
-  return metadata;
+
+  enrichedHtml.metadata = updatedMetadata;
+
+  return enrichedHtml;
 }
 
 function setAttributesAndRelations(
-  enrichmentName: string,
-  enrichment: any
+  enrichment: Invoice | PurchaseOrder,
+  enrichmentName: string
 ): Invoice | PurchaseOrder {
-  const ontology = ontologyModelMapping[enrichmentName];
-  const attributes = setAttributes(ontology.attributes, enrichment);
-  const relations = setRelations(ontology, enrichment);
-  return { attributes, relations };
+  const ontology = ontologyMapping[enrichmentName];
+  enrichment.attributes = setAttributes(ontology.attributes, enrichment);
+  enrichment.relations = setRelations(ontology, enrichment);
+
+  return enrichment;
 }
 
 // find any instances of attribute types that are defined in the ontology and create attribute objects
@@ -155,7 +158,7 @@ export default function transformEnrichment(enrichedHtml: EnrichedHtml[]): Enric
   if (enrichedHtml && enrichedHtml[0]) {
     const enrichmentName = getEnrichmentName(enrichedHtml[0]);
     const enrichment = enrichedHtml[0][enrichmentName];
-    const updatedEnrichment = getupdatedEnrichment(enrichmentName, enrichment);
+    const updatedEnrichment = getUpdatedEnrichment(enrichment, enrichmentName);
     enrichedHtml[0][enrichmentName] = updatedEnrichment;
   }
   return enrichedHtml;
