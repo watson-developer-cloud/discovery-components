@@ -153,7 +153,7 @@ function getAllAttributesInRelation({ relations }: Relations): Attributes[] {
 function hasLocationData(attr: Attributes): boolean {
   return !!(attr && attr.location && attr.location.begin && attr.location.end);
 }
-//attr?.location?.begin
+
 export default function transformEnrichment(enrichedHtml: EnrichedHtml[]): EnrichedHtml[] {
   if (enrichedHtml && enrichedHtml[0]) {
     const enrichmentName = getEnrichmentName(enrichedHtml[0]);
