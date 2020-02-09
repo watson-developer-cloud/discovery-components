@@ -3,6 +3,7 @@ import { Button } from 'carbon-components-react';
 import Add16 from '@carbon/icons-react/lib/add/16';
 import { Messages } from 'components/StructuredQuery/messages';
 import { StructuredQuerySelection } from 'components/StructuredQuery/utils/structuredQueryInterfaces';
+import { getNewId } from 'components/StructuredQuery/utils';
 
 export interface AddRuleRowButtonProps {
   /**
@@ -10,7 +11,7 @@ export interface AddRuleRowButtonProps {
    */
   addRuleRowText: Messages['addRuleRowText'];
   /**
-   * id of the group for the rule row to render, or 'top-level' if the top-level rule group
+   * id of the group for the rule row to render
    */
   groupId: number;
   /**
@@ -30,10 +31,7 @@ export const AddRuleRowButton: FC<AddRuleRowButtonProps> = ({
   setStructuredQuerySelection
 }) => {
   const handleOnClick = () => {
-    const newRuleRowId =
-      structuredQuerySelection.groups[groupId].rows.reduce((previousId, currentId) =>
-        Math.max(previousId, currentId)
-      ) + 1;
+    const newRuleRowId = getNewId(structuredQuerySelection.rows);
     setStructuredQuerySelection({
       ...structuredQuerySelection,
       groups: {
@@ -41,6 +39,14 @@ export const AddRuleRowButton: FC<AddRuleRowButtonProps> = ({
         [`${groupId}`]: {
           ...structuredQuerySelection.groups[groupId],
           rows: structuredQuerySelection.groups[groupId].rows.concat(newRuleRowId)
+        }
+      },
+      rows: {
+        ...structuredQuerySelection.rows,
+        [`${newRuleRowId}`]: {
+          field: '',
+          operator: '',
+          value: ''
         }
       }
     });

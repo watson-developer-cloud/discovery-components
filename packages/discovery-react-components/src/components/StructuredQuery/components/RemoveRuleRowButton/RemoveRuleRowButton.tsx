@@ -11,7 +11,7 @@ export interface RemoveRuleRowButtonProps {
    */
   removeRuleRowButtonIconDescription: Messages['removeRuleRowButtonIconDescription'];
   /**
-   * id of the group for the rule row to render, or 'top-level' if the top-level rule group
+   * id of the group for the rule row to render
    */
   groupId: number;
   /**
@@ -36,14 +36,19 @@ export const RemoveRuleRowButton: FC<RemoveRuleRowButtonProps> = ({
   setStructuredQuerySelection
 }) => {
   const handleOnClick = () => {
-    const filteredRow = structuredQuerySelection.groups[groupId].rows.filter(
+    const filteredGroupRows = structuredQuerySelection.groups[groupId].rows.filter(
       (row: number) => row !== rowId
     );
-    const isLastRuleInRuleGroup = filteredRow.length === 0;
+    const filteredRows = omit(structuredQuerySelection.rows, rowId);
+    const isLastRuleInRuleGroup = filteredGroupRows.length === 0;
     if (isLastRuleInRuleGroup) {
       setStructuredQuerySelection({
+        ...structuredQuerySelection,
         groups: {
           ...omit(structuredQuerySelection.groups, groupId)
+        },
+        rows: {
+          ...filteredRows
         },
         group_order: structuredQuerySelection.group_order.filter(id => id !== groupId)
       });
@@ -54,8 +59,11 @@ export const RemoveRuleRowButton: FC<RemoveRuleRowButtonProps> = ({
           ...structuredQuerySelection.groups,
           [`${groupId}`]: {
             ...structuredQuerySelection.groups[groupId],
-            rows: filteredRow
+            rows: filteredGroupRows
           }
+        },
+        rows: {
+          ...filteredRows
         }
       });
     }
