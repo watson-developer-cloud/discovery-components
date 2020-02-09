@@ -7,6 +7,7 @@ import { PreviewToolbar } from './components/PreviewToolbar/PreviewToolbar';
 import SimpleDocument from './components/SimpleDocument/SimpleDocument';
 import withErrorBoundary, { WithErrorBoundaryProps } from 'utils/hoc/withErrorBoundary';
 import { defaultMessages, Messages } from './messages';
+import HtmlView from './components/HtmlView/HtmlView';
 
 const { ZOOM_IN, ZOOM_OUT } = PreviewToolbar;
 
@@ -115,14 +116,25 @@ function PreviewDocument({
   highlight
 }: PreviewDocumentProps): ReactElement | null {
   if (document) {
-    return (
-      <SimpleDocument
-        document={document}
-        highlight={highlight}
-        setHideToolbarControls={setHideToolbarControls}
-        setLoading={setLoading}
-      />
-    );
+    if (document.html) {
+      return (
+        <HtmlView
+          document={document}
+          highlight={highlight}
+          setHideToolbarControls={setHideToolbarControls}
+          setLoading={setLoading}
+        />
+      );
+    } else {
+      return (
+        <SimpleDocument
+          document={document}
+          highlight={highlight}
+          setHideToolbarControls={setHideToolbarControls}
+          setLoading={setLoading}
+        />
+      );
+    }
   }
 
   return null;

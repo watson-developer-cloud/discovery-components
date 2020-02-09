@@ -4,6 +4,7 @@ import { radios } from '@storybook/addon-knobs';
 import { QueryResult, QueryResultPassage } from 'ibm-watson/discovery/v2';
 import DocumentPreview from '../DocumentPreview';
 import docArtEffects from '../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
+import docArtEffectsNoHtml from '../__fixtures__/Art Effects Koya Creative Base TSA 2008 No Html.pdf.json';
 import passages from '../__fixtures__/passages';
 import jsonPassages from '../__fixtures__/jsonPassages';
 
@@ -17,10 +18,18 @@ const Wrapper: FC<WrapperProps> = ({ children, style = {} }) => (
 );
 
 const doc = docArtEffects;
+const docWithoutHtml = docArtEffectsNoHtml;
 
 storiesOf('DocumentPreview', module)
   .addParameters({ component: DocumentPreview })
   .add('default', () => {
+    return (
+      <Wrapper>
+        <DocumentPreview document={docWithoutHtml} />
+      </Wrapper>
+    );
+  })
+  .add('with Html', () => {
     return (
       <Wrapper>
         <DocumentPreview document={doc} />
