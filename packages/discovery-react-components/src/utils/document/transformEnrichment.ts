@@ -63,17 +63,15 @@ function setAttributesAndRelations(
   enrichmentName: string
 ): Invoice | PurchaseOrder {
   const ontology = ontologyMapping[enrichmentName];
-  enrichment.attributes = setAttributes(ontology.attributes, enrichment);
+  enrichment.attributes = setAttributes(ontology, enrichment);
   enrichment.relations = setRelations(ontology, enrichment);
 
   return enrichment;
 }
 
 // find any instances of attribute types that are defined in the ontology and create attribute objects
-function setAttributes(ontologyAttributesDefArray: string[], parsedObject: any): Attributes[] {
-  const filteredAttributes = ontologyAttributesDefArray.filter(
-    attributeDef => parsedObject[attributeDef]
-  );
+function setAttributes(ontology: Ontology, parsedObject: any): Attributes[] {
+  const filteredAttributes = ontology.attributes.filter(attributeDef => parsedObject[attributeDef]);
 
   const attributes = filteredAttributes.map(attr => {
     const parsedAttributes = parsedObject[attr];
@@ -117,7 +115,7 @@ function createRelationObject(
 
   const result = relationArray.map(
     (rel: Relations): Relations => {
-      const attributes = setAttributes(ontology.attributes, rel);
+      const attributes = setAttributes(ontology, rel);
       const relations = setRelations(ontology, rel);
       return {
         type,
@@ -151,7 +149,12 @@ function getAllAttributesInRelation({ relations }: Relations): Attributes[] {
 // Function checks if attribute is valid and has location data in it.
 // Since have observed noisy data before so this function is required.
 function hasLocationData(attr: Attributes): boolean {
-  return !!(attr && attr.location && attr.location.begin && attr.location.end);
+  return !!(
+    attr &&
+    attr.location &&
+    typeof attr.location.begin !== 'undefined' &&
+    attr.location.end
+  );
 }
 
 export default function transformEnrichment(enrichedHtml: EnrichedHtml[]): EnrichedHtml[] {
