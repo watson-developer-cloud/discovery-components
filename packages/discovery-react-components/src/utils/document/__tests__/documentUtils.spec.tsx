@@ -153,7 +153,9 @@ describe('findOffsetInDOM', () => {
     expect(beginOffset).toEqual(734);
     expect(endOffset).toEqual(107);
   });
+});
 
+describe('getTextNodeAndOffset', () => {
   it('finds offset when text spans multiple TextNodes', () => {
     const MAX_TEXT_NODE_LEN = 65536;
 
@@ -175,5 +177,27 @@ describe('findOffsetInDOM', () => {
     // expect that offset will be within 2nd text node, therefore subtract 1st text node length
     const firstNode = node.childNodes[0] as Node;
     expect(textOffset).toEqual(watsonIndex - firstNode.textContent!.length);
+  });
+
+  it('calculates proper offset with encoded text', () => {
+    const { container } = render(
+      <div
+        data-child-begin={123}
+        data-child-end={196}
+        data-orig-text="Maecenas convallis neque id elit laoreet &amp;amp; quis aliquam velit aliquam."
+      >
+        Maecenas convallis neque id elit laoreet &amp; quis aliquam velit aliquam.
+      </div>
+    );
+
+    const node = container.querySelector('[data-child-begin]');
+    const { textNode, textOffset } = getTextNodeAndOffset(node as HTMLElement, 183);
+
+    // text content in DOM should be the "decoded" text
+    expect(textNode.textContent).toEqual(
+      'Maecenas convallis neque id elit laoreet & quis aliquam velit aliquam.'
+    );
+    // while the offset passed in to func is +60, once we account for decoded text in DOM, the offset should be +56
+    expect(textOffset).toEqual(56);
   });
 });
