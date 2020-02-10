@@ -12,7 +12,6 @@ describe('Passage', () => {
       field: 'text'
     };
 
-    //Use specifically to test hooks https://github.com/testing-library/react-hooks-testing-library
     const { result } = renderHook(() => usePassage(docJson, passage as QueryResultPassage));
 
     const resultBbox = [

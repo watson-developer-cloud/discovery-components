@@ -125,16 +125,15 @@ function PreviewDocument({
           setLoading={setLoading}
         />
       );
-    } else {
-      return (
-        <SimpleDocument
-          document={document}
-          highlight={highlight}
-          setHideToolbarControls={setHideToolbarControls}
-          setLoading={setLoading}
-        />
-      );
     }
+    return (
+      <SimpleDocument
+        document={document}
+        highlight={highlight}
+        setHideToolbarControls={setHideToolbarControls}
+        setLoading={setLoading}
+      />
+    );
   }
 
   return null;

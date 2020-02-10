@@ -58,7 +58,7 @@ export const HtmlView: FC<Props> = ({
 
   const [html, setHtml] = useState<string | null>(null);
   const [processedDoc, setProcessedDoc] = useState<ProcessedDoc | null>(null);
-  const [highlightLocations, setHighlightLocations] = useState<Location[] | null>(null);
+  const [highlightLocations, setHighlightLocations] = useState<Location[]>([]);
 
   useEffect(() => {
     if (document) {
@@ -70,10 +70,12 @@ export const HtmlView: FC<Props> = ({
             { ...document, docHtml },
             { sections: true, bbox: true }
           );
-          setProcessedDoc(processedDoc);
+
           const fullHtml = processedDoc.sections
             ? processedDoc.sections.map(section => section.html).join('')
             : '';
+
+          setProcessedDoc(processedDoc);
 
           // set sanitized HTML (removing scripts, etc)
           setHtml(`
@@ -98,10 +100,10 @@ export const HtmlView: FC<Props> = ({
       if (isPassage(highlight) && textMappings) {
         const textMappingBbox = getPassagePageInfo(textMappings, highlight as QueryResultPassage);
         if (processedDoc && processedDoc.bboxes && textMappingBbox) {
-          const passageLocs: Location[] = flatMap(textMappingBbox, Bbox => {
-            return findMatchingBbox(Bbox, processedDoc.bboxes as ProcessedBbox[]);
-          }).map(Bbox => {
-            return Bbox.location;
+          const passageLocs: Location[] = flatMap(textMappingBbox, bbox => {
+            return findMatchingBbox(bbox, processedDoc.bboxes as ProcessedBbox[]);
+          }).map(bbox => {
+            return bbox.location;
           });
           setHighlightLocations(passageLocs);
         }
