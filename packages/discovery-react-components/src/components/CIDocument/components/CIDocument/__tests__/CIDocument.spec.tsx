@@ -25,7 +25,8 @@ describe('<CIDocument />', () => {
     findByText: BoundFunction<FindByText>,
     findByTitle: BoundFunction<FindByText>,
     findByTestId: BoundFunction<FindByText>,
-    queryByTitle: BoundFunction<QueryByText>;
+    queryByTitle: BoundFunction<QueryByText>,
+    queryByTestId: BoundFunction<QueryByText>;
 
   describe('Invoice Document', () => {
     beforeEach(() => {
@@ -37,7 +38,8 @@ describe('<CIDocument />', () => {
           findByText,
           findByTestId,
           findByTitle,
-          queryByTitle
+          queryByTitle,
+          queryByTestId
         } = render(
           <CIDocument document={invoice} overrideDocWidth={400} overrideDocHeight={600} />
         ));
@@ -62,6 +64,8 @@ describe('<CIDocument />', () => {
       const relationsTab = getByTestId('relations-tab');
       expect(attributesTab.textContent).toEqual('Attributes');
       expect(relationsTab.textContent).toEqual('Relations');
+      expect(queryByTestId('filters-tab')).toBeNull();
+      expect(queryByTestId('metadata-tab')).toBeNull();
 
       // If an attribute is selected, DetailsPane type value is the same as the selected attribute
       const filters = await findByTestId('Filters');
@@ -166,7 +170,15 @@ describe('<CIDocument />', () => {
   describe('Contract', () => {
     beforeEach(() => {
       act(() => {
-        ({ getAllByRole, getByTestId, getByText, findByText, findByTitle, findByTestId } = render(
+        ({
+          getAllByRole,
+          getByTestId,
+          getByText,
+          findByText,
+          findByTitle,
+          findByTestId,
+          queryByTestId
+        } = render(
           <CIDocument document={shortContract} overrideDocWidth={400} overrideDocHeight={600} />
         ));
       });
@@ -188,6 +200,8 @@ describe('<CIDocument />', () => {
       const metadataTab = getByTestId('metadata-tab');
       expect(filterTab.textContent).toEqual('Filters');
       expect(metadataTab.textContent).toEqual('Metadata');
+      expect(queryByTestId('attributes-tab')).toBeNull();
+      expect(queryByTestId('relations-tab')).toBeNull();
 
       // Once a filter is selected, DetailsPane has Categories, Types, and Attributes sections
       const filters = await findByTestId('Filters');
