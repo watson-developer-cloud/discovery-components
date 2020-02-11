@@ -197,5 +197,5 @@ export function spansIntersect(
   { begin: beginA, end: endA }: Span,
   { begin: beginB, end: endB }: Span
 ): boolean {
-  return beginA <= endB && endA >= beginB;
+  return beginA <= endB && endA > beginB;
 }
