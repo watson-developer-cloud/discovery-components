@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-beta.32](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.31...@ibm-watson/discovery-react-components@1.1.0-beta.32) (2020-02-11)
+
+
+### Features
+
+* add passage highlighting to html view ([#84](https://github.com/watson-developer-cloud/discovery-components/issues/84)) ([7d583cb](https://github.com/watson-developer-cloud/discovery-components/commit/7d583cb))
+
+
+
+
+
+# [1.1.0-beta.31](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.30...@ibm-watson/discovery-react-components@1.1.0-beta.31) (2020-02-10)
+
+
+### Bug Fixes
+
+* transformEnrichments takes an array and returns an array ([#69](https://github.com/watson-developer-cloud/discovery-components/issues/69)) ([276f2eb](https://github.com/watson-developer-cloud/discovery-components/commit/276f2eb))
+
+
+
+
+
+# [1.1.0-beta.30](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.29...@ibm-watson/discovery-react-components@1.1.0-beta.30) (2020-02-08)
+
+**Note:** Version bump only for package @ibm-watson/discovery-react-components
+
+
+
+
+
 # [1.1.0-beta.29](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.28...@ibm-watson/discovery-react-components@1.1.0-beta.29) (2020-02-06)
 
 

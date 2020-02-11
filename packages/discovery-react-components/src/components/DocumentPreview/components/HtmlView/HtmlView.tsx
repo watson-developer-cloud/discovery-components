@@ -1,11 +1,15 @@
 import React, { FC, useEffect, useState, useRef } from 'react';
 import { settings } from 'carbon-components';
-import { QueryResult, QueryTableResult } from 'ibm-watson/discovery/v2';
+import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import DOMPurify from 'dompurify';
 import get from 'lodash/get';
-import { processDoc } from 'utils/document/processDoc';
+import flatMap from 'lodash/flatMap';
+import { processDoc, ProcessedDoc, ProcessedBbox, Location } from 'utils/document/processDoc';
+import { findMatchingBbox } from 'components/DocumentPreview/utils/box';
 import { findOffsetInDOM, createFieldRects } from 'utils/document/documentUtils';
 import { clearNodeChildren } from 'utils/dom';
+import { getTextMappings } from 'components/DocumentPreview/utils/documentData';
+import { isPassage, getPassagePageInfo } from '../Highlight/passages';
 
 interface Props {
   /**
@@ -15,7 +19,7 @@ interface Props {
   /**
    * table to highlight in document. Reference to item with `document.table_results`
    */
-  highlight?: QueryTableResult;
+  highlight?: QueryTableResult | QueryResultPassage;
   /**
    * Check to disable toolbar in parent
    */
@@ -53,16 +57,25 @@ export const HtmlView: FC<Props> = ({
   }
 
   const [html, setHtml] = useState<string | null>(null);
+  const [processedDoc, setProcessedDoc] = useState<ProcessedDoc | null>(null);
+  const [highlightLocations, setHighlightLocations] = useState<Location[]>([]);
+
   useEffect(() => {
     if (document) {
       const docHtml = document.html;
       if (docHtml && highlight) {
         // "process" the original HTML string in order to find offsets for DOM nodes
         const process = async (): Promise<void> => {
-          const processedDoc = await processDoc({ ...document, docHtml }, { sections: true });
+          const processedDoc = await processDoc(
+            { ...document, docHtml },
+            { sections: true, bbox: true }
+          );
+
           const fullHtml = processedDoc.sections
             ? processedDoc.sections.map(section => section.html).join('')
             : '';
+
+          setProcessedDoc(processedDoc);
 
           // set sanitized HTML (removing scripts, etc)
           setHtml(`
@@ -81,9 +94,29 @@ export const HtmlView: FC<Props> = ({
     }
   }, [document, highlight, setLoading]);
 
+  useEffect(() => {
+    if (highlight) {
+      const textMappings = getTextMappings(document);
+      if (isPassage(highlight) && textMappings) {
+        const textMappingBbox = getPassagePageInfo(textMappings, highlight as QueryResultPassage);
+        if (processedDoc && processedDoc.bboxes && textMappingBbox) {
+          const passageLocs: Location[] = flatMap(textMappingBbox, bbox => {
+            return findMatchingBbox(bbox, processedDoc.bboxes as ProcessedBbox[]);
+          }).map(bbox => {
+            return bbox.location;
+          });
+          setHighlightLocations(passageLocs);
+        }
+      } else {
+        const tableLoc = get(highlight, 'table.location', {});
+        setHighlightLocations([tableLoc]);
+      }
+    }
+  }, [document, highlight, processedDoc]);
+
   // highlight table and scroll into view
   useEffect(() => {
-    if (!html) {
+    if (!html || !highlightLocations) {
       return;
     }
 
@@ -98,30 +131,32 @@ export const HtmlView: FC<Props> = ({
       return;
     }
 
-    const { begin, end } = get(highlight, 'table.location', {});
-    if (typeof begin === 'undefined' || typeof end === 'undefined') {
-      return;
-    }
+    highlightLocations.forEach(location => {
+      const { begin, end } = location;
+      if (typeof begin === 'undefined' || typeof end === 'undefined') {
+        return;
+      }
 
-    const offsets = findOffsetInDOM(contentNode, begin, end);
+      const offsets = findOffsetInDOM(contentNode, begin, end);
 
-    const fragment = window.document.createDocumentFragment();
-    const parentRect = contentNode.getBoundingClientRect() as DOMRect;
-    createFieldRects({
-      fragment,
-      parentRect,
-      fieldType: 'highlight',
-      fieldId: begin.toString(),
-      ...offsets
+      const fragment = window.document.createDocumentFragment();
+      const parentRect = contentNode.getBoundingClientRect() as DOMRect;
+      createFieldRects({
+        fragment,
+        parentRect,
+        fieldType: 'highlight',
+        fieldId: begin.toString(),
+        ...offsets
+      });
+      highlightNode.appendChild(fragment);
     });
-    highlightNode.appendChild(fragment);
 
     // scroll highlight into view
     const firstFieldRect = highlightNode.querySelector('.field--rect');
     if (firstFieldRect) {
       firstFieldRect.scrollIntoView({ block: 'center' });
     }
-  }, [html, highlight]);
+  }, [highlight, html, highlightLocations]);
 
   return (
     <div className={base}>
