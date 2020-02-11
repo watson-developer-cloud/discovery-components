@@ -2,15 +2,22 @@ import invoiceOntology from './ontology/invoices';
 import purchaseOrderOntology from './ontology/purchase_orders';
 import flattenDeep from 'lodash/flattenDeep';
 import { getId } from './idUtils';
-import { ENRICHMENTS, getEnrichmentName } from 'components/CIDocument/utils/enrichmentUtils';
+import { getEnrichmentName } from 'components/CIDocument/utils/enrichmentUtils';
 import {
   EnrichedHtml,
   Contract,
+  Invoice,
+  PurchaseOrder,
   Attributes,
   Relations,
   Metadata
 } from 'components/CIDocument/types';
 import { Ontology } from './ontology/types';
+
+const ontologyMapping = {
+  invoice: invoiceOntology,
+  purchase_order: purchaseOrderOntology
+};
 
 const modelMapping = {
   contract: setMetadata,
@@ -18,7 +25,14 @@ const modelMapping = {
   purchase_order: setAttributesAndRelations
 };
 
-function setMetadata(enrichedHtml: Contract): void {
+function getUpdatedEnrichment(enrichment: EnrichedHtml, enrichmentName: string): EnrichedHtml {
+  if (enrichmentName in modelMapping) {
+    enrichment = modelMapping[enrichmentName](enrichment, enrichmentName);
+  }
+  return enrichment;
+}
+
+function setMetadata(enrichedHtml: Contract): Contract {
   const meta = {
     contract_amounts: enrichedHtml.contract_amounts,
     effective_dates: enrichedHtml.effective_dates,
@@ -38,46 +52,35 @@ function setMetadata(enrichedHtml: Contract): void {
       });
     }
   });
+
   enrichedHtml.metadata = updatedMetadata;
+
+  return enrichedHtml;
 }
 
-function getOntology(enrichmentName: string): Ontology | undefined {
-  let ontology;
-  if (enrichmentName === ENRICHMENTS.INVOICE) {
-    ontology = invoiceOntology;
-  } else if (enrichmentName === ENRICHMENTS.PURCHASE_ORDER) {
-    ontology = purchaseOrderOntology;
-  }
-  return ontology;
-}
+function setAttributesAndRelations(
+  enrichment: Invoice | PurchaseOrder,
+  enrichmentName: string
+): Invoice | PurchaseOrder {
+  const ontology = ontologyMapping[enrichmentName];
+  enrichment.attributes = setAttributes(ontology, enrichment);
+  enrichment.relations = setRelations(ontology, enrichment);
 
-function setAttributesAndRelations(doc: any, enrichmentName: string): void {
-  const ontology = getOntology(enrichmentName);
-  if (ontology) {
-    doc.attributes = createAttributeObjects(ontology.attributes, doc);
-    doc.relations = createRelationObjects(ontology, doc);
-  }
+  return enrichment;
 }
 
 // find any instances of attribute types that are defined in the ontology and create attribute objects
-function createAttributeObjects(
-  ontologyAttributesDefArray: string[],
-  parsedObject: any
-): Attributes[] {
-  const filteredAttributes = ontologyAttributesDefArray.filter(
-    attributeDef => parsedObject[attributeDef]
-  );
+function setAttributes(ontology: Ontology, parsedObject: any): Attributes[] {
+  const filteredAttributes = ontology.attributes.filter(attributeDef => parsedObject[attributeDef]);
 
   const attributes = filteredAttributes.map(attr => {
-    if (Array.isArray(parsedObject[attr])) {
-      return parsedObject[attr].map(
-        (att: Attributes): Attributes => createAttributeObject(att, attr)
-      );
-    } else {
-      return (
-        isValidAttribute(parsedObject[attr]) && createAttributeObject(parsedObject[attr], attr)
-      );
+    const parsedAttributes = parsedObject[attr];
+    if (Array.isArray(parsedAttributes)) {
+      return parsedAttributes.map(att => createAttributeObject(att, attr));
+    } else if (hasLocationData(parsedAttributes)) {
+      return createAttributeObject(parsedAttributes, attr);
     }
+    return parsedAttributes;
   });
 
   return flattenDeep(attributes);
@@ -92,7 +95,7 @@ function createAttributeObject({ text, location }: Attributes, type: string): At
 }
 
 // find any instances of relation types that are defined in the ontology and create relation objects
-function createRelationObjects(ontology: Ontology, parsedObject: any): Relations[] {
+function setRelations(ontology: Ontology, parsedObject: any): Relations[] {
   const filteredRelations = ontology.relations.filter(relation => parsedObject[relation]);
 
   const relations = filteredRelations.map(relation =>
@@ -112,8 +115,8 @@ function createRelationObject(
 
   const result = relationArray.map(
     (rel: Relations): Relations => {
-      const attributes = createAttributeObjects(ontology.attributes, rel);
-      const relations = createRelationObjects(ontology, rel);
+      const attributes = setAttributes(ontology, rel);
+      const relations = setRelations(ontology, rel);
       return {
         type,
         attributes: attributes.length > 0 ? attributes : [],
@@ -145,23 +148,21 @@ function getAllAttributesInRelation({ relations }: Relations): Attributes[] {
 
 // Function checks if attribute is valid and has location data in it.
 // Since have observed noisy data before so this function is required.
-function isValidAttribute(attr: Attributes): boolean {
-  if (attr && attr.location && attr.location.begin && attr.location.end) {
-    return true;
-  }
-  return false;
+function hasLocationData(attr: Attributes): boolean {
+  return !!(
+    attr &&
+    attr.location &&
+    typeof attr.location.begin !== 'undefined' &&
+    attr.location.end
+  );
 }
 
 export default function transformEnrichment(enrichedHtml: EnrichedHtml[]): EnrichedHtml[] {
-  const newEnrichedHtml = { ...enrichedHtml };
-
-  if (newEnrichedHtml && newEnrichedHtml[0]) {
-    const enrichmentName = getEnrichmentName(newEnrichedHtml[0]);
-    const enrichment = newEnrichedHtml[0][enrichmentName];
-    if (enrichment) {
-      modelMapping[enrichmentName](enrichment, enrichmentName);
-    }
+  if (enrichedHtml && enrichedHtml[0]) {
+    const enrichmentName = getEnrichmentName(enrichedHtml[0]);
+    const enrichment = enrichedHtml[0][enrichmentName];
+    const updatedEnrichment = getUpdatedEnrichment(enrichment, enrichmentName);
+    enrichedHtml[0][enrichmentName] = updatedEnrichment;
   }
-
-  return newEnrichedHtml;
+  return enrichedHtml;
 }
