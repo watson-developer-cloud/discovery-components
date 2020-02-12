@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-beta.35](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.34...@ibm-watson/discovery-react-components@1.1.0-beta.35) (2020-02-12)
+
+
+### Bug Fixes
+
+* better handling of tables in processDoc ([#87](https://github.com/watson-developer-cloud/discovery-components/issues/87)) ([556b646](https://github.com/watson-developer-cloud/discovery-components/commit/556b646))
+
+
+
+
+
 # [1.1.0-beta.34](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.33...@ibm-watson/discovery-react-components@1.1.0-beta.34) (2020-02-12)
 
 **Note:** Version bump only for package @ibm-watson/discovery-react-components
