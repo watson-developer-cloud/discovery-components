@@ -34,7 +34,7 @@ const Details: FC<DetailsProps> = ({
   };
 
   return (
-    <div className="section">
+    <div className="section" data-testid={'details-pane-' + title}>
       <h3 className="sectionHeader">{capitalize(title)}</h3>
       {items && items.length > 0 ? renderItems() : messages.noneLabel}
     </div>
