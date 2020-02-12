@@ -1052,6 +1052,31 @@
               }
             ]
           }
+        ],
+        "parties": [
+          {
+            "role": "Buyer",
+            "contacts": [],
+            "importance": "Primary",
+            "mentions": [
+              {
+                "text": "ART EFFECTS LIMITED",
+                "location": {
+                  "begin": 2550,
+                  "end": 2569
+                }
+              },
+              {
+                "text": "Art Effects Limited",
+                "location": {
+                  "begin": 3604,
+                  "end": 3623
+                }
+              }
+            ],
+            "party": "ART EFFECTS",
+            "addresses": []
+          }
         ]
       },
       "enrichment2": {}

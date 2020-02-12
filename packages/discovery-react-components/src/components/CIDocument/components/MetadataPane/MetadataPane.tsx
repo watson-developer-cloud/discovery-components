@@ -27,7 +27,7 @@ const MetadataPane: FC<MetadataPaneProps> = ({
   const base = `${settings.prefix}--ci-doc-metadata`;
 
   return (
-    <div className={base}>
+    <div className={base} data-testid="metadata-pane">
       <div className="section">
         {metadata.map((data, index) => (
           <MetadataRow
