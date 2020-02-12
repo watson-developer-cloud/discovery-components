@@ -58,6 +58,9 @@
     "react-virtualized": "^9.21.1"
   },
   "jest": {
+    "transformIgnorePatterns": [
+      "/!node_modules\\/react-virtualized/"
+    ],
     "collectCoverageFrom": [
       "src/**/*.{ts,tsx,js,jsx}",
       "!src/**/messages.{ts,js}",
