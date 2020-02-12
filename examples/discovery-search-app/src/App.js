@@ -79,7 +79,7 @@ function SearchPage() {
         <div className={`${settings.prefix}-grid ${settings.prefix}--search-app__pagination`}>
           <div className={`${settings.prefix}--row`}>
             <div className={`${settings.prefix}--col-md-8`}>
-              <ResultsPagination pageSize={1} />
+              <ResultsPagination />
             </div>
           </div>
         </div>

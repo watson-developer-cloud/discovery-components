@@ -70,11 +70,13 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
   }, [setSearchParameters, pageSize, resultsPerPage]);
 
   useEffect(() => {
-    const offsetParam = (searchParameters.offset || 0) + 1;
-    if (currentPage != offsetParam) {
-      setCurrentPage(offsetParam);
+    const actualPageSize = searchParameters.count || 10;
+    const actualOffset = searchParameters.offset || 0;
+    const pageFromOffset = Math.floor(actualOffset / actualPageSize) + 1;
+    if (currentPage != pageFromOffset) {
+      setCurrentPage(pageFromOffset);
     }
-  }, [currentPage, searchParameters.offset]);
+  }, [currentPage, searchParameters.count, searchParameters.offset]);
 
   const matchingResults = (searchResponse && searchResponse.matching_results) || 0;
   const actualPageSize = searchParameters.count || 10;
