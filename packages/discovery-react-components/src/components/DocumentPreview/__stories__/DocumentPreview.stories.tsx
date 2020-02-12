@@ -6,6 +6,7 @@ import DocumentPreview from '../DocumentPreview';
 import docArtEffects from '../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
 import passages from '../__fixtures__/passages';
 import jsonPassages from '../__fixtures__/jsonPassages';
+import omit from 'lodash/omit';
 
 interface WrapperProps {
   style?: any;
@@ -17,10 +18,18 @@ const Wrapper: FC<WrapperProps> = ({ children, style = {} }) => (
 );
 
 const doc = docArtEffects;
+const docWithoutHtml = omit(docArtEffects, 'html');
 
 storiesOf('DocumentPreview', module)
   .addParameters({ component: DocumentPreview })
   .add('default', () => {
+    return (
+      <Wrapper>
+        <DocumentPreview document={docWithoutHtml} />
+      </Wrapper>
+    );
+  })
+  .add('with Html', () => {
     return (
       <Wrapper>
         <DocumentPreview document={doc} />
