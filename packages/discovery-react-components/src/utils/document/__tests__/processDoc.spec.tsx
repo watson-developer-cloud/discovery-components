@@ -190,7 +190,11 @@ describe('processDoc', () => {
       top: 74.65092468261719,
       bottom: 82.76208591461182,
       page: 1,
-      className: ''
+      className: '',
+      location: {
+        begin: 274,
+        end: 0
+      }
     };
 
     const doc = await processDoc({ html }, { sections: true, tables: true });
