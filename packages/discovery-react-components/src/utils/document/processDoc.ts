@@ -246,29 +246,29 @@ function setupSectionParser(
           doc.tables.push(currentTable);
         }
 
-      // <bbox height="6.056159973144531" page="1" width="150.52044677734375" x="72.0" y="116.10381317138672">
-      if (tagName === BBOX_TAG && (doc.bboxes || currentTable)) {
-        const left = Number(attributes.x);
-        const top = Number(attributes.y);
-        currentBbox = {
-          left: left,
-          right: left + Number(attributes.width),
-          top: top,
-          bottom: top + Number(attributes.height),
-          page: Number(attributes.page),
-          className: lastClassName,
-          location: {
-            begin: p.startIndex,
-            end: 0
+        // <bbox height="6.056159973144531" page="1" width="150.52044677734375" x="72.0" y="116.10381317138672">
+        if (tagName === BBOX_TAG && (doc.bboxes || currentTable)) {
+          const left = Number(attributes.x);
+          const top = Number(attributes.y);
+          currentBbox = {
+            left: left,
+            right: left + Number(attributes.width),
+            top: top,
+            bottom: top + Number(attributes.height),
+            page: Number(attributes.page),
+            className: lastClassName,
+            location: {
+              begin: p.startIndex,
+              end: 0
+            }
+          };
+          if (doc.bboxes) {
+            doc.bboxes.push(currentBbox);
           }
-        };
-        if (doc.bboxes) {
-          doc.bboxes.push(currentBbox);
+          if (currentTable && doc.tables) {
+            currentTable.bboxes.push(currentBbox);
+          }
         }
-        if (currentTable && doc.tables) {
-          currentTable.bboxes.push(currentBbox);
-        }
-      }
 
         if (tagName === sectionTagName) {
           stackCount++;
