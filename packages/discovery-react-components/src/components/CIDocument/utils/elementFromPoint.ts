@@ -1,20 +1,20 @@
-interface MsDocument extends Document {
+export interface MsDocument extends Document {
   msElementsFromPoint(x: number, y: number): HTMLElement[];
 }
 
-function elementFromPoint(x: number, y: number, className: string): Element | undefined {
+export function elementFromPoint(x: number, y: number, className: string): Element | undefined {
   return document.elementsFromPoint(x, y).find(elem => elem.classList.contains(className));
 }
 
 // Edge uses a non-standard name; also returns NodeList instead of array
-function elementFromPointMs(x: number, y: number, className: string): Element | undefined {
+export function elementFromPointMs(x: number, y: number, className: string): Element | undefined {
   return Array.from((document as MsDocument).msElementsFromPoint(x, y)).find(elem =>
     elem.classList.contains(className)
   );
 }
 
 // fallback for older browsers which don't support `document.elementsFromPoint` (note the plural)
-function elementFromPointFallback(
+export function elementFromPointFallback(
   x: number,
   y: number,
   className: string,

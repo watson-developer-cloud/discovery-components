@@ -37,6 +37,11 @@ const DEFAULT_OPTIONS: Options = {
   itemMap: false
 };
 
+export interface Location {
+  begin: number;
+  end: number;
+}
+
 export interface ProcessedDoc {
   styles: string;
   sections?: any[];
@@ -58,13 +63,11 @@ export interface ProcessedBbox {
   bottom: number;
   page: number;
   className: string;
+  location: Location;
 }
 
 export interface Table {
-  location: {
-    begin: number;
-    end: number;
-  };
+  location: Location;
   bboxes: ProcessedBbox[];
 }
 
@@ -209,6 +212,7 @@ function setupSectionParser(
 ): void {
   let lastClassName = '';
   let currentTable: Table | null = null;
+  let currentBbox: ProcessedBbox | null = null;
 
   // track nested nodes of same tag name
   let stackCount = 1;
@@ -245,19 +249,23 @@ function setupSectionParser(
       if (tagName === BBOX_TAG && (doc.bboxes || currentTable)) {
         const left = Number(attributes.x);
         const top = Number(attributes.y);
-        const bbox = {
+        currentBbox = {
           left: left,
           right: left + Number(attributes.width),
           top: top,
           bottom: top + Number(attributes.height),
           page: Number(attributes.page),
-          className: lastClassName
+          className: lastClassName,
+          location: {
+            begin: p.startIndex,
+            end: 0
+          }
         };
         if (doc.bboxes) {
-          doc.bboxes.push(bbox);
+          doc.bboxes.push(currentBbox);
         }
         if (currentTable && doc.tables) {
-          currentTable.bboxes.push(bbox);
+          currentTable.bboxes.push(currentBbox);
         }
       }
 
@@ -300,6 +308,11 @@ function setupSectionParser(
       if (doc.tables && tagName === TABLE_TAG && currentTable) {
         currentTable.location.end = p.endIndex || p.startIndex;
         currentTable = null;
+      }
+
+      if (doc.bboxes && tagName === BBOX_TAG && currentBbox) {
+        currentBbox.location.end = getChildEndFromCloseTag(p);
+        currentBbox = null;
       }
 
       if (tagName === sectionTagName) {

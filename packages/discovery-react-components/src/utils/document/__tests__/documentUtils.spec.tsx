@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render } from '@testing-library/react';
-import { uniqRects, findOffsetInDOM, getTextNodeAndOffset } from '../documentUtils';
+import { uniqRects, findOffsetInDOM, getTextNodeAndOffset, spansIntersect } from '../documentUtils';
 import { data as textNodesData, watsonIndex } from '../__fixtures__/textNodeData';
 
 describe('uniqRects', () => {
@@ -199,5 +199,75 @@ describe('getTextNodeAndOffset', () => {
     );
     // while the offset passed in to func is +60, once we account for decoded text in DOM, the offset should be +56
     expect(textOffset).toEqual(56);
+  });
+});
+
+describe('spansIntersect', () => {
+  it('checks that two cells intersect', () => {
+    const cell1 = {
+      start_offset: 138812,
+      end_offset: 139245,
+      field: 'text'
+    };
+
+    const cell2 = {
+      start_offset: 139244,
+      end_offset: 139300,
+      field: 'text'
+    };
+
+    const cell3 = {
+      start_offset: 139248,
+      end_offset: 139300,
+      field: 'text'
+    };
+
+    let result = spansIntersect(
+      { begin: cell1.start_offset, end: cell1.end_offset },
+      { begin: cell2.start_offset, end: cell2.end_offset }
+    );
+
+    expect(result).toBeTruthy();
+
+    result = spansIntersect(
+      { begin: cell1.start_offset, end: cell1.end_offset },
+      { begin: cell3.start_offset, end: cell3.end_offset }
+    );
+
+    expect(result).toBeFalsy();
+  });
+
+  it('checks that the end intersections are exclusive', () => {
+    const cell1 = {
+      start_offset: 138812,
+      end_offset: 139245,
+      field: 'text'
+    };
+
+    const cell2 = {
+      start_offset: 139245,
+      end_offset: 139300,
+      field: 'text'
+    };
+
+    const cell3 = {
+      start_offset: 139244,
+      end_offset: 139300,
+      field: 'text'
+    };
+
+    let result = spansIntersect(
+      { begin: cell1.start_offset, end: cell1.end_offset },
+      { begin: cell2.start_offset, end: cell2.end_offset }
+    );
+
+    expect(result).toBeFalsy();
+
+    result = spansIntersect(
+      { begin: cell1.start_offset, end: cell1.end_offset },
+      { begin: cell3.start_offset, end: cell3.end_offset }
+    );
+
+    expect(result).toBeTruthy();
   });
 });

@@ -60,4 +60,39 @@ storiesOf('DocumentPreview/components/HtmlView', module)
         />
       </div>
     );
+  })
+  .add('passage highlighting', () => {
+    const label = 'Passage';
+    const options = {
+      'Passage 1': '0',
+      'Passage 2': '1'
+    };
+    const defaultValue = '0';
+    const groupId = 'GROUP-ID2';
+    const tableSelection = radios(label, options, defaultValue, groupId);
+
+    const highlights = [
+      {
+        passage_text: '5.21 Miscellaneous Costs',
+        start_offset: 39611,
+        end_offset: 39635,
+        field: 'text'
+      },
+      {
+        passage_text: `32.7 Buyer’s and Customer's Regulatory Authorities shall have the benefit of any rights of audit and access to information and documentation provided for in this Agreement to the extent that they relate to the exercise of the Regulatory Authorities' legal rights and/or responsibilities.`,
+        start_offset: 138812,
+        end_offset: 139099,
+        field: 'text'
+      }
+    ];
+
+    return (
+      <div style={{ height: '100%' }}>
+        <HtmlView
+          document={docJson}
+          highlight={highlights[parseInt(tableSelection, 10)]}
+          setLoading={(): void => {}}
+        />
+      </div>
+    );
   });
