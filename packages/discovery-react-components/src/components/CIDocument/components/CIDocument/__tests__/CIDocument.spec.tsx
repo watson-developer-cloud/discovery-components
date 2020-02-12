@@ -25,12 +25,22 @@ describe('<CIDocument />', () => {
     findByText: BoundFunction<FindByText>,
     findByTitle: BoundFunction<FindByText>,
     findByTestId: BoundFunction<FindByText>,
-    queryByTitle: BoundFunction<QueryByText>;
+    queryByTitle: BoundFunction<QueryByText>,
+    queryByTestId: BoundFunction<QueryByText>;
 
   describe('Invoice Document', () => {
     beforeEach(() => {
       act(() => {
-        ({ getAllByRole, getByTestId, getByText, findByText, findByTitle, queryByTitle } = render(
+        ({
+          getAllByRole,
+          getByTestId,
+          getByText,
+          findByText,
+          findByTestId,
+          findByTitle,
+          queryByTitle,
+          queryByTestId
+        } = render(
           <CIDocument document={invoice} overrideDocWidth={400} overrideDocHeight={600} />
         ));
       });
@@ -48,22 +58,38 @@ describe('<CIDocument />', () => {
       globalGetByText(filters, 'Currency');
     });
 
-    it('selects Relations and checks details panel', async () => {
-      const tabButton = await waitForElement(() => {
-        const tabs = getByTestId('document-info-tabs');
-        return globalGetByText(tabs, 'Relations');
-      });
-      fireEvent.click(tabButton);
+    it('loads the correct tabs and pane sections titles', async () => {
+      // Attribute and Relations tabs exist
+      const attributesTab = getByTestId('attributes-tab');
+      const relationsTab = getByTestId('relations-tab');
+      expect(attributesTab.textContent).toEqual('Attributes');
+      expect(relationsTab.textContent).toEqual('Relations');
+      expect(queryByTestId('filters-tab')).toBeNull();
+      expect(queryByTestId('metadata-tab')).toBeNull();
 
-      const filterSet = await waitForElement(() => {
-        const filters = getByTestId('Filters');
-        return globalGetByLabelText(filters, 'Invoice parts(5)');
-      });
-      fireEvent.click(filterSet);
+      // If an attribute is selected, DetailsPane type value is the same as the selected attribute
+      const filters = await findByTestId('Filters');
+      const currencyButton = globalGetByLabelText(filters, 'Currency(2)');
+      fireEvent.click(currencyButton);
 
       const detailsPane = getByTestId('details-pane');
-      globalGetByText(detailsPane, 'Invoice parts');
-      globalGetByText(detailsPane, 'Part description');
+      expect(detailsPane.textContent).toContain('Currency');
+    });
+
+    it('displays the correct relations information on the details pane', async () => {
+      const relationsTab = getByTestId('relations-tab');
+      fireEvent.click(relationsTab);
+
+      const filters = await findByTestId('Filters');
+      const invoiceButton = globalGetByLabelText(filters, 'Invoice parts(5)');
+      fireEvent.click(invoiceButton);
+
+      const detailsPaneType = getByTestId('details-pane-type');
+      const detailsPaneAttributes = getByTestId('details-pane-attributes');
+      expect(detailsPaneType.textContent).toContain('Invoice parts');
+      expect(detailsPaneAttributes.textContent).toContain(
+        'New Zealand - BOC New Zealand Ltd - Weekly - Service Fee Per Employee'
+      );
     });
   });
 
@@ -144,7 +170,15 @@ describe('<CIDocument />', () => {
   describe('Contract', () => {
     beforeEach(() => {
       act(() => {
-        ({ getAllByRole, getByTestId, getByText, findByText, findByTitle, findByTestId } = render(
+        ({
+          getAllByRole,
+          getByTestId,
+          getByText,
+          findByText,
+          findByTitle,
+          findByTestId,
+          queryByTestId
+        } = render(
           <CIDocument document={shortContract} overrideDocWidth={400} overrideDocHeight={600} />
         ));
       });
@@ -158,6 +192,44 @@ describe('<CIDocument />', () => {
       // check for a filter name
       const filters = getByTestId('Filters');
       globalGetByText(filters, 'Intellectual Property');
+    });
+
+    it('loads the correct tabs and pane sections titles', async () => {
+      // Filters and Metadata tabs exist
+      const filterTab = getByTestId('filters-tab');
+      const metadataTab = getByTestId('metadata-tab');
+      expect(filterTab.textContent).toEqual('Filters');
+      expect(metadataTab.textContent).toEqual('Metadata');
+      expect(queryByTestId('attributes-tab')).toBeNull();
+      expect(queryByTestId('relations-tab')).toBeNull();
+
+      // Once a filter is selected, DetailsPane has Categories, Types, and Attributes sections
+      const filters = await findByTestId('Filters');
+      const categoryCheckbox = globalGetByLabelText(filters, 'Intellectual Property(1)');
+      fireEvent.click(categoryCheckbox);
+
+      const detailsCategories = getByTestId('details-pane-categories');
+      const detailsTypes = getByTestId('details-pane-types');
+      const detailsAttributes = getByTestId('details-pane-attributes');
+      expect(detailsCategories.textContent).toContain('Intellectual Property');
+      expect(detailsTypes.textContent).toContain('Nature: Definition, Party: None');
+      expect(detailsAttributes.textContent).toContain('DefinedTerm (1)');
+    });
+
+    it('displays the correct party information on the details pane', async () => {
+      // Expects metadata pane to be hidden until selected
+      const metadataPane = getByTestId('metadata-pane').parentElement!;
+      expect(metadataPane.getAttribute('aria-hidden')).toEqual('true');
+
+      const metadataTabTest = getByTestId('metadata-tab');
+      fireEvent.click(metadataTabTest);
+      expect(metadataPane.getAttribute('aria-hidden')).toEqual('false');
+
+      const partyButton = globalGetByText(metadataPane, 'ART EFFECTS (Buyer) (2)');
+      fireEvent.click(partyButton);
+
+      const detailsPaneParty = getByTestId('details-pane-party');
+      expect(detailsPaneParty.textContent).toContain('Party');
     });
 
     it('correctly filters contract elements', async () => {
