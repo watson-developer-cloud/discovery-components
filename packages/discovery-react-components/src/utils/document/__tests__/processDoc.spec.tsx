@@ -159,4 +159,59 @@ describe('processDoc', () => {
     expect(elemTwo.textContent).toEqual('five & six');
     expect(elemTwo.getAttribute('data-orig-text')).toEqual('five &amp; six');
   });
+
+  it('successfully picks up tables', async () => {
+    const html = `<html>
+      <body>
+        <table data-testid="table-one"><th>Table 1</th></table>
+        <ul>
+          <table data-testid="table-two"><th>Table 2</th></table>
+        </ul>
+        <table data-testid="table-three">
+          <tr>
+            <td><p><span>
+              <bbox x="40.7528076171875" y="74.65092468261719" page="1" height="8.111161231994629" width="19.334335327148438">
+                Column 1
+              </bbox>
+            </span></p></td>
+            <td><p><span>
+              <bbox x="73.0099105834961" y="74.65092468261719" page="1" height="8.111161231994629" width="59.33922576904297">
+                Column 2
+              </bbox>
+            </span></p></td>  
+          </tr>
+        </table>
+      </body>
+    </html>`;
+
+    const bboxData = {
+      left: 40.7528076171875,
+      right: 60.08714294433594,
+      top: 74.65092468261719,
+      bottom: 82.76208591461182,
+      page: 1,
+      className: '',
+      location: {
+        begin: 274,
+        end: 0
+      }
+    };
+
+    const doc = await processDoc({ html }, { sections: true, tables: true });
+    const processedHtml = doc.sections!.map(section => section.html).join('');
+    const { getByTestId } = render(<div dangerouslySetInnerHTML={{ __html: processedHtml }} />);
+
+    const tableOne = getByTestId('table-one');
+    const tableTwo = getByTestId('table-two');
+    const tableThree = getByTestId('table-three');
+    expect(tableOne.textContent).toEqual('Table 1');
+    expect(tableTwo.textContent).toEqual('Table 2');
+    expect(tableThree.textContent).toContain('Column 1');
+    expect(tableThree.textContent).toContain('Column 2');
+
+    expect(doc.tables!.length).toEqual(3);
+    expect(doc.tables![0].location).toEqual({ begin: 28, end: 82 });
+    expect(doc.tables![2].bboxes.length).toEqual(2);
+    expect(doc.tables![2].bboxes[0]).toEqual(bboxData);
+  });
 });

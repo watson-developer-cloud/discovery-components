@@ -8,13 +8,9 @@ import React, {
   ReactElement
 } from 'react';
 import { findDOMNode } from 'react-dom';
-import {
-  AutoSizer,
-  CellMeasurer,
-  CellMeasurerCache,
-  List,
-  AutoSizerProps
-} from 'react-virtualized';
+import { AutoSizer, AutoSizerProps } from 'react-virtualized/dist/es/AutoSizer';
+import { CellMeasurer, CellMeasurerCache } from 'react-virtualized/dist/es/CellMeasurer';
+import { List } from 'react-virtualized/dist/es/List';
 import { settings } from 'carbon-components';
 import uniqueId from 'lodash/uniqueId';
 
