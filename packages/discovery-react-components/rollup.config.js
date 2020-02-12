@@ -68,5 +68,14 @@ export default {
       clean: true,
       tsconfig: 'tsconfig.prod.json'
     })
-  ]
+  ],
+  onwarn(warning, warn) {
+    // skip circular dependency warning from `react-virtualized` (known issue; doesn't cause any harm)
+    if (warning.code === 'CIRCULAR_DEPENDENCY' && warning.message.includes('react-virtualized')) {
+      return;
+    }
+
+    // use default for everything else
+    warn(warning);
+  }
 };
