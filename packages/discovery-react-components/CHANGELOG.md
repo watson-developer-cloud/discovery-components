@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-beta.36](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.35...@ibm-watson/discovery-react-components@1.1.0-beta.36) (2020-02-12)
+
+
+### Bug Fixes
+
+* import individual react-virtualized components ([#94](https://github.com/watson-developer-cloud/discovery-components/issues/94)) ([dc17d85](https://github.com/watson-developer-cloud/discovery-components/commit/dc17d85))
+
+
+
+
+
 # [1.1.0-beta.35](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.34...@ibm-watson/discovery-react-components@1.1.0-beta.35) (2020-02-12)
 
 
