@@ -189,14 +189,7 @@ function setupBodyParser(parser: SaxParser, doc: ProcessedDoc): void {
   parser.pushState({
     onopentag: (p: Parser, tagName: string, attributes: Attributes): void => {
       if (SECTION_NAMES.includes(tagName)) {
-        setupSectionParser(
-          parser,
-          doc,
-          tagName,
-          attributes,
-          p.startIndex,
-          getChildBeginFromOpenTag(p)
-        );
+        setupSectionParser(parser, doc, tagName, attributes, p.startIndex, p);
       }
     }
   });
@@ -208,135 +201,148 @@ function setupSectionParser(
   sectionTagName: string,
   sectionTagAttrs: Attributes,
   sectionStartIndex: number,
-  sectionChildBegin: number
+  sectionParser: Parser
 ): void {
   let lastClassName = '';
   let currentTable: Table | null = null;
   let currentBbox: ProcessedBbox | null = null;
 
   // track nested nodes of same tag name
-  let stackCount = 1;
+  let stackCount = 0;
   const openTagIndices = [0];
-  const sectionHtml = [openTagToString(sectionTagName, sectionTagAttrs, sectionChildBegin)];
+  const sectionHtml: string[] = [];
 
-  parser.pushState({
-    onopentag: (p: Parser, tagName: string, attributes: Attributes): void => {
-      if (attributes.class) {
-        lastClassName = attributes.class as string;
-      }
+  const actionState = getActionState();
+  parser.pushState(actionState);
 
-      if (tagName !== BBOX_TAG || !SKIP_BBOX) {
-        sectionHtml.push(openTagToString(tagName, attributes, getChildBeginFromOpenTag(p)));
-        openTagIndices.push(sectionHtml.length - 1);
-      }
+  // Ensures the current section open tag is called first and then
+  // continues through tags inside of that section.
+  actionState.onopentag(sectionParser, sectionTagName, sectionTagAttrs);
 
-      // <table border="1" data-max-height="78.36000061035156" data-max-width="514.1761474609375"
-      //    data-max-x="48.999847412109375" data-max-y="72.62348937988281"
-      //    data-min-height="78.36000061035156" data-min-width="514.1761474609375"
-      //    data-min-x="48.999847412109375" data-min-y="72.62348937988281" data-page="39">
-      if (tagName === TABLE_TAG && doc.tables) {
-        currentTable = {
-          location: {
-            begin: p.startIndex,
-            end: 0
-          },
-          bboxes: []
-        };
-        doc.tables.push(currentTable);
-      }
-
-      // <bbox height="6.056159973144531" page="1" width="150.52044677734375" x="72.0" y="116.10381317138672">
-      if (tagName === BBOX_TAG && (doc.bboxes || currentTable)) {
-        const left = Number(attributes.x);
-        const top = Number(attributes.y);
-        currentBbox = {
-          left: left,
-          right: left + Number(attributes.width),
-          top: top,
-          bottom: top + Number(attributes.height),
-          page: Number(attributes.page),
-          className: lastClassName,
-          location: {
-            begin: p.startIndex,
-            end: 0
-          }
-        };
-        if (doc.bboxes) {
-          doc.bboxes.push(currentBbox);
+  function getActionState() {
+    return {
+      onopentag: (p: Parser, tagName: string, attributes: Attributes): void => {
+        if (attributes.class) {
+          lastClassName = attributes.class as string;
         }
-        if (currentTable && doc.tables) {
-          currentTable.bboxes.push(currentBbox);
+
+        if (tagName !== BBOX_TAG || !SKIP_BBOX) {
+          sectionHtml.push(openTagToString(tagName, attributes, getChildBeginFromOpenTag(p)));
+          openTagIndices.push(sectionHtml.length - 1);
         }
-      }
 
-      if (tagName === sectionTagName) {
-        stackCount++;
-      }
-    },
+        // <table border="1" data-max-height="78.36000061035156" data-max-width="514.1761474609375"
+        //    data-max-x="48.999847412109375" data-max-y="72.62348937988281"
+        //    data-min-height="78.36000061035156" data-min-width="514.1761474609375"
+        //    data-min-x="48.999847412109375" data-min-y="72.62348937988281" data-page="39">
+        if (tagName === TABLE_TAG && doc.tables) {
+          currentTable = {
+            location: {
+              begin: p.startIndex,
+              end: 0
+            },
+            bboxes: []
+          };
+          doc.tables.push(currentTable);
+        }
 
-    ontext: (_: Parser, text: string): void => {
-      // In order to properly highlight texts in the DOM we need
-      // to know if the original text contains some encoded
-      // html entities, and if so, we pass that value down to
-      // be used later.
-      if (decodeHTML(text).length != text.length) {
-        const lastElemIndex = openTagIndices[openTagIndices.length - 1];
-        // For us to be able to access the original text, we need to
-        // encode it again because otherwise the dom will decode it
-        // when we try to access it later
-        sectionHtml[lastElemIndex] = sectionHtml[lastElemIndex].replace(
-          />$/,
-          ` data-orig-text="${encodeHTML(text)}">`
-        );
-      }
-
-      sectionHtml.push(text);
-    },
-
-    onclosetag: (p: Parser, tagName: string): void => {
-      if (tagName !== BBOX_TAG || !SKIP_BBOX) {
-        sectionHtml.push(closeTagToString(tagName));
-
-        // update opening tag with location of closing tag
-        const openTagIdx = openTagIndices.pop() as number;
-        sectionHtml[openTagIdx] = sectionHtml[openTagIdx].replace(
-          />$/,
-          ` data-child-end="${getChildEndFromCloseTag(p)}">`
-        );
-      }
-
-      if (doc.tables && tagName === TABLE_TAG && currentTable) {
-        currentTable.location.end = p.endIndex || p.startIndex;
-        currentTable = null;
-      }
-
-      if (doc.bboxes && tagName === BBOX_TAG && currentBbox) {
-        currentBbox.location.end = getChildEndFromCloseTag(p);
-        currentBbox = null;
-      }
-
-      if (tagName === sectionTagName) {
-        stackCount--;
-
-        if (stackCount === 0) {
-          // finish
-          if (doc.sections) {
-            doc.sections.push({
-              html: sectionHtml.join(''),
-              location: {
-                begin: sectionStartIndex,
-                end: p.endIndex || p.startIndex
-              },
-              enrichments: []
-            });
+        // <bbox height="6.056159973144531" page="1" width="150.52044677734375" x="72.0" y="116.10381317138672">
+        if (tagName === BBOX_TAG && (doc.bboxes || currentTable)) {
+          const left = Number(attributes.x);
+          const top = Number(attributes.y);
+          currentBbox = {
+            left: left,
+            right: left + Number(attributes.width),
+            top: top,
+            bottom: top + Number(attributes.height),
+            page: Number(attributes.page),
+            className: lastClassName,
+            location: {
+              begin: p.startIndex,
+              end: 0
+            }
+          };
+          if (doc.bboxes) {
+            doc.bboxes.push(currentBbox);
           }
+          if (currentTable && doc.tables) {
+            currentTable.bboxes.push(currentBbox);
+          }
+        }
 
-          // cleanup
+        if (tagName === sectionTagName) {
+          stackCount++;
+        }
+      },
+
+      ontext: (_: Parser, text: string): void => {
+        // In order to properly highlight texts in the DOM we need
+        // to know if the original text contains some encoded
+        // html entities, and if so, we pass that value down to
+        // be used later.
+        if (decodeHTML(text).length != text.length) {
+          const lastElemIndex = openTagIndices[openTagIndices.length - 1];
+          // For us to be able to access the original text, we need to
+          // encode it again because otherwise the dom will decode it
+          // when we try to access it later
+          sectionHtml[lastElemIndex] = sectionHtml[lastElemIndex].replace(
+            />$/,
+            ` data-orig-text="${encodeHTML(text)}">`
+          );
+        }
+
+        sectionHtml.push(text);
+      },
+
+      onclosetag: (p: Parser, tagName: string): void => {
+        if (tagName !== BBOX_TAG || !SKIP_BBOX) {
+          sectionHtml.push(closeTagToString(tagName));
+
+          // update opening tag with location of closing tag
+          const openTagIdx = openTagIndices.pop() as number;
+          sectionHtml[openTagIdx] = sectionHtml[openTagIdx].replace(
+            />$/,
+            ` data-child-end="${getChildEndFromCloseTag(p)}">`
+          );
+        }
+
+        if (doc.tables && tagName === TABLE_TAG && currentTable) {
+          currentTable.location.end = p.endIndex || p.startIndex;
+          currentTable = null;
+        }
+
+        if (doc.bboxes && tagName === BBOX_TAG && currentBbox) {
+          currentBbox.location.end = getChildEndFromCloseTag(p);
+          currentBbox = null;
+        }
+
+        if (tagName === sectionTagName) {
+          stackCount--;
+
+          if (stackCount === 0) {
+            // finish
+            if (doc.sections) {
+              doc.sections.push({
+                html: sectionHtml.join(''),
+                location: {
+                  begin: sectionStartIndex,
+                  end: p.endIndex || p.startIndex
+                },
+                enrichments: []
+              });
+            }
+
+            // cleanup
+            parser.popState();
+          }
+        }
+
+        if (tagName === 'body') {
           parser.popState();
         }
       }
-    }
-  });
+    };
+  }
 }
 
 function getChildBeginFromOpenTag(p: Parser): number {
