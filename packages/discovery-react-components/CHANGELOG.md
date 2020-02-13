@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-beta.37](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.36...@ibm-watson/discovery-react-components@1.1.0-beta.37) (2020-02-13)
+
+
+### Bug Fixes
+
+* reset pagination when new query is submitted ([#89](https://github.com/watson-developer-cloud/discovery-components/issues/89)) ([7cb99af](https://github.com/watson-developer-cloud/discovery-components/commit/7cb99af))
+
+
+
+
+
 # [1.1.0-beta.36](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.35...@ibm-watson/discovery-react-components@1.1.0-beta.36) (2020-02-12)
 
 
