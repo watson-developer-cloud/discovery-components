@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "discovery-search-app",
-  "version": "1.0.1-beta.19",
+  "version": "1.0.1-beta.20",
   "description": "Discovery components example application used to showcase components in a full application",
   "license": "Apache-2.0",
   "author": "IBM Corp.",
