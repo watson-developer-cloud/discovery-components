@@ -1,6 +1,6 @@
 {
   "name": "@ibm-watson/discovery-react-components",
-  "version": "1.1.0-beta.29",
+  "version": "1.1.0-beta.36",
   "description": "Discovery components built with the React framework and IBM Carbon components",
   "license": "Apache-2.0",
   "author": "IBM Corp.",
@@ -58,6 +58,9 @@
     "react-virtualized": "^9.21.1"
   },
   "jest": {
+    "transformIgnorePatterns": [
+      "/!node_modules\\/react-virtualized/"
+    ],
     "collectCoverageFrom": [
       "src/**/*.{ts,tsx,js,jsx}",
       "!src/**/messages.{ts,js}",

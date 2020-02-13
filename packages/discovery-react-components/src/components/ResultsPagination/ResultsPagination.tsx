@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect } from 'react';
+import React, { FC, useContext, useState, useEffect } from 'react';
 import { Pagination as CarbonPagination } from 'carbon-components-react';
 import { SearchApi, SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
@@ -58,8 +58,9 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
     componentSettings,
     isResultsPaginationComponentHidden
   } = useContext(SearchContext);
-
+  const [currentPage, setCurrentPage] = useState(page);
   const resultsPerPage = get(componentSettings, 'results_per_page', 10);
+
   useEffect(() => {
     if (!!pageSize || !!resultsPerPage) {
       setSearchParameters((currentSearchParameters: DiscoveryV2.QueryParams) => {
@@ -67,6 +68,15 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
       });
     }
   }, [setSearchParameters, pageSize, resultsPerPage]);
+
+  useEffect(() => {
+    const actualPageSize = searchParameters.count || 10;
+    const actualOffset = searchParameters.offset || 0;
+    const pageFromOffset = Math.floor(actualOffset / actualPageSize) + 1;
+    if (currentPage != pageFromOffset) {
+      setCurrentPage(pageFromOffset);
+    }
+  }, [currentPage, searchParameters.count, searchParameters.offset]);
 
   const matchingResults = (searchResponse && searchResponse.matching_results) || 0;
   const actualPageSize = searchParameters.count || 10;
@@ -85,6 +95,7 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
   const handleOnChange = (evt: ResultsPaginationEvent): void => {
     const { page, pageSize } = evt;
     const offset = (page - 1) * pageSize;
+    setCurrentPage(page);
     performSearch(
       {
         ...searchParameters,
@@ -109,7 +120,7 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
         {!isResultsPaginationComponentHidden && (
           <CarbonPagination
             className={classNames.join(' ')}
-            page={page}
+            page={currentPage}
             totalItems={matchingResults}
             pageSize={actualPageSize}
             pageSizes={pageSizes}
