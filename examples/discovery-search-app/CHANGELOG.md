@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1-beta.20](https://github.com/watson-developer-cloud/discovery-components/compare/discovery-search-app@1.0.1-beta.19...discovery-search-app@1.0.1-beta.20) (2020-02-13)
+
+
+### Bug Fixes
+
+* reset pagination when new query is submitted ([#89](https://github.com/watson-developer-cloud/discovery-components/issues/89)) ([7cb99af](https://github.com/watson-developer-cloud/discovery-components/commit/7cb99af))
+
+
+
+
+
 ## [1.0.1-beta.19](https://github.com/watson-developer-cloud/discovery-components/compare/discovery-search-app@1.0.1-beta.18...discovery-search-app@1.0.1-beta.19) (2020-02-12)
 
 **Note:** Version bump only for package discovery-search-app
