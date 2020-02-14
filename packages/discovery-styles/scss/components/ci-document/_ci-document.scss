@@ -1,8 +1,8 @@
 // Component styles
-@import 'carbon-components/scss/components/tabs/tabs';
-@import 'carbon-components/scss/components/tooltip/tooltip';
-@import 'carbon-components/scss/components/button/button';
-@import 'carbon-components/scss/components/link/link';
+@import '~carbon-components/scss/components/tabs/tabs';
+@import '~carbon-components/scss/components/tooltip/tooltip';
+@import '~carbon-components/scss/components/button/button';
+@import '~carbon-components/scss/components/link/link';
 
 .#{$prefix}--ci-doc {
   display: flex;
