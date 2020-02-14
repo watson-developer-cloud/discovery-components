@@ -109,7 +109,9 @@
     "packages/*",
     "examples/*"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "@types/react-resize-detector": "^4.2.0"
+  },
   "resolutions": {
     "cypress": "3.8.2"
   }
