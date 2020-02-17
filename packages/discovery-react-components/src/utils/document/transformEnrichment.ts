@@ -26,7 +26,7 @@ const modelMapping = {
 };
 
 function getUpdatedEnrichment(enrichment: EnrichedHtml, enrichmentName: string): EnrichedHtml {
-  if (enrichment && enrichmentName in modelMapping) {
+  if (enrichmentName in modelMapping) {
     enrichment = modelMapping[enrichmentName](enrichment, enrichmentName);
   }
   return enrichment;
