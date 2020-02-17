@@ -1,6 +1,6 @@
-@import 'carbon-components/scss/components/button/button';
-@import 'carbon-components/scss/components/combo-box/combo-box';
-@import 'carbon-components/scss/components/dropdown/dropdown';
+@import '~carbon-components/scss/components/button/button';
+@import '~carbon-components/scss/components/combo-box/combo-box';
+@import '~carbon-components/scss/components/dropdown/dropdown';
 
 .#{$prefix}--structured-query__rule-group-dropdown {
   align-items: center;

@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-beta.40](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.39...@ibm-watson/discovery-react-components@1.1.0-beta.40) (2020-02-14)
+
+
+### Bug Fixes
+
+* broken html view ([#95](https://github.com/watson-developer-cloud/discovery-components/issues/95)) ([7c55006](https://github.com/watson-developer-cloud/discovery-components/commit/7c55006))
+
+
+
+
+
+# [1.1.0-beta.39](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.38...@ibm-watson/discovery-react-components@1.1.0-beta.39) (2020-02-14)
+
+
+### Bug Fixes
+
+* revert node tilde fix ([#96](https://github.com/watson-developer-cloud/discovery-components/issues/96)) ([3ea97f2](https://github.com/watson-developer-cloud/discovery-components/commit/3ea97f2))
+
+
+
+
+
+# [1.1.0-beta.38](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.37...@ibm-watson/discovery-react-components@1.1.0-beta.38) (2020-02-14)
+
+**Note:** Version bump only for package @ibm-watson/discovery-react-components
+
+
+
+
+
 # [1.1.0-beta.37](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.36...@ibm-watson/discovery-react-components@1.1.0-beta.37) (2020-02-13)
 
 
