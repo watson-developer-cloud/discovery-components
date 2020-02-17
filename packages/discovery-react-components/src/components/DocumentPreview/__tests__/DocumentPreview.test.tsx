@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, render, prettyDOM } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import omit from 'lodash/omit';
 import { NoAuthAuthenticator } from 'ibm-watson/auth';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
@@ -294,11 +294,9 @@ describe('DocumentPreview', () => {
   describe('CSV files', () => {
     // Currently fails since no error message is displayed if there is an unspecified body field and passage
     it.skip('shows error if no "body" field or passage have been specified', () => {
-      let container: NonNullable<any>;
       act(() => {
-        ({ getByText, container } = render(<DocumentPreview document={csvDoc} />));
+        ({ getByText } = render(<DocumentPreview document={csvDoc} />));
       });
-      console.log(prettyDOM(container));
       getByText('Cannot preview document');
     });
 
