@@ -240,13 +240,10 @@ describe('DocumentPreview', () => {
 
   // All of these currently fail since DocumentPreview defaults to HtmlView if a HTML field is present.
   // Also fails because SimpleDocument will not show a JSON document without a passage highlight.
-  // DocumentPreview JSON files do not preview if no passage highlight is specified
   describe.skip('JSON files', () => {
     it('renders text field for JSON files', async () => {
       act(() => {
-        ({ getByText } = render(
-          wrapWithContext(<DocumentPreview document={jsonDoc} />, api, context)
-        ));
+        ({ getByText } = render(<DocumentPreview document={jsonDoc} />));
       });
       getByText('Hello, I am a text field.');
     });
@@ -315,7 +312,8 @@ describe('DocumentPreview', () => {
           wrapWithContext(<DocumentPreview document={csvDoc} />, api, context)
         ));
       });
-      getByText('This is column 1.');
+      const simpleDoc = getByText('This is column 1.').parentElement;
+      expect(simpleDoc.classList.contains('bx--simple-document__content')).toBe(true);
     });
 
     it('renders text from passage field, with passage highlighted', async () => {
