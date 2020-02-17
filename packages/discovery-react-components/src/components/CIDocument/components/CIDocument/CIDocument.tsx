@@ -406,7 +406,9 @@ const CIDocument: FC<CIDocumentProps> = ({
   return (
     <div className={base}>
       <nav className={`${base}__toolbar`} aria-label={messages.navigationToolbarLabel}>
-        <div className={`${base}__title`}>{filename}</div>
+        <div className={`${base}__title`} data-testid="CIDocument_title">
+          {filename}
+        </div>
         {highlightedList.length > 0 && (
           <>
             <NavigationToolbar
@@ -495,6 +497,7 @@ function renderFilterPanel(
       messages={messages}
       onFilterChange={onFilterChange({ currentFilter, setCurrentFilter })}
       onFilterClear={resetStates}
+      data-testid="CIDocument_filterPanel"
     />
   );
 }
