@@ -2267,6 +2267,7 @@
     mustache "^3.1.0"
     pdfjs-dist "^2.2.228"
     react-error-boundary "^1.2.5"
+    react-resize-detector "^4.2.1"
     react-virtualized "^9.21.1"
 
 "@ibm-watson/discovery-styles@file:packages/discovery-styles":
@@ -3251,6 +3252,13 @@
     prop-types "^15.6.1"
     react-lifecycles-compat "^3.0.4"
     warning "^3.0.0"
+
+"@rollup/plugin-alias@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-alias/-/plugin-alias-3.0.1.tgz#eb0549da7177a09e2d6d9d852e4cc5058f3e2104"
+  integrity sha512-ReSy6iPl3GsWLMNeshXAfgItZFMoMOTYC7MZQQM5va4pqxiGgwl1xZUZfHW6zGyZPK+k8TBadxx+kdmepiUa+g==
+  dependencies:
+    slash "^3.0.0"
 
 "@rollup/plugin-commonjs@^11.0.0":
   version "11.0.0"
