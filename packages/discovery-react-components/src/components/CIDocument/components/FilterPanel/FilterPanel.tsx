@@ -46,7 +46,7 @@ const FilterPanel: FC<FilterPanelProps> = ({
       className={cx(base, className, {
         skeletons: loading
       })}
-      data-testid="Filters"
+      data-testid="CIDocument_filterPanel"
     >
       {loading ? (
         <SkeletonText paragraph={true} lineCount={6} />
