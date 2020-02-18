@@ -497,7 +497,6 @@ function renderFilterPanel(
       messages={messages}
       onFilterChange={onFilterChange({ currentFilter, setCurrentFilter })}
       onFilterClear={resetStates}
-      data-testid="CIDocument_filterPanel"
     />
   );
 }
