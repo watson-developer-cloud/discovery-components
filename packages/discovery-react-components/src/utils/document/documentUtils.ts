@@ -154,6 +154,7 @@ export function createFieldRects({
   fieldNode.className = 'field';
   fieldNode.dataset.fieldType = fieldType;
   fieldNode.dataset.fieldId = fieldId;
+  fieldNode.setAttribute('data-testid', `field-${fieldId}`);
   fragment.appendChild(fieldNode);
 
   // create highlight rect(s) inside of a field

@@ -54,7 +54,7 @@ describe('<CIDocument />', () => {
       // check for file name
       getByText('invoice.pdf');
       // check for a filter name
-      const filters = getByTestId('Filters');
+      const filters = getByTestId('CIDocument_filterPanel');
       globalGetByText(filters, 'Currency');
     });
 
@@ -68,7 +68,7 @@ describe('<CIDocument />', () => {
       expect(queryByTestId('metadata-tab')).toBeNull();
 
       // If an attribute is selected, DetailsPane type value is the same as the selected attribute
-      const filters = await findByTestId('Filters');
+      const filters = await findByTestId('CIDocument_filterPanel');
       const currencyButton = globalGetByLabelText(filters, 'Currency(2)');
       fireEvent.click(currencyButton);
 
@@ -80,7 +80,7 @@ describe('<CIDocument />', () => {
       const relationsTab = getByTestId('relations-tab');
       fireEvent.click(relationsTab);
 
-      const filters = await findByTestId('Filters');
+      const filters = await findByTestId('CIDocument_filterPanel');
       const invoiceButton = globalGetByLabelText(filters, 'Invoice parts(5)');
       fireEvent.click(invoiceButton);
 
@@ -108,13 +108,13 @@ describe('<CIDocument />', () => {
       // check for file name
       getByText('purchase_orders.pdf');
       // check for a filter name
-      const filters = getByTestId('Filters');
+      const filters = getByTestId('CIDocument_filterPanel');
       globalGetByText(filters, 'Currency');
     });
 
     it('filters and navigates forward through the list of elements', async () => {
       const filterCheckbox = await waitForElement(() => {
-        const filters = getByTestId('Filters');
+        const filters = getByTestId('CIDocument_filterPanel');
         return globalGetByLabelText(filters, 'Currency(2)');
       });
       fireEvent.click(filterCheckbox);
@@ -133,7 +133,7 @@ describe('<CIDocument />', () => {
 
     it('filters and navigates backward through the list of elements', async () => {
       const filterCheckbox = await waitForElement(() => {
-        const filters = getByTestId('Filters');
+        const filters = getByTestId('CIDocument_filterPanel');
         return globalGetByLabelText(filters, 'Currency(2)');
       });
       fireEvent.click(filterCheckbox);
@@ -152,12 +152,12 @@ describe('<CIDocument />', () => {
 
     it('selects a filter and then resets filters', async () => {
       const filterCheckbox = await waitForElement(() => {
-        const filters = getByTestId('Filters');
+        const filters = getByTestId('CIDocument_filterPanel');
         return globalGetByLabelText(filters, 'Suppliers(1)');
       });
       fireEvent.click(filterCheckbox);
 
-      const filters = getByTestId('Filters');
+      const filters = getByTestId('CIDocument_filterPanel');
       const resetButton = globalGetByText(filters, 'Reset filters');
       fireEvent.click(resetButton);
 
@@ -190,7 +190,7 @@ describe('<CIDocument />', () => {
       // check for file name
       getByText('Art Effects Koya Creative Base TSA 2008.pdf');
       // check for a filter name
-      const filters = getByTestId('Filters');
+      const filters = getByTestId('CIDocument_filterPanel');
       globalGetByText(filters, 'Intellectual Property');
     });
 
@@ -204,7 +204,7 @@ describe('<CIDocument />', () => {
       expect(queryByTestId('relations-tab')).toBeNull();
 
       // Once a filter is selected, DetailsPane has Categories, Types, and Attributes sections
-      const filters = await findByTestId('Filters');
+      const filters = await findByTestId('CIDocument_filterPanel');
       const categoryCheckbox = globalGetByLabelText(filters, 'Intellectual Property(1)');
       fireEvent.click(categoryCheckbox);
 
@@ -233,7 +233,7 @@ describe('<CIDocument />', () => {
     });
 
     it('correctly filters contract elements', async () => {
-      const filters = await findByTestId('Filters');
+      const filters = await findByTestId('CIDocument_filterPanel');
 
       const categoryCheckbox = globalGetByLabelText(filters, 'Intellectual Property(1)');
       fireEvent.click(categoryCheckbox);

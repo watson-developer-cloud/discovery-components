@@ -35,8 +35,9 @@ const NavigationToolbar: FC<NavigationToolbarProps> = ({
         aria-label={messages.previousLabel}
         iconDescription={messages.previousLabel}
         onClick={handleChange(onChange, index, max, -1)}
+        data-testid="NavigationToolbar_previous"
       />
-      <span className="text">
+      <span className="text" data-testid="NavigationToolbar_counter">
         {messages
           .counterPattern!.replace('{index}', index > 0 ? String(index) : '-')
           .replace('{max}', String(max))}
@@ -50,6 +51,7 @@ const NavigationToolbar: FC<NavigationToolbarProps> = ({
         renderIcon={ChevronRight16}
         iconDescription={messages.nextLabel}
         onClick={handleChange(onChange, index, max, 1)}
+        data-testid="NavigationToolbar_next"
       />
     </nav>
   );
