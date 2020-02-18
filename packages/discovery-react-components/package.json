@@ -55,6 +55,7 @@
     "mustache": "^3.1.0",
     "pdfjs-dist": "^2.2.228",
     "react-error-boundary": "^1.2.5",
+    "react-resize-detector": "^4.2.1",
     "react-virtualized": "^9.21.1"
   },
   "jest": {
