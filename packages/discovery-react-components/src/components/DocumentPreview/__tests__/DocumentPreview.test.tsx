@@ -1,19 +1,37 @@
 import React from 'react';
-import { act, render } from '@testing-library/react';
+import { act, render, BoundFunction, GetByText, FindAllBy } from '@testing-library/react';
 import omit from 'lodash/omit';
 import { NoAuthAuthenticator } from 'ibm-watson/auth';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import DiscoverySearch from 'components/DiscoverySearch/DiscoverySearch';
 import DocumentPreview from '../DocumentPreview';
-import pdfDoc from '../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
+import pdfDocument from '../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
 import passages from '../__fixtures__/passages';
 import 'utils/test/createRange.mock';
 import { SearchApiIFC, SearchContextIFC } from 'components/DiscoverySearch/DiscoverySearch';
 import { wrapWithContext } from 'utils/testingUtils';
 
-describe('DocumentPreview', () => {
-  let getByText: NonNullable<any>, findAllByTestId: NonNullable<any>, findByText: NonNullable<any>;
+function isValidHighlight(
+  highlights: HTMLElement[],
+  length: number,
+  fieldType: string,
+  fieldId: number
+) {
+  if (highlights.length === length) {
+    const highlightContainer = highlights[0].parentElement;
 
+    if (
+      highlightContainer!.getAttribute('data-field-type') === fieldType &&
+      highlightContainer!.getAttribute('data-field-id') === fieldId.toString()
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
+
+describe('DocumentPreview', () => {
+  let getByText: BoundFunction<GetByText>, findAllByTestId: BoundFunction<FindAllBy<any[]>>;
   const api: Partial<SearchApiIFC> = {};
   let context: Partial<SearchContextIFC> = {};
 
@@ -24,156 +42,124 @@ describe('DocumentPreview', () => {
     height: 12
   };
 
-  const htmlTextDoc = {
+  beforeAll(() => {
+    window.HTMLElement.prototype.scrollIntoView = jest.fn();
+  });
+
+  // This is added since JSDOM does not support the getBBox function
+  const originalGetBBox = (SVGElement.prototype as SVGTextElement).getBBox;
+  beforeEach(() => {
+    (SVGElement.prototype as SVGTextElement).getBBox = (): any => {
+      return mockedBbox;
+    };
+    // This is added since the context needs to be reset to defaults for renders not wrappedWithContext
+    context.componentSettings = undefined;
+  });
+
+  afterEach(() => ((SVGElement.prototype as SVGTextElement).getBBox = originalGetBBox));
+
+  const pdfDoc = {
     id: '1234567890',
     extracted_metadata: {
       filename: 'i_am_a_pdf_file.pdf',
       file_type: 'pdf'
     },
-    text: 'Example text <text> <username> <password> more text afterwards.',
-    body_field: 'Display text from the specified "body" field.'
+    html: '<p>This is a <em>HTML</em> string.</p>',
+    text: 'This is simple text.',
+    body_field: 'I am a specified "body" field.'
   };
 
-  const jsonDoc = {
-    id: '1234567890',
-    extracted_metadata: {
-      filename: 'i_am_a_json_file.json',
-      file_type: 'json'
-    },
-    html: '<p>This field should not get picked up.</p>',
-    text: 'Hello, I am a text field.',
-    body_field: 'Display text from the specified "body" field.'
-  };
-
-  const csvDoc = {
-    id: '1234567890',
-    extracted_metadata: {
-      filename: 'i_am_a_csv_file.csv',
-      file_type: 'csv'
-    },
-    column_1: 'This is column 1.',
-    column_2: 'This is how a CSV file is processed.'
-  };
-
-  beforeAll(() => {
-    window.HTMLElement.prototype.scrollIntoView = jest.fn();
-  });
-
-  beforeEach(() => {
-    context.componentSettings = undefined;
-  });
-
-  // this is added since JSDOM does not support the getBBox function
-  const originalGetBBox = (SVGElement.prototype as SVGTextElement).getBBox;
-  beforeEach(
-    () =>
-      ((SVGElement.prototype as SVGTextElement).getBBox = (): any => {
-        return mockedBbox;
-      })
-  );
-
-  afterEach(() => ((SVGElement.prototype as SVGTextElement).getBBox = originalGetBBox));
-
-  describe('PDF / HTML / Text files', () => {
-    it('renders html field if available', async () => {
+  describe('with PDF / HTML / Text files', () => {
+    it('should render html field if available', () => {
       act(() => {
         ({ getByText } = render(<DocumentPreview document={pdfDoc} />));
       });
 
-      const docBbox = getByText('On 22 December 2008 ART EFFECTS LIMITED', { exact: false });
-      expect(docBbox.getAttribute('page')).toEqual('1');
-      expect(docBbox.getAttribute('height')).toEqual('85.87297201156616');
+      getByText('This is a string.');
+      getByText('HTML');
     });
 
-    it('renders html field with single-line passage highlighting', async () => {
+    it('should render html field with single-line passage highlighting', async () => {
       act(() => {
         const highlight = passages.single;
-        ({ findByText, findAllByTestId } = render(
-          <DocumentPreview document={pdfDoc} highlight={highlight} />
+        ({ findAllByTestId } = render(
+          <DocumentPreview document={pdfDocument} highlight={highlight} />
         ));
       });
 
-      const docBbox = await findByText('5.21 Miscellaneous Costs', { exact: false });
-      expect(docBbox.getAttribute('page')).toEqual('13');
-      expect(docBbox.getAttribute('height')).toEqual('60.19294881820679');
-
       const highlights = await findAllByTestId('field-rect');
-      expect(highlights.length).toEqual(1);
-      const highlightContainer = highlights[0].parentElement;
-      expect(highlightContainer.getAttribute('data-field-type')).toEqual('highlight');
-      expect(highlightContainer.getAttribute('data-field-id')).toEqual('54532');
+      expect(isValidHighlight(highlights, 1, 'highlight', 54532)).toEqual(true);
     });
 
-    it('renders html field with multi-line passage highlighting', async () => {
+    it('should render html field with multi-line passage highlighting', async () => {
       act(() => {
         const highlight = passages.multiline;
-        ({ findAllByTestId } = render(<DocumentPreview document={pdfDoc} highlight={highlight} />));
+        ({ findAllByTestId } = render(
+          <DocumentPreview document={pdfDocument} highlight={highlight} />
+        ));
       });
 
       const highlights = await findAllByTestId('field-rect');
-      expect(highlights.length).toEqual(3);
-      const highlightContainer = highlights[0].parentElement;
-      expect(highlightContainer.getAttribute('data-field-type')).toEqual('highlight');
-      expect(highlightContainer.getAttribute('data-field-id')).toEqual('211003');
+      expect(isValidHighlight(highlights, 3, 'highlight', 211003)).toEqual(true);
     });
 
-    it('renders html field with table highlighting', async () => {
+    it('should render html field with table highlighting', async () => {
       const highlight = {
-        table_id: 'c0b39e49-e4cf-4fae-97b0-d547b0af6bc2',
-        source_document_id: '903461f8843ef9f10daecd2a14994308',
-        collection_id: 'd1714ef9-647c-288c-0000-016fa082490f',
         table_html: 'Something',
         table_html_offset: 274502,
         table: {
           location: { begin: 274994, end: 279877 },
-          text:
-            'Section 7 - Agreed Rates Resource Type Day Rate Project Manager $550 Customer Delivery Manager $800 Product Analyst $800 Solution Architect $800 Technical Architect $800 Handset Developer $400 Server Developer $400 Tester /Test Analyst $400 Release Manager $400 Security Analyst $800 DBA $400 Senior Developer/Development Manager $800 Operations Manager $800 Infrastructure Architect $800 Senior Unix Developer $600 Unix Developer $400 Operations Staff $400 Security Office $400'
+          text: 'Section 7 - Agreed Rates Resource Type Day Rate Project Manager $550'
         }
       };
-
-      act(() => {
-        ({ findAllByTestId } = render(<DocumentPreview document={pdfDoc} highlight={highlight} />));
-      });
-
-      const highlights = await findAllByTestId('field-rect');
-      expect(highlights.length).toEqual(1);
-      const highlightContainer = highlights[0].parentElement;
-      expect(highlightContainer.getAttribute('data-field-type')).toEqual('highlight');
-      expect(highlightContainer.getAttribute('data-field-id')).toEqual('274994');
-    });
-
-    it('renders text field if html is unavailable and renders html like text', () => {
-      act(() => {
-        ({ getByText } = render(<DocumentPreview document={htmlTextDoc} />));
-      });
-
-      // Checks that it does not process html tags inside and that SimpleDocument was used
-      const simpleDoc = getByText('<text> <username> <password>', { exact: false }).parentElement;
-      expect(simpleDoc.classList.contains('bx--simple-document__content')).toBe(true);
-    });
-
-    it('renders text field with single-line passage highlighting', async () => {
-      const highlight = {
-        passage_text: 'more text afterwards.',
-        start_offset: 41,
-        end_offset: 62,
-        field: 'text'
-      };
-
       act(() => {
         ({ findAllByTestId } = render(
-          <DocumentPreview document={htmlTextDoc} highlight={highlight} />
+          <DocumentPreview document={pdfDocument} highlight={highlight} />
         ));
       });
 
       const highlights = await findAllByTestId('field-rect');
-      expect(highlights.length).toEqual(1);
-      const highlightContainer = highlights[0].parentElement;
-      expect(highlightContainer.getAttribute('data-field-type')).toEqual('passage');
-      expect(highlightContainer.getAttribute('data-field-id')).toEqual('41');
+      expect(isValidHighlight(highlights, 1, 'highlight', highlight.table.location.begin)).toEqual(
+        true
+      );
     });
 
-    it('renders an overwritten "body" field', async () => {
+    it('should render text field if html is unavailable', () => {
+      act(() => {
+        ({ getByText } = render(<DocumentPreview document={omit(pdfDoc, 'html')} />));
+      });
+
+      getByText('This is simple text.');
+    });
+
+    it('should render html like text', () => {
+      pdfDoc.text = 'This text field has <text> <username> <password> HTML elements.';
+      act(() => {
+        ({ getByText } = render(<DocumentPreview document={omit(pdfDoc, 'html')} />));
+      });
+
+      // Checks that it does not process html tags inside
+      getByText('<text> <username> <password>', { exact: false });
+    });
+
+    it('should render text field with single-line passage highlighting', async () => {
+      const highlight = {
+        passage_text: 'simple text.',
+        start_offset: 8,
+        end_offset: 19,
+        field: 'text'
+      };
+      act(() => {
+        ({ findAllByTestId } = render(
+          <DocumentPreview document={omit(pdfDoc, 'html')} highlight={highlight} />
+        ));
+      });
+
+      const highlights = await findAllByTestId('field-rect');
+      expect(isValidHighlight(highlights, 1, 'passage', highlight.start_offset)).toEqual(true);
+    });
+
+    it('should render an overwritten "body" field', () => {
       context = {
         componentSettings: {
           fields_shown: {
@@ -185,14 +171,14 @@ describe('DocumentPreview', () => {
       };
       act(() => {
         ({ getByText } = render(
-          wrapWithContext(<DocumentPreview document={htmlTextDoc} />, api, context)
+          wrapWithContext(<DocumentPreview document={omit(pdfDoc, 'html')} />, api, context)
         ));
       });
 
-      getByText('Display text from the specified "body" field.');
+      getByText('I am a specified "body" field.');
     });
 
-    it('renders with data from selected result', async () => {
+    it('should render with data from selected result', async () => {
       const authenticator = new NoAuthAuthenticator();
       const searchClient = new DiscoveryV2({
         ur: 'http://mock:3000/api',
@@ -213,7 +199,7 @@ describe('DocumentPreview', () => {
         .mockImplementation(() => Promise.resolve(dummyResponse));
 
       const selectedResult = {
-        document: omit(pdfDoc, 'extracted_metadata.text_mappings'),
+        document: omit(pdfDocument, 'extracted_metadata.text_mappings'),
         element: null,
         elementType: null
       };
@@ -234,21 +220,34 @@ describe('DocumentPreview', () => {
           </DiscoverySearch>
         ));
       });
+
       getByText('On 22 December 2008 ART EFFECTS LIMITED', { exact: false });
     });
   });
 
-  // All of these currently fail since DocumentPreview defaults to HtmlView if a HTML field is present.
-  // Also fails because SimpleDocument will not show a JSON document without a passage highlight.
-  describe.skip('JSON files', () => {
-    it('renders text field for JSON files', async () => {
+  const jsonDoc = {
+    id: '1234567890',
+    extracted_metadata: {
+      filename: 'i_am_a_json_file.json',
+      file_type: 'json'
+    },
+    html: '<p>This is a <em>HTML</em> string.</p>',
+    text: 'This is simple text.',
+    body_field: 'I am a specified "body" field.'
+  };
+
+  // TODO: All of these currently fail since DocumentPreview defaults to HtmlView if a HTML field is present.
+  // TODO: Also fails because SimpleDocument will not show a JSON document without a passage highlight.
+  describe.skip('with JSON files', () => {
+    it('should render text field for JSON files', () => {
       act(() => {
         ({ getByText } = render(<DocumentPreview document={jsonDoc} />));
       });
-      getByText('Hello, I am a text field.');
+
+      getByText('This is simple text.');
     });
 
-    it('renders an overwritten "body" field for JSON files', async () => {
+    it('should render an overwritten "body" field for JSON files', () => {
       context = {
         componentSettings: {
           fields_shown: {
@@ -263,17 +262,17 @@ describe('DocumentPreview', () => {
           wrapWithContext(<DocumentPreview document={jsonDoc} />, api, context)
         ));
       });
-      getByText('Display text from the specified "body" field.');
+
+      getByText('I am a specified "body" field.');
     });
 
-    it('renders text from passage field, with passage highlighted', async () => {
+    it('shoulder render text from passage field, with passage highlighted', async () => {
       const highlight = {
-        passage_text: 'Hello',
-        start_offset: 0,
-        end_offset: 4,
+        passage_text: 'simple text.',
+        start_offset: 8,
+        end_offset: 19,
         field: 'text'
       };
-
       act(() => {
         ({ findAllByTestId } = render(
           <DocumentPreview document={jsonDoc} highlight={highlight} />
@@ -281,23 +280,31 @@ describe('DocumentPreview', () => {
       });
 
       const highlights = await findAllByTestId('field-rect');
-      expect(highlights.length).toEqual(1);
-      const highlightContainer = highlights[0].parentElement;
-      expect(highlightContainer.getAttribute('data-field-type')).toEqual('passage');
-      expect(highlightContainer.getAttribute('data-field-id')).toEqual('0');
+      expect(isValidHighlight(highlights, 1, 'passage', highlight.start_offset)).toEqual(true);
     });
   });
 
-  describe('CSV files', () => {
-    // Currently fails since no error message is displayed if there is an unspecified body field and passage
-    it.skip('shows error if no "body" field or passage have been specified', () => {
+  const csvDoc = {
+    id: '1234567890',
+    extracted_metadata: {
+      filename: 'i_am_a_csv_file.csv',
+      file_type: 'csv'
+    },
+    column_1: 'This is a specified body field.',
+    column_2: 'This is a highlighted field.'
+  };
+
+  describe('with CSV files', () => {
+    // TODO: Currently fails since no error message is displayed if there is an unspecified body field and passage
+    it.skip('should show an error if no "body" field or passage have been specified', () => {
       act(() => {
         ({ getByText } = render(<DocumentPreview document={csvDoc} />));
       });
+
       getByText('Cannot preview document');
     });
 
-    it('renders specfied "body" field', () => {
+    it('should render specfied "body" field', () => {
       context = {
         componentSettings: {
           fields_shown: {
@@ -312,27 +319,23 @@ describe('DocumentPreview', () => {
           wrapWithContext(<DocumentPreview document={csvDoc} />, api, context)
         ));
       });
-      const simpleDoc = getByText('This is column 1.').parentElement;
-      expect(simpleDoc.classList.contains('bx--simple-document__content')).toBe(true);
+
+      getByText('This is a specified body field.');
     });
 
-    it('renders text from passage field, with passage highlighted', async () => {
+    it('shoulder render text from passage field, with passage highlighted', async () => {
       const highlight = {
-        passage_text: 'CSV file',
-        start_offset: 14,
-        end_offset: 21,
+        passage_text: 'highlighted field.',
+        start_offset: 9,
+        end_offset: 27,
         field: 'column_2'
       };
-
       act(() => {
         ({ findAllByTestId } = render(<DocumentPreview document={csvDoc} highlight={highlight} />));
       });
 
       const highlights = await findAllByTestId('field-rect');
-      expect(highlights.length).toEqual(1);
-      const highlightContainer = highlights[0].parentElement;
-      expect(highlightContainer.getAttribute('data-field-type')).toEqual('passage');
-      expect(highlightContainer.getAttribute('data-field-id')).toEqual('14');
+      expect(isValidHighlight(highlights, 1, 'passage', highlight.start_offset)).toEqual(true);
     });
   });
 });
