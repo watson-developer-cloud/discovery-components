@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-beta.42](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.41...@ibm-watson/discovery-react-components@1.1.0-beta.42) (2020-02-20)
+
+
+### Bug Fixes
+
+* recreate section fields (highlights) on component resizing ([#99](https://github.com/watson-developer-cloud/discovery-components/issues/99)) ([987e51b](https://github.com/watson-developer-cloud/discovery-components/commit/987e51b))
+
+
+
+
+
 # [1.1.0-beta.41](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.40...@ibm-watson/discovery-react-components@1.1.0-beta.41) (2020-02-19)
 
 **Note:** Version bump only for package @ibm-watson/discovery-react-components
