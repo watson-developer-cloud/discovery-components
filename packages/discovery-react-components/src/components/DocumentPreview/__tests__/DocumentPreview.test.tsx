@@ -11,21 +11,23 @@ import 'utils/test/createRange.mock';
 import { SearchApiIFC, SearchContextIFC } from 'components/DiscoverySearch/DiscoverySearch';
 import { wrapWithContext } from 'utils/testingUtils';
 
-function isValidHighlight(
-  highlights: HTMLElement[],
-  length: number,
-  fieldType: string,
-  fieldId: number
-) {
-  if (highlights.length === length) {
-    const highlightContainer = highlights[0].parentElement;
-    return (
-      highlightContainer!.getAttribute('data-field-type') === fieldType &&
-      highlightContainer!.getAttribute('data-field-id') === fieldId.toString()
-    );
+expect.extend({
+  toBeValidHighlight(highlights, length, fieldType, fieldId) {
+    if (highlights.length === length) {
+      const highlightContainer = highlights[0].parentElement;
+      return {
+        message: () => `expected highlight to be of type ${fieldType} with id ${fieldId}`,
+        pass:
+          highlightContainer!.getAttribute('data-field-type') === fieldType &&
+          highlightContainer!.getAttribute('data-field-id') === fieldId.toString()
+      };
+    }
+    return {
+      message: () => `expected ${length} highlights but recieved ${highlights.length}`,
+      pass: false
+    };
   }
-  return false;
-}
+});
 
 describe('DocumentPreview', () => {
   let getByText: BoundFunction<GetByText>, findAllByTestId: BoundFunction<FindAllBy<any[]>>;
@@ -85,7 +87,7 @@ describe('DocumentPreview', () => {
       });
 
       const highlights = await findAllByTestId('field-rect');
-      expect(isValidHighlight(highlights, 1, 'highlight', 54532)).toEqual(true);
+      (expect(highlights) as any).toBeValidHighlight(1, 'highlight', 54532);
     });
 
     it('should render html field with multi-line passage highlighting', async () => {
@@ -97,7 +99,7 @@ describe('DocumentPreview', () => {
       });
 
       const highlights = await findAllByTestId('field-rect');
-      expect(isValidHighlight(highlights, 3, 'highlight', 211003)).toEqual(true);
+      (expect(highlights) as any).toBeValidHighlight(3, 'highlight', 211003);
     });
 
     it('should render html field with table highlighting', async () => {
@@ -116,8 +118,10 @@ describe('DocumentPreview', () => {
       });
 
       const highlights = await findAllByTestId('field-rect');
-      expect(isValidHighlight(highlights, 1, 'highlight', highlight.table.location.begin)).toEqual(
-        true
+      (expect(highlights) as any).toBeValidHighlight(
+        1,
+        'highlight',
+        highlight.table.location.begin
       );
     });
 
@@ -153,7 +157,7 @@ describe('DocumentPreview', () => {
       });
 
       const highlights = await findAllByTestId('field-rect');
-      expect(isValidHighlight(highlights, 1, 'passage', highlight.start_offset)).toEqual(true);
+      (expect(highlights) as any).toBeValidHighlight(1, 'passage', highlight.start_offset);
     });
 
     it('should render an overwritten "body" field', () => {
@@ -277,7 +281,7 @@ describe('DocumentPreview', () => {
       });
 
       const highlights = await findAllByTestId('field-rect');
-      expect(isValidHighlight(highlights, 1, 'passage', highlight.start_offset)).toEqual(true);
+      (expect(highlights) as any).toBeValidHighlight(1, 'passage', highlight.start_offset);
     });
   });
 
@@ -332,7 +336,7 @@ describe('DocumentPreview', () => {
       });
 
       const highlights = await findAllByTestId('field-rect');
-      expect(isValidHighlight(highlights, 1, 'passage', highlight.start_offset)).toEqual(true);
+      (expect(highlights) as any).toBeValidHighlight(1, 'passage', highlight.start_offset);
     });
   });
 });
