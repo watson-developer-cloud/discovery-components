@@ -19,13 +19,10 @@ function isValidHighlight(
 ) {
   if (highlights.length === length) {
     const highlightContainer = highlights[0].parentElement;
-
-    if (
+    return (
       highlightContainer!.getAttribute('data-field-type') === fieldType &&
       highlightContainer!.getAttribute('data-field-id') === fieldId.toString()
-    ) {
-      return true;
-    }
+    );
   }
   return false;
 }
