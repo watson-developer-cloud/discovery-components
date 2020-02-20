@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-beta.43](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.42...@ibm-watson/discovery-react-components@1.1.0-beta.43) (2020-02-20)
+
+**Note:** Version bump only for package @ibm-watson/discovery-react-components
+
+
+
+
+
 # [1.1.0-beta.42](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.41...@ibm-watson/discovery-react-components@1.1.0-beta.42) (2020-02-20)
 
 
