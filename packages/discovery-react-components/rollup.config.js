@@ -1,10 +1,11 @@
-import typescript from 'rollup-plugin-typescript2';
+import alias from '@rollup/plugin-alias';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import resolve from '@rollup/plugin-node-resolve';
-import url from '@rollup/plugin-url';
 import { string } from 'rollup-plugin-string';
 import svgr from '@svgr/rollup';
+import typescript from 'rollup-plugin-typescript2';
+import url from '@rollup/plugin-url';
 import pkg from './package.json';
 
 // for some reason, '**/*.worker.min.js' doesn't work
@@ -47,6 +48,14 @@ export default {
   ]),
   plugins: [
     replacePdfWorker,
+    alias({
+      entries: [
+        // By default, the `esm` build of `react-resize-detector` is imported, but that results
+        // in a build error ("Error: 'bool' is not exported by ../../node_modules/prop-types/index.js").
+        // This makes it so we import the CommonJS version, which builds just fine.
+        { find: 'react-resize-detector', replacement: 'react-resize-detector/lib/index.js' }
+      ]
+    }),
     resolve({
       browser: true,
       preferBuiltins: false
