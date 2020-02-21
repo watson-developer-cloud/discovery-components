@@ -40,13 +40,13 @@ export const SimpleDocument: FC<Props> = ({
   let html,
     passage: QueryResultPassage | null = null;
   if (document) {
-    //Json object usually don't have enough info to allow us to determine which field to display
-    //Unless there is passage pointing to a specific field.
+    // JSON objects will default to displaying the specfied body field, text field, or passage highlighting field,
+    // Otherwise an error is shown
     const isJsonType = get(document, 'extracted_metadata.file_type') === 'json';
-    if (isJsonType && (!highlight || !isPassage(highlight))) {
+    let field = get(componentSettings, 'fields_shown.body.field', 'text');
+    if (isJsonType && (!highlight || !isPassage(highlight)) && document[field] === undefined) {
       html = `<p>${cannotPreviewMessage}</p>`;
     } else {
-      let field;
       // if there is a passage highlight, use text values from field specified in passage
       if (highlight && isPassage(highlight)) {
         passage = highlight as QueryResultPassage;

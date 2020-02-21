@@ -52,7 +52,9 @@ describe('DocumentPreview', () => {
       return mockedBbox;
     };
     // This is added since the context needs to be reset to defaults for renders not wrappedWithContext
-    context.componentSettings = undefined;
+    if (context.componentSettings) {
+      context.componentSettings.fields_shown!.body = undefined;
+    }
   });
 
   afterEach(() => ((SVGElement.prototype as SVGTextElement).getBBox = originalGetBBox));
@@ -237,9 +239,15 @@ describe('DocumentPreview', () => {
     body_field: 'I am a specified "body" field.'
   };
 
-  // TODO: All of these currently fail since DocumentPreview defaults to HtmlView if a HTML field is present.
-  // TODO: Also fails because SimpleDocument will not show a JSON document without a passage highlight.
-  describe.skip('with JSON files', () => {
+  describe('with JSON files', () => {
+    it('should show an error if no text field exists and no "body" field or passage has been specified', () => {
+      act(() => {
+        ({ getByText } = render(<DocumentPreview document={omit(jsonDoc, 'text', 'html')} />));
+      });
+
+      getByText('Cannot preview document');
+    });
+
     it('should render text field for JSON files', () => {
       act(() => {
         ({ getByText } = render(<DocumentPreview document={jsonDoc} />));
