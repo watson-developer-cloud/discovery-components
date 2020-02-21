@@ -7,6 +7,7 @@ import { clearNodeChildren } from 'utils/dom';
 import { findOffsetInDOM, createFieldRects } from 'utils/document/documentUtils';
 import { isPassage } from '../Highlight/passages';
 import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
+import { getDocumentType } from '../../utils/documentData';
 
 interface Props {
   /**
@@ -40,9 +41,9 @@ export const SimpleDocument: FC<Props> = ({
   let html,
     passage: QueryResultPassage | null = null;
   if (document) {
-    // JSON objects will default to displaying the specfied body field, text field, or passage highlighting field,
+    // JSON files will default to displaying the specified body field, `text` field, or passage highlighting field,
     // Otherwise an error is shown
-    const isJsonType = get(document, 'extracted_metadata.file_type') === 'json';
+    const isJsonType = getDocumentType(document) === 'json';
     let field = get(componentSettings, 'fields_shown.body.field', 'text');
     if (isJsonType && (!highlight || !isPassage(highlight)) && document[field] === undefined) {
       html = `<p>${cannotPreviewMessage}</p>`;

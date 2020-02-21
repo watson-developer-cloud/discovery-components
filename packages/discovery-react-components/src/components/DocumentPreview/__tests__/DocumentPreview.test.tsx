@@ -241,8 +241,9 @@ describe('DocumentPreview', () => {
 
   describe('with JSON files', () => {
     it('should show an error if no text field exists and no "body" field or passage has been specified', () => {
+      const errorJsonDoc = omit(jsonDoc, 'html', 'text');
       act(() => {
-        ({ getByText } = render(<DocumentPreview document={omit(jsonDoc, 'text', 'html')} />));
+        ({ getByText } = render(<DocumentPreview document={errorJsonDoc} />));
       });
 
       getByText('Cannot preview document');

@@ -8,7 +8,7 @@ import SimpleDocument from './components/SimpleDocument/SimpleDocument';
 import withErrorBoundary, { WithErrorBoundaryProps } from 'utils/hoc/withErrorBoundary';
 import { defaultMessages, Messages } from './messages';
 import HtmlView from './components/HtmlView/HtmlView';
-import get from 'lodash/get';
+import { getDocumentType } from './utils/documentData';
 
 const { ZOOM_IN, ZOOM_OUT } = PreviewToolbar;
 
@@ -117,8 +117,8 @@ function PreviewDocument({
   highlight
 }: PreviewDocumentProps): ReactElement | null {
   if (document) {
-    const isJsonType = get(document, 'extracted_metadata.file_type') === 'json';
-    const isCsvType = get(document, 'extracted_metadata.file_type') === 'csv';
+    const isJsonType = getDocumentType(document) === 'json';
+    const isCsvType = getDocumentType(document) === 'csv';
     if (document.html && !isJsonType && !isCsvType) {
       return (
         <HtmlView

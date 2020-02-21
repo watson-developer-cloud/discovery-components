@@ -24,3 +24,16 @@ export function getTextMappings(
   }
   return mappings;
 }
+
+/**
+ * Get `file_type` document property as a string. Usually, this
+ * prop is stored as a JSON string.
+ */
+export function getDocumentType(doc: QueryResult | null | undefined): string | null {
+  let docType = get(doc, 'extracted_metadata.file_type');
+  if (docType && typeof docType === 'string') {
+    return docType;
+  } else {
+    return null;
+  }
+}
