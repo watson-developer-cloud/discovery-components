@@ -2,6 +2,10 @@ import get from 'lodash/get';
 import { QueryResult } from 'ibm-watson/discovery/v2';
 import { TextMappings } from '../types';
 
+// document types
+export const CSV_FILE = 'csv';
+export const JSON_FILE = 'json';
+
 /**
  * Get `text_mappings` document property as an object. Usually, this
  * prop is stored as a JSON string; if so, parse and return as object.
@@ -33,7 +37,6 @@ export function getDocumentType(doc: QueryResult | null | undefined): string | n
   let docType = get(doc, 'extracted_metadata.file_type');
   if (docType && typeof docType === 'string') {
     return docType;
-  } else {
-    return null;
   }
+  return null;
 }
