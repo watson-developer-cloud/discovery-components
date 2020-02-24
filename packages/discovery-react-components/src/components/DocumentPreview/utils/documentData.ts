@@ -3,8 +3,10 @@ import { QueryResult } from 'ibm-watson/discovery/v2';
 import { TextMappings } from '../types';
 
 // document types
-export const CSV_FILE = 'csv';
-export const JSON_FILE = 'json';
+export const DOCUMENT_TYPES = {
+  CSV_FILE: 'csv',
+  JSON_FILE: 'json'
+};
 
 /**
  * Get `text_mappings` document property as an object. Usually, this
