@@ -1,11 +1,11 @@
 import { getTextMappings, isCsvFile, isJsonFile } from '../documentData';
 import jsonDoc from '../../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
 
-const noMetadata = {
-  extracted_metadata: {}
-};
-
 describe('documentData', () => {
+  const noMetadata = {
+    extracted_metadata: {}
+  };
+
   let consoleError: jest.SpyInstance<any, any>;
 
   beforeAll(() => {
