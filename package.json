@@ -1,6 +1,34 @@
 {
   "name": "root",
   "private": true,
+  "scripts": {
+    "lint": "eslint '{packages,examples}/**/*.{js,jsx,ts,tsx}'"
+  },
+  "lint-staged": {
+    "{packages,examples}/**/*.{json,css,scss,md}": [
+      "prettier --write",
+      "git add"
+    ],
+    "{packages,examples}/**/*.{js,jsx,ts,tsx}": [
+      "eslint --resolve-plugins-relative-to './node_modules/react-scripts/node_modules' --fix",
+      "git add"
+    ],
+    "README.md": [
+      "markdown-toc -i",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "post-rewrite": "lint-staged"
+    }
+  },
+  "workspaces": [
+    "packages/*",
+    "examples/*"
+  ],
   "devDependencies": {
     "@babel/core": "^7.7.7",
     "@carbon/icons": "^10.5.0",
@@ -38,18 +66,26 @@
     "@types/storybook__addon-knobs": "^5.0.3",
     "@types/storybook__react": "^4.0.2",
     "@types/uuid": "^3.4.5",
+    "@typescript-eslint/eslint-plugin": "2.x",
+    "@typescript-eslint/parser": "2.x",
     "awesome-typescript-loader": "^5.2.1",
+    "babel-eslint": "10.x",
     "babel-loader": "^8.0.6",
     "carbon-components": "^10.6.0",
     "carbon-components-react": "^7.7.0",
     "carbon-icons": "^7.0.7",
     "cross-env": "^5.1.4",
     "cypress": "3.8.2",
-    "eslint": "^6.8.0",
+    "eslint": "6.x",
     "eslint-config-prettier": "^6.2.0",
+    "eslint-config-react-app": "^5.2.0",
     "eslint-plugin-cypress": "^2.10.3",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-flowtype": "4.x",
+    "eslint-plugin-import": "2.x",
+    "eslint-plugin-jsx-a11y": "6.x",
     "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "7.x",
+    "eslint-plugin-react-hooks": "2.x",
     "fast-xml-parser": "^3.14.0",
     "gh-pages": "^2.1.1",
     "husky": "^3.0.5",
@@ -85,35 +121,6 @@
     "vue": "^2.6.11",
     "webpack": "4.41.2"
   },
-  "scripts": {
-    "lint": " NODE_PATH=./node_modules/react-scripts/node_modules:./node_modules eslint '{packages,examples}/**/*.{js,jsx,ts,tsx}'"
-  },
-  "lint-staged": {
-    "{packages,examples}/**/*.{json,css,scss,md}": [
-      "prettier --write",
-      "git add"
-    ],
-    "{packages,examples}/**/*.{js,jsx,ts,tsx}": [
-      "eslint --resolve-plugins-relative-to './node_modules/react-scripts/node_modules' --fix",
-      "git add"
-    ],
-    "README.md": [
-      "markdown-toc -i",
-      "git add"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "post-rewrite": "lint-staged"
-    }
-  },
-  "workspaces": [
-    "packages/*",
-    "examples/*"
-  ],
-  "dependencies": {},
   "resolutions": {
     "cypress": "3.8.2"
   }
