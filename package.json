@@ -1,34 +1,13 @@
 {
   "name": "root",
   "private": true,
-  "scripts": {
-    "lint": "eslint '{packages,examples}/**/*.{js,jsx,ts,tsx}'"
-  },
-  "lint-staged": {
-    "{packages,examples}/**/*.{json,css,scss,md}": [
-      "prettier --write",
-      "git add"
-    ],
-    "{packages,examples}/**/*.{js,jsx,ts,tsx}": [
-      "yarn lint --fix",
-      "git add"
-    ],
-    "README.md": [
-      "markdown-toc -i",
-      "git add"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "post-rewrite": "lint-staged"
-    }
-  },
   "workspaces": [
     "packages/*",
     "examples/*"
   ],
+  "scripts": {
+    "lint": "eslint '{packages,examples}/**/*.{js,jsx,ts,tsx}'"
+  },
   "devDependencies": {
     "@babel/core": "^7.7.7",
     "@carbon/icons": "^10.5.0",
@@ -123,5 +102,26 @@
   },
   "resolutions": {
     "cypress": "3.8.2"
+  },
+  "lint-staged": {
+    "{packages,examples}/**/*.{json,css,scss,md}": [
+      "prettier --write",
+      "git add"
+    ],
+    "{packages,examples}/**/*.{js,jsx,ts,tsx}": [
+      "yarn lint --fix",
+      "git add"
+    ],
+    "README.md": [
+      "markdown-toc -i",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "post-rewrite": "lint-staged"
+    }
   }
 }
