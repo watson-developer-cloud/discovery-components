@@ -2,7 +2,6 @@ import React, { FC, useContext, useEffect, useRef } from 'react';
 import { encodeHTML } from 'entities';
 import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
-import get from 'lodash/get';
 import { clearNodeChildren } from 'utils/dom';
 import { findOffsetInDOM, createFieldRects } from 'utils/document/documentUtils';
 import { isPassage } from '../Highlight/passages';
@@ -42,7 +41,7 @@ export const SimpleDocument: FC<Props> = ({
   if (document) {
     //Json object usually don't have enough info to allow us to determine which field to display
     //Unless there is passage pointing to a specific field.
-    const isJsonType = get(document, 'extracted_metadata.file_type') === 'json';
+    const isJsonType = document?.extracted_metadata?.file_type === 'json';
     if (isJsonType && (!highlight || !isPassage(highlight))) {
       html = `<p>${cannotPreviewMessage}</p>`;
     } else {
@@ -51,9 +50,14 @@ export const SimpleDocument: FC<Props> = ({
       if (highlight && isPassage(highlight)) {
         passage = highlight as QueryResultPassage;
         field = passage.field;
+        if (!field) {
+          // if passage has no defined field, choose a default and unset `highlight`
+          field = 'text';
+          highlight = undefined;
+        }
       } else {
         // see if user has specified a body field; default to 'text' field
-        field = get(componentSettings, 'fields_shown.body.field', 'text');
+        field = componentSettings?.fields_shown?.body?.field || 'text';
       }
 
       let text;
