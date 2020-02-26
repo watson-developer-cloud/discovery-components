@@ -10,7 +10,7 @@
       "git add"
     ],
     "{packages,examples}/**/*.{js,jsx,ts,tsx}": [
-      "eslint --resolve-plugins-relative-to './node_modules/react-scripts/node_modules' --fix",
+      "eslint --fix",
       "git add"
     ],
     "README.md": [
