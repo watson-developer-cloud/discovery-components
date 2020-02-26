@@ -10,7 +10,7 @@
       "git add"
     ],
     "{packages,examples}/**/*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
+      "yarn lint --fix",
       "git add"
     ],
     "README.md": [
