@@ -1,35 +1,8 @@
-import { getTextMappings, getDocumentType } from '../documentData';
+import { getTextMappings, isCsvFile, isJsonFile } from '../documentData';
 import jsonDoc from '../../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
-
-const correctTextMapping = {
-  extracted_metadata: {
-    file_type: 'json',
-    text_mappings:
-      '{"text_mappings":[{"page":{"page_number":1,"bbox":[54.0,89.32704162597656,558.0890502929688,175.20001363754272]},"field":{"name":"text","index":0,"span":[0,757]}}],"pages":[{"page_number":0,"height":792.0,"width":612.0,"origin":"TopLeft"}]}'
-  }
-};
 
 const noMetadata = {
   extracted_metadata: {}
-};
-
-const invalidStringTextMapping = {
-  extracted_metadata: {
-    text_mappings:
-      'I have replaced to usual text mapping string here for a test. This should give an error.'
-  }
-};
-
-const noStringFileType = {
-  extracted_metadata: {
-    file_type: 12
-  }
-};
-
-const noStringTextMapping = {
-  extracted_metadata: {
-    text_mappings: 1
-  }
 };
 
 describe('documentData', () => {
@@ -49,6 +22,12 @@ describe('documentData', () => {
     expect(consoleError).not.toHaveBeenCalled();
   });
 
+  const correctTextMapping = {
+    extracted_metadata: {
+      text_mappings:
+        '{"text_mappings":[{"page":{"page_number":1,"bbox":[54.0,89.32704162597656,558.0890502929688,175.20001363754272]},"field":{"name":"text","index":0,"span":[0,757]}}],"pages":[{"page_number":0,"height":792.0,"width":612.0,"origin":"TopLeft"}]}'
+    }
+  };
   it('returns correct text mapping data', () => {
     const mappings = getTextMappings(correctTextMapping)!;
     expect(mappings).not.toEqual(null);
@@ -67,30 +46,61 @@ describe('documentData', () => {
     expect(consoleError).not.toHaveBeenCalled();
   });
 
+  const invalidStringTextMapping = {
+    extracted_metadata: {
+      text_mappings:
+        'I have replaced to usual text mapping string here for a test. This should give an error.'
+    }
+  };
   it('fails gracefully if text mappings cannot be parsed', () => {
     const mappings = getTextMappings(invalidStringTextMapping);
     expect(mappings).toEqual(null);
     expect(consoleError).toHaveBeenCalled();
   });
 
+  const noStringTextMapping = {
+    extracted_metadata: {
+      text_mappings: 1
+    }
+  };
   it('fails gracefully if text mappings is not a string', () => {
     const mappings = getTextMappings(noStringTextMapping);
     expect(mappings).toEqual(null);
     expect(consoleError).toHaveBeenCalled();
   });
 
-  it('returns the correct document type', () => {
-    const docType = getDocumentType(correctTextMapping);
-    expect(docType).toEqual('json');
+  const jsonFileType = {
+    extracted_metadata: {
+      file_type: 'json'
+    }
+  };
+  it('returns true if the document is a JSON file', () => {
+    const docTypeJson = isJsonFile(jsonFileType);
+    expect(docTypeJson).toEqual(true);
   });
 
-  it('returns null if the file type provided is not a string', () => {
-    const docType = getDocumentType(noStringFileType);
-    expect(docType).toEqual(null);
+  const csvFileType = {
+    extracted_metadata: {
+      file_type: 'csv'
+    }
+  };
+  it('returns true if the document is a CSV file', () => {
+    const docTypeJson = isCsvFile(csvFileType);
+    expect(docTypeJson).toEqual(true);
   });
 
-  it('returns null if there is no file type provided', () => {
-    const docType = getDocumentType(noMetadata);
-    expect(docType).toEqual(null);
+  const noStringFileType = {
+    extracted_metadata: {
+      file_type: true
+    }
+  };
+  it('returns false if the file type provided is not a string', () => {
+    const falseDocType = isJsonFile(noStringFileType);
+    expect(falseDocType).toEqual(false);
+  });
+
+  it('returns false if there is no file type provided', () => {
+    const falseDocType = isCsvFile(noMetadata);
+    expect(falseDocType).toEqual(false);
   });
 });
