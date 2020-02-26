@@ -6,7 +6,7 @@
     "examples/*"
   ],
   "scripts": {
-    "lint": "eslint '{packages,examples}/**/*.{js,jsx,ts,tsx}'"
+    "lint": "eslint '{packages,examples}/**/*.{js,jsx,ts,tsx}' --quiet"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
