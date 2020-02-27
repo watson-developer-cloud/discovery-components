@@ -20,6 +20,7 @@ import {
   searchResultFooterTitleClass,
   searchResultFooterCollectionNameClass
 } from 'components/SearchResults/cssClasses';
+import { getDocumentTitle } from '../../utils';
 import { Messages } from 'components/SearchResults/messages';
 
 export interface ResultProps {
@@ -113,12 +114,7 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   const hasText = displayedText && !showTablesOnlyResults;
   const emptyResultContent = !(hasText || tableHtml);
 
-  const documentId: string | undefined = get(result, 'document_id');
-  const filename: string | undefined = get(result, 'extracted_metadata.filename');
-  const userSelectedTitle: string | undefined = get(result, resultTitleField);
-  const title: string | undefined = userSelectedTitle
-    ? userSelectedTitle
-    : get(result, 'extracted_metadata.title') || filename || documentId;
+  const title = getDocumentTitle(resultTitleField, result);
 
   const searchResultClasses = [searchResultClass];
   if (isEqual(result, selectedResult.document)) {

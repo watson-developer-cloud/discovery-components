@@ -14,3 +14,4 @@ export {
 } from './components/DocumentPreview/components/HtmlView/HtmlView';
 export { CIDocument, canRenderCIDocument } from './components/CIDocument/CIDocument';
 export { default as StructuredQuery } from './components/StructuredQuery/StructuredQuery';
+export { getDocumentTitle } from './components/SearchResults/utils';
