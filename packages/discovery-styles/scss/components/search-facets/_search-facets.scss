@@ -10,6 +10,7 @@
 
 .#{$prefix}--search-facet {
   margin-bottom: $spacing-md;
+  word-break: break-word;
 }
 
 .#{$prefix}--search-facet__facet__label-and-selection-container {
