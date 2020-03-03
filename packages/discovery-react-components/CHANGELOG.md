@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-beta.44](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.43...@ibm-watson/discovery-react-components@1.1.0-beta.44) (2020-03-02)
+
+
+### Bug Fixes
+
+* better JSON doc handling for DocumentPreview ([#100](https://github.com/watson-developer-cloud/discovery-components/issues/100)) ([a7971c9](https://github.com/watson-developer-cloud/discovery-components/commit/a7971c9))
+
+
+
+
+
 # [1.1.0-beta.43](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.42...@ibm-watson/discovery-react-components@1.1.0-beta.43) (2020-02-20)
 
 **Note:** Version bump only for package @ibm-watson/discovery-react-components
