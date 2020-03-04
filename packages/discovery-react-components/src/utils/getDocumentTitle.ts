@@ -2,15 +2,15 @@ import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import get from 'lodash/get';
 
 export const getDocumentTitle = (
-  result: DiscoveryV2.QueryResult | undefined,
-  resultTitleField: string
+  document: DiscoveryV2.QueryResult | undefined,
+  titleField: string
 ): string => {
-  if (result) {
+  if (document) {
     return (
-      result[resultTitleField] ||
-      get(result, 'extracted_metadata.title') ||
-      get(result, 'extracted_metadata.filename') ||
-      result.document_id
+      document[titleField] ||
+      get(document, 'extracted_metadata.title') ||
+      get(document, 'extracted_metadata.filename') ||
+      document.document_id
     );
   }
   return '';
