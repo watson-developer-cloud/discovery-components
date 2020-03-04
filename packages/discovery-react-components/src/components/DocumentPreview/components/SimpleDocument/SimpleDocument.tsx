@@ -51,8 +51,8 @@ export const SimpleDocument: FC<Props> = ({
       (!highlight || !isPassage(highlight)) &&
       document[field] === undefined
     ) {
-      //TODO: FIX THIS HEATHER
-      html = 'test';
+      // An error message will be rendered
+      html = null;
     } else {
       // if there is a passage highlight, use text values from field specified in passage
       if (highlight && isPassage(highlight)) {
@@ -136,7 +136,6 @@ export const SimpleDocument: FC<Props> = ({
   const base = `${settings.prefix}--simple-document`;
   return html ? (
     <div className={base}>
-      <ErrorView />
       <div className={`${base}__wrapper`}>
         <div ref={highlightRef} />
         <div
@@ -146,7 +145,11 @@ export const SimpleDocument: FC<Props> = ({
         />
       </div>
     </div>
-  ) : null;
+  ) : (
+    <div className={base}>
+      <ErrorView />
+    </div>
+  );
 };
 
 export default SimpleDocument;
