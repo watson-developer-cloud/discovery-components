@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-beta.10](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-styles@1.1.0-beta.9...@ibm-watson/discovery-styles@1.1.0-beta.10) (2020-03-03)
+
+
+### Bug Fixes
+
+* search facet text not wrapping ([#103](https://github.com/watson-developer-cloud/discovery-components/issues/103)) ([83ce375](https://github.com/watson-developer-cloud/discovery-components/commit/83ce375))
+
+
+
+
+
 # [1.1.0-beta.9](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-styles@1.1.0-beta.8...@ibm-watson/discovery-styles@1.1.0-beta.9) (2020-02-14)
 
 
