@@ -9,7 +9,7 @@ describe('getDocumentTitle', () => {
         title: 'Family Day 2020 (Israel)'
       }
     };
-    expect(getDocumentTitle('title', mockResultWithTitle)).toEqual(
+    expect(getDocumentTitle(mockResultWithTitle, 'title')).toEqual(
       mockResultWithTitle.extracted_metadata.title
     );
   });
@@ -22,7 +22,7 @@ describe('getDocumentTitle', () => {
         filename: 'Family Day 2020 (Israel)'
       }
     };
-    expect(getDocumentTitle('title', mockResultWithFilename)).toEqual(
+    expect(getDocumentTitle(mockResultWithFilename, 'title')).toEqual(
       mockResultWithFilename.extracted_metadata.filename
     );
   });
@@ -34,7 +34,7 @@ describe('getDocumentTitle', () => {
         file_type: 'html'
       }
     };
-    expect(getDocumentTitle('title', mockResultWithoutTitle)).toEqual(
+    expect(getDocumentTitle(mockResultWithoutTitle, 'title')).toEqual(
       mockResultWithoutTitle.document_id
     );
   });

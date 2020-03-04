@@ -20,7 +20,7 @@ import {
   searchResultFooterTitleClass,
   searchResultFooterCollectionNameClass
 } from 'components/SearchResults/cssClasses';
-import { getDocumentTitle } from '../../utils';
+import { getDocumentTitle } from 'components/SearchResults/utils';
 import { Messages } from 'components/SearchResults/messages';
 
 export interface ResultProps {
@@ -114,7 +114,7 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   const hasText = displayedText && !showTablesOnlyResults;
   const emptyResultContent = !(hasText || tableHtml);
 
-  const title = getDocumentTitle(resultTitleField, result);
+  const title = getDocumentTitle(result, resultTitleField);
 
   const searchResultClasses = [searchResultClass];
   if (isEqual(result, selectedResult.document)) {
