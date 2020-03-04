@@ -1,4 +1,4 @@
-import { getDocumentTitle } from './components/SearchResults/utils';
+import { getDocumentTitle } from './utils/getDocumentTitle';
 export {
   default as DiscoverySearch,
   SearchApi,

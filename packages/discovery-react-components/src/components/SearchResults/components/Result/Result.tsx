@@ -20,7 +20,7 @@ import {
   searchResultFooterTitleClass,
   searchResultFooterCollectionNameClass
 } from 'components/SearchResults/cssClasses';
-import { getDocumentTitle } from 'components/SearchResults/utils';
+import { getDocumentTitle } from 'utils/getDocumentTitle';
 import { Messages } from 'components/SearchResults/messages';
 
 export interface ResultProps {

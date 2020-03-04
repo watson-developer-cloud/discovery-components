@@ -1,4 +1,4 @@
-import { getDocumentTitle } from '../index';
+import { getDocumentTitle } from '../getDocumentTitle';
 
 describe('getDocumentTitle', () => {
   test('returns result title', () => {
