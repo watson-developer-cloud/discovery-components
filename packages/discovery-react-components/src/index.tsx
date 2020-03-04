@@ -1,4 +1,3 @@
-import { getDocumentTitle } from './utils/getDocumentTitle';
 export {
   default as DiscoverySearch,
   SearchApi,
@@ -15,4 +14,4 @@ export {
 } from './components/DocumentPreview/components/HtmlView/HtmlView';
 export { CIDocument, canRenderCIDocument } from './components/CIDocument/CIDocument';
 export { default as StructuredQuery } from './components/StructuredQuery/StructuredQuery';
-export const utils = { getDocumentTitle };
+export { getDocumentTitle } from './utils/getDocumentTitle';
