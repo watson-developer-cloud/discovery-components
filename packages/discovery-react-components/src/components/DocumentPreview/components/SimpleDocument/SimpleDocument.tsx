@@ -7,7 +7,8 @@ import { clearNodeChildren } from 'utils/dom';
 import { findOffsetInDOM, createFieldRects } from 'utils/document/documentUtils';
 import { isPassage } from '../Highlight/passages';
 import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
-import { isJsonFile } from '../../utils/documentData';
+import { isJsonFile, isCsvFile } from '../../utils/documentData';
+import ErrorView from './ErrorView';
 
 interface Props {
   /**
@@ -31,8 +32,7 @@ export const SimpleDocument: FC<Props> = ({
   document,
   highlight,
   setLoading,
-  setHideToolbarControls,
-  cannotPreviewMessage = 'Cannot preview document'
+  setHideToolbarControls
 }) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
@@ -41,12 +41,18 @@ export const SimpleDocument: FC<Props> = ({
   let html,
     passage: QueryResultPassage | null = null;
   if (document) {
-    // JSON files will default to displaying the specified body field, `text` field, or passage highlighting field,
+    // JSON and CSV files will default to displaying the specified body field, `text` field, or passage highlighting field.
     // Otherwise an error is shown
     const isJsonType = isJsonFile(document);
+    const isCsvType = isCsvFile(document);
     let field = get(componentSettings, 'fields_shown.body.field', 'text');
-    if (isJsonType && (!highlight || !isPassage(highlight)) && document[field] === undefined) {
-      html = `<p>${cannotPreviewMessage}</p>`;
+    if (
+      (isJsonType || isCsvType) &&
+      (!highlight || !isPassage(highlight)) &&
+      document[field] === undefined
+    ) {
+      //TODO: FIX THIS HEATHER
+      html = 'test';
     } else {
       // if there is a passage highlight, use text values from field specified in passage
       if (highlight && isPassage(highlight)) {
@@ -130,6 +136,7 @@ export const SimpleDocument: FC<Props> = ({
   const base = `${settings.prefix}--simple-document`;
   return html ? (
     <div className={base}>
+      <ErrorView />
       <div className={`${base}__wrapper`}>
         <div ref={highlightRef} />
         <div

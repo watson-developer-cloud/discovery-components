@@ -305,8 +305,7 @@ describe('DocumentPreview', () => {
   };
 
   describe('with CSV files', () => {
-    // TODO: Currently fails since no error message is displayed if there is an unspecified body field and passage
-    it.skip('should show an error if no "body" field or passage have been specified', () => {
+    it('should show an error if no "body" field or passage have been specified', () => {
       act(() => {
         ({ getByText } = render(<DocumentPreview document={csvDoc} />));
       });
