@@ -246,7 +246,7 @@ describe('DocumentPreview', () => {
         ({ getByText } = render(<DocumentPreview document={errorJsonDoc} />));
       });
 
-      getByText('Can\'t preview document');
+      getByText("Can't preview document");
     });
 
     it('should render text field for JSON files', () => {
@@ -310,7 +310,7 @@ describe('DocumentPreview', () => {
         ({ getByText } = render(<DocumentPreview document={csvDoc} />));
       });
 
-      getByText('Can\'t preview document');
+      getByText("Can't preview document");
     });
 
     it('should render specfied "body" field', () => {
