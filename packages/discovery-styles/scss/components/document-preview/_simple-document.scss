@@ -1,6 +1,5 @@
 @import '../../vars';
 
-$width: 500px;
 $icon-size: 80px;
 
 .#{$prefix}--simple-document {
@@ -25,7 +24,7 @@ $icon-size: 80px;
 }
 
 .#{$prefix}--simple-document__error-view {
-  width: $width;
+  width: $empty_state_message_width;
   padding: 15vh 0;
   display: flex;
   align-items: center;
@@ -42,10 +41,10 @@ $icon-size: 80px;
 .#{$prefix}--simple-document__error-view__header {
   font-size: 1.25rem;
   padding-bottom: $spacing-sm;
-  color: #171717; // primary text color in tooling
+  color: $gray-70;
 }
 
 .#{$prefix}--simple-document__error-view__message {
   font-size: 0.875rem;
-  color: #565656; // secondary text color in tooling
+  color: $gray-100;
 }

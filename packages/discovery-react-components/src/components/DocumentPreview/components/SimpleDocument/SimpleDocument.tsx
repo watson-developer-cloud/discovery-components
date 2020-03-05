@@ -34,8 +34,8 @@ export const SimpleDocument: FC<Props> = ({
   highlight,
   setLoading,
   setHideToolbarControls,
-  cannotPreviewHeader = `Can’t preview document`,
-  cannotPreviewMessage = `Try the JSON tab for a different view of this document's data.`
+  cannotPreviewHeader = "Can't preview document",
+  cannotPreviewMessage = "Try the JSON tab for a different view of this document's data."
 }) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
