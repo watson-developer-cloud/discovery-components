@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-beta.11](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-styles@1.1.0-beta.10...@ibm-watson/discovery-styles@1.1.0-beta.11) (2020-03-05)
+
+
+### Features
+
+* add DocumentPreview error message ([#104](https://github.com/watson-developer-cloud/discovery-components/issues/104)) ([e1a7442](https://github.com/watson-developer-cloud/discovery-components/commit/e1a7442))
+
+
+
+
+
 # [1.1.0-beta.10](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-styles@1.1.0-beta.9...@ibm-watson/discovery-styles@1.1.0-beta.10) (2020-03-03)
 
 
