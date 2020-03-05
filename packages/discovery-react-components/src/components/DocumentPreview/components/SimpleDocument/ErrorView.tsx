@@ -8,15 +8,15 @@ type ErrorStateProps = {
 };
 
 const ErrorState: FC<ErrorStateProps> = ({ header, message }) => {
-  const base = `${settings.prefix}--simple-document__error-view`;
+  const baseClass = `${settings.prefix}--simple-document__error-view`;
   return (
-    <div className={base} data-testid="error_state">
-      <div className={`${base}__icon`}>
+    <div className={baseClass} data-testid="error_state">
+      <div className={`${baseClass}__icon`}>
         <DocumentPreviewIcon />
       </div>
       <div>
-        <h1 className={`${base}__header`}>{header}</h1>
-        <div className={`${base}__message`}>{message}</div>
+        <h1 className={`${baseClass}__header`}>{header}</h1>
+        <div className={`${baseClass}__message`}>{message}</div>
       </div>
     </div>
   );
