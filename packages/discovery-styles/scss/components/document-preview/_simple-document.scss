@@ -1,5 +1,8 @@
 @import '../../vars';
 
+$width: 500px;
+$icon-size: 80px;
+
 .#{$prefix}--simple-document {
   display: flex;
   justify-content: center;
@@ -21,13 +24,9 @@
   max-width: 78ch;
 }
 
-$width: 500px;
-$icon-size: 80px;
-
 .#{$prefix}--simple-document__error-view {
   width: $width;
-  padding-top: 15vh;
-  padding-bottom: 15vh;
+  padding: 15vh 0;
   display: flex;
   align-items: center;
   justify-content: center;

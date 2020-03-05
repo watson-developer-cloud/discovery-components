@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { FC, ReactNode } from 'react';
 import { settings } from 'carbon-components';
 import { ReactComponent as DocumentPreviewIcon } from './icons/document_preview.svg';
 
-const ErrorState = () => {
+type ErrorStateProps = {
+  header: ReactNode;
+  message: ReactNode;
+};
+
+const ErrorState: FC<ErrorStateProps> = ({ header, message }) => {
   const base = `${settings.prefix}--simple-document__error-view`;
   return (
     <div className={base} data-testid="error_state">
@@ -10,10 +15,8 @@ const ErrorState = () => {
         <DocumentPreviewIcon />
       </div>
       <div>
-        <h1 className={`${base}__header`}>Can’t preview document</h1>
-        <div className={`${base}__message`}>
-          Try the JSON tab for a different view of this document's data.
-        </div>
+        <h1 className={`${base}__header`}>{header}</h1>
+        <div className={`${base}__message`}>{message}</div>
       </div>
     </div>
   );
