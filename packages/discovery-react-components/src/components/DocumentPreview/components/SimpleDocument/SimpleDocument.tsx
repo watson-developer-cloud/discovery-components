@@ -25,8 +25,8 @@ interface Props {
    */
   setHideToolbarControls?: (disabled: boolean) => void;
 
-  cannotPreviewHeader?: string;
   cannotPreviewMessage?: string;
+  cannotPreviewMessage2?: string;
 }
 
 export const SimpleDocument: FC<Props> = ({
@@ -34,8 +34,8 @@ export const SimpleDocument: FC<Props> = ({
   highlight,
   setLoading,
   setHideToolbarControls,
-  cannotPreviewHeader = "Can't preview document",
-  cannotPreviewMessage = "Try the JSON tab for a different view of this document's data."
+  cannotPreviewMessage = "Can't preview document",
+  cannotPreviewMessage2 = "Try the JSON tab for a different view of this document's data."
 }) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
@@ -144,7 +144,7 @@ export const SimpleDocument: FC<Props> = ({
           />
         </div>
       ) : (
-        <ErrorView header={cannotPreviewHeader} message={cannotPreviewMessage} />
+        <ErrorView header={cannotPreviewMessage} message={cannotPreviewMessage2} />
       )}
     </div>
   );
