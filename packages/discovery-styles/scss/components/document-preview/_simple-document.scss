@@ -41,10 +41,10 @@ $icon-size: 80px;
 .#{$prefix}--simple-document__error-view__header {
   font-size: 1.25rem;
   padding-bottom: $spacing-sm;
-  color: $gray-70;
+  color: $gray-100;
 }
 
 .#{$prefix}--simple-document__error-view__message {
   font-size: 0.875rem;
-  color: $gray-100;
+  color: $gray-70;
 }
