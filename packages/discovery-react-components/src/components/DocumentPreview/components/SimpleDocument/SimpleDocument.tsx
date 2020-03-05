@@ -7,7 +7,8 @@ import { clearNodeChildren } from 'utils/dom';
 import { findOffsetInDOM, createFieldRects } from 'utils/document/documentUtils';
 import { isPassage } from '../Highlight/passages';
 import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
-import { isJsonFile } from '../../utils/documentData';
+import { isJsonFile, isCsvFile } from '../../utils/documentData';
+import ErrorView from './ErrorView';
 
 interface Props {
   /**
@@ -25,6 +26,7 @@ interface Props {
   setHideToolbarControls?: (disabled: boolean) => void;
 
   cannotPreviewMessage?: string;
+  cannotPreviewMessage2?: string;
 }
 
 export const SimpleDocument: FC<Props> = ({
@@ -32,7 +34,8 @@ export const SimpleDocument: FC<Props> = ({
   highlight,
   setLoading,
   setHideToolbarControls,
-  cannotPreviewMessage = 'Cannot preview document'
+  cannotPreviewMessage = "Can't preview document",
+  cannotPreviewMessage2 = "Try the JSON tab for a different view of this document's data."
 }) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
@@ -41,12 +44,13 @@ export const SimpleDocument: FC<Props> = ({
   let html,
     passage: QueryResultPassage | null = null;
   if (document) {
-    // JSON files will default to displaying the specified body field, `text` field, or passage highlighting field,
+    // JSON and CSV files will default to displaying the specified body field, `text` field, or passage highlighting field.
     // Otherwise an error is shown
-    const isJsonType = isJsonFile(document);
+    const isJsonOrCsvType = isJsonFile(document) || isCsvFile(document);
     let field = get(componentSettings, 'fields_shown.body.field', 'text');
-    if (isJsonType && (!highlight || !isPassage(highlight)) && document[field] === undefined) {
-      html = `<p>${cannotPreviewMessage}</p>`;
+    if (isJsonOrCsvType && (!highlight || !isPassage(highlight)) && document[field] === undefined) {
+      // An error message will be rendered
+      html = null;
     } else {
       // if there is a passage highlight, use text values from field specified in passage
       if (highlight && isPassage(highlight)) {
@@ -127,19 +131,23 @@ export const SimpleDocument: FC<Props> = ({
     }
   }, [passage]);
 
-  const base = `${settings.prefix}--simple-document`;
-  return html ? (
-    <div className={base}>
-      <div className={`${base}__wrapper`}>
-        <div ref={highlightRef} />
-        <div
-          className={`${base}__content`}
-          dangerouslySetInnerHTML={{ __html: html }}
-          ref={contentRef}
-        />
-      </div>
+  const baseClass = `${settings.prefix}--simple-document`;
+  return (
+    <div className={baseClass}>
+      {html ? (
+        <div className={`${baseClass}__wrapper`}>
+          <div ref={highlightRef} />
+          <div
+            className={`${baseClass}__content`}
+            dangerouslySetInnerHTML={{ __html: html }}
+            ref={contentRef}
+          />
+        </div>
+      ) : (
+        <ErrorView header={cannotPreviewMessage} message={cannotPreviewMessage2} />
+      )}
     </div>
-  ) : null;
+  );
 };
 
 export default SimpleDocument;

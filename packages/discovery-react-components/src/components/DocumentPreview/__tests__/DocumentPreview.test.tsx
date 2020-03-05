@@ -246,7 +246,7 @@ describe('DocumentPreview', () => {
         ({ getByText } = render(<DocumentPreview document={errorJsonDoc} />));
       });
 
-      getByText('Cannot preview document');
+      getByText("Can't preview document");
     });
 
     it('should render text field for JSON files', () => {
@@ -305,13 +305,12 @@ describe('DocumentPreview', () => {
   };
 
   describe('with CSV files', () => {
-    // TODO: Currently fails since no error message is displayed if there is an unspecified body field and passage
-    it.skip('should show an error if no "body" field or passage have been specified', () => {
+    it('should show an error if no "body" field or passage have been specified', () => {
       act(() => {
         ({ getByText } = render(<DocumentPreview document={csvDoc} />));
       });
 
-      getByText('Cannot preview document');
+      getByText("Can't preview document");
     });
 
     it('should render specfied "body" field', () => {
