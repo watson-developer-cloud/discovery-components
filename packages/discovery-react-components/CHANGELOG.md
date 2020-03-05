@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-beta.45](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.44...@ibm-watson/discovery-react-components@1.1.0-beta.45) (2020-03-04)
+
+
+### Bug Fixes
+
+* inconsistent document naming ([#102](https://github.com/watson-developer-cloud/discovery-components/issues/102)) ([f0ee33c](https://github.com/watson-developer-cloud/discovery-components/commit/f0ee33c))
+
+
+
+
+
 # [1.1.0-beta.44](https://github.com/watson-developer-cloud/discovery-components/compare/@ibm-watson/discovery-react-components@1.1.0-beta.43...@ibm-watson/discovery-react-components@1.1.0-beta.44) (2020-03-02)
 
 
