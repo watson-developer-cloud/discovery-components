@@ -9,6 +9,10 @@ $nav-toolbar-height: 42px;
   min-height: 100vh;
 }
 
+h1 {
+  font-weight: 400;
+}
+
 .#{$prefix}--search-app__nav-toolbar {
   background-color: $nav-toolbar-background-color;
   color: white;
