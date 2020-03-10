@@ -9,7 +9,8 @@ addons:
 branches:
   only:
     - develop
-    - january_fix_pack
+    - /release\/.*/
+    - /hotfix\/.*/
 script:
   - yarn lint
   - lerna run build
@@ -27,7 +28,7 @@ before_deploy:
 deploy:
   # do regular beta releases
   - provider: script
-    script: npx lerna publish -y --conventional-prerelease --preid beta --dist-tag beta
+    script: npx lerna publish -y --conventional-prerelease --no-changelog --preid beta --dist-tag beta
     skip_cleanup: true
     on:
       branch: develop
