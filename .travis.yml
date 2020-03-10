@@ -9,8 +9,8 @@ addons:
 branches:
   only:
     - develop
-    - /release\/.*/
-    - /hotfix\/.*/
+    - /^release\/.*/
+    - /^hotfix\/.*/
 script:
   - yarn lint
   - lerna run build
@@ -32,6 +32,12 @@ deploy:
     skip_cleanup: true
     on:
       branch: develop
+  # do release candidate releases
+  - provider: script
+    script: npx lerna publish -y --conventional-prerelease --no-changelog --preid rc --dist-tag rc
+    skip_cleanup: true
+    on:
+      branch: /^release\/.*/
 notifications:
   email:
     on_success: change
