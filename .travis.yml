@@ -10,6 +10,7 @@ branches:
   only:
     - develop
     - /release\/.*/
+    - /hotfix\/.*/
 script:
   - yarn lint
   - lerna run build
