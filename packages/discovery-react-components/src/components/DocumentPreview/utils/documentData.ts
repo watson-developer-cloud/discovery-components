@@ -24,3 +24,17 @@ export function getTextMappings(
   }
   return mappings;
 }
+
+/**
+ * Returns true if the `file_type` is CSV
+ */
+export function isCsvFile(doc: QueryResult | null | undefined): boolean {
+  return get(doc, 'extracted_metadata.file_type') === 'csv';
+}
+
+/**
+ * Returns true if the `file_type` is JSON
+ */
+export function isJsonFile(doc: QueryResult | null | undefined): boolean {
+  return get(doc, 'extracted_metadata.file_type') === 'json';
+}

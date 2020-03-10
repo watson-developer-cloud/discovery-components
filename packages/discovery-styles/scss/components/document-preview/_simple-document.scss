@@ -1,5 +1,7 @@
 @import '../../vars';
 
+$icon-size: 80px;
+
 .#{$prefix}--simple-document {
   display: flex;
   justify-content: center;
@@ -19,4 +21,30 @@
 
 .#{$prefix}--simple-document__content {
   max-width: 78ch;
+}
+
+.#{$prefix}--simple-document__error-view {
+  width: $empty_state_message_width;
+  padding: 15vh 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.#{$prefix}--simple-document__error-view__icon {
+  display: inline-block;
+  width: $icon-size;
+  height: $icon-size;
+  margin-right: $spacing-lg;
+}
+
+.#{$prefix}--simple-document__error-view__header {
+  font-size: 1.25rem;
+  padding-bottom: $spacing-sm;
+  color: $gray-100;
+}
+
+.#{$prefix}--simple-document__error-view__message {
+  font-size: 0.875rem;
+  color: $gray-70;
 }

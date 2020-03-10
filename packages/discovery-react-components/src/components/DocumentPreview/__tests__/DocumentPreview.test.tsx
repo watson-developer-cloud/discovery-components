@@ -52,7 +52,9 @@ describe('DocumentPreview', () => {
       return mockedBbox;
     };
     // This is added since the context needs to be reset to defaults for renders not wrappedWithContext
-    context.componentSettings = undefined;
+    if (context.componentSettings) {
+      context.componentSettings.fields_shown!.body = undefined;
+    }
   });
 
   afterEach(() => ((SVGElement.prototype as SVGTextElement).getBBox = originalGetBBox));
@@ -237,9 +239,16 @@ describe('DocumentPreview', () => {
     body_field: 'I am a specified "body" field.'
   };
 
-  // TODO: All of these currently fail since DocumentPreview defaults to HtmlView if a HTML field is present.
-  // TODO: Also fails because SimpleDocument will not show a JSON document without a passage highlight.
-  describe.skip('with JSON files', () => {
+  describe('with JSON files', () => {
+    it('should show an error if no text field exists and no "body" field or passage has been specified', () => {
+      const errorJsonDoc = omit(jsonDoc, 'html', 'text');
+      act(() => {
+        ({ getByText } = render(<DocumentPreview document={errorJsonDoc} />));
+      });
+
+      getByText("Can't preview document");
+    });
+
     it('should render text field for JSON files', () => {
       act(() => {
         ({ getByText } = render(<DocumentPreview document={jsonDoc} />));
@@ -296,13 +305,12 @@ describe('DocumentPreview', () => {
   };
 
   describe('with CSV files', () => {
-    // TODO: Currently fails since no error message is displayed if there is an unspecified body field and passage
-    it.skip('should show an error if no "body" field or passage have been specified', () => {
+    it('should show an error if no "body" field or passage have been specified', () => {
       act(() => {
         ({ getByText } = render(<DocumentPreview document={csvDoc} />));
       });
 
-      getByText('Cannot preview document');
+      getByText("Can't preview document");
     });
 
     it('should render specfied "body" field', () => {
