@@ -74,7 +74,7 @@ interface FetchToken {
 }
 
 /**
- * custom hook that fetches and stores data while handling complex condidions such as:
+ * Custom hook that fetches and stores data while handling complex condidions such as:
  * - request cancellation
  * - latest data fetching
  * - error handling
@@ -83,7 +83,6 @@ interface FetchToken {
  * @param searchClientMethod - api method reference on the searchClient
  * @param searchClient - the client used to do data fetching
  */
-
 const useDataApi = (
   initialParameters: any,
   initialData: any,
@@ -103,9 +102,11 @@ const useDataApi = (
     isError: false,
     data: initialData
   });
+
   const setData = (data: any): void => {
     dispatch({ type: 'FETCH_SUCCESS', payload: data });
   };
+
   const fetchData = useCallback(
     async (parameters, requestId, callback): Promise<void> => {
       dispatch({ type: 'FETCH_REQUEST' });
@@ -145,6 +146,7 @@ const useDataApi = (
       setFetchToken({ trigger: false, callback: undefined });
     }
   }, [fetchToken, fetchData, parameters]);
+
   return { state, parameters, setParameters, setData, setFetchToken };
 };
 
@@ -180,7 +182,7 @@ export interface FieldsStoreActions {
 }
 
 /**
- * concrete usage of the useDataApi helper method for fetching project fields
+ * Concrete usage of the useDataApi helper method for fetching project fields
  * @param searchParameters - initial search parameters to set
  * @param searchClient - search client used to perform requests
  * @return a 2-element array containing the fields store data and fields-specific store actions
@@ -196,12 +198,13 @@ export const useFieldsApi = (
     searchClient.listFields,
     searchClient
   );
+
+  const fetchFields = useCallback(() => setFetchToken({ trigger: true }), [setFetchToken]);
+
   return [
     fieldsState,
     {
-      fetchFields: () => {
-        setFetchToken({ trigger: true });
-      },
+      fetchFields,
       setFieldsResponse
     }
   ];
@@ -252,6 +255,14 @@ export const useSearchResultsApi = (
     setData: setSearchResponse,
     setFetchToken
   } = useDataApi(searchParameters, overrideSearchResults, searchClient.query, searchClient);
+
+  // callback can be passed in here to return back data to the invoker of the search
+  // in the specific case here, we need to set our aggregation store after performing a search
+  const performSearch = useCallback(
+    (callback?: (result: any) => void): void => setFetchToken({ trigger: true, callback }),
+    [setFetchToken]
+  );
+
   return [
     {
       ...searchState,
@@ -260,10 +271,7 @@ export const useSearchResultsApi = (
     {
       setSearchParameters,
       setSearchResponse,
-      // callback can be passed in here to return back data to the invoker of the search
-      // in the specific case here, we need to set our aggregation store after performing a search
-      performSearch: (callback?: (result: any) => void): void =>
-        setFetchToken({ trigger: true, callback })
+      performSearch
     }
   ];
 };
@@ -302,18 +310,21 @@ export const useFetchDocumentsApi = (
     searchClient.query,
     searchClient
   );
+
+  const fetchDocuments = useCallback(
+    (filter: string, callback: (result: DiscoveryV2.QueryResponse) => void): void => {
+      setSearchParameters((currentSearchParameters: DiscoveryV2.QueryParams) => {
+        return { ...currentSearchParameters, filter };
+      });
+      setFetchToken({ trigger: true, callback });
+    },
+    [setSearchParameters, setFetchToken]
+  );
+
   return [
     searchState,
     {
-      fetchDocuments: (
-        filter: string,
-        callback: (result: DiscoveryV2.QueryResponse) => void
-      ): void => {
-        setSearchParameters((currentSearchParameters: DiscoveryV2.QueryParams) => {
-          return { ...currentSearchParameters, filter };
-        });
-        setFetchToken({ trigger: true, callback });
-      }
+      fetchDocuments
     }
   ];
 };
@@ -361,6 +372,15 @@ export const useAutocompleteApi = (
     searchClient.getAutocompletion,
     searchClient
   );
+
+  const fetchAutocompletions = useCallback(
+    (autocompleteParameters: DiscoveryV2.GetAutocompletionParams): void => {
+      setAutocompleteParameters(autocompleteParameters);
+      setFetchToken({ trigger: true });
+    },
+    [setAutocompleteParameters, setFetchToken]
+  );
+
   return [
     {
       ...autocompletionsState,
@@ -368,10 +388,7 @@ export const useAutocompleteApi = (
     },
     {
       setAutocompletions,
-      fetchAutocompletions: (autocompleteParameters: DiscoveryV2.GetAutocompletionParams): void => {
-        setAutocompleteParameters(autocompleteParameters);
-        setFetchToken({ trigger: true });
-      }
+      fetchAutocompletions
     }
   ];
 };
