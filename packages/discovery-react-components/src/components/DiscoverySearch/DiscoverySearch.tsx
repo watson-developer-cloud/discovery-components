@@ -1,4 +1,4 @@
-import React, { createContext, FC, useEffect, useState, useMemo, useCallback } from 'react';
+import React, { createContext, FC, useEffect, useState, useCallback } from 'react';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import {
   useDeepCompareEffect,
@@ -354,7 +354,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
         setAutocompletions(null);
       }
     },
-    [autocompletionOptions, projectId, searchClient]
+    [autocompletionOptions, projectId]
   );
 
   const handleFetchAggregations = useCallback(
