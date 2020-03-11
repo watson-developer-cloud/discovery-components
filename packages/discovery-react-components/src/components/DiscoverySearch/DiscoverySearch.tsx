@@ -343,7 +343,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
         const prefix = queryArray[queryArray.length - 1];
         const completionParams = {
           projectId,
-          prefix: prefix,
+          prefix,
           count: completionsCount
         };
 
@@ -417,26 +417,17 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
     fetchFields();
   }, [fetchFields]);
 
-  const api = useMemo((): SearchApiIFC => {
-    return {
-      performSearch: handleSearch,
-      fetchAggregations: handleFetchAggregations,
-      fetchAutocompletions: handleFetchAutocompletions,
-      fetchDocuments: handleFetchDocuments,
-      setSelectedResult: handleSetSelectedResult,
-      setAutocompletionOptions,
-      setSearchParameters,
-      setIsResultsPaginationComponentHidden,
-      fetchFields: handleFetchFields
-    };
-  }, [
-    handleSearch,
-    handleFetchAggregations,
-    handleFetchAutocompletions,
-    handleFetchDocuments,
+  const api = {
+    performSearch: handleSearch,
+    fetchAggregations: handleFetchAggregations,
+    fetchAutocompletions: handleFetchAutocompletions,
+    fetchDocuments: handleFetchDocuments,
+    setSelectedResult: handleSetSelectedResult,
+    setAutocompletionOptions,
     setSearchParameters,
-    handleFetchFields
-  ]);
+    setIsResultsPaginationComponentHidden,
+    fetchFields: handleFetchFields
+  };
 
   const state = useDeepCompareMemo(() => {
     return {
