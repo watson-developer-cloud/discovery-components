@@ -95,7 +95,8 @@ const SearchFacets: FC<SearchFacetsProps> = ({
 
   useEffect(() => {
     fetchAggregations(searchParameters);
-  }, [fetchAggregations, searchParameters, searchParameters.aggregation]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetchAggregations, searchParameters.aggregation]);
 
   useDeepCompareEffect(() => {
     if (filter === '') {
