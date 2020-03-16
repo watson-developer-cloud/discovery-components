@@ -37,7 +37,8 @@ deploy:
     script: npx lerna publish -y --conventional-prerelease --no-changelog --preid rc --dist-tag rc
     skip_cleanup: true
     on:
-      branch: /^release\/.*/
+      all_branches: true
+      condition: ${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH} =~ ^release\/.*$
 notifications:
   email:
     on_success: change
