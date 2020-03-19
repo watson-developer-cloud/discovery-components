@@ -430,6 +430,7 @@ We are adopting a ["oneflow" branching strategy](https://www.endoflineblog.com/o
   - `git merge --ff-only @ibm-watson/discovery-react-components@1.0.1`
 - `release/x.x.x` is a temporary branch created for beginning a production release. this contains all the features needed for the release and will only receive bugfixes. Once the release is complete, this branch is tagged and merged back into `develop`. example steps:
   - `git checkout release/2.3.0`
+  - `yarn install && yarn workspace @ibm-watson/discovery-components run storybook:build`
   - if we want to publish a release candidate (not final build):
     - `npx lerna publish --conventional-prerelease --preid rc --dist-tag rc`
     - (after we find out the `rc` is good to go) `npx lerna publish --create-release github --conventional-graduate` [docs](https://github.com/lerna/lerna/blob/master/commands/version/README.md#--conventional-graduate)
