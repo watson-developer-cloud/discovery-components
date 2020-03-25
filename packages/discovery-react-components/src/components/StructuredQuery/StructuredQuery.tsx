@@ -52,8 +52,7 @@ const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages 
   const { fetchFields } = useContext(SearchApi);
   useEffect(() => {
     fetchFields();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [fetchFields]);
 
   return (
     <div className={structuredQueryClass}>

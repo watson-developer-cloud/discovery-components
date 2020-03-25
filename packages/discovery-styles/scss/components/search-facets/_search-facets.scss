@@ -11,6 +11,11 @@
 .#{$prefix}--search-facet {
   margin-bottom: $spacing-md;
   word-break: break-word;
+
+  // To prevent tags text from breaking inside of search facet
+  .#{$prefix}--tag--filter {
+    word-break: normal;
+  }
 }
 
 .#{$prefix}--search-facet__facet__label-and-selection-container {
