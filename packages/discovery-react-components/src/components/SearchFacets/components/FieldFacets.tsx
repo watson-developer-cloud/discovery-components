@@ -98,30 +98,32 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
 
   return (
     <div>
-      {allFacets.map((aggregation: InternalQueryTermAggregation, i: number) => {
-        const aggregationResults: SelectableQueryTermAggregationResult[] = get(
-          aggregation,
-          'results',
-          []
-        );
+      {allFacets
+        .map((aggregation: InternalQueryTermAggregation, i: number) => {
+          const aggregationResults: SelectableQueryTermAggregationResult[] = get(
+            aggregation,
+            'results',
+            []
+          );
 
-        if (aggregationResults.length === 0) {
-          return;
-        }
+          if (aggregationResults.length === 0) {
+            return null;
+          }
 
-        return (
-          <CollapsibleFacetsGroup
-            key={`collapsible-facet-group-${i}`}
-            collapsedFacetsCount={collapsedFacetsCount}
-            messages={messages}
-            aggregationSettings={aggregation}
-            facets={aggregationResults}
-            facetsTextField="key"
-            onClear={handleOnClear}
-            onChange={handleOnChange}
-          />
-        );
-      })}
+          return (
+            <CollapsibleFacetsGroup
+              key={`collapsible-facet-group-${i}`}
+              collapsedFacetsCount={collapsedFacetsCount}
+              messages={messages}
+              aggregationSettings={aggregation}
+              facets={aggregationResults}
+              facetsTextField="key"
+              onClear={handleOnClear}
+              onChange={handleOnChange}
+            />
+          );
+        })
+        .filter(item => !!item)}
     </div>
   );
 };

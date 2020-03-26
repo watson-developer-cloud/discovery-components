@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import { Parser, EVENTS } from 'htmlparser2';
+import { Parser as _Parser, EVENTS } from 'htmlparser2';
 
 /**
  * SAX-style Parser
@@ -9,7 +9,7 @@ import { Parser, EVENTS } from 'htmlparser2';
  *
  */
 
-export type Parser = Parser;
+export type Parser = _Parser;
 export interface Attributes {
   [s: string]: string;
 }
@@ -43,7 +43,7 @@ export class SaxParser {
       return handler;
     }, {});
 
-    this.parser = new Parser(handler, { decodeEntities: false });
+    this.parser = new _Parser(handler, { decodeEntities: false });
   }
 
   /**

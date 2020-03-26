@@ -73,7 +73,7 @@ export class SearchFilterTransform {
 
   static fieldsToString(facets: InternalQueryTermAggregation[]): string {
     const filterStrings: string[] = [];
-    facets.map(facet => {
+    facets.forEach(facet => {
       const field = get(facet, 'field', '');
       const results = get(facet, 'results', []);
       const keys = this.quoteSelectedFacets(results, 'key');
