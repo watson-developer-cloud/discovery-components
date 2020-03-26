@@ -56,6 +56,12 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
     <>
       {facets.map(facet => {
         const text = get(facet, facetsTextField, '');
+        const matchingResults = get(facet, 'matching_results');
+        let fullText = text;
+        // To prevent showing the number of Dynamic Facets until the API supports this
+        if (matchingResults > 0) {
+          fullText += ' (' + matchingResults + ')';
+        }
         const query = naturalLanguageQuery || '';
         const buff = new Buffer(query + text);
         const base64data = buff.toString('base64');
@@ -65,7 +71,7 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
             className={optionLabelClass}
             wrapperClassName={optionClass}
             onChange={handleOnChange}
-            labelText={text}
+            labelText={fullText}
             key={`checkbox-${escapedName}-${base64data}`}
             id={`checkbox-${escapedName}-${text.replace(/\s+/g, '_')}`}
             data-name={aggregationSettings.name || aggregationSettings.field}

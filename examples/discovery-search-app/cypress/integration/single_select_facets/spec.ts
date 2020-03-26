@@ -50,6 +50,12 @@ describe('Single-Select Facets', () => {
         .should('have.length', 3);
     });
 
+    it('facets have matching results count', () => {
+      cy.get('@cityFacet')
+        .contains('Boston, MA (30000)')
+        .should('exist');
+    });
+
     describe('and a facet filter is selected', () => {
       beforeEach(() => {
         cy.route('POST', '**/query?version=2019-01-01', '@facetsQueryAmesJSON').as(
