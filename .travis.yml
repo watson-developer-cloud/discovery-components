@@ -31,7 +31,7 @@ deploy:
     script: npx lerna publish -y --conventional-prerelease --no-changelog --preid beta --dist-tag beta
     skip_cleanup: true
     on:
-      branch: develop
+      branch: master
   # do release candidate releases
   - provider: script
     script: npx lerna publish -y --conventional-prerelease --no-changelog --preid rc --dist-tag rc
