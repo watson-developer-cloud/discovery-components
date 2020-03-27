@@ -19,6 +19,7 @@ import { SearchClient } from './types';
 import { withErrorBoundary } from 'react-error-boundary';
 import { FallbackComponent } from 'utils/FallbackComponent';
 import onErrorCallback from 'utils/onErrorCallback';
+import { buildAggregationQuery } from 'components/SearchFacets/utils/buildAggregationQuery';
 
 export type SearchParams = Omit<DiscoveryV2.QueryParams, 'projectId' | 'headers'>;
 
@@ -247,6 +248,18 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
     searchClient
   );
 
+  const fetchTypeForTopEntitiesAggregation: any = useCallback(
+    async (aggregationResults: any, searchParams: any) => {
+      const updatedAggQuery = buildAggregationQuery(aggregationResults, searchParams.aggregation);
+      const updatedSearchParameters = {
+        ...searchParams,
+        aggregation: updatedAggQuery
+      };
+      const { result } = await searchClient.query(updatedSearchParameters);
+      return result.aggregations;
+    }
+  );
+
   const handleSearch = useCallback(
     async (searchParameters, resetAggregations = true): Promise<void> => {
       let aggregationsFetched = false;
@@ -256,20 +269,28 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
         aggregationsFetched = true;
         searchClient
           .query({ ...searchParameters, ...aggregationQueryDefaults, filter: '' })
-          .then(response => {
+          .then(async response => {
             if (response && response.result && response.result.aggregations) {
-              setAggregationResults(response.result.aggregations);
+              const updatedAggregations = await fetchTypeForTopEntitiesAggregation(
+                response.result.aggregations,
+                searchParameters
+              );
+              setAggregationResults(updatedAggregations || null);
             }
           });
       }
 
-      performSearch(result => {
+      performSearch(async result => {
         if (!aggregationsFetched && resetAggregations && result && result.aggregations) {
-          setAggregationResults(result.aggregations);
+          const updatedAggregations = await fetchTypeForTopEntitiesAggregation(
+            result.aggregations,
+            searchParameters
+          );
+          setAggregationResults(updatedAggregations || null);
         }
       });
     },
-    [performSearch, searchClient, setSearchParameters]
+    [fetchTypeForTopEntitiesAggregation, performSearch, searchClient, setSearchParameters]
   );
 
   const [autocompletionStore, { fetchAutocompletions, setAutocompletions }] = useAutocompleteApi(
@@ -374,10 +395,14 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       const { result } = await searchClient.query(searchParametersWithAggregationDefaults);
       if (result) {
         const { aggregations } = result;
-        setAggregationResults(aggregations || null);
+        const updatedAggregations = await fetchTypeForTopEntitiesAggregation(
+          aggregations,
+          searchParametersWithAggregationDefaults
+        );
+        setAggregationResults(updatedAggregations || null);
       }
     },
-    [searchClient, setSearchParameters]
+    [fetchTypeForTopEntitiesAggregation, searchClient, setSearchParameters]
   );
 
   const handleSetSelectedResult = (overrideSelectedResult: SelectedResult) => {
