@@ -56,12 +56,8 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
     <>
       {facets.map(facet => {
         const text = get(facet, facetsTextField, '');
-        const matchingResults = facet.matching_results || 0;
-        let labelText = text;
-        // To prevent showing the number of Dynamic Facets until the API supports this
-        if (matchingResults > 0) {
-          labelText += ' (' + matchingResults + ')';
-        }
+        const matchingResults = facet.matching_results || null;
+        const labelText = matchingResults ? text + ' (' + matchingResults + ')' : text;
         const query = naturalLanguageQuery || '';
         const buff = new Buffer(query + text);
         const base64data = buff.toString('base64');
