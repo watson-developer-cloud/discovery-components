@@ -64,8 +64,6 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     collectionsResults,
     componentSettings
   } = useContext(SearchContext);
-  const { fetchAggregations, performSearch } = useContext(SearchApi);
-
   const [facetSelectionState, setFacetSelectionState] = useState<SearchFilterFacets>(
     SearchFilterTransform.fromString(filter || '')
   );
@@ -87,6 +85,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
   const [collectionSelectionState, setCollectionSelectionState] = useState<
     SelectedCollectionItems['selectedItems']
   >(initialSelectedCollections);
+  const { fetchAggregations, performSearch } = useContext(SearchApi);
   const aggregations = aggregationResults || [];
   const mergedMessages = { ...defaultMessages, ...messages };
   const componentSettingsAggregations =
