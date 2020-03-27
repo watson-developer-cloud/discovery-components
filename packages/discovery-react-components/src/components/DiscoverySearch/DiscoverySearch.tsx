@@ -92,8 +92,13 @@ export const emptySelectedResult = {
   elementType: null
 };
 
+export interface QueryAggregationResults extends DiscoveryV2.QueryAggregation {
+  field?: string;
+  count?: number;
+}
+
 export interface SearchContextIFC {
-  aggregationResults: DiscoveryV2.QueryAggregation[] | null;
+  aggregationResults: QueryAggregationResults[] | null;
   searchResponseStore: SearchResponseStore;
   fetchDocumentsResponseStore: FetchDocumentsResponseStore;
   collectionsResults: DiscoveryV2.ListCollectionsResponse | null;

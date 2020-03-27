@@ -59,13 +59,15 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
         const query = naturalLanguageQuery || '';
         const buff = new Buffer(query + text);
         const base64data = buff.toString('base64');
+        const type = facet.aggregations ? facet.aggregations[0].results[0].key : false;
+        const labelText = type ? text + ' (' + type + ')' : text;
 
         return (
           <CarbonCheckbox
             className={optionLabelClass}
             wrapperClassName={optionClass}
             onChange={handleOnChange}
-            labelText={text}
+            labelText={labelText}
             key={`checkbox-${escapedName}-${base64data}`}
             id={`checkbox-${escapedName}-${text.replace(/\s+/g, '_')}`}
             data-name={aggregationSettings.name || aggregationSettings.field}

@@ -3,6 +3,7 @@ import DiscoveryV2 from 'ibm-watson/discovery/v2';
 export interface SelectableQueryTermAggregationResult
   extends DiscoveryV2.QueryTermAggregationResult {
   selected?: boolean;
+  aggregations?: any;
 }
 
 export interface InternalQueryTermAggregation
@@ -22,6 +23,7 @@ export interface SearchFilterFacets {
 
 export interface SelectableDynamicFacets extends DiscoveryV2.QuerySuggestedRefinement {
   selected?: boolean;
+  aggregations?: any;
 }
 
 export interface SelectedCollectionItems {

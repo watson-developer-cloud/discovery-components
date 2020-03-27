@@ -23,6 +23,7 @@ import { collectionFacetIdPrefix } from './cssClasses';
 import onErrorCallback from 'utils/onErrorCallback';
 import { FallbackComponent } from 'utils/FallbackComponent';
 import { withErrorBoundary } from 'react-error-boundary';
+import { buildAggregationQuery } from './utils/buildAggregationQuery';
 
 interface SearchFacetsProps {
   /**
@@ -64,6 +65,27 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     collectionsResults,
     componentSettings
   } = useContext(SearchContext);
+  const { fetchAggregations, performSearch } = useContext(SearchApi);
+
+  const [fetchedTopEntitiesTypeState, setFetchedTopEntitiesTypeState] = useState<boolean>(false);
+  useEffect(() => {
+    if (aggregationResults && !fetchedTopEntitiesTypeState) {
+      // TODO: Update to only do this if top entities is actually involved?
+      let newAggQuery;
+      if (!searchParameters.aggregation) {
+        newAggQuery = buildAggregationQuery(aggregationResults);
+      } else {
+        newAggQuery = buildAggregationQuery(aggregationResults, searchParameters.aggregation);
+      }
+      const updatedSearchParameters = {
+        ...searchParameters,
+        aggregation: newAggQuery
+      };
+      fetchAggregations(updatedSearchParameters);
+      setFetchedTopEntitiesTypeState(true);
+    }
+  }, [aggregationResults, fetchAggregations, fetchedTopEntitiesTypeState, searchParameters]);
+
   const [facetSelectionState, setFacetSelectionState] = useState<SearchFilterFacets>(
     SearchFilterTransform.fromString(filter || '')
   );
@@ -85,7 +107,6 @@ const SearchFacets: FC<SearchFacetsProps> = ({
   const [collectionSelectionState, setCollectionSelectionState] = useState<
     SelectedCollectionItems['selectedItems']
   >(initialSelectedCollections);
-  const { fetchAggregations, performSearch } = useContext(SearchApi);
   const aggregations = aggregationResults || [];
   const mergedMessages = { ...defaultMessages, ...messages };
   const componentSettingsAggregations =
