@@ -29,7 +29,7 @@ describe('Single-Select Facets', () => {
         .as('priceFacet');
     });
 
-    it('available facets are listed on the side', () => {
+    it('shows available facets listed on the side', () => {
       cy.get('.bx--search-facet')
         .as('allFacets')
         .should('have.length', 4);
@@ -38,7 +38,7 @@ describe('Single-Select Facets', () => {
       cy.get('@priceFacet').should('exist');
     });
 
-    it('facets are displayed as radio buttons', () => {
+    it('has facets displayed as radio buttons', () => {
       cy.get('@cityFacet')
         .find('.bx--radio-button')
         .should('have.length', 5);
@@ -50,7 +50,7 @@ describe('Single-Select Facets', () => {
         .should('have.length', 3);
     });
 
-    it('facets have matching results count', () => {
+    it('shows the facet matching results count', () => {
       cy.get('@cityFacet')
         .contains('Boston, MA (30000)')
         .should('exist');
@@ -109,7 +109,7 @@ describe('Single-Select Facets', () => {
             .should('eq', '');
         });
 
-        it('the "Clear all" button disappears', () => {
+        it('has the "Clear all" button disappear', () => {
           cy.get('button')
             .contains('Clear all')
             .should('not.exist');
@@ -160,7 +160,7 @@ describe('Single-Select Facets', () => {
           .click();
       });
 
-      it('the list of facets is expanded', () => {
+      it('has the list of facets expand', () => {
         cy.get('@cuisineFacet')
           .find('input')
           .should('have.length', 9);
@@ -173,7 +173,7 @@ describe('Single-Select Facets', () => {
             .click();
         });
 
-        it('the list of facets is collapsed', () => {
+        it('has the list of facets collapse', () => {
           cy.get('@cuisineFacet')
             .find('input')
             .should('have.length', 5);

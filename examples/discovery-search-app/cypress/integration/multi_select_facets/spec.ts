@@ -29,7 +29,7 @@ describe('Multi-Select Facets', () => {
         .as('priceFacet');
     });
 
-    it('available facets are listed on the side', () => {
+    it('shows available facets listed on the side', () => {
       cy.get('.bx--search-facet')
         .as('allFacets')
         .should('have.length', 4);
@@ -38,7 +38,7 @@ describe('Multi-Select Facets', () => {
       cy.get('@priceFacet').should('exist');
     });
 
-    it('facets are displayed as checkboxes', () => {
+    it('has facets displayed as checkboxes', () => {
       cy.get('@cityFacet')
         .find('.bx--checkbox')
         .should('have.length', 5);
@@ -50,7 +50,7 @@ describe('Multi-Select Facets', () => {
         .should('have.length', 3);
     });
 
-    it('facets have matching results count', () => {
+    it('shows the facet matching results count', () => {
       cy.get('@cityFacet')
         .contains('Boston, MA (30000)')
         .should('exist');
@@ -74,7 +74,7 @@ describe('Multi-Select Facets', () => {
           .should('eq', 'location:"Ames, IA"');
       });
 
-      it('the bubble next to that facet says 1', () => {
+      it('changes the bubble next to that facet to say 1', () => {
         cy.get('.bx--list-box__selection')
           .contains('1')
           .should('exist');
@@ -98,7 +98,7 @@ describe('Multi-Select Facets', () => {
             .should('eq', 'location:"Pittsburgh, PA"|"Ames, IA"');
         });
 
-        it('the bubble next to that facet says 2', () => {
+        it('changes the bubble next to that facet to say 2', () => {
           cy.get('.bx--list-box__selection')
             .contains('2')
             .should('exist');
@@ -121,7 +121,7 @@ describe('Multi-Select Facets', () => {
             .should('eq', '');
         });
 
-        it('the "Clear all" button disappears', () => {
+        it('has the "Clear all" button disappear', () => {
           cy.get('button')
             .contains('Clear all')
             .should('not.exist');
@@ -174,7 +174,7 @@ describe('Multi-Select Facets', () => {
             cy.wait('@postQueryFacetsAmes').as('amesFilterQueryObject');
           });
 
-          it('the filters from only that facet are cleared', () => {
+          it('has the filters from only that facet clear', () => {
             cy.get('@amesFilterQueryObject')
               //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
               .its('requestBody.filter')

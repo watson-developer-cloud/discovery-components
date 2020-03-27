@@ -34,20 +34,20 @@ describe('Dynamic Facets', () => {
         .as('naiveBayesFilter');
     });
 
-    it('available dynamic facets are listed on the side', () => {
+    it('shows available dynamic facets listed on the side', () => {
       cy.get('@regressionFilter').should('exist');
       cy.get('@classificationFilter').should('exist');
       cy.get('@naiveBayesFilter').should('exist');
     });
 
-    it('dynamic facets are displayed as checkboxes', () => {
+    it('has dynamic facets displayed as checkboxes', () => {
       cy.get('@dynamicFacets')
         .find('.bx--checkbox')
         .should('have.length', 3);
     });
 
     // TODO: update this test once API supports a result count for dynamic facets
-    it('dynamic facets do not have matching results count', () => {
+    it('does not show dynamic facet matching result count', () => {
       cy.get('@dynamicFacets')
         .find('.bx--search-facet__facet__option-label')
         .first()
@@ -72,7 +72,7 @@ describe('Dynamic Facets', () => {
           .should('eq', '"regression"');
       });
 
-      it('the bubble next to dynamic facets says 1', () => {
+      it('shows the bubble next to dynamic facets saying 1', () => {
         cy.get('.bx--list-box__selection')
           .contains('1')
           .should('exist');
@@ -96,7 +96,7 @@ describe('Dynamic Facets', () => {
             .should('eq', '"regression","classification"');
         });
 
-        it('the bubble next to dynamic facets says 2', () => {
+        it('shows the bubble next to dynamic facets saying 2', () => {
           cy.get('.bx--list-box__selection')
             .contains('2')
             .should('exist');
@@ -119,7 +119,7 @@ describe('Dynamic Facets', () => {
             .should('eq', '');
         });
 
-        it('the "Clear all" button disappears', () => {
+        it('has the "Clear all" button disappear', () => {
           cy.findByText('Dynamic Facets').should('exist'); // make sure this test doesn't pass when the page is blank
           cy.get('button')
             .contains('Clear all')
