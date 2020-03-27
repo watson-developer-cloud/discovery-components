@@ -23,7 +23,7 @@ export interface SearchFilterFacets {
 
 export interface SelectableDynamicFacets extends DiscoveryV2.QuerySuggestedRefinement {
   selected?: boolean;
-  aggregations?: any;
+  aggregations?: DiscoveryV2.QueryAggregation[];
 }
 
 export interface SelectedCollectionItems {
@@ -33,4 +33,10 @@ export interface SelectedCollectionItems {
 export interface CollectionItem {
   id: string;
   label: string;
+}
+
+export interface QueryTermAggregationWithName extends DiscoveryV2.QueryAggregation {
+  field?: string;
+  count?: number;
+  name?: string;
 }

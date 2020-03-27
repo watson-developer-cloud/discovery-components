@@ -20,6 +20,7 @@ import { withErrorBoundary } from 'react-error-boundary';
 import { FallbackComponent } from 'utils/FallbackComponent';
 import onErrorCallback from 'utils/onErrorCallback';
 import { buildAggregationQuery } from 'components/SearchFacets/utils/buildAggregationQuery';
+import { QueryTermAggregationWithName } from 'components/SearchFacets/utils/searchFacetInterfaces';
 
 export type SearchParams = Omit<DiscoveryV2.QueryParams, 'projectId' | 'headers'>;
 
@@ -35,7 +36,7 @@ export interface DiscoverySearchProps {
   /**
    * Aggregation results used to override internal aggregation search results state
    */
-  overrideAggregationResults?: DiscoveryV2.QueryAggregation[];
+  overrideAggregationResults?: QueryTermAggregationWithName[];
   /**
    * Search response used to override internal search results state
    */
@@ -93,13 +94,8 @@ export const emptySelectedResult = {
   elementType: null
 };
 
-export interface QueryAggregationResults extends DiscoveryV2.QueryAggregation {
-  field?: string;
-  count?: number;
-}
-
 export interface SearchContextIFC {
-  aggregationResults: QueryAggregationResults[] | null;
+  aggregationResults: QueryTermAggregationWithName[] | null;
   searchResponseStore: SearchResponseStore;
   fetchDocumentsResponseStore: FetchDocumentsResponseStore;
   collectionsResults: DiscoveryV2.ListCollectionsResponse | null;
@@ -223,7 +219,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
   children
 }) => {
   const [aggregationResults, setAggregationResults] = useState<
-    DiscoveryV2.QueryAggregation[] | null
+    QueryTermAggregationWithName[] | null
   >(overrideAggregationResults);
   const [
     collectionsResults,
@@ -248,8 +244,11 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
     searchClient
   );
 
-  const fetchTypeForTopEntitiesAggregation: any = useCallback(
-    async (aggregationResults: any, searchParams: any) => {
+  const fetchTypeForTopEntitiesAggregation = useCallback(
+    async (
+      aggregationResults: QueryTermAggregationWithName[],
+      searchParams: DiscoveryV2.QueryParams
+    ) => {
       const updatedAggQuery = buildAggregationQuery(aggregationResults, searchParams.aggregation);
       const updatedSearchParameters = {
         ...searchParams,
@@ -257,7 +256,8 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       };
       const { result } = await searchClient.query(updatedSearchParameters);
       return result.aggregations;
-    }
+    },
+    [searchClient]
   );
 
   const handleSearch = useCallback(
@@ -395,10 +395,13 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       const { result } = await searchClient.query(searchParametersWithAggregationDefaults);
       if (result) {
         const { aggregations } = result;
-        const updatedAggregations = await fetchTypeForTopEntitiesAggregation(
-          aggregations,
-          searchParametersWithAggregationDefaults
-        );
+        let updatedAggregations = aggregations;
+        if (aggregations) {
+          updatedAggregations = await fetchTypeForTopEntitiesAggregation(
+            aggregations,
+            searchParametersWithAggregationDefaults
+          );
+        }
         setAggregationResults(updatedAggregations || null);
       }
     },
