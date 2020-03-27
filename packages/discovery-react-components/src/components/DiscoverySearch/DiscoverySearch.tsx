@@ -20,7 +20,7 @@ import { withErrorBoundary } from 'react-error-boundary';
 import { FallbackComponent } from 'utils/FallbackComponent';
 import onErrorCallback from 'utils/onErrorCallback';
 import { buildAggregationQuery } from 'components/SearchFacets/utils/buildAggregationQuery';
-import { QueryTermAggregationWithName } from 'components/SearchFacets/utils/searchFacetInterfaces';
+import { QueryAggregationWithName } from 'components/SearchFacets/utils/searchFacetInterfaces';
 
 export type SearchParams = Omit<DiscoveryV2.QueryParams, 'projectId' | 'headers'>;
 
@@ -36,7 +36,7 @@ export interface DiscoverySearchProps {
   /**
    * Aggregation results used to override internal aggregation search results state
    */
-  overrideAggregationResults?: QueryTermAggregationWithName[];
+  overrideAggregationResults?: QueryAggregationWithName[];
   /**
    * Search response used to override internal search results state
    */
@@ -95,7 +95,7 @@ export const emptySelectedResult = {
 };
 
 export interface SearchContextIFC {
-  aggregationResults: QueryTermAggregationWithName[] | null;
+  aggregationResults: QueryAggregationWithName[] | null;
   searchResponseStore: SearchResponseStore;
   fetchDocumentsResponseStore: FetchDocumentsResponseStore;
   collectionsResults: DiscoveryV2.ListCollectionsResponse | null;
@@ -218,9 +218,9 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
   overrideComponentSettings = null,
   children
 }) => {
-  const [aggregationResults, setAggregationResults] = useState<
-    QueryTermAggregationWithName[] | null
-  >(overrideAggregationResults);
+  const [aggregationResults, setAggregationResults] = useState<QueryAggregationWithName[] | null>(
+    overrideAggregationResults
+  );
   const [
     collectionsResults,
     setCollectionsResults
@@ -246,7 +246,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
 
   const fetchTypeForTopEntitiesAggregation = useCallback(
     async (
-      aggregationResults: QueryTermAggregationWithName[],
+      aggregationResults: QueryAggregationWithName[],
       searchParams: DiscoveryV2.QueryParams
     ) => {
       const updatedAggQuery = buildAggregationQuery(aggregationResults, searchParams.aggregation);

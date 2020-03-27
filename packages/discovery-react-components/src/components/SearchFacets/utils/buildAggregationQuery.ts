@@ -1,19 +1,20 @@
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
-import { QueryTermAggregationWithName } from './searchFacetInterfaces';
+import { QueryAggregationWithName } from './searchFacetInterfaces';
 
 const TOP_ENTITIES_FIELD = 'enriched_text.entities.text';
-const ENTITIES_TYPE_NESTED_TERM = '.term(enriched_text.entities.type,count:1)';
+const ENTITIES_NESTED_TYPE_TERM_AGG = '.term(enriched_text.entities.type,count:1)';
 
 export const buildAggregationQuery = (
-  configuration?: QueryTermAggregationWithName[],
+  configuration?: QueryAggregationWithName[],
   searchParamsAgg?: DiscoveryV2.QueryParams['aggregation']
 ): string => {
   if (!searchParamsAgg) {
     const aggregation = configuration!.map(term => {
       const termCount = term.count ? ',count:' + term.count : '';
       const termName = term.name ? ',name:' + term.name : '';
-      const topEntitiesType = term.field === TOP_ENTITIES_FIELD ? ENTITIES_TYPE_NESTED_TERM : '';
-      return 'term(' + term.field + termCount + termName + ')' + topEntitiesType;
+      const topEntitiesNestedTypeTermAgg =
+        term.field === TOP_ENTITIES_FIELD ? ENTITIES_NESTED_TYPE_TERM_AGG : '';
+      return 'term(' + term.field + termCount + termName + ')' + topEntitiesNestedTypeTermAgg;
     });
     return '[' + aggregation!.toString() + ']';
   } else {
@@ -25,11 +26,11 @@ export const buildAggregationQuery = (
       return (
         '[' +
         searchParamsAggArr
-          .map(aggTerm => {
-            if (aggTerm.includes(TOP_ENTITIES_FIELD)) {
-              return (aggTerm += ENTITIES_TYPE_NESTED_TERM);
+          .map(termAgg => {
+            if (termAgg.includes(TOP_ENTITIES_FIELD)) {
+              return (termAgg += ENTITIES_NESTED_TYPE_TERM_AGG);
             }
-            return aggTerm;
+            return termAgg;
           })
           .join(',term') +
         ']'

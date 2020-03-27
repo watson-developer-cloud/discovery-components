@@ -39,7 +39,7 @@ export interface CollectionItem {
   label: string;
 }
 
-export interface QueryTermAggregationWithName extends DiscoveryV2.QueryAggregation {
+export interface QueryAggregationWithName extends DiscoveryV2.QueryAggregation {
   field?: string;
   count?: number;
   name?: string;
