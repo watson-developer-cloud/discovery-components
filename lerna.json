@@ -1,6 +1,6 @@
 {
   "packages": ["packages/*"],
-  "version": "independent",
+  "version": "1.1.0",
   "npmClient": "yarn",
   "useWorkspaces": true,
   "command": {
@@ -9,7 +9,7 @@
       "allowBranch": ["develop", "release/*", "hotfix/*"]
     },
     "version": {
-      "message": "chore: publish to NPM [ci skip]",
+      "message": "chore: publish %s [ci skip]",
       "ignoreChanges": ["examples/**"]
     }
   }
