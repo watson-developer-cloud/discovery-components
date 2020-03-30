@@ -249,7 +249,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       aggregationResults: QueryAggregationWithName[],
       searchParams: DiscoveryV2.QueryParams
     ) => {
-      const updatedAggQuery = buildAggregationQuery(aggregationResults, searchParams.aggregation);
+      const updatedAggQuery = buildAggregationQuery(aggregationResults);
       const updatedSearchParameters = {
         ...searchParams,
         aggregation: updatedAggQuery
