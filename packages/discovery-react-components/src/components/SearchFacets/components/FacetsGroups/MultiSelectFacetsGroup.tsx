@@ -56,8 +56,9 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
     <>
       {facets.map(facet => {
         const text = get(facet, facetsTextField, '');
-        const matchingResults = facet.matching_results || null;
-        const labelText = matchingResults ? text + ' (' + matchingResults + ')' : text;
+        const matchingResults = facet.matching_results;
+        const labelText =
+          matchingResults !== undefined ? text + ' (' + matchingResults + ')' : text;
         const query = naturalLanguageQuery || '';
         const buff = new Buffer(query + text);
         const base64data = buff.toString('base64');
