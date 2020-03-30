@@ -1,0 +1,46 @@
+@import '../document-preview/mixins';
+
+.#{$prefix}--html-viewer-section {
+  position: relative;
+  max-width: 78ch;
+  overflow-x: hidden;
+  // Chrome has issue where "row" is 1-pixel less if above is specified,
+  // potentially showing a vertical scrollbar. The following "fixes" it.
+  overflow-y: hidden;
+
+  &.hasTable {
+    // allow scrolling horizontally, for wide tables
+    overflow-x: auto;
+  }
+
+  .field > * {
+    position: absolute;
+  }
+
+  .field.hover > *,
+  .field:hover > * {
+    background-color: $selected-ui;
+  }
+
+  // css--reset removes the default styling for some components; set those up again
+  .htmlReset {
+    @include htmlReset;
+  }
+
+  // Here we override default HTML tag styles to make the document formatting
+  // more natural
+  .htmlOverride {
+    @include htmlOverride;
+  }
+
+  .content {
+    position: relative;
+
+    * {
+      @include carbon--type-style('body-long-02');
+
+      font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+      margin-bottom: $spacing-md;
+    }
+  }
+}

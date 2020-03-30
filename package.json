@@ -34,6 +34,7 @@
     "@types/react-dom": "^16.9.0",
     "@types/react-resize-detector": "^4.2.0",
     "@types/react-virtualized": "^9.21.2",
+    "@types/sbd": "^1.0.1",
     "@types/seedrandom": "^2.4.28",
     "@types/storybook__addon-knobs": "^5.0.3",
     "@types/storybook__react": "^4.0.2",

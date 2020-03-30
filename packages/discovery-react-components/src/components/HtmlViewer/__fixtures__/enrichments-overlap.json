@@ -1,0 +1,597 @@
+{
+  "text": "(Basic overlapping keywords). Lorem ipsum dolor sit amet, congue audire qualisque pro ne. (Keywords contained within other keywords). Causae nostrum electram sit id, autem epicuri ei vim, ne cum ipsum fuisset. (Chain of keywords). Primis intellegat vim cu. (No overlap, but next to each other). At audire eligendi has, mel eu audire quaeque perfecto. Vix et admodum hendrerit. (Basic overlapping AND keywords contained within other keywords). Oratio adipisci pri eu, an purto conclusionemque sea, his alii fastidii neglegentur in. (Multiple keywords contained within other keywords). Suavitate similique ea eos, id deleniti appareat consetetur ius. (Other combinations). Cum ea decore moderatius, in viris putent latine est.",
+  "enriched_text": [
+    {
+      "keywords": [
+        {
+          "text": "Lorem ipsum dolor",
+          "mentions": [
+            {
+              "text": "Lorem ipsum dolor",
+              "location": {
+                "begin": 30,
+                "end": 47
+              }
+            }
+          ]
+        },
+        {
+          "text": "dolor sit amet",
+          "mentions": [
+            {
+              "text": "dolor sit amet",
+              "location": {
+                "begin": 42,
+                "end": 56
+              }
+            }
+          ]
+        },
+        {
+          "text": "audire qualisque",
+          "mentions": [
+            {
+              "text": "audire qualisque",
+              "location": {
+                "begin": 65,
+                "end": 81
+              }
+            }
+          ]
+        },
+        {
+          "text": "qualisque pro ne",
+          "mentions": [
+            {
+              "text": "qualisque pro ne",
+              "location": {
+                "begin": 72,
+                "end": 88
+              }
+            }
+          ]
+        },
+        {
+          "text": "Causae nostrum electram sit id",
+          "mentions": [
+            {
+              "text": "Causae nostrum electram sit id",
+              "location": {
+                "begin": 134,
+                "end": 164
+              }
+            }
+          ]
+        },
+        {
+          "text": "nostrum electram",
+          "mentions": [
+            {
+              "text": "nostrum electram",
+              "location": {
+                "begin": 141,
+                "end": 157
+              }
+            }
+          ]
+        },
+        {
+          "text": "autem epicuri ei vim",
+          "mentions": [
+            {
+              "text": "autem epicuri ei vim",
+              "location": {
+                "begin": 166,
+                "end": 186
+              }
+            }
+          ]
+        },
+        {
+          "text": "autem epicuri",
+          "mentions": [
+            {
+              "text": "autem epicuri",
+              "location": {
+                "begin": 166,
+                "end": 179
+              }
+            }
+          ]
+        },
+        {
+          "text": "ne cum ipsum fuisset",
+          "mentions": [
+            {
+              "text": "ne cum ipsum fuisset",
+              "location": {
+                "begin": 188,
+                "end": 208
+              }
+            }
+          ]
+        },
+        {
+          "text": "ipsum fuisset",
+          "mentions": [
+            {
+              "text": "ipsum fuisset",
+              "location": {
+                "begin": 195,
+                "end": 208
+              }
+            }
+          ]
+        },
+        {
+          "text": "Primis intellegat",
+          "mentions": [
+            {
+              "text": "Primis intellegat",
+              "location": {
+                "begin": 231,
+                "end": 248
+              }
+            }
+          ]
+        },
+        {
+          "text": "intellegat vim",
+          "mentions": [
+            {
+              "text": "intellegat vim",
+              "location": {
+                "begin": 238,
+                "end": 252
+              }
+            }
+          ]
+        },
+        {
+          "text": "vim cu",
+          "mentions": [
+            {
+              "text": "vim cu",
+              "location": {
+                "begin": 249,
+                "end": 255
+              }
+            }
+          ]
+        },
+        {
+          "text": "At audire",
+          "mentions": [
+            {
+              "text": "At audire",
+              "location": {
+                "begin": 295,
+                "end": 304
+              }
+            }
+          ]
+        },
+        {
+          "text": "eligendi has",
+          "mentions": [
+            {
+              "text": "eligendi has",
+              "location": {
+                "begin": 305,
+                "end": 317
+              }
+            }
+          ]
+        },
+        {
+          "text": "mel",
+          "mentions": [
+            {
+              "text": "mel",
+              "location": {
+                "begin": 319,
+                "end": 322
+              }
+            }
+          ]
+        },
+        {
+          "text": "eu audire quaeque",
+          "mentions": [
+            {
+              "text": "eu audire quaeque",
+              "location": {
+                "begin": 323,
+                "end": 340
+              }
+            }
+          ]
+        },
+        {
+          "text": "perfecto",
+          "mentions": [
+            {
+              "text": "perfecto",
+              "location": {
+                "begin": 341,
+                "end": 349
+              }
+            }
+          ]
+        },
+        {
+          "text": "Vix",
+          "mentions": [
+            {
+              "text": "Vix",
+              "location": {
+                "begin": 351,
+                "end": 354
+              }
+            }
+          ]
+        },
+        {
+          "text": "et",
+          "mentions": [
+            {
+              "text": "et",
+              "location": {
+                "begin": 355,
+                "end": 357
+              }
+            }
+          ]
+        },
+        {
+          "text": "admodum",
+          "mentions": [
+            {
+              "text": "admodum",
+              "location": {
+                "begin": 358,
+                "end": 365
+              }
+            }
+          ]
+        },
+        {
+          "text": "hendrerit",
+          "mentions": [
+            {
+              "text": "hendrerit",
+              "location": {
+                "begin": 366,
+                "end": 375
+              }
+            }
+          ]
+        },
+        {
+          "text": "Oratio adipisci pri",
+          "mentions": [
+            {
+              "text": "Oratio adipisci pri",
+              "location": {
+                "begin": 443,
+                "end": 462
+              }
+            }
+          ]
+        },
+        {
+          "text": "adipisci",
+          "mentions": [
+            {
+              "text": "adipisci",
+              "location": {
+                "begin": 450,
+                "end": 458
+              }
+            }
+          ]
+        },
+        {
+          "text": "adipisci pri eu",
+          "mentions": [
+            {
+              "text": "adipisci pri eu",
+              "location": {
+                "begin": 450,
+                "end": 465
+              }
+            }
+          ]
+        },
+        {
+          "text": "an purto",
+          "mentions": [
+            {
+              "text": "an purto",
+              "location": {
+                "begin": 467,
+                "end": 475
+              }
+            }
+          ]
+        },
+        {
+          "text": "purto conclusionemque sea",
+          "mentions": [
+            {
+              "text": "purto conclusionemque sea",
+              "location": {
+                "begin": 470,
+                "end": 495
+              }
+            }
+          ]
+        },
+        {
+          "text": "sea",
+          "mentions": [
+            {
+              "text": "sea",
+              "location": {
+                "begin": 492,
+                "end": 495
+              }
+            }
+          ]
+        },
+        {
+          "text": "his alii fastidii",
+          "mentions": [
+            {
+              "text": "his alii fastidii",
+              "location": {
+                "begin": 497,
+                "end": 514
+              }
+            }
+          ]
+        },
+        {
+          "text": "fastidii neglegentur in",
+          "mentions": [
+            {
+              "text": "fastidii neglegentur in",
+              "location": {
+                "begin": 506,
+                "end": 529
+              }
+            }
+          ]
+        },
+        {
+          "text": "fastidii",
+          "mentions": [
+            {
+              "text": "fastidii",
+              "location": {
+                "begin": 506,
+                "end": 514
+              }
+            }
+          ]
+        },
+        {
+          "text": "Suavitate similique ea eos",
+          "mentions": [
+            {
+              "text": "Suavitate similique ea eos",
+              "location": {
+                "begin": 584,
+                "end": 610
+              }
+            }
+          ]
+        },
+        {
+          "text": "Suavitate",
+          "mentions": [
+            {
+              "text": "Suavitate",
+              "location": {
+                "begin": 584,
+                "end": 593
+              }
+            }
+          ]
+        },
+        {
+          "text": "similique",
+          "mentions": [
+            {
+              "text": "similique",
+              "location": {
+                "begin": 594,
+                "end": 603
+              }
+            }
+          ]
+        },
+        {
+          "text": "ea",
+          "mentions": [
+            {
+              "text": "ea",
+              "location": {
+                "begin": 604,
+                "end": 606
+              }
+            }
+          ]
+        },
+        {
+          "text": "eos",
+          "mentions": [
+            {
+              "text": "eos",
+              "location": {
+                "begin": 607,
+                "end": 610
+              }
+            }
+          ]
+        },
+        {
+          "text": "id deleniti appareat consetetur ius",
+          "mentions": [
+            {
+              "text": "id deleniti appareat consetetur ius",
+              "location": {
+                "begin": 612,
+                "end": 647
+              }
+            }
+          ]
+        },
+        {
+          "text": "deleniti appareat consetetur ius",
+          "mentions": [
+            {
+              "text": "deleniti appareat consetetur ius",
+              "location": {
+                "begin": 615,
+                "end": 647
+              }
+            }
+          ]
+        },
+        {
+          "text": "deleniti appareat consetetur",
+          "mentions": [
+            {
+              "text": "deleniti appareat consetetur",
+              "location": {
+                "begin": 615,
+                "end": 643
+              }
+            }
+          ]
+        },
+        {
+          "text": "appareat consetetur",
+          "mentions": [
+            {
+              "text": "appareat consetetur",
+              "location": {
+                "begin": 624,
+                "end": 643
+              }
+            }
+          ]
+        },
+        {
+          "text": "consetetur",
+          "mentions": [
+            {
+              "text": "consetetur",
+              "location": {
+                "begin": 633,
+                "end": 643
+              }
+            }
+          ]
+        },
+        {
+          "text": "Cum ea decore moderatius",
+          "mentions": [
+            {
+              "text": "Cum ea decore moderatius",
+              "location": {
+                "begin": 671,
+                "end": 695
+              }
+            }
+          ]
+        },
+        {
+          "text": "Cum ea decore",
+          "mentions": [
+            {
+              "text": "Cum ea decore",
+              "location": {
+                "begin": 671,
+                "end": 684
+              }
+            }
+          ]
+        },
+        {
+          "text": "decore moderatius",
+          "mentions": [
+            {
+              "text": "decore moderatius",
+              "location": {
+                "begin": 678,
+                "end": 695
+              }
+            }
+          ]
+        },
+        {
+          "text": "decore",
+          "mentions": [
+            {
+              "text": "decore",
+              "location": {
+                "begin": 678,
+                "end": 684
+              }
+            }
+          ]
+        },
+        {
+          "text": "in viris putent latine est",
+          "mentions": [
+            {
+              "text": "in viris putent latine est",
+              "location": {
+                "begin": 697,
+                "end": 723
+              }
+            }
+          ]
+        },
+        {
+          "text": "in viris",
+          "mentions": [
+            {
+              "text": "in viris",
+              "location": {
+                "begin": 697,
+                "end": 705
+              }
+            }
+          ]
+        },
+        {
+          "text": "putent latine est",
+          "mentions": [
+            {
+              "text": "putent latine est",
+              "location": {
+                "begin": 706,
+                "end": 723
+              }
+            }
+          ]
+        },
+        {
+          "text": "putent latine",
+          "mentions": [
+            {
+              "text": "putent latine",
+              "location": {
+                "begin": 706,
+                "end": 719
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+// Component styles
+@import '~carbon-components/scss/components/tooltip/tooltip';
+@import '~carbon-components/scss/components/button/button';
+@import '~carbon-components/scss/components/link/link';
+
+.#{$prefix}--html-viewer {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  min-width: 800px;
+
+  .#{$prefix}--html-viewer__toolbar {
+    width: 100%;
+    flex: 0 0 auto;
+    display: flex;
+    height: $spacing-3xl;
+    min-height: $spacing-3xl;
+    align-items: center;
+    justify-content: space-between;
+    background-color: $ui-01;
+
+    .#{$prefix}--html-viewer__title {
+      padding: 0 $spacing-md;
+      font-size: 1.2em;
+      line-height: 2;
+      display: inline-block;
+      font-weight: lighter;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  .#{$prefix}--html-viewer__nav {
+    display: inline-block;
+    min-width: 150px;
+    text-align: center;
+  }
+
+  .#{$prefix}--html-viewer__title,
+  .#{$prefix}--html-viewer__rightGutter {
+    flex: 1 0 0;
+    min-width: 0;
+  }
+
+  .#{$prefix}--html-viewer__main {
+    position: relative;
+    flex: 1 1 auto;
+    display: flex;
+    flex-flow: row nowrap;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .#{$prefix}--html-viewer__sidebar,
+  .#{$prefix}--html-viewer__details {
+    width: 14rem;
+  }
+
+  .#{$prefix}--html-viewer__sidebar {
+    display: flex;
+    flex-direction: column;
+
+    & > *:not(.#{$prefix}--html-viewer__tabs) {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .bx--tabs__nav {
+      width: 100%;
+
+      .bx--tabs__nav-item {
+        flex: 1;
+
+        .bx--tabs__nav-link {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  .#{$prefix}--html-viewer__doc {
+    flex: 1 1 auto;
+    border-left: 1px solid $ui-03;
+    border-right: 1px solid $ui-03;
+  }
+
+  .#{$prefix}--html-viewer__tabs a,
+  .#{$prefix}--html-viewer__tabs a:active,
+  .#{$prefix}--html-viewer__tabs a:focus {
+    width: auto;
+  }
+}
+
+.#{$prefix}--html-viewer__docError {
+  text-align: center;
+  margin: $spacing-2xl;
+}

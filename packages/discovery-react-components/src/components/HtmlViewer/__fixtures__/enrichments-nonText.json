@@ -1,0 +1,666 @@
+{
+  "enriched_title": [
+    {
+      "entities": [
+        {
+          "type": "JobTitle",
+          "text": "Screening Requirements Screening",
+          "relevance": 0.745509,
+          "count": 1
+        },
+        {
+          "type": "Hashtag",
+          "text": "#",
+          "relevance": 0.745509,
+          "count": 58
+        }
+      ],
+      "keywords": [
+        {
+          "text": "Section",
+          "mentions": [
+            {
+              "text": "Section",
+              "location": {
+                "begin": 2576,
+                "end": 2583
+              }
+            },
+            {
+              "text": "Section",
+              "location": {
+                "begin": 2725,
+                "end": 2732
+              }
+            },
+            {
+              "text": "Section",
+              "location": {
+                "begin": 2817,
+                "end": 2824
+              }
+            },
+            {
+              "text": "Section",
+              "location": {
+                "begin": 2890,
+                "end": 2897
+              }
+            },
+            {
+              "text": "Section",
+              "location": {
+                "begin": 3049,
+                "end": 3056
+              }
+            },
+            {
+              "text": "Section",
+              "location": {
+                "begin": 3132,
+                "end": 3139
+              }
+            },
+            {
+              "text": "Section",
+              "location": {
+                "begin": 3225,
+                "end": 3232
+              }
+            }
+          ]
+        },
+        {
+          "text": "Technical Services Agreement Agreement",
+          "mentions": [
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 0,
+                "end": 38
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 52,
+                "end": 90
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 104,
+                "end": 142
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 156,
+                "end": 194
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 208,
+                "end": 246
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 260,
+                "end": 298
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 312,
+                "end": 350
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 364,
+                "end": 402
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 416,
+                "end": 454
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 468,
+                "end": 506
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 520,
+                "end": 558
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 572,
+                "end": 610
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 624,
+                "end": 662
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 676,
+                "end": 714
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 728,
+                "end": 766
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 780,
+                "end": 818
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 832,
+                "end": 870
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 884,
+                "end": 922
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 936,
+                "end": 974
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 988,
+                "end": 1026
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 1040,
+                "end": 1078
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 1092,
+                "end": 1130
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 1144,
+                "end": 1182
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 1196,
+                "end": 1234
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 1248,
+                "end": 1286
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 1300,
+                "end": 1338
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 1352,
+                "end": 1390
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 1404,
+                "end": 1442
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 1456,
+                "end": 1494
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 1508,
+                "end": 1546
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 1560,
+                "end": 1598
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 1612,
+                "end": 1650
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 1664,
+                "end": 1702
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 1716,
+                "end": 1754
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 1768,
+                "end": 1806
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 1820,
+                "end": 1858
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 1872,
+                "end": 1910
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 1924,
+                "end": 1962
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 1976,
+                "end": 2014
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 2028,
+                "end": 2066
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 2080,
+                "end": 2118
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 2132,
+                "end": 2170
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 2203,
+                "end": 2241
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 2255,
+                "end": 2293
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 2307,
+                "end": 2345
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 2359,
+                "end": 2397
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 2420,
+                "end": 2458
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 2472,
+                "end": 2510
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 2524,
+                "end": 2562
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 2621,
+                "end": 2659
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 2673,
+                "end": 2711
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 2765,
+                "end": 2803
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 2838,
+                "end": 2876
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 2925,
+                "end": 2963
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 2997,
+                "end": 3035
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 3080,
+                "end": 3118
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 3173,
+                "end": 3211
+              }
+            },
+            {
+              "text": "Technical Services Agreement Agreement",
+              "location": {
+                "begin": 3250,
+                "end": 3288
+              }
+            }
+          ]
+        },
+        {
+          "text": "Form of Change Control Note",
+          "mentions": [
+            {
+              "text": "Form of Change Control Note",
+              "location": {
+                "begin": 2737,
+                "end": 2764
+              }
+            }
+          ]
+        },
+        {
+          "text": "Screening Requirements Screening",
+          "mentions": [
+            {
+              "text": "Screening Requirements Screening",
+              "location": {
+                "begin": 2588,
+                "end": 2620
+              }
+            }
+          ]
+        },
+        {
+          "text": "Buyer Policies",
+          "mentions": [
+            {
+              "text": "Buyer Policies",
+              "location": {
+                "begin": 3144,
+                "end": 3158
+              }
+            }
+          ]
+        },
+        {
+          "text": "Supplier",
+          "mentions": [
+            {
+              "text": "Supplier",
+              "location": {
+                "begin": 2411,
+                "end": 2419
+              }
+            }
+          ]
+        },
+        {
+          "text": "Standards",
+          "mentions": [
+            {
+              "text": "Standards",
+              "location": {
+                "begin": 3163,
+                "end": 3172
+              }
+            }
+          ]
+        },
+        {
+          "text": "Rates",
+          "mentions": [
+            {
+              "text": "Rates",
+              "location": {
+                "begin": 3244,
+                "end": 3249
+              }
+            }
+          ]
+        },
+        {
+          "text": "Termination Assistance",
+          "mentions": [
+            {
+              "text": "Termination Assistance",
+              "location": {
+                "begin": 2902,
+                "end": 2924
+              }
+            }
+          ]
+        },
+        {
+          "text": "Employment Matters",
+          "mentions": [
+            {
+              "text": "Employment Matters",
+              "location": {
+                "begin": 3061,
+                "end": 3079
+              }
+            }
+          ]
+        },
+        {
+          "text": "Deliverables",
+          "mentions": [
+            {
+              "text": "Deliverables",
+              "location": {
+                "begin": 2184,
+                "end": 2196
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "title": [
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Deliverables ; and",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Supplier",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Section 1 – Screening Requirements Screening",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Section 2 - Form of Change Control Note",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Section 3 – Not Used",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Section 4 - Termination Assistance",
+    "Technical Services Agreement Agreement # 4911027933",
+    "b.",
+    "be expected; and",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Section 5 - Employment Matters",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Section 6 - Buyer Policies and Standards",
+    "Technical Services Agreement Agreement # 4911027933",
+    "Section 7 - Agreed Rates",
+    "Technical Services Agreement Agreement # 4911027933"
+  ]
+}

@@ -1,0 +1,634 @@
+{
+  "enriched_text": [
+    {
+      "entities": [
+        {
+          "model_name": "natural_language_understanding",
+          "mentions": [
+            {
+              "location": {
+                "end": 55,
+                "begin": 52
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 206,
+                "begin": 203
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 605,
+                "begin": 602
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 786,
+                "begin": 783
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 908,
+                "begin": 905
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 1283,
+                "begin": 1280
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 2871,
+                "begin": 2868
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 2927,
+                "begin": 2924
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 3003,
+                "begin": 3000
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 3070,
+                "begin": 3067
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 3618,
+                "begin": 3615
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 4874,
+                "begin": 4871
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 5419,
+                "begin": 5416
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 5676,
+                "begin": 5673
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 5793,
+                "begin": 5790
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 8700,
+                "begin": 8697
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 9429,
+                "begin": 9426
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 11816,
+                "begin": 11813
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 11994,
+                "begin": 11991
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 12069,
+                "begin": 12066
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 12158,
+                "begin": 12155
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 12208,
+                "begin": 12205
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 12261,
+                "begin": 12258
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 12403,
+                "begin": 12400
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 12479,
+                "begin": 12476
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 13018,
+                "begin": 13015
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 13067,
+                "begin": 13064
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 13121,
+                "begin": 13118
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 13235,
+                "begin": 13232
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 13387,
+                "begin": 13384
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 13978,
+                "begin": 13975
+              },
+              "text": "IBM"
+            },
+            {
+              "location": {
+                "end": 14191,
+                "begin": 14188
+              },
+              "text": "IBM"
+            }
+          ],
+          "text": "IBM",
+          "type": "Company"
+        },
+        {
+          "model_name": "natural_language_understanding",
+          "mentions": [
+            {
+              "location": {
+                "end": 149,
+                "begin": 142
+              },
+              "text": "2.1.0.1"
+            },
+            {
+              "location": {
+                "end": 417,
+                "begin": 410
+              },
+              "text": "2.1.0.1"
+            },
+            {
+              "location": {
+                "end": 10135,
+                "begin": 10128
+              },
+              "text": "2.1.0.1"
+            }
+          ],
+          "text": "2.1.0.1",
+          "type": "IPAddress"
+        },
+        {
+          "model_name": "natural_language_understanding",
+          "mentions": [
+            {
+              "location": {
+                "end": 317,
+                "begin": 310
+              },
+              "text": "2.1.0.2"
+            },
+            {
+              "location": {
+                "end": 3730,
+                "begin": 3723
+              },
+              "text": "2.1.0.2"
+            },
+            {
+              "location": {
+                "end": 3843,
+                "begin": 3836
+              },
+              "text": "2.1.0.2"
+            }
+          ],
+          "text": "2.1.0.2",
+          "type": "IPAddress"
+        },
+        {
+          "model_name": "natural_language_understanding",
+          "mentions": [
+            {
+              "location": {
+                "end": 694,
+                "begin": 691
+              },
+              "text": "Pak"
+            }
+          ],
+          "text": "Pak",
+          "type": "Person"
+        },
+        {
+          "model_name": "natural_language_understanding",
+          "mentions": [
+            {
+              "location": {
+                "end": 1200,
+                "begin": 1188
+              },
+              "text": "@MASTER_1_IP"
+            }
+          ],
+          "text": "@MASTER_1_IP",
+          "type": "TwitterHandle"
+        },
+        {
+          "model_name": "natural_language_understanding",
+          "mentions": [
+            {
+              "location": {
+                "end": 1331,
+                "begin": 1322
+              },
+              "text": "Microsoft"
+            }
+          ],
+          "text": "Microsoft",
+          "type": "Company"
+        },
+        {
+          "model_name": "natural_language_understanding",
+          "mentions": [
+            {
+              "location": {
+                "end": 1738,
+                "begin": 1734
+              },
+              "text": "Helm"
+            },
+            {
+              "location": {
+                "end": 4485,
+                "begin": 4481
+              },
+              "text": "Helm"
+            }
+          ],
+          "text": "Helm",
+          "type": "Person"
+        },
+        {
+          "model_name": "natural_language_understanding",
+          "mentions": [
+            {
+              "location": {
+                "end": 2712,
+                "begin": 2709
+              },
+              "text": "ibm"
+            },
+            {
+              "location": {
+                "end": 2795,
+                "begin": 2792
+              },
+              "text": "ibm"
+            },
+            {
+              "location": {
+                "end": 2814,
+                "begin": 2811
+              },
+              "text": "ibm"
+            },
+            {
+              "location": {
+                "end": 2962,
+                "begin": 2959
+              },
+              "text": "ibm"
+            },
+            {
+              "location": {
+                "end": 2981,
+                "begin": 2978
+              },
+              "text": "ibm"
+            }
+          ],
+          "text": "ibm",
+          "type": "Company"
+        },
+        {
+          "model_name": "natural_language_understanding",
+          "mentions": [
+            {
+              "location": {
+                "end": 3702,
+                "begin": 3695
+              },
+              "text": "1.2.1.1"
+            },
+            {
+              "location": {
+                "end": 3801,
+                "begin": 3794
+              },
+              "text": "1.2.1.1"
+            },
+            {
+              "location": {
+                "end": 9679,
+                "begin": 9672
+              },
+              "text": "1.2.1.1"
+            }
+          ],
+          "text": "1.2.1.1",
+          "type": "IPAddress"
+        },
+        {
+          "model_name": "natural_language_understanding",
+          "mentions": [
+            {
+              "location": {
+                "end": 5096,
+                "begin": 5087
+              },
+              "text": "GlusterFS"
+            },
+            {
+              "location": {
+                "end": 5306,
+                "begin": 5297
+              },
+              "text": "GlusterFS"
+            },
+            {
+              "location": {
+                "end": 5505,
+                "begin": 5496
+              },
+              "text": "GlusterFS"
+            }
+          ],
+          "text": "GlusterFS",
+          "type": "Company"
+        },
+        {
+          "model_name": "natural_language_understanding",
+          "mentions": [
+            {
+              "location": {
+                "end": 7700,
+                "begin": 7689
+              },
+              "text": "mount point"
+            }
+          ],
+          "text": "mount point",
+          "type": "GeographicFeature"
+        },
+        {
+          "model_name": "natural_language_understanding",
+          "mentions": [
+            {
+              "location": {
+                "end": 9355,
+                "begin": 9353
+              },
+              "text": "$1"
+            },
+            {
+              "location": {
+                "end": 13768,
+                "begin": 13766
+              },
+              "text": "$1"
+            }
+          ],
+          "text": "$1",
+          "type": "Quantity"
+        },
+        {
+          "model_name": "natural_language_understanding",
+          "mentions": [
+            {
+              "location": {
+                "end": 10589,
+                "begin": 10587
+              },
+              "text": "$3"
+            },
+            {
+              "location": {
+                "end": 10887,
+                "begin": 10885
+              },
+              "text": "$3"
+            },
+            {
+              "location": {
+                "end": 11402,
+                "begin": 11400
+              },
+              "text": "$3"
+            },
+            {
+              "location": {
+                "end": 13472,
+                "begin": 13470
+              },
+              "text": "$3"
+            },
+            {
+              "location": {
+                "end": 13551,
+                "begin": 13549
+              },
+              "text": "$3"
+            },
+            {
+              "location": {
+                "end": 14367,
+                "begin": 14365
+              },
+              "text": "$3"
+            }
+          ],
+          "text": "$3",
+          "type": "Quantity"
+        },
+        {
+          "model_name": "natural_language_understanding",
+          "mentions": [
+            {
+              "location": {
+                "end": 12141,
+                "begin": 12134
+              },
+              "text": "Red Hat"
+            },
+            {
+              "location": {
+                "end": 13001,
+                "begin": 12994
+              },
+              "text": "Red Hat"
+            }
+          ],
+          "text": "Red Hat",
+          "type": "Company"
+        },
+        {
+          "model_name": "Dictionary:",
+          "mentions": [
+            {
+              "location": {
+                "end": 207,
+                "begin": 206
+              },
+              "text": "®"
+            }
+          ],
+          "text": "®",
+          "type": ""
+        },
+        {
+          "model_name": "Dictionary:",
+          "mentions": [
+            {
+              "location": {
+                "end": 3619,
+                "begin": 3618
+              },
+              "text": "®"
+            }
+          ],
+          "text": "®",
+          "type": ""
+        },
+        {
+          "model_name": "Dictionary:",
+          "mentions": [
+            {
+              "location": {
+                "end": 11817,
+                "begin": 11816
+              },
+              "text": "®"
+            }
+          ],
+          "text": "®",
+          "type": ""
+        },
+        {
+          "model_name": "Dictionary:",
+          "mentions": [
+            {
+              "location": {
+                "end": 12404,
+                "begin": 12403
+              },
+              "text": "®"
+            }
+          ],
+          "text": "®",
+          "type": ""
+        },
+        {
+          "model_name": "Dictionary:",
+          "mentions": [
+            {
+              "location": {
+                "end": 13068,
+                "begin": 13067
+              },
+              "text": "®"
+            }
+          ],
+          "text": "®",
+          "type": ""
+        }
+      ]
+    }
+  ],
+  "text": [
+    "1.\n2.\n-\n-\n-\n-\n3.\n Upgrading the embedded version of IBM Cloud\nPrivate \nIf you installed the stand-alone version of Cloud Pak for Data version 2.1.0.1 or\nearlier, you must upgrade the embedded version of IBM® Cloud Private to version\n3.2.0 before you can upgrade your Cloud Pak for Data installation to version 2.1.0.2.\nThis step is not necessary when upgrading from Cloud Pak for Data version 1.2.1 to\nversion 2.1.0.1 or earlier. \n Before you begin \n \nEnsure that you completed Obtaining the installation files for upgrade.Do not\ncomplete this task if you installed Cloud Pak for Data in your existing IBM Cloud\nPrivate environment. For the steps that you must complete, see Upgrading Cloud\nPak for Data. \n About this task \n \nThe Cloud Pak for Data installation package includes the IBM Cloud Private\ninstaller. If you completed Obtaining the installation files for upgrade, you should\nhave a copy of the IBM Cloud Private installer on the master node (master-1) of\nyour cluster. Also, ensure that the yum rpm sshpass is installed on master-1 (use\nthe command yum list installed | grep\nsshpass to check). \n Procedure \n \nSSH into the master node (master-1) of your cluster as root:ssh root@MASTER_1_IP \n \nEnsure that you are authenticated to the following command-line interfaces:\nIBM Cloud Private command-line interface. Microsoft Azure example:cloudctl login\n--skip-ssl-validation -a https://<azure cloud>:8443 -u <adminuser> -p <adminuserpassword> -n default -c\nid-myicp-account \nKubernetes command-line interface (kubectl). For example:kubectl get pods -n\nkube-system \nHelm. For example:helm version --tls \nOr if TLS is not set up for Helm: \nhelm version \nThe command should return the version information for the Helm server and\nHelm client. \nDocker registry. For example:docker login DOCKER_REGISTRY_URL -u USER_NAME -p \n \nChange to the /installation_directory/upgrade directory and run the following\ncommand to start the upgrade:./installer.x86_64.nnn --platform-upgrade=ICP \nTip: Alternatively, you can automatically upgrade the Cloud Pak for Data Docker\nusing the --platform-upgrade=docker flag, GlusterFS using the --\nplatform-upgrade=gluster flag, or all three (Cloud Pak for Data, docker,\nand GlusterFS) using the --platform-upgrade=all flag. \nThe upgrade program will extract all of the necessary packages. \nWhen prompted, type A to agree to the terms and conditions. \n \n117\n4.\n5.\n6.\n7.\n8.\n9.\nSpecify the number that corresponds to the authentication method in the returned\nlist. If you select SSHkey, you must specify the SSHkey file path. If you select\nroot/password, you must specify the root password.\nSpecify the old version of the Cloud Pak for Data installation directory. The default\nis /ibm/InstallPackage.\nSpecify the Cloud Pak for Data host file path. The default is\n/ibm/InstallPackage/ibm-cp-app/cluster/hosts.\nSpecify the old version of the IBM Cloud Private installation directory when\nupgrading IBM Cloud Private. The default is /ibm/InstallPackage/ibm-cp-app.\nAfter the IBM Cloud Private upgrade completes, the information to access the\nIBM Cloud Private console is displayed.The default URL is https://MASTER_1_IP\n:8443, where MASTER_1_IP is the IP address of the master-1 node of your\ncluster. \nIf you created your cluster within a private network, use the public IP address of\nthe master-1 node to access the cluster. \nTroubleshooting tip: You can view the upgrade log file at installation_directory\n/upgrade/InstallPackage/tmp/platform_upgrade.log. \n \nClear the cache in your web browser.\n \n118\n1.\n2.\n-\n-\n-\n3.\n4.\n5.\n Upgrading your Cloud Pak for Data installation \nYou can run the IBM® Cloud Pak for Data installation to upgrade from Cloud Pak for\nData Version 1.2.1.1 or later to Version 2.1.0.2. If you are running version 1.2.0, you\nmust upgrade to version 1.2.1.1 before you can upgrade to version 2.1.0.2. \n Before you begin \n \nEnsure that you completed the appropriate tasks for your environment:\n About this task \n \n Procedure \n \nSSH into a node from which you can run kubectl and helm commands.For a\nstand-alone installation of Cloud Pak for Data, SSH into the master node (\nmaster-1) of your cluster as root.  \nEnsure that you are authenticated to the following command-line interfaces:\nKubernetes command-line interface (kubectl). For example:kubectl get pods -n\nkube-system \nHelm. For example:helm version --tls \nOr if TLS is not set up for Helm: \nhelm version \nThe command should return the version information for the Helm server and\nHelm client. \nDocker registry. For example:docker login DOCKER_REGISTRY_URL -u USER_NAME -p \n \nCreate the docker secret for an icp4d-anyuid service account:kubectl create\nsecret -n YOUR_NAMESPACE docker-registry icp4d-anyuid-docker-pull --docker-server=DOCKER_REGISTRY_URL --\ndocker-username=admin --docker-password=DOCKER_REGISTRY_PASSWORD \nReplace YOUR_NAMESPACE with the namespace where IBM Cloud Private is\ndeployed. The default namespace is zen. \n \nChange to the directory where you placed the upgrade installation files. By\ndefault the files are in the /upgrade.\nStand-alone upgrade only: To upgrade GlusterFS to version 6.1, ensure that\nthe yum rpm sshpass is installed on the master-1 node (use the command\nyum list installed | grep sshpass to check). Then run the following\ncommand to automatically upgrade GlusterFS to version 6.1:./installer.x86_64.nnn --\nplatform-upgrade=gluster \n \nEnvironment Prerequisite tasks\nExisting IBM Cloud Private\ninstallations\nUpgrade GlusterFS to version\n6.1 (see Upgrading\nGlusterFS)Obtaining the\ninstallation files for upgrade\nStand-alone Cloud Pak for Data\ninstallation\nObtaining the installation files for\nupgradeUpgrading the\nembedded version of IBM Cloud\nPrivate\n119\n6.\n7.\nA.\n-\n-\nB.\n-\n-\nC.\nD.\n-\n-\n-\n-\nE.\n-\n-\n-\n-\nRun the following command to start the upgrade of IBM Cloud Private:./\ninstaller.x86_64.nnn --upgrade \n \nRespond to the following prompts, and ensure the values match your original\ninstallation:\nSpecify whether you want to use the default namespace (zen):\nEnter Y to accept the default namespace.\nEnter N to specify a different namespace. Follow the on-screen instructions\nto set up a new namespace. \n \nSpecify whether you want to use the default console port (31843):\nEnter Y to accept the default console port.\nEnter N to specify a different console port.\n \nSpecify the cluster Docker image prefix, for example\nmycluster.icp:8500/zen, and press Enter.This is the address that your\nnodes use to access the Docker registry. \nSpecify whether the external Docker image prefix is the same as the cluster\nDocker image prefix. For example, you might specify a different external\nDocker image prefix if you are performing the installation from a host that is\nexternal to your cluster. \nEnter Y to use the cluster Docker image prefix as the external Docker.\nEnter N to specify a different external Docker image prefix. You are\nprompted to enter the address of your Docker registry. The address can\nhave one of the following formats:\nhostname\nhostname:port_number\n \nSpecify whether you want to use the default storage class (oketi-gluster):\nEnter Y to accept the default storage class.\nEnter N to select a different storage class. If you don't have an appropriate\nstorage class, the installation program can use an NFS server for the\nstorage and create the required persistent volumes. However, you must\nhave an existing NFS server.Microsoft Azure only: Always enter N to select\nthe NFS entry. \nTo select an existing storage class, specify the number that corresponds to\nthe storage class in the returned list. For example:\n \nTo use an NFS server, enter the number that corresponds to the NFS\nentry in the returned list and specify the IP address and path (mount point)\nof your NFS server. The installation program will use this NFS server for\nstorage and create the required persistent volumes on it.\n120\n8.\n-\n-\n9.\nA.\nB.\nC.\n10.\n1.\n2.\n3.\n4.\n5.\n6.\nRestriction: The No dynamic provisioning option is not recommended. \n \nReview the upgrade summary.\nIf the values are correct, enter Y to proceed with the upgrade.\nIf the values are incorrect, enter N to restart the prompts.\nWait for the upgrade to complete.The upgrade will not run against any modules\nthat have the same version. Only modules with an older version are upgraded. \nTip: If an upgrade step fails, the installer exits. You can run the upgrade again by\nrunning the following command:./installer_filename --upgrade \n \nTroubleshooting tip: If the upgrade stalls with the pod shop4info-type-\nregistry-0 being stuck in CrashLoopbackoff state, then complete the\nfollowing steps to resolve it:\nLog in to the solr pod: kubectl -n YOUR_NAMESPACE -it solr-0 --\nbash. Replace YOUR_NAMESPACE with the namespace where IBM Cloud\nPrivate is deployed. The default namespace is zen.\nDelete the shop4infoMain_shard* files in /opt/solr-7.4.0/server/solr/data.\nManually recreate the collection: solr create_collection -c\nshop4infoMain -shards 2\n-replicationFactor 1 -confname search -confdir search -p\n8983;\n \n \nIf you have the Unified Governance and Integration add-on installed, restart its\nrelated pods to ensure that discovery jobs can run successfully:kubectl\ndelete pod $(kubectl get pods -n zen | grep\n'gov-app-config-service\\|audit-trail-service\\|gov-catalog-\nsearch-service\\|gov-social-service\\|gov-user-prefs-\nservice\\|data-masking-lite-service\\|shop4info'\n| awk '{print $1}') -n YOUR_NAMESPACE \nReplace YOUR_NAMESPACE with the namespace where IBM Cloud Private is\ndeployed. The default namespace is zen. \n \n What to do next \n \nTo verify that the upgrade succeeded, check the status of the pods to ensure they\nare all running:kubectl get pods --all-namespaces \nIf you upgraded from version 1.2.1.1, you might have pods such as zen-\nmetastoredb in ImagePullBackOff status that you need to delete. Complete\nthe following steps to delete a pod from default namespace zen: \nDescribe the pod to retrieve the node it is present in:kubectl describe po zen-metastoredb-0\n-n zen \nSSH into the node.\nSign into the docker registry:docker login DOCKER_REGISTRY_URL -u USER_NAME -p \nPull the docker images:docker pull DOCKER_REGISTRY_URL/zen/zen-metastoredb:v2.1.0.1 \nExit the node.\nDelete the pod:kubectl delete pod -n zen zen-metastoredb-0 \n121\n7.\n1.\n2.\n3.\nVerify that the pod is now running:kubectl get pods -n zen | grep zen-metastoredb \nFor GlusterFS only: To prevent data discovery jobs from failing or hanging, ensure\nthat the performance.write-behind: off parameter exists in your persistent volume\nsettings by completing the following steps:kubectl get pvc -n namespace |grep en-dedicated | awk\n-F' ' '{print $3}' | xargs gluster volume info \nReplace namespace with your namespace, for example, zen. \nIf performance.write-behind: off does not appear under Options\nReconfigured, complete the following steps to set it: \nGet the Volume\nName:kubectl get pvc -n namespace |grep en-dedicated | awk -F' ' '{print $3}' | xargs gluster volume\ninfo \nSet performance.write-behind: off:gluster volume stop pvname \ngluster volume set performance.write-behind off\ngluster volume start pvname \ngluster volume info pvname \nkubectl delete pod is-en-conductor-0 -n namespace \nReplace pvname with the Volume Name value from the previous step, and\nreplace namespace with your namespace from the previous step. \nVerify that the performance.write-behind parameter is now off:kubectl get pvc -n\nnamespace |grep en-dedicated | awk -F' ' '{print $3}' | xargs gluster volume info \nReplace namespace with your namespace, for example, zen. \n \nTroubleshooting tip: After the upgrade, if your projects all redirect to your getting\nstarted page, you can fix this by deleting the /user-home/_global_/nginx-\nconf.d/image-mgmt.conf file and entering /user-\nhome/.scripts/system/utils/nginx-reload to reload your nginx pods. \n \n122\n-\n-\n Uninstalling \nYou can uninstall IBM® Cloud Pak for Data based on the type of installation you\nhave. \n \nUninstalling the stand-alone version of Cloud Pak for Data \n When you uninstall the stand-alone version of IBM Cloud Pak for Data, the\nprogram is removed from your system along with IBM Cloud Private.\nUninstalling Cloud Pak for Data from an existing Red Hat OpenShift or IBM\nCloud Private environment \n You can uninstall IBM Cloud Pak for Data from an existing OpenShift or IBM\nCloud Private environment.\n123\n Uninstalling the stand-alone version of Cloud Pak\nfor Data \nWhen you uninstall the stand-alone version of IBM® Cloud Pak for Data, the\nprogram is removed from your system along with IBM Cloud Private. \n Procedure \n \nTo uninstall the stand-alone version of Cloud Pak for Data, run the following script in\nthe InstallPackage directory:uninstall.sh \nThe uninstaller restarts Docker. If you experience a hang on the system during this\nstep, run the following command on the master node (master-1) of your cluster:\nsystemctl --force reboot and then restart the uninstallation process. \n \n \n \nParent topic:Uninstalling \n \n124\n1.\n-\n-\n2.\n3.\n-\n-\n4.\n-\n-\n5.\n6.\n Uninstalling Cloud Pak for Data from an existing\nRed Hat OpenShift or IBM Cloud Private\nenvironment \nYou can uninstall IBM® Cloud Pak for Data from an existing OpenShift or IBM Cloud\nPrivate environment. \n About this task \n \nTo uninstall Cloud Pak for Data from an existing OpenShift or IBM Cloud Private\nenvironment, complete the following steps: \n Procedure \n \nGet and save the list of PersistentVolumes that Cloud Pak for Data created.\nIBM Cloud Private command:kubectl get pvc -n your-namespace --no-headers |awk '{print $3}' \nOpenShift command:oc get pvc -n your-namespace --no-headers |awk '{print $3}' \nWhere your-namespace is the Cloud Pak for Data namespace. \nRemove all helm charts from the Cloud Pak for Data namespace using the\nfollowing script:#!/bin/bash\nhelm list --namespace your-namespace | awk '{ print $1 }' | tail -n +2 | while read line\ndo\n       echo \"running helm delete $line --purge\"\n       helm delete $line --purge\ndone \nWhere your-namespace is the Cloud Pak for Data namespace.  \nDelete the namespace.\nIBM Cloud Private command:kubectl delete namespace your-namespace \nOpenShift command:oc delete your-namespace \n Where your-namespace is the Cloud Pak for Data namespace. \nDelete each PersistentVolume in the list.\nIBM Cloud Private command:kubectl delete pv pvname \nWhere pvname is the name of each PersistentVolume.\nOpenShift command:oc get pvc -n your-namespace --no-headers | awk '{print $3}' | while read\nline\ndo\n       echo \"deleting pv $line\"\n       oc delete pv $line\ndone \nWhere your-namespace is the Cloud Pak for Data namespace.\nClean up your storage accordingly.\nRemove the Helm/Tiller instance.\n \nParent topic:Uninstalling \n \n125\n"
+  ]
+}

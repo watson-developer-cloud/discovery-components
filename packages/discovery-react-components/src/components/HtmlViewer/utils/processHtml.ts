@@ -1,0 +1,409 @@
+import findIndex from 'lodash/findIndex';
+import { SaxParser, Parser, ParsingError, Attributes } from 'utils/document/saxParser';
+import cloneDeep from 'lodash/cloneDeep';
+import { QueryResult } from 'ibm-watson/discovery/v2';
+import { getId } from 'utils/document/idUtils';
+import transformEnrichment from 'utils/document/transformEnrichment';
+import { getEnrichmentName } from 'components/CIDocument/utils/enrichmentUtils';
+import { spansIntersect } from 'utils/document/documentUtils';
+import { decodeHTML, encodeHTML } from 'entities';
+import { Options } from './processDoc';
+import { isRelationObject } from '../../../utils/document/nonContractUtils';
+
+// split HTML into "sections" based on these top level tag(s)
+const SECTION_NAMES = ['p', 'ul', 'table'];
+
+const TABLE_TAG = 'table';
+const BBOX_TAG = 'bbox';
+
+// skip rendering `<bbox>` nodes?
+// TODO When removing, we need to readjust the offsets for parent nodes;
+//      otherwise, parsing docs fails
+const SKIP_BBOX = false;
+
+export interface Location {
+  begin: number;
+  end: number;
+}
+
+export interface ProcessedDoc {
+  styles: string;
+  sections?: any[];
+  tables?: Table[];
+  bboxes?: ProcessedBbox[];
+  itemMap?: {
+    byItem: any;
+    bySection: any;
+  };
+}
+
+export interface ProcessedBbox {
+  left: number;
+  right: number;
+  top: number;
+  bottom: number;
+  page: number;
+  className: string;
+  location: Location;
+}
+
+export interface Table {
+  location: Location;
+  bboxes: ProcessedBbox[];
+}
+
+/**
+ * Convert document data into structure that is more palatable for use by
+ * CIDocument
+ *
+ * @param {Object} queryData Discovery document data
+ * @param {Object} options
+ * @param {Boolean} options.sections return array of HTML sections
+ * @param {Boolean} options.tables return array of tables' bboxes
+ * @param {Boolean} options.bbox return array of bboxes, with classname
+ * @param {Boolean} options.itemMap return item mapping into 'sections'
+ * @throws {ParsingError}
+ */
+export async function processHtml(
+  // eslint-disable-next-line @typescript-eslint/camelcase
+  queryData: QueryResult,
+  options: Options
+): Promise<ProcessedDoc> {
+  const { html, enriched_html: enrichedHtml } = cloneDeep(queryData);
+  const transformedEnrichmentArray = transformEnrichment(enrichedHtml);
+
+  //enriched_html is a singlton array.
+  const transformedEnrichment = transformedEnrichmentArray && transformedEnrichmentArray[0];
+  const enrichment = transformedEnrichment
+    ? transformedEnrichment[getEnrichmentName(transformedEnrichment)]
+    : [];
+
+  const doc: ProcessedDoc = {
+    styles: ''
+  };
+  if (options.sections) {
+    doc.sections = [];
+  }
+  if (options.tables) {
+    doc.tables = [];
+  }
+  if (options.bbox) {
+    doc.bboxes = [];
+  }
+
+  const parser = new SaxParser();
+
+  // setup initial parsing handling
+  setupDocParser(parser, doc);
+
+  const htmlContent = Array.isArray(html) ? html[0] : html;
+
+  // kick off parsing
+  await parser.parse(htmlContent);
+
+  sortFields(enrichment, doc, options.enrichmentFields);
+  if (options && options.sections && options.itemMap) {
+    addItemMap(doc);
+  }
+
+  return doc;
+}
+
+function setupDocParser(parser: SaxParser, doc: ProcessedDoc): void {
+  parser.pushState({
+    onopentag: (_: Parser, tagName: string): void => {
+      /* eslint-disable-next-line default-case */
+      switch (tagName) {
+        case 'style': {
+          setupStyleParser(parser, doc);
+          break;
+        }
+        case 'body': {
+          setupBodyParser(parser, doc);
+          break;
+        }
+      }
+    }
+  });
+}
+
+function setupStyleParser(parser: SaxParser, doc: ProcessedDoc): void {
+  let styleText = '';
+
+  parser.pushState({
+    onopentag: (_: Parser, tagName: string): void => {
+      throw new ParsingError(`Unexpected open tag (${tagName}) in <style>`);
+    },
+
+    ontext: (_: Parser, text: string): void => {
+      styleText += text;
+    },
+
+    onclosetag: (_: Parser, tagName: string): void => {
+      if (tagName !== 'style') {
+        throw new ParsingError(`Unexpected close tag (${tagName}); expected </style>`);
+      }
+
+      // finish
+      doc.styles += styleText;
+
+      // cleanup
+      parser.popState();
+    }
+  });
+}
+
+function setupBodyParser(parser: SaxParser, doc: ProcessedDoc): void {
+  parser.pushState({
+    onopentag: (p: Parser, tagName: string, attributes: Attributes): void => {
+      if (SECTION_NAMES.includes(tagName)) {
+        setupSectionParser(parser, doc, tagName, attributes, p.startIndex, p);
+      }
+    }
+  });
+}
+
+function setupSectionParser(
+  parser: SaxParser,
+  doc: ProcessedDoc,
+  sectionTagName: string,
+  sectionTagAttrs: Attributes,
+  sectionStartIndex: number,
+  sectionParser: Parser
+): void {
+  let lastClassName = '';
+  let currentTable: Table | null = null;
+  let currentBbox: ProcessedBbox | null = null;
+
+  // track nested nodes of same tag name
+  let stackCount = 0;
+  const openTagIndices = [0];
+  const sectionHtml: string[] = [];
+
+  const actionState = getActionState();
+  parser.pushState(actionState);
+
+  // Ensures the current section open tag is called first and then
+  // continues through tags inside of that section.
+  actionState.onopentag(sectionParser, sectionTagName, sectionTagAttrs);
+
+  function getActionState() {
+    return {
+      onopentag: (p: Parser, tagName: string, attributes: Attributes): void => {
+        if (attributes.class) {
+          lastClassName = attributes.class as string;
+        }
+
+        if (tagName !== BBOX_TAG || !SKIP_BBOX) {
+          sectionHtml.push(openTagToString(tagName, attributes, getChildBeginFromOpenTag(p)));
+          openTagIndices.push(sectionHtml.length - 1);
+        }
+
+        // <table border="1" data-max-height="78.36000061035156" data-max-width="514.1761474609375"
+        //    data-max-x="48.999847412109375" data-max-y="72.62348937988281"
+        //    data-min-height="78.36000061035156" data-min-width="514.1761474609375"
+        //    data-min-x="48.999847412109375" data-min-y="72.62348937988281" data-page="39">
+        if (tagName === TABLE_TAG && doc.tables) {
+          currentTable = {
+            location: {
+              begin: p.startIndex,
+              end: 0
+            },
+            bboxes: []
+          };
+          doc.tables.push(currentTable);
+        }
+
+        // <bbox height="6.056159973144531" page="1" width="150.52044677734375" x="72.0" y="116.10381317138672">
+        if (tagName === BBOX_TAG && (doc.bboxes || currentTable)) {
+          const left = Number(attributes.x);
+          const top = Number(attributes.y);
+          currentBbox = {
+            left: left,
+            right: left + Number(attributes.width),
+            top: top,
+            bottom: top + Number(attributes.height),
+            page: Number(attributes.page),
+            className: lastClassName,
+            location: {
+              begin: p.startIndex,
+              end: 0
+            }
+          };
+          if (doc.bboxes) {
+            doc.bboxes.push(currentBbox);
+          }
+          if (currentTable && doc.tables) {
+            currentTable.bboxes.push(currentBbox);
+          }
+        }
+
+        if (tagName === sectionTagName) {
+          stackCount++;
+        }
+      },
+
+      ontext: (_: Parser, text: string): void => {
+        // In order to properly highlight texts in the DOM we need
+        // to know if the original text contains some encoded
+        // html entities, and if so, we pass that value down to
+        // be used later.
+        if (decodeHTML(text).length != text.length) {
+          const lastElemIndex = openTagIndices[openTagIndices.length - 1];
+          // For us to be able to access the original text, we need to
+          // encode it again because otherwise the dom will decode it
+          // when we try to access it later
+          sectionHtml[lastElemIndex] = sectionHtml[lastElemIndex].replace(
+            />$/,
+            ` data-orig-text="${encodeHTML(text)}">`
+          );
+        }
+
+        sectionHtml.push(text);
+      },
+
+      onclosetag: (p: Parser, tagName: string): void => {
+        if (tagName !== BBOX_TAG || !SKIP_BBOX) {
+          sectionHtml.push(closeTagToString(tagName));
+
+          // update opening tag with location of closing tag
+          const openTagIdx = openTagIndices.pop() as number;
+          sectionHtml[openTagIdx] = sectionHtml[openTagIdx].replace(
+            />$/,
+            ` data-child-end="${getChildEndFromCloseTag(p)}">`
+          );
+        }
+
+        if (doc.tables && tagName === TABLE_TAG && currentTable) {
+          currentTable.location.end = p.endIndex || p.startIndex;
+          currentTable = null;
+        }
+
+        if (doc.bboxes && tagName === BBOX_TAG && currentBbox) {
+          currentBbox.location.end = getChildEndFromCloseTag(p);
+          currentBbox = null;
+        }
+
+        if (tagName === sectionTagName) {
+          stackCount--;
+
+          if (stackCount === 0) {
+            // finish
+            if (doc.sections) {
+              doc.sections.push({
+                html: sectionHtml.join(''),
+                location: {
+                  begin: sectionStartIndex,
+                  end: p.endIndex || p.startIndex
+                },
+                enrichments: []
+              });
+            }
+
+            // cleanup
+            parser.popState();
+          }
+        }
+
+        if (tagName === 'body') {
+          parser.popState();
+        }
+      }
+    };
+  }
+}
+
+function getChildBeginFromOpenTag(p: Parser): number {
+  // For an open tag, `p.endIndex` will be the ">". Add one to get
+  // offset for child content.
+  // (Default to `startIndex` since `endIndex` is marked as possibly null)
+  return (p.endIndex || p.startIndex) + 1;
+}
+
+function getChildEndFromCloseTag(p: Parser): number {
+  return p.startIndex;
+}
+
+function openTagToString(tagName: string, attributes: Attributes, position: number): string {
+  const text = [`<${tagName}`];
+
+  if (attributes) {
+    for (const [attr, val] of Object.entries(attributes)) {
+      text.push(` ${attr}="${val}"`);
+    }
+  }
+
+  text.push(` data-child-begin="${position}"`);
+  text.push('>');
+  return text.join('');
+}
+
+function closeTagToString(tagName: string): string {
+  return `</${tagName}>`;
+}
+
+function sortFields(_enrichments: any, doc: ProcessedDoc, enrichmentFields: any[]): void {
+  // shallow copy of object
+  const enrichments = Object.assign({}, _enrichments);
+
+  for (const enrichmentField of enrichmentFields) {
+    const { path: fieldPath, locationData } = enrichmentField;
+    const fields = enrichments[fieldPath];
+    if (!fields) {
+      continue;
+    }
+
+    // ASSUMPTIONS:
+    // - location data in JSON is sorted
+
+    if (doc.sections) {
+      for (const field of fields) {
+        if (locationData) {
+          for (const locationItem of field[locationData]) {
+            sortFieldsBySection(locationItem, doc.sections, fieldPath);
+          }
+        } else {
+          sortFieldsBySection(field, doc.sections, fieldPath);
+        }
+      }
+    }
+  }
+}
+
+function sortFieldsBySection(field: any, sections: any[], fieldType: string): void {
+  const { begin, end } = field.location;
+
+  const sectionIdx = findIndex(sections, item => spansIntersect({ begin, end }, item.location));
+  if (sectionIdx === -1) {
+    // notify of error, but keep going
+    // eslint-disable-next-line no-console
+    console.error('Failed to find doc section which contains given field');
+    return;
+  }
+
+  sections[sectionIdx].enrichments.push({
+    ...field,
+    __type: fieldType
+  });
+}
+
+function addItemMap(doc: ProcessedDoc): void {
+  const { sections } = doc;
+  const byItem = {};
+  const bySection = {};
+
+  (sections as any[]).forEach((section, sectionNum) => {
+    bySection[sectionNum] = [];
+
+    for (const item of section.enrichments) {
+      const itemId = getId(item);
+      bySection[sectionNum].push(itemId);
+      byItem[itemId] = sectionNum;
+    }
+  });
+
+  doc.itemMap = {
+    byItem,
+    bySection
+  };
+}

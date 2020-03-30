@@ -1,0 +1,2913 @@
+{
+  "text": "Accuracy The precision of the answers returned if all questions are answered. Accuracy can be measured in terms of how highly ranked the correct answer is in the final answer set. So, \"accuracy at one,\" would measure how often the correct answer is the top ranked position. For some applications, the correct answer might have to be only in the top five (or top \"n\"), so accuracy at 5 (or accuracy at \"n\") might be the more appropriate metric to track. Accuracy analysis The study of experiments run against IBM Watson. The goals of such analysis include understanding the behavior of the system as implemented (a control) and determining if and how changes to the implementation (the experiment) benefit or hinder the overall ability of the system to answer questions. Adaptation methodology The guiding process for creating a domain solution based on the IBM Watson platform. The methodology defines four phases: inception, elaboration, construction, and transition which cover the steps from domain analysis and goal setting through to a deployment of the system in a production environment. Aggregate analysis engine An analysis engine made up of multiple subcomponent analysis engines arranged in a flow. The flow can be one of the built-in UIMA flows, or a custom flow provided by the user. Also referred to as the top level aggregate (TLA). Analysis engine A program that analyzes artifacts, such as documents, and infers information about them, and which implements the UIMA Analysis Engine interface specification. Analysis engines are constructed from building blocks called annotators. An analysis engine can contain a single annotator, which is referred to as a primitive analysis engine, or multiple annotators, which is referred to as an aggregate analysis engine. Anaphora An instance of an expression referencing another expression. The association of a label with a region of text or other type of artifact. For example, the label \"Person\" associated with a region of text \"John Doe\" constitutes an annotation. We say \"Person\" annotates the span of text from X to Y containing exactly \"John Doe.\" An annotation is represented as a special type in a UIMA type system. It is the type used to record the labeling of regions of a subject of analysis. Annotator A software component that implements the UIMA Annotator interface. Annotators are implemented to produce and record annotations over regions of an artifact. Annotators define a set of vocabularies and rules which describe the language used to describe objects in a given domain and how they interact. Anonymization The process of permanently and completely removing personal identifiers from data. Anonymized data is data that can no longer be associated with an individual in any manner. Once this data is stripped of personally identifying elements, those elements can never be reassociated with the data nor the underlying individual. Answer key Refers to a single XML file containing all questions and their allowable answers for the IBM Watson system. Also referred to as ground truth. Answer scoring Process of associating a set of values with each possible answer. Referred to as context independent scoring in the code. ARFF The Attribute-Relation File Format file extension type. Artifact The object being analyzed by the UIMA pipeline. Artifacts include a text document, or audio or video stream. Ask Term used to describe the phase in which the system is answering questions, both those asked by testing and accuracy analysts while testing the system and those asked at runtime by users. It is one of three phases: ingest, train, and ask. Attribute Key word or concept within an input case that is known or expected to be deterministic of the correct output. BlADE BlueJ Automatic Distributed Execution Environment. Web tool for experiment job scheduling and work distribution. Developed by IBMÂ® Research to ensure that question-centric tasks could be processed as efficiently as possible through the DeepQA pipeline using the hardware resources available. Blind data A set of question and answer pairs that are never released or seen by developers and are used to test the system periodically, typically quarterly, to evaluate performance on unseen data. Testing on blind data prevents accuracy from being tainted by over-fitting to known question sets. Reported results should only come from tests that are run on blind data. Build phase The development and deployment phase of an IBM Watson engagement that serves to deliver a solution into a pilot. BVT Build Verification Test. Small set of tests that are run to verify the quality of a build. Camel Apache Camel is an open source rule-based application integration framework used by DUCC. It is a routing engine builder that allows you to define your own routing rules, decide from which sources to accept messages, and determine how to process and send those messages to other destinations. Camel uses an integration language that allows you to define complex routing rules. Candidate answer An answer generated by the system which is evaluated for correctness and might be returned as the correct answer. CAS Common Analysis Structure. UIMA data structure for storing annotations. The UIMA Common Analysis Structure is the primary data structure which UIMA analysis components use to represent and share analysis results. It contains:  The artifact: This is the object being analyzed such as a text document or audio or video stream. The CAS projects one or more views of the artifact. Each view is referred to as a Sofa.  A type system description: The CAS indicates the supported types, subtypes, and their features.  Analysis metadata: Annotations describing the artifact or a region of the artifact.  Index repository: Supports efficient access to and iteration over the results of analysis. UIMA's primary interface to this structure is provided by a class called the Common Analysis System. \"CAS\" is used to refer to both the structure and system. Where the common analysis structure is used through a different interface, the particular implementation of the structure is indicated. For example, the JCas is a native Javaâ„¢ object representation of the contents of the common analysis structure. A CAS can have multiple views; each view has a unique representation of the artifact, and has its own index repository, representing results of analysis for that representation of the artifact. CAS Consumer A component that receives each CAS in the collection after it has been processed by an analysis engine. The CAS Consumer may then perform collection-level analysis and construct an application-specific, aggregate data structure. A component that populates a CAS from a raw document. For example, if the document is HTML, a CAS Initializer might store a detagged version of the document in the CAS and also create inline annotations derived from the tags. For example <p> tags might be translated into inline Paragraph annotations in the CAS. CAS Processor A component that takes a CAS as input and returns a CAS as output. There are two types of CAS Processors: Analysis Engines and CAS Consumers. CDE Component Descriptor Editor. An Eclipse tool that you can use to edit UIMA descriptors. CE Controlled English. A type of Controlled Natural Language, used for displaying the PCAS and describing Prolog rules. CNL Controlled Natural Language. A simplified version of English that provides unambiguous meaning and permits easy parsing by a computer system. Might be used as a human-readable formal language between system and machine. Collection reader A component that reads documents from some source, for example a file system or database. Each document is returned as a CAS that may then be processed by analysis engines. If the task of populating a CAS from the document is complex, a Collection Reader may choose to use a CAS Initializer for this purpose. Component Term used to refer to one of the many products that comprise the IBM Watson system's hardware. In the context of Watson, the term concept is used to define the class of objects and terms in a domain. For example, in the health care domain, concepts include doctor, patient, symptom, and disease. ConceptMapper Apache dictionary lookup utility that, given text as input, maps entries in a dictionary to UIMA annotations. This utility is used by the IBM Watson system to annotate Wikipedia titles in question and document text and to map synonyms of Wikipedia titles. The ConceptMapper, or JFrost service, was replace by the Concept Annotator in the 1.3 release. Confidence The predicted probability of an answer being correct. Precision and accuracy are both related to the confidence metric produced by Watson for each possible answer it returns. Candidate answers are ranked by confidence; if the customized pipeline is providing high-quality answers, confidence should show a strong correlation with answer quality. Confusion matrix Table providing detailed numeric breakdown of predicted and actual answers. The table is used to evaluate model predictions for candidate answers. The example below includes two additional columns providing summary counts and the percentage of correct numbers. Table 1. Confusion matrix table example Construction phase Third phase in the adapting Watson methodology which involves an iterative process of functional adaptation driven by accuracy analysis. Content The resources, structured or unstructured, that are ingested into the Watson system to form the knowledge base. These ingested resources are used to understand the question, determine hypotheses, find supporting evidence, and rank candidate answers. The term content is used to distinguish the source corpora from the term data , which consists of question sets and the answer key that are used to train and test the system. Context Dependent Scoring Annotators that create machine learning features based on the question text, the answer, and the context in which the answer appeared, such as a passage. Context Independent Scoring Annotators that create machine learning features based on the question text and the answer without regard to the context of the answer. Corpora Multiple collections of resources. A corpora is distinct from a knowledge base in that it represents raw data, while a knowledge base is the term used to describe corpora that have been ingested into the system. Corpora is the plural form of corpus. Corpus In linguistics, a corpus is a large and structured set of texts that are usually electronically stored and processed. In the IBM Watson system, the corpus represents a collection of as yet unprocessed data resources for a specific domain or target solution. The plural form of corpus is corpora. CPE Collection Processing Engine. Performs collection processing through the combination of a Collection Reader, an optional CAS Initializer, an Analysis Engine, and one or more CAS Consumers. The Collection Processing Manager (CPM) manages the execution of the engine. CPM Collection Processing Manager. A module in the framework that manages the execution of collection processing, routing CASs from the Collection Reader to an Analysis Engine and then to the CAS Consumers. The CPM provides feedback such as performance statistics and error reporting and may implement other features such as parallelization. CSV Comma Separated Values. A file format used to represent feature vectors for machine learning training and testing by SPSSÂ®. See also ARFF. Customization mode One of the three modes in which you can run the IBM Watson system. You run the system in customization mode when you are adapting the annotators, services, and components that make up the system for a new domain or data set. See Ingestion mode and Production mode for information about the other two modes. Declarative customization Changing files that express rules or information for various algorithms in the pipeline. Deep evidence scoring Referred to as context dependent scoring in the code. De-identification The removal of personally identifying information in order to protect personal privacy. Deidentified data may not necessarily be anonymized data. This may mean that the personally identifying information may be able to be re-associated with the data at a later time. In this product document, anonymization is considered a subset of de-identification. Deliverable Content ready to be handed over to client or to be used in the next phase of a methodology. Derby Open source small relational database implemented in Java. Descriptor Short for UIMA descriptor; A UIMA configuration file for a primitive UIMA analysis engine or a configuration for an aggregate set of other descriptors. Design patterns Repeatable patterns that have been used in IBM Watson solutions such as Jeopardy! or Oncology diagnosis and treatment that can be modified and reused in other solutions. Developer gateway system A machine used by developers, domain experts, and others to make changes to the underlying system code. When configuring the system to run in customization mode, the system administrator reserves a set of machines which are nodes within the 10 GbE compute network, and that have access to the shared file system, to serve as developer gateway systems. The administrator installs the Eclipse development environment, and other UI services on these machines, which developers can use to add to and change annotators and other services in the pipeline. DFR Daily Functional Regression. A suite of FVT tests that go beyond BVT and provide a high degree of confidence that the build quality is high. DI Document Largest unit of text considered by an analysis engine; primarily searched using Indri. Domain DUCC Distributed UIMA Cluster Controller. UIMA AS based runtime job management application framework that will replace the BlADE tool. Elaboration phase Second phase of the adapting Watson methodology which involves building a baseline system with training and test data, and content. Elementary Watson A configuration of the IBM Watson pipeline that runs only one process of each service type. This configuration reduces the memory footprint of the runtime to the point where it is possible to run all the pipeline processes on a single LPAR with 512G of memory. ESG English Slot Grammar parser. Evidence Details from supporting passages returned after searching the IBM Watson corpora that was used to form the answer to the question. The evidence provides text from passages within the corpora that support the answer. Evidence preparation Any process needed to prepare evidence for use by IBM Watson. De-identification, corpus reduction, optical character recognition, language translation are examples of evidence preparation. Experiment A question set run through the pipeline based on configuration and training models. The configuration and training models are varied over time in an attempt to improve question answering performance. When question sets are modified, new experiments must be created. Extract, transform, load (ETL) The process of extracting information from available content, transforming it into a form usable by IBM Watson and loading it into some operational store for real time use. Fact search A search that given a fact pattern, returns facts extracted from a collection of documents by a set of analysis engines that match the fact pattern. False negation Answers that are actually true and are predicted to be false. These answers are called Type II errors in some contexts. False positive Answers that are actually false and are predicted to be true. These answers are called Type I errors in some contexts. Feature A data member or attribute of a type. Each feature itself has an associated type. In the database analogy where types are tables, features are columns. Feature vector An ordered set of features representing multiple characteristics. The last stage of processing in the IBM Watson pipeline which uses machine learning to identify the final answer. The various feature scores are normalized and combined into a single score for each candidate answer and a ranking of those candidate answers is provided. Flow controller A UIMA construct that determines the order in which the components of a top level aggregate are invoked on a CAS. Focus A noun or a noun phrase that is likely to be present in the answer. To test a candidate answer, Watson substitutes the focus with the candidate answer to produce a statement; the truth of the resulting statement is correlated with the value of the substituted answer. Frame Contains all the relevant ESG (English Slot Grammer) slots and their values. They are created during preprocessing when building Prismatic Knowledge Bases. GPFS IBM General Parallel File System. High performance shared-disk file management solution that provides quick access to data from multiple nodes in a cluster environment. Ground truth An answer key that contains questions and answers that are representative of the types of questions that will be asked and answers expected in a given use case. Hadoop Software library that serves as a framework for the distributed processing of large data sets across clusters of computers. Starting with release 1.3, the ingestion processes that were once managed by Hadoop are managed by BlADE and LiteScale. Headroom analysis The process of determining how much improvement in accuracy or recall can be expected by addressing some class of problems identified while performing accuracy analysis. Human annotator A person who updates answer keys with alternative answers and answer forms. HUTT Hierarchical Unified Type Taxonomy. A universal entity type system integrated into the base type system for the IBM Watson system. Hybrid analysis engine An aggregate analysis engine where more than one of its component analysis engines are deployed in the same address space and one or more are deployed remotely (part tightly and part loosely-coupled). Hypothesis generation Also known as candidate answer generation. This is the step in an IBM Watson pipeline where all possible candidate answers for a given case are identified from the available content. IDF Inverse Document Frequency. A measure of how common or rare a term is across a corpus. Inception phase First phase of the adapting Watson methodology which involves defining the Watson solution and its key requirements, especially the types of questions that will be asked and the kind of application and workflow that will use the Watson service. Data in the CAS can only be retrieved using Indexes. Indexes are analogous to the indexes that are specified on tables of a database. Indexes belong to Index Repositories; there is one Repository for the base CAS and additional ones for each TCAS view of the CAS. Indexes are specified to retrieve instances of some CAS Type (including its subtypes), and can be sorted in a user-definable way. For example, all types derived from the UIMA built-in type uima.tcas.annotation contain begin and end features, which mark the begin and end offsets in the text where this annotation occurs. One may then specify that types should be retrieved sequentially by begin (ascending) and end (descending). In this case, iterating over the annotations, one first obtains annotations that come sequentially first in the text, while favoring shorter annotations, in the case where two annotations start at the same offset. Index, search, and navigate Information from an evidence corpus must be synthesized and placed into an index for efficient use by IBM Watson at runtime. Searches for candidate answers or for supporting evidence are performed over this index. Indri Search engine used to build language modeling information retrieval tools. Information model The generic term used to describe the collection of data repositories used to capture relationships discovered from the available content. Ingest Term used to describe the phase in which the system is being taught. It is one of three phases: ingest, train, and ask. Ingestion The process of feeding data into the system to create its base of knowledge. Processing is performed on the content as it is added to the system, including the creation of derived data resources such as search indexes and a formal knowledge base, and natural language preprocessing of text corpora. One of the three modes in which you can run the IBM Watson system. You run the system in ingestion mode when you are feeding data into the system. See Customization mode and Production mode for information about the other two modes. JCas A Java object interface to the contents of the CAS, where each type in the CAS is represented as a Java class, each feature a property, and each instance of a type a Java object. JMS Java Messaging Service used by UIMA AS. JMX Java Management Extensions. A framework to monitor and manage resources as they are created, installed, and implemented. Keyword search The standard search method where one supplies words or \"keywords\" and candidate documents are returned. Knowledge base A set of data generated by the processing of corpora ingested into the system. LAT Lexical Answer Type. The term in a question or category that indicates the type of entity that is being asked for, independent of assigning semantics to that term. Lemma Canonical form of a set of words. For example, the lemma of run, runs, ran, and running is run. A catalog of a given language's words. The ESG component of Watson includes a set of lexicons which are tailored to perform well for an open domain. These lexicons may not include provisions for some of the domain-specific vocabulary or syntactic structures, thus causing ESG to produce incorrect or incomplete parses. By creating additional domain-specific lexicons ESG parser recall and accuracy can be significantly improved. LiteScale Alternative to UIMA AS that enables you to process multiple CASes within a single UIMA process. Logistic regression A commonly-used regression analysis that predicts the value of a binomial dependent variable from one or more independent or predictor variables. Loosely-coupled analysis engine An aggregate analysis engine where no two of its component analysis engines run in the same address space but where each is remote with respect to the others that make up the aggregate. Ideal for using remote analysis engine services that are not locally available, or for quickly assembling and testing functionality in cross-language, cross-platform distributed environments. Also better enables distributed scaleable implementations where quick recoverability may have a greater impact on overall throughput than analysis speed. Lucene Full text search engine. Machine learning model Machine learning applies past experience, such as training data, to determine or predict the correct outcome of future experiences based on characteristics of the data. These past experiences are captured in the form of a model by calculating feature scores for each candidate answer or evidence and combining that with known outcomes. MDA Leukemia Advisor The IBM Watson solution being created for MD Anderson. Named entities Concepts in the domain that fall in to well defined categories, such as names of organizations, locations, authors, or diseases. NED Named-entity detection. See NER. NER Named Entity Recognition. A system which identifies entities in text and classifies them into predefined categories such as the names of persons, organizations, locations, and so on. NLP Natural Language Processing. The process of a computer extracting meaningful information from natural language input and producing natural language output. NLP models Models are created to perform the extraction of meaningful information from a wide variety of data in natural language format. Ontology The part of a knowledge base that defines the semantics of the data axiomatically. Optical character recognition The conversion of scanned images into machine-encoded text. PAS Predicate Argument Structure. A simplified representation the deep parse of the question. Unit of text typically bounded by a sentence in preprocessed search results; searched using Lucene and Indri in the IBM Watson system. PCAS The Prolog version of the CAS. PDM Predicate Disambiguation and Matching. PEAR An archive file that packages up a UIMA component, its code, descriptor files and other resources required to install and run it in another environment. You can generate PEAR files using utilities that come with the UIMA SDK. Performance In Watson terms, performance refers to the system's accuracy, precision, and recall in answering questions. Phase Final merging and ranking is executed as a sequence of phases that combine machine learning and programmatic functions. PHI Personal Health Information. Any information in a medical record or designated record set that can be used to identify an individual and that was created, used, or disclosed in the course of providing a health care service such as diagnosis or treatment. PII Personally Identifiable Information. Information that can be used to uniquely identify, contact, or locate a single person or can be used with other sources to uniquely identify a single individual. Pipeline Term used to refer to the runtime portion of IBM Watson system. The term is appropriate because the system includes many levels of nested analysis engines; questions that are posed to the system flow from one engine to the next. PMML Predictive Model Markup Language. POS Part of speech. During the NLP processing stage that identifies and delimits syntactic components, individual lexical items are assigned part of speech (POS) tags , and larger units are assigned phrase tags, such as a verb phrase or noun phrase. See http://www.scs.leeds.ac.uk/ccalas/tagsets/brown.html for the parts of speech tags using in the Brown corpus. The tags from the Brown corpus tag set are used frequently in language processing because the Brown corpus was the first tagged electronic resource to be widely available to researchers. Precision A measure of the fraction of retrieved instances that are relevant. High precision means that an algorithm returned more relevant results than irrelevant. In the context of Watson, it measures the percentage of questions that the system gets right out of those it chooses to answer. If no answers with confidence above a defined threshold are returned, then the Watson solution might choose to return no answers. In this case, the precision metric becomes relevant. The threshold must be determined empirically. Precision takes all retrieved documents into account, but it can also be evaluated at a given cut-off rank, considering only the topmost results returned by the system. This measure is called precision at n. For example, for a text search on a set of documents, precision is the number of correct results divided by the number of all returned results. Precision is also used with recall, the percent of all relevant documents that is returned by the search. The two measures are sometimes used together in the F1 Score (or f-measure) to provide a single measurement for a system. Predictive analytics Analytic techniques to examine historical facts and make predictions about future events. Primitive analysis engine An analysis engine that is composed of a single annotator but has no component analysis engines inside of it. Prismatic Knowledge base that stores linguistic frames in association with their frequency of occurrence; used in the IBM Watson system to store knowledge about \"is a\" relationships. Production mode One of the three modes in which you can run the IBM Watson system. You run the system in production mode after it has been adapted to a domain, trained, and tested, and is ready to answer questions. See Customization mode and Ingestion mode for information about the other two modes. Programmatic customization Adding new algorithms into the processing pipeline, and into the post-processors in the final merging and ranking phase. The new algorithms are inserted as UIMA annotators and might replace existing annotators. QA Question and Answer. Question analysis The step in an IBM Watson pipeline that deals with understanding the question or input case supplied to IBM Watson to determine exactly what it is asking and also extracts key information from the question or case such as critical attributes that might be helpful in determining candidate answers. Question set A set of questions and known answers. There are two types of question sets used by the IBM Watson system:  Testing question set: Used to evaluate the system metrics after ingestion and training.  Training question set: Used to train the machine learning models. R2 A named entity recognition annotator that runs in the IBM Watson system. RDF Resource Description Framework. A family of World Wide Web Consortium (W3C) specifications designed as a metadata data model. It is now used as a general method for conceptual description or modeling of information that is implemented in web resources, using a variety of syntax formats. Ready phase The pre-build or data phase of an IBM Watson engagement that ensures all the prerequisites are in place before entering the development or build phase. Recall Recall measures how often the correct answer is found in the top x candidate answers. A measure of the fraction of relevant instances that are retrieved. High recall means that an algorithm returned most of the relevant results. For example, for a text search on a set of documents, recall is the number of correct results divided by the number of results that should have been returned. In the context of Watson, recall@010 identifies the percentage with which the top ten results for the question contain the correct answer to that question. Recall correlates to whether Watson could find the answer in its ingested corpora. It is trivial to achieve recall of 100% by returning all documents in response to any query. Recall should not be evaluated alone, but should be considered along with precision, or the fraction of retrieved documents that are relevant to the search. Route The final merging and ranking phases can be divided into parallel data processing streams called routes; each route handles a different set of candidate answers. The final phase of an IBM Watson engagement where the solution is placed into a production environment in which users use it in their daily jobs. Scoring annotator This is a specific type of UIMA annotator that produces one or more feature scores for each candidate answer. Semantic search A search where the semantic intent of the query is specified using one or more entity or relation specifiers. For example, one could specify that they are looking for a person (named) \"Bush.\" Such a query would then not return results about the kind of bushes that grow in your garden but rather just persons named Bush. Sesame Resource Description Framework triplestore supporting query APIs including SPARQL; used to store word and concept relationships in the IBM Watson system. Service Term used to refer to a process that runs within the IBM Watson system. The services.xml configuration file defines the processes for a given implementation of the pipeline. Sicstus Prolog engine. SofA See Subject of analysis. SPSS Modeler The IBM SPSS Modeler Server is a data mining workbench that helps you build accurate predictive models quickly and intuitively, without having to do any programming. Span Sequence of characters in a text document. SRD Semantic Relation Detection. Semantic relations are relationships between concepts. They can be shallow, based on the syntax of a sentence, or deep, based on rules and the types of entities participating in the relation. Stop words Words that occur frequently and are therefore not useful in distinguishing the semantic content of one document from another. For example, given a query about the size of Vermont , it would not be helpful to return documents containing the word of , whereas documents containing the word Vermont might be relevant. Stop words often operate to provide the structure of a sentence, so they are needed for full parsing, but not for shallow analysis. See http://www.textfixer.com/resources/common-english-words.txt for a sample list of English stop words. Store, manage, govern All of the physical assets and processes needed to ensure the proper capture, access, protection, and replication of the data used in an IBM Watson engagement. Structured information Items stored in structured resources such as search engine indices, databases, or knowledge bases. The canonical example of structured information is the database table. Each element of information in the database is associated with a precisely defined schema where each table column heading indicates its precise semantics, defining exactly how the information should be interpreted by a computer program or end-user. Subject of analysis (SofA) A piece of data, such as a text document, image, audio segment, or video segment, which is intended for analysis by UIMA analysis components. It belongs to a CAS View which has the same name; there is a one-to-one correspondence between these. There can be multiple Sofas contained within one CAS, each one representing a different view of the original artifact -- for example, an audio file could be the original artifact, and also be one SofA, and another could be the output of a voice-recognition component, where the SofA would be the corresponding text document. Sofas may be analyzed independently or simultaneously; they all co-exist within the CAS. TAE A specialization of analysis engine for processing artifacts where annotations over those artifacts are being produced. TA Type Alignment. TCAS A particular view of the CAS corresponding to one particular Sofa. The TCAS has all the methods of a CAS and additional methods related to its Sofa. It also provides access to an index repository holding instances of Feature Structures associated with this Sofa. Teach phase A pilot instance of an IBM Watson solution that is made available to domain experts with the intent of providing feedback to improve the solution over iterative teach cycles. Tightly-coupled analysis engine An aggregate analysis engine where all of its component analysis engines run in the same address space. TLA Top Level Aggregate. An analysis engine made up of multiple subcomponent analysis engines arranged in a flow. The flow can be one of the built-in UIMA flows, or a custom flow provided by the user. Also referred to as an aggregate analysis engine. Title Oriented Documents. A document which contains content that supports its title, such as a Wikipedia article. TR Type Retrieval. Train Term used to describe the phase in which the system is being trained. It is one of three phases: ingest, train, and ask. Training the machine is a key part of machine learning; the machine identifies relationships within the known data set which it can use to form rules and estimate probabilities that it can apply to an unknown data set. Training data A set of question and answer pairs that are used to teach the machine learning models in the system. These questions and answers are representative of the types of questions that will be asked and answers expected in the use case. The only distinction between training and test question and answer pairs is when they are used. Training model See Machine learning model. Transition phase Fourth and final phase of the adapting Watson methodology which involves moving the adapted IBM Watson system into production mode. TREC format XML files formatted for Text REtrieval Conference information retrieval competitions sponsored by NIST. TREC format is supported as an intermediate file format that can be used during ingestion. Answers that are actually false and are predicted to be false. True positive Answers that are actually true and are predicted to be true. TyCor Type Coercion. Determining the question type information; this is a crucial step in the process of identifying the correct answer. One or more lexical answer types (LATs) and a candidate answer are the inputs to type coercion scoring. Type An object used to store the results of analysis. Types are defined using inheritance, so some types may be defined purely for the sake of defining other types, and are in this sense \"abstract types.\" Types usually contain features, which are attributes or properties of the type. A type is roughly equivalent to a class in an object oriented programming language, or a table in a database. Types may be indexed for fast retrieval. Type system A collection of related types. Each analysis engine or CAS consumer has its own type system. Type systems are often shared across analysis engines. A type system is roughly analogous to a set of related classes in object oriented programming, or a set of related tables in a database. The type system/type/feature terminology comes from computational linguistics. UIMA Unstructured Information Management Architecture. An architecture and software framework for creating, discovering, composing and deploying a broad range of multi-modal analysis capabilities and integrating them with search technologies. The Apache UIMA framework is an Apache licensed, open source implementation of the UIMA Architecture, and provides a runtime environment in which developers can plug in and run their UIMA component implementations and with which they can build and deploy UIM applications. The framework itself is not specific to any IDE or platform. IBM is a main contributor to the Apache project. UIMA is the base architecture for IBM Watson. UIMA Asynchronous Scaleout. An architecture that provides for scaling out annotators by creating multiple instances for each annotator class. Each instance runs in its own thread. It is also possible in UIMA AS to spread the processing elements out across servers, which then communicate between each other using \"messages\" through the use of a message queuing middleware like Apache ActiveMQ. In the case of UIMA AS , the messages are individual CASes. UIMA framework A Java-based implementation of the UIMA architecture. It provides a runtime environment in which developers can plug in and run their UIMA component implementations and with which they can build and deploy UIMA applications. The framework is not specific to any IDE or platform. The original design for the framework was largely inspired by the original TAF and Talent systems developed in IBM Watson Research labs and IBM Software Group. UIMA software development kit (SDK) Includes an all-Java implementation of the UIMA framework for the implementation, description, composition and deployment of UIMA components and applications. It also provides the developer with an Eclipse-based (www.eclipse.org) development environment that includes a set of tools and utilities for using UIMA. Unstructured information The canonical example of unstructured information is the natural language text document. The intended meaning of a document's content is only implicit and its precise interpretation by a computer program requires some degree of analysis to explicate the document's semantics. Other examples include audio, video and images. Unstructured information is contrasted with structured information. The canonical example of structured information is the database table. Each element of information in the database is associated with a precisely defined schema where each table column heading indicates its precise semantics, defining exactly how the information elements should be interpreted by a computer program or end-user. Use case A use case refers to the specific problem domain being addressed by an IBM Watson solution. A single use case drives a full IBM Watson Ready, Build, Teach, Run cycle. The programming interface that is used by a requesting application to present input information to IBM Watson and to receive output information from IBM Watson. Watson Enabled Application (WEA) One of any number of applications surrounding an IBM Watson pipeline that serve to provide data to it or receive data from it. One example is a client application that captures the questions that are submitted to the pipeline for processing. Watson methods Watson methods is an end-to-end workflow of an IBM Watson solution. Watson platform The set of reusable assets that make up the IBM Watson product. A subset of these assets are used in any particular solution within an engagement. WordNet Lexical database that groups English nouns, verbs, adjectives, and adverbs into sets of cognitive synonyms (synsets), each expressing a distinct concept. Work product A working document used to create a deliverable. XCAS An XML representation of the CAS. The XCAS can be used for saving and restoring CASs to and from streams. The UIMA SDK provides serialization and deserialization methods for the XCAS format. XSG Generic Slot Grammar parser. Attention: Your comment can be viewed by anyone in IBM. Do not add IBM Confidential information about Watson capabilities or detailed instructions for system tasks. Use the Watson UA teamroom available here instead. If you cannot see the comments section below, it might be due to the site certificate issue. Go to: idoc.hursley.ibm.com, accept the security exception, and then return to the information center.",
+  "enriched_text": [
+    {
+      "keywords": [
+        {
+          "text": "real time use",
+          "mentions": [
+            {
+              "location": {
+                "begin": 15244,
+                "end": 15257
+              },
+              "text": "real time use"
+            }
+          ]
+        },
+        {
+          "text": "IBM Watson",
+          "mentions": [
+            {
+              "location": {
+                "begin": 508,
+                "end": 518
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 857,
+                "end": 867
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 3012,
+                "end": 3022
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 4469,
+                "end": 4479
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 7994,
+                "end": 8004
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 8377,
+                "end": 8387
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 10588,
+                "end": 10598
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 11582,
+                "end": 11592
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 12793,
+                "end": 12803
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 14072,
+                "end": 14082
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 14414,
+                "end": 14424
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 14639,
+                "end": 14649
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 15186,
+                "end": 15196
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 15966,
+                "end": 15976
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 17761,
+                "end": 17771
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 18092,
+                "end": 18102
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 19598,
+                "end": 19608
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 20432,
+                "end": 20442
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 23134,
+                "end": 23144
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 24243,
+                "end": 24253
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 25334,
+                "end": 25344
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 27574,
+                "end": 27584
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 27703,
+                "end": 27713
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 28234,
+                "end": 28244
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 28323,
+                "end": 28333
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 28617,
+                "end": 28627
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 28851,
+                "end": 28861
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 29208,
+                "end": 29218
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 30400,
+                "end": 30410
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 31131,
+                "end": 31141
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 31211,
+                "end": 31221
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 32559,
+                "end": 32569
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 34155,
+                "end": 34165
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 35666,
+                "end": 35676
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 37764,
+                "end": 37774
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 38635,
+                "end": 38645
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 39859,
+                "end": 39869
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 39912,
+                "end": 39922
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 40054,
+                "end": 40064
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 40104,
+                "end": 40114
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 40198,
+                "end": 40208
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 40453,
+                "end": 40463
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 40534,
+                "end": 40544
+              },
+              "text": "IBM Watson"
+            }
+          ]
+        },
+        {
+          "text": "precision of the answers",
+          "mentions": [
+            {
+              "location": {
+                "begin": 13,
+                "end": 37
+              },
+              "text": "precision of the answers"
+            }
+          ]
+        },
+        {
+          "text": "Accuracy analysis",
+          "mentions": [
+            {
+              "location": {
+                "begin": 453,
+                "end": 470
+              },
+              "text": "Accuracy analysis"
+            },
+            {
+              "location": {
+                "begin": 9402,
+                "end": 9419
+              },
+              "text": "accuracy analysis"
+            },
+            {
+              "location": {
+                "begin": 17533,
+                "end": 17550
+              },
+              "text": "accuracy analysis"
+            }
+          ]
+        },
+        {
+          "text": "use case",
+          "mentions": [
+            {
+              "location": {
+                "begin": 17103,
+                "end": 17111
+              },
+              "text": "use case"
+            },
+            {
+              "location": {
+                "begin": 35408,
+                "end": 35416
+              },
+              "text": "use case"
+            },
+            {
+              "location": {
+                "begin": 39779,
+                "end": 39787
+              },
+              "text": "Use case"
+            },
+            {
+              "location": {
+                "begin": 39790,
+                "end": 39798
+              },
+              "text": "use case"
+            },
+            {
+              "location": {
+                "begin": 39889,
+                "end": 39897
+              },
+              "text": "use case"
+            }
+          ]
+        },
+        {
+          "text": "behavior of the system",
+          "mentions": [
+            {
+              "location": {
+                "begin": 573,
+                "end": 595
+              },
+              "text": "behavior of the system"
+            }
+          ]
+        },
+        {
+          "text": "type of artifact",
+          "mentions": [
+            {
+              "location": {
+                "begin": 1907,
+                "end": 1923
+              },
+              "text": "type of artifact"
+            }
+          ]
+        },
+        {
+          "text": "final answer set",
+          "mentions": [
+            {
+              "location": {
+                "begin": 162,
+                "end": 178
+              },
+              "text": "final answer set"
+            }
+          ]
+        },
+        {
+          "text": "guiding process",
+          "mentions": [
+            {
+              "location": {
+                "begin": 797,
+                "end": 812
+              },
+              "text": "guiding process"
+            }
+          ]
+        },
+        {
+          "text": "CAS Common Analysis Structure",
+          "mentions": [
+            {
+              "location": {
+                "begin": 5148,
+                "end": 5177
+              },
+              "text": "CAS Common Analysis Structure"
+            }
+          ]
+        },
+        {
+          "text": "Aggregate analysis engine",
+          "mentions": [
+            {
+              "location": {
+                "begin": 1095,
+                "end": 1120
+              },
+              "text": "Aggregate analysis engine"
+            },
+            {
+              "location": {
+                "begin": 1752,
+                "end": 1777
+              },
+              "text": "aggregate analysis engine"
+            },
+            {
+              "location": {
+                "begin": 17806,
+                "end": 17831
+              },
+              "text": "aggregate analysis engine"
+            },
+            {
+              "location": {
+                "begin": 22189,
+                "end": 22214
+              },
+              "text": "aggregate analysis engine"
+            },
+            {
+              "location": {
+                "begin": 34342,
+                "end": 34367
+              },
+              "text": "aggregate analysis engine"
+            },
+            {
+              "location": {
+                "begin": 34667,
+                "end": 34692
+              },
+              "text": "aggregate analysis engine"
+            }
+          ]
+        },
+        {
+          "text": "IBM Watson platform",
+          "mentions": [
+            {
+              "location": {
+                "begin": 857,
+                "end": 876
+              },
+              "text": "IBM Watson platform"
+            }
+          ]
+        },
+        {
+          "text": "correct answer",
+          "mentions": [
+            {
+              "location": {
+                "begin": 137,
+                "end": 151
+              },
+              "text": "correct answer"
+            },
+            {
+              "location": {
+                "begin": 231,
+                "end": 245
+              },
+              "text": "correct answer"
+            },
+            {
+              "location": {
+                "begin": 301,
+                "end": 315
+              },
+              "text": "correct answer"
+            },
+            {
+              "location": {
+                "begin": 5132,
+                "end": 5146
+              },
+              "text": "correct answer"
+            },
+            {
+              "location": {
+                "begin": 29363,
+                "end": 29377
+              },
+              "text": "correct answer"
+            },
+            {
+              "location": {
+                "begin": 29844,
+                "end": 29858
+              },
+              "text": "correct answer"
+            },
+            {
+              "location": {
+                "begin": 36172,
+                "end": 36186
+              },
+              "text": "correct answer"
+            }
+          ]
+        },
+        {
+          "text": "efficient use",
+          "mentions": [
+            {
+              "location": {
+                "begin": 19581,
+                "end": 19594
+              },
+              "text": "efficient use"
+            }
+          ]
+        },
+        {
+          "text": "knowledge base",
+          "mentions": [
+            {
+              "location": {
+                "begin": 9525,
+                "end": 9539
+              },
+              "text": "knowledge base"
+            },
+            {
+              "location": {
+                "begin": 10270,
+                "end": 10284
+              },
+              "text": "knowledge base"
+            },
+            {
+              "location": {
+                "begin": 10325,
+                "end": 10339
+              },
+              "text": "knowledge base"
+            },
+            {
+              "location": {
+                "begin": 16748,
+                "end": 16762
+              },
+              "text": "Knowledge Base"
+            },
+            {
+              "location": {
+                "begin": 20316,
+                "end": 20330
+              },
+              "text": "knowledge base"
+            },
+            {
+              "location": {
+                "begin": 21089,
+                "end": 21103
+              },
+              "text": "Knowledge base"
+            },
+            {
+              "location": {
+                "begin": 23874,
+                "end": 23888
+              },
+              "text": "knowledge base"
+            },
+            {
+              "location": {
+                "begin": 27466,
+                "end": 27480
+              },
+              "text": "Knowledge base"
+            },
+            {
+              "location": {
+                "begin": 32687,
+                "end": 32701
+              },
+              "text": "knowledge base"
+            }
+          ]
+        },
+        {
+          "text": "goals of such analysis",
+          "mentions": [
+            {
+              "location": {
+                "begin": 524,
+                "end": 546
+              },
+              "text": "goals of such analysis"
+            }
+          ]
+        },
+        {
+          "text": "software component",
+          "mentions": [
+            {
+              "location": {
+                "begin": 2276,
+                "end": 2294
+              },
+              "text": "software component"
+            }
+          ]
+        },
+        {
+          "text": "IBM Watson system",
+          "mentions": [
+            {
+              "location": {
+                "begin": 3012,
+                "end": 3029
+              },
+              "text": "IBM Watson system"
+            },
+            {
+              "location": {
+                "begin": 7994,
+                "end": 8011
+              },
+              "text": "IBM Watson system"
+            },
+            {
+              "location": {
+                "begin": 8377,
+                "end": 8394
+              },
+              "text": "IBM Watson system"
+            },
+            {
+              "location": {
+                "begin": 10588,
+                "end": 10605
+              },
+              "text": "IBM Watson system"
+            },
+            {
+              "location": {
+                "begin": 11582,
+                "end": 11599
+              },
+              "text": "IBM Watson system"
+            },
+            {
+              "location": {
+                "begin": 17761,
+                "end": 17778
+              },
+              "text": "IBM Watson system"
+            },
+            {
+              "location": {
+                "begin": 20432,
+                "end": 20449
+              },
+              "text": "IBM Watson system"
+            },
+            {
+              "location": {
+                "begin": 24243,
+                "end": 24260
+              },
+              "text": "IBM Watson system"
+            },
+            {
+              "location": {
+                "begin": 25334,
+                "end": 25351
+              },
+              "text": "IBM Watson system"
+            },
+            {
+              "location": {
+                "begin": 27574,
+                "end": 27591
+              },
+              "text": "IBM Watson system"
+            },
+            {
+              "location": {
+                "begin": 27703,
+                "end": 27720
+              },
+              "text": "IBM Watson system"
+            },
+            {
+              "location": {
+                "begin": 28617,
+                "end": 28634
+              },
+              "text": "IBM Watson system"
+            },
+            {
+              "location": {
+                "begin": 28851,
+                "end": 28868
+              },
+              "text": "IBM Watson system"
+            },
+            {
+              "location": {
+                "begin": 31131,
+                "end": 31148
+              },
+              "text": "IBM Watson system"
+            },
+            {
+              "location": {
+                "begin": 31211,
+                "end": 31228
+              },
+              "text": "IBM Watson system"
+            },
+            {
+              "location": {
+                "begin": 35666,
+                "end": 35683
+              },
+              "text": "IBM Watson system"
+            }
+          ]
+        },
+        {
+          "text": "special type",
+          "mentions": [
+            {
+              "location": {
+                "begin": 2148,
+                "end": 2160
+              },
+              "text": "special type"
+            }
+          ]
+        },
+        {
+          "text": "UIMA Analysis Engine interface specification",
+          "mentions": [
+            {
+              "location": {
+                "begin": 1478,
+                "end": 1522
+              },
+              "text": "UIMA Analysis Engine interface specification"
+            }
+          ]
+        },
+        {
+          "text": "region of text",
+          "mentions": [
+            {
+              "location": {
+                "begin": 1883,
+                "end": 1897
+              },
+              "text": "region of text"
+            },
+            {
+              "location": {
+                "begin": 1975,
+                "end": 1989
+              },
+              "text": "region of text"
+            }
+          ]
+        },
+        {
+          "text": "UIMA type system",
+          "mentions": [
+            {
+              "location": {
+                "begin": 2166,
+                "end": 2182
+              },
+              "text": "UIMA type system"
+            }
+          ]
+        },
+        {
+          "text": "overall ability of the system",
+          "mentions": [
+            {
+              "location": {
+                "begin": 719,
+                "end": 748
+              },
+              "text": "overall ability of the system"
+            }
+          ]
+        },
+        {
+          "text": "question set run",
+          "mentions": [
+            {
+              "location": {
+                "begin": 14791,
+                "end": 14807
+              },
+              "text": "question set run"
+            }
+          ]
+        },
+        {
+          "text": "application integration framework",
+          "mentions": [
+            {
+              "location": {
+                "begin": 4682,
+                "end": 4715
+              },
+              "text": "application integration framework"
+            }
+          ]
+        },
+        {
+          "text": "source corpora",
+          "mentions": [
+            {
+              "location": {
+                "begin": 9723,
+                "end": 9737
+              },
+              "text": "source corpora"
+            }
+          ]
+        },
+        {
+          "text": " Index",
+          "mentions": [
+            {
+              "location": {
+                "begin": 5750,
+                "end": 5757
+              },
+              "text": " Index"
+            }
+          ]
+        },
+        {
+          "text": "SofA See Subject of analysis",
+          "mentions": [
+            {
+              "location": {
+                "begin": 31355,
+                "end": 31383
+              },
+              "text": "SofA See Subject of analysis"
+            }
+          ]
+        },
+        {
+          "text": "analysis engine",
+          "mentions": [
+            {
+              "location": {
+                "begin": 1105,
+                "end": 1120
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 1124,
+                "end": 1139
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 1173,
+                "end": 1188
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 1348,
+                "end": 1363
+              },
+              "text": "Analysis engine"
+            },
+            {
+              "location": {
+                "begin": 1483,
+                "end": 1498
+              },
+              "text": "Analysis Engine"
+            },
+            {
+              "location": {
+                "begin": 1524,
+                "end": 1539
+              },
+              "text": "Analysis engine"
+            },
+            {
+              "location": {
+                "begin": 1600,
+                "end": 1615
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 1684,
+                "end": 1699
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 1762,
+                "end": 1777
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 6545,
+                "end": 6560
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 7120,
+                "end": 7135
+              },
+              "text": "Analysis Engine"
+            },
+            {
+              "location": {
+                "begin": 7765,
+                "end": 7780
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 10904,
+                "end": 10919
+              },
+              "text": "Analysis Engine"
+            },
+            {
+              "location": {
+                "begin": 11189,
+                "end": 11204
+              },
+              "text": "Analysis Engine"
+            },
+            {
+              "location": {
+                "begin": 12656,
+                "end": 12671
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 13690,
+                "end": 13705
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 15374,
+                "end": 15389
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 17787,
+                "end": 17802
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 17816,
+                "end": 17831
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 17869,
+                "end": 17884
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 22170,
+                "end": 22185
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 22199,
+                "end": 22214
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 22245,
+                "end": 22260
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 22395,
+                "end": 22410
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 25427,
+                "end": 25442
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 27330,
+                "end": 27345
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 27349,
+                "end": 27364
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 27425,
+                "end": 27440
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 33733,
+                "end": 33748
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 34323,
+                "end": 34338
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 34352,
+                "end": 34367
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 34395,
+                "end": 34410
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 34471,
+                "end": 34486
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 34520,
+                "end": 34535
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 34677,
+                "end": 34692
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 36776,
+                "end": 36791
+              },
+              "text": "analysis engine"
+            },
+            {
+              "location": {
+                "begin": 36870,
+                "end": 36885
+              },
+              "text": "analysis engine"
+            }
+          ]
+        },
+        {
+          "text": "single XML file",
+          "mentions": [
+            {
+              "location": {
+                "begin": 2935,
+                "end": 2950
+              },
+              "text": "single XML file"
+            }
+          ]
+        },
+        {
+          "text": "use of a message",
+          "mentions": [
+            {
+              "location": {
+                "begin": 38112,
+                "end": 38128
+              },
+              "text": "use of a message"
+            }
+          ]
+        },
+        {
+          "text": "set of vocabularies",
+          "mentions": [
+            {
+              "location": {
+                "begin": 2451,
+                "end": 2470
+              },
+              "text": "set of vocabularies"
+            }
+          ]
+        },
+        {
+          "text": "domain analysis",
+          "mentions": [
+            {
+              "location": {
+                "begin": 995,
+                "end": 1010
+              },
+              "text": "domain analysis"
+            }
+          ]
+        },
+        {
+          "text": "Customization mode",
+          "mentions": [
+            {
+              "location": {
+                "begin": 11515,
+                "end": 11533
+              },
+              "text": "Customization mode"
+            },
+            {
+              "location": {
+                "begin": 11623,
+                "end": 11641
+              },
+              "text": "customization mode"
+            },
+            {
+              "location": {
+                "begin": 13087,
+                "end": 13105
+              },
+              "text": "customization mode"
+            },
+            {
+              "location": {
+                "begin": 20535,
+                "end": 20553
+              },
+              "text": "Customization mode"
+            },
+            {
+              "location": {
+                "begin": 27858,
+                "end": 27876
+              },
+              "text": "Customization mode"
+            }
+          ]
+        },
+        {
+          "text": "UIMA pipeline",
+          "mentions": [
+            {
+              "location": {
+                "begin": 3305,
+                "end": 3318
+              },
+              "text": "UIMA pipeline"
+            }
+          ]
+        },
+        {
+          "text": "text document",
+          "mentions": [
+            {
+              "location": {
+                "begin": 3340,
+                "end": 3353
+              },
+              "text": "text document"
+            },
+            {
+              "location": {
+                "begin": 5438,
+                "end": 5451
+              },
+              "text": "text document"
+            },
+            {
+              "location": {
+                "begin": 31597,
+                "end": 31610
+              },
+              "text": "text document"
+            },
+            {
+              "location": {
+                "begin": 33078,
+                "end": 33091
+              },
+              "text": "text document"
+            },
+            {
+              "location": {
+                "begin": 33605,
+                "end": 33618
+              },
+              "text": "text document"
+            },
+            {
+              "location": {
+                "begin": 39132,
+                "end": 39145
+              },
+              "text": "text document"
+            }
+          ]
+        },
+        {
+          "text": "domain solution",
+          "mentions": [
+            {
+              "location": {
+                "begin": 828,
+                "end": 843
+              },
+              "text": "domain solution"
+            }
+          ]
+        },
+        {
+          "text": "BVT Build Verification Test",
+          "mentions": [
+            {
+              "location": {
+                "begin": 4539,
+                "end": 4566
+              },
+              "text": "BVT Build Verification Test"
+            }
+          ]
+        },
+        {
+          "text": "input case",
+          "mentions": [
+            {
+              "location": {
+                "begin": 3664,
+                "end": 3674
+              },
+              "text": "input case"
+            },
+            {
+              "location": {
+                "begin": 28300,
+                "end": 28310
+              },
+              "text": "input case"
+            }
+          ]
+        },
+        {
+          "text": "SPSS Modeler",
+          "mentions": [
+            {
+              "location": {
+                "begin": 31385,
+                "end": 31397
+              },
+              "text": "SPSS Modeler"
+            },
+            {
+              "location": {
+                "begin": 31406,
+                "end": 31418
+              },
+              "text": "SPSS Modeler"
+            }
+          ]
+        },
+        {
+          "text": "model predictions",
+          "mentions": [
+            {
+              "location": {
+                "begin": 9070,
+                "end": 9087
+              },
+              "text": "model predictions"
+            }
+          ]
+        },
+        {
+          "text": "deployment of the system",
+          "mentions": [
+            {
+              "location": {
+                "begin": 1041,
+                "end": 1065
+              },
+              "text": "deployment of the system"
+            }
+          ]
+        },
+        {
+          "text": "IBM Watson system's hardware",
+          "mentions": [
+            {
+              "location": {
+                "begin": 7994,
+                "end": 8022
+              },
+              "text": "IBM Watson system's hardware"
+            }
+          ]
+        },
+        {
+          "text": "Camel Apache Camel",
+          "mentions": [
+            {
+              "location": {
+                "begin": 4634,
+                "end": 4652
+              },
+              "text": "Camel Apache Camel"
+            }
+          ]
+        },
+        {
+          "text": "optical character recognition",
+          "mentions": [
+            {
+              "location": {
+                "begin": 14688,
+                "end": 14717
+              },
+              "text": "optical character recognition"
+            },
+            {
+              "location": {
+                "begin": 23943,
+                "end": 23972
+              },
+              "text": "Optical character recognition"
+            }
+          ]
+        },
+        {
+          "text": "Candidate answer",
+          "mentions": [
+            {
+              "location": {
+                "begin": 5017,
+                "end": 5033
+              },
+              "text": "Candidate answer"
+            },
+            {
+              "location": {
+                "begin": 8776,
+                "end": 8792
+              },
+              "text": "Candidate answer"
+            },
+            {
+              "location": {
+                "begin": 9092,
+                "end": 9108
+              },
+              "text": "candidate answer"
+            },
+            {
+              "location": {
+                "begin": 9660,
+                "end": 9676
+              },
+              "text": "candidate answer"
+            },
+            {
+              "location": {
+                "begin": 16128,
+                "end": 16144
+              },
+              "text": "candidate answer"
+            },
+            {
+              "location": {
+                "begin": 16168,
+                "end": 16184
+              },
+              "text": "candidate answer"
+            },
+            {
+              "location": {
+                "begin": 16413,
+                "end": 16429
+              },
+              "text": "candidate answer"
+            },
+            {
+              "location": {
+                "begin": 16469,
+                "end": 16485
+              },
+              "text": "candidate answer"
+            },
+            {
+              "location": {
+                "begin": 18040,
+                "end": 18056
+              },
+              "text": "candidate answer"
+            },
+            {
+              "location": {
+                "begin": 18131,
+                "end": 18147
+              },
+              "text": "candidate answer"
+            },
+            {
+              "location": {
+                "begin": 19634,
+                "end": 19650
+              },
+              "text": "candidate answer"
+            },
+            {
+              "location": {
+                "begin": 23040,
+                "end": 23056
+              },
+              "text": "candidate answer"
+            },
+            {
+              "location": {
+                "begin": 28498,
+                "end": 28514
+              },
+              "text": "candidate answer"
+            },
+            {
+              "location": {
+                "begin": 29400,
+                "end": 29416
+              },
+              "text": "candidate answer"
+            },
+            {
+              "location": {
+                "begin": 30359,
+                "end": 30375
+              },
+              "text": "candidate answer"
+            },
+            {
+              "location": {
+                "begin": 30634,
+                "end": 30650
+              },
+              "text": "candidate answer"
+            },
+            {
+              "location": {
+                "begin": 36234,
+                "end": 36250
+              },
+              "text": "candidate answer"
+            }
+          ]
+        },
+        {
+          "text": "subcomponent analysis engines",
+          "mentions": [
+            {
+              "location": {
+                "begin": 1160,
+                "end": 1189
+              },
+              "text": "subcomponent analysis engines"
+            },
+            {
+              "location": {
+                "begin": 34507,
+                "end": 34536
+              },
+              "text": "subcomponent analysis engines"
+            }
+          ]
+        },
+        {
+          "text": "UIMA analysis components",
+          "mentions": [
+            {
+              "location": {
+                "begin": 5295,
+                "end": 5319
+              },
+              "text": "UIMA analysis components"
+            },
+            {
+              "location": {
+                "begin": 33167,
+                "end": 33191
+              },
+              "text": "UIMA analysis components"
+            }
+          ]
+        },
+        {
+          "text": "single annotator",
+          "mentions": [
+            {
+              "location": {
+                "begin": 1630,
+                "end": 1646
+              },
+              "text": "single annotator"
+            },
+            {
+              "location": {
+                "begin": 27387,
+                "end": 27403
+              },
+              "text": "single annotator"
+            }
+          ]
+        },
+        {
+          "text": "hardware resources",
+          "mentions": [
+            {
+              "location": {
+                "begin": 4013,
+                "end": 4031
+              },
+              "text": "hardware resources"
+            }
+          ]
+        }
+      ],
+      "entities": [
+        {
+          "text": "Natural Language Processing",
+          "mentions": [
+            {
+              "location": {
+                "begin": 23557,
+                "end": 23584
+              },
+              "text": "Natural Language Processing"
+            }
+          ]
+        },
+        {
+          "text": "LiteScale",
+          "mentions": [
+            {
+              "location": {
+                "begin": 17353,
+                "end": 17362
+              },
+              "text": "LiteScale"
+            },
+            {
+              "location": {
+                "begin": 21882,
+                "end": 21891
+              },
+              "text": "LiteScale"
+            }
+          ]
+        },
+        {
+          "text": "IBM Watson",
+          "mentions": [
+            {
+              "location": {
+                "begin": 508,
+                "end": 518
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 857,
+                "end": 867
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 3012,
+                "end": 3022
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 4469,
+                "end": 4479
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 7994,
+                "end": 8004
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 8377,
+                "end": 8387
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 10588,
+                "end": 10598
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 11582,
+                "end": 11592
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 12793,
+                "end": 12803
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 14072,
+                "end": 14082
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 14414,
+                "end": 14424
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 14639,
+                "end": 14649
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 15186,
+                "end": 15196
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 15966,
+                "end": 15976
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 17761,
+                "end": 17771
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 18092,
+                "end": 18102
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 19598,
+                "end": 19608
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 20432,
+                "end": 20442
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 23134,
+                "end": 23144
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 24243,
+                "end": 24253
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 25334,
+                "end": 25344
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 27574,
+                "end": 27584
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 27703,
+                "end": 27713
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 28234,
+                "end": 28244
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 28323,
+                "end": 28333
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 28617,
+                "end": 28627
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 28851,
+                "end": 28861
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 29208,
+                "end": 29218
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 30400,
+                "end": 30410
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 31131,
+                "end": 31141
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 31211,
+                "end": 31221
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 32559,
+                "end": 32569
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 34155,
+                "end": 34165
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 35666,
+                "end": 35676
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 37764,
+                "end": 37774
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 38635,
+                "end": 38645
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 39859,
+                "end": 39869
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 39912,
+                "end": 39922
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 40054,
+                "end": 40064
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 40104,
+                "end": 40114
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 40198,
+                "end": 40208
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 40453,
+                "end": 40463
+              },
+              "text": "IBM Watson"
+            },
+            {
+              "location": {
+                "begin": 40534,
+                "end": 40544
+              },
+              "text": "IBM Watson"
+            }
+          ]
+        },
+        {
+          "text": "UIMA",
+          "mentions": [
+            {
+              "location": {
+                "begin": 1246,
+                "end": 1250
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 1478,
+                "end": 1482
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 2166,
+                "end": 2170
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 2315,
+                "end": 2319
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 3305,
+                "end": 3309
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 5179,
+                "end": 5183
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 5228,
+                "end": 5232
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 5295,
+                "end": 5299
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 5843,
+                "end": 5847
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 7230,
+                "end": 7234
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 8331,
+                "end": 8335
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 12592,
+                "end": 12596
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 12611,
+                "end": 12615
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 12651,
+                "end": 12655
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 13763,
+                "end": 13767
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 13788,
+                "end": 13792
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 16217,
+                "end": 16221
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 18995,
+                "end": 18999
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 19014,
+                "end": 19018
+              },
+              "text": "uima"
+            },
+            {
+              "location": {
+                "begin": 20836,
+                "end": 20840
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 21907,
+                "end": 21911
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 21974,
+                "end": 21978
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 24381,
+                "end": 24385
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 24562,
+                "end": 24566
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 28122,
+                "end": 28126
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 30569,
+                "end": 30573
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 33167,
+                "end": 33171
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 34593,
+                "end": 34597
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 37104,
+                "end": 37108
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 37358,
+                "end": 37362
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 37430,
+                "end": 37434
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 37530,
+                "end": 37534
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 37730,
+                "end": 37734
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 37776,
+                "end": 37780
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 37979,
+                "end": 37983
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 38185,
+                "end": 38189
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 38230,
+                "end": 38234
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 38280,
+                "end": 38284
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 38379,
+                "end": 38383
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 38451,
+                "end": 38455
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 38684,
+                "end": 38688
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 38763,
+                "end": 38767
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 38845,
+                "end": 38849
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 39027,
+                "end": 39031
+              },
+              "text": "UIMA"
+            },
+            {
+              "location": {
+                "begin": 40976,
+                "end": 40980
+              },
+              "text": "UIMA"
+            }
+          ]
+        },
+        {
+          "text": "Indri",
+          "mentions": [
+            {
+              "location": {
+                "begin": 13732,
+                "end": 13737
+              },
+              "text": "Indri"
+            },
+            {
+              "location": {
+                "begin": 19710,
+                "end": 19715
+              },
+              "text": "Indri"
+            },
+            {
+              "location": {
+                "begin": 24230,
+                "end": 24235
+              },
+              "text": "Indri"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "mock_field": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lacinia quis vel eros donec ac odio. Augue lacus viverra vitae congue eu. Nunc mi ipsum faucibus vitae aliquet nec ullamcorper sit amet. Sit amet luctus venenatis lectus. Vel facilisis volutpat est velit egestas dui id ornare. Curabitur vitae nunc sed velit dignissim sodales ut eu. Vel turpis nunc eget lorem. Cras semper auctor neque vitae tempus quam pellentesque nec. Condimentum id venenatis a condimentum vitae sapien pellentesque. Ullamcorper a lacus vestibulum sed arcu non odio euismod lacinia. Non curabitur gravida arcu ac tortor dignissim convallis. In ornare quam viverra orci sagittis.\n\nElit ut aliquam purus sit amet luctus venenatis lectus. Cursus in hac habitasse platea. Commodo nulla facilisi nullam vehicula ipsum a. Sed lectus vestibulum mattis ullamcorper. Integer enim neque volutpat ac tincidunt vitae semper quis lectus. Euismod elementum nisi quis eleifend quam adipiscing. Lacus laoreet non curabitur gravida arcu ac tortor dignissim convallis. Est placerat in egestas erat imperdiet sed euismod. Adipiscing diam donec adipiscing tristique risus nec feugiat in fermentum. Fringilla urna porttitor rhoncus dolor purus non enim praesent elementum. Vestibulum sed arcu non odio euismod lacinia. Nec ullamcorper sit amet risus nullam eget. Turpis egestas integer eget aliquet nibh praesent tristique magna. Ut sem viverra aliquet eget sit amet tellus cras. Dictumst vestibulum rhoncus est pellentesque elit ullamcorper dignissim cras. Nunc mattis enim ut tellus. Volutpat est velit egestas dui. Odio facilisis mauris sit amet massa vitae tortor condimentum. Nisl rhoncus mattis rhoncus urna neque viverra justo nec ultrices. Tincidunt augue interdum velit euismod.\n\nTristique nulla aliquet enim tortor at auctor urna nunc id. Nunc sed blandit libero volutpat sed. Massa eget egestas purus viverra accumsan. Aliquet eget sit amet tellus cras adipiscing enim. Id semper risus in hendrerit. Tortor condimentum lacinia quis vel. Malesuada bibendum arcu vitae elementum curabitur vitae. Arcu non sodales neque sodales. Fermentum leo vel orci porta. Cum sociis natoque penatibus et magnis. Felis imperdiet proin fermentum leo vel orci porta non. Imperdiet dui accumsan sit amet nulla. Amet tellus cras adipiscing enim eu turpis egestas pretium.\n\nTortor vitae purus faucibus ornare. Neque volutpat ac tincidunt vitae. Pellentesque habitant morbi tristique senectus et netus et malesuada. Condimentum mattis pellentesque id nibh tortor id aliquet lectus. Urna et pharetra pharetra massa massa ultricies. Amet cursus sit amet dictum sit amet. Mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus et. Nec sagittis aliquam malesuada bibendum arcu vitae elementum curabitur vitae. Nisl pretium fusce id velit. Arcu felis bibendum ut tristique et egestas quis ipsum suspendisse. Mattis ullamcorper velit sed ullamcorper morbi tincidunt ornare massa eget. Ut lectus arcu bibendum at varius vel pharetra vel. Arcu risus quis varius quam quisque id. Tellus at urna condimentum mattis pellentesque id nibh tortor. Id leo in vitae turpis massa sed elementum tempus. Lectus proin nibh nisl condimentum id venenatis. Netus et malesuada fames ac. Amet mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien. Ante in nibh mauris cursus mattis. Risus commodo viverra maecenas accumsan lacus vel.\n\nOdio facilisis mauris sit amet massa vitae tortor condimentum. Tellus elementum sagittis vitae et leo duis. Sed augue lacus viverra vitae congue eu consequat ac. Pulvinar neque laoreet suspendisse interdum consectetur libero id faucibus. Consectetur adipiscing elit pellentesque habitant morbi tristique senectus et netus. Id donec ultrices tincidunt arcu non sodales neque sodales. Venenatis a condimentum vitae sapien pellentesque habitant. Eu facilisis sed odio morbi quis commodo odio aenean. Bibendum at varius vel pharetra vel turpis. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien. Fermentum leo vel orci porta non. Non arcu risus quis varius quam. Est ultricies integer quis auctor elit sed vulputate. Elementum integer enim neque volutpat ac tincidunt vitae. Dui vivamus arcu felis bibendum ut tristique et egestas. Diam vulputate ut pharetra sit amet aliquam id diam. In eu mi bibendum neque egestas congue quisque egestas diam. Sagittis eu volutpat odio facilisis mauris. Pharetra et ultrices neque ornare aenean.\n\nEget est lorem ipsum dolor sit amet consectetur adipiscing elit. Nibh nisl condimentum id venenatis a condimentum. Tortor condimentum lacinia quis vel eros. Ante metus dictum at tempor commodo ullamcorper a lacus vestibulum. Vitae auctor eu augue ut lectus. Ultricies tristique nulla aliquet enim tortor. Blandit volutpat maecenas volutpat blandit aliquam etiam erat velit scelerisque. Amet consectetur adipiscing elit duis tristique sollicitudin nibh sit amet. Urna cursus eget nunc scelerisque. Elit at imperdiet dui accumsan sit amet. Quam elementum pulvinar etiam non quam lacus. Pharetra convallis posuere morbi leo urna molestie. Commodo ullamcorper a lacus vestibulum sed arcu non odio euismod.\n\nUllamcorper morbi tincidunt ornare massa eget. Urna neque viverra justo nec ultrices dui sapien eget mi. Adipiscing diam donec adipiscing tristique. Platea dictumst vestibulum rhoncus est pellentesque elit. Sed libero enim sed faucibus turpis in eu mi bibendum. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Augue neque gravida in fermentum et sollicitudin. Massa id neque aliquam vestibulum morbi blandit cursus risus. Faucibus in ornare quam viverra. Ultrices gravida dictum fusce ut placerat. Sem viverra aliquet eget sit amet tellus cras. Sodales ut eu sem integer vitae justo. Massa ultricies mi quis hendrerit dolor magna. Purus ut faucibus pulvinar elementum integer. Aliquam nulla facilisi cras fermentum odio eu feugiat. Turpis massa sed elementum tempus egestas sed. Facilisi nullam vehicula ipsum a arcu cursus. Sagittis purus sit amet volutpat. Elit ut aliquam purus sit amet luctus venenatis lectus magna.\n\nEnim praesent elementum facilisis leo. Euismod nisi porta lorem mollis. Magna fermentum iaculis eu non diam phasellus. Sit amet dictum sit amet justo donec enim diam vulputate. Non quam lacus suspendisse faucibus interdum posuere lorem. Fames ac turpis egestas integer. Euismod nisi porta lorem mollis aliquam. Aliquet nec ullamcorper sit amet. Vitae tempus quam pellentesque nec nam aliquam sem. Consequat interdum varius sit amet mattis vulputate enim nulla. In dictum non consectetur a erat nam. Eget sit amet tellus cras adipiscing. Habitant morbi tristique senectus et. Interdum velit euismod in pellentesque massa placerat duis. Sed blandit libero volutpat sed cras ornare arcu dui.\n\nHabitasse platea dictumst quisque sagittis purus. Id neque aliquam vestibulum morbi blandit cursus risus. Malesuada pellentesque elit eget gravida cum sociis natoque penatibus. Pharetra convallis posuere morbi leo urna. Dictum fusce ut placerat orci nulla pellentesque dignissim. Vel fringilla est ullamcorper eget nulla facilisi etiam. Convallis posuere morbi leo urna molestie at elementum eu. Lobortis elementum nibh tellus molestie nunc non blandit massa enim. Mattis molestie a iaculis at erat pellentesque adipiscing commodo. Nulla facilisi cras fermentum odio eu feugiat. Velit egestas dui id ornare arcu. Mauris nunc congue nisi vitae suscipit tellus.\n\nFames ac turpis egestas integer eget aliquet nibh. Proin fermentum leo vel orci. Lorem ipsum dolor sit amet consectetur. Vulputate dignissim suspendisse in est ante. Et malesuada fames ac turpis egestas maecenas pharetra convallis. Id leo in vitae turpis massa sed elementum. Eu ultrices vitae auctor eu augue. Viverra suspendisse potenti nullam ac tortor vitae purus. Ultricies lacus sed turpis tincidunt id aliquet risus. Augue interdum velit euismod in pellentesque massa. Suspendisse in est ante in nibh mauris cursus.",
+  "enriched_mock_field": [
+    {
+      "keywords": [
+        {
+          "text": "lorem",
+          "mentions": [
+            {
+              "location": {
+                "begin": 0,
+                "end": 5
+              },
+              "text": "Lorem"
+            },
+            {
+              "location": {
+                "begin": 428,
+                "end": 433
+              },
+              "text": "lorem"
+            },
+            {
+              "location": {
+                "begin": 4504,
+                "end": 4509
+              },
+              "text": "lorem"
+            },
+            {
+              "location": {
+                "begin": 6194,
+                "end": 6199
+              },
+              "text": "lorem"
+            },
+            {
+              "location": {
+                "begin": 6366,
+                "end": 6371
+              },
+              "text": "lorem"
+            },
+            {
+              "location": {
+                "begin": 6425,
+                "end": 6430
+              },
+              "text": "lorem"
+            },
+            {
+              "location": {
+                "begin": 7568,
+                "end": 7573
+              },
+              "text": "Lorem"
+            }
+          ]
+        },
+        {
+          "text": "amet",
+          "mentions": [
+            {
+              "location": {
+                "begin": 22,
+                "end": 26
+              },
+              "text": "amet"
+            },
+            {
+              "location": {
+                "begin": 255,
+                "end": 259
+              },
+              "text": "amet"
+            },
+            {
+              "location": {
+                "begin": 265,
+                "end": 269
+              },
+              "text": "amet"
+            },
+            {
+              "location": {
+                "begin": 751,
+                "end": 755
+              },
+              "text": "amet"
+            },
+            {
+              "location": {
+                "begin": 1363,
+                "end": 1367
+              },
+              "text": "amet"
+            },
+            {
+              "location": {
+                "begin": 1486,
+                "end": 1490
+              },
+              "text": "amet"
+            },
+            {
+              "location": {
+                "begin": 1668,
+                "end": 1672
+              },
+              "text": "amet"
+            },
+            {
+              "location": {
+                "begin": 1971,
+                "end": 1975
+              },
+              "text": "amet"
+            },
+            {
+              "location": {
+                "begin": 2314,
+                "end": 2318
+              },
+              "text": "amet"
+            },
+            {
+              "location": {
+                "begin": 2326,
+                "end": 2330
+              },
+              "text": "Amet"
+            },
+            {
+              "location": {
+                "begin": 2643,
+                "end": 2647
+              },
+              "text": "Amet"
+            },
+            {
+              "location": {
+                "begin": 2659,
+                "end": 2663
+              },
+              "text": "amet"
+            },
+            {
+              "location": {
+                "begin": 2675,
+                "end": 2679
+              },
+              "text": "amet"
+            },
+            {
+              "location": {
+                "begin": 3296,
+                "end": 3300
+              },
+              "text": "Amet"
+            },
+            {
+              "location": {
+                "begin": 3482,
+                "end": 3486
+              },
+              "text": "amet"
+            },
+            {
+              "location": {
+                "begin": 4325,
+                "end": 4329
+              },
+              "text": "amet"
+            },
+            {
+              "location": {
+                "begin": 4526,
+                "end": 4530
+              },
+              "text": "amet"
+            },
+            {
+              "location": {
+                "begin": 4881,
+                "end": 4885
+              },
+              "text": "Amet"
+            },
+            {
+              "location": {
+                "begin": 4951,
+                "end": 4955
+              },
+              "text": "amet"
+            },
+            {
+              "location": {
+                "begin": 5027,
+                "end": 5031
+              },
+              "text": "amet"
+            },
+            {
+              "location": {
+                "begin": 5741,
+                "end": 5745
+              },
+              "text": "amet"
+            },
+            {
+              "location": {
+                "begin": 6058,
+                "end": 6062
+              },
+              "text": "amet"
+            },
+            {
+              "location": {
+                "begin": 6099,
+                "end": 6103
+              },
+              "text": "amet"
+            },
+            {
+              "location": {
+                "begin": 6259,
+                "end": 6263
+              },
+              "text": "amet"
+            },
+            {
+              "location": {
+                "begin": 6275,
+                "end": 6279
+              },
+              "text": "amet"
+            },
+            {
+              "location": {
+                "begin": 6475,
+                "end": 6479
+              },
+              "text": "amet"
+            },
+            {
+              "location": {
+                "begin": 6563,
+                "end": 6567
+              },
+              "text": "amet"
+            },
+            {
+              "location": {
+                "begin": 6644,
+                "end": 6648
+              },
+              "text": "amet"
+            },
+            {
+              "location": {
+                "begin": 7590,
+                "end": 7594
+              },
+              "text": "amet"
+            }
+          ]
+        },
+        {
+          "text": "incididunt",
+          "mentions": [
+            {
+              "location": {
+                "begin": 79,
+                "end": 89
+              },
+              "text": "incididunt"
+            }
+          ]
+        },
+        {
+          "text": "sed",
+          "mentions": [
+            {
+              "location": {
+                "begin": 57,
+                "end": 60
+              },
+              "text": "sed"
+            },
+            {
+              "location": {
+                "begin": 372,
+                "end": 375
+              },
+              "text": "sed"
+            },
+            {
+              "location": {
+                "begin": 593,
+                "end": 596
+              },
+              "text": "sed"
+            },
+            {
+              "location": {
+                "begin": 861,
+                "end": 864
+              },
+              "text": "Sed"
+            },
+            {
+              "location": {
+                "begin": 1135,
+                "end": 1138
+              },
+              "text": "sed"
+            },
+            {
+              "location": {
+                "begin": 1308,
+                "end": 1311
+              },
+              "text": "sed"
+            },
+            {
+              "location": {
+                "begin": 1878,
+                "end": 1881
+              },
+              "text": "sed"
+            },
+            {
+              "location": {
+                "begin": 1906,
+                "end": 1909
+              },
+              "text": "sed"
+            },
+            {
+              "location": {
+                "begin": 2961,
+                "end": 2964
+              },
+              "text": "sed"
+            },
+            {
+              "location": {
+                "begin": 3196,
+                "end": 3199
+              },
+              "text": "sed"
+            },
+            {
+              "location": {
+                "begin": 3564,
+                "end": 3567
+              },
+              "text": "Sed"
+            },
+            {
+              "location": {
+                "begin": 3912,
+                "end": 3915
+              },
+              "text": "sed"
+            },
+            {
+              "location": {
+                "begin": 4164,
+                "end": 4167
+              },
+              "text": "sed"
+            },
+            {
+              "location": {
+                "begin": 5170,
+                "end": 5173
+              },
+              "text": "sed"
+            },
+            {
+              "location": {
+                "begin": 5405,
+                "end": 5408
+              },
+              "text": "Sed"
+            },
+            {
+              "location": {
+                "begin": 5421,
+                "end": 5424
+              },
+              "text": "sed"
+            },
+            {
+              "location": {
+                "begin": 5959,
+                "end": 5962
+              },
+              "text": "sed"
+            },
+            {
+              "location": {
+                "begin": 5988,
+                "end": 5991
+              },
+              "text": "sed"
+            },
+            {
+              "location": {
+                "begin": 6771,
+                "end": 6774
+              },
+              "text": "Sed"
+            },
+            {
+              "location": {
+                "begin": 6799,
+                "end": 6802
+              },
+              "text": "sed"
+            },
+            {
+              "location": {
+                "begin": 7748,
+                "end": 7751
+              },
+              "text": "sed"
+            },
+            {
+              "location": {
+                "begin": 7872,
+                "end": 7875
+              },
+              "text": "sed"
+            }
+          ]
+        },
+        {
+          "text": "elementum",
+          "mentions": [
+            {
+              "location": {
+                "begin": 978,
+                "end": 987
+              },
+              "text": "elementum"
+            },
+            {
+              "location": {
+                "begin": 1286,
+                "end": 1295
+              },
+              "text": "elementum"
+            },
+            {
+              "location": {
+                "begin": 2102,
+                "end": 2111
+              },
+              "text": "elementum"
+            },
+            {
+              "location": {
+                "begin": 2812,
+                "end": 2821
+              },
+              "text": "elementum"
+            },
+            {
+              "location": {
+                "begin": 3200,
+                "end": 3209
+              },
+              "text": "elementum"
+            },
+            {
+              "location": {
+                "begin": 3526,
+                "end": 3535
+              },
+              "text": "elementum"
+            },
+            {
+              "location": {
+                "begin": 4179,
+                "end": 4188
+              },
+              "text": "Elementum"
+            },
+            {
+              "location": {
+                "begin": 5038,
+                "end": 5047
+              },
+              "text": "elementum"
+            },
+            {
+              "location": {
+                "begin": 5872,
+                "end": 5881
+              },
+              "text": "elementum"
+            },
+            {
+              "location": {
+                "begin": 5963,
+                "end": 5972
+              },
+              "text": "elementum"
+            },
+            {
+              "location": {
+                "begin": 6150,
+                "end": 6159
+              },
+              "text": "elementum"
+            },
+            {
+              "location": {
+                "begin": 7208,
+                "end": 7217
+              },
+              "text": "elementum"
+            },
+            {
+              "location": {
+                "begin": 7231,
+                "end": 7240
+              },
+              "text": "elementum"
+            },
+            {
+              "location": {
+                "begin": 7752,
+                "end": 7761
+              },
+              "text": "elementum"
+            }
+          ]
+        },
+        {
+          "text": "duis",
+          "mentions": [
+            {
+              "location": {
+                "begin": 3558,
+                "end": 3562
+              },
+              "text": "duis"
+            },
+            {
+              "location": {
+                "begin": 4914,
+                "end": 4918
+              },
+              "text": "duis"
+            },
+            {
+              "location": {
+                "begin": 6765,
+                "end": 6769
+              },
+              "text": "duis"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
