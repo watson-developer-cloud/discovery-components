@@ -16,6 +16,7 @@ import {
 import get from 'lodash/get';
 import { CollectionFacets } from './components/CollectionFacets';
 import { FieldFacets } from './components/FieldFacets';
+import { FieldFacetsWithType } from './components/FieldFacetsWithType';
 import { DynamicFacets } from './components/DynamicFacets';
 import { defaultMessages, Messages } from './messages';
 import { useDeepCompareEffect } from 'utils/useDeepCompareMemoize';
@@ -109,6 +110,14 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     facetSelectionState.filterFields,
     componentSettingsAggregations
   );
+
+  const allFieldFacetsWithType = allFieldFacets.filter(
+    facet => facet.field.includes('enriched_') && facet.field.includes('entities.text')
+  );
+  const allFieldFacetsWithoutType = allFieldFacets.filter(
+    facet => !(facet.field.includes('enriched_') && facet.field.includes('entities.text'))
+  );
+
   const allDynamicFacets: SelectableDynamicFacets[] = mergeDynamicFacets(
     get(searchResponse, 'suggested_refinements', []),
     facetSelectionState.filterDynamic
@@ -179,12 +188,18 @@ const SearchFacets: FC<SearchFacetsProps> = ({
           </Button>
         )}
         {shouldShowFields && (
-          <FieldFacets
-            allFacets={allFieldFacets}
-            onChange={handleOnChange}
-            collapsedFacetsCount={collapsedFacetsCount}
-            messages={mergedMessages}
-          />
+          <>
+            <FieldFacetsWithType
+              allFacets={allFieldFacetsWithType}
+              // onChange={handleOnChange}
+            />
+            <FieldFacets
+              allFacets={allFieldFacetsWithoutType}
+              onChange={handleOnChange}
+              collapsedFacetsCount={collapsedFacetsCount}
+              messages={mergedMessages}
+            />
+          </>
         )}
         {shouldShowDynamic && (
           <DynamicFacets
