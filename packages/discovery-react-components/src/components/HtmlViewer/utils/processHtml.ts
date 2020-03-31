@@ -7,8 +7,7 @@ import transformEnrichment from 'utils/document/transformEnrichment';
 import { getEnrichmentName } from 'components/CIDocument/utils/enrichmentUtils';
 import { spansIntersect } from 'utils/document/documentUtils';
 import { decodeHTML, encodeHTML } from 'entities';
-import { Options } from './processDoc';
-import { isRelationObject } from '../../../utils/document/nonContractUtils';
+import { Options, EnrichmentField, ProcessedDoc, ProcessedBbox, Table, Section } from '../types';
 
 // split HTML into "sections" based on these top level tag(s)
 const SECTION_NAMES = ['p', 'ul', 'table'];
@@ -20,37 +19,6 @@ const BBOX_TAG = 'bbox';
 // TODO When removing, we need to readjust the offsets for parent nodes;
 //      otherwise, parsing docs fails
 const SKIP_BBOX = false;
-
-export interface Location {
-  begin: number;
-  end: number;
-}
-
-export interface ProcessedDoc {
-  styles: string;
-  sections?: any[];
-  tables?: Table[];
-  bboxes?: ProcessedBbox[];
-  itemMap?: {
-    byItem: any;
-    bySection: any;
-  };
-}
-
-export interface ProcessedBbox {
-  left: number;
-  right: number;
-  top: number;
-  bottom: number;
-  page: number;
-  className: string;
-  location: Location;
-}
-
-export interface Table {
-  location: Location;
-  bboxes: ProcessedBbox[];
-}
 
 /**
  * Convert document data into structure that is more palatable for use by
@@ -79,17 +47,11 @@ export async function processHtml(
     : [];
 
   const doc: ProcessedDoc = {
-    styles: ''
+    styles: [],
+    ...(options.sections ? { sections: [] } : {}),
+    ...(options.tables ? { tables: [] } : {}),
+    ...(options.bbox ? { bboxes: [] } : {})
   };
-  if (options.sections) {
-    doc.sections = [];
-  }
-  if (options.tables) {
-    doc.tables = [];
-  }
-  if (options.bbox) {
-    doc.bboxes = [];
-  }
 
   const parser = new SaxParser();
 
@@ -101,7 +63,7 @@ export async function processHtml(
   // kick off parsing
   await parser.parse(htmlContent);
 
-  sortFields(enrichment, doc, options.enrichmentFields);
+  sortFields(enrichment, doc, options.enrichmentFields || []);
   if (options && options.sections && options.itemMap) {
     addItemMap(doc);
   }
@@ -145,7 +107,7 @@ function setupStyleParser(parser: SaxParser, doc: ProcessedDoc): void {
       }
 
       // finish
-      doc.styles += styleText;
+      doc.styles.push(styleText);
 
       // cleanup
       parser.popState();
@@ -342,7 +304,11 @@ function closeTagToString(tagName: string): string {
   return `</${tagName}>`;
 }
 
-function sortFields(_enrichments: any, doc: ProcessedDoc, enrichmentFields: any[]): void {
+function sortFields(
+  _enrichments: any,
+  doc: ProcessedDoc,
+  enrichmentFields: EnrichmentField[]
+): void {
   // shallow copy of object
   const enrichments = Object.assign({}, _enrichments);
 
@@ -370,7 +336,7 @@ function sortFields(_enrichments: any, doc: ProcessedDoc, enrichmentFields: any[
   }
 }
 
-function sortFieldsBySection(field: any, sections: any[], fieldType: string): void {
+function sortFieldsBySection(field: any, sections: Section[], fieldType: string): void {
   const { begin, end } = field.location;
 
   const sectionIdx = findIndex(sections, item => spansIntersect({ begin, end }, item.location));

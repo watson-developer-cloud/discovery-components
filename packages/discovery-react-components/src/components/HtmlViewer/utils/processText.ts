@@ -1,21 +1,22 @@
 import cloneDeep from 'lodash/cloneDeep';
 import { getSectionsFromText } from 'utils/document/textUtils';
 import { getId } from 'utils/document/idUtils';
+import { Section } from '../types';
 
 /**
  * Convert document data into structure that is more palatable for use by
  * Enrichment Document.
  *
- * @param {Object} document Discovery document data
- * @param {Object} enrichment path to enrichment data within document
+ * @param {Object} text Text to be processed
+ * @param {Object} enrichment List of enrichments contained in this text
  * @throws {ParsingError}
  */
-export async function processText(text: string, enrichments) {
+export async function processText(text: string | string[], enrichments: any[]) {
   if (!text) {
     throw new Error('No data in document data path.');
   }
 
-  const sections = getSectionsFromText(text, enrichments).map(section => ({
+  const sections: Section[] = getSectionsFromText(text, enrichments).map(section => ({
     enrichments: [],
     ...section
   }));
@@ -28,7 +29,7 @@ export async function processText(text: string, enrichments) {
   };
 }
 
-function sortFields(enrichments, sections) {
+function sortFields(enrichments: any[], sections: Section[]) {
   // ASSUMPTIONS:
   // - location data in JSON is sorted
 
@@ -39,7 +40,7 @@ function sortFields(enrichments, sections) {
   return restructuredFields;
 }
 
-function fieldsFromMentions(enrichments) {
+function fieldsFromMentions(enrichments: any[]) {
   const newFields = [];
 
   for (let enrichment of enrichments) {
@@ -65,7 +66,7 @@ function spansIntersect(
   return beginA <= endB && endA > beginB;
 }
 
-function sortFieldsBySection(field, sections) {
+function sortFieldsBySection(field: any, sections: Section[]) {
   const { begin, end } = field.location;
 
   const sectionIdx = sections.findIndex(item => spansIntersect({ begin, end }, item.location));
@@ -81,7 +82,7 @@ function sortFieldsBySection(field, sections) {
   });
 }
 
-function getItemMap(sections) {
+function getItemMap(sections: Section[]) {
   const byItem = {};
   const bySection = {};
 

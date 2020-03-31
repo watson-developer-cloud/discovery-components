@@ -138,18 +138,18 @@ const getPropsForModel = (modelId: string) => {
     case 'mock':
     case 'overlap':
       props = {
-        enrichmentFields: [{ enrichmentPath: 'enriched_text[0].keywords' }]
+        enrichmentFields: [{ path: 'enriched_text[0].keywords' }]
       };
       break;
     case 'simple':
       props = {
-        enrichmentFields: [{ enrichmentPath: 'enriched_text[0].entities' }]
+        enrichmentFields: [{ path: 'enriched_text[0].entities' }]
       };
       break;
     case 'non_text':
       props = {
         dataField: 'title',
-        enrichmentFields: [{ enrichmentPath: 'enriched_title[0].keywords' }]
+        enrichmentFields: [{ path: 'enriched_title[0].keywords' }]
       };
       break;
     default:

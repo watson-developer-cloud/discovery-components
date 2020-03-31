@@ -16,6 +16,7 @@ import { getId, findElement } from 'utils/document/idUtils';
 import { withErrorBoundary, WithErrorBoundaryProps } from 'utils/hoc/withErrorBoundary';
 import { Field } from 'components/CIDocument/types';
 import { defaultTheme, Theme } from 'utils/theme';
+import { DocumentData, Section, EnrichmentField } from './types';
 import {
   defaultMessages as HtmlViewerDefaultMsgs,
   Messages as HtmlViewerMessages
@@ -30,19 +31,10 @@ const defaultMessages = {
 export type ItemChangeFn = (item: string[]) => void;
 const noop = (): void => {};
 
-interface DocumentData {
-  styles?: string[];
-  sections?: any[];
-  itemMap?: {
-    byItem: any;
-    bySection: any;
-  };
-}
-
 interface State {
   isError: boolean;
   styles: string[];
-  sections: any[];
+  sections: Section[];
   itemMap: {
     byItem: any;
     bySection: any;
@@ -81,11 +73,12 @@ export interface HtmlViewerProps extends WithErrorBoundaryProps {
   /**
    * List of ids of elements to highight
    */
+  // TODO: colbyj restrict this to string array (ids)?
   highlightedList: any[];
   /**
    * Callback function on document processing success
    */
-  enrichmentFields?: any[];
+  enrichmentFields?: EnrichmentField[];
   /**
    * List of enrichment fields to process within this document
    */
@@ -151,8 +144,7 @@ const HtmlViewer: FC<HtmlViewerProps> = ({
             ...(dataField ? { field: dataField } : {})
           });
           const data: DocumentData = {
-            // TODO colbyj use arrays of strings in processing as well
-            styles: [doc.styles],
+            styles: doc.styles,
             sections: doc.sections,
             itemMap: doc.itemMap
           };
@@ -175,6 +167,7 @@ const HtmlViewer: FC<HtmlViewerProps> = ({
       didCancel = true;
     };
   }, [dataField, didCatch, document, enrichmentFields, onProcessingFailure, onProcessingSuccess]);
+  // }, [dataField, didCatch, document, enrichmentFields, onProcessingFailure, onProcessingSuccess]);
 
   const [activeItem, setActiveItem] = useState<string[]>([]);
   useEffect(() => {
