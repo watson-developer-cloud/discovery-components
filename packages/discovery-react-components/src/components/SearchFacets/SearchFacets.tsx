@@ -189,10 +189,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
         )}
         {shouldShowFields && (
           <>
-            <FieldFacetsWithType
-              allFacets={allFieldFacetsWithType}
-              // onChange={handleOnChange}
-            />
+            <FieldFacetsWithType allFacets={allFieldFacetsWithType} onChange={handleOnChange} />
             <FieldFacets
               allFacets={allFieldFacetsWithoutType}
               onChange={handleOnChange}

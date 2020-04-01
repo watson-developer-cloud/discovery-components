@@ -1,7 +1,9 @@
-import React, { FC } from 'react';
+import React, { FC, SyntheticEvent } from 'react';
+import get from 'lodash/get';
 import {
-  InternalQueryTermAggregation
-  // SearchFilterFacets
+  InternalQueryTermAggregation,
+  SearchFilterFacets,
+  SelectableQueryTermAggregationResult
 } from '../utils/searchFacetInterfaces';
 import { Checkbox as CarbonCheckbox } from 'carbon-components-react';
 import ListBox from 'carbon-components-react/lib/components/ListBox';
@@ -16,7 +18,7 @@ interface FieldFacetsWithTypeProps {
   /**
    * Callback to handle changes in selected facets
    */
-  // onChange: (updatedFacet: Partial<SearchFilterFacets>) => void;
+  onChange: (updatedFacet: Partial<SearchFilterFacets>) => void;
 }
 
 interface FacetCategoryProps {
@@ -31,10 +33,7 @@ const FacetCategory: FC<FacetCategoryProps> = ({ label }) => {
   );
 };
 
-export const FieldFacetsWithType: FC<FieldFacetsWithTypeProps> = ({
-  allFacets
-  // onChange
-}) => {
+export const FieldFacetsWithType: FC<FieldFacetsWithTypeProps> = ({ allFacets, onChange }) => {
   let facetsByType: object = {};
   allFacets.map(facet => {
     const facetLabel = facet.label;
@@ -44,15 +43,50 @@ export const FieldFacetsWithType: FC<FieldFacetsWithTypeProps> = ({
       if (resultType in facetsByType[`${facetLabel}`]) {
         facetsByType[`${facetLabel}`][`${resultType}`].push({
           key: result.key,
-          matching_results: result.matching_results
+          matching_results: result.matching_results,
+          field: facet.field
         });
       } else {
         facetsByType[`${facetLabel}`][`${resultType}`] = [
-          { key: result.key, matching_results: result.matching_results }
+          { key: result.key, matching_results: result.matching_results, field: facet.field }
         ];
       }
     });
   });
+
+  const handleOnChange = (
+    checked: boolean,
+    _id: string,
+    event: SyntheticEvent<HTMLInputElement>
+  ): void => {
+    const target: HTMLInputElement = event.currentTarget;
+    const selectedFacetName = target.getAttribute('data-name') || '';
+    const selectedFacetField = target.getAttribute('data-field') || '';
+    const facetsForNameIndex = allFacets.findIndex(facet => {
+      return facet.field === selectedFacetField;
+    });
+
+    if (facetsForNameIndex > -1) {
+      const facetsForName = allFacets[facetsForNameIndex];
+      const facetResults: SelectableQueryTermAggregationResult[] = get(
+        facetsForName,
+        'results',
+        []
+      );
+      const selectedFacetResults: SelectableQueryTermAggregationResult[] = facetResults.map(
+        result => {
+          const key = get(result, 'key', '');
+
+          return key === selectedFacetName
+            ? Object.assign({}, result, { selected: checked })
+            : result;
+        }
+      );
+      allFacets[facetsForNameIndex].results = selectedFacetResults;
+    }
+
+    onChange({ filterFields: allFacets });
+  };
 
   return (
     <div>
@@ -73,6 +107,9 @@ export const FieldFacetsWithType: FC<FieldFacetsWithTypeProps> = ({
                         <CarbonCheckbox
                           labelText={`${facet.key} (${facet.matching_results})`}
                           id={facet.key}
+                          data-name={facet.key}
+                          data-field={facet.field}
+                          onChange={handleOnChange}
                         />
                       );
                     })}
