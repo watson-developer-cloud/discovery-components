@@ -73,6 +73,10 @@ export interface SearchResultsProps {
    * override default messages for the component by specifying custom and/or internationalized text strings
    */
   messages?: Partial<Messages>;
+  /**
+   * override default messages for the component by specifying custom and/or internationalized text strings
+   */
+  handleSelectedResult?: (document: DiscoveryV2.QueryResult) => void | undefined;
 }
 
 const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
@@ -86,7 +90,8 @@ const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   passageTextClassName,
   showTablesOnlyToggle,
   showTablesOnly = false,
-  messages = defaultMessages
+  messages = defaultMessages,
+  handleSelectedResult
 }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
 
@@ -207,6 +212,7 @@ const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
                     showTablesOnlyResults={showTablesOnlyResults}
                     table={table}
                     messages={mergedMessages}
+                    handleSelectedResult={handleSelectedResult}
                   />
                 );
               })
@@ -231,6 +237,7 @@ const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
                     usePassages={displaySettings.usePassages}
                     dangerouslyRenderHtml={dangerouslyRenderHtml}
                     messages={mergedMessages}
+                    handleSelectedResult={handleSelectedResult}
                   />
                 );
               })}
