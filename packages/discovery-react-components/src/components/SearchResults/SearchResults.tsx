@@ -74,7 +74,7 @@ export interface SearchResultsProps {
    */
   messages?: Partial<Messages>;
   /**
-   * override default messages for the component by specifying custom and/or internationalized text strings
+   * callback function from the component for sending document
    */
   handleSelectedResult?: (document: DiscoveryV2.QueryResult) => void | undefined;
 }
