@@ -44,11 +44,17 @@ export const FieldFacetsWithType: FC<FieldFacetsWithTypeProps> = ({ allFacets, o
         facetsByType[`${facetLabel}`][`${resultType}`].push({
           key: result.key,
           matching_results: result.matching_results,
-          field: facet.field
+          field: facet.field,
+          selected: result.selected ? true : false
         });
       } else {
         facetsByType[`${facetLabel}`][`${resultType}`] = [
-          { key: result.key, matching_results: result.matching_results, field: facet.field }
+          {
+            key: result.key,
+            matching_results: result.matching_results,
+            field: facet.field,
+            selected: result.selected ? result.selected : false
+          }
         ];
       }
     });
@@ -88,6 +94,40 @@ export const FieldFacetsWithType: FC<FieldFacetsWithTypeProps> = ({ allFacets, o
     onChange({ filterFields: allFacets });
   };
 
+  const handleCategoryOnChange = (
+    checked: boolean,
+    _id: string,
+    event: SyntheticEvent<HTMLInputElement>
+  ): void => {
+    const target: HTMLInputElement = event.currentTarget;
+    const facetLabel = target.getAttribute('data-label' || '');
+    const facetField = target.getAttribute('data-field' || '');
+    const facetCategory = target.getAttribute('data-category' || '');
+    const facetsForNameIndex = allFacets.findIndex(allFacet => {
+      return allFacet.field === facetField;
+    });
+
+    if (facetsForNameIndex > -1) {
+      const facetsForName = allFacets[facetsForNameIndex];
+      const facetResults: SelectableQueryTermAggregationResult[] = get(
+        facetsForName,
+        'results',
+        []
+      );
+      let selectedFacetResults: SelectableQueryTermAggregationResult[] = facetResults;
+      facetsByType[facetLabel!][facetCategory].map((facet: any) => {
+        const selectedFacetIndex = selectedFacetResults.findIndex(selectedFacet => {
+          return selectedFacet.key === facet.key;
+        });
+        if (selectedFacetIndex > -1) {
+          selectedFacetResults[selectedFacetIndex].selected = checked;
+        }
+      });
+      allFacets[facetsForNameIndex].results = selectedFacetResults;
+    }
+    onChange({ filterFields: allFacets });
+  };
+
   return (
     <div>
       {Object.entries(facetsByType).map(entry => {
@@ -96,20 +136,33 @@ export const FieldFacetsWithType: FC<FieldFacetsWithTypeProps> = ({ allFacets, o
             <fieldset className="bx--fieldset">
               <legend className="bx--label">{entry[0]}</legend>
               {Object.entries(entry[1]).map((entity: any) => {
+                const categoryAllSelected =
+                  entity[1].filter((facet: any) => facet.selected).length === entity[1].length;
                 return (
                   <>
                     <CarbonCheckbox
                       labelText={<FacetCategory label={entity[0]} />}
-                      id={entity[0]}
+                      id={`${entry[0]}-${entity[1]}`}
+                      key={`${entry[0]}-${entity[1]}`}
+                      checked={categoryAllSelected}
+                      data-field={entity[1][0].field}
+                      data-category={entity[0]}
+                      data-label={entry[0]}
+                      onChange={handleCategoryOnChange}
                     />
                     {entity[1].map((facet: any) => {
+                      // TODO: Improve id/key here
+                      const buff = new Buffer(facet.field + facet.key);
+                      const base64data = buff.toString('base64');
                       return (
                         <CarbonCheckbox
                           labelText={`${facet.key} (${facet.matching_results})`}
-                          id={facet.key}
+                          id={base64data}
+                          key={base64data}
                           data-name={facet.key}
                           data-field={facet.field}
                           onChange={handleOnChange}
+                          checked={facet.selected}
                         />
                       );
                     })}
