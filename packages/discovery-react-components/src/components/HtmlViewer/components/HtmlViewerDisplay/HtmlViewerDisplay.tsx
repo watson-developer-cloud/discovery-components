@@ -10,7 +10,7 @@ import { SkeletonText } from 'carbon-components-react';
 import Section, { OnFieldClickFn } from '../Section/Section';
 import VirtualScroll from '../VirtualScroll/VirtualScroll';
 import { defaultTheme, Theme } from 'utils/theme';
-import { SectionType, ItemMap } from 'components/HtmlViewerDisplay/types';
+import { SectionType, ItemMap } from '../../../CIDocument/types';
 
 const baseClassName = `${settings.prefix}--html-viewer-display`;
 

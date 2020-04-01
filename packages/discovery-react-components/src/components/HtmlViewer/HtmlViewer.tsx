@@ -11,6 +11,7 @@ import React, {
 import { settings } from 'carbon-components';
 import { QueryResult } from 'ibm-watson/discovery/v2';
 import HtmlViewerDisplay from './components/HtmlViewerDisplay/HtmlViewerDisplay';
+import NavigationToolbar from './components/NavigationToolbar/NavigationToolbar';
 import { processDoc } from './utils/processDoc';
 import { getId, findElement } from 'utils/document/idUtils';
 import { withErrorBoundary, WithErrorBoundaryProps } from 'utils/hoc/withErrorBoundary';
@@ -253,4 +254,9 @@ function onItemClick({
   };
 }
 
-export default withErrorBoundary(HtmlViewer);
+const ErrorBoundHtmlViewer: any = withErrorBoundary(HtmlViewer);
+ErrorBoundHtmlViewer.HtmlViewerDisplay = HtmlViewerDisplay;
+ErrorBoundHtmlViewer.NavigationToolbar = NavigationToolbar;
+
+export default ErrorBoundHtmlViewer;
+export { ErrorBoundHtmlViewer as HtmlViewer };
