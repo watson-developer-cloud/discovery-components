@@ -1,4 +1,6 @@
 export interface Messages {
+  labelText: string;
+  labelTextWithCount: string;
   clearAllButtonText: string;
   clearFacetTitle: string;
   clearFacetSelectionTitle: string;
@@ -9,6 +11,8 @@ export interface Messages {
   dynamicFacetsLabel: string;
 }
 export const defaultMessages: Messages = {
+  labelText: '{facetText}',
+  labelTextWithCount: '{facetText} ({count})',
   clearAllButtonText: 'Clear all',
   clearFacetTitle: 'Clear all selected items',
   clearFacetSelectionTitle: 'Clear selected item',
