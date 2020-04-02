@@ -8,6 +8,17 @@
   }
 }
 
+.#{$prefix}--search-facets {
+  .bx--expand-collapse {
+    background-color: #f3f3f3;
+    color: #565656;
+    &:hover {
+      background-color: #f3f3f3;
+      text-decoration: none;
+    }
+  }
+}
+
 .#{$prefix}--search-facet {
   margin-bottom: $spacing-md;
   word-break: break-word;

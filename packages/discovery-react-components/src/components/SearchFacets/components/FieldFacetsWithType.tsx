@@ -1,12 +1,12 @@
-import React, { FC, SyntheticEvent } from 'react';
+import React, { FC, SyntheticEvent, useState } from 'react';
 import get from 'lodash/get';
 import {
   InternalQueryTermAggregation,
   SearchFilterFacets,
   SelectableQueryTermAggregationResult
 } from '../utils/searchFacetInterfaces';
-import { Checkbox as CarbonCheckbox } from 'carbon-components-react';
-import ListBox from 'carbon-components-react/lib/components/ListBox';
+import { Checkbox as CarbonCheckbox, Button } from 'carbon-components-react';
+// import ListBox from 'carbon-components-react/lib/components/ListBox';
 import ChevronDown from '@carbon/icons-react/lib/chevron--down/16';
 // import ChevronUp from '@carbon/icons-react/lib/chevron-up/16';
 
@@ -22,18 +22,13 @@ interface FieldFacetsWithTypeProps {
 }
 
 interface FacetCategoryProps {
-  label: string;
+  category: string;
+  facetLabel: string;
 }
 
-const FacetCategory: FC<FacetCategoryProps> = ({ label }) => {
-  return (
-    <div>
-      {label} <ListBox.Selection selectionCount={1} /> <ChevronDown />
-    </div>
-  );
-};
-
 export const FieldFacetsWithType: FC<FieldFacetsWithTypeProps> = ({ allFacets, onChange }) => {
+  const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
+
   let facetsByType: object = {};
   allFacets.map(facet => {
     const facetLabel = facet.label;
@@ -41,24 +36,51 @@ export const FieldFacetsWithType: FC<FieldFacetsWithTypeProps> = ({ allFacets, o
     facet!.results!.map(result => {
       const resultType = result!.aggregations![0].results![0].key;
       if (resultType in facetsByType[`${facetLabel}`]) {
-        facetsByType[`${facetLabel}`][`${resultType}`].push({
+        facetsByType[`${facetLabel}`][`${resultType}`].facets.push({
           key: result.key,
           matching_results: result.matching_results,
           field: facet.field,
           selected: result.selected ? true : false
         });
       } else {
-        facetsByType[`${facetLabel}`][`${resultType}`] = [
-          {
-            key: result.key,
-            matching_results: result.matching_results,
-            field: facet.field,
-            selected: result.selected ? result.selected : false
-          }
-        ];
+        facetsByType[`${facetLabel}`][`${resultType}`] = {
+          facets: [
+            {
+              key: result.key,
+              matching_results: result.matching_results,
+              field: facet.field,
+              selected: result.selected ? result.selected : false
+            }
+          ]
+        };
       }
     });
   });
+
+  const handleExpandCollapseOnClick = (category: string, facetLabel: string) => {
+    if (expandedCategories.includes(`${facetLabel}-${category}`)) {
+      setExpandedCategories(
+        expandedCategories.filter(category => category !== `${facetLabel}-${category}`)
+      );
+    } else {
+      setExpandedCategories(expandedCategories.concat(`${facetLabel}-${category}`));
+    }
+  };
+
+  const FacetCategory: FC<FacetCategoryProps> = ({ category, facetLabel }) => {
+    return (
+      // todo use the prefix here for the className
+      // todo make this so that the expansion doesn't also make it check the box...
+      <Button
+        className={'bx--expand-collapse'}
+        onClick={() => handleExpandCollapseOnClick(category, facetLabel)}
+      >
+        {/* todo: chevron icon direction also needs to change to up when this is clicked */}
+        {category} <ChevronDown />
+        {/* <ListBox.Selection selectionCount={1} />  */}
+      </Button>
+    );
+  };
 
   const handleOnChange = (
     checked: boolean,
@@ -115,7 +137,7 @@ export const FieldFacetsWithType: FC<FieldFacetsWithTypeProps> = ({ allFacets, o
         []
       );
       let selectedFacetResults: SelectableQueryTermAggregationResult[] = facetResults;
-      facetsByType[facetLabel!][facetCategory].map((facet: any) => {
+      facetsByType[facetLabel!][facetCategory].facets.map((facet: any) => {
         const selectedFacetIndex = selectedFacetResults.findIndex(selectedFacet => {
           return selectedFacet.key === facet.key;
         });
@@ -137,35 +159,40 @@ export const FieldFacetsWithType: FC<FieldFacetsWithTypeProps> = ({ allFacets, o
               <legend className="bx--label">{entry[0]}</legend>
               {Object.entries(entry[1]).map((entity: any) => {
                 const categoryAllSelected =
-                  entity[1].filter((facet: any) => facet.selected).length === entity[1].length;
+                  entity[1].facets.filter((facet: any) => facet.selected).length ===
+                  entity[1].facets.length;
                 return (
                   <>
                     <CarbonCheckbox
-                      labelText={<FacetCategory label={entity[0]} />}
+                      labelText={<FacetCategory category={entity[0]} facetLabel={entry[0]} />}
                       id={`${entry[0]}-${entity[1]}`}
                       key={`${entry[0]}-${entity[1]}`}
                       checked={categoryAllSelected}
-                      data-field={entity[1][0].field}
+                      data-field={entity[1].facets[0].field}
                       data-category={entity[0]}
                       data-label={entry[0]}
                       onChange={handleCategoryOnChange}
                     />
-                    {entity[1].map((facet: any) => {
-                      // TODO: Improve id/key here
-                      const buff = new Buffer(facet.field + facet.key);
-                      const base64data = buff.toString('base64');
-                      return (
-                        <CarbonCheckbox
-                          labelText={`${facet.key} (${facet.matching_results})`}
-                          id={base64data}
-                          key={base64data}
-                          data-name={facet.key}
-                          data-field={facet.field}
-                          onChange={handleOnChange}
-                          checked={facet.selected}
-                        />
-                      );
-                    })}
+                    {expandedCategories.includes(`${entry[0]}-${entity[0]}`) ? (
+                      entity[1].facets.map((facet: any) => {
+                        // TODO: Improve id/key here
+                        const buff = new Buffer(facet.field + facet.key);
+                        const base64data = buff.toString('base64');
+                        return (
+                          <CarbonCheckbox
+                            labelText={`${facet.key} (${facet.matching_results})`}
+                            id={base64data}
+                            key={base64data}
+                            data-name={facet.key}
+                            data-field={facet.field}
+                            onChange={handleOnChange}
+                            checked={facet.selected}
+                          />
+                        );
+                      })
+                    ) : (
+                      <div></div>
+                    )}
                   </>
                 );
               })}
