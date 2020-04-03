@@ -9,12 +9,30 @@
 }
 
 .#{$prefix}--search-facets {
-  .bx--expand-collapse {
+  .bx--search-facet--category {
+    .bx--search-facet--category--category-name {
+      color: #161616;
+      font-size: 0.875rem;
+      font-weight: 400;
+      letter-spacing: 0;
+      line-height: 1.375rem;
+    }
+    margin-bottom: 0.5rem;
+    padding-left: 1rem;
+  }
+  .bx--search-facet--category--expand-collapse {
     background-color: #f3f3f3;
     color: #565656;
+    height: 1.5rem;
+    margin-bottom: 0.5rem;
+    min-height: 1.5rem;
+    width: 100%;
     &:hover {
       background-color: #f3f3f3;
       text-decoration: none;
+    }
+    &:focus {
+      box-shadow: none;
     }
   }
 }

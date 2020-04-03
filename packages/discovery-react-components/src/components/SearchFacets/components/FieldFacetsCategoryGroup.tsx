@@ -1,25 +1,33 @@
-import React, { FC, SyntheticEvent, useState } from 'react';
+import React, { FC, SyntheticEvent, useState, useEffect } from 'react';
 import get from 'lodash/get';
 import { Checkbox as CarbonCheckbox, Button } from 'carbon-components-react';
 import {
   InternalQueryTermAggregation,
   SelectableQueryTermAggregationResult
 } from '../utils/searchFacetInterfaces';
+import { optionClass, optionLabelClass } from '../cssClasses';
 
 interface FieldFacetsCategoryGroupProps {
   categoryFacets: any;
   onChange: any;
-  expanded: boolean;
   allFacets: InternalQueryTermAggregation[];
 }
 
 export const FieldFacetsCategoryGroup: FC<FieldFacetsCategoryGroupProps> = ({
   allFacets,
   categoryFacets,
-  onChange,
-  expanded
+  onChange
 }) => {
+  const collapsedFacetsCount = 5;
   const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
+  const [isCollapsible, setIsCollapsible] = useState<boolean>(
+    collapsedFacetsCount < categoryFacets.length
+  );
+
+  useEffect(() => {
+    setIsCollapsed(collapsedFacetsCount < categoryFacets.length);
+    setIsCollapsible(collapsedFacetsCount < categoryFacets.length);
+  }, [collapsedFacetsCount, categoryFacets.length]);
 
   const toggleFacetsCollapse = (): void => {
     setIsCollapsed(!isCollapsed);
@@ -61,32 +69,31 @@ export const FieldFacetsCategoryGroup: FC<FieldFacetsCategoryGroupProps> = ({
     onChange({ filterFields: allFacets });
   };
 
-  if (expanded) {
-    return (
-      // todo; add styling of padding-left 1rem to this
-      <div className={'bx--category-wrapper'}>
-        {categoryFacetsToShow.map((facet: any) => {
-          const buff = new Buffer(facet.field.replace(/\s+/g, '_') + facet.key);
-          const base64data = buff.toString('base64');
-          return (
-            <CarbonCheckbox
-              labelText={`${facet.key} (${facet.matching_results})`}
-              id={base64data}
-              key={base64data}
-              data-name={facet.key}
-              data-field={facet.field}
-              onChange={handleOnChange}
-              checked={facet.selected}
-            />
-          );
-        })}
+  return (
+    <div className={'bx--category-wrapper'}>
+      {categoryFacetsToShow.map((facet: any) => {
+        const buff = new Buffer(facet.field.replace(/\s+/g, '_') + facet.key);
+        const base64data = buff.toString('base64');
+        return (
+          <CarbonCheckbox
+            className={optionLabelClass}
+            wrapperClassName={optionClass}
+            labelText={`${facet.key} (${facet.matching_results})`}
+            id={base64data}
+            key={base64data}
+            data-name={facet.key}
+            data-field={facet.field}
+            onChange={handleOnChange}
+            checked={facet.selected}
+          />
+        );
+      })}
+      {isCollapsible && (
         <Button kind="ghost" size="small" onClick={toggleFacetsCollapse}>
           {/* todo: should only show more if there are actually more to show */}
           {isCollapsed ? 'Show more' : 'Show less'}
         </Button>
-      </div>
-    );
-  } else {
-    return <div></div>;
-  }
+      )}
+    </div>
+  );
 };

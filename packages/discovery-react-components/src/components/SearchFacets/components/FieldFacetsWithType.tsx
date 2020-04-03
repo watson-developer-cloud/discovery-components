@@ -54,10 +54,11 @@ export const FieldFacetsWithType: FC<FieldFacetsWithTypeProps> = ({ allFacets, o
   });
 
   const handleExpandCollapseOnClick = (category: string, facetLabel: string) => {
-    if (expandedCategories.includes(`${facetLabel}-${category}`)) {
-      setExpandedCategories(
-        expandedCategories.filter(category => category === `${facetLabel}-${category}`)
-      );
+    const indexOfCategory = expandedCategories.indexOf(`${facetLabel}-${category}`);
+    if (indexOfCategory > -1) {
+      const newArr = [...expandedCategories];
+      newArr.splice(indexOfCategory, 1);
+      setExpandedCategories(newArr);
     } else {
       setExpandedCategories(expandedCategories.concat(`${facetLabel}-${category}`));
     }
@@ -84,6 +85,7 @@ export const FieldFacetsWithType: FC<FieldFacetsWithTypeProps> = ({ allFacets, o
   return (
     <div>
       {Object.entries(facetsByType).map(entry => {
+        const facetLabel = entry[0];
         let selectedValuesCount = 0;
         Object.entries(entry[1].categories).map((entity: any) => {
           entity[1].facets.map((facet: any) => {
@@ -97,7 +99,7 @@ export const FieldFacetsWithType: FC<FieldFacetsWithTypeProps> = ({ allFacets, o
             <fieldset className={fieldsetClasses.join(' ')}>
               <legend className={labelClasses.join(' ')}>
                 <div className={labelAndSelectionContainerClass}>
-                  {entry[0]}
+                  {facetLabel}
                   <ListBox.Selection
                     clearSelection={() => handleOnClear(entry[1].facetName)}
                     selectionCount={selectedValuesCount}
@@ -105,23 +107,28 @@ export const FieldFacetsWithType: FC<FieldFacetsWithTypeProps> = ({ allFacets, o
                 </div>
               </legend>
               {Object.entries(entry[1].categories).map((entity: any) => {
-                const expanded = expandedCategories.includes(`${entry[0]}-${entity[0]}`);
+                const categoryName = entity[0];
+                const isCategoryExpanded = expandedCategories.includes(
+                  `${facetLabel}-${categoryName}`
+                );
                 return (
-                  <div>
+                  <div className={'bx--search-facet--category'}>
                     <Button
-                      className={'bx--expand-collapse'}
-                      onClick={() => handleExpandCollapseOnClick(entity[0], entry[0])}
+                      className={'bx--search-facet--category--expand-collapse'}
+                      onClick={() => handleExpandCollapseOnClick(categoryName, facetLabel)}
                     >
-                      {entity[0]}
-                      {expanded ? <ChevronDown /> : <ChevronUp />}
+                      <div className={'bx--search-facet--category--category-name'}>
+                        {categoryName}
+                      </div>
+                      {isCategoryExpanded ? <ChevronDown /> : <ChevronUp />}
                     </Button>
-                    {/* todo: update to have the expansion check here to only show fcg component in this case */}
-                    <FieldFacetsCategoryGroup
-                      allFacets={allFacets}
-                      categoryFacets={entity[1].facets}
-                      onChange={onChange}
-                      expanded={expanded}
-                    />
+                    {isCategoryExpanded && (
+                      <FieldFacetsCategoryGroup
+                        allFacets={allFacets}
+                        categoryFacets={entity[1].facets}
+                        onChange={onChange}
+                      />
+                    )}
                   </div>
                 );
               })}
