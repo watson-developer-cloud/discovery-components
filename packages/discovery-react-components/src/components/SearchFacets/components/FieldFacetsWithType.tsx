@@ -1,15 +1,15 @@
-import React, { FC, SyntheticEvent, useState } from 'react';
-import get from 'lodash/get';
+import React, { FC, useState } from 'react';
+import { Button } from 'carbon-components-react';
+import ListBox from 'carbon-components-react/lib/components/ListBox';
+import ChevronDown from '@carbon/icons-react/lib/chevron--down/16';
+import ChevronUp from '@carbon/icons-react/lib/chevron--up/16';
 import {
   InternalQueryTermAggregation,
   SearchFilterFacets,
   SelectableQueryTermAggregationResult
 } from '../utils/searchFacetInterfaces';
-import { Checkbox as CarbonCheckbox, Button } from 'carbon-components-react';
-import ListBox from 'carbon-components-react/lib/components/ListBox';
-import ChevronDown from '@carbon/icons-react/lib/chevron--down/16';
-import ChevronUp from '@carbon/icons-react/lib/chevron--up/16';
 import { labelAndSelectionContainerClass, fieldsetClasses, labelClasses } from '../cssClasses';
+import { FieldFacetsCategoryGroup } from './FieldFacetsCategoryGroup';
 
 interface FieldFacetsWithTypeProps {
   /**
@@ -21,96 +21,6 @@ interface FieldFacetsWithTypeProps {
    */
   onChange: (updatedFacet: Partial<SearchFilterFacets>) => void;
 }
-
-interface FacetCategoryProps {
-  category: string;
-  facetLabel: string;
-  expanded: boolean;
-}
-
-interface FacetCategoryGroupProps {
-  categoryFacets: any;
-  onChange: any;
-  expanded: boolean;
-  allFacets: InternalQueryTermAggregation[];
-}
-
-const FacetCategoryGroup: FC<FacetCategoryGroupProps> = ({
-  allFacets,
-  categoryFacets,
-  onChange,
-  expanded
-}) => {
-  const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
-
-  const toggleFacetsCollapse = (): void => {
-    setIsCollapsed(!isCollapsed);
-  };
-
-  const categoryFacetsToShow = isCollapsed ? categoryFacets.slice(0, 4) : categoryFacets;
-
-  const handleOnChange = (
-    checked: boolean,
-    _id: string,
-    event: SyntheticEvent<HTMLInputElement>
-  ): void => {
-    const target: HTMLInputElement = event.currentTarget;
-    const selectedFacetName = target.getAttribute('data-name') || '';
-    const selectedFacetField = target.getAttribute('data-field') || '';
-    const facetsForNameIndex = allFacets.findIndex(facet => {
-      return facet.field === selectedFacetField;
-    });
-
-    if (facetsForNameIndex > -1) {
-      const facetsForName = allFacets[facetsForNameIndex];
-      const facetResults: SelectableQueryTermAggregationResult[] = get(
-        facetsForName,
-        'results',
-        []
-      );
-      const selectedFacetResults: SelectableQueryTermAggregationResult[] = facetResults.map(
-        result => {
-          const key = get(result, 'key', '');
-
-          return key === selectedFacetName
-            ? Object.assign({}, result, { selected: checked })
-            : result;
-        }
-      );
-      allFacets[facetsForNameIndex].results = selectedFacetResults;
-    }
-
-    onChange({ filterFields: allFacets });
-  };
-
-  if (expanded) {
-    return (
-      // todo; add styling of padding-left 1rem to this
-      <div className={'bx--category-wrapper'}>
-        {categoryFacetsToShow.map((facet: any) => {
-          const buff = new Buffer(facet.field.replace(/\s+/g, '_') + facet.key);
-          const base64data = buff.toString('base64');
-          return (
-            <CarbonCheckbox
-              labelText={`${facet.key} (${facet.matching_results})`}
-              id={base64data}
-              key={base64data}
-              data-name={facet.key}
-              data-field={facet.field}
-              onChange={handleOnChange}
-              checked={facet.selected}
-            />
-          );
-        })}
-        <Button kind="ghost" size="small" onClick={toggleFacetsCollapse}>
-          {isCollapsed ? 'Show more' : 'Show less'}
-        </Button>
-      </div>
-    );
-  } else {
-    return <div></div>;
-  }
-};
 
 export const FieldFacetsWithType: FC<FieldFacetsWithTypeProps> = ({ allFacets, onChange }) => {
   const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
@@ -151,20 +61,6 @@ export const FieldFacetsWithType: FC<FieldFacetsWithTypeProps> = ({ allFacets, o
     } else {
       setExpandedCategories(expandedCategories.concat(`${facetLabel}-${category}`));
     }
-  };
-
-  const FacetCategory: FC<FacetCategoryProps> = ({ category, facetLabel, expanded }) => {
-    return (
-      // todo use the prefix here for the className
-      <Button
-        className={'bx--expand-collapse'}
-        onClick={() => handleExpandCollapseOnClick(category, facetLabel)}
-      >
-        {/* todo: chevron icon direction also needs to change to up when this is clicked */}
-        {category}
-        {expanded ? <ChevronDown /> : <ChevronUp />}
-      </Button>
-    );
   };
 
   // TODO: figure out way to not duplicate this with FieldFacets component
@@ -212,9 +108,15 @@ export const FieldFacetsWithType: FC<FieldFacetsWithTypeProps> = ({ allFacets, o
                 const expanded = expandedCategories.includes(`${entry[0]}-${entity[0]}`);
                 return (
                   <div>
-                    <FacetCategory category={entity[0]} facetLabel={entry[0]} expanded={expanded} />
+                    <Button
+                      className={'bx--expand-collapse'}
+                      onClick={() => handleExpandCollapseOnClick(entity[0], entry[0])}
+                    >
+                      {entity[0]}
+                      {expanded ? <ChevronDown /> : <ChevronUp />}
+                    </Button>
                     {/* todo: update to have the expansion check here to only show fcg component in this case */}
-                    <FacetCategoryGroup
+                    <FieldFacetsCategoryGroup
                       allFacets={allFacets}
                       categoryFacets={entity[1].facets}
                       onChange={onChange}
