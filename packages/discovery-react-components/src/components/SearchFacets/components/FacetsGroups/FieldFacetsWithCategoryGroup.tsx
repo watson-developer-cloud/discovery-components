@@ -27,6 +27,7 @@ interface FieldFacetsWithCategoryGroupProps {
    * Number of facet terms to show when list is collapsed
    */
   collapsedFacetsCount: number;
+  categoryName: string;
 }
 
 export const FieldFacetsWithCategoryGroup: FC<FieldFacetsWithCategoryGroupProps> = ({
@@ -34,7 +35,8 @@ export const FieldFacetsWithCategoryGroup: FC<FieldFacetsWithCategoryGroupProps>
   categoryFacets,
   onChange,
   messages,
-  collapsedFacetsCount
+  collapsedFacetsCount,
+  categoryName
 }) => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
   const [isCollapsible, setIsCollapsible] = useState<boolean>(
@@ -108,7 +110,12 @@ export const FieldFacetsWithCategoryGroup: FC<FieldFacetsWithCategoryGroupProps>
         );
       })}
       {isCollapsible && (
-        <Button kind="ghost" size="small" onClick={toggleFacetsCollapse}>
+        <Button
+          kind="ghost"
+          size="small"
+          onClick={toggleFacetsCollapse}
+          data-testid={`show-more-less-${categoryName}`}
+        >
           {isCollapsed ? messages.collapsedFacetShowMoreText : messages.collapsedFacetShowLessText}
         </Button>
       )}

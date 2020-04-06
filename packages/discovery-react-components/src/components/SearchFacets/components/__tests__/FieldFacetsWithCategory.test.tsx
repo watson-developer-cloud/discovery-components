@@ -98,8 +98,8 @@ describe('FieldFacetsWithCategoryComponent', () => {
     });
   });
 
-  describe('entities facet category header elements', () => {
-    test('contains all expected category headers', () => {
+  describe('entities facet category elements', () => {
+    test('contain all expected category headers', () => {
       const { fieldFacetsWithCategoryComponent } = setup();
       const locationCategoryHeader = fieldFacetsWithCategoryComponent.getByText('Location');
       const organizationCategoryHeader = fieldFacetsWithCategoryComponent.getByText('Organization');
@@ -109,7 +109,7 @@ describe('FieldFacetsWithCategoryComponent', () => {
       expect(quantityCategoryHeader).toBeDefined();
     });
 
-    test('category elements are collapsed on initial load and facet values are not shown', () => {
+    test('are collapsed on initial load and facet values are not shown', () => {
       const { fieldFacetsWithCategoryComponent } = setup();
       const ibmFacetValue = fieldFacetsWithCategoryComponent.queryByText('ibm');
       const pittsburghFacetValue = fieldFacetsWithCategoryComponent.queryByText('pittsburgh');
@@ -123,20 +123,93 @@ describe('FieldFacetsWithCategoryComponent', () => {
       expect(euFacetValue).toBe(null);
     });
 
-    test('category headers expand to show facet values on click (and not facet values of other categories)', () => {
+    // todo: break up into a describe block so can test for each of these pieces separately
+    // instead of smushing into one test block
+    test('expand to show first 5 facet values on click (and not more than 5 or facet values of other categories)', () => {
       const { fieldFacetsWithCategoryComponent } = setup();
       const locationCategoryHeader = fieldFacetsWithCategoryComponent.getByText('Location');
       fireEvent.click(locationCategoryHeader);
       const pittsburghFacetValue = fieldFacetsWithCategoryComponent.getByText('pittsburgh (57158)');
       const usFacetValue = fieldFacetsWithCategoryComponent.getByText('us (57158)');
       const euFacetValue = fieldFacetsWithCategoryComponent.getByText('eu (57158)');
+      let bostonFacetValue = fieldFacetsWithCategoryComponent.queryByText('boston (57158)');
+      let pennsylvaniaFacetValue = fieldFacetsWithCategoryComponent.queryByText(
+        'pennsylvania (57158)'
+      );
       const quantityFacetValue = fieldFacetsWithCategoryComponent.queryByText('$299 (57158)');
-      const ibmFacetValue = fieldFacetsWithCategoryComponent.queryByText('ibm (57158)');
+      const ibmFacetValue = fieldFacetsWithCategoryComponent.queryByText('ibm (138993)');
       expect(pittsburghFacetValue).toBeDefined();
       expect(usFacetValue).toBeDefined();
       expect(euFacetValue).toBeDefined();
+      expect(bostonFacetValue).toBe(null);
+      expect(pennsylvaniaFacetValue).toBe(null);
       expect(quantityFacetValue).toBe(null);
       expect(ibmFacetValue).toBe(null);
+      const showMore = fieldFacetsWithCategoryComponent.getByTestId('show-more-less-Location');
+      fireEvent.click(showMore);
+      bostonFacetValue = fieldFacetsWithCategoryComponent.getByText('boston (57158)');
+      pennsylvaniaFacetValue = fieldFacetsWithCategoryComponent.getByText('pennsylvania (57158)');
+      expect(bostonFacetValue).toBeDefined();
+      expect(pennsylvaniaFacetValue).toBeDefined();
+    });
+
+    test('can expand multiple categories and collapse them again', () => {
+      const { fieldFacetsWithCategoryComponent } = setup();
+      const locationCategoryHeader = fieldFacetsWithCategoryComponent.getByText('Location');
+      const organizationCategoryHeader = fieldFacetsWithCategoryComponent.getByText('Organization');
+      fireEvent.click(locationCategoryHeader);
+      fireEvent.click(organizationCategoryHeader);
+      let pittsburghFacetValue = fieldFacetsWithCategoryComponent.getByText('pittsburgh (57158)');
+      let ibmFacetValue = fieldFacetsWithCategoryComponent.getByText('ibm (138993)');
+      expect(pittsburghFacetValue).toBeDefined();
+      expect(ibmFacetValue).toBeDefined();
+      fireEvent.click(locationCategoryHeader);
+      pittsburghFacetValue = fieldFacetsWithCategoryComponent.queryByText('pittsburgh (57158)');
+      ibmFacetValue = fieldFacetsWithCategoryComponent.getByText('ibm (138993)');
+      expect(pittsburghFacetValue).toBe(null);
+      expect(ibmFacetValue).toBeDefined();
+    });
+
+    test('can select facet values across one category and clear them', () => {
+      const { fieldFacetsWithCategoryComponent } = setup();
+      const locationCategoryHeader = fieldFacetsWithCategoryComponent.getByText('Location');
+      fireEvent.click(locationCategoryHeader);
+      let pittsburghFacetValue = fieldFacetsWithCategoryComponent.getByLabelText(
+        'pittsburgh (57158)'
+      );
+      let usFacetValue = fieldFacetsWithCategoryComponent.getByLabelText('us (57158)');
+      fireEvent.click(pittsburghFacetValue);
+      fireEvent.click(usFacetValue);
+      expect(pittsburghFacetValue['checked']).toEqual(true);
+      expect(usFacetValue['checked']).toEqual(true);
+      const clearButton = fieldFacetsWithCategoryComponent.queryByTitle('Clear all selected items');
+      fireEvent.click(clearButton);
+      pittsburghFacetValue = fieldFacetsWithCategoryComponent.getByLabelText('pittsburgh (57158)');
+      usFacetValue = fieldFacetsWithCategoryComponent.getByLabelText('us (57158)');
+      expect(pittsburghFacetValue['checked']).toEqual(false);
+      expect(usFacetValue['checked']).toEqual(false);
+    });
+
+    test('can select facet values across multiple categories and clear them', () => {
+      const { fieldFacetsWithCategoryComponent } = setup();
+      const locationCategoryHeader = fieldFacetsWithCategoryComponent.getByText('Location');
+      const organizationCategoryHeader = fieldFacetsWithCategoryComponent.getByText('Organization');
+      fireEvent.click(locationCategoryHeader);
+      fireEvent.click(organizationCategoryHeader);
+      let pittsburghFacetValue = fieldFacetsWithCategoryComponent.getByLabelText(
+        'pittsburgh (57158)'
+      );
+      let ibmFacetValue = fieldFacetsWithCategoryComponent.getByLabelText('ibm (138993)');
+      fireEvent.click(pittsburghFacetValue);
+      fireEvent.click(ibmFacetValue);
+      expect(pittsburghFacetValue['checked']).toEqual(true);
+      expect(ibmFacetValue['checked']).toEqual(true);
+      const clearButton = fieldFacetsWithCategoryComponent.queryByTitle('Clear all selected items');
+      fireEvent.click(clearButton);
+      pittsburghFacetValue = fieldFacetsWithCategoryComponent.getByLabelText('pittsburgh (57158)');
+      ibmFacetValue = fieldFacetsWithCategoryComponent.getByLabelText('ibm (138993)');
+      expect(pittsburghFacetValue['checked']).toEqual(false);
+      expect(ibmFacetValue['checked']).toEqual(false);
     });
   });
 });

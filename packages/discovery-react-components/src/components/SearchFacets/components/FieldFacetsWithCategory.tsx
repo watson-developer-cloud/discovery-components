@@ -159,6 +159,7 @@ export const FieldFacetsWithCategory: FC<FieldFacetsWithCategoryProps> = ({
                         onChange={onChange}
                         messages={messages}
                         collapsedFacetsCount={collapsedFacetsCount}
+                        categoryName={categoryName}
                       />
                     )}
                   </div>
