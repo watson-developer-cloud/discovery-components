@@ -76,7 +76,7 @@ export interface SearchResultsProps {
   /**
    * callback function from the component for sending document
    */
-  onSelectResult?: (document: DiscoveryV2.QueryResult) => void | undefined;
+  onSelectResult?: (document: { document: DiscoveryV2.QueryResult }) => void | undefined;
 }
 
 const SearchResults: React.FunctionComponent<SearchResultsProps> = ({

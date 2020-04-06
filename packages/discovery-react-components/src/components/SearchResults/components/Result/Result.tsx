@@ -78,7 +78,7 @@ export interface ResultProps {
   /**
    * callback function from the component for sending document
    */
-  onSelectResult?: (document: DiscoveryV2.QueryResult) => void;
+  onSelectResult?: (document: { document: DiscoveryV2.QueryResult }) => void;
 }
 export const Result: React.FunctionComponent<ResultProps> = ({
   bodyField,
