@@ -7,9 +7,11 @@ import { fieldsetClasses, labelClasses, labelAndSelectionContainerClass } from '
 import {
   SelectableDynamicFacets,
   SelectableQueryTermAggregationResult,
-  InternalQueryTermAggregation
+  InternalQueryTermAggregation,
+  FieldFacetsByType
 } from 'components/SearchFacets/utils/searchFacetInterfaces';
 import { Messages } from 'components/SearchFacets/messages';
+import { ExpandableCategoryFacet } from './ExpandableCategoryFacet';
 import { MultiSelectFacetsGroup } from './MultiSelectFacetsGroup';
 import { SingleSelectFacetsGroup } from './SingleSelectFacetsGroup';
 
@@ -42,6 +44,7 @@ interface CollapsibleFacetsGroupProps {
    * Callback to reset selected facet
    */
   onClear: (selectedFacetName: string) => void;
+  hasCategories: boolean;
 }
 
 export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
@@ -51,10 +54,37 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
   facetsTextField,
   messages,
   onClear,
-  onChange
+  onChange,
+  hasCategories
 }) => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(collapsedFacetsCount < facets.length);
   const [isCollapsible, setIsCollapsible] = useState<boolean>(collapsedFacetsCount < facets.length);
+  const facetsLabel = aggregationSettings.label || aggregationSettings.field;
+
+  let facetsByType: FieldFacetsByType = {};
+  if (hasCategories) {
+    facetsByType[`${facetsLabel}`] = { categories: {} };
+    facets.map(result => {
+      const resultType = result!.aggregations![0].results![0].key;
+      if (resultType in facetsByType[`${facetsLabel}`].categories) {
+        facetsByType[`${facetsLabel}`].categories[`${resultType}`].facets.push({
+          key: result.key,
+          matching_results: result.matching_results,
+          selected: result.selected ? true : false
+        });
+      } else {
+        facetsByType[`${facetsLabel}`].categories[`${resultType}`] = {
+          facets: [
+            {
+              key: result.key,
+              matching_results: result.matching_results,
+              selected: result.selected ? result.selected : false
+            }
+          ]
+        };
+      }
+    });
+  }
 
   useEffect(() => {
     setIsCollapsed(collapsedFacetsCount < facets.length);
@@ -66,7 +96,6 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
   };
 
   const areMultiSelectionsAllowed = aggregationSettings.multiple_selections_allowed;
-  const facetsLabel = aggregationSettings.label || aggregationSettings.field;
   const collapsedFacets = isCollapsed ? facets.slice(0, collapsedFacetsCount) : facets;
   const selectedFacets = filter(facets, ['selected', true]);
   const selectedFacetText = get(selectedFacets[0], facetsTextField, '');
@@ -98,14 +127,24 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
           )}
         </div>
       </legend>
-      {shouldDisplayAsMultiSelect ? (
+      {hasCategories && (
+        <ExpandableCategoryFacet
+          facetsByType={facetsByType}
+          facetLabel={facetsLabel}
+          onChange={onChange}
+          aggregationSettings={aggregationSettings}
+          messages={messages}
+        />
+      )}
+      {!hasCategories && shouldDisplayAsMultiSelect && (
         <MultiSelectFacetsGroup
           facets={collapsedFacets}
           aggregationSettings={aggregationSettings}
           onChange={onChange}
           facetsTextField={facetsTextField}
         />
-      ) : (
+      )}
+      {!hasCategories && !shouldDisplayAsMultiSelect && (
         <SingleSelectFacetsGroup
           facets={collapsedFacets}
           aggregationSettings={aggregationSettings}
@@ -114,8 +153,13 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
           facetsTextField={facetsTextField}
         />
       )}
-      {isCollapsible && (
-        <Button kind="ghost" size="small" onClick={toggleFacetsCollapse}>
+      {!hasCategories && isCollapsible && (
+        <Button
+          kind="ghost"
+          size="small"
+          onClick={toggleFacetsCollapse}
+          data-testid={`show-more-less-${facetsLabel}`}
+        >
           {isCollapsed ? messages.collapsedFacetShowMoreText : messages.collapsedFacetShowLessText}
         </Button>
       )}

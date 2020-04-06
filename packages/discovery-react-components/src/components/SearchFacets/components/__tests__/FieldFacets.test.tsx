@@ -8,7 +8,10 @@ import {
   searchResponseStoreDefaults
 } from 'components/DiscoverySearch/DiscoverySearch';
 import SearchFacets from 'components/SearchFacets/SearchFacets';
-import { weirdFacetsQueryResponse } from 'components/SearchFacets/__fixtures__/facetsQueryResponse';
+import {
+  weirdFacetsQueryResponse,
+  facetsQueryResponse
+} from 'components/SearchFacets/__fixtures__/facetsQueryResponse';
 
 interface Setup {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -89,6 +92,155 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
 };
 
 describe('FieldFacetsComponent', () => {
+  describe('with categories', () => {
+    let setupResult: Setup;
+    beforeEach(() => {
+      setupResult = setup({
+        aggregationResults: facetsQueryResponse.result.aggregations,
+        componentSettingsAggregations: [
+          {
+            name: 'entities',
+            label: 'Top Entities',
+            multiple_selections_allowed: true
+          },
+          {
+            name: 'category_id',
+            label: 'Category',
+            multiple_selections_allowed: true
+          },
+          {
+            name: 'machine_learning_id',
+            label: 'Machine Learning Terms',
+            multiple_selections_allowed: true
+          }
+        ]
+      });
+    });
+
+    describe('legend header elements', () => {
+      test('contains all facet headers with correct text', () => {
+        const { fieldFacetsComponent } = setupResult;
+        const headerTopEntities = fieldFacetsComponent.getByText('Top Entities');
+        expect(headerTopEntities).toBeDefined();
+        const headerCategory = fieldFacetsComponent.getByText('Category');
+        expect(headerCategory).toBeDefined();
+        const headerMachineLearningTerms = fieldFacetsComponent.getByText('Machine Learning Terms');
+        expect(headerMachineLearningTerms).toBeDefined();
+      });
+    });
+
+    describe('entities facet category elements', () => {
+      test('contain all expected category headers', () => {
+        const { fieldFacetsComponent } = setupResult;
+        const locationCategoryHeader = fieldFacetsComponent.getByText('Location');
+        const organizationCategoryHeader = fieldFacetsComponent.getByText('Organization');
+        const quantityCategoryHeader = fieldFacetsComponent.getByText('Quantity');
+        expect(locationCategoryHeader).toBeDefined();
+        expect(organizationCategoryHeader).toBeDefined();
+        expect(quantityCategoryHeader).toBeDefined();
+      });
+
+      test('are collapsed on initial load and facet values are not shown', () => {
+        const { fieldFacetsComponent } = setupResult;
+        const ibmFacetValue = fieldFacetsComponent.queryByText('ibm');
+        const pittsburghFacetValue = fieldFacetsComponent.queryByText('pittsburgh');
+        const usFacetValue = fieldFacetsComponent.queryByText('us');
+        const euFacetValue = fieldFacetsComponent.queryByText('eu');
+        const quantityFacetValue = fieldFacetsComponent.queryByText('$299');
+        expect(ibmFacetValue).toBe(null);
+        expect(pittsburghFacetValue).toBe(null);
+        expect(quantityFacetValue).toBe(null);
+        expect(usFacetValue).toBe(null);
+        expect(euFacetValue).toBe(null);
+      });
+
+      // // todo: break up into a describe block so can test for each of these pieces separately
+      // // instead of smushing into one test block
+      test('expand to show first 5 facet values on click (and not more than 5 or facet values of other categories)', () => {
+        const { fieldFacetsComponent } = setupResult;
+        const locationCategoryHeader = fieldFacetsComponent.getByText('Location');
+        fireEvent.click(locationCategoryHeader);
+        const pittsburghFacetValue = fieldFacetsComponent.getByText('pittsburgh');
+        const usFacetValue = fieldFacetsComponent.getByText('us');
+        const euFacetValue = fieldFacetsComponent.getByText('eu');
+        let bostonFacetValue = fieldFacetsComponent.queryByText('boston');
+        let pennsylvaniaFacetValue = fieldFacetsComponent.queryByText('pennsylvania');
+        const quantityFacetValue = fieldFacetsComponent.queryByText('$299');
+        const ibmFacetValue = fieldFacetsComponent.queryByText('ibm');
+        expect(pittsburghFacetValue).toBeDefined();
+        expect(usFacetValue).toBeDefined();
+        expect(euFacetValue).toBeDefined();
+        expect(bostonFacetValue).toBe(null);
+        expect(pennsylvaniaFacetValue).toBe(null);
+        expect(quantityFacetValue).toBe(null);
+        expect(ibmFacetValue).toBe(null);
+        const showMore = fieldFacetsComponent.getByTestId('show-more-less-Location');
+        fireEvent.click(showMore);
+        bostonFacetValue = fieldFacetsComponent.getByText('boston');
+        pennsylvaniaFacetValue = fieldFacetsComponent.getByText('pennsylvania');
+        expect(bostonFacetValue).toBeDefined();
+        expect(pennsylvaniaFacetValue).toBeDefined();
+      });
+
+      test('can expand multiple categories and collapse them again', () => {
+        const { fieldFacetsComponent } = setupResult;
+        const locationCategoryHeader = fieldFacetsComponent.getByText('Location');
+        const organizationCategoryHeader = fieldFacetsComponent.getByText('Organization');
+        fireEvent.click(locationCategoryHeader);
+        fireEvent.click(organizationCategoryHeader);
+        let pittsburghFacetValue = fieldFacetsComponent.getByText('pittsburgh');
+        let ibmFacetValue = fieldFacetsComponent.getByText('ibm');
+        expect(pittsburghFacetValue).toBeDefined();
+        expect(ibmFacetValue).toBeDefined();
+        fireEvent.click(locationCategoryHeader);
+        pittsburghFacetValue = fieldFacetsComponent.queryByText('pittsburgh');
+        ibmFacetValue = fieldFacetsComponent.getByText('ibm');
+        expect(pittsburghFacetValue).toBe(null);
+        expect(ibmFacetValue).toBeDefined();
+      });
+
+      test('can select facet values across one category and clear them', () => {
+        const { fieldFacetsComponent } = setupResult;
+        const locationCategoryHeader = fieldFacetsComponent.getByText('Location');
+        fireEvent.click(locationCategoryHeader);
+        let pittsburghFacetValue = fieldFacetsComponent.getByLabelText('pittsburgh');
+        let usFacetValue = fieldFacetsComponent.getByLabelText('us');
+        fireEvent.click(pittsburghFacetValue);
+        fireEvent.click(usFacetValue);
+        expect(pittsburghFacetValue['checked']).toEqual(true);
+        expect(usFacetValue['checked']).toEqual(true);
+        const clearButton = fieldFacetsComponent.queryByTitle('Clear all selected items');
+        fireEvent.click(clearButton);
+        pittsburghFacetValue = fieldFacetsComponent.getByLabelText('pittsburgh');
+        usFacetValue = fieldFacetsComponent.getByLabelText('us');
+        expect(pittsburghFacetValue['checked']).toEqual(false);
+        expect(usFacetValue['checked']).toEqual(false);
+      });
+
+      test('can select facet values across multiple categories and clear them', () => {
+        const { fieldFacetsComponent } = setupResult;
+        const locationCategoryHeader = fieldFacetsComponent.getByText('Location');
+        const organizationCategoryHeader = fieldFacetsComponent.getByText('Organization');
+        fireEvent.click(locationCategoryHeader);
+        fireEvent.click(organizationCategoryHeader);
+        let pittsburghFacetValue = fieldFacetsComponent.getByLabelText('pittsburgh');
+        let ibmFacetValue = fieldFacetsComponent.getByLabelText('ibm');
+        fireEvent.click(pittsburghFacetValue);
+        fireEvent.click(ibmFacetValue);
+        pittsburghFacetValue = fieldFacetsComponent.getByLabelText('pittsburgh');
+        ibmFacetValue = fieldFacetsComponent.getByLabelText('ibm');
+        expect(pittsburghFacetValue['checked']).toEqual(true);
+        expect(ibmFacetValue['checked']).toEqual(true);
+        const clearButton = fieldFacetsComponent.queryByTitle('Clear all selected items');
+        fireEvent.click(clearButton);
+        pittsburghFacetValue = fieldFacetsComponent.getByLabelText('pittsburgh');
+        ibmFacetValue = fieldFacetsComponent.getByLabelText('ibm');
+        expect(pittsburghFacetValue['checked']).toEqual(false);
+        expect(ibmFacetValue['checked']).toEqual(false);
+      });
+    });
+  });
+
   describe('legend header elements', () => {
     test('contains first facet header with author field text', () => {
       const { fieldFacetsComponent } = setup();

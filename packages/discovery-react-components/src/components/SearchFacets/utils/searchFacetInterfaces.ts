@@ -28,6 +28,8 @@ export interface SearchFilterFacets {
 export interface SelectableDynamicFacets extends DiscoveryV2.QuerySuggestedRefinement {
   selected?: boolean;
   aggregations?: QueryAggregationWithResults[];
+  key?: string;
+  matching_results?: number;
 }
 
 export interface SelectedCollectionItems {
@@ -46,15 +48,15 @@ export interface QueryAggregationWithName extends DiscoveryV2.QueryAggregation {
 }
 
 export interface SelectableFieldFacetWithType {
-  key: string;
-  matching_results: number;
-  field: string;
+  key?: string;
+  matching_results?: number;
+  // field: string;
   selected: boolean;
 }
 
 export interface FieldFacetsByType {
   [facetLabel: string]: {
-    facetName?: string;
+    // facetName?: string;
     categories: {
       [resultType: string]: {
         facets: SelectableFieldFacetWithType[];

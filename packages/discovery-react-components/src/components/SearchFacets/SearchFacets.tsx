@@ -16,7 +16,7 @@ import {
 import get from 'lodash/get';
 import { CollectionFacets } from './components/CollectionFacets';
 import { FieldFacets } from './components/FieldFacets';
-import { FieldFacetsWithCategory } from './components/FieldFacetsWithCategory';
+// import { FieldFacetsWithCategory } from './components/FieldFacetsWithCategory';
 import { DynamicFacets } from './components/DynamicFacets';
 import { defaultMessages, Messages } from './messages';
 import { useDeepCompareEffect } from 'utils/useDeepCompareMemoize';
@@ -111,12 +111,12 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     componentSettingsAggregations
   );
 
-  const allFieldFacetsWithType = allFieldFacets.filter(
-    facet => facet.field.includes('enriched_') && facet.field.includes('entities.text')
-  );
-  const allFieldFacetsWithoutType = allFieldFacets.filter(
-    facet => !(facet.field.includes('enriched_') && facet.field.includes('entities.text'))
-  );
+  // const allFieldFacetsWithType = allFieldFacets.filter(
+  //   facet => facet.field.includes('enriched_') && facet.field.includes('entities.text')
+  // );
+  // const allFieldFacetsWithoutType = allFieldFacets.filter(
+  //   facet => !(facet.field.includes('enriched_') && facet.field.includes('entities.text'))
+  // );
 
   const allDynamicFacets: SelectableDynamicFacets[] = mergeDynamicFacets(
     get(searchResponse, 'suggested_refinements', []),
@@ -189,14 +189,14 @@ const SearchFacets: FC<SearchFacetsProps> = ({
         )}
         {shouldShowFields && (
           <>
-            <FieldFacetsWithCategory
+            {/* <FieldFacetsWithCategory
               allFacets={allFieldFacetsWithType}
               onChange={handleOnChange}
               collapsedFacetsCount={collapsedFacetsCount}
               messages={mergedMessages}
-            />
+            /> */}
             <FieldFacets
-              allFacets={allFieldFacetsWithoutType}
+              allFacets={allFieldFacets}
               onChange={handleOnChange}
               collapsedFacetsCount={collapsedFacetsCount}
               messages={mergedMessages}
