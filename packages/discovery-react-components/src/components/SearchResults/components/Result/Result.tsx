@@ -151,6 +151,7 @@ export const Result: React.FunctionComponent<ResultProps> = ({
         window.open(url);
       } else if (result) {
         setSelectedResult({ document: result, element, elementType });
+        //When onSelectResult props is present, send back document
         onSelectResult && onSelectResult({ document: result });
       }
     };
