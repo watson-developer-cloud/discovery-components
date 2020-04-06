@@ -88,7 +88,7 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
   };
 };
 
-describe('FilterFacetsComponent', () => {
+describe('FieldFacetsComponent', () => {
   describe('legend header elements', () => {
     test('contains first facet header with author field text', () => {
       const { fieldFacetsComponent } = setup();

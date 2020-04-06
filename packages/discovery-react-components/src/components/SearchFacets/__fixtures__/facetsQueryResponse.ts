@@ -58,6 +58,184 @@ export const facetsQueryResponse: DiscoveryV2.Response<
           matching_results: 32444
         }
       ]
+    },
+    {
+      type: 'term',
+      name: 'entities',
+      field: 'enriched_text.entities.text',
+      count: 10,
+      results: [
+        {
+          key: 'ibm',
+          matching_results: 138993,
+          aggregations: [
+            {
+              type: 'term',
+              field: 'enriched_text.entities.types',
+              count: 1,
+              results: [
+                {
+                  key: 'Organization',
+                  matching_results: 4
+                }
+              ]
+            }
+          ]
+        },
+        {
+          key: 'us',
+          matching_results: 57158,
+          aggregations: [
+            {
+              type: 'term',
+              field: 'enriched_text.entities.types',
+              count: 1,
+              results: [
+                {
+                  key: 'Location',
+                  matching_results: 4
+                }
+              ]
+            }
+          ]
+        },
+        {
+          key: '$299',
+          matching_results: 32444,
+          aggregations: [
+            {
+              type: 'term',
+              field: 'enriched_text.entities.types',
+              count: 1,
+              results: [
+                {
+                  key: 'Quantity',
+                  matching_results: 4
+                }
+              ]
+            }
+          ]
+        },
+        {
+          key: 'watson',
+          matching_results: 32444,
+          aggregations: [
+            {
+              type: 'term',
+              field: 'enriched_text.entities.types',
+              count: 1,
+              results: [
+                {
+                  key: 'Organization',
+                  matching_results: 4
+                }
+              ]
+            }
+          ]
+        },
+        {
+          key: 'eu',
+          matching_results: 57158,
+          aggregations: [
+            {
+              type: 'term',
+              field: 'enriched_text.entities.types',
+              count: 1,
+              results: [
+                {
+                  key: 'Location',
+                  matching_results: 4
+                }
+              ]
+            }
+          ]
+        },
+        {
+          key: 'new york',
+          matching_results: 57158,
+          aggregations: [
+            {
+              type: 'term',
+              field: 'enriched_text.entities.types',
+              count: 1,
+              results: [
+                {
+                  key: 'Location',
+                  matching_results: 4
+                }
+              ]
+            }
+          ]
+        },
+        {
+          key: 'pittsburgh',
+          matching_results: 57158,
+          aggregations: [
+            {
+              type: 'term',
+              field: 'enriched_text.entities.types',
+              count: 1,
+              results: [
+                {
+                  key: 'Location',
+                  matching_results: 4
+                }
+              ]
+            }
+          ]
+        },
+        {
+          key: 'austin',
+          matching_results: 57158,
+          aggregations: [
+            {
+              type: 'term',
+              field: 'enriched_text.entities.types',
+              count: 1,
+              results: [
+                {
+                  key: 'Location',
+                  matching_results: 4
+                }
+              ]
+            }
+          ]
+        },
+        {
+          key: 'boston',
+          matching_results: 57158,
+          aggregations: [
+            {
+              type: 'term',
+              field: 'enriched_text.entities.types',
+              count: 1,
+              results: [
+                {
+                  key: 'Location',
+                  matching_results: 4
+                }
+              ]
+            }
+          ]
+        },
+        {
+          key: 'pennsylvania',
+          matching_results: 57158,
+          aggregations: [
+            {
+              type: 'term',
+              field: 'enriched_text.entities.types',
+              count: 1,
+              results: [
+                {
+                  key: 'Location',
+                  matching_results: 4
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   suggested_refinements: [
