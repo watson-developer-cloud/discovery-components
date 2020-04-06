@@ -201,7 +201,7 @@ describe('<Result />', () => {
         fireEvent.click(searchResults.getByText('View document'));
       });
 
-      test('will call onSelectResult and with result and no element as parameters by default', () => {
+      test('will call onSelectResult with result and no element as parameters by default', () => {
         expect(selectResultMock.mock.calls.length).toBe(1);
         expect(selectResultMock.mock.calls[0][0].document).toBe(queryResults![0]);
         expect(selectResultMock.mock.calls[0][0].element).toBe(null);
