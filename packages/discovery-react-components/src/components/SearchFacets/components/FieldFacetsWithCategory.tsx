@@ -6,12 +6,21 @@ import ChevronUp from '@carbon/icons-react/lib/chevron--up/16';
 import {
   InternalQueryTermAggregation,
   SearchFilterFacets,
-  SelectableQueryTermAggregationResult
+  SelectableQueryTermAggregationResult,
+  FieldFacetsByType
 } from '../utils/searchFacetInterfaces';
-import { labelAndSelectionContainerClass, fieldsetClasses, labelClasses } from '../cssClasses';
-import { FieldFacetsCategoryGroup } from './FieldFacetsCategoryGroup';
+import { Messages } from '../messages';
+import {
+  labelAndSelectionContainerClass,
+  fieldsetClasses,
+  labelClasses,
+  categoryClass,
+  categoryExpandCollapseClass,
+  categoryGroupNameClass
+} from '../cssClasses';
+import { FieldFacetsWithCategoryGroup } from './FacetsGroups/FieldFacetsWithCategoryGroup';
 
-interface FieldFacetsWithTypeProps {
+interface FieldFacetsWithCategoryProps {
   /**
    * Facets configuration with fields and results counts
    */
@@ -20,15 +29,28 @@ interface FieldFacetsWithTypeProps {
    * Callback to handle changes in selected facets
    */
   onChange: (updatedFacet: Partial<SearchFilterFacets>) => void;
+  /**
+   * Number of facet terms to show when list is collapsed
+   */
+  collapsedFacetsCount: number;
+  /**
+   * i18n messages for the component
+   */
+  messages: Messages;
 }
 
-export const FieldFacetsWithType: FC<FieldFacetsWithTypeProps> = ({ allFacets, onChange }) => {
+export const FieldFacetsWithCategory: FC<FieldFacetsWithCategoryProps> = ({
+  allFacets,
+  onChange,
+  collapsedFacetsCount,
+  messages
+}) => {
   const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
 
-  let facetsByType: object = {};
+  let facetsByType: FieldFacetsByType = {};
   allFacets.map(facet => {
     const facetLabel = facet.label;
-    facetsByType[`${facetLabel}`] = { facetName: facet.name, categories: [] };
+    facetsByType[`${facetLabel}`] = { facetName: facet.name, categories: {} };
     facet!.results!.map(result => {
       const resultType = result!.aggregations![0].results![0].key;
       if (resultType in facetsByType[`${facetLabel}`].categories) {
@@ -56,16 +78,15 @@ export const FieldFacetsWithType: FC<FieldFacetsWithTypeProps> = ({ allFacets, o
   const handleExpandCollapseOnClick = (category: string, facetLabel: string) => {
     const indexOfCategory = expandedCategories.indexOf(`${facetLabel}-${category}`);
     if (indexOfCategory > -1) {
-      const newArr = [...expandedCategories];
-      newArr.splice(indexOfCategory, 1);
-      setExpandedCategories(newArr);
+      const expandedCategoriesCopy = [...expandedCategories];
+      expandedCategoriesCopy.splice(indexOfCategory, 1);
+      setExpandedCategories(expandedCategoriesCopy);
     } else {
       setExpandedCategories(expandedCategories.concat(`${facetLabel}-${category}`));
     }
   };
 
-  // TODO: figure out way to not duplicate this with FieldFacets component
-  const handleOnClear = (selectedFacetName: string) => {
+  const handleOnClear = (selectedFacetName?: string) => {
     const facetsForNameIndex = allFacets.findIndex(facet => {
       if (!facet.name) {
         return facet.field === selectedFacetName;
@@ -82,8 +103,16 @@ export const FieldFacetsWithType: FC<FieldFacetsWithTypeProps> = ({ allFacets, o
     }
   };
 
+  const translateWithId = (id: string): string => {
+    const mapping = {
+      'clear.all': messages.clearFacetTitle,
+      'clear.selection': messages.clearFacetSelectionTitle
+    };
+    return mapping[id];
+  };
+
   return (
-    <div>
+    <>
       {Object.entries(facetsByType).map(entry => {
         const facetLabel = entry[0];
         let selectedValuesCount = 0;
@@ -95,15 +124,18 @@ export const FieldFacetsWithType: FC<FieldFacetsWithTypeProps> = ({ allFacets, o
           });
         });
         return (
-          <div>
+          <>
             <fieldset className={fieldsetClasses.join(' ')}>
               <legend className={labelClasses.join(' ')}>
                 <div className={labelAndSelectionContainerClass}>
                   {facetLabel}
-                  <ListBox.Selection
-                    clearSelection={() => handleOnClear(entry[1].facetName)}
-                    selectionCount={selectedValuesCount}
-                  />
+                  {selectedValuesCount > 0 && (
+                    <ListBox.Selection
+                      clearSelection={() => handleOnClear(entry[1].facetName)}
+                      selectionCount={selectedValuesCount}
+                      translateWithId={translateWithId}
+                    />
+                  )}
                 </div>
               </legend>
               {Object.entries(entry[1].categories).map((entity: any) => {
@@ -112,30 +144,30 @@ export const FieldFacetsWithType: FC<FieldFacetsWithTypeProps> = ({ allFacets, o
                   `${facetLabel}-${categoryName}`
                 );
                 return (
-                  <div className={'bx--search-facet--category'}>
+                  <div className={categoryClass}>
                     <Button
-                      className={'bx--search-facet--category--expand-collapse'}
+                      className={categoryExpandCollapseClass}
                       onClick={() => handleExpandCollapseOnClick(categoryName, facetLabel)}
                     >
-                      <div className={'bx--search-facet--category--category-name'}>
-                        {categoryName}
-                      </div>
+                      <div className={categoryGroupNameClass}>{categoryName}</div>
                       {isCategoryExpanded ? <ChevronDown /> : <ChevronUp />}
                     </Button>
                     {isCategoryExpanded && (
-                      <FieldFacetsCategoryGroup
+                      <FieldFacetsWithCategoryGroup
                         allFacets={allFacets}
                         categoryFacets={entity[1].facets}
                         onChange={onChange}
+                        messages={messages}
+                        collapsedFacetsCount={collapsedFacetsCount}
                       />
                     )}
                   </div>
                 );
               })}
             </fieldset>
-          </div>
+          </>
         );
       })}
-    </div>
+    </>
   );
 };

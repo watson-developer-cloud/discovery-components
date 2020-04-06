@@ -16,7 +16,7 @@ import {
 import get from 'lodash/get';
 import { CollectionFacets } from './components/CollectionFacets';
 import { FieldFacets } from './components/FieldFacets';
-import { FieldFacetsWithType } from './components/FieldFacetsWithType';
+import { FieldFacetsWithCategory } from './components/FieldFacetsWithCategory';
 import { DynamicFacets } from './components/DynamicFacets';
 import { defaultMessages, Messages } from './messages';
 import { useDeepCompareEffect } from 'utils/useDeepCompareMemoize';
@@ -189,7 +189,12 @@ const SearchFacets: FC<SearchFacetsProps> = ({
         )}
         {shouldShowFields && (
           <>
-            <FieldFacetsWithType allFacets={allFieldFacetsWithType} onChange={handleOnChange} />
+            <FieldFacetsWithCategory
+              allFacets={allFieldFacetsWithType}
+              onChange={handleOnChange}
+              collapsedFacetsCount={collapsedFacetsCount}
+              messages={mergedMessages}
+            />
             <FieldFacets
               allFacets={allFieldFacetsWithoutType}
               onChange={handleOnChange}

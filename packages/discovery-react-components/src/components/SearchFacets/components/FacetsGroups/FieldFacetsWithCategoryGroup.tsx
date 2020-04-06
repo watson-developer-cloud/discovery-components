@@ -3,22 +3,39 @@ import get from 'lodash/get';
 import { Checkbox as CarbonCheckbox, Button } from 'carbon-components-react';
 import {
   InternalQueryTermAggregation,
-  SelectableQueryTermAggregationResult
-} from '../utils/searchFacetInterfaces';
-import { optionClass, optionLabelClass } from '../cssClasses';
+  SelectableQueryTermAggregationResult,
+  SelectableFieldFacetWithType
+} from '../../utils/searchFacetInterfaces';
+import { optionClass, optionLabelClass } from '../../cssClasses';
+import { Messages } from '../../messages';
 
-interface FieldFacetsCategoryGroupProps {
+interface FieldFacetsWithCategoryGroupProps {
   categoryFacets: any;
+  /**
+   * Callback to handle changes in selected facets
+   */
   onChange: any;
+  /**
+   * Facets configuration with fields and results counts
+   */
   allFacets: InternalQueryTermAggregation[];
+  /**
+   * i18n messages for the component
+   */
+  messages: Messages;
+  /**
+   * Number of facet terms to show when list is collapsed
+   */
+  collapsedFacetsCount: number;
 }
 
-export const FieldFacetsCategoryGroup: FC<FieldFacetsCategoryGroupProps> = ({
+export const FieldFacetsWithCategoryGroup: FC<FieldFacetsWithCategoryGroupProps> = ({
   allFacets,
   categoryFacets,
-  onChange
+  onChange,
+  messages,
+  collapsedFacetsCount
 }) => {
-  const collapsedFacetsCount = 5;
   const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
   const [isCollapsible, setIsCollapsible] = useState<boolean>(
     collapsedFacetsCount < categoryFacets.length
@@ -33,7 +50,9 @@ export const FieldFacetsCategoryGroup: FC<FieldFacetsCategoryGroupProps> = ({
     setIsCollapsed(!isCollapsed);
   };
 
-  const categoryFacetsToShow = isCollapsed ? categoryFacets.slice(0, 4) : categoryFacets;
+  const categoryFacetsToShow = isCollapsed
+    ? categoryFacets.slice(0, collapsedFacetsCount - 1)
+    : categoryFacets;
 
   const handleOnChange = (
     checked: boolean,
@@ -70,8 +89,8 @@ export const FieldFacetsCategoryGroup: FC<FieldFacetsCategoryGroupProps> = ({
   };
 
   return (
-    <div className={'bx--category-wrapper'}>
-      {categoryFacetsToShow.map((facet: any) => {
+    <div>
+      {categoryFacetsToShow.map((facet: SelectableFieldFacetWithType) => {
         const buff = new Buffer(facet.field.replace(/\s+/g, '_') + facet.key);
         const base64data = buff.toString('base64');
         return (
@@ -90,8 +109,7 @@ export const FieldFacetsCategoryGroup: FC<FieldFacetsCategoryGroupProps> = ({
       })}
       {isCollapsible && (
         <Button kind="ghost" size="small" onClick={toggleFacetsCollapse}>
-          {/* todo: should only show more if there are actually more to show */}
-          {isCollapsed ? 'Show more' : 'Show less'}
+          {isCollapsed ? messages.collapsedFacetShowMoreText : messages.collapsedFacetShowLessText}
         </Button>
       )}
     </div>
