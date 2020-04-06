@@ -11,24 +11,21 @@
 .#{$prefix}--search-facets {
   .bx--search-facet--category {
     .bx--search-facet--category--category-name {
-      color: #161616;
+      @include type-style('body-short-02');
       font-size: 0.875rem;
-      font-weight: 400;
-      letter-spacing: 0;
-      line-height: 1.375rem;
     }
-    margin-bottom: 0.5rem;
-    padding-left: 1rem;
+    margin-bottom: $spacing-xs;
+    padding-left: $spacing-baseline;
   }
   .bx--search-facet--category--expand-collapse {
-    background-color: #f3f3f3;
-    color: #565656;
-    height: 1.5rem;
-    margin-bottom: 0.5rem;
-    min-height: 1.5rem;
+    background-color: $ui-01;
+    color: $ui-05;
+    height: $spacing-lg;
+    margin-bottom: $spacing-xs;
+    min-height: $spacing-lg;
     width: 100%;
     &:hover {
-      background-color: #f3f3f3;
+      background-color: $ui-01;
       text-decoration: none;
     }
     &:focus {
