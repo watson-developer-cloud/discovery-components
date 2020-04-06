@@ -78,7 +78,7 @@ export interface ResultProps {
   /**
    * callback function from the component for sending document
    */
-  handleSelectedResult?: (document: DiscoveryV2.QueryResult) => void;
+  onSelectResult?: (document: DiscoveryV2.QueryResult) => void;
 }
 export const Result: React.FunctionComponent<ResultProps> = ({
   bodyField,
@@ -92,7 +92,7 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   table,
   dangerouslyRenderHtml,
   usePassages,
-  handleSelectedResult,
+  onSelectResult,
   messages
 }) => {
   const { setSelectedResult } = useContext(SearchApi);
@@ -151,7 +151,7 @@ export const Result: React.FunctionComponent<ResultProps> = ({
         window.open(url);
       } else if (result) {
         setSelectedResult({ document: result, element, elementType });
-        handleSelectedResult && handleSelectedResult({ document: result });
+        onSelectResult && onSelectResult({ document: result });
       }
     };
   };

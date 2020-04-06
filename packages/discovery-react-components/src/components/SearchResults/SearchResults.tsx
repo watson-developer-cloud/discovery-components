@@ -76,7 +76,7 @@ export interface SearchResultsProps {
   /**
    * callback function from the component for sending document
    */
-  handleSelectedResult?: (document: DiscoveryV2.QueryResult) => void | undefined;
+  onSelectResult?: (document: DiscoveryV2.QueryResult) => void | undefined;
 }
 
 const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
@@ -91,7 +91,7 @@ const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   showTablesOnlyToggle,
   showTablesOnly = false,
   messages = defaultMessages,
-  handleSelectedResult
+  onSelectResult
 }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
 
@@ -212,7 +212,7 @@ const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
                     showTablesOnlyResults={showTablesOnlyResults}
                     table={table}
                     messages={mergedMessages}
-                    handleSelectedResult={handleSelectedResult}
+                    onSelectResult={onSelectResult}
                   />
                 );
               })
@@ -237,7 +237,7 @@ const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
                     usePassages={displaySettings.usePassages}
                     dangerouslyRenderHtml={dangerouslyRenderHtml}
                     messages={mergedMessages}
-                    handleSelectedResult={handleSelectedResult}
+                    onSelectResult={onSelectResult}
                   />
                 );
               })}
