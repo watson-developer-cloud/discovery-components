@@ -6,7 +6,7 @@
   "command": {
     "publish": {
       "conventionalCommits": true,
-      "allowBranch": ["develop", "release/*", "hotfix/*"]
+      "allowBranch": ["master", "release/*", "hotfix/*"]
     },
     "version": {
       "message": "chore: publish %s [ci skip]",
