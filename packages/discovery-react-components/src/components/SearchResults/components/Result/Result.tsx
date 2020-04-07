@@ -75,6 +75,10 @@ export interface ResultProps {
    * override default messages for the component by specifying custom and/or internationalized text strings
    */
   messages: Partial<Messages>;
+  /**
+   * callback function from the component for sending document
+   */
+  onSelectResult?: (document: { document: DiscoveryV2.QueryResult }) => void;
 }
 export const Result: React.FunctionComponent<ResultProps> = ({
   bodyField,
@@ -88,6 +92,7 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   table,
   dangerouslyRenderHtml,
   usePassages,
+  onSelectResult,
   messages
 }) => {
   const { setSelectedResult } = useContext(SearchApi);
@@ -146,6 +151,8 @@ export const Result: React.FunctionComponent<ResultProps> = ({
         window.open(url);
       } else if (result) {
         setSelectedResult({ document: result, element, elementType });
+        //When onSelectResult props is present, send back document
+        onSelectResult && onSelectResult({ document: result });
       }
     };
   };
