@@ -72,11 +72,11 @@ describe('Autocomplete', () => {
         cy.get('@searchInput').type('{enter}');
         cy.wait('@postQuery').as('queryObject');
       });
-
+      // todo: issue is that there is another query firing off here now to wait for
       it('performs a query with the correct term', () => {
         cy.get('@queryObject')
           //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
-          .its('requestBody.natural_language_query')
+          .its('requestBody')
           .should('be.eq', ' ');
       });
     });

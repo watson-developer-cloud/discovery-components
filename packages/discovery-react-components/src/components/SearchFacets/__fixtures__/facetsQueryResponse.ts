@@ -31,7 +31,7 @@ export const facetsQueryResponse: DiscoveryV2.Response<
       type: 'term',
       name: 'machine_learning_id',
       field: 'machine_learning_terms',
-      count: 6,
+      count: 5,
       results: [
         {
           key: 'Neural network',

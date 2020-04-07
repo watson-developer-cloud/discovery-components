@@ -111,13 +111,6 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     componentSettingsAggregations
   );
 
-  // const allFieldFacetsWithType = allFieldFacets.filter(
-  //   facet => facet.field.includes('enriched_') && facet.field.includes('entities.text')
-  // );
-  // const allFieldFacetsWithoutType = allFieldFacets.filter(
-  //   facet => !(facet.field.includes('enriched_') && facet.field.includes('entities.text'))
-  // );
-
   const allDynamicFacets: SelectableDynamicFacets[] = mergeDynamicFacets(
     get(searchResponse, 'suggested_refinements', []),
     facetSelectionState.filterDynamic
@@ -188,20 +181,12 @@ const SearchFacets: FC<SearchFacetsProps> = ({
           </Button>
         )}
         {shouldShowFields && (
-          <>
-            {/* <FieldFacetsWithCategory
-              allFacets={allFieldFacetsWithType}
-              onChange={handleOnChange}
-              collapsedFacetsCount={collapsedFacetsCount}
-              messages={mergedMessages}
-            /> */}
-            <FieldFacets
-              allFacets={allFieldFacets}
-              onChange={handleOnChange}
-              collapsedFacetsCount={collapsedFacetsCount}
-              messages={mergedMessages}
-            />
-          </>
+          <FieldFacets
+            allFacets={allFieldFacets}
+            onChange={handleOnChange}
+            collapsedFacetsCount={collapsedFacetsCount}
+            messages={mergedMessages}
+          />
         )}
         {shouldShowDynamic && (
           <DynamicFacets
