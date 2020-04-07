@@ -16,7 +16,6 @@ import {
 import get from 'lodash/get';
 import { CollectionFacets } from './components/CollectionFacets';
 import { FieldFacets } from './components/FieldFacets';
-// import { FieldFacetsWithCategory } from './components/FieldFacetsWithCategory';
 import { DynamicFacets } from './components/DynamicFacets';
 import { defaultMessages, Messages } from './messages';
 import { useDeepCompareEffect } from 'utils/useDeepCompareMemoize';
@@ -110,7 +109,6 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     facetSelectionState.filterFields,
     componentSettingsAggregations
   );
-
   const allDynamicFacets: SelectableDynamicFacets[] = mergeDynamicFacets(
     get(searchResponse, 'suggested_refinements', []),
     facetSelectionState.filterDynamic
