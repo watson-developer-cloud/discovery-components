@@ -3,6 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { radios } from '@storybook/addon-knobs';
 import { QueryResult, QueryResultPassage } from 'ibm-watson/discovery/v2';
 import DocumentPreview from '../DocumentPreview';
+import { document as docPDF } from '../__fixtures__/Art Effects.pdf';
 import docArtEffects from '../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
 import passages from '../__fixtures__/passages';
 import jsonPassages from '../__fixtures__/jsonPassages';
@@ -25,7 +26,7 @@ storiesOf('DocumentPreview', module)
   .add('default', () => {
     return (
       <Wrapper>
-        <DocumentPreview document={docWithoutHtml} />
+        <DocumentPreview file={docPDF} document={docWithoutHtml} />
       </Wrapper>
     );
   })
@@ -43,7 +44,7 @@ storiesOf('DocumentPreview', module)
 
     return (
       <Wrapper>
-        <DocumentPreview document={docWithPassage} highlight={highlight} />
+        <DocumentPreview file={docPDF} document={docWithPassage} highlight={highlight} />
       </Wrapper>
     );
   });

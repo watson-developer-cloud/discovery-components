@@ -61,7 +61,8 @@ export default {
       preferBuiltins: false
     }),
     commonjs({
-      exclude: [pdfWorkerRegex]
+      exclude: [pdfWorkerRegex],
+      namedExports: { 'react-pdf': ['Document', 'Page', 'pdfjs'] }
     }),
     json({
       compact: true,

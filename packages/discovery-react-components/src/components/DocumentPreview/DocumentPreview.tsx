@@ -1,14 +1,19 @@
 import React, { FC, ReactElement, useContext, useEffect, useState } from 'react';
 import { SkeletonText } from 'carbon-components-react';
+import get from 'lodash/get';
 import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import { PreviewToolbar } from './components/PreviewToolbar/PreviewToolbar';
+import ReactPdfViewer from './components/ReactPdfViewer/ReactPdfViewer';
+import Highlight from './components/Highlight/Highlight';
 import SimpleDocument from './components/SimpleDocument/SimpleDocument';
 import withErrorBoundary, { WithErrorBoundaryProps } from 'utils/hoc/withErrorBoundary';
 import { defaultMessages, Messages } from './messages';
 import HtmlView from './components/HtmlView/HtmlView';
 import { isCsvFile, isJsonFile } from './utils/documentData';
+import { TextMappings } from './types';
+import { getTextMappings } from './utils/documentData';
 
 const { ZOOM_IN, ZOOM_OUT } = PreviewToolbar;
 
@@ -57,8 +62,38 @@ const DocumentPreview: FC<Props> = ({
     //reset scale if document changes
     setScale(1);
     // TODO disable for now, until we can properly fix https://github.ibm.com/Watson-Discovery/docviz-squad-issue-tracker/issues/143
-    // setLoading(true);
+    setLoading(true);
   }, [doc]);
+
+  // If highlight, initialize first page to that of highlight; otherwise
+  // default to first page
+  const [highlightFirstPage, setHighlightFirstPage] = useState(0);
+  useEffect(() => {
+    if (!highlight) {
+      setCurrentPage(1);
+    } else if (highlightFirstPage > 0) {
+      setCurrentPage(highlightFirstPage);
+    }
+  }, [highlight, highlightFirstPage]);
+
+  const [textMappings, setTextMappings] = useState<TextMappings | null>(null);
+  useEffect(() => {
+    const mappings = getTextMappings(doc);
+    if (mappings) {
+      setTextMappings(mappings);
+    }
+  }, [doc]);
+
+  const [pageCount, setPageCount] = useState(0);
+  const [pdfPageCount, setPdfPageCount] = useState(pageCount);
+  useEffect(() => {
+    if (file && pdfPageCount > 0) {
+      setPageCount(pdfPageCount);
+    } else if (textMappings) {
+      const last = textMappings.text_mappings.length - 1;
+      setPageCount(get(textMappings, `text_mappings[${last}].page.page_number`, 1));
+    }
+  }, [textMappings, file, pdfPageCount]);
 
   const base = `${settings.prefix}--document-preview`;
 
@@ -70,7 +105,7 @@ const DocumentPreview: FC<Props> = ({
             loading={loading}
             hideControls={hideToolbarControls}
             current={currentPage}
-            total={0}
+            total={loading ? 0 : pageCount}
             onChange={setCurrentPage}
             onZoom={(zoom: any): void => {
               if (zoom === ZOOM_IN || zoom === ZOOM_OUT) {
@@ -82,11 +117,27 @@ const DocumentPreview: FC<Props> = ({
           />
           <div className={`${base}__document`}>
             <PreviewDocument
+              file={file}
               document={doc}
+              currentPage={currentPage}
+              scale={scale}
+              setPageCount={setPdfPageCount}
               highlight={highlight}
               setLoading={setLoading}
               setHideToolbarControls={setHideToolbarControls}
             />
+            {/* highlight on top of document view */
+            file && (
+              <div className={`${base}__highlight-overlay`}>
+                <Highlight
+                  highlightClassname={`${base}__highlight`}
+                  document={doc}
+                  currentPage={currentPage}
+                  highlight={highlight}
+                  setHighlightFirstPage={setHighlightFirstPage}
+                />
+              </div>
+            )}
           </div>
           {loading && (
             <div className={`${base}__skeleton`}>
@@ -104,18 +155,38 @@ const DocumentPreview: FC<Props> = ({
 };
 
 interface PreviewDocumentProps {
+  file?: string;
   document?: QueryResult | null;
+  currentPage: number;
+  scale: number;
+  setPageCount: (count: number) => void;
   highlight?: any;
   setLoading: (loading: boolean) => void;
   setHideToolbarControls?: (disabled: boolean) => void;
 }
 
 function PreviewDocument({
+  file,
+  currentPage,
+  scale,
   document,
+  setPageCount,
   setLoading,
   setHideToolbarControls,
   highlight
 }: PreviewDocumentProps): ReactElement | null {
+  if (file) {
+    return (
+      <ReactPdfViewer
+        file={file}
+        page={currentPage}
+        scale={scale}
+        setPageCount={setPageCount}
+        setLoading={setLoading}
+        setHideToolbarControls={setHideToolbarControls}
+      />
+    );
+  }
   if (document) {
     const isJsonType = isJsonFile(document);
     const isCsvType = isCsvFile(document);
