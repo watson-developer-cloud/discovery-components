@@ -70,9 +70,9 @@ describe('Autocomplete', () => {
     describe('and hit enter', () => {
       beforeEach(() => {
         cy.get('@searchInput').type('{enter}');
+        cy.wait('@postQuery');
         cy.wait('@postQuery').as('queryObject');
       });
-      // todo: issue is that there is another query firing off here now to wait for
       it('performs a query with the correct term', () => {
         cy.get('@queryObject')
           //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
