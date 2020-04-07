@@ -1,38 +1,70 @@
 import React, { FC, useState, useEffect } from 'react';
-import { Messages } from '../../messages';
 import { Button } from 'carbon-components-react';
+import ChevronDown from '@carbon/icons-react/lib/chevron--down/16';
+import ChevronUp from '@carbon/icons-react/lib/chevron--up/16';
+import { Messages } from 'components/SearchFacets/messages';
 import { MultiSelectFacetsGroup } from './MultiSelectFacetsGroup';
 import {
   categoryClass,
   categoryExpandCollapseClass,
   categoryGroupNameClass
-} from '../../cssClasses';
-import ChevronDown from '@carbon/icons-react/lib/chevron--down/16';
-import ChevronUp from '@carbon/icons-react/lib/chevron--up/16';
-import { InternalQueryTermAggregation } from 'components/SearchFacets/utils/searchFacetInterfaces';
+} from 'components/SearchFacets/cssClasses';
+import {
+  InternalQueryTermAggregation,
+  SelectableFieldFacetWithCategory
+} from 'components/SearchFacets/utils/searchFacetInterfaces';
 
-interface CategoryFacetProps {
+interface CategoryFacetsProps {
+  /**
+   * Name of the category group within the facet
+   */
   categoryName: string;
-  facetLabel: string;
-  facets: any;
+  /**
+   * Label for the facet
+   */
+  facetsLabel: string;
+  /**
+   * Facets for the category
+   */
+  facets: SelectableFieldFacetWithCategory[];
+  /**
+   * Facet text field
+   */
+  facetsTextField: 'key' | 'text';
   /**
    * Callback to handle changes in selected facets
    */
   onChange: (selectedFacetField: string, selectedFacetKey: string, checked: boolean) => void;
+  /**
+   * i18n messages for the component
+   */
   messages: Messages;
-  isCategoryExpanded: boolean;
+  /**
+   * If category is expanded or collapsed
+   */
+  categoryIsExpanded: boolean;
+  /**
+   * How many facets should be shown
+   */
   collapsedFacetsCount: number;
-  onClick: any;
+  /**
+   * Callback to handle changes in expansion/collapse of category group
+   */
+  onClick: (categoryName: string, facetLabel: string) => void;
+  /**
+   * Aggregation component settings
+   */
   aggregationSettings: InternalQueryTermAggregation;
 }
 
-export const CategoryFacet: FC<CategoryFacetProps> = ({
+export const CategoryFacets: FC<CategoryFacetsProps> = ({
   categoryName,
-  facetLabel,
+  facetsLabel,
   facets,
+  facetsTextField,
   onChange,
   messages,
-  isCategoryExpanded,
+  categoryIsExpanded,
   collapsedFacetsCount,
   onClick,
   aggregationSettings
@@ -51,28 +83,24 @@ export const CategoryFacet: FC<CategoryFacetProps> = ({
 
   const categoryFacetsToShow = isCollapsed ? facets.slice(0, collapsedFacetsCount - 1) : facets;
 
-  const handleOnClick = (categoryName: string, facetLabel: string) => {
-    onClick(categoryName, facetLabel);
-  };
-
   return (
     <div className={categoryClass}>
       <Button
         className={categoryExpandCollapseClass}
-        onClick={() => handleOnClick(categoryName, facetLabel)}
+        onClick={() => onClick(categoryName, facetsLabel)}
       >
         <div className={categoryGroupNameClass}>{categoryName}</div>
-        {isCategoryExpanded ? <ChevronDown /> : <ChevronUp />}
+        {categoryIsExpanded ? <ChevronDown /> : <ChevronUp />}
       </Button>
-      {isCategoryExpanded && (
+      {categoryIsExpanded && (
         <MultiSelectFacetsGroup
           facets={categoryFacetsToShow}
           aggregationSettings={aggregationSettings}
           onChange={onChange}
-          facetsTextField={'key'}
+          facetsTextField={facetsTextField}
         />
       )}
-      {isCategoryExpanded && isCollapsible && (
+      {categoryIsExpanded && isCollapsible && (
         <Button
           kind="ghost"
           size="small"

@@ -47,19 +47,17 @@ export interface QueryAggregationWithName extends DiscoveryV2.QueryAggregation {
   name?: string;
 }
 
-export interface SelectableFieldFacetWithType {
+export interface SelectableFieldFacetWithCategory {
   key?: string;
   matching_results?: number;
-  // field: string;
   selected: boolean;
 }
 
-export interface FieldFacetsByType {
+export interface FieldFacetsByCategory {
   [facetLabel: string]: {
-    // facetName?: string;
     categories: {
       [resultType: string]: {
-        facets: SelectableFieldFacetWithType[];
+        facets: SelectableFieldFacetWithCategory[];
       };
     };
   };
