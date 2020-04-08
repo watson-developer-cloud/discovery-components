@@ -100,6 +100,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
       </legend>
       {shouldDisplayAsMultiSelect ? (
         <MultiSelectFacetsGroup
+          messages={messages}
           facets={collapsedFacets}
           aggregationSettings={aggregationSettings}
           onChange={onChange}
@@ -107,6 +108,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
         />
       ) : (
         <SingleSelectFacetsGroup
+          messages={messages}
           facets={collapsedFacets}
           aggregationSettings={aggregationSettings}
           onChange={onChange}
