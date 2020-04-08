@@ -1,10 +1,11 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect, useContext } from 'react';
 import {
   InternalQueryTermAggregation,
   FieldFacetsByCategory
 } from 'components/SearchFacets/utils/searchFacetInterfaces';
 import { Messages } from 'components/SearchFacets/messages';
 import { CategoryFacets } from './CategoryFacets';
+import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 
 interface CategoryFacetsGroupProps {
   /**
@@ -47,6 +48,15 @@ export const CategoryFacetsGroup: FC<CategoryFacetsGroupProps> = ({
   facetsTextField
 }) => {
   const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
+  const {
+    searchResponseStore: {
+      parameters: { naturalLanguageQuery }
+    }
+  } = useContext(SearchContext);
+
+  useEffect(() => {
+    setExpandedCategories([]);
+  }, [naturalLanguageQuery]);
 
   const handleExpandCollapseOnClick = (category: string, facetsLabel: string) => {
     const indexOfCategory = expandedCategories.indexOf(`${facetsLabel}-${category}`);

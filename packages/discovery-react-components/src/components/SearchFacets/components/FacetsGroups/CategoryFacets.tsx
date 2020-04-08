@@ -90,7 +90,7 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
         onClick={() => onClick(categoryName, facetsLabel)}
       >
         <div className={categoryGroupNameClass}>{categoryName}</div>
-        {categoryIsExpanded ? <ChevronDown /> : <ChevronUp />}
+        {categoryIsExpanded ? <ChevronUp /> : <ChevronDown />}
       </Button>
       {categoryIsExpanded && (
         <MultiSelectFacetsGroup
