@@ -1,8 +1,10 @@
 import React, { SFC, useEffect } from 'react';
-//import { Document, Page, pdfjs } from 'react-pdf/dist/esm/entry.webpack';
 import { Document, Page, pdfjs } from 'react-pdf';
+import PdfjsWorkerAsText from 'pdfjs-dist/build/pdf.worker.min.js';
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+// pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
+setupPdfjs();
 
 interface Props {
   /**
@@ -56,5 +58,15 @@ const ReactPdfViewer: SFC<Props> = ({
     </div>
   );
 };
+
+function setupPdfjs(): void {
+  if (typeof Worker !== 'undefined') {
+    const blob = new Blob([PdfjsWorkerAsText], { type: 'text/javascript' });
+    const pdfjsWorker = new Worker(URL.createObjectURL(blob));
+    pdfjs.GlobalWorkerOptions.workerPort = pdfjsWorker;
+  } else {
+    pdfjs.GlobalWorkerOptions.workerSrc = PdfjsWorkerAsText;
+  }
+}
 
 export default ReactPdfViewer;
