@@ -143,6 +143,8 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
           messages={messages}
           collapsedFacetsCount={collapsedFacetsCount}
           facetsTextField={facetsTextField}
+          shouldDisplayAsMultiSelect={shouldDisplayAsMultiSelect}
+          selectedFacet={selectedFacetText}
         />
       ) : (
         <>

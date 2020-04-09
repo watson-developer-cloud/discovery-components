@@ -4,6 +4,7 @@ import ChevronDown from '@carbon/icons-react/lib/chevron--down/16';
 import ChevronUp from '@carbon/icons-react/lib/chevron--up/16';
 import { Messages } from 'components/SearchFacets/messages';
 import { MultiSelectFacetsGroup } from './MultiSelectFacetsGroup';
+import { SingleSelectFacetsGroup } from './SingleSelectFacetsGroup';
 import {
   categoryClass,
   categoryExpandCollapseClass,
@@ -55,6 +56,14 @@ interface CategoryFacetsProps {
    * Aggregation component settings
    */
   aggregationSettings: InternalQueryTermAggregation;
+  /**
+   * If should be displayed as multiselect or single-select
+   */
+  shouldDisplayAsMultiSelect: boolean;
+  /**
+   * Text of selected facet
+   */
+  selectedFacet: string;
 }
 
 export const CategoryFacets: FC<CategoryFacetsProps> = ({
@@ -67,7 +76,9 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
   categoryIsExpanded,
   collapsedFacetsCount,
   onClick,
-  aggregationSettings
+  aggregationSettings,
+  shouldDisplayAsMultiSelect,
+  selectedFacet
 }) => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
   const [isCollapsible, setIsCollapsible] = useState<boolean>(collapsedFacetsCount < facets.length);
@@ -93,23 +104,38 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
         {categoryIsExpanded ? <ChevronUp /> : <ChevronDown />}
       </Button>
       {categoryIsExpanded && (
-        <MultiSelectFacetsGroup
-          messages={messages}
-          facets={categoryFacetsToShow}
-          aggregationSettings={aggregationSettings}
-          onChange={onChange}
-          facetsTextField={facetsTextField}
-        />
-      )}
-      {categoryIsExpanded && isCollapsible && (
-        <Button
-          kind="ghost"
-          size="small"
-          onClick={toggleFacetsCollapse}
-          data-testid={`show-more-less-${categoryName}`}
-        >
-          {isCollapsed ? messages.collapsedFacetShowMoreText : messages.collapsedFacetShowLessText}
-        </Button>
+        <>
+          {shouldDisplayAsMultiSelect ? (
+            <MultiSelectFacetsGroup
+              messages={messages}
+              facets={categoryFacetsToShow}
+              aggregationSettings={aggregationSettings}
+              onChange={onChange}
+              facetsTextField={facetsTextField}
+            />
+          ) : (
+            <SingleSelectFacetsGroup
+              messages={messages}
+              facets={categoryFacetsToShow}
+              aggregationSettings={aggregationSettings}
+              onChange={onChange}
+              selectedFacet={selectedFacet}
+              facetsTextField={facetsTextField}
+            />
+          )}
+          {isCollapsible && (
+            <Button
+              kind="ghost"
+              size="small"
+              onClick={toggleFacetsCollapse}
+              data-testid={`show-more-less-${categoryName}`}
+            >
+              {isCollapsed
+                ? messages.collapsedFacetShowMoreText
+                : messages.collapsedFacetShowLessText}
+            </Button>
+          )}
+        </>
       )}
     </div>
   );

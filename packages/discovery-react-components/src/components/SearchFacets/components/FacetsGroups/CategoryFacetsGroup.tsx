@@ -36,6 +36,14 @@ interface CategoryFacetsGroupProps {
    * How many facets should be shown
    */
   collapsedFacetsCount: number;
+  /**
+   * If should be displayed as multiselect or single-select
+   */
+  shouldDisplayAsMultiSelect: boolean;
+  /**
+   * Text of selected facet
+   */
+  selectedFacet: string;
 }
 
 export const CategoryFacetsGroup: FC<CategoryFacetsGroupProps> = ({
@@ -45,7 +53,9 @@ export const CategoryFacetsGroup: FC<CategoryFacetsGroupProps> = ({
   onChange,
   messages,
   collapsedFacetsCount,
-  facetsTextField
+  facetsTextField,
+  shouldDisplayAsMultiSelect,
+  selectedFacet
 }) => {
   const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
   const {
@@ -86,6 +96,8 @@ export const CategoryFacetsGroup: FC<CategoryFacetsGroupProps> = ({
             collapsedFacetsCount={collapsedFacetsCount}
             onClick={handleExpandCollapseOnClick}
             facetsTextField={facetsTextField}
+            shouldDisplayAsMultiSelect={shouldDisplayAsMultiSelect}
+            selectedFacet={selectedFacet}
           />
         );
       })}
