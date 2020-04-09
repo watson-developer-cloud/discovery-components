@@ -148,6 +148,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
         <>
           {shouldDisplayAsMultiSelect ? (
             <MultiSelectFacetsGroup
+              messages={messages}
               facets={collapsedFacets}
               aggregationSettings={aggregationSettings}
               onChange={onChange}
@@ -155,6 +156,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
             />
           ) : (
             <SingleSelectFacetsGroup
+              messages={messages}
               facets={collapsedFacets}
               aggregationSettings={aggregationSettings}
               onChange={onChange}

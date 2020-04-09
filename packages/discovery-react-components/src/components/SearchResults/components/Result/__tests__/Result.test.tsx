@@ -15,6 +15,7 @@ import SearchResults, { SearchResultsProps } from 'components/SearchResults/Sear
 interface Setup {
   searchResults: RenderResult;
   selectResultMock: jest.Mock;
+  onSelectResult: jest.Mock;
 }
 
 function setup(
@@ -54,7 +55,8 @@ function setup(
   );
   return {
     searchResults,
-    selectResultMock: api.setSelectedResult
+    selectResultMock: api.setSelectedResult,
+    onSelectResult: api.setSelectedResult
   };
 }
 
@@ -66,6 +68,7 @@ describe('<Result />', () => {
   let collectionsResults: Collection[] | undefined;
   let fetchDocumentsResponseStore: any;
   let componentProps: Partial<SearchResultsProps> = {};
+  let onSelectResult: jest.Mock;
 
   beforeEach(() => {
     browserWindow.open = jest.fn();
@@ -190,7 +193,11 @@ describe('<Result />', () => {
 
     describe('on result click', () => {
       beforeEach(() => {
-        ({ selectResultMock, searchResults } = setup({ queryResults }));
+        componentProps.onSelectResult = jest.fn();
+        ({ selectResultMock, searchResults, onSelectResult } = setup(
+          { queryResults },
+          componentProps
+        ));
         fireEvent.click(searchResults.getByText('View document'));
       });
 
@@ -199,6 +206,7 @@ describe('<Result />', () => {
         expect(selectResultMock.mock.calls[0][0].document).toBe(queryResults![0]);
         expect(selectResultMock.mock.calls[0][0].element).toBe(null);
         expect(selectResultMock.mock.calls[0][0].elementType).toBe(null);
+        expect(onSelectResult.mock.calls[0][0].document).toBe(queryResults![0]);
       });
     });
 

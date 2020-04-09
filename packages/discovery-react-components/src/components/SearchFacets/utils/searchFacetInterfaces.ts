@@ -26,6 +26,7 @@ export interface SearchFilterFacets {
 }
 
 export interface SelectableDynamicFacets extends DiscoveryV2.QuerySuggestedRefinement {
+  matching_results?: number;
   selected?: boolean;
   aggregations?: QueryAggregationWithResults[];
   key?: string;
