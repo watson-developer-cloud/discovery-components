@@ -94,6 +94,7 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
       </Button>
       {categoryIsExpanded && (
         <MultiSelectFacetsGroup
+          messages={messages}
           facets={categoryFacetsToShow}
           aggregationSettings={aggregationSettings}
           onChange={onChange}
