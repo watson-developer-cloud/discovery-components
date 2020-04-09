@@ -175,6 +175,7 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
 }
 
 .#{$prefix}--search-result__footer__title {
+  max-width: 75%;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
