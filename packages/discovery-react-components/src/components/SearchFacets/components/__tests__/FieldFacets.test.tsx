@@ -669,11 +669,11 @@ describe('FieldFacetsComponent', () => {
 
       test('are collapsed on initial load and facet values are not shown', () => {
         const { fieldFacetsComponent } = setupResult;
-        const ibmFacetValue = fieldFacetsComponent.queryByText('ibm');
-        const pittsburghFacetValue = fieldFacetsComponent.queryByText('pittsburgh');
-        const usFacetValue = fieldFacetsComponent.queryByText('us');
-        const euFacetValue = fieldFacetsComponent.queryByText('eu');
-        const quantityFacetValue = fieldFacetsComponent.queryByText('$299');
+        const ibmFacetValue = fieldFacetsComponent.queryByText('ibm (138993)');
+        const pittsburghFacetValue = fieldFacetsComponent.queryByText('pittsburgh (57158)');
+        const usFacetValue = fieldFacetsComponent.queryByText('us (57158)');
+        const euFacetValue = fieldFacetsComponent.queryByText('eu (57158)');
+        const quantityFacetValue = fieldFacetsComponent.queryByText('$299 (32444)');
         expect(ibmFacetValue).toBe(null);
         expect(pittsburghFacetValue).toBe(null);
         expect(quantityFacetValue).toBe(null);
@@ -686,13 +686,13 @@ describe('FieldFacetsComponent', () => {
           const { fieldFacetsComponent } = setupResult;
           const locationCategoryHeader = fieldFacetsComponent.getByText('Location');
           fireEvent.click(locationCategoryHeader);
-          const pittsburghFacetValue = fieldFacetsComponent.getByText('pittsburgh');
-          const usFacetValue = fieldFacetsComponent.getByText('us');
-          const euFacetValue = fieldFacetsComponent.getByText('eu');
-          const bostonFacetValue = fieldFacetsComponent.queryByText('boston');
-          const pennsylvaniaFacetValue = fieldFacetsComponent.queryByText('pennsylvania');
-          const quantityFacetValue = fieldFacetsComponent.queryByText('$299');
-          const ibmFacetValue = fieldFacetsComponent.queryByText('ibm');
+          const pittsburghFacetValue = fieldFacetsComponent.getByText('pittsburgh (57158)');
+          const usFacetValue = fieldFacetsComponent.getByText('us (57158)');
+          const euFacetValue = fieldFacetsComponent.getByText('eu (57158)');
+          const bostonFacetValue = fieldFacetsComponent.queryByText('boston (57158)');
+          const pennsylvaniaFacetValue = fieldFacetsComponent.queryByText('pennsylvania (57158)');
+          const quantityFacetValue = fieldFacetsComponent.queryByText('$299 (32444)');
+          const ibmFacetValue = fieldFacetsComponent.queryByText('ibm (138993)');
           expect(pittsburghFacetValue).toBeDefined();
           expect(usFacetValue).toBeDefined();
           expect(euFacetValue).toBeDefined();
@@ -708,8 +708,8 @@ describe('FieldFacetsComponent', () => {
           fireEvent.click(locationCategoryHeader);
           const showMore = fieldFacetsComponent.getByTestId('show-more-less-Location');
           fireEvent.click(showMore);
-          const bostonFacetValue = fieldFacetsComponent.getByText('boston');
-          const pennsylvaniaFacetValue = fieldFacetsComponent.getByText('pennsylvania');
+          const bostonFacetValue = fieldFacetsComponent.getByText('boston (57158)');
+          const pennsylvaniaFacetValue = fieldFacetsComponent.getByText('pennsylvania (57158)');
           expect(bostonFacetValue).toBeDefined();
           expect(pennsylvaniaFacetValue).toBeDefined();
         });
@@ -720,17 +720,17 @@ describe('FieldFacetsComponent', () => {
           const organizationCategoryHeader = fieldFacetsComponent.getByText('Organization');
           fireEvent.click(locationCategoryHeader);
           fireEvent.click(organizationCategoryHeader);
-          let pittsburghFacetValue = fieldFacetsComponent.queryByText('pittsburgh');
-          let ibmFacetValue = fieldFacetsComponent.queryByText('ibm');
+          let pittsburghFacetValue = fieldFacetsComponent.queryByText('pittsburgh (57158)');
+          let ibmFacetValue = fieldFacetsComponent.queryByText('ibm (138993)');
           expect(pittsburghFacetValue).toBeDefined();
           expect(ibmFacetValue).toBeDefined();
           fireEvent.click(locationCategoryHeader);
-          pittsburghFacetValue = fieldFacetsComponent.queryByText('pittsburgh');
-          ibmFacetValue = fieldFacetsComponent.queryByText('ibm');
+          pittsburghFacetValue = fieldFacetsComponent.queryByText('pittsburgh (57158)');
+          ibmFacetValue = fieldFacetsComponent.queryByText('ibm (138993)');
           expect(pittsburghFacetValue).toBe(null);
           expect(ibmFacetValue).toBeDefined();
           fireEvent.click(organizationCategoryHeader);
-          ibmFacetValue = fieldFacetsComponent.queryByText('ibm');
+          ibmFacetValue = fieldFacetsComponent.queryByText('ibm (138993)');
           expect(ibmFacetValue).toBe(null);
         });
       });
@@ -740,8 +740,8 @@ describe('FieldFacetsComponent', () => {
           const { fieldFacetsComponent, performSearchMock } = setupResult;
           const locationCategoryHeader = fieldFacetsComponent.getByText('Location');
           fireEvent.click(locationCategoryHeader);
-          let pittsburghFacetValue = fieldFacetsComponent.getByLabelText('pittsburgh');
-          let usFacetValue = fieldFacetsComponent.getByLabelText('us');
+          let pittsburghFacetValue = fieldFacetsComponent.getByLabelText('pittsburgh (57158)');
+          let usFacetValue = fieldFacetsComponent.getByLabelText('us (57158)');
           fireEvent.click(pittsburghFacetValue);
           expect(performSearchMock).toBeCalledTimes(1);
           expect(performSearchMock).toBeCalledWith(
@@ -772,8 +772,8 @@ describe('FieldFacetsComponent', () => {
             }),
             false
           );
-          pittsburghFacetValue = fieldFacetsComponent.getByLabelText('pittsburgh');
-          usFacetValue = fieldFacetsComponent.getByLabelText('us');
+          pittsburghFacetValue = fieldFacetsComponent.getByLabelText('pittsburgh (57158)');
+          usFacetValue = fieldFacetsComponent.getByLabelText('us (57158)');
           expect(pittsburghFacetValue['checked']).toEqual(false);
           expect(usFacetValue['checked']).toEqual(false);
         });
@@ -784,8 +784,8 @@ describe('FieldFacetsComponent', () => {
           const organizationCategoryHeader = fieldFacetsComponent.getByText('Organization');
           fireEvent.click(locationCategoryHeader);
           fireEvent.click(organizationCategoryHeader);
-          let pittsburghFacetValue = fieldFacetsComponent.getByLabelText('pittsburgh');
-          let ibmFacetValue = fieldFacetsComponent.getByLabelText('ibm');
+          let pittsburghFacetValue = fieldFacetsComponent.getByLabelText('pittsburgh (57158)');
+          let ibmFacetValue = fieldFacetsComponent.getByLabelText('ibm (138993)');
           fireEvent.click(pittsburghFacetValue);
           expect(performSearchMock).toBeCalledTimes(1);
           expect(performSearchMock).toBeCalledWith(
@@ -804,8 +804,8 @@ describe('FieldFacetsComponent', () => {
             }),
             false
           );
-          pittsburghFacetValue = fieldFacetsComponent.getByLabelText('pittsburgh');
-          ibmFacetValue = fieldFacetsComponent.getByLabelText('ibm');
+          pittsburghFacetValue = fieldFacetsComponent.getByLabelText('pittsburgh (57158)');
+          ibmFacetValue = fieldFacetsComponent.getByLabelText('ibm (138993)');
           expect(pittsburghFacetValue['checked']).toEqual(true);
           expect(ibmFacetValue['checked']).toEqual(true);
           const clearButton = fieldFacetsComponent.getByTitle('Clear all selected items');
@@ -818,8 +818,8 @@ describe('FieldFacetsComponent', () => {
             }),
             false
           );
-          pittsburghFacetValue = fieldFacetsComponent.getByLabelText('pittsburgh');
-          ibmFacetValue = fieldFacetsComponent.getByLabelText('ibm');
+          pittsburghFacetValue = fieldFacetsComponent.getByLabelText('pittsburgh (57158)');
+          ibmFacetValue = fieldFacetsComponent.getByLabelText('ibm (138993)');
           expect(pittsburghFacetValue['checked']).toEqual(false);
           expect(ibmFacetValue['checked']).toEqual(false);
         });
