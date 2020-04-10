@@ -24,7 +24,7 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
 }
 
 .#{$prefix}--search-result {
-  @include layer('overlay');
+  @include box-shadow;
   background-color: $result-background;
   padding: $spacing-05;
   margin: $layout-01 0;
