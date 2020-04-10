@@ -148,9 +148,9 @@ describe('FilterFacetsComponent', () => {
   describe('checkbox elements', () => {
     test('contains first facet checkboxes with correct labels', () => {
       const { fieldFacetsComponent } = setup();
-      const ABMNStaffCheckbox = fieldFacetsComponent.getByLabelText('ABMN Staff');
-      const newsStaffCheckbox = fieldFacetsComponent.getByLabelText('News Staff');
-      const editorCheckbox = fieldFacetsComponent.getByLabelText('editor');
+      const ABMNStaffCheckbox = fieldFacetsComponent.getByLabelText('ABMN Staff (138993)');
+      const newsStaffCheckbox = fieldFacetsComponent.getByLabelText('News Staff (57158)');
+      const editorCheckbox = fieldFacetsComponent.getByLabelText('editor (32444)');
       expect(ABMNStaffCheckbox).toBeDefined();
       expect(newsStaffCheckbox).toBeDefined();
       expect(editorCheckbox).toBeDefined();
@@ -158,10 +158,10 @@ describe('FilterFacetsComponent', () => {
 
     test('contains second facet checkboxes with correct labels', () => {
       const { fieldFacetsComponent } = setup();
-      const animalsCheckbox = fieldFacetsComponent.getByLabelText('Animals');
-      const peopleCheckbox = fieldFacetsComponent.getByLabelText('People');
-      const placesCheckbox = fieldFacetsComponent.getByLabelText('Places');
-      const thingsCheckbox = fieldFacetsComponent.getByLabelText('Things');
+      const animalsCheckbox = fieldFacetsComponent.getByLabelText('Animals (138993)');
+      const peopleCheckbox = fieldFacetsComponent.getByLabelText('People (133760)');
+      const placesCheckbox = fieldFacetsComponent.getByLabelText('Places (129139)');
+      const thingsCheckbox = fieldFacetsComponent.getByLabelText('Things (76403)');
       expect(animalsCheckbox).toBeDefined();
       expect(peopleCheckbox).toBeDefined();
       expect(placesCheckbox).toBeDefined();
@@ -170,13 +170,13 @@ describe('FilterFacetsComponent', () => {
 
     test('checkboxes are unchecked when initially rendered', () => {
       const { fieldFacetsComponent } = setup();
-      const animalsCheckbox = fieldFacetsComponent.getByLabelText('Animals');
+      const animalsCheckbox = fieldFacetsComponent.getByLabelText('Animals (138993)');
       expect(animalsCheckbox['checked']).toEqual(false);
     });
 
     test('checkboxes are checked when set in filter query', () => {
       const { fieldFacetsComponent } = setup({ filter: 'subject:Animals' });
-      const animalsCheckbox = fieldFacetsComponent.getByLabelText('Animals');
+      const animalsCheckbox = fieldFacetsComponent.getByLabelText('Animals (138993)');
       expect(animalsCheckbox['checked']).toEqual(true);
     });
   });
@@ -184,7 +184,7 @@ describe('FilterFacetsComponent', () => {
   describe('checkboxes apply filters', () => {
     test('it adds correct filter when one checkbox within single facet is checked', () => {
       const { fieldFacetsComponent, performSearchMock } = setup();
-      const animalsCheckbox = fieldFacetsComponent.getByLabelText('Animals');
+      const animalsCheckbox = fieldFacetsComponent.getByLabelText('Animals (138993)');
       performSearchMock.mockReset();
       fireEvent.click(animalsCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);
@@ -200,7 +200,7 @@ describe('FilterFacetsComponent', () => {
       const { fieldFacetsComponent, performSearchMock } = setup({
         collapsedFacetsCount: 10
       });
-      const animalsCheckbox = fieldFacetsComponent.getByLabelText('This | that');
+      const animalsCheckbox = fieldFacetsComponent.getByLabelText('This | that (2727)');
       performSearchMock.mockReset();
       fireEvent.click(animalsCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);
@@ -216,7 +216,7 @@ describe('FilterFacetsComponent', () => {
       const { fieldFacetsComponent, performSearchMock } = setup({
         collapsedFacetsCount: 10
       });
-      const animalsCheckbox = fieldFacetsComponent.getByLabelText('hey, you');
+      const animalsCheckbox = fieldFacetsComponent.getByLabelText('hey, you (8282)');
       performSearchMock.mockReset();
       fireEvent.click(animalsCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);
@@ -232,7 +232,7 @@ describe('FilterFacetsComponent', () => {
       const { fieldFacetsComponent, performSearchMock } = setup({
         collapsedFacetsCount: 10
       });
-      const animalsCheckbox = fieldFacetsComponent.getByLabelText('something: else');
+      const animalsCheckbox = fieldFacetsComponent.getByLabelText('something: else (18111)');
       performSearchMock.mockReset();
       fireEvent.click(animalsCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);
@@ -246,7 +246,7 @@ describe('FilterFacetsComponent', () => {
 
     test('it adds correct filters when second checkbox within single facet is checked', () => {
       const { fieldFacetsComponent, performSearchMock } = setup({ filter: 'subject:Animals' });
-      const peopleCheckbox = fieldFacetsComponent.getByLabelText('People');
+      const peopleCheckbox = fieldFacetsComponent.getByLabelText('People (133760)');
       performSearchMock.mockReset();
       fireEvent.click(peopleCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);
@@ -262,7 +262,7 @@ describe('FilterFacetsComponent', () => {
       const { fieldFacetsComponent, performSearchMock } = setup({
         filter: 'subject:"Animals"'
       });
-      const newsStaffCheckbox = fieldFacetsComponent.getByLabelText('News Staff');
+      const newsStaffCheckbox = fieldFacetsComponent.getByLabelText('News Staff (57158)');
       performSearchMock.mockReset();
       fireEvent.click(newsStaffCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);
@@ -277,21 +277,21 @@ describe('FilterFacetsComponent', () => {
     test('maintains the same order of checkboxes before and after selection', () => {
       const { fieldFacetsComponent } = setup();
       const expectedLabels = [
-        'ABMN Staff',
-        'News Staff',
-        'editor',
-        'Animals',
-        'People',
-        'Places',
-        'Things',
-        'This | that'
+        'ABMN Staff (138993)',
+        'News Staff (57158)',
+        'editor (32444)',
+        'Animals (138993)',
+        'People (133760)',
+        'Places (129139)',
+        'Things (76403)',
+        'This | that (2727)'
       ];
       const beforeLabels = [].slice.call(fieldFacetsComponent.container.querySelectorAll('label'));
       expect(beforeLabels.map((label: HTMLLabelElement) => label.textContent)).toEqual(
         expectedLabels
       );
 
-      const newsStaffCheckbox = fieldFacetsComponent.getByLabelText('News Staff');
+      const newsStaffCheckbox = fieldFacetsComponent.getByLabelText('News Staff (57158)');
       fireEvent.click(newsStaffCheckbox);
 
       const afterLabels = [].slice.call(fieldFacetsComponent.container.querySelectorAll('label'));
@@ -325,7 +325,7 @@ describe('FilterFacetsComponent', () => {
 
       test('should only deselect one of the two', () => {
         const { fieldFacetsComponent } = setupResult;
-        const checkboxes = fieldFacetsComponent.getAllByLabelText('two');
+        const checkboxes = fieldFacetsComponent.getAllByLabelText('two (2)');
         expect(checkboxes).toHaveLength(2);
         expect(checkboxes[0]['checked']).toEqual(true);
         expect(checkboxes[1]['checked']).toEqual(false);
@@ -383,7 +383,7 @@ describe('FilterFacetsComponent', () => {
 
     test('should only select one of the two', () => {
       const { fieldFacetsComponent } = setupResult;
-      const checkboxes = fieldFacetsComponent.getAllByLabelText('hi');
+      const checkboxes = fieldFacetsComponent.getAllByLabelText('hi (1)');
       expect(checkboxes).toHaveLength(2);
       expect(checkboxes[0]['checked']).toEqual(true);
       expect(checkboxes[1]['checked']).toEqual(false);
@@ -393,7 +393,7 @@ describe('FilterFacetsComponent', () => {
   describe('checkboxes remove filters', () => {
     test('it removes correct filter when checkbox within single facet is unchecked', () => {
       const { fieldFacetsComponent, performSearchMock } = setup({ filter: 'subject:Animals' });
-      const animalsCheckbox = fieldFacetsComponent.getByLabelText('Animals');
+      const animalsCheckbox = fieldFacetsComponent.getByLabelText('Animals (138993)');
       performSearchMock.mockReset();
       fireEvent.click(animalsCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);
@@ -518,7 +518,7 @@ describe('FilterFacetsComponent', () => {
         filter: 'subject:Animals',
         componentSettingsAggregations: updateSelectionSettings(['subject_id'])
       });
-      const animalRadioButton = fieldFacetsComponent.getAllByLabelText('Animals');
+      const animalRadioButton = fieldFacetsComponent.getAllByLabelText('Animals (138993)');
       expect(animalRadioButton[0]['checked']).toEqual(true);
     });
 
@@ -527,10 +527,10 @@ describe('FilterFacetsComponent', () => {
         componentSettingsAggregations: updateSelectionSettings(['subject_id'])
       });
       //Carbon uses a Label element that also has @aria-label, which matches twice
-      const animalRadioButton = fieldFacetsComponent.getAllByLabelText('Animals');
+      const animalRadioButton = fieldFacetsComponent.getAllByLabelText('Animals (138993)');
       fireEvent.click(animalRadioButton[0]);
       performSearchMock.mockReset();
-      const peopleRadioButton = fieldFacetsComponent.getAllByLabelText('People');
+      const peopleRadioButton = fieldFacetsComponent.getAllByLabelText('People (133760)');
       fireEvent.click(peopleRadioButton[0]);
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
@@ -547,7 +547,7 @@ describe('FilterFacetsComponent', () => {
         componentSettingsAggregations: updateSelectionSettings(['subject_id'])
       });
       //Carbon uses a Label element that also has @aria-label, which matches twice
-      const animalRadioButton = fieldFacetsComponent.getAllByLabelText('Animals');
+      const animalRadioButton = fieldFacetsComponent.getAllByLabelText('Animals (138993)');
       fireEvent.click(animalRadioButton[0]);
       performSearchMock.mockReset();
       fireEvent.click(animalRadioButton[0]);
@@ -566,17 +566,17 @@ describe('FilterFacetsComponent', () => {
         componentSettingsAggregations: updateSelectionSettings(['subject_id'])
       });
       //Carbon uses a Label element that also has @aria-label, which matches twice
-      const animalRadioButton = fieldFacetsComponent.getAllByLabelText('Animals');
+      const animalRadioButton = fieldFacetsComponent.getAllByLabelText('Animals (138993)');
       fireEvent.click(animalRadioButton[0]);
 
-      const ABMNStaffCheckbox = fieldFacetsComponent.getByLabelText('ABMN Staff');
+      const ABMNStaffCheckbox = fieldFacetsComponent.getByLabelText('ABMN Staff (138993)');
       fireEvent.click(ABMNStaffCheckbox);
 
-      const newsStaffCheckbox = fieldFacetsComponent.getByLabelText('News Staff');
+      const newsStaffCheckbox = fieldFacetsComponent.getByLabelText('News Staff (57158)');
       fireEvent.click(newsStaffCheckbox);
 
       performSearchMock.mockReset();
-      const peopleRadioButton = fieldFacetsComponent.getAllByLabelText('People');
+      const peopleRadioButton = fieldFacetsComponent.getAllByLabelText('People (133760)');
       fireEvent.click(peopleRadioButton[0]);
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
@@ -593,17 +593,17 @@ describe('FilterFacetsComponent', () => {
         componentSettingsAggregations: updateSelectionSettings(['author_id', 'subject_id'])
       });
       //Carbon uses a Label element that also has @aria-label, which matches twice
-      const animalRadioButton = fieldFacetsComponent.getAllByLabelText('Animals');
+      const animalRadioButton = fieldFacetsComponent.getAllByLabelText('Animals (138993)');
       fireEvent.click(animalRadioButton[0]);
 
-      const ABMNStaffRadioButton = fieldFacetsComponent.getAllByLabelText('ABMN Staff');
+      const ABMNStaffRadioButton = fieldFacetsComponent.getAllByLabelText('ABMN Staff (138993)');
       fireEvent.click(ABMNStaffRadioButton[0]);
 
-      const newsStaffRadioButton = fieldFacetsComponent.getAllByLabelText('News Staff');
+      const newsStaffRadioButton = fieldFacetsComponent.getAllByLabelText('News Staff (57158)');
       fireEvent.click(newsStaffRadioButton[0]);
 
       performSearchMock.mockReset();
-      const peopleRadioButton = fieldFacetsComponent.getAllByLabelText('People');
+      const peopleRadioButton = fieldFacetsComponent.getAllByLabelText('People (133760)');
       fireEvent.click(peopleRadioButton[0]);
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
