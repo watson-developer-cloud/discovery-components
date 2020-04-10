@@ -6,8 +6,6 @@ $css--use-layer: true !default;
 @import '~carbon-components/scss/globals/scss/_typography.scss';
 @import '~carbon-components/scss/globals/scss/_colors.scss';
 @import '~carbon-components/scss/globals/scss/_layout.scss';
-// Removing _layer.scss per: https://github.ibm.com/Watson-Discovery/the-tooling-core-tracker/issues/1408
-// @import '~carbon-components/scss/globals/scss/_layer.scss';
 
 // Component styles
 @import 'components/search-input/search-input';
