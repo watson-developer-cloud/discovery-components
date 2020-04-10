@@ -8,6 +8,12 @@
   }
 }
 
+.#{$prefix}--search-facets--modal {
+  .#{$prefix}--modal-content {
+    height: 250px;
+  }
+}
+
 .#{$prefix}--search-facet {
   margin-bottom: $spacing-md;
   word-break: break-word;

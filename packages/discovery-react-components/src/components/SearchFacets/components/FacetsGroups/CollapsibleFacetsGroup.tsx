@@ -1,9 +1,17 @@
-import React, { FC, useState, useEffect } from 'react';
-import { Button } from 'carbon-components-react';
+import React, { FC, useState, useEffect, useContext } from 'react';
+import { Button, ModalWrapper, Checkbox as CarbonCheckbox } from 'carbon-components-react';
 import filter from 'lodash/filter';
 import get from 'lodash/get';
 import ListBox from 'carbon-components-react/lib/components/ListBox';
-import { fieldsetClasses, labelClasses, labelAndSelectionContainerClass } from '../../cssClasses';
+import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
+import { formatMessage } from 'utils/formatMessage';
+import {
+  fieldsetClasses,
+  labelClasses,
+  labelAndSelectionContainerClass,
+  optionLabelClass,
+  optionClass
+} from '../../cssClasses';
 import {
   SelectableDynamicFacets,
   SelectableQueryTermAggregationResult,
@@ -56,6 +64,12 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
   const [isCollapsed, setIsCollapsed] = useState<boolean>(collapsedFacetsCount < facets.length);
   const [isCollapsible, setIsCollapsible] = useState<boolean>(collapsedFacetsCount < facets.length);
 
+  const {
+    searchResponseStore: {
+      parameters: { naturalLanguageQuery }
+    }
+  } = useContext(SearchContext);
+
   useEffect(() => {
     setIsCollapsed(collapsedFacetsCount < facets.length);
     setIsCollapsible(collapsedFacetsCount < facets.length);
@@ -68,6 +82,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
   const areMultiSelectionsAllowed = aggregationSettings.multiple_selections_allowed;
   const facetsLabel = aggregationSettings.label || aggregationSettings.field;
   const collapsedFacets = isCollapsed ? facets.slice(0, collapsedFacetsCount) : facets;
+  const totalNumberFacets = facets.length;
   const selectedFacets = filter(facets, ['selected', true]);
   const selectedFacetText = get(selectedFacets[0], facetsTextField, '');
   const shouldDisplayAsMultiSelect = areMultiSelectionsAllowed || selectedFacets.length > 1;
@@ -83,6 +98,20 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
     };
     return mapping[id];
   };
+
+  // TODO: these things will be moved out into the modal component for show more greater than 10
+  const handleOnRequestSubmit = () => {
+    // todo: this needs to handle the selections/deselections that a user makes while within the modal view
+    console.log('hello!');
+  };
+
+  const getLabel = (facetText: string, count: number | undefined) => {
+    return count !== undefined
+      ? formatMessage(messages.labelTextWithCount, { facetText: facetText, count: count }, false)
+      : formatMessage(messages.labelText, { facetText: facetText }, false);
+  };
+
+  const escapedName = (aggregationSettings.name || aggregationSettings.field).replace(/\s+/g, '_');
 
   return (
     <fieldset className={fieldsetClasses.join(' ')}>
@@ -116,11 +145,53 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
           facetsTextField={facetsTextField}
         />
       )}
-      {isCollapsible && (
-        <Button kind="ghost" size="small" onClick={toggleFacetsCollapse}>
-          {isCollapsed ? messages.collapsedFacetShowMoreText : messages.collapsedFacetShowLessText}
-        </Button>
-      )}
+      <>
+        {isCollapsible && totalNumberFacets < 10 && (
+          <Button kind="ghost" size="small" onClick={toggleFacetsCollapse}>
+            {isCollapsed
+              ? messages.collapsedFacetShowMoreText
+              : messages.collapsedFacetShowLessText}
+          </Button>
+        )}
+        {isCollapsible && totalNumberFacets >= 10 && (
+          // todo: make this its own component
+          <ModalWrapper
+            // todo: add this to css classes to import and use bx prefix settings
+            className="bx--search-facets--modal"
+            buttonTriggerText={messages.collapsedFacetShowMoreText}
+            triggerButtonKind="ghost"
+            modalHeading={facetsLabel}
+            onRequestSubmit={handleOnRequestSubmit}
+            // todo: i18n this
+            modalAriaLabel="Select and deselect facet values"
+            // todo: confirm this is best aria-label
+            aria-label={facetsLabel}
+          >
+            {facets.map(facet => {
+              const facetText = get(facet, facetsTextField, '');
+              const count = facet.matching_results;
+              const labelText = getLabel(facetText, count);
+              const query = naturalLanguageQuery || '';
+              const buff = new Buffer(query + facetText);
+              const base64data = buff.toString('base64');
+
+              return (
+                <CarbonCheckbox
+                  className={optionLabelClass}
+                  wrapperClassName={optionClass}
+                  // onChange={handleOnChange}
+                  labelText={labelText}
+                  key={`checkbox-${escapedName}-${base64data}`}
+                  id={`checkbox-${escapedName}-${facetText.replace(/\s+/g, '_')}`}
+                  data-name={aggregationSettings.name || aggregationSettings.field}
+                  data-key={facetText}
+                  checked={!!facet.selected}
+                />
+              );
+            })}
+          </ModalWrapper>
+        )}
+      </>
     </fieldset>
   );
 };
