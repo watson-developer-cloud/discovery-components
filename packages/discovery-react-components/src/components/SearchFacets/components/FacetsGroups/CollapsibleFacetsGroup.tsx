@@ -53,6 +53,10 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
   onClear,
   onChange
 }) => {
+  // Flag which determines if facet labels contain the number of matching documents.
+  // TODO: Set to false until API fully supports matching_results
+  const matchingResultsCountFlag = false;
+
   const [isCollapsed, setIsCollapsed] = useState<boolean>(collapsedFacetsCount < facets.length);
   const [isCollapsible, setIsCollapsible] = useState<boolean>(collapsedFacetsCount < facets.length);
 
@@ -103,6 +107,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
           messages={messages}
           facets={collapsedFacets}
           aggregationSettings={aggregationSettings}
+          matchingResultsCountFlag={matchingResultsCountFlag}
           onChange={onChange}
           facetsTextField={facetsTextField}
         />
@@ -111,6 +116,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
           messages={messages}
           facets={collapsedFacets}
           aggregationSettings={aggregationSettings}
+          matchingResultsCountFlag={matchingResultsCountFlag}
           onChange={onChange}
           selectedFacet={selectedFacetText}
           facetsTextField={facetsTextField}

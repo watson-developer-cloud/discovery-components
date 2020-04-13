@@ -32,6 +32,10 @@ interface SingleSelectFacetsGroupProps {
    */
   facetsTextField: 'key' | 'text';
   /**
+   * Feature flad for if the matching results count will be displayed on facet labels
+   */
+  matchingResultsCountFlag: boolean;
+  /**
    * Text of selected facet
    */
   selectedFacet: string;
@@ -47,6 +51,7 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
   facetsTextField,
   selectedFacet,
   aggregationSettings,
+  matchingResultsCountFlag,
   onChange
 }) => {
   const {
@@ -64,7 +69,7 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
   };
 
   const getLabel = (facetText: string, count: number | undefined) => {
-    return count !== undefined
+    return count !== undefined && matchingResultsCountFlag
       ? formatMessage(messages.labelTextWithCount, { facetText: facetText, count: count }, false)
       : formatMessage(messages.labelText, { facetText: facetText }, false);
   };
