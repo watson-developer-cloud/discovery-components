@@ -4,6 +4,8 @@ import {
   RadioButton as CarbonRadioButton
 } from 'carbon-components-react';
 import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
+import { Messages } from 'components/SearchFacets/messages';
+import { formatMessage } from 'utils/formatMessage';
 import { optionLabelClass, singleSelectGroupClass } from 'components/SearchFacets/cssClasses';
 import {
   SelectableDynamicFacets,
@@ -13,6 +15,10 @@ import {
 import get from 'lodash/get';
 
 interface SingleSelectFacetsGroupProps {
+  /**
+   * override default messages for the component by specifying custom and/or internationalized text strings
+   */
+  messages: Messages;
   /**
    * Facets text and selected flag
    */
@@ -36,6 +42,7 @@ interface SingleSelectFacetsGroupProps {
 }
 
 export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
+  messages,
   facets,
   facetsTextField,
   selectedFacet,
@@ -56,6 +63,12 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
     onChange(name, text, true);
   };
 
+  const getLabel = (facetText: string, count: number | undefined) => {
+    return count !== undefined
+      ? formatMessage(messages.labelTextWithCount, { facetText: facetText, count: count }, false)
+      : formatMessage(messages.labelText, { facetText: facetText }, false);
+  };
+
   return (
     <CarbonRadioButtonGroup
       name={aggregationSettings.name || aggregationSettings.field}
@@ -65,6 +78,8 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
     >
       {facets.map(facet => {
         const facetText = get(facet, facetsTextField, '');
+        const count = facet.matching_results;
+        const labelText = getLabel(facetText, count);
         const query = naturalLanguageQuery || '';
         const buff = new Buffer(query + facetText);
         const base64data = buff.toString('base64');
@@ -72,7 +87,7 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
         return (
           <CarbonRadioButton
             className={optionLabelClass}
-            labelText={facetText}
+            labelText={labelText}
             key={`checkbox-${escapedName}-${base64data}`}
             id={`checkbox-${escapedName}-${facetText.replace(/\s+/g, '_')}`}
             value={facetText}
