@@ -15,6 +15,7 @@ import { defaultMessages } from '../messages';
 export const props = () => ({
   showCollections: boolean('Show collection facets', true),
   showDynamicFacets: boolean('Show dynamic facets', true),
+  showMatchingResults: boolean('Show matching results', false),
   collapsedFacetsCount: number('Number of facet terms to show when list is collapsed', 5),
   messages: object("Default messages for the component's text strings", defaultMessages),
   componentSettingsAggregations: object(
@@ -96,6 +97,16 @@ storiesOf('SearchFacets', module)
           })}
         >
           <SearchFacets {...exampleProps} />
+        </DiscoverySearch>
+      </StoryWrapper>
+    );
+  })
+  .add('with matching document counts', () => {
+    const exampleProps = props();
+    return (
+      <StoryWrapper>
+        <DiscoverySearch {...discoverySearchProps()}>
+          <SearchFacets {...exampleProps} showMatchingResults={true} />
         </DiscoverySearch>
       </StoryWrapper>
     );

@@ -29,9 +29,9 @@ interface MultiSelectFacetsGroupProps {
    */
   aggregationSettings: InternalQueryTermAggregation;
   /**
-   * Feature flad for if the matching results count will be displayed on facet labels
+   * Show matching documents count as part of label
    */
-  matchingResultsCountFlag: boolean;
+  showMatchingResults: boolean;
   /**
    * Callback to handle changes in selected facets
    */
@@ -43,7 +43,7 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
   facets,
   facetsTextField,
   aggregationSettings,
-  matchingResultsCountFlag,
+  showMatchingResults,
   onChange
 }) => {
   const {
@@ -65,7 +65,7 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
   };
 
   const getLabel = (facetText: string, count: number | undefined) => {
-    return count !== undefined && matchingResultsCountFlag
+    return count !== undefined && showMatchingResults
       ? formatMessage(messages.labelTextWithCount, { facetText: facetText, count: count }, false)
       : formatMessage(messages.labelText, { facetText: facetText }, false);
   };

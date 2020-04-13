@@ -34,6 +34,10 @@ interface SearchFacetsProps {
    */
   showDynamicFacets?: boolean;
   /**
+   * Show matching documents count as part of label
+   */
+  showMatchingResults?: boolean;
+  /**
    * Override default messages for the component by specifying custom and/or internationalized text strings
    */
   messages?: Partial<Messages>;
@@ -50,6 +54,7 @@ interface SearchFacetsProps {
 const SearchFacets: FC<SearchFacetsProps> = ({
   showCollections = true,
   showDynamicFacets = true,
+  showMatchingResults = false,
   messages = defaultMessages,
   overrideComponentSettingsAggregations,
   collapsedFacetsCount = 5
@@ -181,6 +186,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
         {shouldShowFields && (
           <FieldFacets
             allFacets={allFieldFacets}
+            showMatchingResults={showMatchingResults}
             onChange={handleOnChange}
             collapsedFacetsCount={collapsedFacetsCount}
             messages={mergedMessages}
