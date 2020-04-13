@@ -37,7 +37,13 @@ interface ShowMoreModalProps {
    * Callback to handle changes in selected facets
    */
   onChange: (selectedFacets: SelectedFacet[]) => void;
+  /**
+   * specifies whether the modal is open
+   */
   isOpen: boolean;
+  /**
+   * used to set the modal to closed state when modal is saved or otherwise closed
+   */
   setIsModalOpen: (value: boolean) => void;
 }
 
@@ -97,7 +103,7 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
     }
   };
 
-  const handleRequestClose = () => {
+  const handleOnRequestClose = () => {
     setTempSelectedFacets([]);
     setIsModalOpen(false);
   };
@@ -108,13 +114,14 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
       modalHeading={facetsLabel}
       onRequestSubmit={handleOnRequestSubmit}
       id="search-facet-show-more-modal"
-      onRequestClose={handleRequestClose}
-      modalAriaLabel={'label'}
-      aria-label={'label'}
+      onRequestClose={handleOnRequestClose}
+      // todo: update modal's aria-label
+      modalAriaLabel={facetsLabel}
+      aria-label={facetsLabel}
       open={isOpen}
-      // todo: these should be made into i18n
-      primaryButtonText="Save"
-      secondaryButtonText="Cancel"
+      primaryButtonText={messages.showMoreModalPrimaryButtonText}
+      secondaryButtonText={messages.showMoreModalSecondaryButtonText}
+      data-testid={`search-facet-show-more-modal-${facetsLabel}`}
     >
       {/* todo: can this be shared with multiselect facets group? depends, I think on if can */}
       {/* pass through the differences between them */}

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render, RenderResult, fireEvent } from '@testing-library/react';
+import { render, RenderResult, fireEvent, within } from '@testing-library/react';
 import { wrapWithContext } from 'utils/testingUtils';
 import SearchFacets from 'components/SearchFacets/SearchFacets';
 import {
@@ -76,7 +76,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
     test('show more link is only shown for facet group with too many results', () => {
       const { searchFacetsComponent } = setup({ collapsedFacetsCount: 5 });
       const showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
-      expect(showMoreButtons).toHaveLength(1);
+      expect(showMoreButtons).toHaveLength(2);
     });
   });
 
@@ -84,7 +84,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
     test('show more link is only shown for multiple facet groups', () => {
       const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
       const showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
-      expect(showMoreButtons).toHaveLength(2);
+      expect(showMoreButtons).toHaveLength(3);
     });
 
     test('facets are initially shown collapsed', () => {
@@ -160,28 +160,58 @@ describe('CollapsibleFacetsGroupComponent', () => {
           fireEvent.click(showMoreButtons[0]);
 
           showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
-          expect(showMoreButtons).toHaveLength(1);
+          expect(showMoreButtons).toHaveLength(2);
 
-          const showLessButtons = searchFacetsComponent.queryAllByText('Show more');
+          const showLessButtons = searchFacetsComponent.queryAllByText('Show less');
           expect(showLessButtons).toHaveLength(1);
         });
       });
 
-      // describe('when there are 10 or greater facet values', () => {
-      //   test('opens modal with list of facet terms for appropriate field', () => {
+      describe('when there are 10 or greater facet values', () => {
+        test('opens modal with correct header and full list of facet terms for appropriate field', () => {
+          const { searchFacetsComponent } = setup();
+          const topEntitiesShowMoreButton = searchFacetsComponent.getByTestId(
+            'show-more-less-enriched_text.entities.text'
+          );
+          fireEvent.click(topEntitiesShowMoreButton);
+          const topEntitiesModal = searchFacetsComponent.getByTestId(
+            'search-facet-show-more-modal-enriched_text.entities.text'
+          );
+          expect(topEntitiesModal).toBeDefined();
+          const topEntitiesHeader = within(topEntitiesModal).getByText(
+            'enriched_text.entities.text'
+          );
+          expect(topEntitiesHeader).toBeDefined();
+          const topEntitiesFacets = within(topEntitiesModal).queryAllByText((content, element) => {
+            return (
+              element.tagName.toLowerCase() === 'span' &&
+              [
+                'ibm (138993)',
+                'us (57158)',
+                '$299 (32444)',
+                'watson (32444)',
+                'eu (57158)',
+                'new york (57158)',
+                'pittsburgh (57158)',
+                'austin (57158)',
+                'boston (57158)',
+                'pennsylvania (57158)'
+              ].includes(content)
+            );
+          });
+          expect(topEntitiesFacets).toHaveLength(10);
+        });
 
-      //   });
+        // test('allows for selection and deselection of these facet terms', () => {
 
-      //   test('allows for selection and deselection of these facet terms', () => {
+        // });
+        // test('on submit of the modal, updates search with new facet selections and preserves selections', () => {
 
-      //   });
-      //   test('on submit of the modal, updates search with new facet selections and preserves selections', () => {
+        // });
+        // test('on cancel of modal, does not update search or preserve selections', () => {
 
-      //   });
-      //   test('on cancel of modal, does not update search or preserve selections', () => {
-
-      //   });
-      // });
+        // });
+      });
     });
   });
 
@@ -199,7 +229,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
           ['Research (138993)', 'Analytics (57158)', 'Documentation (32444)'].includes(content)
         );
       });
-      expect(authorFacets).toHaveLength(2);
+      expect(authorFacets).toHaveLength(3);
     });
 
     test('does not expand other fields', () => {
@@ -235,8 +265,8 @@ describe('CollapsibleFacetsGroupComponent', () => {
 
       showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
       expect(showMoreButtons).toHaveLength(1);
-      showLessButtons = searchFacetsComponent.queryAllByText('Show more');
-      expect(showLessButtons).toHaveLength(1);
+      showLessButtons = searchFacetsComponent.queryAllByText('Show less');
+      expect(showLessButtons).toHaveLength(2);
     });
   });
 });

@@ -134,7 +134,12 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
         )}
         {isCollapsible && totalNumberFacets >= 10 && (
           <>
-            <Button kind="ghost" size="small" onClick={toggleModalOpen}>
+            <Button
+              kind="ghost"
+              size="small"
+              onClick={toggleModalOpen}
+              data-testid={`show-more-less-${facetsLabel}`}
+            >
               {messages.collapsedFacetShowMoreText}
             </Button>
             <ShowMoreModal
