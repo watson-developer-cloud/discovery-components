@@ -169,6 +169,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
 
       describe('when there are 10 or greater facet values', () => {
         test('opens modal with correct header and full list of facet terms for appropriate field', () => {
+          // todo: move some of this into a beforeEach
           const { searchFacetsComponent } = setup();
           const topEntitiesShowMoreButton = searchFacetsComponent.getByTestId(
             'show-more-less-enriched_text.entities.text'
@@ -202,15 +203,68 @@ describe('CollapsibleFacetsGroupComponent', () => {
           expect(topEntitiesFacets).toHaveLength(10);
         });
 
-        // test('allows for selection and deselection of these facet terms', () => {
+        test('allows for selection and deselection of these facet terms', () => {
+          const { searchFacetsComponent } = setup();
+          const topEntitiesShowMoreButton = searchFacetsComponent.getByTestId(
+            'show-more-less-enriched_text.entities.text'
+          );
+          fireEvent.click(topEntitiesShowMoreButton);
+          const topEntitiesModal = searchFacetsComponent.getByTestId(
+            'search-facet-show-more-modal-enriched_text.entities.text'
+          );
+          let watsonFacetValue = within(topEntitiesModal).getByLabelText('watson (32444)');
+          expect(watsonFacetValue['checked']).toEqual(false);
+          fireEvent.click(watsonFacetValue);
+          watsonFacetValue = within(topEntitiesModal).getByLabelText('watson (32444)');
+          expect(watsonFacetValue['checked']).toEqual(true);
+          fireEvent.click(watsonFacetValue);
+          watsonFacetValue = within(topEntitiesModal).getByLabelText('watson (32444)');
+          expect(watsonFacetValue['checked']).toEqual(false);
+        });
 
-        // });
-        // test('on submit of the modal, updates search with new facet selections and preserves selections', () => {
+        test('on submit of the modal, updates search with new facet selections and preserves selections', () => {
+          const { searchFacetsComponent, performSearchMock } = setup();
+          const topEntitiesShowMoreButton = searchFacetsComponent.getByTestId(
+            'show-more-less-enriched_text.entities.text'
+          );
+          fireEvent.click(topEntitiesShowMoreButton);
+          const topEntitiesModal = searchFacetsComponent.getByTestId(
+            'search-facet-show-more-modal-enriched_text.entities.text'
+          );
+          const watsonModalFacetValue = within(topEntitiesModal).getByLabelText('watson (32444)');
+          fireEvent.click(watsonModalFacetValue);
+          const saveButton = within(topEntitiesModal).getByText('Save');
+          fireEvent.click(saveButton);
+          expect(performSearchMock).toBeCalledTimes(1);
+          expect(performSearchMock).toBeCalledWith(
+            expect.objectContaining({
+              filter: 'enriched_text.entities.text:"watson"'
+            }),
+            false
+          );
+          const watsonFacetValues = searchFacetsComponent.queryAllByLabelText('watson (32444)');
+          expect(watsonFacetValues[0]['checked']).toEqual(true);
+          expect(watsonFacetValues[1]['checked']).toEqual(true);
+        });
 
-        // });
-        // test('on cancel of modal, does not update search or preserve selections', () => {
-
-        // });
+        test('on cancel of modal, does not update search or preserve selections', () => {
+          const { searchFacetsComponent, performSearchMock } = setup();
+          const topEntitiesShowMoreButton = searchFacetsComponent.getByTestId(
+            'show-more-less-enriched_text.entities.text'
+          );
+          fireEvent.click(topEntitiesShowMoreButton);
+          const topEntitiesModal = searchFacetsComponent.getByTestId(
+            'search-facet-show-more-modal-enriched_text.entities.text'
+          );
+          const watsonModalFacetValue = within(topEntitiesModal).getByLabelText('watson (32444)');
+          fireEvent.click(watsonModalFacetValue);
+          const cancelButton = within(topEntitiesModal).getByText('Cancel');
+          fireEvent.click(cancelButton);
+          expect(performSearchMock).toBeCalledTimes(0);
+          const watsonFacetValues = searchFacetsComponent.queryAllByLabelText('watson (32444)');
+          expect(watsonFacetValues[0]['checked']).toEqual(false);
+          expect(watsonFacetValues[1]['checked']).toEqual(false);
+        });
       });
     });
   });
