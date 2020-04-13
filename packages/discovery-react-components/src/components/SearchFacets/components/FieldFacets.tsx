@@ -4,7 +4,8 @@ import filter from 'lodash/filter';
 import {
   InternalQueryTermAggregation,
   SelectableQueryTermAggregationResult,
-  SearchFilterFacets
+  SearchFilterFacets,
+  SelectedFacet
 } from '../utils/searchFacetInterfaces';
 import { Messages } from '../messages';
 import { CollapsibleFacetsGroup } from './FacetsGroups/CollapsibleFacetsGroup';
@@ -34,48 +35,46 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
   collapsedFacetsCount,
   onChange
 }) => {
-  const handleOnChange = (
-    selectedFacetName: string,
-    selectedFacetKey: string,
-    checked: boolean
-  ): void => {
-    const facetsForNameIndex = allFacets.findIndex(facet => {
-      if (!facet.name) {
-        return facet.field === selectedFacetName;
-      }
-      return facet.name === selectedFacetName;
-    });
-    if (facetsForNameIndex > -1) {
-      const facetsForName = allFacets[facetsForNameIndex];
-      const multiselect = get(facetsForName, 'multiple_selections_allowed', true);
-      const facetResults: SelectableQueryTermAggregationResult[] = get(
-        facetsForName,
-        'results',
-        []
-      );
-
-      // Handle quirky case where toggling between checkboxes and radio buttons when
-      //   1. multiselect === false
-      //   2. going from 2 facets down to 1
-      const selectedFacets = filter(facetResults, ['selected', true]);
-      const usingRadioButtons = selectedFacets.length < 2 && !multiselect;
-      const selectedFacetResults: SelectableQueryTermAggregationResult[] = facetResults.map(
-        result => {
-          const key = get(result, 'key', '');
-
-          if (usingRadioButtons) {
-            const keySelected = get(result, 'selected', false);
-            const isSelectedFacetKey = key === selectedFacetKey;
-            return Object.assign({}, result, { selected: isSelectedFacetKey && !keySelected });
-          } else {
-            return key === selectedFacetKey
-              ? Object.assign({}, result, { selected: checked })
-              : result;
-          }
+  const handleOnChange = (selectedFacets: SelectedFacet[]): void => {
+    selectedFacets.map(selectedFacet => {
+      const facetsForNameIndex = allFacets.findIndex(facet => {
+        if (!facet.name) {
+          return facet.field === selectedFacet.selectedFacetName;
         }
-      );
-      allFacets[facetsForNameIndex].results = selectedFacetResults;
-    }
+        return facet.name === selectedFacet.selectedFacetName;
+      });
+      if (facetsForNameIndex > -1) {
+        const facetsForName = allFacets[facetsForNameIndex];
+        const multiselect = get(facetsForName, 'multiple_selections_allowed', true);
+        const facetResults: SelectableQueryTermAggregationResult[] = get(
+          facetsForName,
+          'results',
+          []
+        );
+
+        // Handle quirky case where toggling between checkboxes and radio buttons when
+        //   1. multiselect === false
+        //   2. going from 2 facets down to 1
+        const selectedFacets = filter(facetResults, ['selected', true]);
+        const usingRadioButtons = selectedFacets.length < 2 && !multiselect;
+        const selectedFacetResults: SelectableQueryTermAggregationResult[] = facetResults.map(
+          result => {
+            const key = get(result, 'key', '');
+
+            if (usingRadioButtons) {
+              const keySelected = get(result, 'selected', false);
+              const isSelectedFacetKey = key === selectedFacet.selectedFacetKey;
+              return Object.assign({}, result, { selected: isSelectedFacetKey && !keySelected });
+            } else {
+              return key === selectedFacet.selectedFacetKey
+                ? Object.assign({}, result, { selected: selectedFacet.checked })
+                : result;
+            }
+          }
+        );
+        allFacets[facetsForNameIndex].results = selectedFacetResults;
+      }
+    });
     onChange({ filterFields: allFacets });
   };
 

@@ -1,14 +1,15 @@
-import React, { FC, useContext } from 'react';
+import React, { FC, useContext, useState, SyntheticEvent } from 'react';
 import get from 'lodash/get';
-import { ModalWrapper, Checkbox as CarbonCheckbox } from 'carbon-components-react';
+import { Modal, Checkbox as CarbonCheckbox } from 'carbon-components-react';
 import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import { formatMessage } from 'utils/formatMessage';
-import { optionLabelClass, optionClass } from '../../cssClasses';
+import { optionLabelClass, optionClass, showMoreModalClass } from '../../cssClasses';
 import { Messages } from 'components/SearchFacets/messages';
 import {
   InternalQueryTermAggregation,
   SelectableDynamicFacets,
-  SelectableQueryTermAggregationResult
+  SelectableQueryTermAggregationResult,
+  SelectedFacet
 } from 'components/SearchFacets/utils/searchFacetInterfaces';
 
 interface ShowMoreModalProps {
@@ -32,6 +33,12 @@ interface ShowMoreModalProps {
    * Facet text field
    */
   facetsTextField: string;
+  /**
+   * Callback to handle changes in selected facets
+   */
+  onChange: (selectedFacets: SelectedFacet[]) => void;
+  isOpen: boolean;
+  setIsModalOpen: (value: boolean) => void;
 }
 
 export const ShowMoreModal: FC<ShowMoreModalProps> = ({
@@ -39,7 +46,10 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
   aggregationSettings,
   facets,
   facetsLabel,
-  facetsTextField
+  facetsTextField,
+  onChange,
+  isOpen,
+  setIsModalOpen
 }) => {
   const {
     searchResponseStore: {
@@ -47,9 +57,12 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
     }
   } = useContext(SearchContext);
 
+  const [tempSelectedFacets, setTempSelectedFacets] = useState<SelectedFacet[]>([]);
+
   const handleOnRequestSubmit = () => {
-    // todo: this needs to handle updating with the selections/deselections that a user makes while within the modal view
-    console.log('hello!');
+    onChange(tempSelectedFacets);
+    setTempSelectedFacets([]);
+    setIsModalOpen(false);
   };
 
   // todo: make this a util since now being used in a few places?
@@ -62,20 +75,49 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
   // todo: also make this a util since being used in a few places?
   const escapedName = (aggregationSettings.name || aggregationSettings.field).replace(/\s+/g, '_');
 
+  const handleOnChange = (
+    checked: boolean,
+    _id: string,
+    event: SyntheticEvent<HTMLInputElement>
+  ): void => {
+    const target: HTMLInputElement = event.currentTarget;
+    const selectedFacetName = target.getAttribute('data-name') || '';
+    const selectedFacetKey = target.getAttribute('data-key') || '';
+    const selectedFacetIndex = tempSelectedFacets.findIndex(selectedFacet => {
+      return selectedFacetKey === selectedFacet.selectedFacetKey;
+    });
+    if (selectedFacetIndex > -1) {
+      const tempSelectedFacetsCopy = [...tempSelectedFacets];
+      tempSelectedFacetsCopy[selectedFacetIndex].checked = checked;
+      setTempSelectedFacets(tempSelectedFacetsCopy);
+    } else {
+      setTempSelectedFacets(
+        tempSelectedFacets.concat({ selectedFacetName, selectedFacetKey, checked })
+      );
+    }
+  };
+
+  const handleRequestClose = () => {
+    setTempSelectedFacets([]);
+    setIsModalOpen(false);
+  };
+
   return (
-    <ModalWrapper
-      // todo: add this to css classes to import and use bx prefix settings
-      className="bx--search-facets--modal"
-      buttonTriggerText={messages.collapsedFacetShowMoreText}
-      triggerButtonKind="ghost"
+    <Modal
+      className={showMoreModalClass}
       modalHeading={facetsLabel}
       onRequestSubmit={handleOnRequestSubmit}
-      // todo: i18n this
-      modalAriaLabel="Select and deselect facet values"
-      // todo: confirm this is best aria-label
-      aria-label={facetsLabel}
+      id="search-facet-show-more-modal"
+      onRequestClose={handleRequestClose}
+      modalAriaLabel={'label'}
+      aria-label={'label'}
+      open={isOpen}
+      // todo: these should be made into i18n
+      primaryButtonText="Save"
+      secondaryButtonText="Cancel"
     >
-      {/* todo: can this be shared with multiselect facets group? */}
+      {/* todo: can this be shared with multiselect facets group? depends, I think on if can */}
+      {/* pass through the differences between them */}
       {facets.map(facet => {
         const facetText = get(facet, facetsTextField, '');
         const count = facet.matching_results;
@@ -84,23 +126,30 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
         const buff = new Buffer(query + facetText);
         const base64data = buff.toString('base64');
 
+        let facetSelected: boolean;
+        const tempIndex = tempSelectedFacets.findIndex(facet => {
+          return facet.selectedFacetKey === facetText;
+        });
+        if (tempIndex > -1) {
+          facetSelected = tempSelectedFacets[tempIndex].checked;
+        } else {
+          facetSelected = !!facet.selected;
+        }
+
         return (
           <CarbonCheckbox
             className={optionLabelClass}
             wrapperClassName={optionClass}
-            // store them in temporary facets that have changed
-            // on request submit go through and update them all
-            // onChange={handleOnChange}
+            onChange={handleOnChange}
             labelText={labelText}
-            key={`checkbox-${escapedName}-${base64data}`}
-            id={`checkbox-${escapedName}-${facetText.replace(/\s+/g, '_')}`}
+            key={`modal-checkbox-${escapedName}-${base64data}`}
+            id={`modal-checkbox-${escapedName}-${facetText.replace(/\s+/g, '_')}`}
             data-name={aggregationSettings.name || aggregationSettings.field}
             data-key={facetText}
-            // checked can check the temporary updates first and then the facet's status on open of modal?
-            checked={!!facet.selected}
+            checked={facetSelected}
           />
         );
       })}
-    </ModalWrapper>
+    </Modal>
   );
 };

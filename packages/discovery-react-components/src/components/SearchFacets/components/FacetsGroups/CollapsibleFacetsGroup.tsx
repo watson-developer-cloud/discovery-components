@@ -7,7 +7,8 @@ import { fieldsetClasses, labelClasses, labelAndSelectionContainerClass } from '
 import {
   SelectableDynamicFacets,
   SelectableQueryTermAggregationResult,
-  InternalQueryTermAggregation
+  InternalQueryTermAggregation,
+  SelectedFacet
 } from 'components/SearchFacets/utils/searchFacetInterfaces';
 import { Messages } from 'components/SearchFacets/messages';
 import { MultiSelectFacetsGroup } from './MultiSelectFacetsGroup';
@@ -38,7 +39,7 @@ interface CollapsibleFacetsGroupProps {
   /**
    * Callback to handle changes in selected facets
    */
-  onChange: (selectedFacetName: string, selectedFacetKey: string, checked: boolean) => void;
+  onChange: (selectedFacets: SelectedFacet[]) => void;
   /**
    * Callback to reset selected facet
    */
@@ -56,6 +57,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
 }) => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(collapsedFacetsCount < facets.length);
   const [isCollapsible, setIsCollapsible] = useState<boolean>(collapsedFacetsCount < facets.length);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     setIsCollapsed(collapsedFacetsCount < facets.length);
@@ -84,6 +86,10 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
       'clear.selection': messages.clearFacetSelectionTitle
     };
     return mapping[id];
+  };
+
+  const toggleModalOpen = () => {
+    setIsModalOpen(true);
   };
 
   return (
@@ -127,13 +133,21 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
           </Button>
         )}
         {isCollapsible && totalNumberFacets >= 10 && (
-          <ShowMoreModal
-            messages={messages}
-            aggregationSettings={aggregationSettings}
-            facets={facets}
-            facetsLabel={facetsLabel}
-            facetsTextField={facetsTextField}
-          />
+          <>
+            <Button kind="ghost" size="small" onClick={toggleModalOpen}>
+              {messages.collapsedFacetShowMoreText}
+            </Button>
+            <ShowMoreModal
+              messages={messages}
+              aggregationSettings={aggregationSettings}
+              facets={facets}
+              facetsLabel={facetsLabel}
+              facetsTextField={facetsTextField}
+              onChange={onChange}
+              isOpen={isModalOpen}
+              setIsModalOpen={setIsModalOpen}
+            />
+          </>
         )}
       </>
     </fieldset>

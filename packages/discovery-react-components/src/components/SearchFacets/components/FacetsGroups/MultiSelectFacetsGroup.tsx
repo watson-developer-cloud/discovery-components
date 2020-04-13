@@ -7,7 +7,8 @@ import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import {
   SelectableDynamicFacets,
   SelectableQueryTermAggregationResult,
-  InternalQueryTermAggregation
+  InternalQueryTermAggregation,
+  SelectedFacet
 } from 'components/SearchFacets/utils/searchFacetInterfaces';
 import get from 'lodash/get';
 
@@ -31,7 +32,7 @@ interface MultiSelectFacetsGroupProps {
   /**
    * Callback to handle changes in selected facets
    */
-  onChange: (selectedFacetField: string, selectedFacetKey: string, checked: boolean) => void;
+  onChange: (selectedFacets: SelectedFacet[]) => void;
 }
 
 export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
@@ -56,7 +57,7 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
     const target: HTMLInputElement = event.currentTarget;
     const selectedFacetName = target.getAttribute('data-name') || '';
     const selectedFacetKey = target.getAttribute('data-key') || '';
-    onChange(selectedFacetName, selectedFacetKey, checked);
+    onChange([{ selectedFacetName, selectedFacetKey, checked }]);
   };
 
   const getLabel = (facetText: string, count: number | undefined) => {

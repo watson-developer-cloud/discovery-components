@@ -114,56 +114,74 @@ describe('CollapsibleFacetsGroupComponent', () => {
     });
 
     describe('clicking show more button', () => {
-      test('expands list of facet terms for appropriate field', () => {
-        const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
-        const authorFacets = searchFacetsComponent.queryAllByText((content, element) => {
-          return (
-            element.tagName.toLowerCase() === 'span' &&
-            ['Research (138993)', 'Analytics (57158)', 'Documentation (32444)'].includes(content)
-          );
-        });
-        expect(authorFacets).toHaveLength(2);
+      describe('when there are less than 10 facet values', () => {
+        test('expands list of facet terms for appropriate field', () => {
+          const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
+          const authorFacets = searchFacetsComponent.queryAllByText((content, element) => {
+            return (
+              element.tagName.toLowerCase() === 'span' &&
+              ['Research (138993)', 'Analytics (57158)', 'Documentation (32444)'].includes(content)
+            );
+          });
+          expect(authorFacets).toHaveLength(2);
 
-        const showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
-        fireEvent.click(showMoreButtons[1]);
-        const subjectFacets = searchFacetsComponent.queryAllByText((content, element) => {
-          return (
-            element.tagName.toLowerCase() === 'span' &&
-            [
-              'Neural network (138993)',
-              'Reinforced learning (57158)',
-              'CIFAR-10 (32444)',
-              'MNIST (32444)',
-              'Recommender systems (32444)',
-              'Decision trees (32444)'
-            ].includes(content)
-          );
+          const showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
+          fireEvent.click(showMoreButtons[1]);
+          const subjectFacets = searchFacetsComponent.queryAllByText((content, element) => {
+            return (
+              element.tagName.toLowerCase() === 'span' &&
+              [
+                'Neural network (138993)',
+                'Reinforced learning (57158)',
+                'CIFAR-10 (32444)',
+                'MNIST (32444)',
+                'Recommender systems (32444)',
+                'Decision trees (32444)'
+              ].includes(content)
+            );
+          });
+          expect(subjectFacets).toHaveLength(6);
         });
-        expect(subjectFacets).toHaveLength(6);
+
+        test('does not expand other fields', () => {
+          const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
+          const authorFacets = searchFacetsComponent.queryAllByText((content, element) => {
+            return (
+              element.tagName.toLowerCase() === 'span' &&
+              ['Research (138993)', 'Analytics (57158)', 'Documentation (32444)'].includes(content)
+            );
+          });
+          expect(authorFacets).toHaveLength(2);
+        });
+
+        test('changes button text to show less', () => {
+          const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
+          let showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
+          fireEvent.click(showMoreButtons[0]);
+
+          showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
+          expect(showMoreButtons).toHaveLength(1);
+
+          const showLessButtons = searchFacetsComponent.queryAllByText('Show more');
+          expect(showLessButtons).toHaveLength(1);
+        });
       });
 
-      test('does not expand other fields', () => {
-        const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
-        const authorFacets = searchFacetsComponent.queryAllByText((content, element) => {
-          return (
-            element.tagName.toLowerCase() === 'span' &&
-            ['Research (138993)', 'Analytics (57158)', 'Documentation (32444)'].includes(content)
-          );
-        });
-        expect(authorFacets).toHaveLength(2);
-      });
+      // describe('when there are 10 or greater facet values', () => {
+      //   test('opens modal with list of facet terms for appropriate field', () => {
 
-      test('changes button text to show less', () => {
-        const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
-        let showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
-        fireEvent.click(showMoreButtons[0]);
+      //   });
 
-        showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
-        expect(showMoreButtons).toHaveLength(1);
+      //   test('allows for selection and deselection of these facet terms', () => {
 
-        const showLessButtons = searchFacetsComponent.queryAllByText('Show more');
-        expect(showLessButtons).toHaveLength(1);
-      });
+      //   });
+      //   test('on submit of the modal, updates search with new facet selections and preserves selections', () => {
+
+      //   });
+      //   test('on cancel of modal, does not update search or preserve selections', () => {
+
+      //   });
+      // });
     });
   });
 

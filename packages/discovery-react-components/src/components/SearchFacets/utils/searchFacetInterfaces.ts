@@ -33,3 +33,9 @@ export interface CollectionItem {
   id: string;
   label: string;
 }
+
+export interface SelectedFacet {
+  selectedFacetName: string;
+  selectedFacetKey: string;
+  checked: boolean;
+}

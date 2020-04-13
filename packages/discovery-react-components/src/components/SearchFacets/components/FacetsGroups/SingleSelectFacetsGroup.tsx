@@ -10,7 +10,8 @@ import { optionLabelClass, singleSelectGroupClass } from 'components/SearchFacet
 import {
   SelectableDynamicFacets,
   SelectableQueryTermAggregationResult,
-  InternalQueryTermAggregation
+  InternalQueryTermAggregation,
+  SelectedFacet
 } from 'components/SearchFacets/utils/searchFacetInterfaces';
 import get from 'lodash/get';
 
@@ -38,7 +39,7 @@ interface SingleSelectFacetsGroupProps {
   /**
    * Callback to handle changes in selected facets
    */
-  onChange: (selectedFacetName: string, selectedFacetKey: string, checked: boolean) => void;
+  onChange: (selectedFacets: SelectedFacet[]) => void;
 }
 
 export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
@@ -58,9 +59,10 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
 
   const handleOnClick = (event: SyntheticEvent<HTMLInputElement>): void => {
     const target: HTMLInputElement = event.currentTarget;
-    const name = target.getAttribute('name') || '';
-    const text = target.getAttribute('value') || '';
-    onChange(name, text, true);
+    const selectedFacetName = target.getAttribute('name') || '';
+    const selectedFacetKey = target.getAttribute('value') || '';
+    const checked = true;
+    onChange([{ selectedFacetName, selectedFacetKey, checked }]);
   };
 
   const getLabel = (facetText: string, count: number | undefined) => {
