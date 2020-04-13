@@ -1,7 +1,5 @@
 import React, { FC, useContext, SyntheticEvent } from 'react';
 import { optionClass, optionLabelClass } from '../../cssClasses';
-import { Messages } from 'components/SearchFacets/messages';
-import { formatMessage } from 'utils/formatMessage';
 import { Checkbox as CarbonCheckbox } from 'carbon-components-react';
 import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import {
@@ -12,10 +10,6 @@ import {
 import get from 'lodash/get';
 
 interface MultiSelectFacetsGroupProps {
-  /**
-   * override default messages for the component by specifying custom and/or internationalized text strings
-   */
-  messages: Messages;
   /**
    * Dynamic facets text and selected flag
    */
@@ -35,7 +29,6 @@ interface MultiSelectFacetsGroupProps {
 }
 
 export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
-  messages,
   facets,
   facetsTextField,
   aggregationSettings,
@@ -59,18 +52,10 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
     onChange(selectedFacetName, selectedFacetKey, checked);
   };
 
-  const getLabel = (facetText: string, count: number | undefined) => {
-    return count !== undefined
-      ? formatMessage(messages.labelTextWithCount, { facetText: facetText, count: count }, false)
-      : formatMessage(messages.labelText, { facetText: facetText }, false);
-  };
-
   return (
     <>
       {facets.map(facet => {
         const facetText = get(facet, facetsTextField, '');
-        const count = facet.matching_results;
-        const labelText = getLabel(facetText, count);
         const query = naturalLanguageQuery || '';
         const buff = new Buffer(query + facetText);
         const base64data = buff.toString('base64');
@@ -80,7 +65,7 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
             className={optionLabelClass}
             wrapperClassName={optionClass}
             onChange={handleOnChange}
-            labelText={labelText}
+            labelText={facetText}
             key={`checkbox-${escapedName}-${base64data}`}
             id={`checkbox-${escapedName}-${facetText.replace(/\s+/g, '_')}`}
             data-name={aggregationSettings.name || aggregationSettings.field}
