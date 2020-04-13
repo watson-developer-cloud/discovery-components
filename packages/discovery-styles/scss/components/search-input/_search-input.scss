@@ -8,7 +8,7 @@
 }
 
 .#{$prefix}--search-autocompletion {
-  @include layer('overlay');
+  @include box-shadow;
   left: 0;
   position: absolute;
   right: 0;
