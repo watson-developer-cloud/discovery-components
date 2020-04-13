@@ -15,7 +15,7 @@ import { defaultMessages } from '../messages';
 export const props = () => ({
   showCollections: boolean('Show collection facets', true),
   showDynamicFacets: boolean('Show dynamic facets', true),
-  showMatchingResults: boolean('Show matching results', false),
+  showMatchingResults: boolean('Show matching results', true),
   collapsedFacetsCount: number('Number of facet terms to show when list is collapsed', 5),
   messages: object("Default messages for the component's text strings", defaultMessages),
   componentSettingsAggregations: object(
