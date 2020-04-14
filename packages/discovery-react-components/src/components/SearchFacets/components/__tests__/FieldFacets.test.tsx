@@ -716,6 +716,7 @@ describe('FieldFacetsComponent', () => {
 
         test('can expand multiple categories and collapse them again', () => {
           const { fieldFacetsComponent } = setupResult;
+          // First test that expanding multiple categories shows each category's facet values
           const locationCategoryHeader = fieldFacetsComponent.getByText('Location');
           const organizationCategoryHeader = fieldFacetsComponent.getByText('Organization');
           fireEvent.click(locationCategoryHeader);
@@ -724,6 +725,7 @@ describe('FieldFacetsComponent', () => {
           let ibmFacetValue = fieldFacetsComponent.queryByText('ibm (138993)');
           expect(pittsburghFacetValue).toBeDefined();
           expect(ibmFacetValue).toBeDefined();
+          // Then test that on collapse, the categories' facet values are no longer shown
           fireEvent.click(locationCategoryHeader);
           pittsburghFacetValue = fieldFacetsComponent.queryByText('pittsburgh (57158)');
           ibmFacetValue = fieldFacetsComponent.queryByText('ibm (138993)');
@@ -742,6 +744,7 @@ describe('FieldFacetsComponent', () => {
           fireEvent.click(locationCategoryHeader);
           let pittsburghFacetValue = fieldFacetsComponent.getByLabelText('pittsburgh (57158)');
           let usFacetValue = fieldFacetsComponent.getByLabelText('us (57158)');
+          // First select facet values in one category and test it calls search with expected filter
           fireEvent.click(pittsburghFacetValue);
           expect(performSearchMock).toBeCalledTimes(1);
           expect(performSearchMock).toBeCalledWith(
@@ -762,6 +765,7 @@ describe('FieldFacetsComponent', () => {
           );
           expect(pittsburghFacetValue['checked']).toEqual(true);
           expect(usFacetValue['checked']).toEqual(true);
+          // Then clear the facet values and test it calls search with expected empty filter
           const clearButton = fieldFacetsComponent.getByTitle('Clear all selected items');
           fireEvent.click(clearButton);
           expect(performSearchMock).toBeCalledTimes(3);
@@ -782,6 +786,7 @@ describe('FieldFacetsComponent', () => {
           const { fieldFacetsComponent, performSearchMock } = setupResult;
           const locationCategoryHeader = fieldFacetsComponent.getByText('Location');
           const organizationCategoryHeader = fieldFacetsComponent.getByText('Organization');
+          // First select facet values across multiple categories and test it calls search with expected filters
           fireEvent.click(locationCategoryHeader);
           fireEvent.click(organizationCategoryHeader);
           let pittsburghFacetValue = fieldFacetsComponent.getByLabelText('pittsburgh (57158)');
@@ -808,6 +813,7 @@ describe('FieldFacetsComponent', () => {
           ibmFacetValue = fieldFacetsComponent.getByLabelText('ibm (138993)');
           expect(pittsburghFacetValue['checked']).toEqual(true);
           expect(ibmFacetValue['checked']).toEqual(true);
+          // Then clear facet values across multiple categories and test it calls search with empty filter
           const clearButton = fieldFacetsComponent.getByTitle('Clear all selected items');
           fireEvent.click(clearButton);
           expect(performSearchMock).toBeCalledTimes(3);
