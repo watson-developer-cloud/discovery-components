@@ -1,6 +1,7 @@
 const path = require('path');
 const SRC_PATH = path.join(__dirname, '../src');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const styles = require.resolve('@ibm-watson/discovery-styles');
 module.exports = ({ config }) => {
@@ -38,7 +39,10 @@ module.exports = ({ config }) => {
   config.resolve.plugins.push(
     new TsconfigPathsPlugin({
       configFile: path.resolve(__dirname, 'tsconfig.json')
-    })
+    }),
+    new CopyWebpackPlugin([
+      { from: 'node_modules/pdfjs-dist/cmaps/', to: 'cmaps/' }
+    ])
   );
   return config;
 };

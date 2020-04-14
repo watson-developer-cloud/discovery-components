@@ -5,7 +5,7 @@ import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import { PreviewToolbar } from './components/PreviewToolbar/PreviewToolbar';
-import ReactPdfViewer from './components/ReactPdfViewer/ReactPdfViewer';
+import PdfViewer from './components/PdfViewer/PdfViewer';
 import Highlight from './components/Highlight/Highlight';
 import SimpleDocument from './components/SimpleDocument/SimpleDocument';
 import withErrorBoundary, { WithErrorBoundaryProps } from 'utils/hoc/withErrorBoundary';
@@ -177,7 +177,7 @@ function PreviewDocument({
 }: PreviewDocumentProps): ReactElement | null {
   if (file) {
     return (
-      <ReactPdfViewer
+      <PdfViewer
         file={file}
         page={currentPage}
         scale={scale}
