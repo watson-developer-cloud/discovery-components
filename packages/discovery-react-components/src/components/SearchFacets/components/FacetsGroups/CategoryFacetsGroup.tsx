@@ -100,6 +100,7 @@ export const CategoryFacetsGroup: FC<CategoryFacetsGroupProps> = ({
               facetsTextField={facetsTextField}
               shouldDisplayAsMultiSelect={shouldDisplayAsMultiSelect}
               selectedFacet={selectedFacet}
+              key={facetsLabel + categoryName}
             />
           );
         }

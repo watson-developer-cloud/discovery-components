@@ -9,6 +9,7 @@ export interface Messages {
   collectionSelectTitleText: string;
   collectionSelectLabel: string;
   dynamicFacetsLabel: string;
+  categoryExpandCollapseIconDescription: string;
 }
 export const defaultMessages: Messages = {
   labelText: '{facetText}',
@@ -20,5 +21,6 @@ export const defaultMessages: Messages = {
   collapsedFacetShowLessText: 'Show less',
   collectionSelectTitleText: 'Collections',
   collectionSelectLabel: 'Available collections',
-  dynamicFacetsLabel: 'Dynamic Facets'
+  dynamicFacetsLabel: 'Dynamic Facets',
+  categoryExpandCollapseIconDescription: 'Expand/Collapse'
 };

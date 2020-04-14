@@ -20,7 +20,10 @@ import { withErrorBoundary } from 'react-error-boundary';
 import { FallbackComponent } from 'utils/FallbackComponent';
 import onErrorCallback from 'utils/onErrorCallback';
 import { buildAggregationQuery } from 'components/SearchFacets/utils/buildAggregationQuery';
-import { QueryAggregationWithName } from 'components/SearchFacets/utils/searchFacetInterfaces';
+import {
+  QueryAggregationWithName,
+  isQueryAggregationWithName
+} from 'components/SearchFacets/utils/searchFacetInterfaces';
 
 export type SearchParams = Omit<DiscoveryV2.QueryParams, 'projectId' | 'headers'>;
 
@@ -36,7 +39,7 @@ export interface DiscoverySearchProps {
   /**
    * Aggregation results used to override internal aggregation search results state
    */
-  overrideAggregationResults?: QueryAggregationWithName[];
+  overrideAggregationResults?: DiscoveryV2.QueryAggregation[] | QueryAggregationWithName[];
   /**
    * Search response used to override internal search results state
    */
@@ -95,7 +98,7 @@ export const emptySelectedResult = {
 };
 
 export interface SearchContextIFC {
-  aggregationResults: QueryAggregationWithName[] | null;
+  aggregationResults: DiscoveryV2.QueryAggregation[] | QueryAggregationWithName[] | null;
   searchResponseStore: SearchResponseStore;
   fetchDocumentsResponseStore: FetchDocumentsResponseStore;
   collectionsResults: DiscoveryV2.ListCollectionsResponse | null;
@@ -218,9 +221,9 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
   overrideComponentSettings = null,
   children
 }) => {
-  const [aggregationResults, setAggregationResults] = useState<QueryAggregationWithName[] | null>(
-    overrideAggregationResults
-  );
+  const [aggregationResults, setAggregationResults] = useState<
+    DiscoveryV2.QueryAggregation[] | QueryAggregationWithName[] | null
+  >(overrideAggregationResults);
   const [
     collectionsResults,
     setCollectionsResults
@@ -271,11 +274,13 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
           .query({ ...searchParameters, ...aggregationQueryDefaults, filter: '' })
           .then(async response => {
             if (response && response.result && response.result.aggregations) {
-              const updatedAggregations = await fetchTypeForTopEntitiesAggregation(
-                response.result.aggregations,
-                searchParameters
-              );
-              setAggregationResults(updatedAggregations || null);
+              if (isQueryAggregationWithName(response.result.aggregations)) {
+                const updatedAggregations = await fetchTypeForTopEntitiesAggregation(
+                  response.result.aggregations,
+                  searchParameters
+                );
+                setAggregationResults(updatedAggregations || null);
+              }
             }
           });
       }
@@ -396,7 +401,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       if (result) {
         const { aggregations } = result;
         let updatedAggregations = aggregations;
-        if (aggregations) {
+        if (aggregations && isQueryAggregationWithName(aggregations)) {
           updatedAggregations = await fetchTypeForTopEntitiesAggregation(
             aggregations,
             searchParametersWithAggregationDefaults

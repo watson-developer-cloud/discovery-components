@@ -12,7 +12,8 @@ import {
   SelectableDynamicFacets,
   SelectableQueryTermAggregationResult,
   InternalQueryTermAggregation,
-  FieldFacetsByCategory
+  FieldFacetsByCategory,
+  isSelectableQueryTermAggregationResult
 } from 'components/SearchFacets/utils/searchFacetInterfaces';
 import { Messages } from 'components/SearchFacets/messages';
 import { CategoryFacetsGroup } from './CategoryFacetsGroup';
@@ -80,26 +81,28 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
   let facetsByCategory: FieldFacetsByCategory = {};
   if (hasCategories) {
     facetsByCategory[`${facetsLabel}`] = { categories: {} };
-    facets.map(result => {
-      const resultType = result!.aggregations![0].results![0].key;
-      if (resultType in facetsByCategory[`${facetsLabel}`].categories) {
-        facetsByCategory[`${facetsLabel}`].categories[`${resultType}`].facets.push({
-          key: result.key || '',
-          matching_results: result.matching_results,
-          selected: result.selected ? result.selected : false
-        });
-      } else {
-        facetsByCategory[`${facetsLabel}`].categories[`${resultType}`] = {
-          facets: [
-            {
-              key: result.key || '',
-              matching_results: result.matching_results,
-              selected: result.selected ? result.selected : false
-            }
-          ]
-        };
-      }
-    });
+    if (isSelectableQueryTermAggregationResult(facets)) {
+      facets.map(result => {
+        const resultType = result!.aggregations![0].results![0].key;
+        if (resultType in facetsByCategory[`${facetsLabel}`].categories) {
+          facetsByCategory[`${facetsLabel}`].categories[`${resultType}`].facets.push({
+            key: result.key,
+            matching_results: result.matching_results,
+            selected: result.selected ? result.selected : false
+          });
+        } else {
+          facetsByCategory[`${facetsLabel}`].categories[`${resultType}`] = {
+            facets: [
+              {
+                key: result.key,
+                matching_results: result.matching_results,
+                selected: result.selected ? result.selected : false
+              }
+            ]
+          };
+        }
+      });
+    }
   }
 
   const areMultiSelectionsAllowed = aggregationSettings.multiple_selections_allowed;

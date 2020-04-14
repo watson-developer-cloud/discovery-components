@@ -93,15 +93,17 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
   };
 
   const categoryFacetsToShow = isCollapsed ? facets.slice(0, collapsedFacetsCount - 1) : facets;
+  const iconToRender = categoryIsExpanded ? ChevronUp : ChevronDown;
 
   return (
     <div className={categoryClass}>
       <Button
         className={categoryExpandCollapseClass}
         onClick={() => onClick(categoryName, facetsLabel)}
+        iconDescription={messages.categoryExpandCollapseIconDescription}
+        renderIcon={iconToRender}
       >
         <div className={categoryGroupNameClass}>{categoryName}</div>
-        {categoryIsExpanded ? <ChevronUp /> : <ChevronDown />}
       </Button>
       {categoryIsExpanded && (
         <>

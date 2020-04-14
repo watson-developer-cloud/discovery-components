@@ -10,6 +10,12 @@ export interface SelectableQueryTermAggregationResult
   aggregations?: QueryAggregationWithResults[];
 }
 
+export const isSelectableQueryTermAggregationResult = (
+  facets: (SelectableDynamicFacets | SelectableQueryTermAggregationResult)[]
+): facets is SelectableQueryTermAggregationResult[] => {
+  return (facets as SelectableQueryTermAggregationResult[])[0].key !== undefined;
+};
+
 export interface InternalQueryTermAggregation
   extends Omit<DiscoveryV2.QueryTermAggregation, 'results'> {
   results?: SelectableQueryTermAggregationResult[];
@@ -42,10 +48,16 @@ export interface CollectionItem {
 }
 
 export interface QueryAggregationWithName extends DiscoveryV2.QueryAggregation {
-  field?: string;
+  field: string;
   count?: number;
   name?: string;
 }
+
+export const isQueryAggregationWithName = (
+  aggregations?: (DiscoveryV2.QueryAggregation | QueryAggregationWithName)[]
+): aggregations is QueryAggregationWithName[] => {
+  return (aggregations as QueryAggregationWithName[])[0].field !== undefined;
+};
 
 export interface SelectableFieldFacetWithCategory {
   key: string;
