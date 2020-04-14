@@ -100,14 +100,4 @@ storiesOf('SearchFacets', module)
         </DiscoverySearch>
       </StoryWrapper>
     );
-  })
-  .add('with matching document counts', () => {
-    const exampleProps = props();
-    return (
-      <StoryWrapper>
-        <DiscoverySearch {...discoverySearchProps()}>
-          <SearchFacets {...exampleProps} showMatchingResults />
-        </DiscoverySearch>
-      </StoryWrapper>
-    );
   });
