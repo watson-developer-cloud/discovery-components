@@ -22,11 +22,13 @@ interface Setup {
 interface SetupConfig {
   filter: string;
   collapsedFacetsCount: number;
+  showMatchingResults: boolean;
 }
 
 const defaultSetupConfig: SetupConfig = {
   filter: '',
-  collapsedFacetsCount: 5
+  collapsedFacetsCount: 5,
+  showMatchingResults: true
 };
 
 const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
@@ -50,7 +52,10 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
   };
   const searchFacetsComponent = render(
     wrapWithContext(
-      <SearchFacets collapsedFacetsCount={mergedSetupConfig.collapsedFacetsCount} />,
+      <SearchFacets
+        collapsedFacetsCount={mergedSetupConfig.collapsedFacetsCount}
+        showMatchingResults={mergedSetupConfig.showMatchingResults}
+      />,
       api,
       context
     )
@@ -92,7 +97,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
       const authorFacets = searchFacetsComponent.queryAllByText((content, element) => {
         return (
           element.tagName.toLowerCase() === 'span' &&
-          ['Research', 'Analytics', 'Documentation'].includes(content)
+          ['Research (138993)', 'Analytics (57158)', 'Documentation (32444)'].includes(content)
         );
       });
       expect(authorFacets).toHaveLength(2);
@@ -101,12 +106,12 @@ describe('CollapsibleFacetsGroupComponent', () => {
         return (
           element.tagName.toLowerCase() === 'span' &&
           [
-            'Neural network',
-            'Reinforced learning',
-            'CIFAR-10',
-            'MNIST',
-            'Recommender systems',
-            'Decision trees'
+            'Neural network (138993)',
+            'Reinforced learning (57158)',
+            'CIFAR-10 (32444)',
+            'MNIST (32444)',
+            'Recommender systems (32444)',
+            'Decision trees (32444)'
           ].includes(content)
         );
       });
@@ -119,7 +124,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
         const authorFacets = searchFacetsComponent.queryAllByText((content, element) => {
           return (
             element.tagName.toLowerCase() === 'span' &&
-            ['Research', 'Analytics', 'Documentation'].includes(content)
+            ['Research (138993)', 'Analytics (57158)', 'Documentation (32444)'].includes(content)
           );
         });
         expect(authorFacets).toHaveLength(2);
@@ -130,12 +135,12 @@ describe('CollapsibleFacetsGroupComponent', () => {
           return (
             element.tagName.toLowerCase() === 'span' &&
             [
-              'Neural network',
-              'Reinforced learning',
-              'CIFAR-10',
-              'MNIST',
-              'Recommender systems',
-              'Decision trees'
+              'Neural network (138993)',
+              'Reinforced learning (57158)',
+              'CIFAR-10 (32444)',
+              'MNIST (32444)',
+              'Recommender systems (32444)',
+              'Decision trees (32444)'
             ].includes(content)
           );
         });
@@ -147,7 +152,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
         const authorFacets = searchFacetsComponent.queryAllByText((content, element) => {
           return (
             element.tagName.toLowerCase() === 'span' &&
-            ['Research', 'Analytics', 'Documentation'].includes(content)
+            ['Research (138993)', 'Analytics (57158)', 'Documentation (32444)'].includes(content)
           );
         });
         expect(authorFacets).toHaveLength(2);
@@ -178,7 +183,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
       const authorFacets = searchFacetsComponent.queryAllByText((content, element) => {
         return (
           element.tagName.toLowerCase() === 'span' &&
-          ['Research', 'Analytics', 'Documentation'].includes(content)
+          ['Research (138993)', 'Analytics (57158)', 'Documentation (32444)'].includes(content)
         );
       });
       expect(authorFacets).toHaveLength(2);
@@ -195,12 +200,12 @@ describe('CollapsibleFacetsGroupComponent', () => {
         return (
           element.tagName.toLowerCase() === 'span' &&
           [
-            'Neural network',
-            'Reinforced learning',
-            'CIFAR-10',
-            'MNIST',
-            'Recommender systems',
-            'Decision trees'
+            'Neural network (138993)',
+            'Reinforced learning (57158)',
+            'CIFAR-10 (32444)',
+            'MNIST (32444)',
+            'Recommender systems (32444)',
+            'Decision trees (32444)'
           ].includes(content)
         );
       });
