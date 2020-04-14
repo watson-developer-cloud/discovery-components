@@ -48,7 +48,7 @@ export interface QueryAggregationWithName extends DiscoveryV2.QueryAggregation {
 }
 
 export interface SelectableFieldFacetWithCategory {
-  key?: string;
+  key: string;
   matching_results?: number;
   selected: boolean;
 }

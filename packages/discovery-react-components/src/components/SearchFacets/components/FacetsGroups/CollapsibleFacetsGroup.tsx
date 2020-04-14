@@ -84,7 +84,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
       const resultType = result!.aggregations![0].results![0].key;
       if (resultType in facetsByCategory[`${facetsLabel}`].categories) {
         facetsByCategory[`${facetsLabel}`].categories[`${resultType}`].facets.push({
-          key: result.key,
+          key: result.key || '',
           matching_results: result.matching_results,
           selected: result.selected ? result.selected : false
         });
@@ -92,7 +92,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
         facetsByCategory[`${facetsLabel}`].categories[`${resultType}`] = {
           facets: [
             {
-              key: result.key,
+              key: result.key || '',
               matching_results: result.matching_results,
               selected: result.selected ? result.selected : false
             }
