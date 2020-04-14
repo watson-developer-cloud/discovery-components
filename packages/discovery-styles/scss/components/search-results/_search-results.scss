@@ -175,11 +175,11 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
 }
 
 .#{$prefix}--search-result__footer__title {
-  max-width: 75%;
+  flex: 1;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  margin-right: $spacing-05;
+  margin-right: $spacing-lg;
 }
 
 .#{$prefix}--search-result__footer__collection-name {
