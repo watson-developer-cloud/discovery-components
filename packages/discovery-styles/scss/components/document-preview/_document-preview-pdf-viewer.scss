@@ -1,3 +1,4 @@
 .#{$prefix}--document-preview-pdf-viewer {
-  transform-origin: left top 0px;
+  display: flex;
+  justify-content: center;
 }

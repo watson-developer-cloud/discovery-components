@@ -4179,6 +4179,11 @@
   resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
   integrity sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==
 
+"@types/pdfjs-dist@*":
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/@types/pdfjs-dist/-/pdfjs-dist-2.1.3.tgz#68b6bbbe5ef0cdab7f8301f5a85a5a33b9c2080b"
+  integrity sha512-aGyFfB4Q8QjaSR3cBTiJfnFXBU6SXQaBVM7ADfBaZzq4L7EGbjuSoqXfHJofZmLFBfKzZ9b+9nXO2FfUIsw77w==
+
 "@types/prop-types@*":
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.2.tgz#0e58ae66773d7fd7c372a493aff740878ec9ceaa"
@@ -4209,6 +4214,14 @@
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.9.0.tgz#ba6ddb00bf5de700b0eb91daa452081ffccbfdea"
   integrity sha512-OL2lk7LYGjxn4b0efW3Pvf2KBVP0y1v3wip1Bp7nA79NkOpElH98q3WdCEdDj93b2b0zaeBG9DvriuKjIK5xDA==
   dependencies:
+    "@types/react" "*"
+
+"@types/react-pdf@^4.0.3":
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/@types/react-pdf/-/react-pdf-4.0.3.tgz#a95030f72208196ff61c80b40fe8dfe06de4bec0"
+  integrity sha512-Ru0kxZGN4RU3YygwS7whLTupTIwc/YZhllHCNhI2qn7rx1j3KkvOM55CUkXev5OcKrSVLVVa6+zCebNTSYx2HA==
+  dependencies:
+    "@types/pdfjs-dist" "*"
     "@types/react" "*"
 
 "@types/react-resize-detector@^4.2.0":
