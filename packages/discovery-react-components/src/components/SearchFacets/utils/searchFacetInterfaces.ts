@@ -30,7 +30,6 @@ export interface SelectableDynamicFacets extends DiscoveryV2.QuerySuggestedRefin
   selected?: boolean;
   aggregations?: QueryAggregationWithResults[];
   key?: string;
-  matching_results?: number;
 }
 
 export interface SelectedCollectionItems {
@@ -61,5 +60,12 @@ export interface FieldFacetsByCategory {
         facets: SelectableFieldFacetWithCategory[];
       };
     };
+  };
+}
+
+export interface FieldFacetsByCategoryEntity {
+  [0]: string;
+  [1]: {
+    facets: SelectableFieldFacetWithCategory[];
   };
 }

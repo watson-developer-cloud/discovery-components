@@ -9,15 +9,15 @@
 }
 
 .#{$prefix}--search-facets {
-  .#{$prefix}--search-facet--category {
-    .#{$prefix}--search-facet--category--category-name {
+  .#{$prefix}--search-facet__category {
+    .#{$prefix}--search-facet__category--category-name {
       @include type-style('body-short-02');
       font-size: 0.875rem;
     }
     margin-bottom: $spacing-xs;
     padding-left: $spacing-baseline;
   }
-  .#{$prefix}--search-facet--category--expand-collapse {
+  .#{$prefix}--search-facet__category--expand-collapse {
     background-color: $ui-01;
     color: $ui-05;
     height: $spacing-lg;

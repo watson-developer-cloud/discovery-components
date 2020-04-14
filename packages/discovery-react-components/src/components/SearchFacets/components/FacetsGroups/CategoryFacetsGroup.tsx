@@ -1,7 +1,8 @@
 import React, { FC, useState, useEffect, useContext } from 'react';
 import {
   InternalQueryTermAggregation,
-  FieldFacetsByCategory
+  FieldFacetsByCategory,
+  FieldFacetsByCategoryEntity
 } from 'components/SearchFacets/utils/searchFacetInterfaces';
 import { Messages } from 'components/SearchFacets/messages';
 import { CategoryFacets } from './CategoryFacets';
@@ -81,26 +82,28 @@ export const CategoryFacetsGroup: FC<CategoryFacetsGroupProps> = ({
 
   return (
     <>
-      {Object.entries(facetsByCategory[`${facetsLabel}`].categories).map((entity: any) => {
-        const categoryName = entity[0];
-        const categoryIsExpanded = expandedCategories.includes(`${facetsLabel}-${categoryName}`);
-        return (
-          <CategoryFacets
-            categoryName={categoryName}
-            facetsLabel={facetsLabel}
-            facets={entity[1].facets}
-            onChange={onChange}
-            messages={messages}
-            aggregationSettings={aggregationSettings}
-            categoryIsExpanded={categoryIsExpanded}
-            collapsedFacetsCount={collapsedFacetsCount}
-            onClick={handleExpandCollapseOnClick}
-            facetsTextField={facetsTextField}
-            shouldDisplayAsMultiSelect={shouldDisplayAsMultiSelect}
-            selectedFacet={selectedFacet}
-          />
-        );
-      })}
+      {Object.entries(facetsByCategory[`${facetsLabel}`].categories).map(
+        (entity: FieldFacetsByCategoryEntity) => {
+          const categoryName = entity[0];
+          const categoryIsExpanded = expandedCategories.includes(`${facetsLabel}-${categoryName}`);
+          return (
+            <CategoryFacets
+              categoryName={categoryName}
+              facetsLabel={facetsLabel}
+              facets={entity[1].facets}
+              onChange={onChange}
+              messages={messages}
+              aggregationSettings={aggregationSettings}
+              categoryIsExpanded={categoryIsExpanded}
+              collapsedFacetsCount={collapsedFacetsCount}
+              onClick={handleExpandCollapseOnClick}
+              facetsTextField={facetsTextField}
+              shouldDisplayAsMultiSelect={shouldDisplayAsMultiSelect}
+              selectedFacet={selectedFacet}
+            />
+          );
+        }
+      )}
     </>
   );
 };

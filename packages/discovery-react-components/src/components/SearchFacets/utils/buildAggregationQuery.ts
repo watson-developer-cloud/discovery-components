@@ -1,7 +1,7 @@
 import { QueryAggregationWithName } from './searchFacetInterfaces';
 
 export const buildAggregationQuery = (configuration: QueryAggregationWithName[]): string => {
-  const aggregation = configuration!.map(term => {
+  const aggregation = configuration.map(term => {
     const termCount = term.count ? ',count:' + term.count : '';
     const termName = term.name ? ',name:' + term.name : '';
     let nestedTypeTermAgg = '';

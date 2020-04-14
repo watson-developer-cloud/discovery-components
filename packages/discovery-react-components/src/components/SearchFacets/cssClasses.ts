@@ -9,7 +9,7 @@ export const optionLabelClass = `${baseClass}__facet__option-label`;
 export const singleSelectGroupClass = `${baseClass}__facet__single__select__group`;
 export const labelAndSelectionContainerClass = `${baseClass}__facet__label-and-selection-container`;
 
-export const categoryClass = `${baseClass}--category`;
+export const categoryClass = `${baseClass}__category`;
 export const categoryExpandCollapseClass = `${categoryClass}--expand-collapse`;
 export const categoryGroupNameClass = `${categoryClass}--category-name`;
 
