@@ -40,6 +40,14 @@ interface SingleSelectFacetsGroupProps {
    * Callback to handle changes in selected facets
    */
   onChange: (selectedFacets: SelectedFacet[]) => void;
+  /**
+   * Temporary array of selected facets for the ShowMoreModal before it's closed or saved
+   */
+  tempSelectedFacets?: SelectedFacet[];
+  /**
+   * Sets the state of the temporary array of selected facets for the ShowMoreModal before it's closed or saved
+   */
+  setTempSelectedFacets?: (selectedFacets: SelectedFacet[]) => void;
 }
 
 export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
@@ -48,7 +56,9 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
   facetsTextField,
   selectedFacet,
   aggregationSettings,
-  onChange
+  onChange,
+  tempSelectedFacets,
+  setTempSelectedFacets
 }) => {
   const {
     searchResponseStore: {
@@ -59,10 +69,14 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
 
   const handleOnClick = (event: SyntheticEvent<HTMLInputElement>): void => {
     const target: HTMLInputElement = event.currentTarget;
-    const selectedFacetName = target.getAttribute('name') || '';
-    const selectedFacetKey = target.getAttribute('value') || '';
+    const selectedFacetName = target.getAttribute('data-name') || '';
+    const selectedFacetKey = target.getAttribute('data-key') || '';
     const checked = true;
-    onChange([{ selectedFacetName, selectedFacetKey, checked }]);
+    if (tempSelectedFacets && setTempSelectedFacets) {
+      setTempSelectedFacets([{ selectedFacetName, selectedFacetKey, checked }]);
+    } else {
+      onChange([{ selectedFacetName, selectedFacetKey, checked }]);
+    }
   };
 
   const getLabel = (facetText: string, count: number | undefined) => {
@@ -71,10 +85,25 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
       : formatMessage(messages.labelText, { facetText: facetText }, false);
   };
 
+  let facetValueSelected = selectedFacet;
+  if (tempSelectedFacets) {
+    if (tempSelectedFacets.length > 0) {
+      facetValueSelected = tempSelectedFacets[0].selectedFacetKey + 'modal';
+    } else if (selectedFacet) {
+      facetValueSelected = selectedFacet + 'modal';
+    }
+  }
+
+  let radioGroupNamePrefix = 'checkbox';
+  const radioGroupName = aggregationSettings.name || aggregationSettings.field;
+  if (tempSelectedFacets) {
+    radioGroupNamePrefix = 'checkbox-modal';
+  }
+
   return (
     <CarbonRadioButtonGroup
-      name={aggregationSettings.name || aggregationSettings.field}
-      valueSelected={selectedFacet}
+      name={radioGroupNamePrefix + radioGroupName}
+      valueSelected={facetValueSelected}
       orientation={'vertical'}
       className={singleSelectGroupClass}
     >
@@ -86,13 +115,22 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
         const buff = new Buffer(query + facetText);
         const base64data = buff.toString('base64');
 
+        let facetValue = facetText;
+        let keyAndIdPrefix = 'checkbox';
+        if (tempSelectedFacets) {
+          keyAndIdPrefix = 'modal-checkbox';
+          facetValue = get(facet, facetsTextField, '') + 'modal';
+        }
+
         return (
           <CarbonRadioButton
             className={optionLabelClass}
             labelText={labelText}
-            key={`checkbox-${escapedName}-${base64data}`}
-            id={`checkbox-${escapedName}-${facetText.replace(/\s+/g, '_')}`}
-            value={facetText}
+            key={`${keyAndIdPrefix}-${escapedName}-${base64data}`}
+            id={`${keyAndIdPrefix}-${escapedName}-${facetText.replace(/\s+/g, '_')}`}
+            value={facetValue}
+            data-key={facetText}
+            data-name={radioGroupName}
             onClick={handleOnClick}
           />
         );

@@ -1,5 +1,5 @@
 import React, { FC, useContext, SyntheticEvent } from 'react';
-import { optionClass, optionLabelClass } from '../../cssClasses';
+import { optionClass, optionLabelClass } from 'components/SearchFacets/cssClasses';
 import { Messages } from 'components/SearchFacets/messages';
 import { formatMessage } from 'utils/formatMessage';
 import { Checkbox as CarbonCheckbox } from 'carbon-components-react';
@@ -33,6 +33,14 @@ interface MultiSelectFacetsGroupProps {
    * Callback to handle changes in selected facets
    */
   onChange: (selectedFacets: SelectedFacet[]) => void;
+  /**
+   * Temporary array of selected facets for the ShowMoreModal before it's closed or saved
+   */
+  tempSelectedFacets?: SelectedFacet[];
+  /**
+   * Sets the state of the temporary array of selected facets for the ShowMoreModal before it's closed or saved
+   */
+  setTempSelectedFacets?: (selectedFacets: SelectedFacet[]) => void;
 }
 
 export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
@@ -40,7 +48,9 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
   facets,
   facetsTextField,
   aggregationSettings,
-  onChange
+  onChange,
+  tempSelectedFacets,
+  setTempSelectedFacets
 }) => {
   const {
     searchResponseStore: {
@@ -57,7 +67,23 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
     const target: HTMLInputElement = event.currentTarget;
     const selectedFacetName = target.getAttribute('data-name') || '';
     const selectedFacetKey = target.getAttribute('data-key') || '';
-    onChange([{ selectedFacetName, selectedFacetKey, checked }]);
+
+    if (tempSelectedFacets && setTempSelectedFacets) {
+      const selectedFacetIndex = tempSelectedFacets.findIndex(selectedFacet => {
+        return selectedFacetKey === selectedFacet.selectedFacetKey;
+      });
+      if (selectedFacetIndex > -1) {
+        const tempSelectedFacetsCopy = [...tempSelectedFacets];
+        tempSelectedFacetsCopy[selectedFacetIndex].checked = checked;
+        setTempSelectedFacets(tempSelectedFacetsCopy);
+      } else {
+        setTempSelectedFacets(
+          tempSelectedFacets.concat({ selectedFacetName, selectedFacetKey, checked })
+        );
+      }
+    } else {
+      onChange([{ selectedFacetName, selectedFacetKey, checked }]);
+    }
   };
 
   const getLabel = (facetText: string, count: number | undefined) => {
@@ -76,17 +102,32 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
         const buff = new Buffer(query + facetText);
         const base64data = buff.toString('base64');
 
+        let facetSelected: boolean = !!facet.selected;
+        if (tempSelectedFacets) {
+          const tempIndex = tempSelectedFacets.findIndex(facet => {
+            return facet.selectedFacetKey === facetText;
+          });
+          if (tempIndex > -1) {
+            facetSelected = tempSelectedFacets[tempIndex].checked;
+          }
+        }
+
+        let keyAndIdPrefix = 'checkbox';
+        if (tempSelectedFacets) {
+          keyAndIdPrefix = 'modal-checkbox';
+        }
+
         return (
           <CarbonCheckbox
             className={optionLabelClass}
             wrapperClassName={optionClass}
             onChange={handleOnChange}
             labelText={labelText}
-            key={`checkbox-${escapedName}-${base64data}`}
-            id={`checkbox-${escapedName}-${facetText.replace(/\s+/g, '_')}`}
+            key={`${keyAndIdPrefix}-${escapedName}-${base64data}`}
+            id={`${keyAndIdPrefix}-${escapedName}-${facetText.replace(/\s+/g, '_')}`}
             data-name={aggregationSettings.name || aggregationSettings.field}
             data-key={facetText}
-            checked={!!facet.selected}
+            checked={facetSelected}
           />
         );
       })}

@@ -151,6 +151,8 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
               onChange={onChange}
               isOpen={isModalOpen}
               setIsModalOpen={setIsModalOpen}
+              shouldDisplayAsMultiSelect={shouldDisplayAsMultiSelect}
+              selectedFacet={selectedFacetText}
             />
           </>
         )}
