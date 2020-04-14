@@ -10,6 +10,10 @@ interface DynamicFacetsProps {
    */
   dynamicFacets: SelectableDynamicFacets[];
   /**
+   * Show matching documents count as part of label
+   */
+  showMatchingResults: boolean;
+  /**
    * i18n messages for the component
    */
   messages: Messages;
@@ -25,6 +29,7 @@ interface DynamicFacetsProps {
 
 export const DynamicFacets: FC<DynamicFacetsProps> = ({
   dynamicFacets,
+  showMatchingResults,
   messages,
   collapsedFacetsCount,
   onChange
@@ -63,6 +68,7 @@ export const DynamicFacets: FC<DynamicFacetsProps> = ({
       aggregationSettings={aggregationSettings}
       collapsedFacetsCount={collapsedFacetsCount}
       facets={dynamicFacets}
+      showMatchingResults={showMatchingResults}
       facetsTextField="text"
       onChange={handleOnChange}
       onClear={handleOnClear}

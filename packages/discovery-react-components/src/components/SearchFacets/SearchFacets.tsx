@@ -195,6 +195,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
         {shouldShowDynamic && (
           <DynamicFacets
             dynamicFacets={allDynamicFacets}
+            showMatchingResults={showMatchingResults}
             messages={mergedMessages}
             onChange={handleOnChange}
             collapsedFacetsCount={collapsedFacetsCount}

@@ -106,7 +106,7 @@ storiesOf('SearchFacets', module)
     return (
       <StoryWrapper>
         <DiscoverySearch {...discoverySearchProps()}>
-          <SearchFacets {...exampleProps} showMatchingResults={true} />
+          <SearchFacets {...exampleProps} showMatchingResults />
         </DiscoverySearch>
       </StoryWrapper>
     );

@@ -21,7 +21,7 @@ interface CollapsibleFacetsGroupProps {
   /**
    * Show matching documents count as part of label
    */
-  showMatchingResults?: boolean;
+  showMatchingResults: boolean;
   /**
    * Aggregation component settings
    */
@@ -50,7 +50,7 @@ interface CollapsibleFacetsGroupProps {
 
 export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
   facets,
-  showMatchingResults = false,
+  showMatchingResults,
   aggregationSettings,
   collapsedFacetsCount,
   facetsTextField,
