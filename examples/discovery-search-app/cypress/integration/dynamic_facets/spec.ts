@@ -46,14 +46,6 @@ describe('Dynamic Facets', () => {
         .should('have.length', 3);
     });
 
-    // TODO: update this test once API supports a result count for dynamic facets
-    it('does not show dynamic facet matching result count', () => {
-      cy.get('@dynamicFacets')
-        .find('.bx--search-facet__facet__option-label')
-        .first()
-        .should('have.text', 'regression');
-    });
-
     describe('and a dynamic facet filter is selected', () => {
       beforeEach(() => {
         cy.route('POST', '**/query?version=2019-01-01', '@facetsQuerySingleRefinementJSON').as(

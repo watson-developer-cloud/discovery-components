@@ -64,6 +64,10 @@ interface CategoryFacetsProps {
    * Text of selected facet
    */
   selectedFacet: string;
+  /**
+   * Show matching documents count as part of label
+   */
+  showMatchingResults: boolean;
 }
 
 export const CategoryFacets: FC<CategoryFacetsProps> = ({
@@ -78,7 +82,8 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
   onClick,
   aggregationSettings,
   shouldDisplayAsMultiSelect,
-  selectedFacet
+  selectedFacet,
+  showMatchingResults
 }) => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
   const [isCollapsible, setIsCollapsible] = useState<boolean>(collapsedFacetsCount < facets.length);
@@ -114,6 +119,7 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
               aggregationSettings={aggregationSettings}
               onChange={onChange}
               facetsTextField={facetsTextField}
+              showMatchingResults={showMatchingResults}
             />
           ) : (
             <SingleSelectFacetsGroup
@@ -123,6 +129,7 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
               onChange={onChange}
               selectedFacet={selectedFacet}
               facetsTextField={facetsTextField}
+              showMatchingResults={showMatchingResults}
             />
           )}
           {isCollapsible && (

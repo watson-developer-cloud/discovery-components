@@ -24,6 +24,7 @@ interface SetupConfig {
   componentSettingsAggregations: DiscoveryV2.ComponentSettingsAggregation[];
   collapsedFacetsCount: number;
   aggregationResults: DiscoveryV2.QueryAggregation[] | undefined;
+  showMatchingResults: boolean;
 }
 
 const aggregationComponentSettings: DiscoveryV2.ComponentSettingsAggregation[] = [
@@ -43,7 +44,8 @@ const defaultSetupConfig: SetupConfig = {
   filter: '',
   componentSettingsAggregations: aggregationComponentSettings,
   collapsedFacetsCount: 5,
-  aggregationResults: weirdFacetsQueryResponse.result.aggregations
+  aggregationResults: weirdFacetsQueryResponse.result.aggregations,
+  showMatchingResults: true
 };
 
 const updateSelectionSettings = (
@@ -80,6 +82,7 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
       <SearchFacets
         collapsedFacetsCount={mergedSetupConfig.collapsedFacetsCount}
         overrideComponentSettingsAggregations={mergedSetupConfig.componentSettingsAggregations}
+        showMatchingResults={mergedSetupConfig.showMatchingResults}
       />,
       api,
       context

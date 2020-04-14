@@ -45,6 +45,10 @@ interface CategoryFacetsGroupProps {
    * Text of selected facet
    */
   selectedFacet: string;
+  /**
+   * Show matching documents count as part of label
+   */
+  showMatchingResults: boolean;
 }
 
 export const CategoryFacetsGroup: FC<CategoryFacetsGroupProps> = ({
@@ -56,7 +60,8 @@ export const CategoryFacetsGroup: FC<CategoryFacetsGroupProps> = ({
   collapsedFacetsCount,
   facetsTextField,
   shouldDisplayAsMultiSelect,
-  selectedFacet
+  selectedFacet,
+  showMatchingResults
 }) => {
   const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
   const {
@@ -100,6 +105,7 @@ export const CategoryFacetsGroup: FC<CategoryFacetsGroupProps> = ({
               facetsTextField={facetsTextField}
               shouldDisplayAsMultiSelect={shouldDisplayAsMultiSelect}
               selectedFacet={selectedFacet}
+              showMatchingResults={showMatchingResults}
               key={facetsLabel + categoryName}
             />
           );

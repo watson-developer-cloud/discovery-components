@@ -15,6 +15,10 @@ interface FieldFacetsProps {
    */
   allFacets: InternalQueryTermAggregation[];
   /**
+   * Show matching documents count as part of label
+   */
+  showMatchingResults: boolean;
+  /**
    * i18n messages for the component
    */
   messages: Messages;
@@ -30,6 +34,7 @@ interface FieldFacetsProps {
 
 export const FieldFacets: FC<FieldFacetsProps> = ({
   allFacets,
+  showMatchingResults,
   messages,
   collapsedFacetsCount,
   onChange
@@ -119,6 +124,7 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
             messages={messages}
             aggregationSettings={aggregation}
             facets={aggregationResults}
+            showMatchingResults={showMatchingResults}
             facetsTextField="key"
             hasCategories={hasCategories}
             onClear={handleOnClear}

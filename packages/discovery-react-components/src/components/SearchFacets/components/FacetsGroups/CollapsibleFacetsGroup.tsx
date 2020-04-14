@@ -26,6 +26,10 @@ interface CollapsibleFacetsGroupProps {
    */
   facets: (SelectableDynamicFacets | SelectableQueryTermAggregationResult)[];
   /**
+   * Show matching documents count as part of label
+   */
+  showMatchingResults: boolean;
+  /**
    * Aggregation component settings
    */
   aggregationSettings: InternalQueryTermAggregation;
@@ -57,6 +61,7 @@ interface CollapsibleFacetsGroupProps {
 
 export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
   facets,
+  showMatchingResults,
   aggregationSettings,
   collapsedFacetsCount,
   facetsTextField,
@@ -148,6 +153,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
           facetsTextField={facetsTextField}
           shouldDisplayAsMultiSelect={shouldDisplayAsMultiSelect}
           selectedFacet={selectedFacetText}
+          showMatchingResults={showMatchingResults}
         />
       ) : (
         <>
@@ -157,6 +163,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
               facets={collapsedFacets}
               aggregationSettings={aggregationSettings}
               onChange={onChange}
+              showMatchingResults={showMatchingResults}
               facetsTextField={facetsTextField}
             />
           ) : (
@@ -166,6 +173,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
               aggregationSettings={aggregationSettings}
               onChange={onChange}
               selectedFacet={selectedFacetText}
+              showMatchingResults={showMatchingResults}
               facetsTextField={facetsTextField}
             />
           )}
