@@ -122,7 +122,7 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   let title = getDocumentTitle(result, resultTitleField);
 
   if (Array.isArray(title)) {
-    title = title.join(', ');
+    title = title[0]; // only first element will be shown if title is array
   }
 
   const searchResultClasses = [searchResultClass];
