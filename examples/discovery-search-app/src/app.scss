@@ -42,6 +42,12 @@ h1 {
   justify-content: space-between;
   padding: $spacing-md;
 
+  .bx--search-facet__facet__show-more-modal {
+    .bx--btn {
+      padding-left: $spacing-md;
+    }
+  }
+
   .#{$prefix}--btn {
     border: none;
     padding-left: 0;
