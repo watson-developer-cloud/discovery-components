@@ -157,13 +157,13 @@ If you don't have a React application already, start with [create react app](htt
 1. Add the component, style, and client library to your application:
 
    ```
-   yarn add @ibm-watson/discovery-react-components @ibm-watson/discovery-styles ibm-watson carbon-components carbon-components-react
+   yarn add @ibm-watson/discovery-react-components @ibm-watson/discovery-styles ibm-watson carbon-components carbon-components-react carbon-icons
    ```
 
    or
 
    ```
-   npm install --save @ibm-watson/discovery-react-components @ibm-watson/discovery-styles ibm-watson carbon-components carbon-components-react
+   npm install --save @ibm-watson/discovery-react-components @ibm-watson/discovery-styles ibm-watson carbon-components carbon-components-react carbon-icons
    ```
 
 2. Add `node-sass` as a dev dependency
