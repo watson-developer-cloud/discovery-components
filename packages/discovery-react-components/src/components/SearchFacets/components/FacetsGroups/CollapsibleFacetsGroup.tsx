@@ -68,6 +68,10 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
     setIsCollapsed(!isCollapsed);
   };
 
+  const toggleModalOpen = (): void => {
+    setIsModalOpen(true);
+  };
+
   const areMultiSelectionsAllowed = aggregationSettings.multiple_selections_allowed;
   const facetsLabel = aggregationSettings.label || aggregationSettings.field;
   const collapsedFacets = isCollapsed ? facets.slice(0, collapsedFacetsCount) : facets;
@@ -86,10 +90,6 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
       'clear.selection': messages.clearFacetSelectionTitle
     };
     return mapping[id];
-  };
-
-  const toggleModalOpen = () => {
-    setIsModalOpen(true);
   };
 
   return (
@@ -125,35 +125,43 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
         />
       )}
       <>
-        {isCollapsible && totalNumberFacets < 10 && (
-          <Button kind="ghost" size="small" onClick={toggleFacetsCollapse}>
-            {isCollapsed
-              ? messages.collapsedFacetShowMoreText
-              : messages.collapsedFacetShowLessText}
-          </Button>
-        )}
-        {isCollapsible && totalNumberFacets >= 10 && (
+        {isCollapsible && (
           <>
-            <Button
-              kind="ghost"
-              size="small"
-              onClick={toggleModalOpen}
-              data-testid={`show-more-less-${facetsLabel}`}
-            >
-              {messages.collapsedFacetShowMoreText}
-            </Button>
-            <ShowMoreModal
-              messages={messages}
-              aggregationSettings={aggregationSettings}
-              facets={facets}
-              facetsLabel={facetsLabel}
-              facetsTextField={facetsTextField}
-              onChange={onChange}
-              isOpen={isModalOpen}
-              setIsModalOpen={setIsModalOpen}
-              shouldDisplayAsMultiSelect={shouldDisplayAsMultiSelect}
-              selectedFacet={selectedFacetText}
-            />
+            {totalNumberFacets < 10 ? (
+              <Button
+                kind="ghost"
+                size="small"
+                onClick={toggleFacetsCollapse}
+                data-testid={`show-more-less-${facetsLabel}`}
+              >
+                {isCollapsed
+                  ? messages.collapsedFacetShowMoreText
+                  : messages.collapsedFacetShowLessText}
+              </Button>
+            ) : (
+              <>
+                <Button
+                  kind="ghost"
+                  size="small"
+                  onClick={toggleModalOpen}
+                  data-testid={`show-more-less-${facetsLabel}`}
+                >
+                  {messages.collapsedFacetShowMoreText}
+                </Button>
+                <ShowMoreModal
+                  messages={messages}
+                  aggregationSettings={aggregationSettings}
+                  facets={facets}
+                  facetsLabel={facetsLabel}
+                  facetsTextField={facetsTextField}
+                  onChange={onChange}
+                  isOpen={isModalOpen}
+                  setIsModalOpen={setIsModalOpen}
+                  shouldDisplayAsMultiSelect={shouldDisplayAsMultiSelect}
+                  selectedFacet={selectedFacetText}
+                />
+              </>
+            )}
           </>
         )}
       </>

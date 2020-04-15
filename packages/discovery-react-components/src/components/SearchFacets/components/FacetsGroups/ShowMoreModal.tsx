@@ -37,14 +37,20 @@ interface ShowMoreModalProps {
    */
   onChange: (selectedFacets: SelectedFacet[]) => void;
   /**
-   * specifies whether the modal is open
+   * Specifies whether the modal is open
    */
   isOpen: boolean;
   /**
-   * used to set the modal to closed state when modal is saved or otherwise closed
+   * Used to set the modal to closed state when modal is saved or otherwise closed
    */
   setIsModalOpen: (value: boolean) => void;
+  /**
+   * Whether the facet should be displayed as multiselect or single-select
+   */
   shouldDisplayAsMultiSelect: boolean;
+  /**
+   * Selected facet for single-select
+   */
   selectedFacet: string;
 }
 
@@ -80,9 +86,7 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
       onRequestSubmit={handleOnRequestSubmit}
       id="search-facet-show-more-modal"
       onRequestClose={handleOnRequestClose}
-      // todo: update modal's aria-label
-      modalAriaLabel={facetsLabel}
-      aria-label={facetsLabel}
+      modalAriaLabel={messages.showMoreModalAriaLabel}
       open={isOpen}
       primaryButtonText={messages.showMoreModalPrimaryButtonText}
       secondaryButtonText={messages.showMoreModalSecondaryButtonText}

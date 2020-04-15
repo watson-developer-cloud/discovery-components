@@ -11,6 +11,7 @@ export interface Messages {
   dynamicFacetsLabel: string;
   showMoreModalPrimaryButtonText: string;
   showMoreModalSecondaryButtonText: string;
+  showMoreModalAriaLabel: string;
 }
 export const defaultMessages: Messages = {
   labelText: '{facetText}',
@@ -24,5 +25,6 @@ export const defaultMessages: Messages = {
   collectionSelectLabel: 'Available collections',
   dynamicFacetsLabel: 'Dynamic Facets',
   showMoreModalPrimaryButtonText: 'Save',
-  showMoreModalSecondaryButtonText: 'Cancel'
+  showMoreModalSecondaryButtonText: 'Cancel',
+  showMoreModalAriaLabel: 'Modal to select and deselect facets'
 };
