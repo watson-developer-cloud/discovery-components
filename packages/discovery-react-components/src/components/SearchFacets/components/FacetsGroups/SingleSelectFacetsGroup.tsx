@@ -5,7 +5,7 @@ import {
 } from 'carbon-components-react';
 import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import { Messages } from 'components/SearchFacets/messages';
-import { formatMessage } from 'utils/formatMessage';
+import { getFacetLabel } from 'components/SearchFacets/utils/getFacetLabel';
 import { optionLabelClass, singleSelectGroupClass } from 'components/SearchFacets/cssClasses';
 import {
   SelectableDynamicFacets,
@@ -79,25 +79,19 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
     }
   };
 
-  const getLabel = (facetText: string, count: number | undefined) => {
-    return count !== undefined
-      ? formatMessage(messages.labelTextWithCount, { facetText: facetText, count: count }, false)
-      : formatMessage(messages.labelText, { facetText: facetText }, false);
-  };
-
   let facetValueSelected = selectedFacet;
   if (tempSelectedFacets) {
     if (tempSelectedFacets.length > 0) {
-      facetValueSelected = tempSelectedFacets[0].selectedFacetKey + 'modal';
+      facetValueSelected = tempSelectedFacets[0].selectedFacetKey + '-modal';
     } else if (selectedFacet) {
-      facetValueSelected = selectedFacet + 'modal';
+      facetValueSelected = selectedFacet + '-modal';
     }
   }
 
   let radioGroupNamePrefix = 'checkbox';
   const radioGroupName = aggregationSettings.name || aggregationSettings.field;
   if (tempSelectedFacets) {
-    radioGroupNamePrefix = 'checkbox-modal';
+    radioGroupNamePrefix = 'modal-checkbox';
   }
 
   return (
@@ -110,7 +104,7 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
       {facets.map(facet => {
         const facetText = get(facet, facetsTextField, '');
         const count = facet.matching_results;
-        const labelText = getLabel(facetText, count);
+        const labelText = getFacetLabel(facetText, count, messages);
         const query = naturalLanguageQuery || '';
         const buff = new Buffer(query + facetText);
         const base64data = buff.toString('base64');
@@ -119,7 +113,7 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
         let keyAndIdPrefix = 'checkbox';
         if (tempSelectedFacets) {
           keyAndIdPrefix = 'modal-checkbox';
-          facetValue = get(facet, facetsTextField, '') + 'modal';
+          facetValue = get(facet, facetsTextField, '') + '-modal';
         }
 
         return (

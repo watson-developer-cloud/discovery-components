@@ -1,7 +1,6 @@
 import React, { FC, useContext, SyntheticEvent } from 'react';
 import { optionClass, optionLabelClass } from 'components/SearchFacets/cssClasses';
 import { Messages } from 'components/SearchFacets/messages';
-import { formatMessage } from 'utils/formatMessage';
 import { Checkbox as CarbonCheckbox } from 'carbon-components-react';
 import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import {
@@ -10,6 +9,7 @@ import {
   InternalQueryTermAggregation,
   SelectedFacet
 } from 'components/SearchFacets/utils/searchFacetInterfaces';
+import { getFacetLabel } from 'components/SearchFacets/utils/getFacetLabel';
 import get from 'lodash/get';
 
 interface MultiSelectFacetsGroupProps {
@@ -86,18 +86,12 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
     }
   };
 
-  const getLabel = (facetText: string, count: number | undefined) => {
-    return count !== undefined
-      ? formatMessage(messages.labelTextWithCount, { facetText: facetText, count: count }, false)
-      : formatMessage(messages.labelText, { facetText: facetText }, false);
-  };
-
   return (
     <>
       {facets.map(facet => {
         const facetText = get(facet, facetsTextField, '');
         const count = facet.matching_results;
-        const labelText = getLabel(facetText, count);
+        const labelText = getFacetLabel(facetText, count, messages);
         const query = naturalLanguageQuery || '';
         const buff = new Buffer(query + facetText);
         const base64data = buff.toString('base64');
