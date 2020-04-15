@@ -92,6 +92,7 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
       id="search-facet-show-more-modal"
       onRequestClose={handleOnRequestClose}
       modalAriaLabel={messages.showMoreModalAriaLabel}
+      aria-label={messages.showMoreModalAriaLabel}
       open={isOpen}
       primaryButtonText={messages.showMoreModalPrimaryButtonText}
       secondaryButtonText={messages.showMoreModalSecondaryButtonText}
