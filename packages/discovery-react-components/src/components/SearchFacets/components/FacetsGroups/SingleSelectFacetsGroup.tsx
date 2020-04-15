@@ -72,13 +72,18 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
     const selectedFacetName = target.getAttribute('data-name') || '';
     const selectedFacetKey = target.getAttribute('data-key') || '';
     const checked = true;
+
+    // If this is in the Show more modal, we want to update tempSelectedFacets only
     if (tempSelectedFacets && setTempSelectedFacets) {
       setTempSelectedFacets([{ selectedFacetName, selectedFacetKey, checked }]);
     } else {
+      // If this isn't in the Show more modal, we want to save the selection
       onChange([{ selectedFacetName, selectedFacetKey, checked }]);
     }
   };
 
+  // If this is in the Show more modal, we need to check for a temporary selection
+  // and add a suffix to the selected facet value to make it unique
   let facetValueSelected = selectedFacet;
   if (tempSelectedFacets) {
     if (tempSelectedFacets.length > 0) {
@@ -90,6 +95,7 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
 
   let radioGroupNamePrefix = 'checkbox';
   const radioGroupName = aggregationSettings.name || aggregationSettings.field;
+  // If this is in the Show more modal, the radio button group name needs to be unique
   if (tempSelectedFacets) {
     radioGroupNamePrefix = 'modal-checkbox';
   }

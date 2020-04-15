@@ -68,6 +68,7 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
     const selectedFacetName = target.getAttribute('data-name') || '';
     const selectedFacetKey = target.getAttribute('data-key') || '';
 
+    // If this is in the Show more modal, we want to update tempSelectedFacets only
     if (tempSelectedFacets && setTempSelectedFacets) {
       const selectedFacetIndex = tempSelectedFacets.findIndex(selectedFacet => {
         return selectedFacetKey === selectedFacet.selectedFacetKey;
@@ -82,6 +83,7 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
         );
       }
     } else {
+      // If this isn't in the Show more modal, we want to save the selection
       onChange([{ selectedFacetName, selectedFacetKey, checked }]);
     }
   };
@@ -96,6 +98,7 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
         const buff = new Buffer(query + facetText);
         const base64data = buff.toString('base64');
 
+        // If this is in the Show more modal, we need to check the facet value's temporary selection value
         let facetSelected: boolean = !!facet.selected;
         if (tempSelectedFacets) {
           const tempIndex = tempSelectedFacets.findIndex(facet => {
