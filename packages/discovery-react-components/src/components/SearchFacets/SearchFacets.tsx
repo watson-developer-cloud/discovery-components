@@ -54,7 +54,7 @@ interface SearchFacetsProps {
 const SearchFacets: FC<SearchFacetsProps> = ({
   showCollections = true,
   showDynamicFacets = true,
-  showMatchingResults = false,
+  showMatchingResults = true,
   messages = defaultMessages,
   overrideComponentSettingsAggregations,
   collapsedFacetsCount = 5

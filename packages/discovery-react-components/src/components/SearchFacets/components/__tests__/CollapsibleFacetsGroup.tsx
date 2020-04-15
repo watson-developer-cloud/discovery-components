@@ -22,13 +22,11 @@ interface Setup {
 interface SetupConfig {
   filter: string;
   collapsedFacetsCount: number;
-  showMatchingResults: boolean;
 }
 
 const defaultSetupConfig: SetupConfig = {
   filter: '',
-  collapsedFacetsCount: 5,
-  showMatchingResults: true
+  collapsedFacetsCount: 5
 };
 
 const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
@@ -52,10 +50,7 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
   };
   const searchFacetsComponent = render(
     wrapWithContext(
-      <SearchFacets
-        collapsedFacetsCount={mergedSetupConfig.collapsedFacetsCount}
-        showMatchingResults={mergedSetupConfig.showMatchingResults}
-      />,
+      <SearchFacets collapsedFacetsCount={mergedSetupConfig.collapsedFacetsCount} />,
       api,
       context
     )
