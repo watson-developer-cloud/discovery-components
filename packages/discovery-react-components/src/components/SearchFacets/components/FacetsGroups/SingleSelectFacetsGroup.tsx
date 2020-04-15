@@ -33,6 +33,10 @@ interface SingleSelectFacetsGroupProps {
    */
   facetsTextField: 'key' | 'text';
   /**
+   * Show matching documents count as part of label
+   */
+  showMatchingResults: boolean;
+  /**
    * Text of selected facet
    */
   selectedFacet: string;
@@ -58,7 +62,8 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
   aggregationSettings,
   onChange,
   tempSelectedFacets,
-  setTempSelectedFacets
+  setTempSelectedFacets,
+  showMatchingResults
 }) => {
   const {
     searchResponseStore: {
@@ -110,7 +115,7 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
       {facets.map(facet => {
         const facetText = get(facet, facetsTextField, '');
         const count = facet.matching_results;
-        const labelText = getFacetLabel(facetText, count, messages);
+        const labelText = getFacetLabel(facetText, count, messages, showMatchingResults);
         const query = naturalLanguageQuery || '';
         const buff = new Buffer(query + facetText);
         const base64data = buff.toString('base64');

@@ -30,6 +30,10 @@ interface MultiSelectFacetsGroupProps {
    */
   aggregationSettings: InternalQueryTermAggregation;
   /**
+   * Show matching documents count as part of label
+   */
+  showMatchingResults: boolean;
+  /**
    * Callback to handle changes in selected facets
    */
   onChange: (selectedFacets: SelectedFacet[]) => void;
@@ -50,7 +54,8 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
   aggregationSettings,
   onChange,
   tempSelectedFacets,
-  setTempSelectedFacets
+  setTempSelectedFacets,
+  showMatchingResults
 }) => {
   const {
     searchResponseStore: {
@@ -93,7 +98,7 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
       {facets.map(facet => {
         const facetText = get(facet, facetsTextField, '');
         const count = facet.matching_results;
-        const labelText = getFacetLabel(facetText, count, messages);
+        const labelText = getFacetLabel(facetText, count, messages, showMatchingResults);
         const query = naturalLanguageQuery || '';
         const buff = new Buffer(query + facetText);
         const base64data = buff.toString('base64');
