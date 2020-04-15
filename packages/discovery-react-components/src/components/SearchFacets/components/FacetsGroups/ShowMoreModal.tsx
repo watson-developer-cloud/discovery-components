@@ -52,6 +52,10 @@ interface ShowMoreModalProps {
    * Selected facet for single-select
    */
   selectedFacet: string;
+  /**
+   * Show matching documents count as part of label
+   */
+  showMatchingResults: boolean;
 }
 
 export const ShowMoreModal: FC<ShowMoreModalProps> = ({
@@ -64,7 +68,8 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
   isOpen,
   setIsModalOpen,
   shouldDisplayAsMultiSelect,
-  selectedFacet
+  selectedFacet,
+  showMatchingResults
 }) => {
   const [tempSelectedFacets, setTempSelectedFacets] = useState<SelectedFacet[]>([]);
 
@@ -101,6 +106,7 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
           facetsTextField={facetsTextField}
           tempSelectedFacets={tempSelectedFacets}
           setTempSelectedFacets={setTempSelectedFacets}
+          showMatchingResults={showMatchingResults}
         />
       ) : (
         <SingleSelectFacetsGroup
@@ -112,6 +118,7 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
           facetsTextField={facetsTextField}
           tempSelectedFacets={tempSelectedFacets}
           setTempSelectedFacets={setTempSelectedFacets}
+          showMatchingResults={showMatchingResults}
         />
       )}
     </Modal>

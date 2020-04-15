@@ -174,7 +174,6 @@ describe('CollapsibleFacetsGroupComponent', () => {
 
       describe('when there are 10 or greater facet values', () => {
         test('opens modal with correct header and full list of facet terms for appropriate field', () => {
-          // todo: move some of this into a beforeEach
           const { searchFacetsComponent } = setup();
           const topEntitiesShowMoreButton = searchFacetsComponent.getByTestId(
             'show-more-less-enriched_text.entities.text'
@@ -278,7 +277,8 @@ describe('CollapsibleFacetsGroupComponent', () => {
     test('collapses list of facet terms for appropriate field', () => {
       const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
       const showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
-      showMoreButtons.forEach(button => fireEvent.click(button));
+      fireEvent.click(showMoreButtons[0]);
+      fireEvent.click(showMoreButtons[1]);
 
       const showLessButtons = searchFacetsComponent.queryAllByText('Show less');
       fireEvent.click(showLessButtons[0]);
@@ -288,7 +288,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
           ['Research (138993)', 'Analytics (57158)', 'Documentation (32444)'].includes(content)
         );
       });
-      expect(authorFacets).toHaveLength(3);
+      expect(authorFacets).toHaveLength(2);
     });
 
     test('does not expand other fields', () => {
@@ -317,15 +317,16 @@ describe('CollapsibleFacetsGroupComponent', () => {
     test('change text of collapse button', () => {
       const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
       let showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
-      showMoreButtons.forEach(button => fireEvent.click(button));
+      fireEvent.click(showMoreButtons[0]);
+      fireEvent.click(showMoreButtons[1]);
 
       let showLessButtons = searchFacetsComponent.queryAllByText('Show less');
       fireEvent.click(showLessButtons[0]);
 
       showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
-      expect(showMoreButtons).toHaveLength(1);
+      expect(showMoreButtons).toHaveLength(2);
       showLessButtons = searchFacetsComponent.queryAllByText('Show less');
-      expect(showLessButtons).toHaveLength(2);
+      expect(showLessButtons).toHaveLength(1);
     });
   });
 });
