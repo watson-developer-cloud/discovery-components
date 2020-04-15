@@ -134,7 +134,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
       <>
         {isCollapsible && (
           <>
-            {totalNumberFacets < 10 ? (
+            {totalNumberFacets <= 10 ? (
               <Button
                 kind="ghost"
                 size="small"

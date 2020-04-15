@@ -119,7 +119,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
     });
 
     describe('clicking show more button', () => {
-      describe('when there are less than 10 facet values', () => {
+      describe('when there are 10 or fewer facet values', () => {
         test('expands list of facet terms for appropriate field', () => {
           const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
           const authorFacets = searchFacetsComponent.queryAllByText((content, element) => {
@@ -172,7 +172,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
         });
       });
 
-      describe('when there are 10 or greater facet values', () => {
+      describe('when there are greater than 10 facet values', () => {
         test('opens modal with correct header and full list of facet terms for appropriate field', () => {
           const { searchFacetsComponent } = setup();
           const topEntitiesShowMoreButton = searchFacetsComponent.getByTestId(

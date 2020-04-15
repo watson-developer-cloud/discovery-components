@@ -63,7 +63,7 @@ export const facetsQueryResponse: DiscoveryV2.Response<
       type: 'term',
       name: 'entities',
       field: 'enriched_text.entities.text',
-      count: 10,
+      count: 11,
       results: [
         {
           key: 'ibm',
@@ -220,6 +220,23 @@ export const facetsQueryResponse: DiscoveryV2.Response<
         },
         {
           key: 'pennsylvania',
+          matching_results: 57158,
+          aggregations: [
+            {
+              type: 'term',
+              field: 'enriched_text.entities.types',
+              count: 1,
+              results: [
+                {
+                  key: 'Location',
+                  matching_results: 4
+                }
+              ]
+            }
+          ]
+        },
+        {
+          key: 'texas',
           matching_results: 57158,
           aggregations: [
             {
