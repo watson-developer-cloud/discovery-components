@@ -3,6 +3,8 @@ import { Document, Page, pdfjs } from 'react-pdf';
 import { settings } from 'carbon-components';
 import PdfjsWorkerAsText from 'pdfjs-dist/build/pdf.worker.min.js';
 
+// pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
 setupPdfjsWorker();
 
 interface Props {
@@ -47,10 +49,11 @@ const PdfViewer: SFC<Props> = ({
   }, [setHideToolbarControls]);
 
   return (
-    <div>
+    <div data-testid="pdf-view">
       <Document
         file={`data:application/pdf;base64,${file}`}
         onLoadSuccess={({ numPages }) => setPageCount(numPages)}
+        loading=" "
         options={{
           cMapUrl: 'cmaps/',
           cMapPacked: true
