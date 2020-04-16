@@ -58,7 +58,7 @@ describe('Passage Results', () => {
         cy.get('.bx--document-preview').should('exist');
         cy.get('.bx--document-preview')
           .contains(
-            'This is a document.\nThis result multiple passages, but you should only be able to see the first one. IBM if you can see this passage, something probably borked'
+            'This is a document. This result multiple passages, but you should only be able to see the first one. IBM if you can see this passage, something probably borked'
           )
           .should('exist');
       });
