@@ -176,77 +176,78 @@ describe('CollapsibleFacetsGroupComponent', () => {
         test('opens modal with correct header and full list of facet terms for appropriate field', () => {
           const { searchFacetsComponent } = setup();
           const topEntitiesShowMoreButton = searchFacetsComponent.getByTestId(
-            'show-more-less-enriched_text.entities.text'
+            'show-more-less-products'
           );
           fireEvent.click(topEntitiesShowMoreButton);
           const topEntitiesModal = searchFacetsComponent.getByTestId(
-            'search-facet-show-more-modal-enriched_text.entities.text'
+            'search-facet-show-more-modal-products'
           );
           expect(topEntitiesModal).toBeDefined();
-          const topEntitiesHeader = within(topEntitiesModal).getByText(
-            'enriched_text.entities.text'
-          );
+          const topEntitiesHeader = within(topEntitiesModal).getByText('products');
           expect(topEntitiesHeader).toBeDefined();
           const topEntitiesFacets = within(topEntitiesModal).queryAllByText((content, element) => {
             return (
               element.tagName.toLowerCase() === 'span' &&
               [
-                'ibm (138993)',
-                'us (57158)',
-                '$299 (32444)',
-                'watson (32444)',
-                'eu (57158)',
-                'new york (57158)',
-                'pittsburgh (57158)',
-                'austin (57158)',
-                'boston (57158)',
-                'pennsylvania (57158)'
+                'discovery (138993)',
+                'studio (57158)',
+                'openscale (32444)',
+                'assistant (32444)',
+                'speech to text (57158)',
+                'knowledge catalog (57158)',
+                'nlu (57158)',
+                'api kit (57158)',
+                'openpages (57158)',
+                'visual recognition (57158)',
+                'language translator (57158)'
               ].includes(content)
             );
           });
-          expect(topEntitiesFacets).toHaveLength(10);
+          expect(topEntitiesFacets).toHaveLength(11);
         });
 
         test('allows for selection and deselection of these facet terms', () => {
           const { searchFacetsComponent } = setup();
           const topEntitiesShowMoreButton = searchFacetsComponent.getByTestId(
-            'show-more-less-enriched_text.entities.text'
+            'show-more-less-products'
           );
           fireEvent.click(topEntitiesShowMoreButton);
           const topEntitiesModal = searchFacetsComponent.getByTestId(
-            'search-facet-show-more-modal-enriched_text.entities.text'
+            'search-facet-show-more-modal-products'
           );
-          let watsonFacetValue = within(topEntitiesModal).getByLabelText('watson (32444)');
+          let watsonFacetValue = within(topEntitiesModal).getByLabelText('assistant (32444)');
           expect(watsonFacetValue['checked']).toEqual(false);
           fireEvent.click(watsonFacetValue);
-          watsonFacetValue = within(topEntitiesModal).getByLabelText('watson (32444)');
+          watsonFacetValue = within(topEntitiesModal).getByLabelText('assistant (32444)');
           expect(watsonFacetValue['checked']).toEqual(true);
           fireEvent.click(watsonFacetValue);
-          watsonFacetValue = within(topEntitiesModal).getByLabelText('watson (32444)');
+          watsonFacetValue = within(topEntitiesModal).getByLabelText('assistant (32444)');
           expect(watsonFacetValue['checked']).toEqual(false);
         });
 
         test('on submit of the modal, updates search with new facet selections and preserves selections', () => {
           const { searchFacetsComponent, performSearchMock } = setup();
           const topEntitiesShowMoreButton = searchFacetsComponent.getByTestId(
-            'show-more-less-enriched_text.entities.text'
+            'show-more-less-products'
           );
           fireEvent.click(topEntitiesShowMoreButton);
           const topEntitiesModal = searchFacetsComponent.getByTestId(
-            'search-facet-show-more-modal-enriched_text.entities.text'
+            'search-facet-show-more-modal-products'
           );
-          const watsonModalFacetValue = within(topEntitiesModal).getByLabelText('watson (32444)');
+          const watsonModalFacetValue = within(topEntitiesModal).getByLabelText(
+            'assistant (32444)'
+          );
           fireEvent.click(watsonModalFacetValue);
           const saveButton = within(topEntitiesModal).getByText('Save');
           fireEvent.click(saveButton);
           expect(performSearchMock).toBeCalledTimes(1);
           expect(performSearchMock).toBeCalledWith(
             expect.objectContaining({
-              filter: 'enriched_text.entities.text:"watson"'
+              filter: 'products:"assistant"'
             }),
             false
           );
-          const watsonFacetValues = searchFacetsComponent.queryAllByLabelText('watson (32444)');
+          const watsonFacetValues = searchFacetsComponent.queryAllByLabelText('assistant (32444)');
           expect(watsonFacetValues[0]['checked']).toEqual(true);
           expect(watsonFacetValues[1]['checked']).toEqual(true);
         });
@@ -254,18 +255,20 @@ describe('CollapsibleFacetsGroupComponent', () => {
         test('on cancel of modal, does not update search or preserve selections', () => {
           const { searchFacetsComponent, performSearchMock } = setup();
           const topEntitiesShowMoreButton = searchFacetsComponent.getByTestId(
-            'show-more-less-enriched_text.entities.text'
+            'show-more-less-products'
           );
           fireEvent.click(topEntitiesShowMoreButton);
           const topEntitiesModal = searchFacetsComponent.getByTestId(
-            'search-facet-show-more-modal-enriched_text.entities.text'
+            'search-facet-show-more-modal-products'
           );
-          const watsonModalFacetValue = within(topEntitiesModal).getByLabelText('watson (32444)');
+          const watsonModalFacetValue = within(topEntitiesModal).getByLabelText(
+            'assistant (32444)'
+          );
           fireEvent.click(watsonModalFacetValue);
           const cancelButton = within(topEntitiesModal).getByText('Cancel');
           fireEvent.click(cancelButton);
           expect(performSearchMock).toBeCalledTimes(0);
-          const watsonFacetValues = searchFacetsComponent.queryAllByLabelText('watson (32444)');
+          const watsonFacetValues = searchFacetsComponent.queryAllByLabelText('assistant (32444)');
           expect(watsonFacetValues[0]['checked']).toEqual(false);
           expect(watsonFacetValues[1]['checked']).toEqual(false);
         });

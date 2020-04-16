@@ -253,6 +253,58 @@ export const facetsQueryResponse: DiscoveryV2.Response<
           ]
         }
       ]
+    },
+    {
+      type: 'term',
+      name: 'products',
+      field: 'products',
+      count: 11,
+      results: [
+        {
+          key: 'discovery',
+          matching_results: 138993
+        },
+        {
+          key: 'studio',
+          matching_results: 57158
+        },
+        {
+          key: 'openscale',
+          matching_results: 32444
+        },
+        {
+          key: 'assistant',
+          matching_results: 32444
+        },
+        {
+          key: 'speech to text',
+          matching_results: 57158
+        },
+        {
+          key: 'knowledge catalog',
+          matching_results: 57158
+        },
+        {
+          key: 'nlu',
+          matching_results: 57158
+        },
+        {
+          key: 'api kit',
+          matching_results: 57158
+        },
+        {
+          key: 'openpages',
+          matching_results: 57158
+        },
+        {
+          key: 'visual recognition',
+          matching_results: 57158
+        },
+        {
+          key: 'language translator',
+          matching_results: 57158
+        }
+      ]
     }
   ],
   suggested_refinements: [
