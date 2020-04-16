@@ -8,7 +8,10 @@ import {
   searchResponseStoreDefaults
 } from 'components/DiscoverySearch/DiscoverySearch';
 import SearchFacets from 'components/SearchFacets/SearchFacets';
-import { weirdFacetsQueryResponse } from 'components/SearchFacets/__fixtures__/facetsQueryResponse';
+import {
+  weirdFacetsQueryResponse,
+  facetsQueryResponse
+} from 'components/SearchFacets/__fixtures__/facetsQueryResponse';
 
 interface Setup {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -91,7 +94,7 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
   };
 };
 
-describe('FilterFacetsComponent', () => {
+describe('FieldFacetsComponent', () => {
   describe('legend header elements', () => {
     test('contains first facet header with author field text', () => {
       const { fieldFacetsComponent } = setup();
@@ -616,6 +619,220 @@ describe('FilterFacetsComponent', () => {
         }),
         false
       );
+    });
+  });
+
+  describe('with categories', () => {
+    let setupResult: Setup;
+    beforeEach(() => {
+      setupResult = setup({
+        aggregationResults: facetsQueryResponse.result.aggregations,
+        componentSettingsAggregations: [
+          {
+            name: 'entities',
+            label: 'Top Entities',
+            multiple_selections_allowed: true
+          },
+          {
+            name: 'category_id',
+            label: 'Category',
+            multiple_selections_allowed: true
+          },
+          {
+            name: 'machine_learning_id',
+            label: 'Machine Learning Terms',
+            multiple_selections_allowed: true
+          }
+        ]
+      });
+    });
+
+    describe('legend header elements', () => {
+      test('contains all facet headers with correct text', () => {
+        const { fieldFacetsComponent } = setupResult;
+        const headerTopEntities = fieldFacetsComponent.getByText('Top Entities');
+        expect(headerTopEntities).toBeDefined();
+        const headerCategory = fieldFacetsComponent.getByText('Category');
+        expect(headerCategory).toBeDefined();
+        const headerMachineLearningTerms = fieldFacetsComponent.getByText('Machine Learning Terms');
+        expect(headerMachineLearningTerms).toBeDefined();
+      });
+    });
+
+    describe('entities facet category elements', () => {
+      test('contain all expected category headers', () => {
+        const { fieldFacetsComponent } = setupResult;
+        const locationCategoryHeader = fieldFacetsComponent.getByText('Location');
+        const organizationCategoryHeader = fieldFacetsComponent.getByText('Organization');
+        const quantityCategoryHeader = fieldFacetsComponent.getByText('Quantity');
+        expect(locationCategoryHeader).toBeDefined();
+        expect(organizationCategoryHeader).toBeDefined();
+        expect(quantityCategoryHeader).toBeDefined();
+      });
+
+      test('are collapsed on initial load and facet values are not shown', () => {
+        const { fieldFacetsComponent } = setupResult;
+        const ibmFacetValue = fieldFacetsComponent.queryByText('ibm (138993)');
+        const pittsburghFacetValue = fieldFacetsComponent.queryByText('pittsburgh (57158)');
+        const usFacetValue = fieldFacetsComponent.queryByText('us (57158)');
+        const euFacetValue = fieldFacetsComponent.queryByText('eu (57158)');
+        const quantityFacetValue = fieldFacetsComponent.queryByText('$299 (32444)');
+        expect(ibmFacetValue).toBe(null);
+        expect(pittsburghFacetValue).toBe(null);
+        expect(quantityFacetValue).toBe(null);
+        expect(usFacetValue).toBe(null);
+        expect(euFacetValue).toBe(null);
+      });
+
+      describe('when expanded', () => {
+        test('initially show only first 5 facet values of expanded category', () => {
+          const { fieldFacetsComponent } = setupResult;
+          const locationCategoryHeader = fieldFacetsComponent.getByText('Location');
+          fireEvent.click(locationCategoryHeader);
+          const pittsburghFacetValue = fieldFacetsComponent.getByText('pittsburgh (57158)');
+          const usFacetValue = fieldFacetsComponent.getByText('us (57158)');
+          const euFacetValue = fieldFacetsComponent.getByText('eu (57158)');
+          const bostonFacetValue = fieldFacetsComponent.queryByText('boston (57158)');
+          const pennsylvaniaFacetValue = fieldFacetsComponent.queryByText('pennsylvania (57158)');
+          const quantityFacetValue = fieldFacetsComponent.queryByText('$299 (32444)');
+          const ibmFacetValue = fieldFacetsComponent.queryByText('ibm (138993)');
+          expect(pittsburghFacetValue).toBeDefined();
+          expect(usFacetValue).toBeDefined();
+          expect(euFacetValue).toBeDefined();
+          expect(bostonFacetValue).toBe(null);
+          expect(pennsylvaniaFacetValue).toBe(null);
+          expect(quantityFacetValue).toBe(null);
+          expect(ibmFacetValue).toBe(null);
+        });
+
+        test('can be toggled to show more than 5 facet values of expanded category', () => {
+          const { fieldFacetsComponent } = setupResult;
+          const locationCategoryHeader = fieldFacetsComponent.getByText('Location');
+          fireEvent.click(locationCategoryHeader);
+          const showMore = fieldFacetsComponent.getByTestId('show-more-less-Location');
+          fireEvent.click(showMore);
+          const bostonFacetValue = fieldFacetsComponent.getByText('boston (57158)');
+          const pennsylvaniaFacetValue = fieldFacetsComponent.getByText('pennsylvania (57158)');
+          expect(bostonFacetValue).toBeDefined();
+          expect(pennsylvaniaFacetValue).toBeDefined();
+        });
+
+        test('can expand multiple categories and collapse them again', () => {
+          const { fieldFacetsComponent } = setupResult;
+          // First test that expanding multiple categories shows each category's facet values
+          const locationCategoryHeader = fieldFacetsComponent.getByText('Location');
+          const organizationCategoryHeader = fieldFacetsComponent.getByText('Organization');
+          fireEvent.click(locationCategoryHeader);
+          fireEvent.click(organizationCategoryHeader);
+          let pittsburghFacetValue = fieldFacetsComponent.queryByText('pittsburgh (57158)');
+          let ibmFacetValue = fieldFacetsComponent.queryByText('ibm (138993)');
+          expect(pittsburghFacetValue).toBeDefined();
+          expect(ibmFacetValue).toBeDefined();
+          // Then test that on collapse, the categories' facet values are no longer shown
+          fireEvent.click(locationCategoryHeader);
+          pittsburghFacetValue = fieldFacetsComponent.queryByText('pittsburgh (57158)');
+          ibmFacetValue = fieldFacetsComponent.queryByText('ibm (138993)');
+          expect(pittsburghFacetValue).toBe(null);
+          expect(ibmFacetValue).toBeDefined();
+          fireEvent.click(organizationCategoryHeader);
+          ibmFacetValue = fieldFacetsComponent.queryByText('ibm (138993)');
+          expect(ibmFacetValue).toBe(null);
+        });
+      });
+
+      describe('when clearing facets', () => {
+        test('can select facet values within one category and clear them', () => {
+          const { fieldFacetsComponent, performSearchMock } = setupResult;
+          const locationCategoryHeader = fieldFacetsComponent.getByText('Location');
+          fireEvent.click(locationCategoryHeader);
+          let pittsburghFacetValue = fieldFacetsComponent.getByLabelText('pittsburgh (57158)');
+          let usFacetValue = fieldFacetsComponent.getByLabelText('us (57158)');
+          // First select facet values in one category and test it calls search with expected filter
+          fireEvent.click(pittsburghFacetValue);
+          expect(performSearchMock).toBeCalledTimes(1);
+          expect(performSearchMock).toBeCalledWith(
+            expect.objectContaining({
+              filter: 'enriched_text.entities.text:"pittsburgh"',
+              offset: 0
+            }),
+            false
+          );
+          fireEvent.click(usFacetValue);
+          expect(performSearchMock).toBeCalledTimes(2);
+          expect(performSearchMock).toBeCalledWith(
+            expect.objectContaining({
+              filter: 'enriched_text.entities.text:"us"|"pittsburgh"',
+              offset: 0
+            }),
+            false
+          );
+          expect(pittsburghFacetValue['checked']).toEqual(true);
+          expect(usFacetValue['checked']).toEqual(true);
+          // Then clear the facet values and test it calls search with expected empty filter
+          const clearButton = fieldFacetsComponent.getByTitle('Clear all selected items');
+          fireEvent.click(clearButton);
+          expect(performSearchMock).toBeCalledTimes(3);
+          expect(performSearchMock).toBeCalledWith(
+            expect.objectContaining({
+              filter: '',
+              offset: 0
+            }),
+            false
+          );
+          pittsburghFacetValue = fieldFacetsComponent.getByLabelText('pittsburgh (57158)');
+          usFacetValue = fieldFacetsComponent.getByLabelText('us (57158)');
+          expect(pittsburghFacetValue['checked']).toEqual(false);
+          expect(usFacetValue['checked']).toEqual(false);
+        });
+
+        test('can select facet values across multiple categories and clear them', () => {
+          const { fieldFacetsComponent, performSearchMock } = setupResult;
+          const locationCategoryHeader = fieldFacetsComponent.getByText('Location');
+          const organizationCategoryHeader = fieldFacetsComponent.getByText('Organization');
+          // First select facet values across multiple categories and test it calls search with expected filters
+          fireEvent.click(locationCategoryHeader);
+          fireEvent.click(organizationCategoryHeader);
+          let pittsburghFacetValue = fieldFacetsComponent.getByLabelText('pittsburgh (57158)');
+          let ibmFacetValue = fieldFacetsComponent.getByLabelText('ibm (138993)');
+          fireEvent.click(pittsburghFacetValue);
+          expect(performSearchMock).toBeCalledTimes(1);
+          expect(performSearchMock).toBeCalledWith(
+            expect.objectContaining({
+              filter: 'enriched_text.entities.text:"pittsburgh"',
+              offset: 0
+            }),
+            false
+          );
+          fireEvent.click(ibmFacetValue);
+          expect(performSearchMock).toBeCalledTimes(2);
+          expect(performSearchMock).toBeCalledWith(
+            expect.objectContaining({
+              filter: 'enriched_text.entities.text:"ibm"|"pittsburgh"',
+              offset: 0
+            }),
+            false
+          );
+          pittsburghFacetValue = fieldFacetsComponent.getByLabelText('pittsburgh (57158)');
+          ibmFacetValue = fieldFacetsComponent.getByLabelText('ibm (138993)');
+          expect(pittsburghFacetValue['checked']).toEqual(true);
+          expect(ibmFacetValue['checked']).toEqual(true);
+          // Then clear facet values across multiple categories and test it calls search with empty filter
+          const clearButton = fieldFacetsComponent.getByTitle('Clear all selected items');
+          fireEvent.click(clearButton);
+          expect(performSearchMock).toBeCalledTimes(3);
+          expect(performSearchMock).toBeCalledWith(
+            expect.objectContaining({
+              filter: '',
+              offset: 0
+            }),
+            false
+          );
+          pittsburghFacetValue = fieldFacetsComponent.getByLabelText('pittsburgh (57158)');
+          ibmFacetValue = fieldFacetsComponent.getByLabelText('ibm (138993)');
+          expect(pittsburghFacetValue['checked']).toEqual(false);
+          expect(ibmFacetValue['checked']).toEqual(false);
+        });
+      });
     });
   });
 });

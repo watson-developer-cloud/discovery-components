@@ -19,6 +19,11 @@ import { SearchClient } from './types';
 import { withErrorBoundary } from 'react-error-boundary';
 import { FallbackComponent } from 'utils/FallbackComponent';
 import onErrorCallback from 'utils/onErrorCallback';
+import { buildAggregationQuery } from 'components/SearchFacets/utils/buildAggregationQuery';
+import {
+  QueryAggregationWithName,
+  isQueryAggregationWithName
+} from 'components/SearchFacets/utils/searchFacetInterfaces';
 
 export type SearchParams = Omit<DiscoveryV2.QueryParams, 'projectId' | 'headers'>;
 
@@ -34,7 +39,7 @@ export interface DiscoverySearchProps {
   /**
    * Aggregation results used to override internal aggregation search results state
    */
-  overrideAggregationResults?: DiscoveryV2.QueryAggregation[];
+  overrideAggregationResults?: DiscoveryV2.QueryAggregation[] | QueryAggregationWithName[];
   /**
    * Search response used to override internal search results state
    */
@@ -93,7 +98,7 @@ export const emptySelectedResult = {
 };
 
 export interface SearchContextIFC {
-  aggregationResults: DiscoveryV2.QueryAggregation[] | null;
+  aggregationResults: DiscoveryV2.QueryAggregation[] | QueryAggregationWithName[] | null;
   searchResponseStore: SearchResponseStore;
   fetchDocumentsResponseStore: FetchDocumentsResponseStore;
   collectionsResults: DiscoveryV2.ListCollectionsResponse | null;
@@ -217,7 +222,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
   children
 }) => {
   const [aggregationResults, setAggregationResults] = useState<
-    DiscoveryV2.QueryAggregation[] | null
+    DiscoveryV2.QueryAggregation[] | QueryAggregationWithName[] | null
   >(overrideAggregationResults);
   const [
     collectionsResults,
@@ -242,6 +247,22 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
     searchClient
   );
 
+  const fetchTypeForTopEntitiesAggregation = useCallback(
+    async (
+      aggregationResults: QueryAggregationWithName[],
+      searchParams: DiscoveryV2.QueryParams
+    ) => {
+      const updatedAggQuery = buildAggregationQuery(aggregationResults);
+      const updatedSearchParameters = {
+        ...searchParams,
+        aggregation: updatedAggQuery
+      };
+      const { result } = await searchClient.query(updatedSearchParameters);
+      return result.aggregations;
+    },
+    [searchClient]
+  );
+
   const handleSearch = useCallback(
     async (searchParameters, resetAggregations = true): Promise<void> => {
       let aggregationsFetched = false;
@@ -251,20 +272,30 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
         aggregationsFetched = true;
         searchClient
           .query({ ...searchParameters, ...aggregationQueryDefaults, filter: '' })
-          .then(response => {
+          .then(async response => {
             if (response && response.result && response.result.aggregations) {
-              setAggregationResults(response.result.aggregations);
+              if (isQueryAggregationWithName(response.result.aggregations)) {
+                const updatedAggregations = await fetchTypeForTopEntitiesAggregation(
+                  response.result.aggregations,
+                  searchParameters
+                );
+                setAggregationResults(updatedAggregations || null);
+              }
             }
           });
       }
 
-      performSearch(result => {
+      performSearch(async result => {
         if (!aggregationsFetched && resetAggregations && result && result.aggregations) {
-          setAggregationResults(result.aggregations);
+          const updatedAggregations = await fetchTypeForTopEntitiesAggregation(
+            result.aggregations,
+            searchParameters
+          );
+          setAggregationResults(updatedAggregations || null);
         }
       });
     },
-    [performSearch, searchClient, setSearchParameters]
+    [fetchTypeForTopEntitiesAggregation, performSearch, searchClient, setSearchParameters]
   );
 
   const [autocompletionStore, { fetchAutocompletions, setAutocompletions }] = useAutocompleteApi(
@@ -369,10 +400,17 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       const { result } = await searchClient.query(searchParametersWithAggregationDefaults);
       if (result) {
         const { aggregations } = result;
-        setAggregationResults(aggregations || null);
+        let updatedAggregations = aggregations;
+        if (aggregations && isQueryAggregationWithName(aggregations)) {
+          updatedAggregations = await fetchTypeForTopEntitiesAggregation(
+            aggregations,
+            searchParametersWithAggregationDefaults
+          );
+        }
+        setAggregationResults(updatedAggregations || null);
       }
     },
-    [searchClient, setSearchParameters]
+    [fetchTypeForTopEntitiesAggregation, searchClient, setSearchParameters]
   );
 
   const handleSetSelectedResult = (overrideSelectedResult: SelectedResult) => {

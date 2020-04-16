@@ -9,6 +9,11 @@ const aggregationComponentSettingsResponse: Response<
       name: 'category_id',
       label: 'Category (label created in component settings)',
       multiple_selections_allowed: false
+    },
+    {
+      name: 'entities',
+      label: 'Top Entities',
+      multiple_selections_allowed: true
     }
   ]
 });

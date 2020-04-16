@@ -73,6 +73,7 @@ export const DynamicFacets: FC<DynamicFacetsProps> = ({
       onChange={handleOnChange}
       onClear={handleOnClear}
       messages={messages}
+      hasCategories={false}
     />
   );
 };

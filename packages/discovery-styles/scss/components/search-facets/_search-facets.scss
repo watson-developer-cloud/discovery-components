@@ -8,6 +8,31 @@
   }
 }
 
+.#{$prefix}--search-facets {
+  .#{$prefix}--search-facet__category {
+    .#{$prefix}--search-facet__category--category-name {
+      @include type-style('body-short-02');
+      font-size: 0.875rem;
+    }
+    margin-bottom: $spacing-xs;
+    padding-left: $spacing-baseline;
+  }
+  .#{$prefix}--search-facet__category--expand-collapse {
+    background-color: $ui-01;
+    color: $ui-05;
+    height: $spacing-lg;
+    margin-bottom: $spacing-xs;
+    min-height: $spacing-lg;
+    padding: 0px;
+    transition: none;
+    width: 100%;
+    &:hover {
+      background-color: $ui-01;
+      text-decoration: none;
+    }
+  }
+}
+
 .#{$prefix}--search-facet {
   margin-bottom: $spacing-md;
   word-break: break-word;

@@ -114,6 +114,9 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
           return;
         }
 
+        const hasCategories =
+          aggregation.field.includes('enriched_') && aggregation.field.includes('entities.text');
+
         return (
           <CollapsibleFacetsGroup
             key={`collapsible-facet-group-${i}`}
@@ -123,6 +126,7 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
             facets={aggregationResults}
             showMatchingResults={showMatchingResults}
             facetsTextField="key"
+            hasCategories={hasCategories}
             onClear={handleOnClear}
             onChange={handleOnChange}
           />

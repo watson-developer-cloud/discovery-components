@@ -70,6 +70,7 @@ describe('Autocomplete', () => {
     describe('and hit enter', () => {
       beforeEach(() => {
         cy.get('@searchInput').type('{enter}');
+        cy.wait('@postQuery');
         cy.wait('@postQuery').as('queryObject');
       });
 

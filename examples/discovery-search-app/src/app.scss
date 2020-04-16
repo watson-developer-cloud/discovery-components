@@ -43,7 +43,6 @@ h1 {
   padding: $spacing-md;
 
   .#{$prefix}--btn {
-    border: none;
     padding-left: 0;
 
     &:hover {
@@ -54,7 +53,6 @@ h1 {
 
     &:active,
     &:focus {
-      border: none;
       outline: none;
     }
   }

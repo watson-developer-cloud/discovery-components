@@ -26,6 +26,7 @@ describe('Basic search', () => {
   describe('When entering a query with results', () => {
     beforeEach(() => {
       cy.get('@searchInput').type('abil{enter}');
+      cy.wait('@postQuery');
       cy.wait('@postQuery').as('queryObject');
     });
 

@@ -56,6 +56,7 @@ describe('Pagination', () => {
     describe('and the next page arrow is clicked', () => {
       beforeEach(() => {
         cy.get('.bx--pagination__button--forward').click();
+        cy.wait('@postQueryMultiPage');
         cy.wait('@postQueryMultiPage').as('nextPageQueryObject');
       });
 
@@ -86,6 +87,7 @@ describe('Pagination', () => {
         cy.get('.bx--pagination__right')
           .find('.bx--select-input')
           .select('2');
+        cy.wait('@postQueryMultiPage');
         cy.wait('@postQueryMultiPage').as('secondPageQueryObject');
       });
 
@@ -135,6 +137,7 @@ describe('Pagination', () => {
           cy.get('.bx--pagination__left')
             .find('.bx--select-input')
             .select('50');
+          cy.wait('@postQueryMultiPage');
           cy.wait('@postQueryMultiPage').as('largerpostQueryMultiPageObject');
         });
 
@@ -179,6 +182,7 @@ describe('Pagination', () => {
         cy.get('.bx--pagination__left')
           .find('.bx--select-input')
           .select('10');
+        cy.wait('@postQueryMultiPage');
         cy.wait('@postQueryMultiPage').as('tenResultsPerPageQueryObject');
       });
 
@@ -199,6 +203,7 @@ describe('Pagination', () => {
         cy.get('.bx--pagination__left')
           .find('.bx--select-input')
           .select('50');
+        cy.wait('@postQueryMultiPage');
         cy.wait('@postQueryMultiPage').as('fiftyResultsPerPageQueryObject');
       });
 

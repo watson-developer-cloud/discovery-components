@@ -16,9 +16,9 @@ export const mergeFilterFacets = (
     return [];
   }
 
-  const termAggreations = findTermAggregations(aggregations);
+  const termAggregations = findTermAggregations(aggregations);
   // add component settings label if it exists
-  const labeledTermAggregtions: InternalQueryTermAggregation[] = termAggreations.map(
+  const labeledTermAggregations: InternalQueryTermAggregation[] = termAggregations.map(
     termAggregation => {
       const matchingComponentSettingAggregation = componentSettingsAggregations.find(
         setting => setting.name === get(termAggregation, 'name', '')
@@ -35,7 +35,7 @@ export const mergeFilterFacets = (
   );
 
   const usedFields: string[] = [];
-  return labeledTermAggregtions
+  return labeledTermAggregations
     .filter(aggregation => {
       return aggregation.results;
     })
