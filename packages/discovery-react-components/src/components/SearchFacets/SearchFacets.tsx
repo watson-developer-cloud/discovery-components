@@ -171,7 +171,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
 
   if (shouldShowFields || shouldShowCollections) {
     return (
-      <div>
+      <div className={`${settings.prefix}--search-facets`}>
         {hasSelection && (
           <Button
             className={`${settings.prefix}--search-facets__button-clear-all`}

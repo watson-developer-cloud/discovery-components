@@ -3,14 +3,21 @@ import { Button } from 'carbon-components-react';
 import filter from 'lodash/filter';
 import get from 'lodash/get';
 import ListBox from 'carbon-components-react/lib/components/ListBox';
-import { fieldsetClasses, labelClasses, labelAndSelectionContainerClass } from '../../cssClasses';
+import {
+  fieldsetClasses,
+  labelClasses,
+  labelAndSelectionContainerClass
+} from 'components/SearchFacets/cssClasses';
 import {
   SelectableDynamicFacets,
   SelectableQueryTermAggregationResult,
   InternalQueryTermAggregation,
-  SelectedFacet
+  SelectedFacet,
+  FieldFacetsByCategory,
+  isSelectableQueryTermAggregationResult
 } from 'components/SearchFacets/utils/searchFacetInterfaces';
 import { Messages } from 'components/SearchFacets/messages';
+import { CategoryFacetsGroup } from './CategoryFacetsGroup';
 import { MultiSelectFacetsGroup } from './MultiSelectFacetsGroup';
 import { SingleSelectFacetsGroup } from './SingleSelectFacetsGroup';
 import { ShowMoreModal } from './ShowMoreModal';
@@ -48,6 +55,10 @@ interface CollapsibleFacetsGroupProps {
    * Callback to reset selected facet
    */
   onClear: (selectedFacetName: string) => void;
+  /**
+   * Whether this is an enriched entities facet that includes categories by which to organize facet values
+   */
+  hasCategories: boolean;
 }
 
 export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
@@ -58,11 +69,14 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
   facetsTextField,
   messages,
   onClear,
-  onChange
+  onChange,
+  hasCategories
 }) => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(collapsedFacetsCount < facets.length);
   const [isCollapsible, setIsCollapsible] = useState<boolean>(collapsedFacetsCount < facets.length);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const facetsLabel = aggregationSettings.label || aggregationSettings.field;
 
   useEffect(() => {
     setIsCollapsed(collapsedFacetsCount < facets.length);
@@ -77,8 +91,34 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
     setIsModalOpen(true);
   };
 
+  let facetsByCategory: FieldFacetsByCategory = {};
+  if (hasCategories) {
+    facetsByCategory[`${facetsLabel}`] = { categories: {} };
+    if (isSelectableQueryTermAggregationResult(facets)) {
+      facets.map(result => {
+        const resultType = result!.aggregations![0].results![0].key;
+        if (resultType in facetsByCategory[`${facetsLabel}`].categories) {
+          facetsByCategory[`${facetsLabel}`].categories[`${resultType}`].facets.push({
+            key: result.key,
+            matching_results: result.matching_results,
+            selected: result.selected ? result.selected : false
+          });
+        } else {
+          facetsByCategory[`${facetsLabel}`].categories[`${resultType}`] = {
+            facets: [
+              {
+                key: result.key,
+                matching_results: result.matching_results,
+                selected: result.selected ? result.selected : false
+              }
+            ]
+          };
+        }
+      });
+    }
+  }
+
   const areMultiSelectionsAllowed = aggregationSettings.multiple_selections_allowed;
-  const facetsLabel = aggregationSettings.label || aggregationSettings.field;
   const collapsedFacets = isCollapsed ? facets.slice(0, collapsedFacetsCount) : facets;
   const totalNumberFacets = facets.length;
   const selectedFacets = filter(facets, ['selected', true]);
@@ -111,68 +151,83 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
           )}
         </div>
       </legend>
-      {shouldDisplayAsMultiSelect ? (
-        <MultiSelectFacetsGroup
-          messages={messages}
-          facets={collapsedFacets}
-          aggregationSettings={aggregationSettings}
-          showMatchingResults={showMatchingResults}
+      {hasCategories ? (
+        <CategoryFacetsGroup
+          facetsByCategory={facetsByCategory}
+          facetsLabel={facetsLabel}
           onChange={onChange}
+          aggregationSettings={aggregationSettings}
+          messages={messages}
+          collapsedFacetsCount={collapsedFacetsCount}
           facetsTextField={facetsTextField}
+          shouldDisplayAsMultiSelect={shouldDisplayAsMultiSelect}
+          selectedFacet={selectedFacetText}
+          showMatchingResults={showMatchingResults}
         />
       ) : (
-        <SingleSelectFacetsGroup
-          messages={messages}
-          facets={collapsedFacets}
-          aggregationSettings={aggregationSettings}
-          showMatchingResults={showMatchingResults}
-          onChange={onChange}
-          selectedFacet={selectedFacetText}
-          facetsTextField={facetsTextField}
-        />
-      )}
-      <>
-        {isCollapsible && (
-          <>
-            {totalNumberFacets <= 10 ? (
-              <Button
-                kind="ghost"
-                size="small"
-                onClick={toggleFacetsCollapse}
-                data-testid={`show-more-less-${facetsLabel}`}
-              >
-                {isCollapsed
-                  ? messages.collapsedFacetShowMoreText
-                  : messages.collapsedFacetShowLessText}
-              </Button>
-            ) : (
-              <>
+        <>
+          {shouldDisplayAsMultiSelect ? (
+            <MultiSelectFacetsGroup
+              messages={messages}
+              facets={collapsedFacets}
+              aggregationSettings={aggregationSettings}
+              onChange={onChange}
+              showMatchingResults={showMatchingResults}
+              facetsTextField={facetsTextField}
+            />
+          ) : (
+            <SingleSelectFacetsGroup
+              messages={messages}
+              facets={collapsedFacets}
+              aggregationSettings={aggregationSettings}
+              onChange={onChange}
+              selectedFacet={selectedFacetText}
+              showMatchingResults={showMatchingResults}
+              facetsTextField={facetsTextField}
+            />
+          )}
+          {isCollapsible && (
+            <>
+              {totalNumberFacets <= 10 ? (
                 <Button
                   kind="ghost"
                   size="small"
-                  onClick={toggleModalOpen}
+                  onClick={toggleFacetsCollapse}
                   data-testid={`show-more-less-${facetsLabel}`}
                 >
-                  {messages.collapsedFacetShowMoreText}
+                  {isCollapsed
+                    ? messages.collapsedFacetShowMoreText
+                    : messages.collapsedFacetShowLessText}
                 </Button>
-                <ShowMoreModal
-                  messages={messages}
-                  aggregationSettings={aggregationSettings}
-                  facets={facets}
-                  facetsLabel={facetsLabel}
-                  facetsTextField={facetsTextField}
-                  onChange={onChange}
-                  isOpen={isModalOpen}
-                  setIsModalOpen={setIsModalOpen}
-                  shouldDisplayAsMultiSelect={shouldDisplayAsMultiSelect}
-                  selectedFacet={selectedFacetText}
-                  showMatchingResults={showMatchingResults}
-                />
-              </>
-            )}
-          </>
-        )}
-      </>
+              ) : (
+                <>
+                  <Button
+                    kind="ghost"
+                    size="small"
+                    onClick={toggleModalOpen}
+                    data-testid={`show-more-less-${facetsLabel}`}
+                  >
+                    {messages.collapsedFacetShowMoreText}
+                  </Button>
+                  <ShowMoreModal
+                    messages={messages}
+                    aggregationSettings={aggregationSettings}
+                    facets={facets}
+                    facetsLabel={facetsLabel}
+                    facetsTextField={facetsTextField}
+                    onChange={onChange}
+                    isOpen={isModalOpen}
+                    setIsModalOpen={setIsModalOpen}
+                    shouldDisplayAsMultiSelect={shouldDisplayAsMultiSelect}
+                    selectedFacet={selectedFacetText}
+                    showMatchingResults={showMatchingResults}
+                  />
+                </>
+              )}
+            </>
+          )}
+        </>
+      )}
     </fieldset>
   );
 };
