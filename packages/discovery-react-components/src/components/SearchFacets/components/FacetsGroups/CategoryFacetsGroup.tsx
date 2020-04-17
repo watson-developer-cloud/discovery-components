@@ -2,7 +2,8 @@ import React, { FC, useState, useEffect, useContext } from 'react';
 import {
   InternalQueryTermAggregation,
   FieldFacetsByCategory,
-  FieldFacetsByCategoryEntity
+  FieldFacetsByCategoryEntity,
+  SelectedFacet
 } from 'components/SearchFacets/utils/searchFacetInterfaces';
 import { Messages } from 'components/SearchFacets/messages';
 import { CategoryFacets } from './CategoryFacets';
@@ -28,7 +29,7 @@ interface CategoryFacetsGroupProps {
   /**
    * Callback to handle changes in selected facets
    */
-  onChange: (selectedFacetField: string, selectedFacetKey: string, checked: boolean) => void;
+  onChange: (selectedFacets: SelectedFacet[]) => void;
   /**
    * i18n messages for the component
    */
