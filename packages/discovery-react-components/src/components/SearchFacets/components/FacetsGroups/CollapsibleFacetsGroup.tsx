@@ -1,5 +1,4 @@
 import React, { FC, useState, useEffect } from 'react';
-import { Button } from 'carbon-components-react';
 import filter from 'lodash/filter';
 import get from 'lodash/get';
 import ListBox from 'carbon-components-react/lib/components/ListBox';
@@ -21,6 +20,7 @@ import { CategoryFacetsGroup } from './CategoryFacetsGroup';
 import { MultiSelectFacetsGroup } from './MultiSelectFacetsGroup';
 import { SingleSelectFacetsGroup } from './SingleSelectFacetsGroup';
 import { ShowMoreModal } from './ShowMoreModal';
+import { ShowMoreButton } from './ShowMoreButton';
 
 interface CollapsibleFacetsGroupProps {
   /**
@@ -189,26 +189,20 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
           {isCollapsible && (
             <>
               {totalNumberFacets <= 10 ? (
-                <Button
-                  kind="ghost"
-                  size="small"
+                <ShowMoreButton
                   onClick={toggleFacetsCollapse}
-                  data-testid={`show-more-less-${facetsLabel}`}
-                >
-                  {isCollapsed
-                    ? messages.collapsedFacetShowMoreText
-                    : messages.collapsedFacetShowLessText}
-                </Button>
+                  idSuffix={facetsLabel}
+                  isCollapsed={isCollapsed}
+                  messages={messages}
+                />
               ) : (
                 <>
-                  <Button
-                    kind="ghost"
-                    size="small"
+                  <ShowMoreButton
                     onClick={toggleModalOpen}
-                    data-testid={`show-more-less-${facetsLabel}`}
-                  >
-                    {messages.collapsedFacetShowMoreText}
-                  </Button>
+                    idSuffix={facetsLabel}
+                    isCollapsed={isCollapsed}
+                    messages={messages}
+                  />
                   <ShowMoreModal
                     messages={messages}
                     aggregationSettings={aggregationSettings}

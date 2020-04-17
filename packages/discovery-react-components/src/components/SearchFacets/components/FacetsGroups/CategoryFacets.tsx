@@ -6,6 +6,7 @@ import { Messages } from 'components/SearchFacets/messages';
 import { MultiSelectFacetsGroup } from './MultiSelectFacetsGroup';
 import { SingleSelectFacetsGroup } from './SingleSelectFacetsGroup';
 import { ShowMoreModal } from './ShowMoreModal';
+import { ShowMoreButton } from './ShowMoreButton';
 import {
   categoryClass,
   categoryExpandCollapseClass,
@@ -143,26 +144,20 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
           {isCollapsible && (
             <>
               {totalNumberFacets <= 10 ? (
-                <Button
-                  kind="ghost"
-                  size="small"
+                <ShowMoreButton
                   onClick={toggleFacetsCollapse}
-                  data-testid={`show-more-less-${categoryName}`}
-                >
-                  {isCollapsed
-                    ? messages.collapsedFacetShowMoreText
-                    : messages.collapsedFacetShowLessText}
-                </Button>
+                  idSuffix={categoryName}
+                  isCollapsed={isCollapsed}
+                  messages={messages}
+                />
               ) : (
                 <>
-                  <Button
-                    kind="ghost"
-                    size="small"
+                  <ShowMoreButton
                     onClick={toggleModalOpen}
-                    data-testid={`show-more-less-${categoryName}`}
-                  >
-                    {messages.collapsedFacetShowMoreText}
-                  </Button>
+                    idSuffix={categoryName}
+                    isCollapsed={isCollapsed}
+                    messages={messages}
+                  />
                   <ShowMoreModal
                     messages={messages}
                     aggregationSettings={aggregationSettings}
