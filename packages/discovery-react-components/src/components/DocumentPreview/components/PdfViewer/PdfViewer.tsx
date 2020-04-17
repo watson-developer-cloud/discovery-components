@@ -3,8 +3,6 @@ import { Document, Page, pdfjs } from 'react-pdf';
 import { settings } from 'carbon-components';
 import PdfjsWorkerAsText from 'pdfjs-dist/build/pdf.worker.min.js';
 
-// pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
-
 setupPdfjsWorker();
 
 interface Props {

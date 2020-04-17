@@ -55,6 +55,7 @@ const DocumentPreview: FC<Props> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [hideToolbarControls, setHideToolbarControls] = useState(false);
+  const [loadingDone, setLoadingDone] = useState(false);
 
   useEffect(() => {
     // reset state if document changes
@@ -63,7 +64,13 @@ const DocumentPreview: FC<Props> = ({
     setScale(1);
     // TODO disable for now, until we can properly fix https://github.ibm.com/Watson-Discovery/docviz-squad-issue-tracker/issues/143
     setLoading(true);
+    console.log('This should not be called');
   }, [doc]);
+
+  useEffect(() => {
+    console.log('useEffect loading: ' + loading);
+    setLoadingDone(!loading);
+  }, [loading]);
 
   // If highlight, initialize first page to that of highlight; otherwise
   // default to first page
@@ -97,15 +104,17 @@ const DocumentPreview: FC<Props> = ({
 
   const base = `${settings.prefix}--document-preview`;
 
+  console.log(loadingDone);
+
   return (
     <div className={`${base}`}>
       {(doc || file) && !didCatch ? (
         <>
           <PreviewToolbar
-            loading={loading}
+            loading={!loadingDone}
             hideControls={hideToolbarControls}
             current={currentPage}
-            total={loading ? 0 : pageCount}
+            total={!loadingDone ? 0 : pageCount}
             onChange={setCurrentPage}
             onZoom={(zoom: any): void => {
               if (zoom === ZOOM_IN || zoom === ZOOM_OUT) {
@@ -139,7 +148,7 @@ const DocumentPreview: FC<Props> = ({
               </div>
             )}
           </div>
-          {loading && (
+          {!loadingDone && (
             <div className={`${base}__skeleton`}>
               <SkeletonText paragraph={true} lineCount={40} />
             </div>

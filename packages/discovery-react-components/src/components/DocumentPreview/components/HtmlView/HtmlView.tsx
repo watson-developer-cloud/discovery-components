@@ -90,6 +90,7 @@ export const HtmlView: FC<Props> = ({
         // if no highlight, then no need to "process"
         setHtml(docHtml ? DOMPurify.sanitize(docHtml, SANITIZE_CONFIG) : '');
         setLoading(false);
+        console.log('this is called');
       }
     }
   }, [document, highlight, setLoading]);
