@@ -251,6 +251,176 @@ export const facetsQueryResponse: DiscoveryV2.Response<
               ]
             }
           ]
+        },
+        {
+          key: '$399',
+          matching_results: 32444,
+          aggregations: [
+            {
+              type: 'term',
+              field: 'enriched_text.entities.types',
+              count: 1,
+              results: [
+                {
+                  key: 'Quantity',
+                  matching_results: 4
+                }
+              ]
+            }
+          ]
+        },
+        {
+          key: '$499',
+          matching_results: 32444,
+          aggregations: [
+            {
+              type: 'term',
+              field: 'enriched_text.entities.types',
+              count: 1,
+              results: [
+                {
+                  key: 'Quantity',
+                  matching_results: 4
+                }
+              ]
+            }
+          ]
+        },
+        {
+          key: '$599',
+          matching_results: 32444,
+          aggregations: [
+            {
+              type: 'term',
+              field: 'enriched_text.entities.types',
+              count: 1,
+              results: [
+                {
+                  key: 'Quantity',
+                  matching_results: 4
+                }
+              ]
+            }
+          ]
+        },
+        {
+          key: '$699',
+          matching_results: 32444,
+          aggregations: [
+            {
+              type: 'term',
+              field: 'enriched_text.entities.types',
+              count: 1,
+              results: [
+                {
+                  key: 'Quantity',
+                  matching_results: 4
+                }
+              ]
+            }
+          ]
+        },
+        {
+          key: '$799',
+          matching_results: 32444,
+          aggregations: [
+            {
+              type: 'term',
+              field: 'enriched_text.entities.types',
+              count: 1,
+              results: [
+                {
+                  key: 'Quantity',
+                  matching_results: 4
+                }
+              ]
+            }
+          ]
+        },
+        {
+          key: '$899',
+          matching_results: 32444,
+          aggregations: [
+            {
+              type: 'term',
+              field: 'enriched_text.entities.types',
+              count: 1,
+              results: [
+                {
+                  key: 'Quantity',
+                  matching_results: 4
+                }
+              ]
+            }
+          ]
+        },
+        {
+          key: '$999',
+          matching_results: 32444,
+          aggregations: [
+            {
+              type: 'term',
+              field: 'enriched_text.entities.types',
+              count: 1,
+              results: [
+                {
+                  key: 'Quantity',
+                  matching_results: 4
+                }
+              ]
+            }
+          ]
+        },
+        {
+          key: '$1099',
+          matching_results: 32444,
+          aggregations: [
+            {
+              type: 'term',
+              field: 'enriched_text.entities.types',
+              count: 1,
+              results: [
+                {
+                  key: 'Quantity',
+                  matching_results: 4
+                }
+              ]
+            }
+          ]
+        },
+        {
+          key: '$1199',
+          matching_results: 32444,
+          aggregations: [
+            {
+              type: 'term',
+              field: 'enriched_text.entities.types',
+              count: 1,
+              results: [
+                {
+                  key: 'Quantity',
+                  matching_results: 4
+                }
+              ]
+            }
+          ]
+        },
+        {
+          key: '$1299',
+          matching_results: 32444,
+          aggregations: [
+            {
+              type: 'term',
+              field: 'enriched_text.entities.types',
+              count: 1,
+              results: [
+                {
+                  key: 'Quantity',
+                  matching_results: 4
+                }
+              ]
+            }
+          ]
         }
       ]
     },

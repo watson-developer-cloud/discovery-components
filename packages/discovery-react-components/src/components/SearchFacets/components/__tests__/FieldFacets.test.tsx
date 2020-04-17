@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render, fireEvent, RenderResult } from '@testing-library/react';
+import { render, fireEvent, RenderResult, within } from '@testing-library/react';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { wrapWithContext } from 'utils/testingUtils';
 import {
@@ -715,6 +715,41 @@ describe('FieldFacetsComponent', () => {
           const pennsylvaniaFacetValue = fieldFacetsComponent.getByText('pennsylvania (57158)');
           expect(bostonFacetValue).toBeDefined();
           expect(pennsylvaniaFacetValue).toBeDefined();
+        });
+
+        test('if a category has more than 10 facet values, a modal opens when Show more is clicked', () => {
+          const { fieldFacetsComponent } = setupResult;
+          const quantityCategoryHeader = fieldFacetsComponent.getByText('Quantity');
+          fireEvent.click(quantityCategoryHeader);
+          const showMore = fieldFacetsComponent.getByTestId('show-more-less-Quantity');
+          fireEvent.click(showMore);
+          const quantityModal = fieldFacetsComponent.getByTestId(
+            'search-facet-show-more-modal-Top Entities'
+          );
+          expect(quantityModal).toBeDefined();
+          const topEntitiesHeader = within(quantityModal).getByText('Top Entities');
+          expect(topEntitiesHeader).toBeDefined();
+          const topEntitiesQuantityFacets = within(quantityModal).queryAllByText(
+            (content, element) => {
+              return (
+                element.tagName.toLowerCase() === 'span' &&
+                [
+                  '$299 (32444)',
+                  '$399 (32444)',
+                  '$499 (32444)',
+                  '$599 (32444)',
+                  '$699 (32444)',
+                  '$799 (32444)',
+                  '$899 (32444)',
+                  '$999 (32444)',
+                  '$1099 (32444)',
+                  '$1199 (32444)',
+                  '$1299 (32444)'
+                ].includes(content)
+              );
+            }
+          );
+          expect(topEntitiesQuantityFacets).toHaveLength(11);
         });
 
         test('can expand multiple categories and collapse them again', () => {
