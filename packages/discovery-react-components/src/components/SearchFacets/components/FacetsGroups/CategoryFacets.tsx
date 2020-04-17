@@ -170,6 +170,7 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
                     shouldDisplayAsMultiSelect={shouldDisplayAsMultiSelect}
                     selectedFacet={selectedFacet}
                     showMatchingResults={showMatchingResults}
+                    categoryName={categoryName}
                   />
                 </>
               )}

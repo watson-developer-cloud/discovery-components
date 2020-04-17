@@ -727,7 +727,7 @@ describe('FieldFacetsComponent', () => {
             'search-facet-show-more-modal-Top Entities'
           );
           expect(quantityModal).toBeDefined();
-          const topEntitiesHeader = within(quantityModal).getByText('Top Entities');
+          const topEntitiesHeader = within(quantityModal).getByText('Top Entities: Quantity');
           expect(topEntitiesHeader).toBeDefined();
           const topEntitiesQuantityFacets = within(quantityModal).queryAllByText(
             (content, element) => {

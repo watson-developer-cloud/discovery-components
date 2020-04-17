@@ -56,6 +56,10 @@ interface ShowMoreModalProps {
    * Show matching documents count as part of label
    */
   showMatchingResults: boolean;
+  /**
+   * Category name if the modal is for a category facet group
+   */
+  categoryName?: string;
 }
 
 export const ShowMoreModal: FC<ShowMoreModalProps> = ({
@@ -69,7 +73,8 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
   setIsModalOpen,
   shouldDisplayAsMultiSelect,
   selectedFacet,
-  showMatchingResults
+  showMatchingResults,
+  categoryName
 }) => {
   const [tempSelectedFacets, setTempSelectedFacets] = useState<SelectedFacet[]>([]);
 
@@ -84,10 +89,12 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
     setIsModalOpen(false);
   };
 
+  const modalHeading = categoryName ? `${facetsLabel}: ${categoryName}` : facetsLabel;
+
   return (
     <Modal
       className={showMoreModalClass}
-      modalHeading={facetsLabel}
+      modalHeading={modalHeading}
       onRequestSubmit={handleOnRequestSubmit}
       id="search-facet-show-more-modal"
       onRequestClose={handleOnRequestClose}
