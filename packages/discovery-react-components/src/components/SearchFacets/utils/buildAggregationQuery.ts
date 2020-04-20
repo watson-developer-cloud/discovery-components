@@ -15,20 +15,20 @@ export const buildAggregationQuery = (configuration: QueryAggregationWithName[])
     } else {
       let nestedOrFilterAgg = '';
       if (term.aggregations && term.aggregations[0]) {
-        const initialNested = 'nested(' + term.path ? term.path : term.aggregations[0].field;
-        nestedOrFilterAgg = nestedOrFilterAgg + initialNested + ')';
+        nestedOrFilterAgg += 'nested(';
+        const initialNested = term.path ? term.path : term.aggregations[0].field;
         const matchAgg = term.match ? term.match : term.aggregations[0].match;
-        nestedOrFilterAgg = nestedOrFilterAgg + '.filter(' + matchAgg + ')';
+        nestedOrFilterAgg = nestedOrFilterAgg + initialNested + ').filter(' + matchAgg + ')';
         let termAggregation;
         if (term.aggregations[0].aggregations) {
           termAggregation = term.aggregations[0].aggregations[0];
         } else {
           termAggregation = term.aggregations[0];
         }
-        nestedOrFilterAgg += '.term(' + termAggregation.field;
         const termCount = termAggregation.count ? ',count:' + termAggregation.count : '';
         const termName = termAggregation.name ? ',name:' + termAggregation.name : '';
-        nestedOrFilterAgg = nestedOrFilterAgg + termCount + termName + ')';
+        nestedOrFilterAgg =
+          nestedOrFilterAgg + '.term(' + termAggregation.field + termCount + termName + ')';
       }
       return nestedOrFilterAgg;
     }
