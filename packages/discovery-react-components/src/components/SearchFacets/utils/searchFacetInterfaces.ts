@@ -51,12 +51,19 @@ export interface QueryAggregationWithName extends DiscoveryV2.QueryAggregation {
   field: string;
   count?: number;
   name?: string;
+  path?: string;
+  match?: string;
+  aggregations?: QueryAggregationWithName[];
 }
 
 export const isQueryAggregationWithName = (
   aggregations?: (DiscoveryV2.QueryAggregation | QueryAggregationWithName)[]
 ): aggregations is QueryAggregationWithName[] => {
-  return (aggregations as QueryAggregationWithName[])[0].field !== undefined;
+  return (
+    (aggregations as QueryAggregationWithName[])[0].field !== undefined ||
+    (aggregations as QueryAggregationWithName[])[0].path !== undefined ||
+    (aggregations as QueryAggregationWithName[])[0].match !== undefined
+  );
 };
 
 export interface SelectableFieldFacetWithCategory {
