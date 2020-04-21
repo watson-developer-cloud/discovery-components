@@ -11,7 +11,7 @@ export const buildAggregationQuery = (configuration: QueryAggregationWithName[])
         nestedTypeTermAgg = `.term(${topLevelTermEntityField}.entities.type,count:1)`;
       }
       return 'term(' + term.field + termCount + termName + ')' + nestedTypeTermAgg;
-      // This supports nested dictionary aggregations
+      // This supports nested and filter aggregations, including dictionary aggregations
     } else {
       let nestedOrFilterAgg = '';
       if (term.aggregations && term.aggregations[0]) {
