@@ -101,13 +101,14 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
     setIsCollapsed(!isCollapsed);
   };
 
-  const toggleModalOpen = (): void => {
+  const setModalOpen = (): void => {
     setIsModalOpen(true);
   };
 
   const categoryFacetsToShow = isCollapsed ? facets.slice(0, collapsedFacetsCount - 1) : facets;
   const iconToRender = categoryIsExpanded ? ChevronUp : ChevronDown;
   const totalNumberFacets = facets.length;
+  const showMoreButtonOnClick = totalNumberFacets <= 10 ? toggleFacetsCollapse : setModalOpen;
 
   return (
     <div className={categoryClass}>
@@ -143,36 +144,27 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
           )}
           {isCollapsible && (
             <>
-              {totalNumberFacets <= 10 ? (
-                <ShowMoreButton
-                  onClick={toggleFacetsCollapse}
-                  idSuffix={categoryName}
-                  isCollapsed={isCollapsed}
+              <ShowMoreButton
+                onClick={showMoreButtonOnClick}
+                idSuffix={categoryName}
+                isCollapsed={isCollapsed}
+                messages={messages}
+              />
+              {totalNumberFacets > 10 && (
+                <ShowMoreModal
                   messages={messages}
+                  aggregationSettings={aggregationSettings}
+                  facets={facets}
+                  facetsLabel={facetsLabel}
+                  facetsTextField={facetsTextField}
+                  onChange={onChange}
+                  isOpen={isModalOpen}
+                  setIsModalOpen={setIsModalOpen}
+                  shouldDisplayAsMultiSelect={shouldDisplayAsMultiSelect}
+                  selectedFacet={selectedFacet}
+                  showMatchingResults={showMatchingResults}
+                  categoryName={categoryName}
                 />
-              ) : (
-                <>
-                  <ShowMoreButton
-                    onClick={toggleModalOpen}
-                    idSuffix={categoryName}
-                    isCollapsed={isCollapsed}
-                    messages={messages}
-                  />
-                  <ShowMoreModal
-                    messages={messages}
-                    aggregationSettings={aggregationSettings}
-                    facets={facets}
-                    facetsLabel={facetsLabel}
-                    facetsTextField={facetsTextField}
-                    onChange={onChange}
-                    isOpen={isModalOpen}
-                    setIsModalOpen={setIsModalOpen}
-                    shouldDisplayAsMultiSelect={shouldDisplayAsMultiSelect}
-                    selectedFacet={selectedFacet}
-                    showMatchingResults={showMatchingResults}
-                    categoryName={categoryName}
-                  />
-                </>
               )}
             </>
           )}

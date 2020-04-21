@@ -41,12 +41,13 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
   onChange
 }) => {
   const handleOnChange = (selectedFacets: SelectedFacet[]): void => {
-    selectedFacets.map(selectedFacet => {
-      const facetsForNameIndex = allFacets.findIndex(facet => {
-        if (!facet.name) {
-          return facet.field === selectedFacet.selectedFacetName;
+    let updatedFacets = allFacets;
+    selectedFacets.map(({ selectedFacetName, selectedFacetKey, checked }) => {
+      const facetsForNameIndex = allFacets.findIndex(({ field, name }) => {
+        if (!name) {
+          return field === selectedFacetName;
         }
-        return facet.name === selectedFacet.selectedFacetName;
+        return name === selectedFacetName;
       });
       if (facetsForNameIndex > -1) {
         const facetsForName = allFacets[facetsForNameIndex];
@@ -68,22 +69,23 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
 
             if (usingRadioButtons) {
               const keySelected = get(result, 'selected', false);
-              const isSelectedFacetKey = key === selectedFacet.selectedFacetKey;
+              const isSelectedFacetKey = key === selectedFacetKey;
               return Object.assign({}, result, { selected: isSelectedFacetKey && !keySelected });
             } else {
-              return key === selectedFacet.selectedFacetKey
-                ? Object.assign({}, result, { selected: selectedFacet.checked })
+              return key === selectedFacetKey
+                ? Object.assign({}, result, { selected: checked })
                 : result;
             }
           }
         );
-        allFacets[facetsForNameIndex].results = selectedFacetResults;
+        updatedFacets[facetsForNameIndex].results = selectedFacetResults;
       }
     });
-    onChange({ filterFields: allFacets });
+    onChange({ filterFields: updatedFacets });
   };
 
   const handleOnClear = (selectedFacetName: string): void => {
+    let updatedFacets = allFacets;
     const facetsForNameIndex = allFacets.findIndex(facet => {
       if (!facet.name) {
         return facet.field === selectedFacetName;
@@ -95,8 +97,8 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
       const deselectedResults = (results as SelectableQueryTermAggregationResult[]).map(result => {
         return { ...result, selected: false };
       });
-      allFacets[facetsForNameIndex].results = deselectedResults;
-      onChange({ filterFields: allFacets });
+      updatedFacets[facetsForNameIndex].results = deselectedResults;
+      onChange({ filterFields: updatedFacets });
     }
   };
 

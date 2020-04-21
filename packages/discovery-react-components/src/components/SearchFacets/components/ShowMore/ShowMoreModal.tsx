@@ -96,7 +96,6 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
       className={showMoreModalClass}
       modalHeading={modalHeading}
       onRequestSubmit={handleOnRequestSubmit}
-      id="search-facet-show-more-modal"
       onRequestClose={handleOnRequestClose}
       modalAriaLabel={messages.showMoreModalAriaLabel}
       aria-label={messages.showMoreModalAriaLabel}

@@ -87,7 +87,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
     setIsCollapsed(!isCollapsed);
   };
 
-  const toggleModalOpen = (): void => {
+  const setModalOpen = (): void => {
     setIsModalOpen(true);
   };
 
@@ -125,6 +125,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
   const selectedFacetText = get(selectedFacets[0], facetsTextField, '');
   const shouldDisplayAsMultiSelect = areMultiSelectionsAllowed || selectedFacets.length > 1;
   const shouldDisplayClearButton = shouldDisplayAsMultiSelect && selectedFacets.length > 0;
+  const showMoreButtonOnClick = totalNumberFacets <= 10 ? toggleFacetsCollapse : setModalOpen;
   const handleClearFacets = (): void => {
     onClear(aggregationSettings.name || aggregationSettings.field);
   };
@@ -188,35 +189,26 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
           )}
           {isCollapsible && (
             <>
-              {totalNumberFacets <= 10 ? (
-                <ShowMoreButton
-                  onClick={toggleFacetsCollapse}
-                  idSuffix={facetsLabel}
-                  isCollapsed={isCollapsed}
+              <ShowMoreButton
+                onClick={showMoreButtonOnClick}
+                idSuffix={facetsLabel}
+                isCollapsed={isCollapsed}
+                messages={messages}
+              />
+              {totalNumberFacets > 10 && (
+                <ShowMoreModal
                   messages={messages}
+                  aggregationSettings={aggregationSettings}
+                  facets={facets}
+                  facetsLabel={facetsLabel}
+                  facetsTextField={facetsTextField}
+                  onChange={onChange}
+                  isOpen={isModalOpen}
+                  setIsModalOpen={setIsModalOpen}
+                  shouldDisplayAsMultiSelect={shouldDisplayAsMultiSelect}
+                  selectedFacet={selectedFacetText}
+                  showMatchingResults={showMatchingResults}
                 />
-              ) : (
-                <>
-                  <ShowMoreButton
-                    onClick={toggleModalOpen}
-                    idSuffix={facetsLabel}
-                    isCollapsed={isCollapsed}
-                    messages={messages}
-                  />
-                  <ShowMoreModal
-                    messages={messages}
-                    aggregationSettings={aggregationSettings}
-                    facets={facets}
-                    facetsLabel={facetsLabel}
-                    facetsTextField={facetsTextField}
-                    onChange={onChange}
-                    isOpen={isModalOpen}
-                    setIsModalOpen={setIsModalOpen}
-                    shouldDisplayAsMultiSelect={shouldDisplayAsMultiSelect}
-                    selectedFacet={selectedFacetText}
-                    showMatchingResults={showMatchingResults}
-                  />
-                </>
               )}
             </>
           )}
