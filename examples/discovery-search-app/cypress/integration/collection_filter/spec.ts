@@ -72,6 +72,8 @@ describe('Collection Filter', () => {
           beforeEach(() => {
             cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQuery');
             cy.get('div[aria-label="Clear Selection"]').click();
+            cy.wait('@postQuery');
+            cy.wait('@postQuery');
             cy.wait('@postQuery').as('clearedCollectionsQueryObject');
           });
 
@@ -106,6 +108,8 @@ describe('Collection Filter', () => {
             beforeEach(() => {
               cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQuery');
               cy.get('div[aria-label="Clear Selection"]').click();
+              cy.wait('@postQuery');
+              cy.wait('@postQuery');
               cy.wait('@postQuery').as('originalQueryObject');
             });
 
