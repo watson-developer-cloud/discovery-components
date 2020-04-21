@@ -5,8 +5,8 @@ import ChevronUp from '@carbon/icons-react/lib/chevron--up/16';
 import { Messages } from 'components/SearchFacets/messages';
 import { MultiSelectFacetsGroup } from './MultiSelectFacetsGroup';
 import { SingleSelectFacetsGroup } from './SingleSelectFacetsGroup';
-import { ShowMoreModal } from './ShowMoreModal';
-import { ShowMoreButton } from './ShowMoreButton';
+import { ShowMoreModal } from '../ShowMore/ShowMoreModal';
+import { ShowMoreButton } from '../ShowMore/ShowMoreButton';
 import {
   categoryClass,
   categoryExpandCollapseClass,

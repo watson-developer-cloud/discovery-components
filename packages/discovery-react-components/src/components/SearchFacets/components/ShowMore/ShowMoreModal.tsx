@@ -8,8 +8,8 @@ import {
   SelectableQueryTermAggregationResult,
   SelectedFacet
 } from 'components/SearchFacets/utils/searchFacetInterfaces';
-import { MultiSelectFacetsGroup } from './MultiSelectFacetsGroup';
-import { SingleSelectFacetsGroup } from './SingleSelectFacetsGroup';
+import { MultiSelectFacetsGroup } from '../FacetsGroups/MultiSelectFacetsGroup';
+import { SingleSelectFacetsGroup } from '../FacetsGroups/SingleSelectFacetsGroup';
 
 interface ShowMoreModalProps {
   /**

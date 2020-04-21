@@ -19,8 +19,8 @@ import { Messages } from 'components/SearchFacets/messages';
 import { CategoryFacetsGroup } from './CategoryFacetsGroup';
 import { MultiSelectFacetsGroup } from './MultiSelectFacetsGroup';
 import { SingleSelectFacetsGroup } from './SingleSelectFacetsGroup';
-import { ShowMoreModal } from './ShowMoreModal';
-import { ShowMoreButton } from './ShowMoreButton';
+import { ShowMoreModal } from '../ShowMore/ShowMoreModal';
+import { ShowMoreButton } from '../ShowMore/ShowMoreButton';
 
 interface CollapsibleFacetsGroupProps {
   /**

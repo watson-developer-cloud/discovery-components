@@ -276,6 +276,29 @@ describe('CollapsibleFacetsGroupComponent', () => {
           expect(assistantFacetValues[0]['checked']).toEqual(false);
           expect(assistantFacetValues[1]['checked']).toEqual(false);
         });
+
+        test('on close of modal, does not update search or preserve selections', () => {
+          const { searchFacetsComponent, performSearchMock } = setup();
+          const productsShowMoreButton = searchFacetsComponent.getByTestId(
+            'show-more-less-products'
+          );
+          fireEvent.click(productsShowMoreButton);
+          const productsModal = searchFacetsComponent.getByTestId(
+            'search-facet-show-more-modal-products'
+          );
+          const assistantModalFacetValue = within(productsModal).getByLabelText(
+            'assistant (32444)'
+          );
+          fireEvent.click(assistantModalFacetValue);
+          const closeButton = within(productsModal).getByTitle('close the modal');
+          fireEvent.click(closeButton);
+          expect(performSearchMock).toBeCalledTimes(0);
+          const assistantFacetValues = searchFacetsComponent.queryAllByLabelText(
+            'assistant (32444)'
+          );
+          expect(assistantFacetValues[0]['checked']).toEqual(false);
+          expect(assistantFacetValues[1]['checked']).toEqual(false);
+        });
       });
     });
   });
