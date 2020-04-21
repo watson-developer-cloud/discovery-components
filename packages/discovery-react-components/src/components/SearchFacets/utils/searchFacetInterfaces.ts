@@ -48,12 +48,13 @@ export interface CollectionItem {
 }
 
 export interface QueryAggregationWithName extends DiscoveryV2.QueryAggregation {
-  field: string;
+  field?: string;
   count?: number;
   name?: string;
   path?: string;
   match?: string;
   aggregations?: QueryAggregationWithName[];
+  matching_results?: number;
 }
 
 export const isQueryAggregationWithName = (

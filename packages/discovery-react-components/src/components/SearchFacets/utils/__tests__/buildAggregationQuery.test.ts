@@ -3,7 +3,9 @@ import {
   configurationWithOneField,
   configurationWithTwoFields,
   configurationWithoutCounts,
-  configurationWithTopEntities
+  configurationWithTopEntities,
+  configurationWithFilterQueryAggregation,
+  configurationWithNestedQueryAggregation
 } from 'components/SearchFacets/__fixtures__/configuration';
 
 describe('BuildAggregationQuery', () => {
@@ -26,6 +28,20 @@ describe('BuildAggregationQuery', () => {
     const aggParam = buildAggregationQuery(configurationWithTopEntities);
     expect(aggParam).toEqual(
       '[term(enriched_text.entities.text,count:12,name:entities).term(enriched_text.entities.type,count:1),term(author)]'
+    );
+  });
+
+  test('it converts configuration with nested query aggregation to expected aggregation parameter', () => {
+    const aggParam = buildAggregationQuery(configurationWithNestedQueryAggregation);
+    expect(aggParam).toEqual(
+      '[term(enriched_text.entities.text,count:12,name:entities).term(enriched_text.entities.type,count:1),term(author),nested(enriched_text.entities).filter(enriched_text.entities.model_name:"Dictionary:.products").term(enriched_text.entities.text,count:4,name:dict_ypKBKYnM8LOq)]'
+    );
+  });
+
+  test('it converts configuration with filter query aggregation to expected aggregation parameter', () => {
+    const aggParam = buildAggregationQuery(configurationWithFilterQueryAggregation);
+    expect(aggParam).toEqual(
+      '[term(enriched_text.entities.text,count:12,name:entities).term(enriched_text.entities.type,count:1),term(author),nested(enriched_text.entities.enriched_text.entities.text).filter(enriched_text.entities.enriched_text.entities.model_name:"Dictionary:.test").term(enriched_text.entities.enriched_text.entities.text,count:4,name:dict_yqYQPpM8OljE)]'
     );
   });
 });
