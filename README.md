@@ -234,7 +234,7 @@ If you don't have a React application already, start with [create react app](htt
     );
   }
   export default App;
-   ```
+  ```
 
 For more information on how each component can be customized and configured, check out our hosted [storybook](https://watson-developer-cloud.github.io/discovery-components)
 
