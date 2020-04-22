@@ -16,7 +16,6 @@
   * [Manual setup](#manual-setup)
     + [Windows Only](#windows-only)
 - [Using Discovery Components in a React application](#using-discovery-components-in-a-react-application)
-  * [Interacting with Discovery data in custom components](#interacting-with-discovery-data-in-custom-components)
 - [Development](#development)
   * [Project structure](#project-structure)
   * [Install](#install)
@@ -182,43 +181,59 @@ If you don't have a React application already, start with [create react app](htt
 
    ```jsx
    // src/App.js
-
-   import React from 'react';
-   import {
-     DiscoverySearch,
-     SearchInput,
-     SearchResults,
-     SearchFacets,
-     ResultsPagination,
-     DocumentPreview
-   } from '@ibm-watson/discovery-react-components';
-   import DiscoveryV2 from 'ibm-watson/discovery/v2';
-   import { BearerTokenAuthenticator } from 'ibm-watson/auth';
-   import '@ibm-watson/discovery-styles/scss/index.scss';
-
-   // Replace these values
-   const bearerToken = '{REPLACE_ME}'; // retrieved from CP4D Admin UI under instance details which expires daily
-   const url = '{REPLACE_ME}'; // retrieved from CP4D Admin UI under instance details
-   const version = '{REPLACE_ME}'; // YYYY-MM-DD date format
-   const projectId = '{REPLACE_ME}'; // retrieved from Discovery Tooling UI
-
-   const App = () => {
-     // see https://github.com/IBM/node-sdk-core/blob/master/AUTHENTICATION.md#bearer-token-authentication
-     const authenticator = new BearerTokenAuthenticator({ bearerToken });
-     const searchClient = new DiscoveryV2({ url, version, authenticator });
-
-     return (
-       <DiscoverySearch searchClient={searchClient} projectId={projectId}>
-         <SearchInput />
-         <SearchResults />
-         <SearchFacets />
-         <ResultsPagination />
-         <DocumentPreview />
-       </DiscoverySearch>
-     );
-   };
-
-   export default App;
+  import React from 'react';
+  import {
+    DiscoverySearch,
+    SearchInput,
+    SearchResults,
+    SearchFacets,
+    ResultsPagination,
+    DocumentPreview
+  } from '@ibm-watson/discovery-react-components';
+  import DiscoveryV2 from 'ibm-watson/discovery/v2';
+  import { BearerTokenAuthenticator } from 'ibm-watson/auth';
+  import '@ibm-watson/discovery-styles/scss/index.scss';
+  // Replace these values
+  const bearerToken = '{REPLACE_ME}'; // retrieved from CP4D Admin UI under instance details which expires daily
+  const url = '{REPLACE_ME}'; // retrieved from CP4D Admin UI under instance details
+  const version = '{REPLACE_ME}'; // YYYY-MM-DD date format
+  const projectId = '{REPLACE_ME}'; // retrieved from Discovery Tooling UI
+  const App = () => {
+    let authenticator, searchClient, success;
+    try {
+      // see https://github.com/IBM/node-sdk-core/blob/master/AUTHENTICATION.md#bearer-token-authentication
+      authenticator = new BearerTokenAuthenticator({ bearerToken });
+      searchClient = new DiscoveryV2({ url, version, authenticator });
+      success = true;
+    } catch (err) {
+      console.error(err);
+    }
+    return success ? (
+        <DiscoverySearch searchClient={searchClient} projectId={projectId}>
+          <SearchInput />
+          <SearchResults />
+          <SearchFacets />
+          <ResultsPagination />
+          <DocumentPreview />
+        </DiscoverySearch>
+    ) : (
+      setupMessage()
+    );
+  };
+  function setupMessage() {
+    return (
+      <div style={{
+        textAlign: 'center',
+        margin: '20%',
+        fontSize: '1.5rem',
+      }}>
+        Please replace the constants in App.js in order to see the Discovery sample application.
+        <br /><br />
+        Check the console log for more information if you have replaced these constants and are still seeing this message.
+      </div>
+    );
+  }
+  export default App;
    ```
 
 For more information on how each component can be customized and configured, check out our hosted [storybook](https://watson-developer-cloud.github.io/discovery-components)
