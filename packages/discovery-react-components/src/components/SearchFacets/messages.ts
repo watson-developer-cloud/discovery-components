@@ -6,6 +6,7 @@ export interface Messages {
   clearFacetSelectionTitle: string;
   collapsedFacetShowMoreText: string;
   collapsedFacetShowLessText: string;
+  collapsedFacetShowAllText: string;
   collectionSelectTitleText: string;
   collectionSelectLabel: string;
   dynamicFacetsLabel: string;
@@ -22,6 +23,7 @@ export const defaultMessages: Messages = {
   clearFacetSelectionTitle: 'Clear selected item',
   collapsedFacetShowMoreText: 'Show more',
   collapsedFacetShowLessText: 'Show less',
+  collapsedFacetShowAllText: 'Show all',
   collectionSelectTitleText: 'Collections',
   collectionSelectLabel: 'Available collections',
   dynamicFacetsLabel: 'Dynamic Facets',

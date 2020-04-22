@@ -16,6 +16,10 @@ interface ShowMoreButtonProps {
    */
   isCollapsed: boolean;
   /**
+   * If the button text will be for opening a modal or expanding the list
+   */
+  isShowAllMessage: boolean;
+  /**
    * i18n messages for the component
    */
   messages: Messages;
@@ -25,11 +29,30 @@ export const ShowMoreButton: FC<ShowMoreButtonProps> = ({
   onClick,
   idSuffix,
   isCollapsed,
+  isShowAllMessage,
   messages
 }) => {
   return (
-    <Button kind="ghost" size="small" onClick={onClick} data-testid={`show-more-less-${idSuffix}`}>
-      {isCollapsed ? messages.collapsedFacetShowMoreText : messages.collapsedFacetShowLessText}
-    </Button>
+    <>
+      {isShowAllMessage ? (
+        <Button
+          kind="ghost"
+          size="small"
+          onClick={onClick}
+          data-testid={`show-more-less-${idSuffix}`}
+        >
+          {messages.collapsedFacetShowAllText}
+        </Button>
+      ) : (
+        <Button
+          kind="ghost"
+          size="small"
+          onClick={onClick}
+          data-testid={`show-more-less-${idSuffix}`}
+        >
+          {isCollapsed ? messages.collapsedFacetShowMoreText : messages.collapsedFacetShowLessText}
+        </Button>
+      )}
+    </>
   );
 };

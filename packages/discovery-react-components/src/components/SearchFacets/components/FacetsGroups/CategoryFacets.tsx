@@ -148,6 +148,7 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
                 onClick={showMoreButtonOnClick}
                 idSuffix={categoryName}
                 isCollapsed={isCollapsed}
+                isShowAllMessage={totalNumberFacets > 10}
                 messages={messages}
               />
               {totalNumberFacets > 10 && (

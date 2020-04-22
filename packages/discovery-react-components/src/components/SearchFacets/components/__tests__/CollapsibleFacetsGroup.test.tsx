@@ -78,18 +78,22 @@ describe('CollapsibleFacetsGroupComponent', () => {
   });
 
   describe('when aggregations should be collapsed for some fields', () => {
-    test('show more link is only shown for facet group with too many results', () => {
+    test('show more and show all links are only shown for facet group with too many results', () => {
       const { searchFacetsComponent } = setup({ collapsedFacetsCount: 5 });
       const showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
-      expect(showMoreButtons).toHaveLength(2);
+      expect(showMoreButtons).toHaveLength(1);
+      const showAllButtons = searchFacetsComponent.queryAllByText('Show all');
+      expect(showAllButtons).toHaveLength(1);
     });
   });
 
   describe('when aggregations are collapsed for multiple facets', () => {
-    test('show more link is only shown for multiple facet groups', () => {
+    test('show more and show all links are only shown for multiple facet groups', () => {
       const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
       const showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
-      expect(showMoreButtons).toHaveLength(3);
+      expect(showMoreButtons).toHaveLength(2);
+      const showAllButtons = searchFacetsComponent.queryAllByText('Show all');
+      expect(showAllButtons).toHaveLength(1);
     });
 
     test('facets are initially shown collapsed', () => {
@@ -165,7 +169,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
           fireEvent.click(showMoreButtons[0]);
 
           showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
-          expect(showMoreButtons).toHaveLength(2);
+          expect(showMoreButtons).toHaveLength(1);
 
           const showLessButtons = searchFacetsComponent.queryAllByText('Show less');
           expect(showLessButtons).toHaveLength(1);
@@ -354,7 +358,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
       fireEvent.click(showLessButtons[0]);
 
       showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
-      expect(showMoreButtons).toHaveLength(2);
+      expect(showMoreButtons).toHaveLength(1);
       showLessButtons = searchFacetsComponent.queryAllByText('Show less');
       expect(showLessButtons).toHaveLength(1);
     });

@@ -193,6 +193,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
                 onClick={showMoreButtonOnClick}
                 idSuffix={facetsLabel}
                 isCollapsed={isCollapsed}
+                isShowAllMessage={totalNumberFacets > 10}
                 messages={messages}
               />
               {totalNumberFacets > 10 && (
