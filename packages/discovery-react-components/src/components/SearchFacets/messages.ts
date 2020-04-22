@@ -25,7 +25,7 @@ export const defaultMessages: Messages = {
   collectionSelectTitleText: 'Collections',
   collectionSelectLabel: 'Available collections',
   dynamicFacetsLabel: 'Dynamic Facets',
-  showMoreModalPrimaryButtonText: 'Save',
+  showMoreModalPrimaryButtonText: 'Apply',
   showMoreModalSecondaryButtonText: 'Cancel',
   showMoreModalAriaLabel: 'Modal to select and deselect facets',
   categoryExpandCollapseIconDescription: 'Expand/Collapse'
