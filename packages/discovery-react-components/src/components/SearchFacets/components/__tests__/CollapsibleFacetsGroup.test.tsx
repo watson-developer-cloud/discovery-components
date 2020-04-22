@@ -238,7 +238,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
             'assistant (32444)'
           );
           fireEvent.click(assistantModalFacetValue);
-          const saveButton = within(productsModal).getByText('Save');
+          const saveButton = within(productsModal).getByText('Apply');
           fireEvent.click(saveButton);
           expect(performSearchMock).toBeCalledTimes(1);
           expect(performSearchMock).toBeCalledWith(
