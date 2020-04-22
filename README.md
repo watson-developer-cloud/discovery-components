@@ -16,6 +16,7 @@
   * [Manual setup](#manual-setup)
     + [Windows Only](#windows-only)
 - [Using Discovery Components in a React application](#using-discovery-components-in-a-react-application)
+  * [Interacting with Discovery data in custom components](#interacting-with-discovery-data-in-custom-components)
 - [Development](#development)
   * [Project structure](#project-structure)
   * [Install](#install)
@@ -179,125 +180,125 @@ If you don't have a React application already, start with [create react app](htt
 
 3. Add the `DiscoverySearch` component with corresponding `searchClient` and optionally any components you would like to use to display Discovery Search Results.
 
-   ```jsx
-   // src/App.js
-  import React from 'react';
-  import {
-    DiscoverySearch,
-    SearchInput,
-    SearchResults,
-    SearchFacets,
-    ResultsPagination,
-    DocumentPreview
-  } from '@ibm-watson/discovery-react-components';
-  import DiscoveryV2 from 'ibm-watson/discovery/v2';
-  import { BearerTokenAuthenticator } from 'ibm-watson/auth';
-  import '@ibm-watson/discovery-styles/scss/index.scss';
-  // Replace these values
-  const bearerToken = '{REPLACE_ME}'; // retrieved from CP4D Admin UI under instance details which expires daily
-  const url = '{REPLACE_ME}'; // retrieved from CP4D Admin UI under instance details
-  const version = '{REPLACE_ME}'; // YYYY-MM-DD date format
-  const projectId = '{REPLACE_ME}'; // retrieved from Discovery Tooling UI
-  const App = () => {
-    let authenticator, searchClient, success;
-    try {
-      // see https://github.com/IBM/node-sdk-core/blob/master/AUTHENTICATION.md#bearer-token-authentication
-      authenticator = new BearerTokenAuthenticator({ bearerToken });
-      searchClient = new DiscoveryV2({ url, version, authenticator });
-      success = true;
-    } catch (err) {
-      console.error(err);
+  ```jsx
+    // src/App.js
+    import React from 'react';
+    import {
+      DiscoverySearch,
+      SearchInput,
+      SearchResults,
+      SearchFacets,
+      ResultsPagination,
+      DocumentPreview
+    } from '@ibm-watson/discovery-react-components';
+    import DiscoveryV2 from 'ibm-watson/discovery/v2';
+    import { BearerTokenAuthenticator } from 'ibm-watson/auth';
+    import '@ibm-watson/discovery-styles/scss/index.scss';
+    // Replace these values
+    const bearerToken = '{REPLACE_ME}'; // retrieved from CP4D Admin UI under instance details which expires daily
+    const url = '{REPLACE_ME}'; // retrieved from CP4D Admin UI under instance details
+    const version = '{REPLACE_ME}'; // YYYY-MM-DD date format
+    const projectId = '{REPLACE_ME}'; // retrieved from Discovery Tooling UI
+    const App = () => {
+      let authenticator, searchClient, success;
+      try {
+        // see https://github.com/IBM/node-sdk-core/blob/master/AUTHENTICATION.md#bearer-token-authentication
+        authenticator = new BearerTokenAuthenticator({ bearerToken });
+        searchClient = new DiscoveryV2({ url, version, authenticator });
+        success = true;
+      } catch (err) {
+        console.error(err);
+      }
+      return success ? (
+          <DiscoverySearch searchClient={searchClient} projectId={projectId}>
+            <SearchInput />
+            <SearchResults />
+            <SearchFacets />
+            <ResultsPagination />
+            <DocumentPreview />
+          </DiscoverySearch>
+      ) : (
+        setupMessage()
+      );
+    };
+    function setupMessage() {
+      return (
+        <div style={{
+          textAlign: 'center',
+          margin: '20%',
+          fontSize: '1.5rem',
+        }}>
+          Please replace the constants in App.js in order to see the Discovery sample application.
+          <br /><br />
+          Check the console log for more information if you have replaced these constants and are still seeing this message.
+        </div>
+      );
     }
-    return success ? (
-        <DiscoverySearch searchClient={searchClient} projectId={projectId}>
-          <SearchInput />
-          <SearchResults />
-          <SearchFacets />
-          <ResultsPagination />
-          <DocumentPreview />
-        </DiscoverySearch>
-    ) : (
-      setupMessage()
+    export default App;
+  ```
+
+  For more information on how each component can be customized and configured, check out our hosted [storybook](https://watson-developer-cloud.github.io/discovery-components)
+
+  ### Interacting with Discovery data in custom components
+
+  Interacting with Discovery data is facilitated by the use of [React Context](https://reactjs.org/docs/context.html). The only requirement for a component to consume or request data is that it be nested underneath the `DiscoverySearch` component.
+
+  ex.
+
+  ```jsx
+  // src/App.js
+
+  import React from 'react';
+  import { DiscoverySearch } from '@ibm-watson/discovery-react-components';
+  import { MyCustomComponent } from './MyCustomComponent.js';
+
+  const App = () => {
+    // see more detailed searchClient example above for `searchClient` variable
+    return (
+      <DiscoverySearch searchClient={searchClient} projectId={'REPLACE_ME'}>
+        <MyCustomComponent />
+      </DiscoverySearch>
     );
   };
-  function setupMessage() {
-    return (
-      <div style={{
-        textAlign: 'center',
-        margin: '20%',
-        fontSize: '1.5rem',
-      }}>
-        Please replace the constants in App.js in order to see the Discovery sample application.
-        <br /><br />
-        Check the console log for more information if you have replaced these constants and are still seeing this message.
-      </div>
-    );
-  }
+
   export default App;
   ```
 
-For more information on how each component can be customized and configured, check out our hosted [storybook](https://watson-developer-cloud.github.io/discovery-components)
+  ```jsx
+  // src/MyCustomComponent.js
 
-### Interacting with Discovery data in custom components
+  import React from 'react';
+  import { SearchContext, SearchApi } from '@ibm-watson/discovery-react-components';
 
-Interacting with Discovery data is facilitated by the use of [React Context](https://reactjs.org/docs/context.html). The only requirement for a component to consume or request data is that it be nested underneath the `DiscoverySearch` component.
+  const MyCustomComponent = () => {
+    // for more information about the shape of SearchContext, see SearchContextIFC defined in DiscoverySearch.tsx
+    const {
+      searchResponseStore: { data: searchResponse }
+    } = React.useContext(SearchContext);
 
-ex.
+    const { performSearch } = useContext(SearchApi);
+    // for more information about the params needed to perform searches, see the Watson Developer Cloud SDK
+    // DiscoveryV2.QueryParams in https://github.com/watson-developer-cloud/node-sdk/blob/master/discovery/v2.ts
+    const searchParameters = {
+      projectId: 'REPLACE_ME',
+      naturalLanguageQuery: 'SEARCH TERM'
+    };
 
-```jsx
-// src/App.js
-
-import React from 'react';
-import { DiscoverySearch } from '@ibm-watson/discovery-react-components';
-import { MyCustomComponent } from './MyCustomComponent.js';
-
-const App = () => {
-  // see more detailed searchClient example above for `searchClient` variable
-  return (
-    <DiscoverySearch searchClient={searchClient} projectId={'REPLACE_ME'}>
-      <MyCustomComponent />
-    </DiscoverySearch>
-  );
-};
-
-export default App;
-```
-
-```jsx
-// src/MyCustomComponent.js
-
-import React from 'react';
-import { SearchContext, SearchApi } from '@ibm-watson/discovery-react-components';
-
-const MyCustomComponent = () => {
-  // for more information about the shape of SearchContext, see SearchContextIFC defined in DiscoverySearch.tsx
-  const {
-    searchResponseStore: { data: searchResponse }
-  } = React.useContext(SearchContext);
-
-  const { performSearch } = useContext(SearchApi);
-  // for more information about the params needed to perform searches, see the Watson Developer Cloud SDK
-  // DiscoveryV2.QueryParams in https://github.com/watson-developer-cloud/node-sdk/blob/master/discovery/v2.ts
-  const searchParameters = {
-    projectId: 'REPLACE_ME',
-    naturalLanguageQuery: 'SEARCH TERM'
+    return (
+      <div>
+        There are {searchResponse.matching_results} results
+        <button
+          onClick={() => {
+            performSearch(searchParameters);
+          }}
+        >
+          Click here to search
+        </button>
+      </div>
+    );
   };
 
-  return (
-    <div>
-      There are {searchResponse.matching_results} results
-      <button
-        onClick={() => {
-          performSearch(searchParameters);
-        }}
-      >
-        Click here to search
-      </button>
-    </div>
-  );
-};
-
-export default MyCustomComponent;
+  export default MyCustomComponent;
 ```
 
 ## Development
