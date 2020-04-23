@@ -41,7 +41,7 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
   onChange
 }) => {
   const handleOnChange = (selectedFacets: SelectedFacet[]): void => {
-    let updatedFacets = allFacets;
+    let updatedFacets = [...allFacets];
     selectedFacets.map(({ selectedFacetName, selectedFacetKey, checked }) => {
       const facetsForNameIndex = allFacets.findIndex(({ field, name }) => {
         if (!name) {

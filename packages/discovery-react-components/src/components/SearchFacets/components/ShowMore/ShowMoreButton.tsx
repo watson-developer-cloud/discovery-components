@@ -32,27 +32,19 @@ export const ShowMoreButton: FC<ShowMoreButtonProps> = ({
   isShowAllMessage,
   messages
 }) => {
+  const showMessage = () => {
+    console.log('sohw message');
+    if (isShowAllMessage) {
+      return messages.collapsedFacetShowAllText;
+    } else if (isCollapsed) {
+      return messages.collapsedFacetShowMoreText;
+    }
+    return messages.collapsedFacetShowLessText;
+  };
+
   return (
-    <>
-      {isShowAllMessage ? (
-        <Button
-          kind="ghost"
-          size="small"
-          onClick={onClick}
-          data-testid={`show-more-less-${idSuffix}`}
-        >
-          {messages.collapsedFacetShowAllText}
-        </Button>
-      ) : (
-        <Button
-          kind="ghost"
-          size="small"
-          onClick={onClick}
-          data-testid={`show-more-less-${idSuffix}`}
-        >
-          {isCollapsed ? messages.collapsedFacetShowMoreText : messages.collapsedFacetShowLessText}
-        </Button>
-      )}
-    </>
+    <Button kind="ghost" size="small" onClick={onClick} data-testid={`show-more-less-${idSuffix}`}>
+      {showMessage()}
+    </Button>
   );
 };
