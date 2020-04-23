@@ -210,6 +210,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
                   setIsModalOpen={setIsModalOpen}
                   shouldDisplayAsMultiSelect={shouldDisplayAsMultiSelect}
                   selectedFacet={selectedFacetText}
+                  hasSearchBar={totalNumberFacets > 15}
                   showMatchingResults={showMatchingResults}
                 />
               )}
