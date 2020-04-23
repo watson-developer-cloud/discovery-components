@@ -164,6 +164,7 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
                   shouldDisplayAsMultiSelect={shouldDisplayAsMultiSelect}
                   selectedFacet={selectedFacet}
                   showMatchingResults={showMatchingResults}
+                  hasSearchBar={totalNumberFacets > 15}
                   categoryName={categoryName}
                 />
               )}
