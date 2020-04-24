@@ -89,6 +89,7 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
 
   // If this is in the Show more modal, we need to check for a temporary selection
   // and add a suffix to the selected facet value to make it unique
+  let radioGroupNamePrefix = 'checkbox';
   let facetValueSelected = selectedFacet;
   if (tempSelectedFacets) {
     if (tempSelectedFacets.length > 0) {
@@ -96,14 +97,11 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
     } else if (selectedFacet) {
       facetValueSelected = selectedFacet + '-modal';
     }
-  }
-
-  let radioGroupNamePrefix = 'checkbox';
-  const radioGroupName = aggregationSettings.name || aggregationSettings.field;
-  // If this is in the Show more modal, the radio button group name needs to be unique
-  if (tempSelectedFacets) {
+    // If this is in the Show more modal, the radio button group name needs to be unique
     radioGroupNamePrefix = 'modal-checkbox';
   }
+
+  const radioGroupName = aggregationSettings.name || aggregationSettings.field;
 
   return (
     <CarbonRadioButtonGroup

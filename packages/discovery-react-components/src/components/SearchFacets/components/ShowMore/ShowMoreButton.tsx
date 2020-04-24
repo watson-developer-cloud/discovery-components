@@ -33,7 +33,6 @@ export const ShowMoreButton: FC<ShowMoreButtonProps> = ({
   messages
 }) => {
   const showMessage = () => {
-    console.log('sohw message');
     if (isShowAllMessage) {
       return messages.collapsedFacetShowAllText;
     } else if (isCollapsed) {

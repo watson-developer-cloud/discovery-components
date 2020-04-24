@@ -6,8 +6,7 @@ export const getFacetLabel = (
   count: number | undefined,
   messages: Messages,
   showMatchingResults: boolean
-) => {
-  return count !== undefined && showMatchingResults
+) =>
+  count !== undefined && showMatchingResults
     ? formatMessage(messages.labelTextWithCount, { facetText: facetText, count: count }, false)
     : formatMessage(messages.labelText, { facetText: facetText }, false);
-};

@@ -40,15 +40,20 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
   collapsedFacetsCount,
   onChange
 }) => {
+  const getFacetsForNameIndex = (selectedFacetName: string) => {
+    const facetsForNameIndex = allFacets.findIndex(facet => {
+      if (!facet.name) {
+        return facet.field === selectedFacetName;
+      }
+      return facet.name === selectedFacetName;
+    });
+    return facetsForNameIndex;
+  };
+
   const handleOnChange = (selectedFacets: SelectedFacet[]): void => {
     let updatedFacets = [...allFacets];
     selectedFacets.map(({ selectedFacetName, selectedFacetKey, checked }) => {
-      const facetsForNameIndex = allFacets.findIndex(({ field, name }) => {
-        if (!name) {
-          return field === selectedFacetName;
-        }
-        return name === selectedFacetName;
-      });
+      const facetsForNameIndex = getFacetsForNameIndex(selectedFacetName);
       if (facetsForNameIndex > -1) {
         const facetsForName = allFacets[facetsForNameIndex];
         const multiselect = get(facetsForName, 'multiple_selections_allowed', true);
@@ -85,13 +90,8 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
   };
 
   const handleOnClear = (selectedFacetName: string): void => {
-    let updatedFacets = allFacets;
-    const facetsForNameIndex = allFacets.findIndex(facet => {
-      if (!facet.name) {
-        return facet.field === selectedFacetName;
-      }
-      return facet.name === selectedFacetName;
-    });
+    let updatedFacets = [...allFacets];
+    const facetsForNameIndex = getFacetsForNameIndex(selectedFacetName);
     if (facetsForNameIndex > -1) {
       const results = allFacets[facetsForNameIndex].results || [];
       const deselectedResults = (results as SelectableQueryTermAggregationResult[]).map(result => {

@@ -107,17 +107,14 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
         let facetSelected: boolean = !!facet.selected;
         if (tempSelectedFacets) {
           const tempIndex = tempSelectedFacets.findIndex(
-            tempSelectedFacet => tempSelectedFacet.selectedFacetKey === facetText
+            ({ selectedFacetKey }) => selectedFacetKey === facetText
           );
           if (tempIndex > -1) {
             facetSelected = tempSelectedFacets[tempIndex].checked;
           }
         }
 
-        let keyAndIdPrefix = 'checkbox';
-        if (tempSelectedFacets) {
-          keyAndIdPrefix = 'modal-checkbox';
-        }
+        let keyAndIdPrefix = tempSelectedFacets ? 'modal-checkbox' : 'checkbox';
 
         return (
           <CarbonCheckbox
