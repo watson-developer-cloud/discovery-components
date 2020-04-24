@@ -60,11 +60,8 @@ export interface QueryAggregationWithName extends DiscoveryV2.QueryAggregation {
 export const isQueryAggregationWithName = (
   aggregations?: (DiscoveryV2.QueryAggregation | QueryAggregationWithName)[]
 ): aggregations is QueryAggregationWithName[] => {
-  return (
-    (aggregations as QueryAggregationWithName[])[0].field !== undefined ||
-    (aggregations as QueryAggregationWithName[])[0].path !== undefined ||
-    (aggregations as QueryAggregationWithName[])[0].match !== undefined
-  );
+  const { field, path, match } = (aggregations as QueryAggregationWithName[])[0];
+  return field !== undefined || path !== undefined || match !== undefined;
 };
 
 export interface SelectableFieldFacetWithCategory {
