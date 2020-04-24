@@ -83,6 +83,9 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
   categoryName
 }) => {
   const [tempSelectedFacets, setTempSelectedFacets] = useState<SelectedFacet[]>([]);
+  const [filteredFacets, setFilteredFacets] = useState<
+    (SelectableDynamicFacets | SelectableQueryTermAggregationResult)[]
+  >([]);
 
   const handleOnRequestSubmit = () => {
     onChange(tempSelectedFacets);
@@ -111,14 +114,18 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
       data-testid={`search-facet-show-more-modal-${facetsLabel}`}
     >
       {hasSearchBar ? (
-        <ModalSearchInput facets={facets} modalIsOpen={isOpen} messages={messages} />
+        <ModalSearchInput
+          facets={facets}
+          messages={messages}
+          setFilteredFacets={setFilteredFacets}
+        />
       ) : (
         <></>
       )}
       {shouldDisplayAsMultiSelect ? (
         <MultiSelectFacetsGroup
           messages={messages}
-          facets={facets}
+          facets={filteredFacets.length != 0 ? filteredFacets : facets}
           aggregationSettings={aggregationSettings}
           onChange={onChange}
           facetsTextField={facetsTextField}
@@ -129,7 +136,7 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
       ) : (
         <SingleSelectFacetsGroup
           messages={messages}
-          facets={facets}
+          facets={filteredFacets.length != 0 ? filteredFacets : facets}
           aggregationSettings={aggregationSettings}
           onChange={onChange}
           selectedFacet={selectedFacet}

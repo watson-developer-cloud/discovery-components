@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { Messages } from 'components/SearchFacets/messages';
 import { Search as CarbonSearchInput } from 'carbon-components-react';
 import {
@@ -12,38 +12,33 @@ interface ModalSearchInputProps {
    */
   facets: (SelectableDynamicFacets | SelectableQueryTermAggregationResult)[];
   /**
-   * True if the search facet modal is open
+   * Sets the list of filtered facets
    */
-  modalIsOpen: boolean;
+  setFilteredFacets: any;
   /**
    * i18n messages for the component
    */
   messages: Messages;
 }
 
-export const ModalSearchInput: FC<ModalSearchInputProps> = ({ facets, modalIsOpen, messages }) => {
-  const [searchBarValue, setSearchBarValue] = useState<any>();
-
-  // Clear search bar if modal is closed
-  if (!modalIsOpen) {
-    setSearchBarValue('');
-    console.log('clear search bar');
-  }
-
+export const ModalSearchInput: FC<ModalSearchInputProps> = ({
+  facets,
+  setFilteredFacets,
+  messages
+}) => {
   const handleOnChange = (event: any) => {
-    let value = event.target.value;
+    const value = event.target.value;
     const tempFacets = [...facets];
 
-    const facetList = tempFacets.filter(facet => {
-      if (facet.key) {
-        return facet.key.toLowerCase().includes(value.toLowerCase());
-      } else {
-        return null;
-      }
-    });
-
-    console.log(value);
-    console.log(facetList);
+    setFilteredFacets(
+      tempFacets.filter(facet => {
+        if (facet.key) {
+          return facet.key.toLowerCase().includes(value.toLowerCase());
+        } else {
+          return null;
+        }
+      })
+    );
   };
 
   return (
