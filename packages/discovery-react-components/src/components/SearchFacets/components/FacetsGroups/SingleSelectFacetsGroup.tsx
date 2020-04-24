@@ -103,6 +103,34 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
 
   const radioGroupName = aggregationSettings.name || aggregationSettings.field;
 
+  const renderRadioButton = (facet: any) => {
+    const facetText = get(facet, facetsTextField, '');
+    const count = facet.matching_results;
+    const labelText = getFacetLabel(facetText, count, messages, showMatchingResults);
+    const query = naturalLanguageQuery || '';
+    const buff = new Buffer(query + facetText);
+    const base64data = buff.toString('base64');
+
+    let facetValue = facetText;
+    let keyAndIdPrefix = 'checkbox';
+    if (tempSelectedFacets) {
+      keyAndIdPrefix = 'modal-checkbox';
+      facetValue = get(facet, facetsTextField, '') + '-modal';
+    }
+    return (
+      <CarbonRadioButton
+        className={optionLabelClass}
+        labelText={labelText}
+        key={`${keyAndIdPrefix}-${escapedName}-${base64data}`}
+        id={`${keyAndIdPrefix}-${escapedName}-${facetText.replace(/\s+/g, '_')}`}
+        value={facetValue}
+        data-key={facetText}
+        data-name={radioGroupName}
+        onClick={handleOnClick}
+      />
+    );
+  };
+
   return (
     <CarbonRadioButtonGroup
       name={radioGroupNamePrefix + radioGroupName}
@@ -110,34 +138,7 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
       orientation={'vertical'}
       className={singleSelectGroupClass}
     >
-      {facets.map(facet => {
-        const facetText = get(facet, facetsTextField, '');
-        const count = facet.matching_results;
-        const labelText = getFacetLabel(facetText, count, messages, showMatchingResults);
-        const query = naturalLanguageQuery || '';
-        const buff = new Buffer(query + facetText);
-        const base64data = buff.toString('base64');
-
-        let facetValue = facetText;
-        let keyAndIdPrefix = 'checkbox';
-        if (tempSelectedFacets) {
-          keyAndIdPrefix = 'modal-checkbox';
-          facetValue = get(facet, facetsTextField, '') + '-modal';
-        }
-
-        return (
-          <CarbonRadioButton
-            className={optionLabelClass}
-            labelText={labelText}
-            key={`${keyAndIdPrefix}-${escapedName}-${base64data}`}
-            id={`${keyAndIdPrefix}-${escapedName}-${facetText.replace(/\s+/g, '_')}`}
-            value={facetValue}
-            data-key={facetText}
-            data-name={radioGroupName}
-            onClick={handleOnClick}
-          />
-        );
-      })}
+      {facets.map(renderRadioButton)}
     </CarbonRadioButtonGroup>
   );
 };
