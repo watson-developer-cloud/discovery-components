@@ -85,7 +85,7 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
   const [tempSelectedFacets, setTempSelectedFacets] = useState<SelectedFacet[]>([]);
   const [filteredFacets, setFilteredFacets] = useState<
     (SelectableDynamicFacets | SelectableQueryTermAggregationResult)[]
-  >([]);
+  >();
 
   const handleOnRequestSubmit = () => {
     onChange(tempSelectedFacets);
@@ -118,6 +118,7 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
           facets={facets}
           messages={messages}
           setFilteredFacets={setFilteredFacets}
+          isModalOpen={isOpen}
         />
       ) : (
         <></>
@@ -125,7 +126,7 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
       {shouldDisplayAsMultiSelect ? (
         <MultiSelectFacetsGroup
           messages={messages}
-          facets={filteredFacets.length != 0 ? filteredFacets : facets}
+          facets={filteredFacets || facets}
           aggregationSettings={aggregationSettings}
           onChange={onChange}
           facetsTextField={facetsTextField}
@@ -136,7 +137,7 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
       ) : (
         <SingleSelectFacetsGroup
           messages={messages}
-          facets={filteredFacets.length != 0 ? filteredFacets : facets}
+          facets={filteredFacets || facets}
           aggregationSettings={aggregationSettings}
           onChange={onChange}
           selectedFacet={selectedFacet}
