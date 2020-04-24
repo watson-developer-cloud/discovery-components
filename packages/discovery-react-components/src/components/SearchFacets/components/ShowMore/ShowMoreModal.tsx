@@ -110,7 +110,11 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
       secondaryButtonText={messages.showMoreModalSecondaryButtonText}
       data-testid={`search-facet-show-more-modal-${facetsLabel}`}
     >
-      {hasSearchBar ? <ModalSearchInput facets={facets} messages={messages} /> : <></>}
+      {hasSearchBar ? (
+        <ModalSearchInput facets={facets} modalIsOpen={isOpen} messages={messages} />
+      ) : (
+        <></>
+      )}
       {shouldDisplayAsMultiSelect ? (
         <MultiSelectFacetsGroup
           messages={messages}
