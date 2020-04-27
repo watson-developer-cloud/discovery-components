@@ -60,6 +60,7 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
       context
     )
   );
+  fireEvent.focus(window);
   return {
     context,
     performSearchMock,
@@ -200,7 +201,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
                 'speech to text (57158)',
                 'knowledge catalog (57158)',
                 'nlu (57158)',
-                'api kit (57158)',
+                'API kit (57158)',
                 'openpages (57158)',
                 'visual recognition (57158)',
                 'language translator (57158)',
@@ -321,7 +322,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
       'speech to text (57158)',
       'knowledge catalog (57158)',
       'nlu (57158)',
-      'api kit (57158)',
+      'API kit (57158)',
       'openpages (57158)',
       'visual recognition (57158)',
       'language translator (57158)',
@@ -347,10 +348,12 @@ describe('CollapsibleFacetsGroupComponent', () => {
       );
     });
 
-    test('opens modal with search bar and all facets', () => {
+    test('opens modal with an empty search bar and all facets', () => {
       expect(productsSearchBar).toBeDefined();
       const placeHolderText = productsSearchBar.getAttribute('placeholder');
       expect(placeHolderText).toEqual('What are you looking for today?');
+      const searchBarValue = productsSearchBar.getAttribute('value');
+      expect(searchBarValue).toBe('');
       // all facets are initially shown
       const productsFacets = within(productsModal).queryAllByText((content, element) => {
         return element.tagName.toLowerCase() === 'span' && productsFacetArray.includes(content);
@@ -362,22 +365,39 @@ describe('CollapsibleFacetsGroupComponent', () => {
       // user filters by "st"
       fireEvent.focus(productsSearchBar);
       fireEvent.change(productsSearchBar, { target: { value: 'st' } });
+      expect(productsSearchBar.getAttribute('value')).toBe('st');
       // only two facets are left showing
       const filteredProductsFacets = within(productsModal).queryAllByText((content, element) => {
         return element.tagName.toLowerCase() === 'span' && productsFacetArray.includes(content);
       });
       expect(filteredProductsFacets).toHaveLength(2);
+      const studioFacet = within(productsModal).getByLabelText('studio (57158)');
+      const assistantFacet = within(productsModal).getByLabelText('assistant (32444)');
+      expect(studioFacet).toBeDefined();
+      expect(assistantFacet).toBeDefined();
     });
 
     test('search bar filter is case insensitive', () => {
-      // user filters by "sT"
+      // user filters by "DiScOvErY"
       fireEvent.focus(productsSearchBar);
-      fireEvent.change(productsSearchBar, { target: { value: 'sT' } });
-      // should return two facets which contain "st"
+      fireEvent.change(productsSearchBar, { target: { value: 'DiScOvErY' } });
+      // should return only the "discovery" facet
       const filteredFacets = within(productsModal).queryAllByText((content, element) => {
         return element.tagName.toLowerCase() === 'span' && productsFacetArray.includes(content);
       });
-      expect(filteredFacets).toHaveLength(2);
+      expect(filteredFacets).toHaveLength(1);
+      const discoveryFacet = within(productsModal).getByLabelText('discovery (138993)');
+      expect(discoveryFacet).toBeDefined();
+      // user filters by "api KIT"
+      fireEvent.focus(productsSearchBar);
+      fireEvent.change(productsSearchBar, { target: { value: 'api KIT' } });
+      // should return only the "API kit" facet
+      const filteredProductsFacets = within(productsModal).queryAllByText((content, element) => {
+        return element.tagName.toLowerCase() === 'span' && productsFacetArray.includes(content);
+      });
+      expect(filteredProductsFacets).toHaveLength(1);
+      const apiFacet = within(productsModal).getByLabelText('API kit (57158)');
+      expect(apiFacet).toBeDefined();
     });
 
     test('no results are shown when facets do not contain the search value', () => {
@@ -398,8 +418,12 @@ describe('CollapsibleFacetsGroupComponent', () => {
       // user exits modal
       const cancelButton = within(productsModal).getByText('Cancel');
       fireEvent.click(cancelButton);
-      // TODO: user reopens modal and search bar is clear
-      //fireEvent.click(searchFacetsComponent.getByTestId('show-more-less-products'));
+      // user reopens modal and search bar is clear
+      fireEvent.click(productsShowMoreButton);
+      const searchBarValue = productsSearchBar.getAttribute('value');
+      expect(searchBarValue).toBe('');
+      const closeButton = within(productsModal).getByTitle('close the modal');
+      fireEvent.click(closeButton);
     });
   });
 

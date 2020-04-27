@@ -459,7 +459,7 @@ export const facetsQueryResponse: DiscoveryV2.Response<
           matching_results: 57158
         },
         {
-          key: 'api kit',
+          key: 'API kit',
           matching_results: 57158
         },
         {

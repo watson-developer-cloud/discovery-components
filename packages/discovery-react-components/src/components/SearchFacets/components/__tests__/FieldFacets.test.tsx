@@ -722,7 +722,7 @@ describe('FieldFacetsComponent', () => {
           expect(pennsylvaniaFacetValue).toBeDefined();
         });
 
-        test('if a category has between 11-15 facet values, a modal with no search bar opens when Show all is clicked', () => {
+        test('if a category has 11-15 facet values, a modal with no search bar opens when Show all is clicked', () => {
           const { fieldFacetsComponent } = setupResult;
           const quantityCategoryHeader = fieldFacetsComponent.getByText('Quantity');
           fireEvent.click(quantityCategoryHeader);
@@ -784,7 +784,7 @@ describe('FieldFacetsComponent', () => {
                 'speech to text (57158)',
                 'knowledge catalog (57158)',
                 'nlu (57158)',
-                'api kit (57158)',
+                'API kit (57158)',
                 'openpages (57158)',
                 'visual recognition (57158)',
                 'language translator (57158)',
