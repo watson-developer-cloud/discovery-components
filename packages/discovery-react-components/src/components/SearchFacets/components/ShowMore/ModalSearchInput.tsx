@@ -22,6 +22,10 @@ interface ModalSearchInputProps {
    */
   isModalOpen: boolean;
   /**
+   * Facet label text
+   */
+  facetsLabel: string;
+  /**
    * i18n messages for the component
    */
   messages: Messages;
@@ -31,6 +35,7 @@ export const ModalSearchInput: FC<ModalSearchInputProps> = ({
   facets,
   setFilteredFacets,
   isModalOpen,
+  facetsLabel,
   messages
 }) => {
   const [value, setValue] = useState<string>('');
@@ -61,6 +66,7 @@ export const ModalSearchInput: FC<ModalSearchInputProps> = ({
       labelText={messages.modalSearchBarPrompt}
       placeHolderText={messages.modalSearchBarPrompt}
       onChange={handleOnChange}
+      data-testid={`search-facet-modal-search-bar-${facetsLabel}`}
     />
   );
 };

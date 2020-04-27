@@ -642,6 +642,11 @@ describe('FieldFacetsComponent', () => {
             name: 'machine_learning_id',
             label: 'Machine Learning Terms',
             multiple_selections_allowed: true
+          },
+          {
+            name: 'products',
+            label: 'Products',
+            multiple_selections_allowed: false
           }
         ]
       });
@@ -717,7 +722,7 @@ describe('FieldFacetsComponent', () => {
           expect(pennsylvaniaFacetValue).toBeDefined();
         });
 
-        test('if a category has more than 10 facet values, a modal opens when Show more is clicked', () => {
+        test('if a category has between 11-15 facet values, a modal with no search bar opens when Show all is clicked', () => {
           const { fieldFacetsComponent } = setupResult;
           const quantityCategoryHeader = fieldFacetsComponent.getByText('Quantity');
           fireEvent.click(quantityCategoryHeader);
@@ -729,6 +734,10 @@ describe('FieldFacetsComponent', () => {
           expect(quantityModal).toBeDefined();
           const topEntitiesHeader = within(quantityModal).getByText('Top Entities: Quantity');
           expect(topEntitiesHeader).toBeDefined();
+          const quantitySearchBar = within(quantityModal).queryByTestId(
+            'search-facet-modal-search-bar-Top Entities'
+          );
+          expect(quantitySearchBar).toBeNull();
           const topEntitiesQuantityFacets = within(quantityModal).queryAllByText(
             (content, element) => {
               return (
@@ -750,6 +759,44 @@ describe('FieldFacetsComponent', () => {
             }
           );
           expect(topEntitiesQuantityFacets).toHaveLength(11);
+        });
+
+        test('if a category has over 15 facet values, a modal with a search bar opens when Show all is clicked', () => {
+          const { fieldFacetsComponent } = setupResult;
+          const showMore = fieldFacetsComponent.getByTestId('show-more-less-Products');
+          fireEvent.click(showMore);
+          const productsModal = fieldFacetsComponent.getByTestId(
+            'search-facet-show-more-modal-Products'
+          );
+          expect(productsModal).toBeDefined();
+          const productsSearchBar = within(productsModal).getByTestId(
+            'search-facet-modal-search-bar-Products'
+          );
+          expect(productsSearchBar).toBeDefined();
+          const productsFacets = within(productsModal).queryAllByText((content, element) => {
+            return (
+              element.tagName.toLowerCase() === 'span' &&
+              [
+                'discovery (138993)',
+                'studio (57158)',
+                'openscale (32444)',
+                'assistant (32444)',
+                'speech to text (57158)',
+                'knowledge catalog (57158)',
+                'nlu (57158)',
+                'api kit (57158)',
+                'openpages (57158)',
+                'visual recognition (57158)',
+                'language translator (57158)',
+                'machine learning (57158)',
+                'tone analyzer (57158)',
+                'personality insights (57158)',
+                'cybersecurity (57158)',
+                'language classifier (57158)'
+              ].includes(content)
+            );
+          });
+          expect(productsFacets).toHaveLength(16);
         });
 
         test('can expand multiple categories and collapse them again', () => {
