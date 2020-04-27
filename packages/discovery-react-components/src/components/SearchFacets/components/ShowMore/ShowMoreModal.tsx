@@ -119,6 +119,7 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
           messages={messages}
           setFilteredFacets={setFilteredFacets}
           isModalOpen={isOpen}
+          facetsLabel={facetsLabel}
         />
       ) : (
         <></>

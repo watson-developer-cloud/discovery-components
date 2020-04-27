@@ -203,11 +203,16 @@ describe('CollapsibleFacetsGroupComponent', () => {
                 'api kit (57158)',
                 'openpages (57158)',
                 'visual recognition (57158)',
-                'language translator (57158)'
+                'language translator (57158)',
+                'machine learning (57158)',
+                'tone analyzer (57158)',
+                'personality insights (57158)',
+                'cybersecurity (57158)',
+                'language classifier (57158)'
               ].includes(content)
             );
           });
-          expect(productsFacets).toHaveLength(11);
+          expect(productsFacets).toHaveLength(16);
         });
 
         test('allows for selection and deselection of these facet terms', () => {
@@ -304,6 +309,97 @@ describe('CollapsibleFacetsGroupComponent', () => {
           expect(assistantFacetValues[1]['checked']).toEqual(false);
         });
       });
+    });
+  });
+
+  describe('when there are greater than 15 facet values', () => {
+    const productsFacetArray = [
+      'discovery (138993)',
+      'studio (57158)',
+      'openscale (32444)',
+      'assistant (32444)',
+      'speech to text (57158)',
+      'knowledge catalog (57158)',
+      'nlu (57158)',
+      'api kit (57158)',
+      'openpages (57158)',
+      'visual recognition (57158)',
+      'language translator (57158)',
+      'machine learning (57158)',
+      'tone analyzer (57158)',
+      'personality insights (57158)',
+      'cybersecurity (57158)',
+      'language classifier (57158)'
+    ];
+
+    let productsShowMoreButton: HTMLElement;
+    let productsModal: HTMLElement;
+    let productsSearchBar: HTMLElement;
+
+    beforeEach(() => {
+      const { searchFacetsComponent } = setup();
+      productsShowMoreButton = searchFacetsComponent.getByTestId('show-more-less-products');
+      fireEvent.click(productsShowMoreButton);
+      productsModal = searchFacetsComponent.getByTestId('search-facet-show-more-modal-products');
+      expect(productsModal).toBeDefined();
+      productsSearchBar = within(productsModal).getByTestId(
+        'search-facet-modal-search-bar-products'
+      );
+    });
+
+    test('opens modal with search bar and all facets', () => {
+      expect(productsSearchBar).toBeDefined();
+      const placeHolderText = productsSearchBar.getAttribute('placeholder');
+      expect(placeHolderText).toEqual('What are you looking for today?');
+      // all facets are initially shown
+      const productsFacets = within(productsModal).queryAllByText((content, element) => {
+        return element.tagName.toLowerCase() === 'span' && productsFacetArray.includes(content);
+      });
+      expect(productsFacets).toHaveLength(16);
+    });
+
+    test('search bar starts with all facets and filters down based on user input', () => {
+      // user filters by "st"
+      fireEvent.focus(productsSearchBar);
+      fireEvent.change(productsSearchBar, { target: { value: 'st' } });
+      // only two facets are left showing
+      const filteredProductsFacets = within(productsModal).queryAllByText((content, element) => {
+        return element.tagName.toLowerCase() === 'span' && productsFacetArray.includes(content);
+      });
+      expect(filteredProductsFacets).toHaveLength(2);
+    });
+
+    test('search bar filter is case insensitive', () => {
+      // user filters by "sT"
+      fireEvent.focus(productsSearchBar);
+      fireEvent.change(productsSearchBar, { target: { value: 'sT' } });
+      // should return two facets which contain "st"
+      const filteredFacets = within(productsModal).queryAllByText((content, element) => {
+        return element.tagName.toLowerCase() === 'span' && productsFacetArray.includes(content);
+      });
+      expect(filteredFacets).toHaveLength(2);
+    });
+
+    test('no results are shown when facets do not contain the search value', () => {
+      // user filters by "1"
+      fireEvent.focus(productsSearchBar);
+      fireEvent.change(productsSearchBar, { target: { value: '1' } });
+      // should show no matching facets
+      const filteredFacets = within(productsModal).queryAllByText((content, element) => {
+        return element.tagName.toLowerCase() === 'span' && productsFacetArray.includes(content);
+      });
+      expect(filteredFacets).toHaveLength(0);
+    });
+
+    test('search bar clears on modal cancel', () => {
+      // user filters
+      fireEvent.focus(productsSearchBar);
+      fireEvent.change(productsSearchBar, { target: { value: 'studio' } });
+      // user exits modal
+      const cancelButton = within(productsModal).getByText('Cancel');
+      fireEvent.click(cancelButton);
+      // TODO: user reopens modal and search bar is clear
+      //fireEvent.click(searchFacetsComponent.getByTestId('show-more-less-products'));
     });
   });
 
