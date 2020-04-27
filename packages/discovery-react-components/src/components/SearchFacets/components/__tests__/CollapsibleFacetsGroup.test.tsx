@@ -411,6 +411,15 @@ describe('CollapsibleFacetsGroupComponent', () => {
       expect(filteredFacets).toHaveLength(0);
     });
 
+    test('search bar clears when user clicks the clear search button', () => {
+      fireEvent.focus(productsSearchBar);
+      fireEvent.change(productsSearchBar, { target: { value: 'studio' } });
+      expect(productsSearchBar.getAttribute('value')).toBe('studio');
+      const clearSearchBtn = within(productsModal).getByLabelText('Clear search input');
+      fireEvent.click(clearSearchBtn);
+      expect(productsSearchBar.getAttribute('value')).toBe('');
+    });
+
     test('search bar clears on modal cancel', () => {
       // user filters
       fireEvent.focus(productsSearchBar);
