@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, FormEvent } from 'react';
+import React, { FC, useState, useEffect, SyntheticEvent } from 'react';
 import { Messages } from 'components/SearchFacets/messages';
 import { Search as CarbonSearchInput } from 'carbon-components-react';
 import {
@@ -46,9 +46,10 @@ export const ModalSearchInput: FC<ModalSearchInputProps> = ({
     }
   }, [facets, isModalOpen, setFilteredFacets]);
 
-  const handleOnChange = (event: FormEvent<HTMLInputElement>) => {
-    setValue(event.currentTarget.value);
-    const tempValue = event.currentTarget.value;
+  const handleOnChange = (event: SyntheticEvent<EventTarget>): void => {
+    const target = event.currentTarget as HTMLInputElement;
+    setValue(!!target ? target.value : '');
+    const tempValue = !!target ? target.value : '';
     const tempFacets = [...facets];
     setFilteredFacets(
       tempFacets.filter(facet => {
