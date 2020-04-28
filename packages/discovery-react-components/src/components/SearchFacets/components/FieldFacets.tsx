@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import get from 'lodash/get';
 import filter from 'lodash/filter';
+import cloneDeep from 'lodash/cloneDeep';
 import {
   InternalQueryTermAggregation,
   SelectableQueryTermAggregationResult,
@@ -51,11 +52,11 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
   };
 
   const handleOnChange = (selectedFacets: SelectedFacet[]): void => {
-    let updatedFacets = [...allFacets];
+    let updatedFacets = cloneDeep(allFacets);
     selectedFacets.map(({ selectedFacetName, selectedFacetKey, checked }) => {
       const facetsForNameIndex = getFacetsForNameIndex(selectedFacetName);
       if (facetsForNameIndex > -1) {
-        const facetsForName = allFacets[facetsForNameIndex];
+        const facetsForName = updatedFacets[facetsForNameIndex];
         const multiselect = get(facetsForName, 'multiple_selections_allowed', true);
         const facetResults: SelectableQueryTermAggregationResult[] = get(
           facetsForName,
@@ -90,10 +91,10 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
   };
 
   const handleOnClear = (selectedFacetName: string): void => {
-    let updatedFacets = [...allFacets];
+    let updatedFacets = cloneDeep(allFacets);
     const facetsForNameIndex = getFacetsForNameIndex(selectedFacetName);
     if (facetsForNameIndex > -1) {
-      const results = allFacets[facetsForNameIndex].results || [];
+      const results = updatedFacets[facetsForNameIndex].results || [];
       const deselectedResults = (results as SelectableQueryTermAggregationResult[]).map(result => {
         return { ...result, selected: false };
       });

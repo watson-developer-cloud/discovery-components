@@ -104,7 +104,7 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
         const base64data = buff.toString('base64');
 
         // If this is in the Show more modal, we need to check the facet value's temporary selection value
-        let facetSelected: boolean = !!facet.selected;
+        let facetSelected = !!facet.selected;
         if (tempSelectedFacets) {
           const tempIndex = tempSelectedFacets.findIndex(
             ({ selectedFacetKey }) => selectedFacetKey === facetText
