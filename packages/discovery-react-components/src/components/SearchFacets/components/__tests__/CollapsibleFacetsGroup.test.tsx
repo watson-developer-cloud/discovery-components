@@ -60,7 +60,6 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
       context
     )
   );
-  fireEvent.focus(window);
   return {
     context,
     performSearchMock,
@@ -351,7 +350,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
     test('opens modal with an empty search bar and all facets', () => {
       expect(productsSearchBar).toBeDefined();
       const placeHolderText = productsSearchBar.getAttribute('placeholder');
-      expect(placeHolderText).toEqual('What are you looking for today?');
+      expect(placeHolderText).toEqual('Find');
       const searchBarValue = productsSearchBar.getAttribute('value');
       expect(searchBarValue).toBe('');
       // all facets are initially shown
@@ -400,7 +399,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
       expect(apiFacet).toBeDefined();
     });
 
-    test('no results are shown when facets do not contain the search value', () => {
+    test('empty state message is shown when facets do not contain the search value', () => {
       // user filters by "1"
       fireEvent.focus(productsSearchBar);
       fireEvent.change(productsSearchBar, { target: { value: '1' } });
@@ -409,6 +408,8 @@ describe('CollapsibleFacetsGroupComponent', () => {
         return element.tagName.toLowerCase() === 'span' && productsFacetArray.includes(content);
       });
       expect(filteredFacets).toHaveLength(0);
+      const emptyStateMessage = within(productsModal).getByText('There were no results found');
+      expect(emptyStateMessage).toBeDefined();
     });
 
     test('search bar clears when user clicks the clear search button', () => {
