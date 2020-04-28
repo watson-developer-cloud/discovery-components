@@ -11,6 +11,7 @@ import {
 import { MultiSelectFacetsGroup } from '../FacetsGroups/MultiSelectFacetsGroup';
 import { SingleSelectFacetsGroup } from '../FacetsGroups/SingleSelectFacetsGroup';
 import { ModalSearchInput } from './ModalSearchInput';
+import { EmptyModalState } from './EmptyModalState';
 
 interface ShowMoreModalProps {
   /**
@@ -121,6 +122,11 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
           isModalOpen={isOpen}
           facetsLabel={facetsLabel}
         />
+      ) : (
+        <></>
+      )}
+      {filteredFacets && filteredFacets.length == 0 ? (
+        <EmptyModalState messages={messages} />
       ) : (
         <></>
       )}
