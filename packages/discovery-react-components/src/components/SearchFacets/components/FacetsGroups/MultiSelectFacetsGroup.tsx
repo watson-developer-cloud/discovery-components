@@ -106,12 +106,11 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
         // If this is in the Show more modal, we need to check the facet value's temporary selection value
         let facetSelected = !!facet.selected;
         if (tempSelectedFacets) {
-          const tempIndex = tempSelectedFacets.findIndex(
-            ({ selectedFacetKey }) => selectedFacetKey === facetText
-          );
-          if (tempIndex > -1) {
-            facetSelected = tempSelectedFacets[tempIndex].checked;
-          }
+          tempSelectedFacets.find(({ selectedFacetKey, checked }) => {
+            if (selectedFacetKey === facetText) {
+              facetSelected = !!checked;
+            }
+          });
         }
 
         let keyAndIdPrefix = tempSelectedFacets ? 'modal-checkbox' : 'checkbox';
