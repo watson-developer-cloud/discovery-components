@@ -99,7 +99,22 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
     setIsModalOpen(false);
   };
 
-  const modalHeading = categoryName ? `${facetsLabel}: ${categoryName}` : facetsLabel;
+  const modalHeading = (
+    <>
+      {categoryName ? `${facetsLabel}: ${categoryName}` : facetsLabel}
+      {hasSearchBar ? (
+        <ModalSearchInput
+          facets={facets}
+          messages={messages}
+          setFilteredFacets={setFilteredFacets}
+          isModalOpen={isOpen}
+          facetsLabel={facetsLabel}
+        />
+      ) : (
+        <></>
+      )}
+    </>
+  );
 
   return (
     <Modal
@@ -114,17 +129,6 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
       secondaryButtonText={messages.showMoreModalSecondaryButtonText}
       data-testid={`search-facet-show-more-modal-${facetsLabel}`}
     >
-      {hasSearchBar ? (
-        <ModalSearchInput
-          facets={facets}
-          messages={messages}
-          setFilteredFacets={setFilteredFacets}
-          isModalOpen={isOpen}
-          facetsLabel={facetsLabel}
-        />
-      ) : (
-        <></>
-      )}
       {filteredFacets && filteredFacets.length == 0 ? (
         <EmptyModalState messages={messages} />
       ) : (
