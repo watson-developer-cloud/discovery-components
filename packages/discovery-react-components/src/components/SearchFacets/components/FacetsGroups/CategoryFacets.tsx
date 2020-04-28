@@ -17,6 +17,7 @@ import {
   SelectableFieldFacetWithCategory,
   SelectedFacet
 } from 'components/SearchFacets/utils/searchFacetInterfaces';
+import { MAX_FACETS_UNTIL_MODAL } from '../../constants';
 
 interface CategoryFacetsProps {
   /**
@@ -108,7 +109,8 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
   const categoryFacetsToShow = isCollapsed ? facets.slice(0, collapsedFacetsCount - 1) : facets;
   const iconToRender = categoryIsExpanded ? ChevronUp : ChevronDown;
   const totalNumberFacets = facets.length;
-  const showMoreButtonOnClick = totalNumberFacets <= 10 ? toggleFacetsCollapse : setModalOpen;
+  const showMoreButtonOnClick =
+    totalNumberFacets <= MAX_FACETS_UNTIL_MODAL ? toggleFacetsCollapse : setModalOpen;
 
   return (
     <div className={categoryClass}>
@@ -148,10 +150,10 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
                 onClick={showMoreButtonOnClick}
                 idSuffix={categoryName}
                 isCollapsed={isCollapsed}
-                isShowAllMessage={totalNumberFacets > 10}
+                isShowAllMessage={totalNumberFacets > MAX_FACETS_UNTIL_MODAL}
                 messages={messages}
               />
-              {totalNumberFacets > 10 && (
+              {totalNumberFacets > MAX_FACETS_UNTIL_MODAL && (
                 <ShowMoreModal
                   messages={messages}
                   aggregationSettings={aggregationSettings}

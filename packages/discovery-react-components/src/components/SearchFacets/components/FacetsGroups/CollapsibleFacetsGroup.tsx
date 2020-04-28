@@ -21,6 +21,7 @@ import { MultiSelectFacetsGroup } from './MultiSelectFacetsGroup';
 import { SingleSelectFacetsGroup } from './SingleSelectFacetsGroup';
 import { ShowMoreModal } from '../ShowMore/ShowMoreModal';
 import { ShowMoreButton } from '../ShowMore/ShowMoreButton';
+import { MAX_FACETS_UNTIL_MODAL } from '../../constants';
 
 interface CollapsibleFacetsGroupProps {
   /**
@@ -125,7 +126,8 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
   const selectedFacetText = get(selectedFacets[0], facetsTextField, '');
   const shouldDisplayAsMultiSelect = areMultiSelectionsAllowed || selectedFacets.length > 1;
   const shouldDisplayClearButton = shouldDisplayAsMultiSelect && selectedFacets.length > 0;
-  const showMoreButtonOnClick = totalNumberFacets <= 10 ? toggleFacetsCollapse : setModalOpen;
+  const showMoreButtonOnClick =
+    totalNumberFacets <= MAX_FACETS_UNTIL_MODAL ? toggleFacetsCollapse : setModalOpen;
   const handleClearFacets = (): void => {
     onClear(aggregationSettings.name || aggregationSettings.field);
   };
@@ -193,10 +195,10 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
                 onClick={showMoreButtonOnClick}
                 idSuffix={facetsLabel}
                 isCollapsed={isCollapsed}
-                isShowAllMessage={totalNumberFacets > 10}
+                isShowAllMessage={totalNumberFacets > MAX_FACETS_UNTIL_MODAL}
                 messages={messages}
               />
-              {totalNumberFacets > 10 && (
+              {totalNumberFacets > MAX_FACETS_UNTIL_MODAL && (
                 <ShowMoreModal
                   messages={messages}
                   aggregationSettings={aggregationSettings}
