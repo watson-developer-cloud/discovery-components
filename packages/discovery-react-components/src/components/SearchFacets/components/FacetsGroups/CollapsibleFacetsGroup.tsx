@@ -21,7 +21,7 @@ import { MultiSelectFacetsGroup } from './MultiSelectFacetsGroup';
 import { SingleSelectFacetsGroup } from './SingleSelectFacetsGroup';
 import { ShowMoreModal } from '../ShowMore/ShowMoreModal';
 import { ShowMoreButton } from '../ShowMore/ShowMoreButton';
-import { MAX_FACETS_UNTIL_MODAL } from '../../constants';
+import { MAX_FACETS_UNTIL_MODAL, MAX_FACETS_UNTIL_SEARCHBAR } from '../../constants';
 
 interface CollapsibleFacetsGroupProps {
   /**
@@ -210,7 +210,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
                   setIsModalOpen={setIsModalOpen}
                   shouldDisplayAsMultiSelect={shouldDisplayAsMultiSelect}
                   selectedFacet={selectedFacetText}
-                  hasSearchBar={totalNumberFacets > 15}
+                  hasSearchBar={totalNumberFacets > MAX_FACETS_UNTIL_SEARCHBAR}
                   showMatchingResults={showMatchingResults}
                 />
               )}
