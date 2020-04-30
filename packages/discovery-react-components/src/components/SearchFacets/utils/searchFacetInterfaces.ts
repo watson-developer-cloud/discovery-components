@@ -47,6 +47,12 @@ export interface CollectionItem {
   label: string;
 }
 
+export interface SelectedFacet {
+  selectedFacetName: string;
+  selectedFacetKey: string;
+  checked: boolean;
+}
+
 export interface QueryAggregationWithName extends DiscoveryV2.QueryAggregation {
   field?: string;
   count?: number;

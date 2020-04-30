@@ -1,5 +1,9 @@
 import React, { FC } from 'react';
-import { SelectableDynamicFacets, SearchFilterFacets } from '../utils/searchFacetInterfaces';
+import {
+  SelectableDynamicFacets,
+  SearchFilterFacets,
+  SelectedFacet
+} from '../utils/searchFacetInterfaces';
 import get from 'lodash/get';
 import { Messages } from '../messages';
 import { CollapsibleFacetsGroup } from './FacetsGroups/CollapsibleFacetsGroup';
@@ -34,15 +38,11 @@ export const DynamicFacets: FC<DynamicFacetsProps> = ({
   collapsedFacetsCount,
   onChange
 }) => {
-  const handleOnChange = (
-    _selectedFacetField: string,
-    selectedFacetKey: string,
-    checked: boolean
-  ): void => {
+  const handleOnChange = (selectedFacets: SelectedFacet[]): void => {
     const newDynamicFacets: SelectableDynamicFacets[] = dynamicFacets.map(suggestion => {
       const text = get(suggestion, 'text', '');
-      return text === selectedFacetKey
-        ? Object.assign({}, suggestion, { selected: checked })
+      return text === selectedFacets[0].selectedFacetKey
+        ? Object.assign({}, suggestion, { selected: selectedFacets[0].checked })
         : suggestion;
     });
     onChange({ filterDynamic: newDynamicFacets });

@@ -14,6 +14,11 @@ const aggregationComponentSettingsResponse: Response<
       name: 'entities',
       label: 'Top Entities',
       multiple_selections_allowed: true
+    },
+    {
+      name: 'products',
+      label: 'Products',
+      multiple_selections_allowed: false
     }
   ]
 });

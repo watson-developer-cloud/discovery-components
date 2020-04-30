@@ -5,6 +5,8 @@ import ChevronUp from '@carbon/icons-react/lib/chevron--up/16';
 import { Messages } from 'components/SearchFacets/messages';
 import { MultiSelectFacetsGroup } from './MultiSelectFacetsGroup';
 import { SingleSelectFacetsGroup } from './SingleSelectFacetsGroup';
+import { ShowMoreModal } from '../ShowMore/ShowMoreModal';
+import { ShowMoreButton } from '../ShowMore/ShowMoreButton';
 import {
   categoryClass,
   categoryExpandCollapseClass,
@@ -12,8 +14,10 @@ import {
 } from 'components/SearchFacets/cssClasses';
 import {
   InternalQueryTermAggregation,
-  SelectableFieldFacetWithCategory
+  SelectableFieldFacetWithCategory,
+  SelectedFacet
 } from 'components/SearchFacets/utils/searchFacetInterfaces';
+import { MAX_FACETS_UNTIL_MODAL } from '../../constants';
 
 interface CategoryFacetsProps {
   /**
@@ -35,7 +39,7 @@ interface CategoryFacetsProps {
   /**
    * Callback to handle changes in selected facets
    */
-  onChange: (selectedFacetField: string, selectedFacetKey: string, checked: boolean) => void;
+  onChange: (selectedFacets: SelectedFacet[]) => void;
   /**
    * i18n messages for the component
    */
@@ -87,6 +91,7 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
 }) => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
   const [isCollapsible, setIsCollapsible] = useState<boolean>(collapsedFacetsCount < facets.length);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     setIsCollapsed(collapsedFacetsCount < facets.length);
@@ -97,8 +102,15 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
     setIsCollapsed(!isCollapsed);
   };
 
+  const setModalOpen = (): void => {
+    setIsModalOpen(true);
+  };
+
   const categoryFacetsToShow = isCollapsed ? facets.slice(0, collapsedFacetsCount - 1) : facets;
   const iconToRender = categoryIsExpanded ? ChevronUp : ChevronDown;
+  const totalNumberFacets = facets.length;
+  const showMoreButtonOnClick =
+    totalNumberFacets <= MAX_FACETS_UNTIL_MODAL ? toggleFacetsCollapse : setModalOpen;
 
   return (
     <div className={categoryClass}>
@@ -133,16 +145,31 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
             />
           )}
           {isCollapsible && (
-            <Button
-              kind="ghost"
-              size="small"
-              onClick={toggleFacetsCollapse}
-              data-testid={`show-more-less-${categoryName}`}
-            >
-              {isCollapsed
-                ? messages.collapsedFacetShowMoreText
-                : messages.collapsedFacetShowLessText}
-            </Button>
+            <>
+              <ShowMoreButton
+                onClick={showMoreButtonOnClick}
+                idSuffix={categoryName}
+                isCollapsed={isCollapsed}
+                isShowAllMessage={totalNumberFacets > MAX_FACETS_UNTIL_MODAL}
+                messages={messages}
+              />
+              {totalNumberFacets > MAX_FACETS_UNTIL_MODAL && (
+                <ShowMoreModal
+                  messages={messages}
+                  aggregationSettings={aggregationSettings}
+                  facets={facets}
+                  facetsLabel={facetsLabel}
+                  facetsTextField={facetsTextField}
+                  onChange={onChange}
+                  isOpen={isModalOpen}
+                  setIsModalOpen={setIsModalOpen}
+                  shouldDisplayAsMultiSelect={shouldDisplayAsMultiSelect}
+                  selectedFacet={selectedFacet}
+                  showMatchingResults={showMatchingResults}
+                  categoryName={categoryName}
+                />
+              )}
+            </>
           )}
         </>
       )}

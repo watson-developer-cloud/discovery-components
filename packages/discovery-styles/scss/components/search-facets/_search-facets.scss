@@ -1,10 +1,17 @@
 @import '~carbon-components/scss/components/checkbox/checkbox';
 @import '~carbon-components/scss/components/multi-select/multi-select';
 @import '~carbon-components/scss/components/radio-button/radio-button';
+@import '~carbon-components/scss/components/modal/modal';
 
 .#{$prefix}--search-facets__button-clear-all {
   .#{$prefix}--btn__icon {
     margin-left: $spacing-2xs;
+  }
+}
+
+.#{$prefix}--search-facet__facet__show-more-modal {
+  .#{$prefix}--modal-content {
+    height: 40vh;
   }
 }
 

@@ -6,9 +6,13 @@ export interface Messages {
   clearFacetSelectionTitle: string;
   collapsedFacetShowMoreText: string;
   collapsedFacetShowLessText: string;
+  collapsedFacetShowAllText: string;
   collectionSelectTitleText: string;
   collectionSelectLabel: string;
   dynamicFacetsLabel: string;
+  showMoreModalPrimaryButtonText: string;
+  showMoreModalSecondaryButtonText: string;
+  showMoreModalAriaLabel: string;
   categoryExpandCollapseIconDescription: string;
 }
 export const defaultMessages: Messages = {
@@ -19,8 +23,12 @@ export const defaultMessages: Messages = {
   clearFacetSelectionTitle: 'Clear selected item',
   collapsedFacetShowMoreText: 'Show more',
   collapsedFacetShowLessText: 'Show less',
+  collapsedFacetShowAllText: 'Show all',
   collectionSelectTitleText: 'Collections',
   collectionSelectLabel: 'Available collections',
   dynamicFacetsLabel: 'Dynamic Facets',
+  showMoreModalPrimaryButtonText: 'Apply',
+  showMoreModalSecondaryButtonText: 'Cancel',
+  showMoreModalAriaLabel: 'Modal to select and deselect facets',
   categoryExpandCollapseIconDescription: 'Expand/Collapse'
 };

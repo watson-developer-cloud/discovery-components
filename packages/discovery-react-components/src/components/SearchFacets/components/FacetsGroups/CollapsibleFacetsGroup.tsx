@@ -1,5 +1,4 @@
 import React, { FC, useState, useEffect } from 'react';
-import { Button } from 'carbon-components-react';
 import filter from 'lodash/filter';
 import get from 'lodash/get';
 import ListBox from 'carbon-components-react/lib/components/ListBox';
@@ -12,6 +11,7 @@ import {
   SelectableDynamicFacets,
   SelectableQueryTermAggregationResult,
   InternalQueryTermAggregation,
+  SelectedFacet,
   FieldFacetsByCategory,
   isSelectableQueryTermAggregationResult
 } from 'components/SearchFacets/utils/searchFacetInterfaces';
@@ -19,6 +19,9 @@ import { Messages } from 'components/SearchFacets/messages';
 import { CategoryFacetsGroup } from './CategoryFacetsGroup';
 import { MultiSelectFacetsGroup } from './MultiSelectFacetsGroup';
 import { SingleSelectFacetsGroup } from './SingleSelectFacetsGroup';
+import { ShowMoreModal } from '../ShowMore/ShowMoreModal';
+import { ShowMoreButton } from '../ShowMore/ShowMoreButton';
+import { MAX_FACETS_UNTIL_MODAL } from '../../constants';
 
 interface CollapsibleFacetsGroupProps {
   /**
@@ -48,7 +51,7 @@ interface CollapsibleFacetsGroupProps {
   /**
    * Callback to handle changes in selected facets
    */
-  onChange: (selectedFacetName: string, selectedFacetKey: string, checked: boolean) => void;
+  onChange: (selectedFacets: SelectedFacet[]) => void;
   /**
    * Callback to reset selected facet
    */
@@ -72,6 +75,8 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
 }) => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(collapsedFacetsCount < facets.length);
   const [isCollapsible, setIsCollapsible] = useState<boolean>(collapsedFacetsCount < facets.length);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
   const facetsLabel = aggregationSettings.label || aggregationSettings.field;
 
   useEffect(() => {
@@ -81,6 +86,10 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
 
   const toggleFacetsCollapse = (): void => {
     setIsCollapsed(!isCollapsed);
+  };
+
+  const setModalOpen = (): void => {
+    setIsModalOpen(true);
   };
 
   let facetsByCategory: FieldFacetsByCategory = {};
@@ -112,10 +121,13 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
 
   const areMultiSelectionsAllowed = aggregationSettings.multiple_selections_allowed;
   const collapsedFacets = isCollapsed ? facets.slice(0, collapsedFacetsCount) : facets;
+  const totalNumberFacets = facets.length;
   const selectedFacets = filter(facets, ['selected', true]);
   const selectedFacetText = get(selectedFacets[0], facetsTextField, '');
   const shouldDisplayAsMultiSelect = areMultiSelectionsAllowed || selectedFacets.length > 1;
   const shouldDisplayClearButton = shouldDisplayAsMultiSelect && selectedFacets.length > 0;
+  const showMoreButtonOnClick =
+    totalNumberFacets <= MAX_FACETS_UNTIL_MODAL ? toggleFacetsCollapse : setModalOpen;
   const handleClearFacets = (): void => {
     onClear(aggregationSettings.name || aggregationSettings.field);
   };
@@ -178,11 +190,30 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
             />
           )}
           {isCollapsible && (
-            <Button kind="ghost" size="small" onClick={toggleFacetsCollapse}>
-              {isCollapsed
-                ? messages.collapsedFacetShowMoreText
-                : messages.collapsedFacetShowLessText}
-            </Button>
+            <>
+              <ShowMoreButton
+                onClick={showMoreButtonOnClick}
+                idSuffix={facetsLabel}
+                isCollapsed={isCollapsed}
+                isShowAllMessage={totalNumberFacets > MAX_FACETS_UNTIL_MODAL}
+                messages={messages}
+              />
+              {totalNumberFacets > MAX_FACETS_UNTIL_MODAL && (
+                <ShowMoreModal
+                  messages={messages}
+                  aggregationSettings={aggregationSettings}
+                  facets={facets}
+                  facetsLabel={facetsLabel}
+                  facetsTextField={facetsTextField}
+                  onChange={onChange}
+                  isOpen={isModalOpen}
+                  setIsModalOpen={setIsModalOpen}
+                  shouldDisplayAsMultiSelect={shouldDisplayAsMultiSelect}
+                  selectedFacet={selectedFacetText}
+                  showMatchingResults={showMatchingResults}
+                />
+              )}
+            </>
           )}
         </>
       )}
