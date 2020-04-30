@@ -1,5 +1,5 @@
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
-import { QueryTermAggregationWithName } from '../utils/searchFacetInterfaces';
+import { QueryAggregationWithName } from '../utils/searchFacetInterfaces';
 
 export const configurationWithOneField: DiscoveryV2.QueryTermAggregation[] = [
   {
@@ -33,7 +33,7 @@ export const configurationWithoutCounts: DiscoveryV2.QueryTermAggregation[] = [
   }
 ];
 
-export const configurationWithTopEntities: QueryTermAggregationWithName[] = [
+export const configurationWithTopEntities: QueryAggregationWithName[] = [
   {
     type: 'term',
     field: 'enriched_text.entities.text',
@@ -43,5 +43,64 @@ export const configurationWithTopEntities: QueryTermAggregationWithName[] = [
   {
     type: 'term',
     field: 'author'
+  }
+];
+
+export const configurationWithNestedQueryAggregation: QueryAggregationWithName[] = [
+  {
+    type: 'term',
+    field: 'enriched_text.entities.text',
+    count: 12,
+    name: 'entities'
+  },
+  {
+    type: 'term',
+    field: 'author'
+  },
+  {
+    type: 'nested',
+    path: 'enriched_text.entities',
+    matching_results: 496,
+    aggregations: [
+      {
+        type: 'filter',
+        match: 'enriched_text.entities.model_name:"Dictionary:.products"',
+        matching_results: 0,
+        aggregations: [
+          {
+            type: 'term',
+            field: 'enriched_text.entities.text',
+            count: 4,
+            name: 'dict_ypKBKYnM8LOq'
+          }
+        ]
+      }
+    ]
+  }
+];
+
+export const configurationWithFilterQueryAggregation: QueryAggregationWithName[] = [
+  {
+    type: 'term',
+    field: 'enriched_text.entities.text',
+    count: 12,
+    name: 'entities'
+  },
+  {
+    type: 'term',
+    field: 'author'
+  },
+  {
+    type: 'filter',
+    match: 'enriched_text.entities.enriched_text.entities.model_name:"Dictionary:.test"',
+    matching_results: 0,
+    aggregations: [
+      {
+        type: 'term',
+        field: 'enriched_text.entities.enriched_text.entities.text',
+        count: 4,
+        name: 'dict_yqYQPpM8OljE'
+      }
+    ]
   }
 ];

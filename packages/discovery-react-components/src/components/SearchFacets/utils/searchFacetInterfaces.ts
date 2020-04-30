@@ -48,15 +48,20 @@ export interface CollectionItem {
 }
 
 export interface QueryAggregationWithName extends DiscoveryV2.QueryAggregation {
-  field: string;
+  field?: string;
   count?: number;
   name?: string;
+  path?: string;
+  match?: string;
+  aggregations?: QueryAggregationWithName[];
+  matching_results?: number;
 }
 
 export const isQueryAggregationWithName = (
   aggregations?: (DiscoveryV2.QueryAggregation | QueryAggregationWithName)[]
 ): aggregations is QueryAggregationWithName[] => {
-  return (aggregations as QueryAggregationWithName[])[0].field !== undefined;
+  const { field, path, match } = (aggregations as QueryAggregationWithName[])[0];
+  return field !== undefined || path !== undefined || match !== undefined;
 };
 
 export interface SelectableFieldFacetWithCategory {

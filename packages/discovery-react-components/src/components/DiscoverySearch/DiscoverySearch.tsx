@@ -280,6 +280,8 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
                   searchParameters
                 );
                 setAggregationResults(updatedAggregations || null);
+              } else {
+                setAggregationResults(response.result.aggregations);
               }
             }
           });
