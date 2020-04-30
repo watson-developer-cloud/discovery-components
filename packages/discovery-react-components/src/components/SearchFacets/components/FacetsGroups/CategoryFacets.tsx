@@ -17,7 +17,7 @@ import {
   SelectableFieldFacetWithCategory,
   SelectedFacet
 } from 'components/SearchFacets/utils/searchFacetInterfaces';
-import { MAX_FACETS_UNTIL_MODAL } from '../../constants';
+import { MAX_FACETS_UNTIL_MODAL, MAX_FACETS_UNTIL_SEARCHBAR } from '../../constants';
 
 interface CategoryFacetsProps {
   /**
@@ -166,6 +166,7 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
                   shouldDisplayAsMultiSelect={shouldDisplayAsMultiSelect}
                   selectedFacet={selectedFacet}
                   showMatchingResults={showMatchingResults}
+                  hasSearchBar={totalNumberFacets > MAX_FACETS_UNTIL_SEARCHBAR}
                   categoryName={categoryName}
                 />
               )}

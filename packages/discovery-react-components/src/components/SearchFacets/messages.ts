@@ -14,6 +14,8 @@ export interface Messages {
   showMoreModalSecondaryButtonText: string;
   showMoreModalAriaLabel: string;
   categoryExpandCollapseIconDescription: string;
+  modalSearchBarPrompt: string;
+  emptyModalSearch: string;
 }
 export const defaultMessages: Messages = {
   labelText: '{facetText}',
@@ -30,5 +32,7 @@ export const defaultMessages: Messages = {
   showMoreModalPrimaryButtonText: 'Apply',
   showMoreModalSecondaryButtonText: 'Cancel',
   showMoreModalAriaLabel: 'Modal to select and deselect facets',
-  categoryExpandCollapseIconDescription: 'Expand/Collapse'
+  categoryExpandCollapseIconDescription: 'Expand/Collapse',
+  modalSearchBarPrompt: 'Find',
+  emptyModalSearch: 'There were no results found'
 };
