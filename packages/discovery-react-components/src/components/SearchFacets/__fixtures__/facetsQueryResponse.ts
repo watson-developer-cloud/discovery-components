@@ -428,7 +428,7 @@ export const facetsQueryResponse: DiscoveryV2.Response<
       type: 'term',
       name: 'products',
       field: 'products',
-      count: 11,
+      count: 16,
       results: [
         {
           key: 'discovery',
@@ -459,7 +459,7 @@ export const facetsQueryResponse: DiscoveryV2.Response<
           matching_results: 57158
         },
         {
-          key: 'api kit',
+          key: 'API kit',
           matching_results: 57158
         },
         {
@@ -472,6 +472,26 @@ export const facetsQueryResponse: DiscoveryV2.Response<
         },
         {
           key: 'language translator',
+          matching_results: 57158
+        },
+        {
+          key: 'machine learning',
+          matching_results: 57158
+        },
+        {
+          key: 'tone analyzer',
+          matching_results: 57158
+        },
+        {
+          key: 'personality insights',
+          matching_results: 57158
+        },
+        {
+          key: 'cybersecurity',
+          matching_results: 57158
+        },
+        {
+          key: 'language classifier',
           matching_results: 57158
         }
       ]
