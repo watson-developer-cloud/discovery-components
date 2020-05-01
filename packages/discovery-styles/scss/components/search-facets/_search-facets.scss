@@ -10,6 +10,14 @@
 }
 
 .#{$prefix}--search-facet__facet__show-more-modal {
+  .#{$prefix}--modal-header {
+    padding-right: $spacing-md;
+
+    .#{$prefix}--search {
+      padding-top: $spacing-xs;
+    }
+  }
+
   .#{$prefix}--modal-content {
     height: 40vh;
   }

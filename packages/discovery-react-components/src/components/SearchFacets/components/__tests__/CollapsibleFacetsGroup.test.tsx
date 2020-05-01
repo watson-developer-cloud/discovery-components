@@ -200,14 +200,19 @@ describe('CollapsibleFacetsGroupComponent', () => {
                 'speech to text (57158)',
                 'knowledge catalog (57158)',
                 'nlu (57158)',
-                'api kit (57158)',
+                'API kit (57158)',
                 'openpages (57158)',
                 'visual recognition (57158)',
-                'language translator (57158)'
+                'language translator (57158)',
+                'machine learning (57158)',
+                'tone analyzer (57158)',
+                'personality insights (57158)',
+                'cybersecurity (57158)',
+                'language classifier (57158)'
               ].includes(content)
             );
           });
-          expect(productsFacets).toHaveLength(11);
+          expect(productsFacets).toHaveLength(16);
         });
 
         test('allows for selection and deselection of these facet terms', () => {
@@ -304,6 +309,131 @@ describe('CollapsibleFacetsGroupComponent', () => {
           expect(assistantFacetValues[1]['checked']).toEqual(false);
         });
       });
+    });
+  });
+
+  describe('when there are greater than 15 facet values', () => {
+    const productsFacetArray = [
+      'discovery (138993)',
+      'studio (57158)',
+      'openscale (32444)',
+      'assistant (32444)',
+      'speech to text (57158)',
+      'knowledge catalog (57158)',
+      'nlu (57158)',
+      'API kit (57158)',
+      'openpages (57158)',
+      'visual recognition (57158)',
+      'language translator (57158)',
+      'machine learning (57158)',
+      'tone analyzer (57158)',
+      'personality insights (57158)',
+      'cybersecurity (57158)',
+      'language classifier (57158)'
+    ];
+
+    let productsShowMoreButton: HTMLElement;
+    let productsModal: HTMLElement;
+    let productsSearchBar: HTMLElement;
+
+    beforeEach(() => {
+      const { searchFacetsComponent } = setup();
+      productsShowMoreButton = searchFacetsComponent.getByTestId('show-more-less-products');
+      fireEvent.click(productsShowMoreButton);
+      productsModal = searchFacetsComponent.getByTestId('search-facet-show-more-modal-products');
+      expect(productsModal).toBeDefined();
+      productsSearchBar = within(productsModal).getByTestId(
+        'search-facet-modal-search-bar-products'
+      );
+    });
+
+    test('opens modal with an empty search bar and all facets', () => {
+      expect(productsSearchBar).toBeDefined();
+      const placeHolderText = productsSearchBar.getAttribute('placeholder');
+      expect(placeHolderText).toEqual('Find');
+      const searchBarValue = productsSearchBar.getAttribute('value');
+      expect(searchBarValue).toBe('');
+      // all facets are initially shown
+      const productsFacets = within(productsModal).queryAllByText((content, element) => {
+        return element.tagName.toLowerCase() === 'span' && productsFacetArray.includes(content);
+      });
+      expect(productsFacets).toHaveLength(16);
+    });
+
+    test('search bar starts with all facets and filters down based on user input', () => {
+      // user filters by "st"
+      fireEvent.focus(productsSearchBar);
+      fireEvent.change(productsSearchBar, { target: { value: 'st' } });
+      expect(productsSearchBar.getAttribute('value')).toBe('st');
+      // only two facets are left showing
+      const filteredProductsFacets = within(productsModal).queryAllByText((content, element) => {
+        return element.tagName.toLowerCase() === 'span' && productsFacetArray.includes(content);
+      });
+      expect(filteredProductsFacets).toHaveLength(2);
+      const studioFacet = within(productsModal).getByLabelText('studio (57158)');
+      const assistantFacet = within(productsModal).getByLabelText('assistant (32444)');
+      expect(studioFacet).toBeDefined();
+      expect(assistantFacet).toBeDefined();
+    });
+
+    test('search bar filter is case insensitive', () => {
+      // user filters by "DiScOvErY"
+      fireEvent.focus(productsSearchBar);
+      fireEvent.change(productsSearchBar, { target: { value: 'DiScOvErY' } });
+      // should return only the "discovery" facet
+      const filteredFacets = within(productsModal).queryAllByText((content, element) => {
+        return element.tagName.toLowerCase() === 'span' && productsFacetArray.includes(content);
+      });
+      expect(filteredFacets).toHaveLength(1);
+      const discoveryFacet = within(productsModal).getByLabelText('discovery (138993)');
+      expect(discoveryFacet).toBeDefined();
+      // user filters by "api KIT"
+      fireEvent.focus(productsSearchBar);
+      fireEvent.change(productsSearchBar, { target: { value: 'api KIT' } });
+      // should return only the "API kit" facet
+      const filteredProductsFacets = within(productsModal).queryAllByText((content, element) => {
+        return element.tagName.toLowerCase() === 'span' && productsFacetArray.includes(content);
+      });
+      expect(filteredProductsFacets).toHaveLength(1);
+      const apiFacet = within(productsModal).getByLabelText('API kit (57158)');
+      expect(apiFacet).toBeDefined();
+    });
+
+    test('empty state message is shown when facets do not contain the search value', () => {
+      // user filters by "1"
+      fireEvent.focus(productsSearchBar);
+      fireEvent.change(productsSearchBar, { target: { value: '1' } });
+      // should show no matching facets
+      const filteredFacets = within(productsModal).queryAllByText((content, element) => {
+        return element.tagName.toLowerCase() === 'span' && productsFacetArray.includes(content);
+      });
+      expect(filteredFacets).toHaveLength(0);
+      const emptyStateMessage = within(productsModal).getByText('There were no results found');
+      expect(emptyStateMessage).toBeDefined();
+    });
+
+    test('search bar clears when user clicks the clear search button', () => {
+      fireEvent.focus(productsSearchBar);
+      fireEvent.change(productsSearchBar, { target: { value: 'studio' } });
+      expect(productsSearchBar.getAttribute('value')).toBe('studio');
+      const clearSearchBtn = within(productsModal).getByLabelText('Clear search input');
+      fireEvent.click(clearSearchBtn);
+      expect(productsSearchBar.getAttribute('value')).toBe('');
+    });
+
+    test('search bar clears on modal cancel', () => {
+      // user filters
+      fireEvent.focus(productsSearchBar);
+      fireEvent.change(productsSearchBar, { target: { value: 'studio' } });
+      // user exits modal
+      const cancelButton = within(productsModal).getByText('Cancel');
+      fireEvent.click(cancelButton);
+      // user reopens modal and search bar is clear
+      fireEvent.click(productsShowMoreButton);
+      const searchBarValue = productsSearchBar.getAttribute('value');
+      expect(searchBarValue).toBe('');
+      const closeButton = within(productsModal).getByTitle('close the modal');
+      fireEvent.click(closeButton);
     });
   });
 

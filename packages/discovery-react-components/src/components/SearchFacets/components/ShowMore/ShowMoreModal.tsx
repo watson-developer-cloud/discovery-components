@@ -10,6 +10,7 @@ import {
 } from 'components/SearchFacets/utils/searchFacetInterfaces';
 import { MultiSelectFacetsGroup } from '../FacetsGroups/MultiSelectFacetsGroup';
 import { SingleSelectFacetsGroup } from '../FacetsGroups/SingleSelectFacetsGroup';
+import { ModalSearchInput } from './ModalSearchInput';
 
 interface ShowMoreModalProps {
   /**
@@ -57,6 +58,10 @@ interface ShowMoreModalProps {
    */
   showMatchingResults: boolean;
   /**
+   * If more than 15 facets, adds a search bar
+   */
+  hasSearchBar: boolean;
+  /**
    * Category name if the modal is for a category facet group
    */
   categoryName?: string;
@@ -74,9 +79,13 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
   shouldDisplayAsMultiSelect,
   selectedFacet,
   showMatchingResults,
+  hasSearchBar,
   categoryName
 }) => {
   const [tempSelectedFacets, setTempSelectedFacets] = useState<SelectedFacet[]>([]);
+  const [filteredFacets, setFilteredFacets] = useState<
+    (SelectableDynamicFacets | SelectableQueryTermAggregationResult)[]
+  >();
 
   const handleOnRequestSubmit = () => {
     onChange(tempSelectedFacets);
@@ -89,7 +98,22 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
     setIsModalOpen(false);
   };
 
-  const modalHeading = categoryName ? `${facetsLabel}: ${categoryName}` : facetsLabel;
+  const modalHeading = (
+    <>
+      {categoryName ? `${facetsLabel}: ${categoryName}` : facetsLabel}
+      {hasSearchBar ? (
+        <ModalSearchInput
+          facets={facets}
+          messages={messages}
+          setFilteredFacets={setFilteredFacets}
+          isModalOpen={isOpen}
+          facetsLabel={facetsLabel}
+        />
+      ) : (
+        <></>
+      )}
+    </>
+  );
 
   return (
     <Modal
@@ -104,10 +128,12 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
       secondaryButtonText={messages.showMoreModalSecondaryButtonText}
       data-testid={`search-facet-show-more-modal-${facetsLabel}`}
     >
+      {filteredFacets && filteredFacets.length === 0 && <p>{messages.emptyModalSearch}</p>}
+
       {shouldDisplayAsMultiSelect ? (
         <MultiSelectFacetsGroup
           messages={messages}
-          facets={facets}
+          facets={filteredFacets || facets}
           aggregationSettings={aggregationSettings}
           onChange={onChange}
           facetsTextField={facetsTextField}
@@ -118,7 +144,7 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
       ) : (
         <SingleSelectFacetsGroup
           messages={messages}
-          facets={facets}
+          facets={filteredFacets || facets}
           aggregationSettings={aggregationSettings}
           onChange={onChange}
           selectedFacet={selectedFacet}
