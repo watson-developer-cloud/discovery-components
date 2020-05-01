@@ -11,7 +11,6 @@ import {
 import { MultiSelectFacetsGroup } from '../FacetsGroups/MultiSelectFacetsGroup';
 import { SingleSelectFacetsGroup } from '../FacetsGroups/SingleSelectFacetsGroup';
 import { ModalSearchInput } from './ModalSearchInput';
-import { EmptyModalState } from './EmptyModalState';
 
 interface ShowMoreModalProps {
   /**
@@ -129,11 +128,8 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
       secondaryButtonText={messages.showMoreModalSecondaryButtonText}
       data-testid={`search-facet-show-more-modal-${facetsLabel}`}
     >
-      {filteredFacets && filteredFacets.length == 0 ? (
-        <EmptyModalState messages={messages} />
-      ) : (
-        <></>
-      )}
+      {filteredFacets && filteredFacets.length === 0 && <p>{messages.emptyModalSearch}</p>}
+
       {shouldDisplayAsMultiSelect ? (
         <MultiSelectFacetsGroup
           messages={messages}
