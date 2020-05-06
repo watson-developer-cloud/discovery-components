@@ -4,7 +4,7 @@ import {
   SearchFilterFacets,
   SelectedFacet
 } from '../utils/searchFacetInterfaces';
-import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
 import { Messages } from '../messages';
 import { CollapsibleFacetsGroup } from './FacetsGroups/CollapsibleFacetsGroup';
 
@@ -39,13 +39,14 @@ export const DynamicFacets: FC<DynamicFacetsProps> = ({
   onChange
 }) => {
   const handleOnChange = (selectedFacets: SelectedFacet[]): void => {
-    const newDynamicFacets: SelectableDynamicFacets[] = dynamicFacets.map(suggestion => {
-      const text = get(suggestion, 'text', '');
-      return text === selectedFacets[0].selectedFacetKey
-        ? Object.assign({}, suggestion, { selected: selectedFacets[0].checked })
-        : suggestion;
+    let updatedFacets = cloneDeep(dynamicFacets);
+    selectedFacets.map(({ selectedFacetKey, checked }) => {
+      const facetKeyIndex = dynamicFacets.findIndex(facet => facet.text === selectedFacetKey);
+      if (facetKeyIndex > -1) {
+        updatedFacets[facetKeyIndex].selected = checked;
+      }
     });
-    onChange({ filterDynamic: newDynamicFacets });
+    onChange({ filterDynamic: updatedFacets });
   };
 
   const handleOnClear = (): void => {

@@ -506,6 +506,45 @@ export const facetsQueryResponse: DiscoveryV2.Response<
     },
     {
       text: 'naive bayes'
+    },
+    {
+      text: 'classifier'
+    },
+    {
+      text: 'algorithm'
+    },
+    {
+      text: 'decision tree'
+    },
+    {
+      text: 'clustering'
+    },
+    {
+      text: 'linear'
+    },
+    {
+      text: 'logistic'
+    },
+    {
+      text: 'theorem'
+    },
+    {
+      text: 'training'
+    },
+    {
+      text: 'data'
+    },
+    {
+      text: 'informative'
+    },
+    {
+      text: 'assumption'
+    },
+    {
+      text: 'classify'
+    },
+    {
+      text: 'trees'
     }
   ]
 });

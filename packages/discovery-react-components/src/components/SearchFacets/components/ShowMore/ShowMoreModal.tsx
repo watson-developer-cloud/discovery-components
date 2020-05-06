@@ -108,6 +108,7 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
           setFilteredFacets={setFilteredFacets}
           isModalOpen={isOpen}
           facetsLabel={facetsLabel}
+          facetsTextField={facetsTextField}
         />
       ) : (
         <></>
