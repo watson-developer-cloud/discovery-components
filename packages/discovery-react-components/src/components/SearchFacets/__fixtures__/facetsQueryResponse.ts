@@ -506,6 +506,63 @@ export const facetsQueryResponse: DiscoveryV2.Response<
     },
     {
       text: 'naive bayes'
+    },
+    {
+      text: 'test 1'
+    },
+    {
+      text: 'test 2'
+    },
+    {
+      text: 'test 3'
+    },
+    {
+      text: 'test 4'
+    },
+    {
+      text: 'test 5'
+    },
+    {
+      text: 'test 6'
+    },
+    {
+      text: 'test 7'
+    },
+    {
+      text: 'test 8'
+    },
+    {
+      text: 'test 9'
+    },
+    {
+      text: 'test 10'
+    },
+    {
+      text: 'test 11'
+    },
+    {
+      text: 'test 12'
+    },
+    {
+      text: 'test 13'
+    },
+    {
+      text: 'test 14'
+    },
+    {
+      text: 'test 15'
+    },
+    {
+      text: 'test 16'
+    },
+    {
+      text: 'test 17'
+    },
+    {
+      text: 'test 18'
+    },
+    {
+      text: 'test 19'
     }
   ]
 });

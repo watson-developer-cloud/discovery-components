@@ -26,6 +26,10 @@ interface ModalSearchInputProps {
    */
   facetsLabel: string;
   /**
+   * Facet text field
+   */
+  facetsTextField: 'key' | 'text';
+  /**
    * i18n messages for the component
    */
   messages: Messages;
@@ -36,6 +40,7 @@ export const ModalSearchInput: FC<ModalSearchInputProps> = ({
   setFilteredFacets,
   isModalOpen,
   facetsLabel,
+  facetsTextField,
   messages
 }) => {
   const [value, setValue] = useState<string>('');
@@ -53,8 +58,8 @@ export const ModalSearchInput: FC<ModalSearchInputProps> = ({
     const tempFacets = [...facets];
     setFilteredFacets(
       tempFacets.filter(facet => {
-        if (facet.key) {
-          return facet.key.toLowerCase().includes(tempValue.toLowerCase());
+        if (facet[facetsTextField]) {
+          return facet[facetsTextField].toLowerCase().includes(tempValue.toLowerCase());
         }
         return null;
       })
