@@ -62,61 +62,43 @@ const discoverySearchProps = (
         text: 'naive bayes'
       },
       {
-        text: 'test 1'
+        text: 'classifier'
       },
       {
-        text: 'test 2'
+        text: 'algorithm'
       },
       {
-        text: 'test 3'
+        text: 'decision tree'
       },
       {
-        text: 'test 4'
+        text: 'clustering'
       },
       {
-        text: 'test 5'
+        text: 'linear'
       },
       {
-        text: 'test 6'
+        text: 'logistic'
       },
       {
-        text: 'test 7'
+        text: 'theorem'
       },
       {
-        text: 'test 8'
+        text: 'training'
       },
       {
-        text: 'test 9'
+        text: 'data'
       },
       {
-        text: 'test 10'
+        text: 'informative'
       },
       {
-        text: 'test 11'
+        text: 'assumption'
       },
       {
-        text: 'test 12'
+        text: 'classify'
       },
       {
-        text: 'test 13'
-      },
-      {
-        text: 'test 14'
-      },
-      {
-        text: 'test 15'
-      },
-      {
-        text: 'test 16'
-      },
-      {
-        text: 'test 17'
-      },
-      {
-        text: 'test 18'
-      },
-      {
-        text: 'test 19'
+        text: 'trees'
       }
     ]
   }
