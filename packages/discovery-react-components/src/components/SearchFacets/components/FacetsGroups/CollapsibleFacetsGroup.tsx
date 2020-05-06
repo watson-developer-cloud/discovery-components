@@ -125,7 +125,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
   const selectedFacets = filter(facets, ['selected', true]);
   const selectedFacetText = get(selectedFacets[0], facetsTextField, '');
   const shouldDisplayAsMultiSelect = areMultiSelectionsAllowed || selectedFacets.length > 1;
-  const shouldDisplayClearButton = shouldDisplayAsMultiSelect && selectedFacets.length > 0;
+  const shouldDisplayClearButton = selectedFacets.length > 0;
   const showMoreButtonOnClick =
     totalNumberFacets <= MAX_FACETS_UNTIL_MODAL ? toggleFacetsCollapse : setModalOpen;
   const handleClearFacets = (): void => {
