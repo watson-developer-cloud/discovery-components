@@ -664,11 +664,28 @@ describe('FieldFacetsComponent', () => {
         const headerProducts = fieldFacetsComponent.getAllByText('Products');
         expect(headerProducts).toBeDefined();
       });
+
+      test('nested dictionary aggregation results do not incorrectly have categories', () => {
+        const { fieldFacetsComponent } = setupResult;
+        const headerProducts = fieldFacetsComponent.getAllByText('Products')[0];
+        const productsFacetGroupContainer = headerProducts.parentElement!.parentElement!;
+        const productsHeaders = within(productsFacetGroupContainer).queryAllByTestId(
+          'search-facet-category'
+        );
+        expect(productsHeaders).toHaveLength(0);
+      });
     });
 
     describe('entities facet category elements', () => {
       test('contain all expected category headers', () => {
         const { fieldFacetsComponent } = setupResult;
+        const headerTopEntities = fieldFacetsComponent.getByText('Top Entities');
+        const topEntitiesGroupContainer = headerTopEntities.parentElement!.parentElement!;
+        const topEntitiesHeaders = within(topEntitiesGroupContainer).queryAllByTestId(
+          'search-facet-category'
+        );
+        expect(topEntitiesHeaders).toHaveLength(3);
+
         const locationCategoryHeader = fieldFacetsComponent.getByText('Location');
         const organizationCategoryHeader = fieldFacetsComponent.getByText('Organization');
         const quantityCategoryHeader = fieldFacetsComponent.getByText('Quantity');
