@@ -661,6 +661,8 @@ describe('FieldFacetsComponent', () => {
         expect(headerCategory).toBeDefined();
         const headerMachineLearningTerms = fieldFacetsComponent.getByText('Machine Learning Terms');
         expect(headerMachineLearningTerms).toBeDefined();
+        const headerProducts = fieldFacetsComponent.getAllByText('Products');
+        expect(headerProducts).toBeDefined();
       });
     });
 

@@ -425,74 +425,88 @@ export const facetsQueryResponse: DiscoveryV2.Response<
       ]
     },
     {
-      type: 'term',
-      name: 'products',
-      field: 'products',
-      count: 16,
-      results: [
+      type: 'nested',
+      path: 'enriched_text.entities',
+      matching_results: 276,
+      aggregations: [
         {
-          key: 'discovery',
-          matching_results: 138993
-        },
-        {
-          key: 'studio',
-          matching_results: 57158
-        },
-        {
-          key: 'openscale',
-          matching_results: 32444
-        },
-        {
-          key: 'assistant',
-          matching_results: 32444
-        },
-        {
-          key: 'speech to text',
-          matching_results: 57158
-        },
-        {
-          key: 'knowledge catalog',
-          matching_results: 57158
-        },
-        {
-          key: 'nlu',
-          matching_results: 57158
-        },
-        {
-          key: 'API kit',
-          matching_results: 57158
-        },
-        {
-          key: 'openpages',
-          matching_results: 57158
-        },
-        {
-          key: 'visual recognition',
-          matching_results: 57158
-        },
-        {
-          key: 'language translator',
-          matching_results: 57158
-        },
-        {
-          key: 'machine learning',
-          matching_results: 57158
-        },
-        {
-          key: 'tone analyzer',
-          matching_results: 57158
-        },
-        {
-          key: 'personality insights',
-          matching_results: 57158
-        },
-        {
-          key: 'cybersecurity',
-          matching_results: 57158
-        },
-        {
-          key: 'language classifier',
-          matching_results: 57158
+          type: 'filter',
+          match: 'enriched_text.entities.model_name:"Dictionary:.Products"',
+          matching_results: 276,
+          aggregations: [
+            {
+              type: 'term',
+              name: 'products',
+              field: 'products',
+              count: 16,
+              results: [
+                {
+                  key: 'discovery',
+                  matching_results: 138993
+                },
+                {
+                  key: 'studio',
+                  matching_results: 57158
+                },
+                {
+                  key: 'openscale',
+                  matching_results: 32444
+                },
+                {
+                  key: 'assistant',
+                  matching_results: 32444
+                },
+                {
+                  key: 'speech to text',
+                  matching_results: 57158
+                },
+                {
+                  key: 'knowledge catalog',
+                  matching_results: 57158
+                },
+                {
+                  key: 'nlu',
+                  matching_results: 57158
+                },
+                {
+                  key: 'API kit',
+                  matching_results: 57158
+                },
+                {
+                  key: 'openpages',
+                  matching_results: 57158
+                },
+                {
+                  key: 'visual recognition',
+                  matching_results: 57158
+                },
+                {
+                  key: 'language translator',
+                  matching_results: 57158
+                },
+                {
+                  key: 'machine learning',
+                  matching_results: 57158
+                },
+                {
+                  key: 'tone analyzer',
+                  matching_results: 57158
+                },
+                {
+                  key: 'personality insights',
+                  matching_results: 57158
+                },
+                {
+                  key: 'cybersecurity',
+                  matching_results: 57158
+                },
+                {
+                  key: 'language classifier',
+                  matching_results: 57158
+                }
+              ]
+            }
+          ]
         }
       ]
     }
