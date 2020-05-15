@@ -431,7 +431,7 @@ export const facetsQueryResponse: DiscoveryV2.Response<
       aggregations: [
         {
           type: 'filter',
-          match: 'enriched_text.entities.model_name:"Dictionary:.Products"',
+          match: 'enriched_text.entities.model_name:"Dictionary:.Names"',
           matching_results: 276,
           aggregations: [
             {
@@ -503,6 +503,44 @@ export const facetsQueryResponse: DiscoveryV2.Response<
                 {
                   key: 'language classifier',
                   matching_results: 57158
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      type: 'nested',
+      path: 'enriched_text.entities',
+      matching_results: 276,
+      aggregations: [
+        {
+          type: 'filter',
+          match: 'enriched_text.entities.model_name:"Dictionary:.Names"',
+          matching_results: 276,
+          aggregations: [
+            {
+              type: 'term',
+              field: 'enriched_text.entities.text',
+              count: 4,
+              name: 'names',
+              results: [
+                {
+                  key: 'Heather',
+                  matching_results: 260
+                },
+                {
+                  key: 'Colby',
+                  matching_results: 10
+                },
+                {
+                  key: 'Nick',
+                  matching_results: 2
+                },
+                {
+                  key: 'Kathryn',
+                  matching_results: 2
                 }
               ]
             }
