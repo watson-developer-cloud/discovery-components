@@ -425,126 +425,74 @@ export const facetsQueryResponse: DiscoveryV2.Response<
       ]
     },
     {
-      type: 'nested',
-      path: 'enriched_text.entities',
-      matching_results: 276,
-      aggregations: [
+      type: 'term',
+      name: 'products',
+      field: 'products',
+      count: 16,
+      results: [
         {
-          type: 'filter',
-          match: 'enriched_text.entities.model_name:"Dictionary:.Names"',
-          matching_results: 276,
-          aggregations: [
-            {
-              type: 'term',
-              name: 'products',
-              field: 'products',
-              count: 16,
-              results: [
-                {
-                  key: 'discovery',
-                  matching_results: 138993
-                },
-                {
-                  key: 'studio',
-                  matching_results: 57158
-                },
-                {
-                  key: 'openscale',
-                  matching_results: 32444
-                },
-                {
-                  key: 'assistant',
-                  matching_results: 32444
-                },
-                {
-                  key: 'speech to text',
-                  matching_results: 57158
-                },
-                {
-                  key: 'knowledge catalog',
-                  matching_results: 57158
-                },
-                {
-                  key: 'nlu',
-                  matching_results: 57158
-                },
-                {
-                  key: 'API kit',
-                  matching_results: 57158
-                },
-                {
-                  key: 'openpages',
-                  matching_results: 57158
-                },
-                {
-                  key: 'visual recognition',
-                  matching_results: 57158
-                },
-                {
-                  key: 'language translator',
-                  matching_results: 57158
-                },
-                {
-                  key: 'machine learning',
-                  matching_results: 57158
-                },
-                {
-                  key: 'tone analyzer',
-                  matching_results: 57158
-                },
-                {
-                  key: 'personality insights',
-                  matching_results: 57158
-                },
-                {
-                  key: 'cybersecurity',
-                  matching_results: 57158
-                },
-                {
-                  key: 'language classifier',
-                  matching_results: 57158
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      type: 'nested',
-      path: 'enriched_text.entities',
-      matching_results: 276,
-      aggregations: [
+          key: 'discovery',
+          matching_results: 138993
+        },
         {
-          type: 'filter',
-          match: 'enriched_text.entities.model_name:"Dictionary:.Names"',
-          matching_results: 276,
-          aggregations: [
-            {
-              type: 'term',
-              field: 'enriched_text.entities.text',
-              count: 4,
-              name: 'names',
-              results: [
-                {
-                  key: 'Heather',
-                  matching_results: 260
-                },
-                {
-                  key: 'Colby',
-                  matching_results: 10
-                },
-                {
-                  key: 'Nick',
-                  matching_results: 2
-                },
-                {
-                  key: 'Kathryn',
-                  matching_results: 2
-                }
-              ]
-            }
-          ]
+          key: 'studio',
+          matching_results: 57158
+        },
+        {
+          key: 'openscale',
+          matching_results: 32444
+        },
+        {
+          key: 'assistant',
+          matching_results: 32444
+        },
+        {
+          key: 'speech to text',
+          matching_results: 57158
+        },
+        {
+          key: 'knowledge catalog',
+          matching_results: 57158
+        },
+        {
+          key: 'nlu',
+          matching_results: 57158
+        },
+        {
+          key: 'API kit',
+          matching_results: 57158
+        },
+        {
+          key: 'openpages',
+          matching_results: 57158
+        },
+        {
+          key: 'visual recognition',
+          matching_results: 57158
+        },
+        {
+          key: 'language translator',
+          matching_results: 57158
+        },
+        {
+          key: 'machine learning',
+          matching_results: 57158
+        },
+        {
+          key: 'tone analyzer',
+          matching_results: 57158
+        },
+        {
+          key: 'personality insights',
+          matching_results: 57158
+        },
+        {
+          key: 'cybersecurity',
+          matching_results: 57158
+        },
+        {
+          key: 'language classifier',
+          matching_results: 57158
         }
       ]
     }
@@ -682,6 +630,47 @@ export const weirdFacetsQueryResponse: DiscoveryV2.Response<
     },
     {
       text: 'maybe | not'
+    }
+  ]
+});
+
+export const nestedFacetQueryResponse: DiscoveryV2.Response<
+  DiscoveryV2.QueryResponse
+> = createDummyResponse({
+  type: 'nested',
+  path: 'enriched_text.entities',
+  matching_results: 276,
+  aggregations: [
+    {
+      type: 'filter',
+      match: 'enriched_text.entities.model_name:"Dictionary:.Names"',
+      matching_results: 276,
+      aggregations: [
+        {
+          type: 'term',
+          field: 'enriched_text.entities.text',
+          count: 4,
+          name: 'names',
+          results: [
+            {
+              key: 'Heather',
+              matching_results: 260
+            },
+            {
+              key: 'Colby',
+              matching_results: 10
+            },
+            {
+              key: 'Nick',
+              matching_results: 2
+            },
+            {
+              key: 'Kathryn',
+              matching_results: 2
+            }
+          ]
+        }
+      ]
     }
   ]
 });

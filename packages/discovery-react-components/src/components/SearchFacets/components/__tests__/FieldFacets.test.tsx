@@ -10,7 +10,8 @@ import {
 import SearchFacets from 'components/SearchFacets/SearchFacets';
 import {
   weirdFacetsQueryResponse,
-  facetsQueryResponse
+  facetsQueryResponse,
+  nestedFacetQueryResponse
 } from 'components/SearchFacets/__fixtures__/facetsQueryResponse';
 
 interface Setup {
@@ -665,14 +666,16 @@ describe('FieldFacetsComponent', () => {
         expect(headerProducts).toBeDefined();
       });
 
-      test('nested dictionary aggregation results do not incorrectly have categories', () => {
-        const { fieldFacetsComponent } = setupResult;
-        const headerProducts = fieldFacetsComponent.getAllByText('Products')[0];
-        const productsFacetGroupContainer = headerProducts.parentElement!.parentElement!;
-        const productsHeaders = within(productsFacetGroupContainer).queryAllByTestId(
-          'search-facet-category'
+      test('nested facets with the field enriched_text.entities.text render correctly', () => {
+        let nestedResult: Setup;
+        nestedResult = setup({
+          aggregationResults: nestedFacetQueryResponse.result.aggregations
+        });
+        const { fieldFacetsComponent } = nestedResult;
+        const headerEnrichedEntities = fieldFacetsComponent.getByText(
+          'enriched_text.entities.text'
         );
-        expect(productsHeaders).toHaveLength(0);
+        expect(headerEnrichedEntities).toBeDefined();
       });
     });
 
