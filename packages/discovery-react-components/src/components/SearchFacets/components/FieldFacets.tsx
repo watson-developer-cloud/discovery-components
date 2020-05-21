@@ -119,7 +119,7 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
         const hasCategories =
           aggregation.field.includes('enriched_') &&
           aggregation.field.includes('entities.text') &&
-          aggregation.results![0].aggregations !== undefined;
+          get(aggregation, ['results', 0, 'aggregations']) !== undefined;
 
         return (
           <CollapsibleFacetsGroup
