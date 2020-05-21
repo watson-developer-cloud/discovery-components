@@ -23,7 +23,7 @@ interface MetadataRowProps {
 const MetadataRow: FC<MetadataRowProps> = ({
   metadata,
   activeMetadataId,
-  contactsLabel: contactsLabel = 'Contacts',
+  contactsLabel = 'Contacts',
   partiesLabel = 'Parties',
   confidenceLabel = 'Confidence',
   highConfidenceTooltipText = 'High confidence: Watson is very confident that the identified data is correct.',

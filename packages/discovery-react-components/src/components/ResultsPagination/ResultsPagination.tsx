@@ -73,7 +73,7 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
     const actualPageSize = searchParameters.count || 10;
     const actualOffset = searchParameters.offset || 0;
     const pageFromOffset = Math.floor(actualOffset / actualPageSize) + 1;
-    if (currentPage != pageFromOffset) {
+    if (currentPage !== pageFromOffset) {
       setCurrentPage(pageFromOffset);
     }
   }, [currentPage, searchParameters.count, searchParameters.offset]);
