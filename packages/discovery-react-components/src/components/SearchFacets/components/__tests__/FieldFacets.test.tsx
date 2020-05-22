@@ -10,7 +10,8 @@ import {
 import SearchFacets from 'components/SearchFacets/SearchFacets';
 import {
   weirdFacetsQueryResponse,
-  facetsQueryResponse
+  facetsQueryResponse,
+  nestedFacetQueryResponse
 } from 'components/SearchFacets/__fixtures__/facetsQueryResponse';
 
 interface Setup {
@@ -661,12 +662,33 @@ describe('FieldFacetsComponent', () => {
         expect(headerCategory).toBeDefined();
         const headerMachineLearningTerms = fieldFacetsComponent.getByText('Machine Learning Terms');
         expect(headerMachineLearningTerms).toBeDefined();
+        const headerProducts = fieldFacetsComponent.getAllByText('Products');
+        expect(headerProducts).toBeDefined();
+      });
+
+      test('nested facets with the field enriched_text.entities.text render correctly', () => {
+        let nestedResult: Setup;
+        nestedResult = setup({
+          aggregationResults: nestedFacetQueryResponse.result.aggregations
+        });
+        const { fieldFacetsComponent } = nestedResult;
+        const headerEnrichedEntities = fieldFacetsComponent.getByText(
+          'enriched_text.entities.text'
+        );
+        expect(headerEnrichedEntities).toBeDefined();
       });
     });
 
     describe('entities facet category elements', () => {
       test('contain all expected category headers', () => {
         const { fieldFacetsComponent } = setupResult;
+        const headerTopEntities = fieldFacetsComponent.getByText('Top Entities');
+        const topEntitiesGroupContainer = headerTopEntities.parentElement!.parentElement!;
+        const topEntitiesHeaders = within(topEntitiesGroupContainer).queryAllByTestId(
+          'search-facet-category'
+        );
+        expect(topEntitiesHeaders).toHaveLength(3);
+
         const locationCategoryHeader = fieldFacetsComponent.getByText('Location');
         const organizationCategoryHeader = fieldFacetsComponent.getByText('Organization');
         const quantityCategoryHeader = fieldFacetsComponent.getByText('Quantity');

@@ -113,7 +113,7 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
     totalNumberFacets <= MAX_FACETS_UNTIL_MODAL ? toggleFacetsCollapse : setModalOpen;
 
   return (
-    <div className={categoryClass}>
+    <div className={categoryClass} data-testid={'search-facet-category'}>
       <Button
         className={categoryExpandCollapseClass}
         onClick={() => onClick(categoryName, facetsLabel)}
