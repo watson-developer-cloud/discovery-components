@@ -2,7 +2,6 @@ import React, { FC, useContext, useEffect, useRef } from 'react';
 import { encodeHTML } from 'entities';
 import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
-import get from 'lodash/get';
 import { clearNodeChildren } from 'utils/dom';
 import { findOffsetInDOM, createFieldRects } from 'utils/document/documentUtils';
 import { isPassage } from '../Highlight/passages';
@@ -47,7 +46,7 @@ export const SimpleDocument: FC<Props> = ({
     // JSON and CSV files will default to displaying the specified body field, `text` field, or passage highlighting field.
     // Otherwise an error is shown
     const isJsonOrCsvType = isJsonFile(document) || isCsvFile(document);
-    let field = get(componentSettings, 'fields_shown.body.field', 'text');
+    let field: string | undefined = componentSettings?.fields_shown?.body?.field ?? 'text';
     if (isJsonOrCsvType && (!highlight || !isPassage(highlight)) && document[field] === undefined) {
       // An error message will be rendered
       html = null;
@@ -56,9 +55,14 @@ export const SimpleDocument: FC<Props> = ({
       if (highlight && isPassage(highlight)) {
         passage = highlight as QueryResultPassage;
         field = passage.field;
+        if (!field) {
+          // if passage has no defined field, choose a default and unset `highlight`
+          field = 'text';
+          highlight = undefined;
+        }
       } else {
         // see if user has specified a body field; default to 'text' field
-        field = get(componentSettings, 'fields_shown.body.field', 'text');
+        field = componentSettings?.fields_shown?.body?.field || 'text';
       }
 
       let text;

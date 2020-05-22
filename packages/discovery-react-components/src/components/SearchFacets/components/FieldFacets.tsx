@@ -113,7 +113,7 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
         );
 
         if (aggregationResults.length === 0) {
-          return;
+          return null;
         }
 
         const hasCategories =
