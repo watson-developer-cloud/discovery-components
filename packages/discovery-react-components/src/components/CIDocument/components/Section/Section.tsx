@@ -64,6 +64,10 @@ export const Section: FC<SectionProps> = ({ section, onFieldClick }) => {
   const resizeFn = debounce(createSectionFields, 100);
 
   return (
+    // TODO Need to think about how to properly handle keyboard events within
+    // a section, where there may be multiple selectable "elements" that need
+    // to be handled individually.
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <div
       className={cx(`${baseClassName}`, { hasTable: hasTable(html) })}
       ref={sectionNode}

@@ -97,6 +97,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
     });
 
     test('facets are initially shown collapsed', () => {
+      // Check SingleSelect facets
       const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
       const authorFacets = searchFacetsComponent.queryAllByText((content, element) => {
         return (
@@ -106,6 +107,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
       });
       expect(authorFacets).toHaveLength(2);
 
+      // Check MultiSelect facets
       const subjectFacets = searchFacetsComponent.queryAllByText((content, element) => {
         return (
           element.tagName.toLowerCase() === 'span' &&
@@ -120,6 +122,23 @@ describe('CollapsibleFacetsGroupComponent', () => {
         );
       });
       expect(subjectFacets).toHaveLength(2);
+
+      // Check CatagoryFacets
+      const locationCategoryHeader = searchFacetsComponent.getByText('Location');
+      fireEvent.click(locationCategoryHeader);
+      const locationFacets = searchFacetsComponent.queryAllByText((content, element) => {
+        return (
+          element.tagName.toLowerCase() === 'span' &&
+          [
+            'us (57158)',
+            'eu (57158)',
+            'new york (57158)',
+            'pittsberg (57158)',
+            'austin (57158)'
+          ].includes(content)
+        );
+      });
+      expect(locationFacets).toHaveLength(2);
     });
 
     describe('clicking show more button', () => {

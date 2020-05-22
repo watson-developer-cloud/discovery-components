@@ -1,6 +1,6 @@
 {
   "name": "@ibm-watson/discovery-react-components",
-  "version": "1.2.0-beta.9",
+  "version": "1.2.0-beta.11",
   "description": "Discovery components built with the React framework and IBM Carbon components",
   "license": "Apache-2.0",
   "author": "IBM Corp.",
@@ -8,13 +8,13 @@
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "scripts": {
-    "test": "cross-env CI=1 react-scripts test",
-    "test:coverage": "cross-env CI=1 react-scripts test --coverage",
-    "test:watch": "react-scripts test --watch",
-    "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
+    "test": "cross-env SKIP_PREFLIGHT_CHECK=true CI=1 react-scripts test",
+    "test:coverage": "cross-env CI=1 SKIP_PREFLIGHT_CHECK=true react-scripts test --coverage",
+    "test:watch": "SKIP_PREFLIGHT_CHECK=true react-scripts test --watch",
+    "test:debug": "SKIP_PREFLIGHT_CHECK=true react-scripts --inspect-brk test --runInBand --no-cache",
     "circular": "madge --circular src/*",
     "build": "rollup -c",
-    "eslint": "eslint --resolve-plugins-relative-to '../../node_modules/react-scripts/node_modules' './{src,.storybook}/**/*.{js,jsx,ts,tsx}' --quiet",
+    "eslint": "eslint --quiet '{src,.storybook}/**/*.{js,jsx,ts,tsx}'",
     "lint": "yarn run eslint && yarn run circular",
     "start": "rollup -c -w",
     "storybook": "start-storybook --ci --port=9002",
@@ -71,5 +71,9 @@
       "!src/**/__stories__/**",
       "!src/**/*.stories.*"
     ]
+  },
+  "devDependencies": {
+    "css-loader": "^3.4.2",
+    "sass-loader": "^8.0.2"
   }
 }

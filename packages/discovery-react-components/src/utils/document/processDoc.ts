@@ -280,7 +280,7 @@ function setupSectionParser(
         // to know if the original text contains some encoded
         // html entities, and if so, we pass that value down to
         // be used later.
-        if (decodeHTML(text).length != text.length) {
+        if (decodeHTML(text).length !== text.length) {
           const lastElemIndex = openTagIndices[openTagIndices.length - 1];
           // For us to be able to access the original text, we need to
           // encode it again because otherwise the dom will decode it

@@ -106,7 +106,7 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
     setIsModalOpen(true);
   };
 
-  const categoryFacetsToShow = isCollapsed ? facets.slice(0, collapsedFacetsCount - 1) : facets;
+  const categoryFacetsToShow = isCollapsed ? facets.slice(0, collapsedFacetsCount) : facets;
   const iconToRender = categoryIsExpanded ? ChevronUp : ChevronDown;
   const totalNumberFacets = facets.length;
   const showMoreButtonOnClick =

@@ -1,4 +1,4 @@
-import { getBaseFilterGroups, FilterGroupWithFns } from '../filterGroups';
+import { getBaseFilterGroups } from '../filterGroups';
 
 describe('filterGroups', () => {
   it('handles invalid document types correctly', () => {
