@@ -634,45 +634,45 @@ export const weirdFacetsQueryResponse: DiscoveryV2.Response<DiscoveryV2.QueryRes
   }
 );
 
-export const nestedFacetQueryResponse: DiscoveryV2.Response<
-  DiscoveryV2.QueryResponse
-> = createDummyResponse({
-  type: 'nested',
-  path: 'enriched_text.entities',
-  matching_results: 276,
-  aggregations: [
-    {
-      type: 'filter',
-      match: 'enriched_text.entities.model_name:"Dictionary:.Names"',
-      matching_results: 276,
-      aggregations: [
-        {
-          type: 'term',
-          field: 'enriched_text.entities.text',
-          count: 4,
-          name: 'names',
-          results: [
-            {
-              key: 'Heather',
-              matching_results: 260
-            },
-            {
-              key: 'Colby',
-              matching_results: 10
-            },
-            {
-              key: 'Nick',
-              matching_results: 2
-            },
-            {
-              key: 'Kathryn',
-              matching_results: 2
-            }
-          ]
-        }
-      ]
-    }
-  ]
-});
+export const nestedFacetQueryResponse: DiscoveryV2.Response<DiscoveryV2.QueryResponse> = createDummyResponse(
+  {
+    type: 'nested',
+    path: 'enriched_text.entities',
+    matching_results: 276,
+    aggregations: [
+      {
+        type: 'filter',
+        match: 'enriched_text.entities.model_name:"Dictionary:.Names"',
+        matching_results: 276,
+        aggregations: [
+          {
+            type: 'term',
+            field: 'enriched_text.entities.text',
+            count: 4,
+            name: 'names',
+            results: [
+              {
+                key: 'Heather',
+                matching_results: 260
+              },
+              {
+                key: 'Colby',
+                matching_results: 10
+              },
+              {
+                key: 'Nick',
+                matching_results: 2
+              },
+              {
+                key: 'Kathryn',
+                matching_results: 2
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+);
 
 export default facetsQueryResponse;
