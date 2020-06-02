@@ -9,7 +9,8 @@
   "scripts": {
     "build": "SKIP_PREFLIGHT_CHECK=true react-scripts build",
     "eject": "SKIP_PREFLIGHT_CHECK=true react-scripts eject",
-    "start": "SKIP_PREFLIGHT_CHECK=true react-scripts start",
+    "start:client": "SKIP_PREFLIGHT_CHECK=true react-scripts start",
+    "start": "yarn run server:run & yarn run start:client",
     "lint": "eslint --quiet '{src,cypress}/**/*.{js,jsx,ts,tsx}' './*.{js,jsx,ts,tsx}'",
     "test:e2e": "BROWSER=none CYPRESS_baseUrl=http://localhost:4000 start-server-and-test server:run http://localhost:4000 'cypress run'",
     "test:unit": "SKIP_PREFLIGHT_CHECK=true CI=1 react-scripts test --env=jsdom",
