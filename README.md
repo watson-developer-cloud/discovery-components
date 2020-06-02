@@ -111,7 +111,7 @@ yarn workspace discovery-search-app run start
 
    #### Windows Only
 
-   On Windows, the default `SASS_PATH` environmnt variable must be updated. Append the following to the `.env.local` file:
+   On Windows, the default `SASS_PATH` environment variable must be updated. Append the following to the `.env.local` file:
 
    ```
    SASS_PATH="./node_modules;./src"
