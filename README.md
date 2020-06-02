@@ -129,7 +129,7 @@ yarn workspace discovery-search-app run start
      ```
      yarn workspace discovery-search-app run server:setup
      ```
-   - Create a `examples/discovery-search-app/.server.env` file with the following values:
+   - Create a `examples/discovery-search-app/.server-env` file with the following values:
      ```
      RELEASE_PATH={REPLACE_ME}
      BASE_URL={REPLACE_ME}
