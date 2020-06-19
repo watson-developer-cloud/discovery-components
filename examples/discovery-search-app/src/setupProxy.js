@@ -8,11 +8,11 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 if (serverEnv.error) {
-  throw new Error(serverEnv.error);
+  console.warn(serverEnv.error);
 }
 
 if (clusterEnv.error) {
-  throw new Error(clusterEnv.error);
+  console.warn(clusterEnv.error);
 }
 
 const RELEASE_PATH = process.env.RELEASE_PATH || '/example/release/path';
