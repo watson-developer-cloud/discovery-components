@@ -24,6 +24,7 @@ interface VirtualScrollProps {
   // dimensions for overriding auto-sizing; useful for testing
   width?: number;
   height?: number;
+  ref?: any;
 }
 
 const baseClassName = `${settings.prefix}--ci-doc-virtual-scroll`;
@@ -218,4 +219,8 @@ function itemBounds(item: HTMLElement): VerticalBounds {
   }
 }
 
-export default forwardRef(VirtualScroll);
+function virtualScrollCreator(props: VirtualScrollProps, ref: any) {
+  return <VirtualScroll {...props} ref={ref} />;
+}
+
+export default forwardRef<FC, VirtualScrollProps>(virtualScrollCreator);
