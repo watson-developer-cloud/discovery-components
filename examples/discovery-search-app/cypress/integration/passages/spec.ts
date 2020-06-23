@@ -70,7 +70,10 @@ describe('Passage Results', () => {
             .contains('View table in document')
             .click();
           cy.findByText('Content Intelligence').click();
-          cy.get('.bx--document-preview').should('not.exist'); //attempt to make cypress wait til doc preview closes
+          //attempt to make cypress wait til doc preview closes
+          cy.get('a')
+            .contains('Attributes')
+            .should('exist');
         });
 
         it('diplays filters under Attribute', () => {
@@ -79,7 +82,7 @@ describe('Passage Results', () => {
           cy.findByText('Currency').should('exist');
         });
 
-        it('navigate to relations tab and display filters', () => {
+        it.only('navigate to relations tab and display filters', () => {
           cy.findByText('Relations').click();
           cy.findByText('Relation').should('exist');
           cy.findByText('Invoice parts').should('exist');
