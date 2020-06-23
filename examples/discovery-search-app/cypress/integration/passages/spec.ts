@@ -73,7 +73,7 @@ describe('Passage Results', () => {
           //attempt to make cypress wait til right elements are visible
           cy.get('a')
             .contains('Attributes')
-            .should('be.visible');
+            .should('exist');
         });
 
         it('diplays filters under Attribute', () => {
