@@ -70,6 +70,7 @@ describe('Passage Results', () => {
             .contains('View table in document')
             .click();
           cy.findByText('Content Intelligence').click();
+          cy.get('.bx--document-preview').should('not.exist'); //attempt to make cypress wait til doc preview closes
         });
 
         it('diplays filters under Attribute', () => {
