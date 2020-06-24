@@ -75,7 +75,8 @@ export default {
     typescript({
       rollupCommonJSResolveHack: true,
       clean: true,
-      tsconfig: 'tsconfig.prod.json'
+      tsconfig: 'tsconfig.prod.json',
+      check: false
     })
   ],
   onwarn(warning, warn) {
