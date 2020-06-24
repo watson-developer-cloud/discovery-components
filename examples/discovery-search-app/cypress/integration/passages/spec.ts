@@ -69,6 +69,7 @@ describe('Passage Results', () => {
           cy.get('button[data-testid="search-result-element-preview-button"]')
             .contains('View table in document')
             .click();
+          cy.findByText('Content Intelligence').click();
         });
 
         it('diplays filters under Attribute', () => {
