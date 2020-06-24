@@ -80,7 +80,7 @@ describe('Passage Results', () => {
 
         describe('and navigate to relations tab', () => {
           beforeEach(() => {
-            cy.findByText('Relations', { timeout: 6000 }).click();
+            cy.findByText('Relations').click({ timeout: 6000, force: true });
           });
 
           it('navigate to relations tab and display filters', () => {
