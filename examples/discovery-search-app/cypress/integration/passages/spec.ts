@@ -78,15 +78,10 @@ describe('Passage Results', () => {
           cy.findByText('Currency').should('exist');
         });
 
-        describe('and navigate to relations tab', () => {
-          beforeEach(() => {
-            cy.findByText('Relations').click({ timeout: 6000, force: true });
-          });
-
-          it('navigate to relations tab and display filters', () => {
-            cy.findByText('Relation').should('exist');
-            cy.findByText('Invoice parts').should('exist');
-          });
+        it('navigate to relations tab and display filters', () => {
+          cy.findByText('Relations').click({ force: true }); // force button click even though cypress thinks it is covered by iframe
+          cy.findByText('Relation').should('exist');
+          cy.findByText('Invoice parts').should('exist');
         });
       });
 
