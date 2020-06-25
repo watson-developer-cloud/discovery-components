@@ -9,7 +9,9 @@ export const buildAggregationQuery = (configuration: QueryAggregationWithName[])
         let nestedTypeTermAgg = '';
         if (field.includes('enriched_') && field.includes('entities.text')) {
           const topLevelTermEntityField = field.split('.')[0];
+          const topLevelNestedField = field.slice(0, field.lastIndexOf('.'));
           nestedTypeTermAgg = `.term(${topLevelTermEntityField}.entities.type,count:1)`;
+          return `nested(${topLevelNestedField}).term(${field}${termCount}${termName})${nestedTypeTermAgg}`;
         }
         return 'term(' + field + termCount + termName + ')' + nestedTypeTermAgg;
         // This supports nested and filter aggregations, including dictionary aggregations

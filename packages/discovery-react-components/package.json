@@ -1,6 +1,6 @@
 {
   "name": "@ibm-watson/discovery-react-components",
-  "version": "1.2.0-beta.12",
+  "version": "1.2.1-beta.0",
   "description": "Discovery components built with the React framework and IBM Carbon components",
   "license": "Apache-2.0",
   "author": "IBM Corp.",
@@ -10,8 +10,8 @@
   "scripts": {
     "test": "cross-env SKIP_PREFLIGHT_CHECK=true CI=1 react-scripts test",
     "test:coverage": "cross-env CI=1 SKIP_PREFLIGHT_CHECK=true react-scripts test --coverage",
-    "test:watch": "SKIP_PREFLIGHT_CHECK=true react-scripts test --watch",
-    "test:debug": "SKIP_PREFLIGHT_CHECK=true react-scripts --inspect-brk test --runInBand --no-cache",
+    "test:watch": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts test --watch",
+    "test:debug": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts --inspect-brk test --runInBand --no-cache",
     "circular": "madge --circular src/*",
     "build": "rollup -c",
     "eslint": "eslint --quiet '{src,.storybook}/**/*.{js,jsx,ts,tsx}'",
@@ -19,7 +19,7 @@
     "start": "rollup -c -w",
     "storybook": "start-storybook --ci --port=9002",
     "storybook:build": "build-storybook",
-    "storybook:build:release": "STORYBOOK_BUILD_MODE=production build-storybook -o ../../docs/storybook",
+    "storybook:build:release": "cross-env STORYBOOK_BUILD_MODE=production build-storybook -o ../../docs/storybook",
     "analyze": "source-map-explorer 'dist/index.js'",
     "prepublish": "yarn run build",
     "preversion": "yarn run storybook:build:release",
