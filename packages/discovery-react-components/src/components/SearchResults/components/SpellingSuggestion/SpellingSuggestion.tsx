@@ -10,9 +10,16 @@ interface SpellingSuggestionProps {
    * Message prefix used when displaying spelling suggestion
    */
   spellingSuggestionPrefix?: string;
+  /**
+   * Used for tracking analytics
+   */
+  trackEventSpelling?: (payload: { eventName: any; eventProps: { 'custom.term': string } }) => void;
 }
 
-export const SpellingSuggestion: FC<SpellingSuggestionProps> = ({ spellingSuggestionPrefix }) => {
+export const SpellingSuggestion: FC<SpellingSuggestionProps> = ({
+  spellingSuggestionPrefix,
+  trackEventSpelling
+}) => {
   const spellingSuggestionClassName = `${settings.prefix}--spelling-suggestion`;
   const spellingSuggestionWrapperClassName = `${settings.prefix}--spelling-suggestion__wrapper`;
   const {
@@ -37,6 +44,12 @@ export const SpellingSuggestion: FC<SpellingSuggestionProps> = ({ spellingSugges
     evt.preventDefault();
     if (!!suggestedQuery) {
       performSearch(prepareFreshSearchParameters(suggestedQuery));
+      if (trackEventSpelling) {
+        trackEventSpelling({
+          eventName: 'searchQueryDidYouMean',
+          eventProps: { 'custom.term': suggestedQuery }
+        });
+      }
     }
   };
 

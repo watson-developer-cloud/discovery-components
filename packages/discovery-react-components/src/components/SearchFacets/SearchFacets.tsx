@@ -49,6 +49,17 @@ interface SearchFacetsProps {
    * Number of facet terms to show when list is collapsed
    */
   collapsedFacetsCount?: number;
+  /**
+   * Used for analytics tracking
+   */
+  trackEventFacetsSelect?: (payload: {
+    eventName: any;
+    eventProps: { 'custom.facet_name': string };
+  }) => void;
+  /**
+   * Used for analytics tracking
+   */
+  trackEventFacetsClearAll?: (payload: { eventName: any }) => void;
 }
 
 const SearchFacets: FC<SearchFacetsProps> = ({
@@ -57,7 +68,9 @@ const SearchFacets: FC<SearchFacetsProps> = ({
   showMatchingResults = false,
   messages = defaultMessages,
   overrideComponentSettingsAggregations,
-  collapsedFacetsCount = 5
+  collapsedFacetsCount = 5,
+  trackEventFacetsSelect,
+  trackEventFacetsClearAll
 }) => {
   const {
     aggregationResults,
@@ -144,6 +157,13 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     const filter = SearchFilterTransform.toString(newFilters);
     setFacetSelectionState(newFilters);
     performSearch({ ...searchParameters, offset: 0, filter }, false);
+    console.log(filter);
+    if (trackEventFacetsSelect) {
+      trackEventFacetsSelect({
+        eventName: 'searchFacetsSelect',
+        eventProps: { 'custom.facet_name': filter.slice(28) } // slice removes unnecessary text
+      });
+    }
   };
 
   const handleCollectionToggle = (selectedCollectionItems: SelectedCollectionItems) => {
@@ -167,6 +187,11 @@ const SearchFacets: FC<SearchFacetsProps> = ({
       HTMLElement
     >).forEach(element => element.click());
     performSearch({ ...searchParameters, collectionIds: [], offset: 0, filter: '' }, false);
+    if (trackEventFacetsClearAll) {
+      trackEventFacetsClearAll({
+        eventName: 'searchFacetsClearAll'
+      });
+    }
   };
 
   if (shouldShowFields || shouldShowCollections) {
