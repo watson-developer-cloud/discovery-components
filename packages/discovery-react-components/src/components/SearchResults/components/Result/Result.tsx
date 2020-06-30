@@ -22,6 +22,7 @@ import {
 } from 'components/SearchResults/cssClasses';
 import { getDocumentTitle } from 'utils/getDocumentTitle';
 import { Messages } from 'components/SearchResults/messages';
+import { formatMessage } from 'utils/formatMessage';
 
 export interface ResultProps {
   /**
@@ -193,6 +194,15 @@ export const Result: React.FunctionComponent<ResultProps> = ({
                 handleSelectResult={handleSelectResult}
                 hasResult={!!result}
                 dangerouslyRenderHtml={true}
+                elementLabel={
+                  messages.elementTableLabel
+                    ? formatMessage(
+                        messages.elementTableLabel,
+                        { documentName: title },
+                        false
+                      ).join('')
+                    : undefined
+                }
               />
             )}
           </>
