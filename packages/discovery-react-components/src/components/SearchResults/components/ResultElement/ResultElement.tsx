@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { SelectedResult } from 'components/DiscoverySearch/DiscoverySearch';
 import { Button, Tile } from 'carbon-components-react';
 import Launch from '@carbon/icons-react/lib/launch/16';
@@ -81,7 +81,7 @@ export const ResultElement: React.FunctionComponent<ResultElementProps> = ({
     ...(elementType === 'table' ? { role: 'img' } : {})
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (elementType === 'table') {
       DOMPurify.addHook('afterSanitizeAttributes', function(node) {
         if (node.tagName === 'TABLE') {
