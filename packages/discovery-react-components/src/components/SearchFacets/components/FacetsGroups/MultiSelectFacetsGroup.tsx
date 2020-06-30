@@ -20,7 +20,7 @@ interface MultiSelectFacetsGroupProps {
   /**
    * Dynamic facets text and selected flag
    */
-  facets: (SelectableDynamicFacets | SelectableQueryTermAggregationResult)[];
+  facets: SelectableDynamicFacets | SelectableQueryTermAggregationResult[];
   /**
    * Facet text field
    */
@@ -36,7 +36,7 @@ interface MultiSelectFacetsGroupProps {
   /**
    * Callback to handle changes in selected facets
    */
-  onChange: (selectedFacets: SelectedFacet[]) => void;
+  onCollapsibleFacetsGroup: (selectedFacets: SelectedFacet[]) => void;
   /**
    * Temporary array of selected facets for the ShowMoreModal before it's closed or saved
    */
@@ -45,6 +45,10 @@ interface MultiSelectFacetsGroupProps {
    * Sets the state of the temporary array of selected facets for the ShowMoreModal before it's closed or saved
    */
   setTempSelectedFacets?: (selectedFacets: SelectedFacet[]) => void;
+  /**
+   * Exposed onChange function for external use
+   */
+  onChange?: (e: SyntheticEvent<HTMLInputElement>) => void;
 }
 
 export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
@@ -52,6 +56,7 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
   facets,
   facetsTextField,
   aggregationSettings,
+  onCollapsibleFacetsGroup,
   onChange,
   tempSelectedFacets,
   setTempSelectedFacets,
@@ -69,6 +74,10 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
     _id: string,
     event: SyntheticEvent<HTMLInputElement>
   ): void => {
+    // Check if exposed onChange function is called
+    if (onChange) {
+      onChange(event);
+    }
     const target: HTMLInputElement = event.currentTarget;
     const selectedFacetName = target.getAttribute('data-name') || '';
     const selectedFacetKey = target.getAttribute('data-key') || '';
@@ -89,7 +98,7 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
       }
     } else {
       // If this isn't in the Show more modal, we want to save the selection
-      onChange([{ selectedFacetName, selectedFacetKey, checked }]);
+      onCollapsibleFacetsGroup([{ selectedFacetName, selectedFacetKey, checked }]);
     }
   };
 

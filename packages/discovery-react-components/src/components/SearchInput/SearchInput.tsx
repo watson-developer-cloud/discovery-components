@@ -225,12 +225,12 @@ const SearchInput: FC<SearchInputProps> = ({
   const handleOnKeyUp = (evt: KeyboardEvent<EventTarget>): void => {
     if (evt.key === 'Enter') {
       searchAndBlur(value);
-      if (trackEventSearch) {
-        trackEventSearch({
-          eventName: 'searchQueryInput',
-          eventProps: { 'custom.term': value, 'custom.autocomplete': false }
-        });
-      }
+      // if (trackEventSearch) {
+      //   trackEventSearch({
+      //     eventName: 'searchQueryInput',
+      //     eventProps: { 'custom.term': value, 'custom.autocomplete': false }
+      //   });
+      // }
     }
   };
 

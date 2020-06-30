@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect, useState, SyntheticEvent } from 'react';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { Button } from 'carbon-components-react';
 import { settings } from 'carbon-components';
@@ -50,16 +50,9 @@ interface SearchFacetsProps {
    */
   collapsedFacetsCount?: number;
   /**
-   * Used for analytics tracking
+   * Exposed onChange function for external use
    */
-  trackEventFacetsSelect?: (payload: {
-    eventName: any;
-    eventProps: { 'custom.facet_name': string };
-  }) => void;
-  /**
-   * Used for analytics tracking
-   */
-  trackEventFacetsClearAll?: (payload: { eventName: any }) => void;
+  onChange?: (e: SyntheticEvent<HTMLInputElement>) => void;
 }
 
 const SearchFacets: FC<SearchFacetsProps> = ({
@@ -69,8 +62,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
   messages = defaultMessages,
   overrideComponentSettingsAggregations,
   collapsedFacetsCount = 5,
-  trackEventFacetsSelect,
-  trackEventFacetsClearAll
+  onChange
 }) => {
   const {
     aggregationResults,
@@ -157,13 +149,12 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     const filter = SearchFilterTransform.toString(newFilters);
     setFacetSelectionState(newFilters);
     performSearch({ ...searchParameters, offset: 0, filter }, false);
-    console.log(filter);
-    if (trackEventFacetsSelect) {
-      trackEventFacetsSelect({
-        eventName: 'searchFacetsSelect',
-        eventProps: { 'custom.facet_name': filter.slice(28) } // slice removes unnecessary text
-      });
-    }
+    // if (trackEventFacetsSelect) {
+    //   trackEventFacetsSelect({
+    //     eventName: 'searchFacetsSelect',
+    //     eventProps: { 'custom.facet_name': filter.slice(28) } // slice removes unnecessary text
+    //   });
+    // }
   };
 
   const handleCollectionToggle = (selectedCollectionItems: SelectedCollectionItems) => {
@@ -187,11 +178,11 @@ const SearchFacets: FC<SearchFacetsProps> = ({
       HTMLElement
     >).forEach(element => element.click());
     performSearch({ ...searchParameters, collectionIds: [], offset: 0, filter: '' }, false);
-    if (trackEventFacetsClearAll) {
-      trackEventFacetsClearAll({
-        eventName: 'searchFacetsClearAll'
-      });
-    }
+    // if (trackEventFacetsClearAll) {
+    //   trackEventFacetsClearAll({
+    //     eventName: 'searchFacetsClearAll'
+    //   });
+    // }
   };
 
   if (shouldShowFields || shouldShowCollections) {
@@ -212,7 +203,8 @@ const SearchFacets: FC<SearchFacetsProps> = ({
           <FieldFacets
             allFacets={allFieldFacets}
             showMatchingResults={showMatchingResults}
-            onChange={handleOnChange}
+            onChange={onChange}
+            onSearchFacetsChange={handleOnChange}
             collapsedFacetsCount={collapsedFacetsCount}
             messages={mergedMessages}
           />

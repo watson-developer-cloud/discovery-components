@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, SyntheticEvent } from 'react';
 import get from 'lodash/get';
 import filter from 'lodash/filter';
 import cloneDeep from 'lodash/cloneDeep';
@@ -31,7 +31,11 @@ interface FieldFacetsProps {
   /**
    * Callback to handle changes in selected facets
    */
-  onChange: (updatedFacet: Partial<SearchFilterFacets>) => void;
+  onSearchFacetsChange: (updatedFacet: Partial<SearchFilterFacets>) => void;
+  /**
+   * Exposed onChange function for external use
+   */
+  onChange?: (e: SyntheticEvent<HTMLInputElement>) => void;
 }
 
 export const FieldFacets: FC<FieldFacetsProps> = ({
@@ -39,6 +43,7 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
   showMatchingResults,
   messages,
   collapsedFacetsCount,
+  onSearchFacetsChange,
   onChange
 }) => {
   const getFacetsForNameIndex = (selectedFacetName: string) => {
@@ -87,7 +92,7 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
         updatedFacets[facetsForNameIndex].results = selectedFacetResults;
       }
     });
-    onChange({ filterFields: updatedFacets });
+    onSearchFacetsChange({ filterFields: updatedFacets });
   };
 
   const handleOnClear = (selectedFacetName: string): void => {
@@ -99,7 +104,7 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
         return { ...result, selected: false };
       });
       updatedFacets[facetsForNameIndex].results = deselectedResults;
-      onChange({ filterFields: updatedFacets });
+      onSearchFacetsChange({ filterFields: updatedFacets });
     }
   };
 
@@ -132,7 +137,8 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
             facetsTextField="key"
             hasCategories={hasCategories}
             onClear={handleOnClear}
-            onChange={handleOnChange}
+            onChange={onChange}
+            onFieldFacetsChange={handleOnChange}
           />
         );
       })}

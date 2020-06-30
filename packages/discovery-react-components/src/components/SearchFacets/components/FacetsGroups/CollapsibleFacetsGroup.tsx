@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect, SyntheticEvent } from 'react';
 import filter from 'lodash/filter';
 import get from 'lodash/get';
 import ListBox from 'carbon-components-react/lib/components/ListBox';
@@ -51,7 +51,7 @@ interface CollapsibleFacetsGroupProps {
   /**
    * Callback to handle changes in selected facets
    */
-  onChange: (selectedFacets: SelectedFacet[]) => void;
+  onFieldFacetsChange: (selectedFacets: SelectedFacet[]) => void;
   /**
    * Callback to reset selected facet
    */
@@ -60,6 +60,10 @@ interface CollapsibleFacetsGroupProps {
    * Whether this is an enriched entities facet that includes categories by which to organize facet values
    */
   hasCategories: boolean;
+  /**
+   * Exposed onChange function for external use
+   */
+  onChange?: (e: SyntheticEvent<HTMLInputElement>) => void;
 }
 
 export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
@@ -70,6 +74,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
   facetsTextField,
   messages,
   onClear,
+  onFieldFacetsChange,
   onChange,
   hasCategories
 }) => {
@@ -158,7 +163,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
         <CategoryFacetsGroup
           facetsByCategory={facetsByCategory}
           facetsLabel={facetsLabel}
-          onChange={onChange}
+          onChange={onFieldFacetsChange}
           aggregationSettings={aggregationSettings}
           messages={messages}
           collapsedFacetsCount={collapsedFacetsCount}
@@ -175,6 +180,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
               facets={collapsedFacets}
               aggregationSettings={aggregationSettings}
               onChange={onChange}
+              onCollapsibleFacetsGroup={onFieldFacetsChange}
               showMatchingResults={showMatchingResults}
               facetsTextField={facetsTextField}
             />
@@ -184,6 +190,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
               facets={collapsedFacets}
               aggregationSettings={aggregationSettings}
               onChange={onChange}
+              onCollapsibleFacetsGroup={onFieldFacetsChange}
               selectedFacet={selectedFacetText}
               showMatchingResults={showMatchingResults}
               facetsTextField={facetsTextField}
@@ -205,7 +212,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
                   facets={facets}
                   facetsLabel={facetsLabel}
                   facetsTextField={facetsTextField}
-                  onChange={onChange}
+                  onChange={onFieldFacetsChange}
                   isOpen={isModalOpen}
                   setIsModalOpen={setIsModalOpen}
                   shouldDisplayAsMultiSelect={shouldDisplayAsMultiSelect}
