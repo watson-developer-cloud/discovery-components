@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SelectedResult } from 'components/DiscoverySearch/DiscoverySearch';
 import { Button, Tile } from 'carbon-components-react';
 import Launch from '@carbon/icons-react/lib/launch/16';
@@ -46,6 +46,10 @@ export interface ResultElementProps {
    * specifies whether to use dangerouslySetInnerHtml when rendering this result element
    */
   dangerouslyRenderHtml?: boolean;
+  /**
+   * label used to describe the element
+   */
+  elementLabel?: string;
 }
 
 export const ResultElement: React.FunctionComponent<ResultElementProps> = ({
@@ -53,6 +57,7 @@ export const ResultElement: React.FunctionComponent<ResultElementProps> = ({
   buttonText = 'View document',
   element = null,
   elementType = null,
+  elementLabel,
   handleSelectResult,
   passageTextClassName,
   hasResult,
@@ -71,8 +76,26 @@ export const ResultElement: React.FunctionComponent<ResultElementProps> = ({
 
   const elementBodyProps = {
     className: elementBodyClassNames.join(' '),
-    'data-testid': `search-result-element-body-${elementType}`
+    'data-testid': `search-result-element-body-${elementType}`,
+    'aria-label': elementLabel,
+    ...(elementType === 'table' ? { role: 'img' } : {})
   };
+
+  useEffect(() => {
+    if (elementType === 'table') {
+      DOMPurify.addHook('afterSanitizeAttributes', function(node) {
+        if (node.tagName === 'TABLE') {
+          node.setAttribute('role', 'presentation');
+        }
+      });
+    }
+
+    return () => {
+      if (elementType === 'table') {
+        DOMPurify.removeHook('afterSanitizeAttributes');
+      }
+    };
+  }, [elementType]);
 
   return (
     <Tile>

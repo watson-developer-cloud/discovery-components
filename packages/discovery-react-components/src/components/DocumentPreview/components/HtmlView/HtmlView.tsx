@@ -61,6 +61,18 @@ export const HtmlView: FC<Props> = ({
   const [highlightLocations, setHighlightLocations] = useState<Location[]>([]);
 
   useEffect(() => {
+    DOMPurify.addHook('afterSanitizeAttributes', function(node) {
+      if (node.tagName === 'TABLE') {
+        node.setAttribute('role', 'presentation');
+      }
+    });
+
+    return () => {
+      DOMPurify.removeHook('afterSanitizeAttributes');
+    };
+  }, []);
+
+  useEffect(() => {
     if (document) {
       const docHtml = document.html;
       if (docHtml && highlight) {
