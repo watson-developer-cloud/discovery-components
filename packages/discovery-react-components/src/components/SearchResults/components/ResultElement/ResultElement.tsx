@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import { SelectedResult } from 'components/DiscoverySearch/DiscoverySearch';
 import { Button, Tile } from 'carbon-components-react';
 import Launch from '@carbon/icons-react/lib/launch/16';
