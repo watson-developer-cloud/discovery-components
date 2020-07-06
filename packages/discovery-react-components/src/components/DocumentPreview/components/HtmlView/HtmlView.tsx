@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState, useRef } from 'react';
+import React, { FC, useEffect, useState, useRef, useLayoutEffect } from 'react';
 import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import DOMPurify from 'dompurify';
@@ -59,6 +59,18 @@ export const HtmlView: FC<Props> = ({
   const [html, setHtml] = useState<string | null>(null);
   const [processedDoc, setProcessedDoc] = useState<ProcessedDoc | null>(null);
   const [highlightLocations, setHighlightLocations] = useState<Location[]>([]);
+
+  useLayoutEffect(() => {
+    DOMPurify.addHook('afterSanitizeAttributes', function(node) {
+      if (node.tagName === 'TABLE') {
+        node.setAttribute('role', 'presentation');
+      }
+    });
+
+    return () => {
+      DOMPurify.removeHook('afterSanitizeAttributes');
+    };
+  }, []);
 
   useEffect(() => {
     if (document) {
