@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, useContext } from 'react';
+import React, { FC, useState, useEffect, useContext, SyntheticEvent } from 'react';
 import {
   InternalQueryTermAggregation,
   FieldFacetsByCategory,
@@ -29,7 +29,7 @@ interface CategoryFacetsGroupProps {
   /**
    * Callback to handle changes in selected facets
    */
-  onChange: (selectedFacets: SelectedFacet[]) => void;
+  onCollapsibleFacetsGroup: (selectedFacets: SelectedFacet[]) => void;
   /**
    * i18n messages for the component
    */
@@ -50,19 +50,24 @@ interface CategoryFacetsGroupProps {
    * Show matching documents count as part of label
    */
   showMatchingResults: boolean;
+  /**
+   * Exposed onChange function for external use
+   */
+  onChange?: (e: SyntheticEvent<HTMLInputElement>) => void;
 }
 
 export const CategoryFacetsGroup: FC<CategoryFacetsGroupProps> = ({
   facetsByCategory,
   facetsLabel,
   aggregationSettings,
-  onChange,
+  onCollapsibleFacetsGroup,
   messages,
   collapsedFacetsCount,
   facetsTextField,
   shouldDisplayAsMultiSelect,
   selectedFacet,
-  showMatchingResults
+  showMatchingResults,
+  onChange
 }) => {
   const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
   const {
@@ -97,6 +102,7 @@ export const CategoryFacetsGroup: FC<CategoryFacetsGroupProps> = ({
               categoryName={categoryName}
               facetsLabel={facetsLabel}
               facets={entity[1].facets}
+              onCategoryFacetChange={onCollapsibleFacetsGroup}
               onChange={onChange}
               messages={messages}
               aggregationSettings={aggregationSettings}

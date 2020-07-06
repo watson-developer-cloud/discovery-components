@@ -23,7 +23,7 @@ interface SingleSelectFacetsGroupProps {
   /**
    * Facets text and selected flag
    */
-  facets: SelectableDynamicFacets | SelectableQueryTermAggregationResult[];
+  facets: (SelectableDynamicFacets | SelectableQueryTermAggregationResult)[];
   /**
    * Aggregation component settings
    */

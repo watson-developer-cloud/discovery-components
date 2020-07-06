@@ -20,7 +20,7 @@ interface MultiSelectFacetsGroupProps {
   /**
    * Dynamic facets text and selected flag
    */
-  facets: SelectableDynamicFacets | SelectableQueryTermAggregationResult[];
+  facets: (SelectableDynamicFacets | SelectableQueryTermAggregationResult)[];
   /**
    * Facet text field
    */

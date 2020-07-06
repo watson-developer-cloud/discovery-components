@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect, SyntheticEvent } from 'react';
 import { Button } from 'carbon-components-react';
 import ChevronDown from '@carbon/icons-react/lib/chevron--down/16';
 import ChevronUp from '@carbon/icons-react/lib/chevron--up/16';
@@ -39,7 +39,7 @@ interface CategoryFacetsProps {
   /**
    * Callback to handle changes in selected facets
    */
-  onChange: (selectedFacets: SelectedFacet[]) => void;
+  onCategoryFacetChange: (selectedFacets: SelectedFacet[]) => void;
   /**
    * i18n messages for the component
    */
@@ -72,6 +72,10 @@ interface CategoryFacetsProps {
    * Show matching documents count as part of label
    */
   showMatchingResults: boolean;
+  /**
+   * Exposed onChange function for external use
+   */
+  onChange?: (e: SyntheticEvent<HTMLInputElement>) => void;
 }
 
 export const CategoryFacets: FC<CategoryFacetsProps> = ({
@@ -80,6 +84,7 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
   facets,
   facetsTextField,
   onChange,
+  onCategoryFacetChange,
   messages,
   categoryIsExpanded,
   collapsedFacetsCount,
@@ -129,6 +134,7 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
               messages={messages}
               facets={categoryFacetsToShow}
               aggregationSettings={aggregationSettings}
+              onCollapsibleFacetsGroup={onCategoryFacetChange}
               onChange={onChange}
               facetsTextField={facetsTextField}
               showMatchingResults={showMatchingResults}
@@ -138,6 +144,7 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
               messages={messages}
               facets={categoryFacetsToShow}
               aggregationSettings={aggregationSettings}
+              onCollapsibleFacetsGroup={onCategoryFacetChange}
               onChange={onChange}
               selectedFacet={selectedFacet}
               facetsTextField={facetsTextField}
@@ -160,7 +167,7 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
                   facets={facets}
                   facetsLabel={facetsLabel}
                   facetsTextField={facetsTextField}
-                  onChange={onChange}
+                  onChange={onCategoryFacetChange}
                   isOpen={isModalOpen}
                   setIsModalOpen={setIsModalOpen}
                   shouldDisplayAsMultiSelect={shouldDisplayAsMultiSelect}

@@ -57,12 +57,9 @@ interface SearchInputProps {
    */
   autocompleteDelay?: number;
   /**
-   * Used for analytics tracking
+   * Exposed onChange function for external use
    */
-  trackEventSearch?: (payload: {
-    eventName: any;
-    eventProps: { 'custom.term': string; 'custom.autocomplete': boolean };
-  }) => void;
+  onChange?: (e: SyntheticEvent<EventTarget>) => void;
   /**
    * Props to be passed into Carbon's Search component
    */
@@ -81,9 +78,9 @@ const SearchInput: FC<SearchInputProps> = ({
   messages = defaultMessages,
   autocompleteDelay = 200,
   placeHolderText,
-  trackEventSearch,
   labelText,
   closeButtonLabelText,
+  onChange,
   ...inputProps
 }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
@@ -121,6 +118,9 @@ const SearchInput: FC<SearchInputProps> = ({
   }, [searchParameters.naturalLanguageQuery]);
 
   const handleOnChange = (evt: SyntheticEvent<EventTarget>): void => {
+    if (onChange) {
+      onChange(evt);
+    }
     const target = evt.currentTarget as HTMLInputElement;
     setValue(!!target ? target.value : '');
   };
@@ -132,12 +132,6 @@ const SearchInput: FC<SearchInputProps> = ({
     valueArray.push(completionValue || '');
     const actualValue = `${valueArray.join(splitSearchQuerySelector)}${splitSearchQuerySelector}`;
     setValue(actualValue);
-    if (trackEventSearch) {
-      trackEventSearch({
-        eventName: 'searchQueryInput',
-        eventProps: { 'custom.term': actualValue, 'custom.autocomplete': true }
-      });
-    }
 
     // The carbon Search component doesn't seem to use ForwardRef
     // so looking up by ID for now.
@@ -225,12 +219,6 @@ const SearchInput: FC<SearchInputProps> = ({
   const handleOnKeyUp = (evt: KeyboardEvent<EventTarget>): void => {
     if (evt.key === 'Enter') {
       searchAndBlur(value);
-      // if (trackEventSearch) {
-      //   trackEventSearch({
-      //     eventName: 'searchQueryInput',
-      //     eventProps: { 'custom.term': value, 'custom.autocomplete': false }
-      //   });
-      // }
     }
   };
 

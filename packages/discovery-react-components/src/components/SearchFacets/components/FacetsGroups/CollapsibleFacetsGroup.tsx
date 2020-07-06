@@ -163,7 +163,8 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
         <CategoryFacetsGroup
           facetsByCategory={facetsByCategory}
           facetsLabel={facetsLabel}
-          onChange={onFieldFacetsChange}
+          onCollapsibleFacetsGroup={onFieldFacetsChange}
+          onChange={onChange}
           aggregationSettings={aggregationSettings}
           messages={messages}
           collapsedFacetsCount={collapsedFacetsCount}

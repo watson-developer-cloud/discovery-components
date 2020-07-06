@@ -149,12 +149,6 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     const filter = SearchFilterTransform.toString(newFilters);
     setFacetSelectionState(newFilters);
     performSearch({ ...searchParameters, offset: 0, filter }, false);
-    // if (trackEventFacetsSelect) {
-    //   trackEventFacetsSelect({
-    //     eventName: 'searchFacetsSelect',
-    //     eventProps: { 'custom.facet_name': filter.slice(28) } // slice removes unnecessary text
-    //   });
-    // }
   };
 
   const handleCollectionToggle = (selectedCollectionItems: SelectedCollectionItems) => {
@@ -169,7 +163,10 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     performSearch({ ...searchParameters, offset: 0, collectionIds });
   };
 
-  const handleOnClear = (): void => {
+  const handleOnClear = (event: SyntheticEvent<HTMLInputElement>): void => {
+    if (onChange) {
+      onChange(event);
+    }
     setFacetSelectionState({ filterFields: [], filterDynamic: [] });
     setCollectionSelectionState([]);
     // We should update to not select with a click
@@ -178,11 +175,6 @@ const SearchFacets: FC<SearchFacetsProps> = ({
       HTMLElement
     >).forEach(element => element.click());
     performSearch({ ...searchParameters, collectionIds: [], offset: 0, filter: '' }, false);
-    // if (trackEventFacetsClearAll) {
-    //   trackEventFacetsClearAll({
-    //     eventName: 'searchFacetsClearAll'
-    //   });
-    // }
   };
 
   if (shouldShowFields || shouldShowCollections) {
@@ -214,7 +206,8 @@ const SearchFacets: FC<SearchFacetsProps> = ({
             dynamicFacets={allDynamicFacets}
             showMatchingResults={showMatchingResults}
             messages={mergedMessages}
-            onChange={handleOnChange}
+            onChange={onChange}
+            onSearchFacetsChange={handleOnChange}
             collapsedFacetsCount={collapsedFacetsCount}
           />
         )}

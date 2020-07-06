@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, SyntheticEvent } from 'react';
 import {
   SelectableDynamicFacets,
   SearchFilterFacets,
@@ -28,7 +28,11 @@ interface DynamicFacetsProps {
   /**
    * Callback to handle changes in selected facets
    */
-  onChange: (updatedFacet: Partial<SearchFilterFacets>) => void;
+  onSearchFacetsChange: (updatedFacet: Partial<SearchFilterFacets>) => void;
+  /**
+   * Exposed onChange function for external use
+   */
+  onChange?: (e: SyntheticEvent<HTMLInputElement>) => void;
 }
 
 export const DynamicFacets: FC<DynamicFacetsProps> = ({
@@ -36,6 +40,7 @@ export const DynamicFacets: FC<DynamicFacetsProps> = ({
   showMatchingResults,
   messages,
   collapsedFacetsCount,
+  onSearchFacetsChange,
   onChange
 }) => {
   const handleOnChange = (selectedFacets: SelectedFacet[]): void => {
@@ -46,14 +51,14 @@ export const DynamicFacets: FC<DynamicFacetsProps> = ({
         updatedFacets[facetKeyIndex].selected = checked;
       }
     });
-    onChange({ filterDynamic: updatedFacets });
+    onSearchFacetsChange({ filterDynamic: updatedFacets });
   };
 
   const handleOnClear = (): void => {
     const filterDynamic = dynamicFacets.map(facet => {
       return { ...facet, selected: false };
     });
-    onChange({ filterDynamic: filterDynamic });
+    onSearchFacetsChange({ filterDynamic: filterDynamic });
   };
 
   const aggregationSettings = {
@@ -71,7 +76,8 @@ export const DynamicFacets: FC<DynamicFacetsProps> = ({
       facets={dynamicFacets}
       showMatchingResults={showMatchingResults}
       facetsTextField="text"
-      onChange={handleOnChange}
+      onFieldFacetsChange={handleOnChange}
+      onChange={onChange}
       onClear={handleOnClear}
       messages={messages}
       hasCategories={false}
