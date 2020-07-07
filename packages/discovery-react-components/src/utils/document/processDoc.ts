@@ -234,7 +234,7 @@ function setupSectionParser(
           if (tagName === TABLE_TAG) {
             const descriptionId = `table-description-${p.startIndex}`;
             const tableDescription =
-              'This table was generated using AI. It may be missing semantic table markup for accessibility';
+              'This table was generated using AI. It may be missing semantic table markup for accessibility.';
             const ariaLabel = `Table generated from ${doc.title} (id: ${p.startIndex})`;
 
             sectionHtml.push(
