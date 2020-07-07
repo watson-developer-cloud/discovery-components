@@ -8,6 +8,7 @@ import transformEnrichment from './transformEnrichment';
 import { getEnrichmentName } from 'components/CIDocument/utils/enrichmentUtils';
 import { spansIntersect } from './documentUtils';
 import { decodeHTML, encodeHTML } from 'entities';
+import { getDocumentTitle } from 'utils/getDocumentTitle';
 
 // split HTML into "sections" based on these top level tag(s)
 const SECTION_NAMES = ['p', 'ul', 'table'];
@@ -43,6 +44,7 @@ export interface Location {
 }
 
 export interface ProcessedDoc {
+  title: string;
   styles: string;
   sections?: any[];
   tables?: Table[];
@@ -89,6 +91,7 @@ export async function processDoc(
   options?: Options
 ): Promise<ProcessedDoc> {
   const { html, enriched_html: enrichedHtml } = cloneDeep(queryData);
+  const documentTitle = getDocumentTitle(queryData, 'title');
   options = {
     ...DEFAULT_OPTIONS,
     ...(options || {})
@@ -102,6 +105,7 @@ export async function processDoc(
     : [];
 
   const doc: ProcessedDoc = {
+    title: documentTitle,
     styles: ''
   };
   if (enrichment && enrichment.metadata) {
@@ -227,6 +231,20 @@ function setupSectionParser(
         }
 
         if (tagName !== BBOX_TAG || !SKIP_BBOX) {
+          if (tagName === TABLE_TAG) {
+            const descriptionId = `table-description-${p.startIndex}`;
+            const tableDescription =
+              'This table was generated using AI. It may be missing semantic table markup for accessibility';
+            const ariaLabel = `Table generated from ${doc.title} (id: ${p.startIndex})`;
+
+            sectionHtml.push(
+              `<article aria-label="${ariaLabel}" aria-describedby="${descriptionId}">`
+            );
+            sectionHtml.push(
+              `<p id="${descriptionId}" style="display: none;">${tableDescription}</p>`
+            );
+          }
+
           sectionHtml.push(openTagToString(tagName, attributes, getChildBeginFromOpenTag(p)));
           openTagIndices.push(sectionHtml.length - 1);
         }
@@ -297,6 +315,10 @@ function setupSectionParser(
       onclosetag: (p: Parser, tagName: string): void => {
         if (tagName !== BBOX_TAG || !SKIP_BBOX) {
           sectionHtml.push(closeTagToString(tagName));
+
+          if (tagName === TABLE_TAG) {
+            sectionHtml.push('</article>');
+          }
 
           // update opening tag with location of closing tag
           const openTagIdx = openTagIndices.pop() as number;
