@@ -78,9 +78,9 @@ export interface SearchResultsProps {
    */
   onSelectResult?: (document: { document: DiscoveryV2.QueryResult }) => void | undefined;
   /**
-   * Used for tracking analytics
+   * Exposed onChange function for external use
    */
-  trackEventSpelling?: (payload: { eventName: any; eventProps: { 'custom.term': string } }) => void;
+  onChange?: (searchValue: string) => void;
 }
 
 const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
@@ -96,7 +96,7 @@ const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   showTablesOnly = false,
   messages = defaultMessages,
   onSelectResult,
-  trackEventSpelling
+  onChange
 }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
 
@@ -188,7 +188,7 @@ const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
       <div className={searchResultsHeaderClass} data-testid="search_results_header">
         <SpellingSuggestion
           spellingSuggestionPrefix={mergedMessages.spellingSuggestionsPrefix}
-          trackEventSpelling={trackEventSpelling}
+          onChange={onChange}
         />
         <TablesOnlyToggle
           setShowTablesOnlyResults={setShowTablesOnlyResults}

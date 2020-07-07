@@ -59,7 +59,7 @@ interface SearchInputProps {
   /**
    * Exposed onChange function for external use
    */
-  onChange?: (e: SyntheticEvent<EventTarget>) => void;
+  onChange?: (searchValue: string) => void;
   /**
    * Props to be passed into Carbon's Search component
    */
@@ -118,9 +118,6 @@ const SearchInput: FC<SearchInputProps> = ({
   }, [searchParameters.naturalLanguageQuery]);
 
   const handleOnChange = (evt: SyntheticEvent<EventTarget>): void => {
-    if (onChange) {
-      onChange(evt);
-    }
     const target = evt.currentTarget as HTMLInputElement;
     setValue(!!target ? target.value : '');
   };
@@ -169,6 +166,9 @@ const SearchInput: FC<SearchInputProps> = ({
 
   const searchAndBlur = (value: string): void => {
     performSearch(prepareFreshSearchParameters(value));
+    if (onChange) {
+      onChange(value);
+    }
 
     // The carbon Search component doesn't seem to use ForwardRef
     // so looking up by ID for now.

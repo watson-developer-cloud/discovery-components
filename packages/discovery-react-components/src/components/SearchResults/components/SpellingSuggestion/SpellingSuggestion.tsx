@@ -13,12 +13,12 @@ interface SpellingSuggestionProps {
   /**
    * Used for tracking analytics
    */
-  trackEventSpelling?: (payload: { eventName: any; eventProps: { 'custom.term': string } }) => void;
+  onChange?: (searchValue: string) => void;
 }
 
 export const SpellingSuggestion: FC<SpellingSuggestionProps> = ({
   spellingSuggestionPrefix,
-  trackEventSpelling
+  onChange
 }) => {
   const spellingSuggestionClassName = `${settings.prefix}--spelling-suggestion`;
   const spellingSuggestionWrapperClassName = `${settings.prefix}--spelling-suggestion__wrapper`;
@@ -44,11 +44,8 @@ export const SpellingSuggestion: FC<SpellingSuggestionProps> = ({
     evt.preventDefault();
     if (!!suggestedQuery) {
       performSearch(prepareFreshSearchParameters(suggestedQuery));
-      if (trackEventSpelling) {
-        trackEventSpelling({
-          eventName: 'searchQueryDidYouMean',
-          eventProps: { 'custom.term': suggestedQuery }
-        });
+      if (onChange) {
+        onChange(suggestedQuery);
       }
     }
   };
