@@ -46,7 +46,7 @@ interface MultiSelectFacetsGroupProps {
    */
   setTempSelectedFacets?: (selectedFacets: SelectedFacet[]) => void;
   /**
-   * Exposed onChange function for external use
+   * custom handler invoked when any input element changes in the SearchFacets component
    */
   onChange?: (e: SyntheticEvent<HTMLInputElement>) => void;
 }

@@ -78,7 +78,7 @@ export interface SearchResultsProps {
    */
   onSelectResult?: (document: { document: DiscoveryV2.QueryResult }) => void | undefined;
   /**
-   * Exposed onChange function for external use
+   * custom handler invoked when any input element changes in the SearchResults component
    */
   onChange?: (searchValue: string) => void;
 }
