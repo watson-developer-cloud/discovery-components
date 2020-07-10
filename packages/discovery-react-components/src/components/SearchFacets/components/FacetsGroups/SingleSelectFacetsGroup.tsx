@@ -43,7 +43,7 @@ interface SingleSelectFacetsGroupProps {
   /**
    * Callback to handle changes in selected facets
    */
-  onCollapsibleFacetsGroup: (selectedFacets: SelectedFacet[]) => void;
+  onSingleSelectFacetsGroupChange: (selectedFacets: SelectedFacet[]) => void;
   /**
    * Temporary array of selected facets for the ShowMoreModal before it's closed or saved
    */
@@ -64,7 +64,7 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
   facetsTextField,
   selectedFacet,
   aggregationSettings,
-  onCollapsibleFacetsGroup,
+  onSingleSelectFacetsGroupChange,
   onChange,
   tempSelectedFacets,
   setTempSelectedFacets,
@@ -92,7 +92,7 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
       setTempSelectedFacets([{ selectedFacetName, selectedFacetKey, checked }]);
     } else {
       // If this isn't in the Show more modal, we want to save the selection
-      onCollapsibleFacetsGroup([{ selectedFacetName, selectedFacetKey, checked }]);
+      onSingleSelectFacetsGroupChange([{ selectedFacetName, selectedFacetKey, checked }]);
     }
   };
 

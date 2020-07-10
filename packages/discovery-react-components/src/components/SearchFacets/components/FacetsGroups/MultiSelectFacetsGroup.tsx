@@ -36,7 +36,7 @@ interface MultiSelectFacetsGroupProps {
   /**
    * Callback to handle changes in selected facets
    */
-  onCollapsibleFacetsGroup: (selectedFacets: SelectedFacet[]) => void;
+  onMultiSelectFacetsGroupChange: (selectedFacets: SelectedFacet[]) => void;
   /**
    * Temporary array of selected facets for the ShowMoreModal before it's closed or saved
    */
@@ -56,7 +56,7 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
   facets,
   facetsTextField,
   aggregationSettings,
-  onCollapsibleFacetsGroup,
+  onMultiSelectFacetsGroupChange,
   onChange,
   tempSelectedFacets,
   setTempSelectedFacets,
@@ -98,7 +98,7 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
       }
     } else {
       // If this isn't in the Show more modal, we want to save the selection
-      onCollapsibleFacetsGroup([{ selectedFacetName, selectedFacetKey, checked }]);
+      onMultiSelectFacetsGroupChange([{ selectedFacetName, selectedFacetKey, checked }]);
     }
   };
 

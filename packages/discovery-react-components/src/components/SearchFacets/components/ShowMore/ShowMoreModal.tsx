@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, SyntheticEvent } from 'react';
 import { Modal } from 'carbon-components-react';
 import { showMoreModalClass } from 'components/SearchFacets/cssClasses';
 import { Messages } from 'components/SearchFacets/messages';
@@ -36,7 +36,7 @@ interface ShowMoreModalProps {
   /**
    * Callback to handle changes in selected facets
    */
-  onChange: (selectedFacets: SelectedFacet[]) => void;
+  onShowMoreModalChange: (selectedFacets: SelectedFacet[]) => void;
   /**
    * Specifies whether the modal is open
    */
@@ -65,6 +65,10 @@ interface ShowMoreModalProps {
    * Category name if the modal is for a category facet group
    */
   categoryName?: string;
+  /**
+   * custom handler invoked when any input element changes in the SearchFacets component
+   */
+  onChange?: (e: SyntheticEvent<HTMLInputElement>) => void;
 }
 
 export const ShowMoreModal: FC<ShowMoreModalProps> = ({
@@ -74,6 +78,7 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
   facetsLabel,
   facetsTextField,
   onChange,
+  onShowMoreModalChange,
   isOpen,
   setIsModalOpen,
   shouldDisplayAsMultiSelect,
@@ -88,7 +93,7 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
   >();
 
   const handleOnRequestSubmit = () => {
-    onChange(tempSelectedFacets);
+    onShowMoreModalChange(tempSelectedFacets);
     setTempSelectedFacets([]);
     setIsModalOpen(false);
   };
@@ -136,7 +141,8 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
           messages={messages}
           facets={filteredFacets || facets}
           aggregationSettings={aggregationSettings}
-          onCollapsibleFacetsGroup={onChange}
+          onMultiSelectFacetsGroupChange={onShowMoreModalChange}
+          onChange={onChange}
           facetsTextField={facetsTextField}
           tempSelectedFacets={tempSelectedFacets}
           setTempSelectedFacets={setTempSelectedFacets}
@@ -147,7 +153,8 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
           messages={messages}
           facets={filteredFacets || facets}
           aggregationSettings={aggregationSettings}
-          onCollapsibleFacetsGroup={onChange}
+          onSingleSelectFacetsGroupChange={onShowMoreModalChange}
+          onChange={onChange}
           selectedFacet={selectedFacet}
           facetsTextField={facetsTextField}
           tempSelectedFacets={tempSelectedFacets}
