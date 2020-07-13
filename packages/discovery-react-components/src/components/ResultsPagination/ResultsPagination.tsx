@@ -32,6 +32,10 @@ export interface ResultsPaginationProps {
    */
   messages?: Partial<Messages>;
   /**
+   * custom handler invoked when any input element changes in the ResultsPagination component
+   */
+  onChange?: (e: ResultsPaginationEvent) => void;
+  /**
    * Additional props to be passed into Carbon's Pagination component
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -49,6 +53,7 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
   pageSize,
   showPageSizeSelector = true,
   messages = defaultMessages,
+  onChange,
   ...inputProps
 }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
@@ -93,6 +98,9 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
   }
 
   const handleOnChange = (evt: ResultsPaginationEvent): void => {
+    if (onChange) {
+      onChange(evt);
+    }
     const { page, pageSize } = evt;
     const offset = (page - 1) * pageSize;
     setCurrentPage(page);
