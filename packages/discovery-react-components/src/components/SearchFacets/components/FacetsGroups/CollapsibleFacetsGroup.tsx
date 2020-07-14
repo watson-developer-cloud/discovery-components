@@ -51,7 +51,7 @@ interface CollapsibleFacetsGroupProps {
   /**
    * Callback to handle changes in selected facets
    */
-  onFieldFacetsChange: (selectedFacets: SelectedFacet[]) => void;
+  onCollapsibleFacetsGroupChange: (selectedFacets: SelectedFacet[]) => void;
   /**
    * Callback to reset selected facet
    */
@@ -74,7 +74,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
   facetsTextField,
   messages,
   onClear,
-  onFieldFacetsChange,
+  onCollapsibleFacetsGroupChange,
   onChange,
   hasCategories
 }) => {
@@ -163,7 +163,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
         <CategoryFacetsGroup
           facetsByCategory={facetsByCategory}
           facetsLabel={facetsLabel}
-          onCollapsibleFacetsGroup={onFieldFacetsChange}
+          onCategoryFacetsGroupChange={onCollapsibleFacetsGroupChange}
           onChange={onChange}
           aggregationSettings={aggregationSettings}
           messages={messages}
@@ -181,7 +181,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
               facets={collapsedFacets}
               aggregationSettings={aggregationSettings}
               onChange={onChange}
-              onMultiSelectFacetsGroupChange={onFieldFacetsChange}
+              onMultiSelectFacetsGroupChange={onCollapsibleFacetsGroupChange}
               showMatchingResults={showMatchingResults}
               facetsTextField={facetsTextField}
             />
@@ -191,7 +191,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
               facets={collapsedFacets}
               aggregationSettings={aggregationSettings}
               onChange={onChange}
-              onSingleSelectFacetsGroupChange={onFieldFacetsChange}
+              onSingleSelectFacetsGroupChange={onCollapsibleFacetsGroupChange}
               selectedFacet={selectedFacetText}
               showMatchingResults={showMatchingResults}
               facetsTextField={facetsTextField}
@@ -213,7 +213,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
                   facets={facets}
                   facetsLabel={facetsLabel}
                   facetsTextField={facetsTextField}
-                  onShowMoreModalChange={onFieldFacetsChange}
+                  onShowMoreModalChange={onCollapsibleFacetsGroupChange}
                   onChange={onChange}
                   isOpen={isModalOpen}
                   setIsModalOpen={setIsModalOpen}

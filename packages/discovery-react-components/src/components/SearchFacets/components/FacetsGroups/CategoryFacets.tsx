@@ -39,7 +39,7 @@ interface CategoryFacetsProps {
   /**
    * Callback to handle changes in selected facets
    */
-  onCategoryFacetChange: (selectedFacets: SelectedFacet[]) => void;
+  onCategoryFacetsChange: (selectedFacets: SelectedFacet[]) => void;
   /**
    * i18n messages for the component
    */
@@ -84,7 +84,7 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
   facets,
   facetsTextField,
   onChange,
-  onCategoryFacetChange,
+  onCategoryFacetsChange,
   messages,
   categoryIsExpanded,
   collapsedFacetsCount,
@@ -134,7 +134,7 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
               messages={messages}
               facets={categoryFacetsToShow}
               aggregationSettings={aggregationSettings}
-              onMultiSelectFacetsGroupChange={onCategoryFacetChange}
+              onMultiSelectFacetsGroupChange={onCategoryFacetsChange}
               onChange={onChange}
               facetsTextField={facetsTextField}
               showMatchingResults={showMatchingResults}
@@ -144,7 +144,7 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
               messages={messages}
               facets={categoryFacetsToShow}
               aggregationSettings={aggregationSettings}
-              onSingleSelectFacetsGroupChange={onCategoryFacetChange}
+              onSingleSelectFacetsGroupChange={onCategoryFacetsChange}
               onChange={onChange}
               selectedFacet={selectedFacet}
               facetsTextField={facetsTextField}
@@ -167,7 +167,7 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
                   facets={facets}
                   facetsLabel={facetsLabel}
                   facetsTextField={facetsTextField}
-                  onShowMoreModalChange={onCategoryFacetChange}
+                  onShowMoreModalChange={onCategoryFacetsChange}
                   onChange={onChange}
                   isOpen={isModalOpen}
                   setIsModalOpen={setIsModalOpen}

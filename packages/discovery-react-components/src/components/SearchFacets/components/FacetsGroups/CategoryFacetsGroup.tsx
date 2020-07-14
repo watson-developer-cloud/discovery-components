@@ -29,7 +29,7 @@ interface CategoryFacetsGroupProps {
   /**
    * Callback to handle changes in selected facets
    */
-  onCollapsibleFacetsGroup: (selectedFacets: SelectedFacet[]) => void;
+  onCategoryFacetsGroupChange: (selectedFacets: SelectedFacet[]) => void;
   /**
    * i18n messages for the component
    */
@@ -60,7 +60,7 @@ export const CategoryFacetsGroup: FC<CategoryFacetsGroupProps> = ({
   facetsByCategory,
   facetsLabel,
   aggregationSettings,
-  onCollapsibleFacetsGroup,
+  onCategoryFacetsGroupChange,
   messages,
   collapsedFacetsCount,
   facetsTextField,
@@ -102,7 +102,7 @@ export const CategoryFacetsGroup: FC<CategoryFacetsGroupProps> = ({
               categoryName={categoryName}
               facetsLabel={facetsLabel}
               facets={entity[1].facets}
-              onCategoryFacetChange={onCollapsibleFacetsGroup}
+              onCategoryFacetsChange={onCategoryFacetsGroupChange}
               onChange={onChange}
               messages={messages}
               aggregationSettings={aggregationSettings}

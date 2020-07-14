@@ -28,7 +28,7 @@ interface DynamicFacetsProps {
   /**
    * Callback to handle changes in selected facets
    */
-  onSearchFacetsChange: (updatedFacet: Partial<SearchFilterFacets>) => void;
+  onDynamicFacetsChange: (updatedFacet: Partial<SearchFilterFacets>) => void;
   /**
    * custom handler invoked when any input element changes in the SearchFacets component
    */
@@ -40,7 +40,7 @@ export const DynamicFacets: FC<DynamicFacetsProps> = ({
   showMatchingResults,
   messages,
   collapsedFacetsCount,
-  onSearchFacetsChange,
+  onDynamicFacetsChange,
   onChange
 }) => {
   const handleOnChange = (selectedFacets: SelectedFacet[]): void => {
@@ -51,14 +51,14 @@ export const DynamicFacets: FC<DynamicFacetsProps> = ({
         updatedFacets[facetKeyIndex].selected = checked;
       }
     });
-    onSearchFacetsChange({ filterDynamic: updatedFacets });
+    onDynamicFacetsChange({ filterDynamic: updatedFacets });
   };
 
   const handleOnClear = (): void => {
     const filterDynamic = dynamicFacets.map(facet => {
       return { ...facet, selected: false };
     });
-    onSearchFacetsChange({ filterDynamic: filterDynamic });
+    onDynamicFacetsChange({ filterDynamic: filterDynamic });
   };
 
   const aggregationSettings = {
@@ -76,7 +76,7 @@ export const DynamicFacets: FC<DynamicFacetsProps> = ({
       facets={dynamicFacets}
       showMatchingResults={showMatchingResults}
       facetsTextField="text"
-      onFieldFacetsChange={handleOnChange}
+      onCollapsibleFacetsGroupChange={handleOnChange}
       onChange={onChange}
       onClear={handleOnClear}
       messages={messages}

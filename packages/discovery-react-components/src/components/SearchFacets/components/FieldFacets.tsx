@@ -31,7 +31,7 @@ interface FieldFacetsProps {
   /**
    * Callback to handle changes in selected facets
    */
-  onSearchFacetsChange: (updatedFacet: Partial<SearchFilterFacets>) => void;
+  onFieldFacetsChange: (updatedFacet: Partial<SearchFilterFacets>) => void;
   /**
    * custom handler invoked when any input element changes in the SearchFacets component
    */
@@ -43,7 +43,7 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
   showMatchingResults,
   messages,
   collapsedFacetsCount,
-  onSearchFacetsChange,
+  onFieldFacetsChange,
   onChange
 }) => {
   const getFacetsForNameIndex = (selectedFacetName: string) => {
@@ -56,7 +56,7 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
     return facetsForNameIndex;
   };
 
-  const handleOnChange = (selectedFacets: SelectedFacet[]): void => {
+  const handleOnFieldFacetsChange = (selectedFacets: SelectedFacet[]): void => {
     let updatedFacets = cloneDeep(allFacets);
     selectedFacets.map(({ selectedFacetName, selectedFacetKey, checked }) => {
       const facetsForNameIndex = getFacetsForNameIndex(selectedFacetName);
@@ -92,7 +92,7 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
         updatedFacets[facetsForNameIndex].results = selectedFacetResults;
       }
     });
-    onSearchFacetsChange({ filterFields: updatedFacets });
+    onFieldFacetsChange({ filterFields: updatedFacets });
   };
 
   const handleOnClear = (selectedFacetName: string): void => {
@@ -104,7 +104,7 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
         return { ...result, selected: false };
       });
       updatedFacets[facetsForNameIndex].results = deselectedResults;
-      onSearchFacetsChange({ filterFields: updatedFacets });
+      onFieldFacetsChange({ filterFields: updatedFacets });
     }
   };
 
@@ -138,7 +138,7 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
             hasCategories={hasCategories}
             onClear={handleOnClear}
             onChange={onChange}
-            onFieldFacetsChange={handleOnChange}
+            onCollapsibleFacetsGroupChange={handleOnFieldFacetsChange}
           />
         );
       })}

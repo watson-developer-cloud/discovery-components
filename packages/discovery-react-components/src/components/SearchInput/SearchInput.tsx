@@ -127,8 +127,7 @@ const SearchInput: FC<SearchInputProps> = ({
     const prefix = valueArray.pop();
     const completionValue = !!completions ? completions[i] : prefix;
     valueArray.push(completionValue || '');
-    const actualValue = `${valueArray.join(splitSearchQuerySelector)}${splitSearchQuerySelector}`;
-    setValue(actualValue);
+    setValue(`${valueArray.join(splitSearchQuerySelector)}${splitSearchQuerySelector}`);
 
     // The carbon Search component doesn't seem to use ForwardRef
     // so looking up by ID for now.

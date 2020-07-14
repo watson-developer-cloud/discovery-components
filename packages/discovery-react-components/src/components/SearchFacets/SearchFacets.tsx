@@ -144,7 +144,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
   const hasCollectionSelection = collectionSelectionState.length > 0;
   const hasSelection = hasFieldSelection || hasDynamicSelection || hasCollectionSelection;
 
-  const handleOnChange = (updatedFacets: Partial<SearchFilterFacets>): void => {
+  const handleOnSearchFacetsChange = (updatedFacets: Partial<SearchFilterFacets>): void => {
     const newFilters = { ...originalFilters, ...updatedFacets };
     const filter = SearchFilterTransform.toString(newFilters);
     setFacetSelectionState(newFilters);
@@ -196,7 +196,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
             allFacets={allFieldFacets}
             showMatchingResults={showMatchingResults}
             onChange={onChange}
-            onSearchFacetsChange={handleOnChange}
+            onFieldFacetsChange={handleOnSearchFacetsChange}
             collapsedFacetsCount={collapsedFacetsCount}
             messages={mergedMessages}
           />
@@ -207,7 +207,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
             showMatchingResults={showMatchingResults}
             messages={mergedMessages}
             onChange={onChange}
-            onSearchFacetsChange={handleOnChange}
+            onDynamicFacetsChange={handleOnSearchFacetsChange}
             collapsedFacetsCount={collapsedFacetsCount}
           />
         )}
