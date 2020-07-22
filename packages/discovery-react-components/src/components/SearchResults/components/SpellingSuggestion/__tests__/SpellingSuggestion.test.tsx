@@ -13,6 +13,7 @@ describe('SpellingSuggestion', () => {
   describe('When spelling suggestions enabled', () => {
     let renderResult: RenderResult;
     const performSearchMock = jest.fn();
+    const onChangeMock = jest.fn();
     const setSearchParametersMock = jest.fn();
     const fetchAutocompletionsMock = jest.fn();
 
@@ -33,7 +34,7 @@ describe('SpellingSuggestion', () => {
     beforeEach(() => {
       renderResult = render(
         wrapWithContext(
-          <SpellingSuggestion spellingSuggestionPrefix="Did you mean:" />,
+          <SpellingSuggestion spellingSuggestionPrefix="Did you mean:" onChange={onChangeMock} />,
           api,
           context
         )
@@ -64,6 +65,8 @@ describe('SpellingSuggestion', () => {
             offset: 0
           })
         );
+        // tests exposed onChange function
+        expect(onChangeMock).toBeCalledWith('cunningham');
       });
     });
   });

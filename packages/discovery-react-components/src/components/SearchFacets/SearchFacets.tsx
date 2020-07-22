@@ -52,7 +52,7 @@ interface SearchFacetsProps {
   /**
    * custom handler invoked when any input element changes in the SearchFacets component
    */
-  onChange?: (e: SyntheticEvent<HTMLInputElement>) => void;
+  onChange?: (e: SyntheticEvent<HTMLInputElement> | string) => void;
 }
 
 const SearchFacets: FC<SearchFacetsProps> = ({

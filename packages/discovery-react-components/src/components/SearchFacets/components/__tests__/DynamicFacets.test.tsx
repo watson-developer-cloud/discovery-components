@@ -12,6 +12,7 @@ import { weirdFacetsQueryResponse } from 'components/SearchFacets/__fixtures__/f
 interface Setup {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   performSearchMock: jest.Mock<any, any>;
+  onChangeMock: jest.Mock;
   searchFacetsComponent: RenderResult;
 }
 
@@ -28,6 +29,7 @@ const defaultSetupConfig: SetupConfig = {
 const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
   const mergedSetupConfig = { ...defaultSetupConfig, ...setupConfig };
   const performSearchMock = jest.fn();
+  const onChangeMock = jest.fn();
   const context: Partial<SearchContextIFC> = {
     aggregationResults: weirdFacetsQueryResponse.result.aggregations,
     searchResponseStore: {
@@ -47,13 +49,17 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
   };
   const searchFacetsComponent = render(
     wrapWithContext(
-      <SearchFacets collapsedFacetsCount={mergedSetupConfig.collapsedFacetsCount} />,
+      <SearchFacets
+        collapsedFacetsCount={mergedSetupConfig.collapsedFacetsCount}
+        onChange={onChangeMock}
+      />,
       api,
       context
     )
   );
   return {
     performSearchMock,
+    onChangeMock,
     searchFacetsComponent
   };
 };
@@ -170,7 +176,7 @@ describe('DynamicFacetsComponent', () => {
 
   describe('checkboxes apply filters', () => {
     test('it adds correct filter when checkbox is checked', () => {
-      const { searchFacetsComponent, performSearchMock } = setup();
+      const { searchFacetsComponent, performSearchMock, onChangeMock } = setup();
       const embiidCheckbox = searchFacetsComponent.getByLabelText('trust the process');
       performSearchMock.mockReset();
       fireEvent.click(embiidCheckbox);
@@ -181,10 +187,14 @@ describe('DynamicFacetsComponent', () => {
         }),
         false
       );
+      // test exposed onChange function
+      expect(onChangeMock).toBeCalled();
     });
 
     test('it adds correct filter when aggregation contains `|`', () => {
-      const { searchFacetsComponent, performSearchMock } = setup({ collapsedFacetsCount: 10 });
+      const { searchFacetsComponent, performSearchMock, onChangeMock } = setup({
+        collapsedFacetsCount: 10
+      });
       const pipeCheckbox = searchFacetsComponent.getByLabelText('maybe | not');
       performSearchMock.mockReset();
       fireEvent.click(pipeCheckbox);
@@ -195,10 +205,11 @@ describe('DynamicFacetsComponent', () => {
         }),
         false
       );
+      expect(onChangeMock).toBeCalled();
     });
 
     test('it adds correct filter when aggregation contains `,`', () => {
-      const { searchFacetsComponent, performSearchMock } = setup();
+      const { searchFacetsComponent, performSearchMock, onChangeMock } = setup();
       const commaCheckbox = searchFacetsComponent.getByLabelText('bogus, strings');
       performSearchMock.mockReset();
       fireEvent.click(commaCheckbox);
@@ -209,10 +220,11 @@ describe('DynamicFacetsComponent', () => {
         }),
         false
       );
+      expect(onChangeMock).toBeCalled();
     });
 
     test('it adds correct filter when aggregation contains `:`', () => {
-      const { searchFacetsComponent, performSearchMock } = setup();
+      const { searchFacetsComponent, performSearchMock, onChangeMock } = setup();
       const colonCheckbox = searchFacetsComponent.getByLabelText('this: is');
       performSearchMock.mockReset();
       fireEvent.click(colonCheckbox);
@@ -223,10 +235,13 @@ describe('DynamicFacetsComponent', () => {
         }),
         false
       );
+      expect(onChangeMock).toBeCalled();
     });
 
     test('it adds correct filters when second checkbox is checked', () => {
-      const { searchFacetsComponent, performSearchMock } = setup({ filter: '"sam hinkie"' });
+      const { searchFacetsComponent, performSearchMock, onChangeMock } = setup({
+        filter: '"sam hinkie"'
+      });
       const embiidCheckbox = searchFacetsComponent.getByLabelText('trust the process');
       performSearchMock.mockReset();
       fireEvent.click(embiidCheckbox);
@@ -237,12 +252,15 @@ describe('DynamicFacetsComponent', () => {
         }),
         false
       );
+      expect(onChangeMock).toBeCalled();
     });
   });
 
   describe('checkboxes remove filters', () => {
     test('it removes correct filter when checkbox within single facet is unchecked', () => {
-      const { searchFacetsComponent, performSearchMock } = setup({ filter: '"sam hinkie"' });
+      const { searchFacetsComponent, performSearchMock, onChangeMock } = setup({
+        filter: '"sam hinkie"'
+      });
       const saviorCheckbox = searchFacetsComponent.getByLabelText('sam hinkie');
       performSearchMock.mockReset();
       fireEvent.click(saviorCheckbox);
@@ -254,6 +272,7 @@ describe('DynamicFacetsComponent', () => {
         }),
         false
       );
+      expect(onChangeMock).toBeCalled();
     });
   });
 });
