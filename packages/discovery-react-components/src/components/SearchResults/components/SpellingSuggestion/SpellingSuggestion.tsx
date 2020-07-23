@@ -11,7 +11,7 @@ interface SpellingSuggestionProps {
    */
   spellingSuggestionPrefix?: string;
   /**
-   * Used for tracking analytics
+   * custom handler invoked when any input element changes in the SearchResults component
    */
   onChange?: (searchValue: string) => void;
 }
