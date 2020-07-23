@@ -43,7 +43,7 @@ export const DynamicFacets: FC<DynamicFacetsProps> = ({
   onDynamicFacetsChange,
   onChange
 }) => {
-  const handleOnChange = (selectedFacets: SelectedFacet[]): void => {
+  const handleOnCollapsibleFacetsGroupChange = (selectedFacets: SelectedFacet[]): void => {
     let updatedFacets = cloneDeep(dynamicFacets);
     selectedFacets.map(({ selectedFacetKey, checked }) => {
       const facetKeyIndex = dynamicFacets.findIndex(facet => facet.text === selectedFacetKey);
@@ -76,7 +76,7 @@ export const DynamicFacets: FC<DynamicFacetsProps> = ({
       facets={dynamicFacets}
       showMatchingResults={showMatchingResults}
       facetsTextField="text"
-      onCollapsibleFacetsGroupChange={handleOnChange}
+      onCollapsibleFacetsGroupChange={handleOnCollapsibleFacetsGroupChange}
       onChange={onChange}
       onClear={handleOnClear}
       messages={messages}
