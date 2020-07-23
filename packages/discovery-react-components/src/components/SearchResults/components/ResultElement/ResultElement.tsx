@@ -78,7 +78,9 @@ export const ResultElement: React.FunctionComponent<ResultElementProps> = ({
     className: elementBodyClassNames.join(' '),
     'data-testid': `search-result-element-body-${elementType}`,
     'aria-label': elementLabel,
-    ...(elementType === 'table' ? { role: 'img' } : {})
+    // Tables must be wrapped in an element that has role of article to ensure screen readers
+    // understand that the table is not semantically correct.
+    ...(elementType === 'table' ? { role: 'article' } : {})
   };
 
   useLayoutEffect(() => {
