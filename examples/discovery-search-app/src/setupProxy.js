@@ -7,12 +7,25 @@ const { CloudPakForDataAuthenticator } = require('ibm-watson/auth');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
+// if we are just running cypress tests, we don't need to setup a proxy
+if (process.env.CYPRESS_MODE) {
+  console.log('CYPRESS_MODE=true   --->   Skipping proxy setup');
+  module.exports = function(app) {};
+  return;
+}
+
 if (serverEnv.error) {
-  console.warn(serverEnv.error);
+  console.warn(
+    'Error retrieving server environment variables. Please make sure you have set .server-env'
+  );
+  throw new Error(serverEnv.error);
 }
 
 if (clusterEnv.error) {
-  console.warn(clusterEnv.error);
+  console.warn(
+    'Error retrieving cluster environment variables. Please make sure you have set .env.local'
+  );
+  throw new Error(clusterEnv.error);
 }
 
 const RELEASE_PATH = process.env.RELEASE_PATH || '/example/release/path';
