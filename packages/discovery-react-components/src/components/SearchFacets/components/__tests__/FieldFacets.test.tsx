@@ -17,6 +17,7 @@ import {
 interface Setup {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   performSearchMock: jest.Mock<any, any>;
+  onChangeMock: jest.Mock;
   fieldFacetsComponent: RenderResult;
 }
 
@@ -62,6 +63,7 @@ const updateSelectionSettings = (
 const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
   const mergedSetupConfig = { ...defaultSetupConfig, ...setupConfig };
   const performSearchMock = jest.fn();
+  const onChangeMock = jest.fn();
   const context: Partial<SearchContextIFC> = {
     aggregationResults: mergedSetupConfig.aggregationResults,
     searchResponseStore: {
@@ -84,6 +86,7 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
         collapsedFacetsCount={mergedSetupConfig.collapsedFacetsCount}
         overrideComponentSettingsAggregations={mergedSetupConfig.componentSettingsAggregations}
         showMatchingResults={mergedSetupConfig.showMatchingResults}
+        onChange={onChangeMock}
       />,
       api,
       context
@@ -91,6 +94,7 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
   );
   return {
     performSearchMock,
+    onChangeMock,
     fieldFacetsComponent
   };
 };
@@ -190,7 +194,7 @@ describe('FieldFacetsComponent', () => {
 
   describe('checkboxes apply filters', () => {
     test('it adds correct filter when one checkbox within single facet is checked', () => {
-      const { fieldFacetsComponent, performSearchMock } = setup();
+      const { fieldFacetsComponent, performSearchMock, onChangeMock } = setup();
       const animalsCheckbox = fieldFacetsComponent.getByLabelText('Animals (138993)');
       performSearchMock.mockReset();
       fireEvent.click(animalsCheckbox);
@@ -201,10 +205,12 @@ describe('FieldFacetsComponent', () => {
         }),
         false
       );
+      // test exposed onChange function
+      expect(onChangeMock).toBeCalled();
     });
 
     test('it adds correct filter when aggregation contains `|`', () => {
-      const { fieldFacetsComponent, performSearchMock } = setup({
+      const { fieldFacetsComponent, performSearchMock, onChangeMock } = setup({
         collapsedFacetsCount: 10
       });
       const animalsCheckbox = fieldFacetsComponent.getByLabelText('This | that (2727)');
@@ -217,10 +223,11 @@ describe('FieldFacetsComponent', () => {
         }),
         false
       );
+      expect(onChangeMock).toBeCalled();
     });
 
     test('it adds correct filter when aggregation contains `,`', () => {
-      const { fieldFacetsComponent, performSearchMock } = setup({
+      const { fieldFacetsComponent, performSearchMock, onChangeMock } = setup({
         collapsedFacetsCount: 10
       });
       const animalsCheckbox = fieldFacetsComponent.getByLabelText('hey, you (8282)');
@@ -233,10 +240,11 @@ describe('FieldFacetsComponent', () => {
         }),
         false
       );
+      expect(onChangeMock).toBeCalled();
     });
 
     test('it adds correct filter when aggregation contains `:`', () => {
-      const { fieldFacetsComponent, performSearchMock } = setup({
+      const { fieldFacetsComponent, performSearchMock, onChangeMock } = setup({
         collapsedFacetsCount: 10
       });
       const animalsCheckbox = fieldFacetsComponent.getByLabelText('something: else (18111)');
@@ -249,10 +257,13 @@ describe('FieldFacetsComponent', () => {
         }),
         false
       );
+      expect(onChangeMock).toBeCalled();
     });
 
     test('it adds correct filters when second checkbox within single facet is checked', () => {
-      const { fieldFacetsComponent, performSearchMock } = setup({ filter: 'subject:Animals' });
+      const { fieldFacetsComponent, performSearchMock, onChangeMock } = setup({
+        filter: 'subject:Animals'
+      });
       const peopleCheckbox = fieldFacetsComponent.getByLabelText('People (133760)');
       performSearchMock.mockReset();
       fireEvent.click(peopleCheckbox);
@@ -263,10 +274,11 @@ describe('FieldFacetsComponent', () => {
         }),
         false
       );
+      expect(onChangeMock).toBeCalled();
     });
 
     test('it adds correct filter when checkboxes from multiple facets are checked', () => {
-      const { fieldFacetsComponent, performSearchMock } = setup({
+      const { fieldFacetsComponent, performSearchMock, onChangeMock } = setup({
         filter: 'subject:"Animals"'
       });
       const newsStaffCheckbox = fieldFacetsComponent.getByLabelText('News Staff (57158)');
@@ -279,10 +291,11 @@ describe('FieldFacetsComponent', () => {
         }),
         false
       );
+      expect(onChangeMock).toBeCalled();
     });
 
     test('maintains the same order of checkboxes before and after selection', () => {
-      const { fieldFacetsComponent } = setup();
+      const { fieldFacetsComponent, onChangeMock } = setup();
       const expectedLabels = [
         'ABMN Staff (138993)',
         'News Staff (57158)',
@@ -305,6 +318,7 @@ describe('FieldFacetsComponent', () => {
       expect(afterLabels.map((label: HTMLLabelElement) => label.textContent)).toEqual(
         expectedLabels
       );
+      expect(onChangeMock).toBeCalled();
     });
 
     describe('when multiple facets use the same field', () => {

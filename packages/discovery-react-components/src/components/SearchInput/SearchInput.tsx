@@ -57,6 +57,10 @@ interface SearchInputProps {
    */
   autocompleteDelay?: number;
   /**
+   * custom handler invoked when any input element changes in the SearchInput component
+   */
+  onChange?: (searchValue: string) => void;
+  /**
    * Props to be passed into Carbon's Search component
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -76,6 +80,7 @@ const SearchInput: FC<SearchInputProps> = ({
   placeHolderText,
   labelText,
   closeButtonLabelText,
+  onChange,
   ...inputProps
 }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
@@ -160,6 +165,9 @@ const SearchInput: FC<SearchInputProps> = ({
 
   const searchAndBlur = (value: string): void => {
     performSearch(prepareFreshSearchParameters(value));
+    if (onChange) {
+      onChange(value);
+    }
 
     // The carbon Search component doesn't seem to use ForwardRef
     // so looking up by ID for now.

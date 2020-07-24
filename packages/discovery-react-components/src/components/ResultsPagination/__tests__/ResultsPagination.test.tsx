@@ -13,6 +13,7 @@ interface Setup extends RenderResult {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   performSearchMock: jest.Mock<any, any>;
   setSearchParametersMock: jest.Mock<any>;
+  onChangeMock: jest.Mock;
   pageSizeSelect: Promise<HTMLElement>;
   fullTree: React.ReactElement;
   pageNumberSelect: Promise<HTMLElement>;
@@ -40,8 +41,13 @@ const setup = (
     performSearch: performSearchMock,
     setSearchParameters: setSearchParametersMock
   };
+  const onChangeMock = jest.fn();
 
-  const fullTree = wrapWithContext(<ResultsPagination {...propUpdates} />, api, context);
+  const fullTree = wrapWithContext(
+    <ResultsPagination {...propUpdates} onChange={onChangeMock} />,
+    api,
+    context
+  );
   const paginationComponent = render(fullTree);
 
   const pageSizeSelect = paginationComponent.findByLabelText('Items per page:');
@@ -50,6 +56,7 @@ const setup = (
   return {
     performSearchMock,
     setSearchParametersMock,
+    onChangeMock,
     pageSizeSelect,
     pageNumberSelect,
     fullTree,
@@ -59,7 +66,7 @@ const setup = (
 
 describe('ResultsPaginationComponent', () => {
   test('uses count from search parameter', () => {
-    const { performSearchMock, pageNumberSelect } = setup(
+    const { performSearchMock, pageNumberSelect, onChangeMock } = setup(
       {},
       {
         searchResponseStore: {
@@ -83,12 +90,17 @@ describe('ResultsPaginationComponent', () => {
         }),
         false
       );
+      // test exposed onChange function
+      expect(onChangeMock).toBeCalledWith({
+        page: 2,
+        pageSize: 22
+      });
     });
   });
 
   describe('page size select', () => {
     test('calls onUpdateResultsPagination from first page', () => {
-      const { performSearchMock, pageSizeSelect, pageNumberSelect } = setup();
+      const { performSearchMock, pageSizeSelect, pageNumberSelect, onChangeMock } = setup();
 
       // Have to return here or else failed expectations aren't reported
       return Promise.all([pageSizeSelect, pageNumberSelect]).then(([sizeSelect, numberSelect]) => {
@@ -103,6 +115,11 @@ describe('ResultsPaginationComponent', () => {
           }),
           false
         );
+        // tests exposed onChange function
+        expect(onChangeMock).toBeCalledWith({
+          page: 2,
+          pageSize: 20
+        });
       });
     });
 

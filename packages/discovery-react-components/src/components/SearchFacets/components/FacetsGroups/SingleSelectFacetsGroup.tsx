@@ -43,7 +43,7 @@ interface SingleSelectFacetsGroupProps {
   /**
    * Callback to handle changes in selected facets
    */
-  onChange: (selectedFacets: SelectedFacet[]) => void;
+  onSingleSelectFacetsGroupChange: (selectedFacets: SelectedFacet[]) => void;
   /**
    * Temporary array of selected facets for the ShowMoreModal before it's closed or saved
    */
@@ -52,6 +52,10 @@ interface SingleSelectFacetsGroupProps {
    * Sets the state of the temporary array of selected facets for the ShowMoreModal before it's closed or saved
    */
   setTempSelectedFacets?: (selectedFacets: SelectedFacet[]) => void;
+  /**
+   * custom handler invoked when any input element changes in the SearchFacets component
+   */
+  onChange?: (e: SyntheticEvent<HTMLInputElement>) => void;
 }
 
 export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
@@ -60,6 +64,7 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
   facetsTextField,
   selectedFacet,
   aggregationSettings,
+  onSingleSelectFacetsGroupChange,
   onChange,
   tempSelectedFacets,
   setTempSelectedFacets,
@@ -73,6 +78,10 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
   const escapedName = (aggregationSettings.name || aggregationSettings.field).replace(/\s+/g, '_');
 
   const handleOnClick = (event: SyntheticEvent<HTMLInputElement>): void => {
+    // Check if exposed onChange function is called
+    if (onChange) {
+      onChange(event);
+    }
     const target: HTMLInputElement = event.currentTarget;
     const selectedFacetName = target.getAttribute('data-name') || '';
     const selectedFacetKey = target.getAttribute('data-key') || '';
@@ -83,7 +92,7 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
       setTempSelectedFacets([{ selectedFacetName, selectedFacetKey, checked }]);
     } else {
       // If this isn't in the Show more modal, we want to save the selection
-      onChange([{ selectedFacetName, selectedFacetKey, checked }]);
+      onSingleSelectFacetsGroupChange([{ selectedFacetName, selectedFacetKey, checked }]);
     }
   };
 
