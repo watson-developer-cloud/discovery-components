@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect, useState, SyntheticEvent } from 'react';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { Button } from 'carbon-components-react';
 import { settings } from 'carbon-components';
@@ -49,6 +49,10 @@ interface SearchFacetsProps {
    * Number of facet terms to show when list is collapsed
    */
   collapsedFacetsCount?: number;
+  /**
+   * custom handler invoked when any input element changes in the SearchFacets component
+   */
+  onChange?: (e: SyntheticEvent<HTMLInputElement>) => void;
 }
 
 const SearchFacets: FC<SearchFacetsProps> = ({
@@ -57,7 +61,8 @@ const SearchFacets: FC<SearchFacetsProps> = ({
   showMatchingResults = false,
   messages = defaultMessages,
   overrideComponentSettingsAggregations,
-  collapsedFacetsCount = 5
+  collapsedFacetsCount = 5,
+  onChange
 }) => {
   const {
     aggregationResults,
@@ -139,7 +144,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
   const hasCollectionSelection = collectionSelectionState.length > 0;
   const hasSelection = hasFieldSelection || hasDynamicSelection || hasCollectionSelection;
 
-  const handleOnChange = (updatedFacets: Partial<SearchFilterFacets>): void => {
+  const handleOnSearchFacetsChange = (updatedFacets: Partial<SearchFilterFacets>): void => {
     const newFilters = { ...originalFilters, ...updatedFacets };
     const filter = SearchFilterTransform.toString(newFilters);
     setFacetSelectionState(newFilters);
@@ -158,7 +163,10 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     performSearch({ ...searchParameters, offset: 0, collectionIds });
   };
 
-  const handleOnClear = (): void => {
+  const handleOnClear = (event: SyntheticEvent<HTMLInputElement>): void => {
+    if (onChange) {
+      onChange(event);
+    }
     setFacetSelectionState({ filterFields: [], filterDynamic: [] });
     setCollectionSelectionState([]);
     // We should update to not select with a click
@@ -187,7 +195,8 @@ const SearchFacets: FC<SearchFacetsProps> = ({
           <FieldFacets
             allFacets={allFieldFacets}
             showMatchingResults={showMatchingResults}
-            onChange={handleOnChange}
+            onChange={onChange}
+            onFieldFacetsChange={handleOnSearchFacetsChange}
             collapsedFacetsCount={collapsedFacetsCount}
             messages={mergedMessages}
           />
@@ -197,7 +206,8 @@ const SearchFacets: FC<SearchFacetsProps> = ({
             dynamicFacets={allDynamicFacets}
             showMatchingResults={showMatchingResults}
             messages={mergedMessages}
-            onChange={handleOnChange}
+            onChange={onChange}
+            onDynamicFacetsChange={handleOnSearchFacetsChange}
             collapsedFacetsCount={collapsedFacetsCount}
           />
         )}

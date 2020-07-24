@@ -138,6 +138,27 @@ describe('<SearchInput />', () => {
     });
   });
 
+  describe('when we pass in the exposed onChange function', () => {
+    let input: HTMLInputElement;
+    let container: HTMLElement;
+    const onChangeMock = jest.fn();
+
+    beforeEach(() => {
+      const searchInput: RenderResult = render(
+        <SearchInput id="search-input-test-id" onChange={onChangeMock} />
+      );
+      container = searchInput.container;
+      input = getByPlaceholderText(container, 'Search') as HTMLInputElement;
+      fireEvent.focus(input);
+      fireEvent.change(input, { target: { value: SEARCHINPUTVALUE } });
+      fireEvent.keyUp(input, { key: 'Enter', code: 13, charCode: 13 });
+    });
+
+    test('calls onChange function using onChangeMock', () => {
+      expect(onChangeMock).toBeCalledWith(SEARCHINPUTVALUE);
+    });
+  });
+
   describe('When we have completions', () => {
     let container: HTMLElement;
     let input: HTMLInputElement;

@@ -20,6 +20,7 @@ interface Setup {
   fetchAggregationsMock: jest.Mock<any, any>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   performSearchMock: jest.Mock<any, any>;
+  onChangeMock: jest.Mock;
   searchFacetsComponent: RenderResult;
 }
 
@@ -32,6 +33,7 @@ const setup = (
 ): Setup => {
   const fetchAggregationsMock = jest.fn();
   const performSearchMock = jest.fn();
+  const onChangeMock = jest.fn();
   const context: Partial<SearchContextIFC> = {
     aggregationResults: aggregations,
     collectionsResults: collectionsResponse.result,
@@ -53,11 +55,16 @@ const setup = (
     fetchAggregations: fetchAggregationsMock
   };
   const searchFacetsComponent = render(
-    wrapWithContext(<SearchFacets showCollections={showCollections} />, api, context)
+    wrapWithContext(
+      <SearchFacets showCollections={showCollections} onChange={onChangeMock} />,
+      api,
+      context
+    )
   );
   return {
     context,
     performSearchMock,
+    onChangeMock,
     fetchAggregationsMock,
     searchFacetsComponent: searchFacetsComponent
   };
@@ -182,7 +189,7 @@ describe('SearchFacetsComponent', () => {
         });
 
         test('resets all the filters', () => {
-          const { performSearchMock } = setupData;
+          const { performSearchMock, onChangeMock } = setupData;
           expect(performSearchMock).toHaveBeenCalledWith(
             expect.objectContaining({
               filter: '',
@@ -191,6 +198,8 @@ describe('SearchFacetsComponent', () => {
             }),
             false
           );
+          // test exposed onChange function for clear all
+          expect(onChangeMock).toHaveBeenCalled();
         });
       });
     });

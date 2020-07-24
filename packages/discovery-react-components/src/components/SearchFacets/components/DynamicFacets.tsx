@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, SyntheticEvent } from 'react';
 import {
   SelectableDynamicFacets,
   SearchFilterFacets,
@@ -28,7 +28,11 @@ interface DynamicFacetsProps {
   /**
    * Callback to handle changes in selected facets
    */
-  onChange: (updatedFacet: Partial<SearchFilterFacets>) => void;
+  onDynamicFacetsChange: (updatedFacet: Partial<SearchFilterFacets>) => void;
+  /**
+   * custom handler invoked when any input element changes in the SearchFacets component
+   */
+  onChange?: (e: SyntheticEvent<HTMLInputElement>) => void;
 }
 
 export const DynamicFacets: FC<DynamicFacetsProps> = ({
@@ -36,9 +40,10 @@ export const DynamicFacets: FC<DynamicFacetsProps> = ({
   showMatchingResults,
   messages,
   collapsedFacetsCount,
+  onDynamicFacetsChange,
   onChange
 }) => {
-  const handleOnChange = (selectedFacets: SelectedFacet[]): void => {
+  const handleOnCollapsibleFacetsGroupChange = (selectedFacets: SelectedFacet[]): void => {
     let updatedFacets = cloneDeep(dynamicFacets);
     selectedFacets.map(({ selectedFacetKey, checked }) => {
       const facetKeyIndex = dynamicFacets.findIndex(facet => facet.text === selectedFacetKey);
@@ -46,14 +51,14 @@ export const DynamicFacets: FC<DynamicFacetsProps> = ({
         updatedFacets[facetKeyIndex].selected = checked;
       }
     });
-    onChange({ filterDynamic: updatedFacets });
+    onDynamicFacetsChange({ filterDynamic: updatedFacets });
   };
 
   const handleOnClear = (): void => {
     const filterDynamic = dynamicFacets.map(facet => {
       return { ...facet, selected: false };
     });
-    onChange({ filterDynamic: filterDynamic });
+    onDynamicFacetsChange({ filterDynamic: filterDynamic });
   };
 
   const aggregationSettings = {
@@ -71,7 +76,8 @@ export const DynamicFacets: FC<DynamicFacetsProps> = ({
       facets={dynamicFacets}
       showMatchingResults={showMatchingResults}
       facetsTextField="text"
-      onChange={handleOnChange}
+      onCollapsibleFacetsGroupChange={handleOnCollapsibleFacetsGroupChange}
+      onChange={onChange}
       onClear={handleOnClear}
       messages={messages}
       hasCategories={false}
