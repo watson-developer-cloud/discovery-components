@@ -111,7 +111,7 @@ yarn workspace discovery-search-app run start
 
    #### Windows Only
 
-   On Windows, the default `SASS_PATH` environmnt variable must be updated. Append the following to the `.env.local` file:
+   On Windows, the default `SASS_PATH` environment variable must be updated. Append the following to the `.env.local` file:
 
    ```
    SASS_PATH="./node_modules;./src"
@@ -129,7 +129,7 @@ yarn workspace discovery-search-app run start
      ```
      yarn workspace discovery-search-app run server:setup
      ```
-   - Create a `examples/discovery-search-app/.server.env` file with the following values:
+   - Create a `examples/discovery-search-app/.server-env` file with the following values:
      ```
      RELEASE_PATH={REPLACE_ME}
      BASE_URL={REPLACE_ME}
@@ -347,16 +347,17 @@ See the following for [more info about Lerna](https://github.com/lerna/lerna) or
 
 #### Example app (examples/discovery-search-app)
 
-| Command             | Description                                       |
-| ------------------- | ------------------------------------------------- |
-| `yarn start`        | runs the client at http://localhost:3000/         |
-| `yarn build`        | creates a production build of the example project |
-| `yarn cypress`      | opens the cypress application for feature testing |
-| `yarn lint`         | runs `eslint` on `src` and `cypress`              |
-| `yarn server`       | configures and runs an express server             |
-| `yarn server:setup` | configures express server only                    |
-| `yarn server:run`   | runs an express server without configuring first  |
-| `yarn test:e2e`     | starts the server and runs cypress headless       |
+| Command             | Description                                                            |
+| ------------------- | ---------------------------------------------------------------------- |
+| `yarn start`        | runs the client and runs the express server without configuring first  |
+| `yarn start:client` | runs the client at http://localhost:3000/                              |
+| `yarn build`        | creates a production build of the example project                      |
+| `yarn cypress`      | opens the cypress application for feature testing                      |
+| `yarn lint`         | runs `eslint` on `src` and `cypress`                                   |
+| `yarn server`       | configures and runs an express server                                  |
+| `yarn server:setup` | configures express server only                                         |
+| `yarn server:run`   | runs an express server without configuring first                       |
+| `yarn test:e2e`     | starts the server and runs cypress headless                            |
 
 #### React components (packages/discovery-react-components)
 

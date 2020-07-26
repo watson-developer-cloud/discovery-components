@@ -79,7 +79,7 @@ describe('Passage Results', () => {
         });
 
         it('navigate to relations tab and display filters', () => {
-          cy.findByText('Relations').click();
+          cy.findByText('Relations').click({ force: true }); // force button click even though cypress thinks it is covered by iframe
           cy.findByText('Relation').should('exist');
           cy.findByText('Invoice parts').should('exist');
         });

@@ -2921,7 +2921,7 @@
     "@hapi/hoek" "8.x.x"
 
 "@ibm-watson/discovery-react-components@file:packages/discovery-react-components":
-  version "1.2.1-beta.1"
+  version "1.2.1-beta.3"
   dependencies:
     classnames "^2.2.6"
     debounce "^1.2.0"

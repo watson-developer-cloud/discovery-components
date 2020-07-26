@@ -11,10 +11,10 @@
     "eject": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts eject",
     "start": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts start",
     "lint": "eslint --quiet '{src,cypress}/**/*.{js,jsx,ts,tsx}' './*.{js,jsx,ts,tsx}'",
-    "test:e2e": "cross-env BROWSER=none CYPRESS_baseUrl=http://localhost:4000 start-server-and-test server:run http://localhost:4000 'cypress run'",
+    "test:e2e": "cross-env CYPRESS_MODE=true BROWSER=none CYPRESS_baseUrl=http://localhost:3000 start-server-and-test start http://localhost:3000 'cypress run'",
     "test:unit": "cross-env SKIP_PREFLIGHT_CHECK=true CI=1 react-scripts test --env=jsdom",
     "test": "yarn test:unit && yarn test:e2e",
-    "cypress": "cypress open",
+    "cypress": "cross-env CYPRESS_MODE=true cypress open",
     "server": "yarn server:setup && yarn server:run",
     "server:run": "node ./server.js",
     "server:setup": "./scripts/serverSetup.sh"
