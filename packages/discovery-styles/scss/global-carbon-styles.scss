@@ -1,4 +1,7 @@
-// You only need to import this file if your app is not already directly importing these carbon files
+/* This file is optional
+ * You should not import this file if your application is already importing the Carbon base styles.
+ * You should import this file if your application is only using discovery-components and no other Carbon components.
+ */
 
 $css--plex: true !default;
 $css--use-layer: true !default;
@@ -9,6 +12,41 @@ $css--use-layer: true !default;
 @import '~carbon-components/scss/globals/scss/_colors.scss';
 @import '~carbon-components/scss/globals/scss/_layout.scss';
 
-// Search Input
+// The following are base Carbon styles for each discovery component
+
+// ci-document-filter, search-facets
+@import '~carbon-components/scss/components/checkbox/checkbox';
+@import '~carbon-components/scss/components/multi-select/multi-select';
+@import '~carbon-components/scss/components/radio-button/radio-button';
+
+// ci-document, ci-document-details
+@import '~carbon-components/scss/components/link/link';
+
+// ci-document, document-preview-toolbar, search-reseults, structured-query
+@import '~carbon-components/scss/components/button/button';
+
+// ci-document, document-preview-toolbar
+@import '~carbon-components/scss/components/tooltip/tooltip';
+
+// ci-document-filter, document-preview
+@import '~carbon-components/scss/components/skeleton/skeleton';
+
+// ci-document
+@import '~carbon-components/scss/components/tabs/tabs';
+
+// results-pagination
+@import '~carbon-components/scss/components/pagination/pagination';
+
+// search-facets
+@import '~carbon-components/scss/components/modal/modal';
+
+// search-input
 @import '~carbon-components/scss/components/search/search';
 @import '~carbon-components/scss/components/list-box/list-box';
+
+// search-results
+@import '~carbon-components/scss/components/toggle/toggle';
+
+// structured-query
+@import '~carbon-components/scss/components/combo-box/combo-box';
+@import '~carbon-components/scss/components/dropdown/dropdown';
