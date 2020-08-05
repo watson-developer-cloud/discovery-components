@@ -1,6 +1,6 @@
 import { configure, addParameters } from '@storybook/react';
 import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks';
-import '@ibm-watson/discovery-styles';
+import './styles.scss';
 import { addDecorator } from '@storybook/react';
 import { withKnobs } from '@storybook/addon-knobs';
 

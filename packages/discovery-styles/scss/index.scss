@@ -1,12 +1,3 @@
-$css--plex: true !default;
-$css--use-layer: true !default;
-
-// Global styles
-@import '~carbon-components/scss/globals/scss/_css--font-face.scss';
-@import '~carbon-components/scss/globals/scss/_typography.scss';
-@import '~carbon-components/scss/globals/scss/_colors.scss';
-@import '~carbon-components/scss/globals/scss/_layout.scss';
-
 // Component styles
 @import 'components/search-input/search-input';
 @import 'components/search-results/search-results';

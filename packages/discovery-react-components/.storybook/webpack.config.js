@@ -2,7 +2,6 @@ const path = require('path');
 const SRC_PATH = path.join(__dirname, '../src');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
-const styles = require.resolve('@ibm-watson/discovery-styles');
 module.exports = ({ config }) => {
   config.node = {
     fs: 'empty'
@@ -26,8 +25,7 @@ module.exports = ({ config }) => {
   });
   config.module.rules.push({
     test: /\.scss$/,
-    use: ['style-loader', 'css-loader', 'sass-loader'],
-    include: styles
+    use: ['style-loader', 'css-loader', 'sass-loader']
   });
   config.module.rules.push({
     test: /\.worker\.min\.js$/,
