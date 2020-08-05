@@ -52,7 +52,7 @@ interface SearchFacetsProps {
   /**
    * custom handler invoked when any input element changes in the SearchFacets component
    */
-  onChange?: (e: SyntheticEvent<HTMLInputElement>) => void;
+  onChange?: (e: SyntheticEvent<HTMLInputElement> | string[]) => void;
 }
 
 const SearchFacets: FC<SearchFacetsProps> = ({
@@ -160,6 +160,18 @@ const SearchFacets: FC<SearchFacetsProps> = ({
         return collection.id.split(collectionFacetIdPrefix).pop() || '';
       })
       .filter(id => id !== '');
+
+    if (onChange) {
+      // returning collection labels
+      onChange(
+        selectedCollectionItems.selectedItems
+          .map(collection => {
+            return collection.label.split(collectionFacetIdPrefix).pop() || '';
+          })
+          .filter(label => label !== '')
+      );
+    }
+
     performSearch({ ...searchParameters, offset: 0, collectionIds });
   };
 
@@ -183,6 +195,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
         {hasSelection && (
           <Button
             className={`${settings.prefix}--search-facets__button-clear-all`}
+            id={'search-facets-button-clear-all'}
             kind="ghost"
             renderIcon={Close}
             size="small"
