@@ -5,11 +5,12 @@
     "plugin:jsx-a11y/recommended",
     "plugin:cypress/recommended"
   ],
-  "plugins": ["react", "jsx-a11y", "prettier", "cypress"],
+  "plugins": ["react", "jsx-a11y", "prettier", "cypress", "no-only-tests"],
   "env": {
     "cypress/globals": true
   },
   "rules": {
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "no-only-tests/no-only-tests": "error"
   }
 }

@@ -6,6 +6,7 @@ describe('Basic search', () => {
 
     // Set up/override routes & fixtures that are specific to this file
     cy.fixture('query/noResults.json').as('noResultsJSON');
+    cy.fixture('query/error500.json').as('error500JSON');
 
     // set an alias for the search input, since we're using that a lot
     cy.findByPlaceholderText('Search').as('searchInput');
@@ -70,6 +71,23 @@ describe('Basic search', () => {
 
     it('SearchResults displays "no results found" message', () => {
       cy.get('.bx--search-results').should('contain', 'There were no results found');
+    });
+  });
+
+  describe('When a query returns an error', () => {
+    beforeEach(() => {
+      cy.route({
+        method: 'POST',
+        url: '**/query?version=2019-01-01',
+        response: '@error500JSON',
+        status: 500
+      }).as('postQueryError');
+      cy.get('@searchInput').type('abil{enter}');
+      cy.wait('@postQueryError');
+    });
+
+    it('SearchResults displays error message', () => {
+      cy.findByText('An error occurred during search.').should('exist');
     });
   });
 });
