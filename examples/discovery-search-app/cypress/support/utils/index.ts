@@ -1,1 +1,1 @@
-export { mockHomePage } from './defaultHomepage';
+export * from './defaultHomepage';

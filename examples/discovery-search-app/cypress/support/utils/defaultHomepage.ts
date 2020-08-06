@@ -40,7 +40,7 @@ export function mockHomePage(overrideFixturePaths: HomePageFixturePaths = {}): v
  * visit home page, and wait for the requests made on page load to resolve
  * @param pageLoadRequests array of route aliases to wait for before continuing the tests
  */
-function visitHomePage(pageLoadRequests: string[] = []) {
+export function visitHomePage(pageLoadRequests: string[] = []) {
   cy.visit('/');
   cy.wait(pageLoadRequests);
 }
