@@ -86,6 +86,8 @@ const DocumentPreview: FC<Props> = ({
               highlight={highlight}
               setLoading={setLoading}
               setHideToolbarControls={setHideToolbarControls}
+              loading={loading}
+              hideToolbarControls={hideToolbarControls}
             />
           </div>
           {loading && (
@@ -108,11 +110,15 @@ interface PreviewDocumentProps {
   highlight?: any;
   setLoading: (loading: boolean) => void;
   setHideToolbarControls?: (disabled: boolean) => void;
+  loading: boolean;
+  hideToolbarControls: boolean;
 }
 
 function PreviewDocument({
   document,
+  loading,
   setLoading,
+  hideToolbarControls,
   setHideToolbarControls,
   highlight
 }: PreviewDocumentProps): ReactElement | null {
@@ -133,7 +139,9 @@ function PreviewDocument({
       <SimpleDocument
         document={document}
         highlight={highlight}
+        hideToolbarControls={hideToolbarControls}
         setHideToolbarControls={setHideToolbarControls}
+        loading={loading}
         setLoading={setLoading}
       />
     );
