@@ -14,6 +14,7 @@ import {
   SelectedCollectionItems
 } from './utils/searchFacetInterfaces';
 import get from 'lodash/get';
+import uuid from 'uuid';
 import { CollectionFacets } from './components/CollectionFacets';
 import { FieldFacets } from './components/FieldFacets';
 import { DynamicFacets } from './components/DynamicFacets';
@@ -26,7 +27,7 @@ import { withErrorBoundary } from 'react-error-boundary';
 
 interface SearchFacetsProps {
   /**
-   * ID for the SearchInput
+   * ID for the SearchFacets
    */
   id?: string;
   /**
@@ -55,13 +56,14 @@ interface SearchFacetsProps {
   collapsedFacetsCount?: number;
   /**
    * Custom handler invoked when any input element changes in the SearchFacets component.
-   * Takes a synthethic event from an HTML Input Element or a string array.
+   * Takes a synthethic event from an HTML Input Element or a string array from custom
+   * onChange events that do not use synthethic events.
    */
   onChange?: (e: SyntheticEvent<HTMLInputElement> | string[]) => void;
 }
 
 const SearchFacets: FC<SearchFacetsProps> = ({
-  id = '',
+  id,
   showCollections = true,
   showDynamicFacets = true,
   showMatchingResults = false,
@@ -70,6 +72,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
   collapsedFacetsCount = 5,
   onChange
 }) => {
+  const facetsId = id || `search-facets__${uuid.v4()}`;
   const {
     aggregationResults,
     searchResponseStore: {
@@ -108,10 +111,6 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     overrideComponentSettingsAggregations ||
     (componentSettings && componentSettings.aggregations) ||
     [];
-
-  if (id !== '') {
-    id = id.concat('--');
-  }
 
   useEffect(() => {
     fetchAggregations(searchParameters);
@@ -201,11 +200,11 @@ const SearchFacets: FC<SearchFacetsProps> = ({
 
   if (shouldShowFields || shouldShowCollections) {
     return (
-      <div className={`${settings.prefix}--search-facets`}>
+      <div id={facetsId} className={`${settings.prefix}--search-facets`}>
         {hasSelection && (
           <Button
             className={`${settings.prefix}--search-facets__button-clear-all`}
-            id={`${id}search-facets-button-clear-all`}
+            id={`${facetsId}--search-facets-button-clear-all`}
             kind="ghost"
             renderIcon={Close}
             size="small"
