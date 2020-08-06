@@ -26,6 +26,10 @@ import { withErrorBoundary } from 'react-error-boundary';
 
 interface SearchFacetsProps {
   /**
+   * ID for the SearchInput
+   */
+  id?: string;
+  /**
    * Show list of collections as facets
    */
   showCollections?: boolean;
@@ -50,12 +54,14 @@ interface SearchFacetsProps {
    */
   collapsedFacetsCount?: number;
   /**
-   * custom handler invoked when any input element changes in the SearchFacets component
+   * Custom handler invoked when any input element changes in the SearchFacets component.
+   * Takes a synthethic event from an HTML Input Element or a string array.
    */
   onChange?: (e: SyntheticEvent<HTMLInputElement> | string[]) => void;
 }
 
 const SearchFacets: FC<SearchFacetsProps> = ({
+  id = '',
   showCollections = true,
   showDynamicFacets = true,
   showMatchingResults = false,
@@ -102,6 +108,10 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     overrideComponentSettingsAggregations ||
     (componentSettings && componentSettings.aggregations) ||
     [];
+
+  if (id !== '') {
+    id = id.concat('--');
+  }
 
   useEffect(() => {
     fetchAggregations(searchParameters);
@@ -195,7 +205,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
         {hasSelection && (
           <Button
             className={`${settings.prefix}--search-facets__button-clear-all`}
-            id={'search-facets-button-clear-all'}
+            id={`${id}search-facets-button-clear-all`}
             kind="ghost"
             renderIcon={Close}
             size="small"

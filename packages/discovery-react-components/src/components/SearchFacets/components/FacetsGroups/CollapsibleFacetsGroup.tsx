@@ -155,7 +155,6 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
           {facetsLabel}
           {shouldDisplayClearButton && (
             <ListBox.Selection
-              id="search-facets-clear-listbox"
               clearSelection={handleClearFacets}
               selectionCount={selectedFacets.length}
               translateWithId={translateWithId}
