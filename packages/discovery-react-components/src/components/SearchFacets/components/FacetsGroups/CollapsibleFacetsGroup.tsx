@@ -133,7 +133,10 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
   const shouldDisplayClearButton = selectedFacets.length > 0;
   const showMoreButtonOnClick =
     totalNumberFacets <= MAX_FACETS_UNTIL_MODAL ? toggleFacetsCollapse : setModalOpen;
-  const handleClearFacets = (): void => {
+  const handleClearFacets = (event: SyntheticEvent<HTMLInputElement>): void => {
+    if (onChange) {
+      onChange(event);
+    }
     onClear(aggregationSettings.name || aggregationSettings.field);
   };
 

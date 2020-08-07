@@ -14,6 +14,7 @@ import {
   SelectedCollectionItems
 } from './utils/searchFacetInterfaces';
 import get from 'lodash/get';
+import uuid from 'uuid';
 import { CollectionFacets } from './components/CollectionFacets';
 import { FieldFacets } from './components/FieldFacets';
 import { DynamicFacets } from './components/DynamicFacets';
@@ -25,6 +26,10 @@ import { FallbackComponent } from 'utils/FallbackComponent';
 import { withErrorBoundary } from 'react-error-boundary';
 
 interface SearchFacetsProps {
+  /**
+   * ID for the SearchFacets
+   */
+  id?: string;
   /**
    * Show list of collections as facets
    */
@@ -50,12 +55,15 @@ interface SearchFacetsProps {
    */
   collapsedFacetsCount?: number;
   /**
-   * custom handler invoked when any input element changes in the SearchFacets component
+   * Custom handler invoked when any input element changes in the SearchFacets component.
+   * Takes a synthethic event from an HTML Input Element or a string array from custom
+   * onChange events that do not use synthethic events.
    */
-  onChange?: (e: SyntheticEvent<HTMLInputElement>) => void;
+  onChange?: (e: SyntheticEvent<HTMLInputElement> | string[]) => void;
 }
 
 const SearchFacets: FC<SearchFacetsProps> = ({
+  id,
   showCollections = true,
   showDynamicFacets = true,
   showMatchingResults = false,
@@ -64,6 +72,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
   collapsedFacetsCount = 5,
   onChange
 }) => {
+  const facetsId = id || `search-facets__${uuid.v4()}`;
   const {
     aggregationResults,
     searchResponseStore: {
@@ -160,6 +169,18 @@ const SearchFacets: FC<SearchFacetsProps> = ({
         return collection.id.split(collectionFacetIdPrefix).pop() || '';
       })
       .filter(id => id !== '');
+
+    if (onChange) {
+      // returning collection labels
+      onChange(
+        selectedCollectionItems.selectedItems
+          .map(collection => {
+            return collection.label.split(collectionFacetIdPrefix).pop() || '';
+          })
+          .filter(label => label !== '')
+      );
+    }
+
     performSearch({ ...searchParameters, offset: 0, collectionIds });
   };
 
@@ -179,10 +200,11 @@ const SearchFacets: FC<SearchFacetsProps> = ({
 
   if (shouldShowFields || shouldShowCollections) {
     return (
-      <div className={`${settings.prefix}--search-facets`}>
+      <div id={facetsId} className={`${settings.prefix}--search-facets`}>
         {hasSelection && (
           <Button
             className={`${settings.prefix}--search-facets__button-clear-all`}
+            id={`${facetsId}--search-facets-button-clear-all`}
             kind="ghost"
             renderIcon={Close}
             size="small"

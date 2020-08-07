@@ -26,12 +26,16 @@ interface Props {
 
   cannotPreviewMessage?: string;
   cannotPreviewMessage2?: string;
+  loading: boolean;
+  hideToolbarControls: boolean;
 }
 
 export const SimpleDocument: FC<Props> = ({
   document,
   highlight,
+  loading,
   setLoading,
+  hideToolbarControls,
   setHideToolbarControls,
   cannotPreviewMessage = "Can't preview document",
   cannotPreviewMessage2 = "Try the JSON tab for a different view of this document's data."
@@ -89,13 +93,18 @@ export const SimpleDocument: FC<Props> = ({
         })
         .join('\n');
     }
-
-    // set parent states
-    setLoading(false);
-    if (setHideToolbarControls) {
-      setHideToolbarControls(true);
-    }
   }
+
+  useEffect(() => {
+    if (document) {
+      if (loading) {
+        setLoading(false);
+      }
+      if (typeof setHideToolbarControls === 'function' && !hideToolbarControls) {
+        setHideToolbarControls(true);
+      }
+    }
+  }, [document, hideToolbarControls, loading, setHideToolbarControls, setLoading]);
 
   // highlight passage and scroll into view
   useEffect(() => {
