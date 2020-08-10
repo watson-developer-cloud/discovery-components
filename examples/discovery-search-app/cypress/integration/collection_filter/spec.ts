@@ -58,7 +58,6 @@ describe('Collection Filter', () => {
 
         it('should make a query against only the selected collection', () => {
           cy.get('@singleCollectionQueryObject')
-            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.collection_ids')
             .should('contain', 'paris19221939')
             .and('have.length', 1);
@@ -79,7 +78,6 @@ describe('Collection Filter', () => {
 
           it('makes a query against all available collections', () => {
             cy.get('@clearedCollectionsQueryObject')
-              //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
               .its('requestBody.collection_ids')
               .should('be.empty');
           });
@@ -98,7 +96,6 @@ describe('Collection Filter', () => {
 
           it('makes a query against both of the selected collections', () => {
             cy.get('@doubleCollectionQueryObject')
-              //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string//@ts-ignore
               .its('requestBody.collection_ids')
               .should('contain', 'deadspin9876')
               .and('contain', 'paris19221939');
@@ -115,7 +112,6 @@ describe('Collection Filter', () => {
 
             it('makes a query against all available collections', () => {
               cy.get('@originalQueryObject')
-                //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
                 .its('requestBody.collection_ids')
                 .should('be.empty');
             });

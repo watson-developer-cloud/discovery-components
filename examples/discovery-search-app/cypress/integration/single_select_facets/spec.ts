@@ -63,7 +63,6 @@ describe('Single-Select Facets', () => {
 
       it('makes a query for the right facets', () => {
         cy.get('@amesFilterQueryObject')
-          //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
           .its('requestBody.filter')
           .should('eq', 'location:"Ames, IA"');
       });
@@ -81,7 +80,6 @@ describe('Single-Select Facets', () => {
 
         it('makes a query for only the new facet', () => {
           cy.get('@hancockFilterQueryObject')
-            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.filter')
             .should('eq', 'location:"Hancock, MN"');
         });
@@ -98,7 +96,6 @@ describe('Single-Select Facets', () => {
 
         it('makes a query without any selected facets', () => {
           cy.get('@clearedFacetsQueryObject')
-            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.filter')
             .should('eq', '');
         });
@@ -121,7 +118,6 @@ describe('Single-Select Facets', () => {
 
         it('makes a query without any selected facets', () => {
           cy.get('@clearedFacetsQueryObject')
-            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.filter')
             .should('eq', '');
         });
@@ -140,7 +136,6 @@ describe('Single-Select Facets', () => {
 
         it('makes a query with both filters', () => {
           cy.get('@combinedFacetQueryObject')
-            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.filter')
             .should('eq', 'location:"Ames, IA",price:"Low"');
         });

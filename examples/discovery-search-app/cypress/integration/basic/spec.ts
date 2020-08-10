@@ -33,7 +33,6 @@ describe('Basic search', () => {
 
     it('makes the appropriate query request', () => {
       cy.get('@queryObject')
-        //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
         .its('requestBody.natural_language_query')
         .should('eq', 'abil');
     });
