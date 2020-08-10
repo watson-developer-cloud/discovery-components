@@ -7,7 +7,11 @@ import { SearchContext, SearchApi } from 'components/DiscoverySearch/DiscoverySe
 import { mergeFilterFacets } from './utils/mergeFilterFacets';
 import { mergeDynamicFacets } from './utils/mergeDynamicFacets';
 import { SearchFilterTransform } from './utils/searchFilterTransform';
-import { displayMessage, noAvailableFacetsMessage } from './utils/searchFacetMessages';
+import {
+  displayMessage,
+  noAvailableFacetsMessage,
+  errorMessage
+} from './utils/searchFacetMessages';
 import {
   SearchFilterFacets,
   SelectableDynamicFacets,
@@ -73,6 +77,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
   onChange
 }) => {
   const facetsId = id || `search-facets__${uuid.v4()}`;
+
   const {
     aggregationResults,
     searchResponseStore: {
@@ -83,11 +88,14 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     collectionsResults,
     componentSettings
   } = useContext(SearchContext);
+
   const [facetSelectionState, setFacetSelectionState] = useState<SearchFilterFacets>(
     SearchFilterTransform.fromString(filter || '')
   );
+
   const collections: DiscoveryV2.Collection[] = get(collectionsResults, 'collections', []);
   const initialSelectedCollectionIds = collectionIds || [];
+
   const initialSelectedCollections = collections
     .filter(collection => {
       return (
@@ -101,19 +109,29 @@ const SearchFacets: FC<SearchFacetsProps> = ({
         label: collection.name || ''
       };
     });
+
   const [collectionSelectionState, setCollectionSelectionState] = useState<
     SelectedCollectionItems['selectedItems']
   >(initialSelectedCollections);
+
+  const [isError, setIsError] = useState(false);
+
   const { fetchAggregations, performSearch } = useContext(SearchApi);
   const aggregations = aggregationResults || [];
   const mergedMessages = { ...defaultMessages, ...messages };
+
   const componentSettingsAggregations =
     overrideComponentSettingsAggregations ||
     (componentSettings && componentSettings.aggregations) ||
     [];
 
   useEffect(() => {
-    fetchAggregations(searchParameters);
+    setIsError(false);
+    try {
+      fetchAggregations(searchParameters);
+    } catch (error) {
+      setIsError(true);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchAggregations, searchParameters.aggregation]);
 
@@ -198,7 +216,9 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     performSearch({ ...searchParameters, collectionIds: [], offset: 0, filter: '' }, false);
   };
 
-  if (shouldShowFields || shouldShowCollections) {
+  if (isError) {
+    return displayMessage(errorMessage);
+  } else if (shouldShowFields || shouldShowCollections) {
     return (
       <div id={facetsId} className={`${settings.prefix}--search-facets`}>
         {hasSelection && (

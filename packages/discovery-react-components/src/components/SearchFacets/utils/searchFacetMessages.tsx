@@ -1,6 +1,8 @@
 import * as React from 'react';
 
+export const errorMessage = 'Error fetching facets.';
 export const noAvailableFacetsMessage = 'There are no available facets.';
+
 export const displayMessage = (message: string) => {
   return (
     <div>
