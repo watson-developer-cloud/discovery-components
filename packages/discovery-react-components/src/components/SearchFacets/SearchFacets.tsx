@@ -59,6 +59,10 @@ interface SearchFacetsProps {
    */
   collapsedFacetsCount?: number;
   /**
+   * Override default message displayed when receiving an error on server request
+   */
+  serverErrorMessage?: string | React.ReactElement;
+  /**
    * Custom handler invoked when any input element changes in the SearchFacets component.
    * Takes a synthethic event from an HTML Input Element or a string array from custom
    * onChange events that do not use synthethic events.
@@ -74,6 +78,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
   messages = defaultMessages,
   overrideComponentSettingsAggregations,
   collapsedFacetsCount = 5,
+  serverErrorMessage,
   onChange
 }) => {
   const facetsId = id || `search-facets__${uuid.v4()}`;
@@ -217,7 +222,10 @@ const SearchFacets: FC<SearchFacetsProps> = ({
   };
 
   if (isError) {
-    return displayMessage(errorMessage);
+    if (typeof serverErrorMessage === 'string') {
+      return displayMessage(serverErrorMessage);
+    }
+    return serverErrorMessage || displayMessage(errorMessage);
   } else if (shouldShowFields || shouldShowCollections) {
     return (
       <div id={facetsId} className={`${settings.prefix}--search-facets`}>

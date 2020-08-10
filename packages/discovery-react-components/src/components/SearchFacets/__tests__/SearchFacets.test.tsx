@@ -21,6 +21,7 @@ interface Props {
   componentSettingsAggregations?: DiscoveryV2.ComponentSettingsAggregation[];
   collectionIds?: string[];
   fetchAggregationsMock?: jest.Mock<any, any>;
+  serverErrorMessage?: string | React.ReactElement;
 }
 
 interface Setup {
@@ -40,7 +41,8 @@ const setup = ({
   aggregations = facetsQueryResponse.result.aggregations,
   componentSettingsAggregations,
   collectionIds,
-  fetchAggregationsMock
+  fetchAggregationsMock,
+  serverErrorMessage
 }: Props = {}): Setup => {
   fetchAggregationsMock = fetchAggregationsMock || jest.fn();
   const performSearchMock = jest.fn();
@@ -70,7 +72,12 @@ const setup = ({
 
   const _render = (props: any) =>
     wrapWithContext(
-      <SearchFacets showCollections={showCollections} onChange={onChangeMock} {...props} />,
+      <SearchFacets
+        showCollections={showCollections}
+        onChange={onChangeMock}
+        serverErrorMessage={serverErrorMessage}
+        {...props}
+      />,
       api,
       context
     );
@@ -108,7 +115,6 @@ describe('SearchFacetsComponent', () => {
           httpError.status = httpError.statusCode = 500;
           throw httpError;
         })
-        // .mockImplementationOnce(() => facetsQueryResponse.result.aggregations)
       });
 
       searchFacetsComponent.getByText('Error fetching facets.');
@@ -116,6 +122,33 @@ describe('SearchFacetsComponent', () => {
       rerender({ fakeProp: 1 });
 
       // TODO check that component has now rendered correctly
+    });
+
+    test('shows custom error message string when fetch aggregations fails', () => {
+      const { searchFacetsComponent } = setup({
+        fetchAggregationsMock: jest.fn().mockImplementationOnce(() => {
+          const httpError: any = new Error('500 Server Error');
+          httpError.status = httpError.statusCode = 500;
+          throw httpError;
+        }),
+        serverErrorMessage: 'You messed up!'
+      });
+
+      searchFacetsComponent.getByText('You messed up!');
+    });
+
+    test('shows custom error message Element when fetch aggregations fails', () => {
+      const { searchFacetsComponent } = setup({
+        fetchAggregationsMock: jest.fn().mockImplementationOnce(() => {
+          const httpError: any = new Error('500 Server Error');
+          httpError.status = httpError.statusCode = 500;
+          throw httpError;
+        }),
+        serverErrorMessage: <span data-testid="server-msg-failure">FAILURE</span>
+      });
+
+      const elem = searchFacetsComponent.getByTestId('server-msg-failure');
+      expect(elem.textContent).toEqual('FAILURE');
     });
   });
 
