@@ -4,4 +4,5 @@ body {
   font-family: sans-serif;
 }
 
-@import '~@ibm-watson/discovery-styles/scss/index.scss';
+@import '~@ibm-watson/discovery-styles/scss/global-carbon-styles';
+@import '~@ibm-watson/discovery-styles/scss/index';
