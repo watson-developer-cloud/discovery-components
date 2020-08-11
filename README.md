@@ -17,7 +17,7 @@
     + [Windows Only](#windows-only)
 - [Using Discovery Components in a React application](#using-discovery-components-in-a-react-application)
   * [Interacting with Discovery data in custom components](#interacting-with-discovery-data-in-custom-components)
-  * [Minimal css best practices](#minimal-css-best-practices)
+  * [Optimize CSS](#optimize-css)
 - [Development](#development)
   * [Project structure](#project-structure)
   * [Install](#install)
@@ -302,7 +302,7 @@ If you don't have a React application already, start with [create react app](htt
   export default MyCustomComponent;
 ```
 
-### Minimal css best practices
+### Optimize CSS
 
 The Discovery Components styles package can be consumed in three ways
 
