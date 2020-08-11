@@ -131,12 +131,15 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     [];
 
   useEffect(() => {
-    setIsError(false);
-    try {
-      fetchAggregations(searchParameters);
-    } catch (error) {
-      setIsError(true);
+    async function fetchData() {
+      setIsError(false);
+      try {
+        await fetchAggregations(searchParameters);
+      } catch (error) {
+        setIsError(true);
+      }
     }
+    fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchAggregations, searchParameters.aggregation]);
 
