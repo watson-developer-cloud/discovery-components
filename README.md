@@ -17,6 +17,7 @@
     + [Windows Only](#windows-only)
 - [Using Discovery Components in a React application](#using-discovery-components-in-a-react-application)
   * [Interacting with Discovery data in custom components](#interacting-with-discovery-data-in-custom-components)
+  * [Optimize CSS](#optimize-css)
 - [Development](#development)
   * [Project structure](#project-structure)
   * [Install](#install)
@@ -300,6 +301,45 @@ If you don't have a React application already, start with [create react app](htt
 
   export default MyCustomComponent;
 ```
+
+### Optimize CSS
+
+The Discovery Components styles package can be consumed in three ways
+
+1. Wholesale SCSS
+
+```css
+@import '~@ibm-watson/discovery-styles/scss/index';
+```
+
+This method will bring in everything you will need including the Carbon Components base styles required. Use this method if you are not already importing Carbon Component styles or are not concerned with direct use of the base Carbon Components used for Discovery Components.
+
+2. À la carte SCSS
+
+```css
+// Global Carbon styles
+@import '~carbon-components/scss/globals/scss/_css--font-face.scss';
+@import '~carbon-components/scss/globals/scss/_typography.scss';
+@import '~carbon-components/scss/globals/scss/_colors.scss';
+@import '~carbon-components/scss/globals/scss/_layout.scss';
+
+// Base Carbon Components for search-input
+@import '~carbon-components/scss/components/search/search';
+@import '~carbon-components/scss/components/list-box/list-box';
+
+// Make sure this is imported after all of your Carbon Components
+@import 'components/search-input/search-input';
+```
+
+This method brings in Discovery Component styles as needed. Use this method if you only need to use a subset of the Discovery Components or if you are already importing Carbon Component styles directly into your application. This will help keep your css minimal and prevent duplicate imports. The required Carbon Components per Discovery Component import are defined [here](packages/discovery-styles/scss/carbon-components.scss).
+
+3. Wholesale CSS
+
+```html
+<link rel="stylesheet" href="/path/to/discoverey-components/index.css">
+```
+
+This method uses the vanilla CSS that is built from the Discovery Component styles SCSS files and also includes the Carbon Component styles. Use this method if you do not have SCSS importing as part of your application build pipeline.
 
 ## Development
 
