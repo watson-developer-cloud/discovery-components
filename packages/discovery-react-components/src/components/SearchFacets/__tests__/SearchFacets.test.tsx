@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render, RenderResult, fireEvent } from '@testing-library/react';
+import { render, RenderResult, fireEvent, wait } from '@testing-library/react';
 import { QueryTermAggregation } from 'ibm-watson/discovery/v2';
 import { wrapWithContext } from 'utils/testingUtils';
 import SearchFacets from '../SearchFacets';
@@ -92,7 +92,7 @@ const setup = ({
 
 describe('SearchFacetsComponent', () => {
   describe('component load', () => {
-    test('it calls fetch aggregations with aggregation string', () => {
+    test('it calls fetch aggregations with aggregation string', async () => {
       const { fetchAggregationsMock } = setup();
       expect(fetchAggregationsMock).toBeCalledTimes(1);
       expect(fetchAggregationsMock).toBeCalledWith(
@@ -100,6 +100,7 @@ describe('SearchFacetsComponent', () => {
           aggregation: '[term(author,count:3),term(subject,count:4)]'
         })
       );
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
     });
 
     test('shows error message when fetch aggregations fails', () => {
@@ -146,35 +147,36 @@ describe('SearchFacetsComponent', () => {
     describe('when aggregations exist', () => {
       describe('legend header elements', () => {
         describe('When there are no aggregation component settings', () => {
-          test('contains first facet header with category field text', () => {
+          test('contains first facet header with category field text', async () => {
             const { searchFacetsComponent } = setup();
-            const headerCategoryField = searchFacetsComponent.getByText('category');
-            expect(headerCategoryField).toBeDefined();
+            const headerCategoryField = await searchFacetsComponent.findByText('category');
+            expect(headerCategoryField).toBeInTheDocument();
           });
 
-          test('contains second facet header with machine_learning_terms field text', () => {
+          test('contains second facet header with machine_learning_terms field text', async () => {
             const { searchFacetsComponent } = setup();
-            const headerMachineLearningTermsField = searchFacetsComponent.getByText(
+            const headerMachineLearningTermsField = await searchFacetsComponent.findByText(
               'machine_learning_terms'
             );
-            expect(headerMachineLearningTermsField).toBeDefined();
+            expect(headerMachineLearningTermsField).toBeInTheDocument();
           });
         });
 
         describe('When there are aggregation component settings', () => {
-          test('should render the labels contained in aggregation component settings', () => {
+          test('should render the labels contained in aggregation component settings', async () => {
             const { searchFacetsComponent } = setup({
               componentSettingsAggregations: [
                 { label: 'label1', name: 'category_id' },
                 { label: 'label2', name: 'machine_learning_id' }
               ]
             });
-            expect(searchFacetsComponent.getByText('label1')).toBeInTheDocument();
+            const label1 = await searchFacetsComponent.findByText('label1');
+            expect(label1).toBeInTheDocument();
             expect(searchFacetsComponent.getByText('label2')).toBeInTheDocument();
           });
 
           describe('And there is a filter string also', () => {
-            test('should render the labels contained in aggregation component settings', () => {
+            test('should render the labels contained in aggregation component settings', async () => {
               const { searchFacetsComponent } = setup({
                 filter: 'author:"editor"',
                 componentSettingsAggregations: [
@@ -182,7 +184,8 @@ describe('SearchFacetsComponent', () => {
                   { label: 'label2', name: 'machine_learning_id' }
                 ]
               });
-              expect(searchFacetsComponent.getByText('label1')).toBeInTheDocument();
+              const label1 = await searchFacetsComponent.findByText('label1');
+              expect(label1).toBeInTheDocument();
               expect(searchFacetsComponent.getByText('label2')).toBeInTheDocument();
             });
           });
@@ -191,37 +194,39 @@ describe('SearchFacetsComponent', () => {
     });
 
     describe('when no aggregations exist', () => {
-      test('shows empty aggregations message', () => {
+      test('shows empty aggregations message', async () => {
         const { searchFacetsComponent } = setup({ aggregations: [] });
-        const emptyMessage = searchFacetsComponent.getByText(noAvailableFacetsMessage);
-        expect(emptyMessage).toBeDefined();
+        const emptyMessage = await searchFacetsComponent.findByText(noAvailableFacetsMessage);
+        expect(emptyMessage).toBeInTheDocument();
       });
     });
   });
 
   describe('collection facet', () => {
     describe('when collections exists', () => {
-      test('can be shown', () => {
+      test('can be shown', async () => {
         const { searchFacetsComponent } = setup({
           filter: 'subject:Animals',
           showCollections: true
         });
-        const collectionSelect = searchFacetsComponent.getByText('Available collections');
-        expect(collectionSelect).toBeDefined();
+        const collectionSelect = await searchFacetsComponent.findByText('Available collections');
+        expect(collectionSelect).toBeInTheDocument();
       });
 
-      test('can be hidden', () => {
+      test('can be hidden', async () => {
         const { searchFacetsComponent } = setup({ filter: 'subject:Animals' });
         const collectionSelect = searchFacetsComponent.queryByText('Available collections');
         expect(collectionSelect).toBeNull();
+        await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
     });
 
     describe('when no collections exists', () => {
-      test('is not shown', () => {
+      test('is not shown', async () => {
         const { searchFacetsComponent } = setup({ filter: 'subject:Animals' });
         const collectionSelect = searchFacetsComponent.queryByText('Available collections');
         expect(collectionSelect).toBeNull();
+        await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
     });
   });
@@ -229,24 +234,28 @@ describe('SearchFacetsComponent', () => {
   describe('root clear all button', () => {
     let setupData: Setup;
     describe('when no filters are present', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         setupData = setup();
+        await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
 
-      test('does not show the root clear all button', () => {
+      test('does not show the root clear all button', async () => {
         const { searchFacetsComponent } = setupData;
         expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(0);
+        await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
     });
 
     describe('when there are filters present', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         setupData = setup({ filter: 'subject:Animals' });
+        await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
 
-      test('does show the root clear all button', () => {
+      test('does show the root clear all button', async () => {
         const { searchFacetsComponent } = setupData;
-        expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(1);
+        const buttons = await searchFacetsComponent.findAllByText('Clear all');
+        expect(buttons).toHaveLength(1);
       });
 
       describe('and the clear all button is clicked', () => {
@@ -255,7 +264,7 @@ describe('SearchFacetsComponent', () => {
           fireEvent.click(searchFacetsComponent.getByText('Clear all'));
         });
 
-        test('resets all the filters', () => {
+        test('resets all the filters', async () => {
           const { performSearchMock, onChangeMock } = setupData;
           expect(performSearchMock).toHaveBeenCalledWith(
             expect.objectContaining({
@@ -267,6 +276,7 @@ describe('SearchFacetsComponent', () => {
           );
           // test exposed onChange function for clear all
           expect(onChangeMock).toHaveBeenCalled();
+          await wait(); // wait for component to finish rendering (prevent "act" warning)
         });
       });
     });
@@ -274,15 +284,19 @@ describe('SearchFacetsComponent', () => {
     describe('when there are collection facets', () => {
       describe('and some collections are preselected', () => {
         let setupData: Setup;
-        beforeEach(() => {
+
+        beforeEach(async () => {
           setupData = setup({ showCollections: true, collectionIds: ['machine-learning'] });
+          await wait(); // wait for component to finish rendering (prevent "act" warning)
         });
+
         test('does show the root clear all button on load', () => {
           const { searchFacetsComponent } = setupData;
           fireEvent.click(searchFacetsComponent.getByText('Available collections'));
           expect(searchFacetsComponent.getByLabelText('Machine Learning')['checked']).toEqual(true);
           expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(1);
         });
+
         describe('and the clear all button is clicked', () => {
           test('collection is deselected and clear all button is no longer shown', () => {
             const { searchFacetsComponent } = setupData;
@@ -295,15 +309,21 @@ describe('SearchFacetsComponent', () => {
           });
         });
       });
+
       describe('and no collections are preselected', () => {
         let setupData: Setup;
-        beforeEach(() => {
+
+        beforeEach(async () => {
           setupData = setup({ showCollections: true });
+          await wait(); // wait for component to finish rendering (prevent "act" warning)
         });
-        test('does not show the root clear all button on load', () => {
+
+        test('does not show the root clear all button on load', async () => {
           const { searchFacetsComponent } = setupData;
           expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(0);
+          await wait(); // wait for component to finish rendering (prevent "act" warning)
         });
+
         describe('and one collection is selected after load', () => {
           test('does show the root clear all button on selection', () => {
             const { searchFacetsComponent } = setupData;
@@ -314,6 +334,7 @@ describe('SearchFacetsComponent', () => {
             );
             expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(1);
           });
+
           describe('and the clear all button is clicked', () => {
             test('the collection is deselected and the clear all button is no longer shown', () => {
               const { searchFacetsComponent } = setupData;
@@ -327,6 +348,7 @@ describe('SearchFacetsComponent', () => {
             });
           });
         });
+
         describe('and multiple collections are selected after load', () => {
           test('does show the root clear all button on selection', () => {
             const { searchFacetsComponent } = setupData;
@@ -339,6 +361,7 @@ describe('SearchFacetsComponent', () => {
             expect(searchFacetsComponent.getByLabelText('AI Strategy')['checked']).toEqual(true);
             expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(1);
           });
+
           describe('and the clear all button is clicked', () => {
             test('all collections are deselected and the clear all button is no longer shown', () => {
               const { searchFacetsComponent } = setupData;
@@ -371,7 +394,7 @@ describe('SearchFacetsComponent', () => {
       ]
     };
     describe('when no messages are provided', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         result = render(
           wrapWithContext(
             <SearchFacets />,
@@ -388,6 +411,7 @@ describe('SearchFacetsComponent', () => {
             }
           )
         );
+        await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
 
       test('uses default messages', () => {
@@ -397,7 +421,7 @@ describe('SearchFacetsComponent', () => {
     });
 
     describe('when a message is overridden', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         result = render(
           wrapWithContext(
             <SearchFacets messages={{ clearAllButtonText: 'different text' }} />,
@@ -414,6 +438,7 @@ describe('SearchFacetsComponent', () => {
             }
           )
         );
+        await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
 
       test('only overrides provided messages and uses defaults for the rest', () => {
