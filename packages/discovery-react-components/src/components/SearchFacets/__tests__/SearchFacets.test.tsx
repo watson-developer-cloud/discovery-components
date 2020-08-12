@@ -12,7 +12,6 @@ import { facetsQueryResponse } from '../__fixtures__/facetsQueryResponse';
 import collectionsResponse from '../__fixtures__/collectionsResponse';
 import { noAvailableFacetsMessage } from '../utils/searchFacetMessages';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
-import '@testing-library/jest-dom/extend-expect';
 
 interface Props {
   filter?: string;

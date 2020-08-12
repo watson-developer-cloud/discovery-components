@@ -7,7 +7,6 @@ import {
 import { render, fireEvent, RenderResult } from '@testing-library/react';
 import ResultsPagination, { ResultsPaginationProps } from '../ResultsPagination';
 import { wrapWithContext } from 'utils/testingUtils';
-import '@testing-library/jest-dom/extend-expect';
 
 interface Setup extends RenderResult {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

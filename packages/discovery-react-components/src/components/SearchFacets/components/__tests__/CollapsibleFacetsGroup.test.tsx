@@ -8,7 +8,6 @@ import {
   searchResponseStoreDefaults
 } from 'components/DiscoverySearch/DiscoverySearch';
 import { facetsQueryResponse } from 'components/SearchFacets/__fixtures__/facetsQueryResponse';
-import '@testing-library/jest-dom/extend-expect';
 
 interface Setup {
   context: Partial<SearchContextIFC>;
