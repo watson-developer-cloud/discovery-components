@@ -119,7 +119,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     SelectedCollectionItems['selectedItems']
   >(initialSelectedCollections);
 
-  const [isError, setIsError] = useState(false);
+  const [fetchState, setFetchState] = useState<'init' | 'loading' | 'success' | 'error'>('init');
 
   const { fetchAggregations, performSearch } = useContext(SearchApi);
   const aggregations = aggregationResults || [];
@@ -132,13 +132,15 @@ const SearchFacets: FC<SearchFacetsProps> = ({
 
   useEffect(() => {
     async function fetchData() {
-      setIsError(false);
+      setFetchState('loading');
       try {
         await fetchAggregations(searchParameters);
+        setFetchState('success');
       } catch (error) {
-        setIsError(true);
+        setFetchState('error');
       }
     }
+
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchAggregations, searchParameters.aggregation]);
@@ -224,7 +226,9 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     performSearch({ ...searchParameters, collectionIds: [], offset: 0, filter: '' }, false);
   };
 
-  if (isError) {
+  if (fetchState === 'loading') {
+    return null;
+  } else if (fetchState === 'error') {
     if (typeof serverErrorMessage === 'string') {
       return displayMessage(serverErrorMessage);
     }
