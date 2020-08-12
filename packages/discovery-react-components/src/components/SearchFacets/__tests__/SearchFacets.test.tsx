@@ -32,7 +32,6 @@ interface Setup {
   performSearchMock: jest.Mock<any, any>;
   onChangeMock: jest.Mock;
   searchFacetsComponent: RenderResult;
-  rerender: (props: any) => void;
 }
 
 const setup = ({
@@ -70,29 +69,24 @@ const setup = ({
     fetchAggregations: fetchAggregationsMock
   };
 
-  const _render = (props: any) =>
+  const searchFacetsComponent = render(
     wrapWithContext(
       <SearchFacets
         showCollections={showCollections}
         onChange={onChangeMock}
         serverErrorMessage={serverErrorMessage}
-        {...props}
       />,
       api,
       context
-    );
-
-  const rerender = (props: any) => searchFacetsComponent.rerender(_render(props));
-
-  const searchFacetsComponent = render(_render({}));
+    )
+  );
 
   return {
     context,
     performSearchMock,
     onChangeMock,
     fetchAggregationsMock,
-    searchFacetsComponent,
-    rerender
+    searchFacetsComponent
   };
 };
 
@@ -109,7 +103,7 @@ describe('SearchFacetsComponent', () => {
     });
 
     test('shows error message when fetch aggregations fails', () => {
-      const { searchFacetsComponent, rerender } = setup({
+      const { searchFacetsComponent } = setup({
         fetchAggregationsMock: jest.fn().mockImplementationOnce(() => {
           const httpError: any = new Error('500 Server Error');
           httpError.status = httpError.statusCode = 500;
@@ -118,10 +112,6 @@ describe('SearchFacetsComponent', () => {
       });
 
       searchFacetsComponent.getByText('Error fetching facets.');
-
-      rerender({ fakeProp: 1 });
-
-      // TODO check that component has now rendered correctly
     });
 
     test('shows custom error message string when fetch aggregations fails', () => {

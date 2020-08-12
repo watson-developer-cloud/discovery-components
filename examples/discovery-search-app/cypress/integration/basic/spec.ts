@@ -92,22 +92,6 @@ describe('Basic search errors', () => {
     cy.fixture('query/error500.json').as('error500JSON');
   });
 
-  describe('When initial loading query returns an error', () => {
-    it('displays an error message for facets', () => {
-      // query request on initial load -- throws error
-      cy.route({
-        method: 'POST',
-        url: '**/query?version=2019-01-01',
-        response: '@error500JSON',
-        status: 500
-      }).as('postQueryError');
-
-      visitHomePage(['@getCollections', '@getComponentSettings', '@postQueryError']);
-
-      cy.findByText('Error fetching facets.').should('exist');
-    });
-  });
-
   describe('When a user search returns an error', () => {
     it('SearchResults displays error message', () => {
       // query req on initial load
