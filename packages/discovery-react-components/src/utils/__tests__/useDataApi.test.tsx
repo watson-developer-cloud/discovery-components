@@ -154,7 +154,7 @@ describe('useSearchResultsApi', () => {
   });
 
   describe('when calling performSearch', () => {
-    test('it sets loading state', () => {
+    test('it sets loading state', async () => {
       const result = render(
         <TestSearchStoreComponent searchClient={new SingleQueryResultSearchClient()} />
       );
@@ -165,6 +165,7 @@ describe('useSearchResultsApi', () => {
         result.getByTestId('searchResponseStore').textContent || '{}'
       );
       expect(json.isLoading).toEqual(true);
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
     });
 
     test('it sets error state', async () => {
@@ -435,7 +436,7 @@ describe('useSearchResultsApi', () => {
           return createDummyResponsePromise({ completions: ['complete'] });
         }
       }
-      test('it sets loading state', () => {
+      test('it sets loading state', async () => {
         const result = render(
           <TestAutocompleteStoreComponent
             searchClient={new SingleAutocompletionResultSearchClient()}
@@ -448,6 +449,7 @@ describe('useSearchResultsApi', () => {
           result.getByTestId('autocompleteStore').textContent || '{}'
         );
         expect(json.isLoading).toEqual(true);
+        await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
 
       test('it sets error state', async () => {
@@ -659,7 +661,7 @@ describe('useFetchDocumentsApi', () => {
   });
 
   describe('when calling fetchDocuments', () => {
-    test('it sets loading state', () => {
+    test('it sets loading state', async () => {
       const result = render(
         <TestFetchDocumentsStoreComponent searchClient={new SingleQueryResultSearchClient()} />
       );
@@ -670,6 +672,7 @@ describe('useFetchDocumentsApi', () => {
         result.getByTestId('fetchDocumentsStore').textContent || '{}'
       );
       expect(json.isLoading).toEqual(true);
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
     });
 
     test('it sets error state', async () => {
@@ -686,7 +689,7 @@ describe('useFetchDocumentsApi', () => {
       expect(json.isError).toEqual(true);
     });
 
-    test('set filter with initial search parameters', () => {
+    test('set filter with initial search parameters', async () => {
       const checkParametersMock = jest.fn();
       class ParameterTrackingSearchClient extends BaseSearchClient {
         public async query(searchParams?: DiscoveryV2.QueryParams): Promise<any> {
@@ -718,6 +721,7 @@ describe('useFetchDocumentsApi', () => {
         tableResults: {},
         filter: 'filter_string'
       });
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
     });
 
     describe('callback', () => {
@@ -859,7 +863,7 @@ describe('useFieldsApi', () => {
   });
 
   describe('when calling fetchFields', () => {
-    test('it sets the loading state', () => {
+    test('it sets the loading state', async () => {
       const result = render(<TestFieldsStoreComponent searchClient={new BaseSearchClient()} />);
 
       const fetchFieldsButton = result.getByTestId('fetchFields');
@@ -867,6 +871,7 @@ describe('useFieldsApi', () => {
       fireEvent.click(fetchFieldsButton);
       const json: FieldsStore = JSON.parse(result.getByTestId('fieldsStore').textContent || '{}');
       expect(json.isLoading).toEqual(true);
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
     });
 
     test('it sets error state', async () => {
