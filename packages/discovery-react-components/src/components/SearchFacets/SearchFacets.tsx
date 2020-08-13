@@ -143,10 +143,10 @@ const SearchFacets: FC<SearchFacetsProps> = ({
       }
     }
 
-    if (searchParamsAggregationChanged) {
+    if (searchParamsAggregationChanged || fetchState === 'init') {
       fetchData();
     }
-  }, [fetchAggregations, searchParameters, searchParamsAggregationChanged]);
+  }, [fetchAggregations, fetchState, searchParameters, searchParamsAggregationChanged]);
 
   useDeepCompareEffect(() => {
     if (filter === '') {
