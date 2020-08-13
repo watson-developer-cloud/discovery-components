@@ -20,7 +20,7 @@ interface Props {
   componentSettingsAggregations?: DiscoveryV2.ComponentSettingsAggregation[];
   collectionIds?: string[];
   fetchAggregationsMock?: jest.Mock<any, any>;
-  serverErrorMessage?: string | React.ReactElement;
+  serverErrorMessage?: React.ReactNode;
 }
 
 interface Setup {
@@ -102,7 +102,7 @@ describe('SearchFacetsComponent', () => {
       await wait(); // wait for component to finish rendering (prevent "act" warning)
     });
 
-    test('shows error message when fetch aggregations fails', () => {
+    test('shows error message when fetch aggregations fails', async () => {
       const { searchFacetsComponent } = setup({
         fetchAggregationsMock: jest.fn().mockImplementationOnce(() => {
           const httpError: any = new Error('500 Server Error');
@@ -111,7 +111,8 @@ describe('SearchFacetsComponent', () => {
         })
       });
 
-      searchFacetsComponent.getByText('Error fetching facets.');
+      const errorMsg = await searchFacetsComponent.findByText('Error fetching facets.');
+      expect(errorMsg).toBeVisible();
     });
 
     test('shows custom error message string when fetch aggregations fails', () => {
@@ -149,7 +150,7 @@ describe('SearchFacetsComponent', () => {
           test('contains first facet header with category field text', async () => {
             const { searchFacetsComponent } = setup();
             const headerCategoryField = await searchFacetsComponent.findByText('category');
-            expect(headerCategoryField).toBeInTheDocument();
+            expect(headerCategoryField).toBeVisible();
           });
 
           test('contains second facet header with machine_learning_terms field text', async () => {
@@ -157,7 +158,7 @@ describe('SearchFacetsComponent', () => {
             const headerMachineLearningTermsField = await searchFacetsComponent.findByText(
               'machine_learning_terms'
             );
-            expect(headerMachineLearningTermsField).toBeInTheDocument();
+            expect(headerMachineLearningTermsField).toBeVisible();
           });
         });
 
@@ -170,8 +171,8 @@ describe('SearchFacetsComponent', () => {
               ]
             });
             const label1 = await searchFacetsComponent.findByText('label1');
-            expect(label1).toBeInTheDocument();
-            expect(searchFacetsComponent.getByText('label2')).toBeInTheDocument();
+            expect(label1).toBeVisible();
+            expect(searchFacetsComponent.getByText('label2')).toBeVisible();
           });
 
           describe('And there is a filter string also', () => {
@@ -184,8 +185,8 @@ describe('SearchFacetsComponent', () => {
                 ]
               });
               const label1 = await searchFacetsComponent.findByText('label1');
-              expect(label1).toBeInTheDocument();
-              expect(searchFacetsComponent.getByText('label2')).toBeInTheDocument();
+              expect(label1).toBeVisible();
+              expect(searchFacetsComponent.getByText('label2')).toBeVisible();
             });
           });
         });
@@ -196,7 +197,7 @@ describe('SearchFacetsComponent', () => {
       test('shows empty aggregations message', async () => {
         const { searchFacetsComponent } = setup({ aggregations: [] });
         const emptyMessage = await searchFacetsComponent.findByText(noAvailableFacetsMessage);
-        expect(emptyMessage).toBeInTheDocument();
+        expect(emptyMessage).toBeVisible();
       });
     });
   });
@@ -209,7 +210,7 @@ describe('SearchFacetsComponent', () => {
           showCollections: true
         });
         const collectionSelect = await searchFacetsComponent.findByText('Available collections');
-        expect(collectionSelect).toBeInTheDocument();
+        expect(collectionSelect).toBeVisible();
       });
 
       test('can be hidden', async () => {

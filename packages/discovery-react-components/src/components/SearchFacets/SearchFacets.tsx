@@ -28,6 +28,7 @@ import { collectionFacetIdPrefix } from './cssClasses';
 import onErrorCallback from 'utils/onErrorCallback';
 import { FallbackComponent } from 'utils/FallbackComponent';
 import { withErrorBoundary } from 'react-error-boundary';
+import useCompare from 'utils/useCompare';
 
 interface SearchFacetsProps {
   /**
@@ -61,7 +62,7 @@ interface SearchFacetsProps {
   /**
    * Override default message displayed when receiving an error on server request
    */
-  serverErrorMessage?: string | React.ReactElement;
+  serverErrorMessage?: React.ReactNode;
   /**
    * Custom handler invoked when any input element changes in the SearchFacets component.
    * Takes a synthethic event from an HTML Input Element or a string array from custom
@@ -130,6 +131,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     (componentSettings && componentSettings.aggregations) ||
     [];
 
+  const searchParamsAggregationChanged = useCompare(searchParameters.aggregation);
   useEffect(() => {
     async function fetchData() {
       setFetchState('loading');
@@ -141,9 +143,10 @@ const SearchFacets: FC<SearchFacetsProps> = ({
       }
     }
 
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetchAggregations, searchParameters.aggregation]);
+    if (searchParamsAggregationChanged) {
+      fetchData();
+    }
+  }, [fetchAggregations, searchParameters, searchParamsAggregationChanged]);
 
   useDeepCompareEffect(() => {
     if (filter === '') {
@@ -229,10 +232,11 @@ const SearchFacets: FC<SearchFacetsProps> = ({
   if (fetchState === 'loading') {
     return null;
   } else if (fetchState === 'error') {
-    if (typeof serverErrorMessage === 'string') {
-      return displayMessage(serverErrorMessage);
-    }
-    return serverErrorMessage || displayMessage(errorMessage);
+    const errorNode =
+      typeof serverErrorMessage === 'string'
+        ? displayMessage(serverErrorMessage)
+        : serverErrorMessage || displayMessage(errorMessage);
+    return <> {errorNode} </>;
   } else if (shouldShowFields || shouldShowCollections) {
     return (
       <div id={facetsId} className={`${settings.prefix}--search-facets`}>
