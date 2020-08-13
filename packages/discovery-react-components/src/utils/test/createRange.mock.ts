@@ -19,4 +19,5 @@ document.createRange = jest.fn().mockImplementation(
     } as unknown) as Range)
 );
 
-export default document;
+// exporting `document` results in babel warning, so just export an empty object
+export default {};

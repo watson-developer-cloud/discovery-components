@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react';
-import { render, act, BoundFunction, GetByText } from '@testing-library/react';
+import { render, BoundFunction, GetByText } from '@testing-library/react';
 import { withErrorBoundary, WithErrorBoundaryProps } from '../withErrorBoundary';
 
 interface TestComponentProps extends WithErrorBoundaryProps {
@@ -23,16 +23,12 @@ const WrappedTestComponent = withErrorBoundary(TestComponent);
 
 describe('withErrorBoundary', () => {
   it('renders a component normally', () => {
-    act(() => {
-      render(<WrappedTestComponent />);
-    });
+    render(<WrappedTestComponent />);
   });
 
   it('test component crashes', () => {
     expect(() => {
-      act(() => {
-        render(<TestComponent doError={true} didCatch={false} />);
-      });
+      render(<TestComponent doError={true} didCatch={false} />);
     }).toThrow();
   });
 

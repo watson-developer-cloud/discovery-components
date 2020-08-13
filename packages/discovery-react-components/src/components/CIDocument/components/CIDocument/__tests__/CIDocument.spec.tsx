@@ -1,8 +1,8 @@
 import React from 'react';
 import {
   render,
-  act,
   fireEvent,
+  wait,
   waitForElement,
   getByText as globalGetByText,
   getByLabelText as globalGetByLabelText,
@@ -19,31 +19,18 @@ import invoice from '../__fixtures__/invoice-index_op.json';
 import shortContract from '../__fixtures__/shortenedContract.json';
 
 describe('<CIDocument />', () => {
-  let getAllByRole: BoundFunction<GetAllBy<any[]>>,
-    getByTestId: BoundFunction<GetByText>,
-    getByText: BoundFunction<GetByText>,
-    findByText: BoundFunction<FindByText>,
-    findByTitle: BoundFunction<FindByText>,
-    findByTestId: BoundFunction<FindByText>,
-    queryByTitle: BoundFunction<QueryByText>,
-    queryByTestId: BoundFunction<QueryByText>;
-
   describe('Invoice Document', () => {
-    beforeEach(() => {
-      act(() => {
-        ({
-          getAllByRole,
-          getByTestId,
-          getByText,
-          findByText,
-          findByTestId,
-          findByTitle,
-          queryByTitle,
-          queryByTestId
-        } = render(
-          <CIDocument document={invoice} overrideDocWidth={400} overrideDocHeight={600} />
-        ));
-      });
+    let getByTestId: BoundFunction<GetByText>,
+      getByText: BoundFunction<GetByText>,
+      findByText: BoundFunction<FindByText>,
+      findByTestId: BoundFunction<FindByText>,
+      queryByTestId: BoundFunction<QueryByText>;
+
+    beforeEach(async () => {
+      ({ getByTestId, getByText, findByText, findByTestId, queryByTestId } = render(
+        <CIDocument document={invoice} overrideDocWidth={400} overrideDocHeight={600} />
+      ));
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
     });
 
     it('loads correct document', async () => {
@@ -94,12 +81,18 @@ describe('<CIDocument />', () => {
   });
 
   describe('Purchase Order', () => {
-    beforeEach(() => {
-      act(() => {
-        ({ getAllByRole, getByTestId, getByText, findByText, findByTitle } = render(
-          <CIDocument document={purchaseOrder} overrideDocWidth={400} overrideDocHeight={600} />
-        ));
-      });
+    let getAllByRole: BoundFunction<GetAllBy<any[]>>,
+      getByTestId: BoundFunction<GetByText>,
+      getByText: BoundFunction<GetByText>,
+      findByText: BoundFunction<FindByText>,
+      findByTitle: BoundFunction<FindByText>,
+      queryByTitle: BoundFunction<QueryByText>;
+
+    beforeEach(async () => {
+      ({ getAllByRole, getByTestId, getByText, findByText, findByTitle, queryByTitle } = render(
+        <CIDocument document={purchaseOrder} overrideDocWidth={400} overrideDocHeight={600} />
+      ));
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
     });
 
     it('loads correct document', async () => {
@@ -168,20 +161,17 @@ describe('<CIDocument />', () => {
 
   // Uses a shorter version of the contract.json file as larger files will cause long test times
   describe('Contract', () => {
-    beforeEach(() => {
-      act(() => {
-        ({
-          getAllByRole,
-          getByTestId,
-          getByText,
-          findByText,
-          findByTitle,
-          findByTestId,
-          queryByTestId
-        } = render(
-          <CIDocument document={shortContract} overrideDocWidth={400} overrideDocHeight={600} />
-        ));
-      });
+    let getByTestId: BoundFunction<GetByText>,
+      getByText: BoundFunction<GetByText>,
+      findByText: BoundFunction<FindByText>,
+      findByTestId: BoundFunction<FindByText>,
+      queryByTestId: BoundFunction<QueryByText>;
+
+    beforeEach(async () => {
+      ({ getByTestId, getByText, findByText, findByTestId, queryByTestId } = render(
+        <CIDocument document={shortContract} overrideDocWidth={400} overrideDocHeight={600} />
+      ));
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
     });
 
     it('loads correct document', async () => {

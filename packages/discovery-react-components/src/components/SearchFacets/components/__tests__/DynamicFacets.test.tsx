@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render, fireEvent, RenderResult } from '@testing-library/react';
+import { render, fireEvent, RenderResult, wait } from '@testing-library/react';
 import { wrapWithContext } from 'utils/testingUtils';
 import {
   SearchContextIFC,
@@ -66,17 +66,17 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
 
 describe('DynamicFacetsComponent', () => {
   describe('legend header elements', () => {
-    test('contains placeholder text', () => {
+    test('contains placeholder text', async () => {
       const { searchFacetsComponent } = setup();
-      const headerAuthorField = searchFacetsComponent.getByText('Dynamic Facets');
+      const headerAuthorField = await searchFacetsComponent.findByText('Dynamic Facets');
       expect(headerAuthorField).toBeDefined();
     });
   });
 
   describe('checkbox elements', () => {
-    test('contains facet checkboxes with correct labels', () => {
+    test('contains facet checkboxes with correct labels', async () => {
       const { searchFacetsComponent } = setup({ collapsedFacetsCount: 10 });
-      const embiidCheckbox = searchFacetsComponent.getByLabelText('trust the process');
+      const embiidCheckbox = await searchFacetsComponent.findByLabelText('trust the process');
       const saviorCheckbox = searchFacetsComponent.getByLabelText('sam hinkie');
       const colonCheckbox = searchFacetsComponent.getByLabelText('this: is');
       const commaCheckbox = searchFacetsComponent.getByLabelText('bogus, strings');
@@ -88,15 +88,15 @@ describe('DynamicFacetsComponent', () => {
       expect(pipeCheckbox).toBeDefined();
     });
 
-    test('checkboxes are unchecked when initially rendered', () => {
+    test('checkboxes are unchecked when initially rendered', async () => {
       const { searchFacetsComponent } = setup();
-      const embiidCheckbox = searchFacetsComponent.getByLabelText('trust the process');
+      const embiidCheckbox = await searchFacetsComponent.findByLabelText('trust the process');
       expect(embiidCheckbox['checked']).toEqual(false);
     });
 
-    test('checkboxes are checked when set in filter query', () => {
+    test('checkboxes are checked when set in filter query', async () => {
       const { searchFacetsComponent } = setup({ filter: '"sam hinkie"' });
-      const saviorCheckbox = searchFacetsComponent.getByLabelText('sam hinkie');
+      const saviorCheckbox = await searchFacetsComponent.findByLabelText('sam hinkie');
       expect(saviorCheckbox['checked']).toEqual(true);
     });
   });
@@ -105,8 +105,9 @@ describe('DynamicFacetsComponent', () => {
     let setupData: Setup;
 
     describe('when no selections are made', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         setupData = setup();
+        await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
 
       test('the clear button does not appear', () => {
@@ -116,8 +117,9 @@ describe('DynamicFacetsComponent', () => {
     });
 
     describe('when 1 selection is made', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         setupData = setup({ filter: '"trust the process"' });
+        await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
 
       test('the clear button appears once', () => {
@@ -145,8 +147,9 @@ describe('DynamicFacetsComponent', () => {
     });
 
     describe('when 2 selections are made', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         setupData = setup({ filter: '"trust the process","just not the electrician"' });
+        await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
 
       test('the clear button appears once', () => {
@@ -175,9 +178,9 @@ describe('DynamicFacetsComponent', () => {
   });
 
   describe('checkboxes apply filters', () => {
-    test('it adds correct filter when checkbox is checked', () => {
+    test('it adds correct filter when checkbox is checked', async () => {
       const { searchFacetsComponent, performSearchMock, onChangeMock } = setup();
-      const embiidCheckbox = searchFacetsComponent.getByLabelText('trust the process');
+      const embiidCheckbox = await searchFacetsComponent.findByLabelText('trust the process');
       performSearchMock.mockReset();
       fireEvent.click(embiidCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);
@@ -191,11 +194,11 @@ describe('DynamicFacetsComponent', () => {
       expect(onChangeMock).toBeCalled();
     });
 
-    test('it adds correct filter when aggregation contains `|`', () => {
+    test('it adds correct filter when aggregation contains `|`', async () => {
       const { searchFacetsComponent, performSearchMock, onChangeMock } = setup({
         collapsedFacetsCount: 10
       });
-      const pipeCheckbox = searchFacetsComponent.getByLabelText('maybe | not');
+      const pipeCheckbox = await searchFacetsComponent.findByLabelText('maybe | not');
       performSearchMock.mockReset();
       fireEvent.click(pipeCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);
@@ -208,9 +211,9 @@ describe('DynamicFacetsComponent', () => {
       expect(onChangeMock).toBeCalled();
     });
 
-    test('it adds correct filter when aggregation contains `,`', () => {
+    test('it adds correct filter when aggregation contains `,`', async () => {
       const { searchFacetsComponent, performSearchMock, onChangeMock } = setup();
-      const commaCheckbox = searchFacetsComponent.getByLabelText('bogus, strings');
+      const commaCheckbox = await searchFacetsComponent.findByLabelText('bogus, strings');
       performSearchMock.mockReset();
       fireEvent.click(commaCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);
@@ -223,9 +226,9 @@ describe('DynamicFacetsComponent', () => {
       expect(onChangeMock).toBeCalled();
     });
 
-    test('it adds correct filter when aggregation contains `:`', () => {
+    test('it adds correct filter when aggregation contains `:`', async () => {
       const { searchFacetsComponent, performSearchMock, onChangeMock } = setup();
-      const colonCheckbox = searchFacetsComponent.getByLabelText('this: is');
+      const colonCheckbox = await searchFacetsComponent.findByLabelText('this: is');
       performSearchMock.mockReset();
       fireEvent.click(colonCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);
@@ -238,11 +241,11 @@ describe('DynamicFacetsComponent', () => {
       expect(onChangeMock).toBeCalled();
     });
 
-    test('it adds correct filters when second checkbox is checked', () => {
+    test('it adds correct filters when second checkbox is checked', async () => {
       const { searchFacetsComponent, performSearchMock, onChangeMock } = setup({
         filter: '"sam hinkie"'
       });
-      const embiidCheckbox = searchFacetsComponent.getByLabelText('trust the process');
+      const embiidCheckbox = await searchFacetsComponent.findByLabelText('trust the process');
       performSearchMock.mockReset();
       fireEvent.click(embiidCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);
@@ -257,11 +260,11 @@ describe('DynamicFacetsComponent', () => {
   });
 
   describe('checkboxes remove filters', () => {
-    test('it removes correct filter when checkbox within single facet is unchecked', () => {
+    test('it removes correct filter when checkbox within single facet is unchecked', async () => {
       const { searchFacetsComponent, performSearchMock, onChangeMock } = setup({
         filter: '"sam hinkie"'
       });
-      const saviorCheckbox = searchFacetsComponent.getByLabelText('sam hinkie');
+      const saviorCheckbox = await searchFacetsComponent.findByLabelText('sam hinkie');
       performSearchMock.mockReset();
       fireEvent.click(saviorCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);

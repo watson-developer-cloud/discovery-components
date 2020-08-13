@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { cleanup, render, fireEvent } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { PreviewToolbar } from '../PreviewToolbar';
 
 const { ZOOM_IN, ZOOM_OUT, ZOOM_RESET } = PreviewToolbar;
@@ -14,8 +14,6 @@ const pageUpdate = (newPage: number): void => {
 const zoomUpdate = (newZoom: string): void => {
   zoomLevel = newZoom;
 };
-
-afterEach(cleanup);
 
 describe('PreviewToolbar', () => {
   let wrapper: any;
@@ -41,8 +39,8 @@ describe('PreviewToolbar', () => {
   });
 
   it('goes to page 7', () => {
-    const toolbarInput = wrapper.getByRole('textbox');
-    const toolbarForm = wrapper.getByRole('form');
+    const toolbarInput = wrapper.getByRole('spinbutton');
+    const toolbarForm = toolbarInput.closest('form');
 
     toolbarInput.value = 7;
     fireEvent.submit(toolbarForm);
