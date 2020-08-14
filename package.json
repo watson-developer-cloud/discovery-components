@@ -27,9 +27,9 @@
     "@storybook/source-loader": "^5.3.14",
     "@svgr/rollup": "^4.3.2",
     "@testing-library/cypress": "5.3.1",
-    "@testing-library/jest-dom": "^4.1.0",
-    "@testing-library/react": "^9.1.4",
-    "@testing-library/react-hooks": "^3.2.1",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/react-hooks": "^3.4.1",
     "@types/classnames": "^2.2.9",
     "@types/debounce": "^1.2.0",
     "@types/dompurify": "^0.0.33",
@@ -52,7 +52,7 @@
     "carbon-components-react": "^7.7.0",
     "carbon-icons": "^7.0.7",
     "cross-env": "^7.0.2",
-    "cypress": "4.4.0",
+    "cypress": "4.11.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-config-react-app": "^5.2.0",
@@ -60,6 +60,7 @@
     "eslint-plugin-flowtype": "3.x",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-no-only-tests": "^2.4.0",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.18.3",
     "eslint-plugin-react-hooks": "1.x",
@@ -100,7 +101,7 @@
     "wsrun": "^5.2.0"
   },
   "resolutions": {
-    "cypress": "4.4.0"
+    "cypress": "4.11.0"
   },
   "lint-staged": {
     "{packages,examples}/**/*.{json,css,scss,md}": [

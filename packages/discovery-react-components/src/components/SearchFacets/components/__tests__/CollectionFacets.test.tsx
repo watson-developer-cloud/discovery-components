@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render, getNodeText, fireEvent, RenderResult } from '@testing-library/react';
+import { render, getNodeText, fireEvent, RenderResult, wait } from '@testing-library/react';
 import { wrapWithContext } from 'utils/testingUtils';
 import { SearchContextIFC, SearchApiIFC } from 'components/DiscoverySearch/DiscoverySearch';
 import SearchFacets from 'components/SearchFacets/SearchFacets';
@@ -38,39 +38,39 @@ const setup = (collectionIds?: string[]): Setup => {
 
 describe('CollectionFacetsComponent', () => {
   describe('legend header elements', () => {
-    test('contains header or collections facets', () => {
+    test('contains header or collections facets', async () => {
       const { collectionFacetsComponent } = setup();
-      const collectionsHeaderField = collectionFacetsComponent.getByText('Collections');
+      const collectionsHeaderField = await collectionFacetsComponent.findByText('Collections');
       expect(collectionsHeaderField).toBeDefined();
     });
   });
 
   describe('select placeholder element', () => {
-    test('contains the proper text', () => {
+    test('contains the proper text', async () => {
       const { collectionFacetsComponent } = setup();
-      const placeholderText = collectionFacetsComponent.getByText('Available collections');
+      const placeholderText = await collectionFacetsComponent.findByText('Available collections');
       expect(placeholderText).toBeDefined();
     });
   });
 
   describe('collectionIds query param already set', () => {
-    test('shows pre-selected count', () => {
+    test('shows pre-selected count', async () => {
       const { collectionFacetsComponent } = setup(['machine-learning']);
-      const selectedCount = collectionFacetsComponent.getByTitle('Clear all selected items');
+      const selectedCount = await collectionFacetsComponent.findByTitle('Clear all selected items');
       expect(getNodeText(selectedCount)).toEqual('1');
     });
 
-    test('pre-selects collections set in query params', () => {
+    test('pre-selects collections set in query params', async () => {
       const { collectionFacetsComponent } = setup(['machine-learning']);
-      const collectionSelect = collectionFacetsComponent.getByText('Available collections');
+      const collectionSelect = await collectionFacetsComponent.findByText('Available collections');
       fireEvent.click(collectionSelect);
       const selectedCheckbox = collectionFacetsComponent.getByLabelText('Machine Learning');
       expect(selectedCheckbox).toHaveProperty('checked');
     });
 
-    test('pre-selects collections excluded in query params', () => {
+    test('pre-selects collections excluded in query params', async () => {
       const { collectionFacetsComponent } = setup(['machine-learning']);
-      const collectionSelect = collectionFacetsComponent.getByText('Available collections');
+      const collectionSelect = await collectionFacetsComponent.findByText('Available collections');
       fireEvent.click(collectionSelect);
       const selectedCheckbox = collectionFacetsComponent.getByText('AI Strategy');
       expect(selectedCheckbox).not.toHaveProperty('checked');
@@ -78,17 +78,18 @@ describe('CollectionFacetsComponent', () => {
   });
 
   describe('collectionIds query param not set', () => {
-    test('does not show pre-selected count', () => {
+    test('does not show pre-selected count', async () => {
       const { collectionFacetsComponent } = setup();
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
       const selectedCount = collectionFacetsComponent.queryByTitle('Clear all selected items');
       expect(selectedCount).toBeNull();
     });
   });
 
   describe('selecting collections', () => {
-    test('it calls performSearch with correct collectionIds', () => {
+    test('it calls performSearch with correct collectionIds', async () => {
       const { collectionFacetsComponent, performSearchMock } = setup();
-      const collectionSelect = collectionFacetsComponent.getByText('Available collections');
+      const collectionSelect = await collectionFacetsComponent.findByText('Available collections');
       fireEvent.click(collectionSelect);
       const machineLearningCollection = collectionFacetsComponent.getByLabelText(
         'Machine Learning'

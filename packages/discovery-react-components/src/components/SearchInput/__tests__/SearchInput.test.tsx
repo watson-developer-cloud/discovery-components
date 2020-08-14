@@ -11,7 +11,6 @@ import {
   queryByTestId,
   waitForElementToBeRemoved
 } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
 import {
   SearchContextIFC,
   SearchApiIFC,

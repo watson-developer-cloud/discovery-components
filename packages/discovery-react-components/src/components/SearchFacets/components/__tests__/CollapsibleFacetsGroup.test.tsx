@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render, RenderResult, fireEvent, within } from '@testing-library/react';
+import { render, RenderResult, fireEvent, wait, within } from '@testing-library/react';
 import { wrapWithContext } from 'utils/testingUtils';
 import SearchFacets from 'components/SearchFacets/SearchFacets';
 import {
@@ -8,7 +8,6 @@ import {
   searchResponseStoreDefaults
 } from 'components/DiscoverySearch/DiscoverySearch';
 import { facetsQueryResponse } from 'components/SearchFacets/__fixtures__/facetsQueryResponse';
-import '@testing-library/jest-dom/extend-expect';
 
 interface Setup {
   context: Partial<SearchContextIFC>;
@@ -70,17 +69,18 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
 
 describe('CollapsibleFacetsGroupComponent', () => {
   describe('when aggregations should not be collapsed for any fields', () => {
-    test('show more link is not shown', () => {
+    test('show more link is not shown', async () => {
       const { searchFacetsComponent } = setup({ collapsedFacetsCount: 20 });
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
       const showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
       expect(showMoreButtons).toHaveLength(0);
     });
   });
 
   describe('when aggregations should be collapsed for some fields', () => {
-    test('show more and show all links are only shown for facet group with too many results', () => {
+    test('show more and show all links are only shown for facet group with too many results', async () => {
       const { searchFacetsComponent } = setup({ collapsedFacetsCount: 5 });
-      const showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
+      const showMoreButtons = await searchFacetsComponent.findAllByText('Show more');
       expect(showMoreButtons).toHaveLength(1);
       const showAllButtons = searchFacetsComponent.queryAllByText('Show all');
       expect(showAllButtons).toHaveLength(1);
@@ -88,18 +88,18 @@ describe('CollapsibleFacetsGroupComponent', () => {
   });
 
   describe('when aggregations are collapsed for multiple facets', () => {
-    test('show more and show all links are only shown for multiple facet groups', () => {
+    test('show more and show all links are only shown for multiple facet groups', async () => {
       const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
-      const showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
+      const showMoreButtons = await searchFacetsComponent.findAllByText('Show more');
       expect(showMoreButtons).toHaveLength(2);
       const showAllButtons = searchFacetsComponent.queryAllByText('Show all');
       expect(showAllButtons).toHaveLength(1);
     });
 
-    test('facets are initially shown collapsed', () => {
+    test('facets are initially shown collapsed', async () => {
       // Check SingleSelect facets
       const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
-      const authorFacets = searchFacetsComponent.queryAllByText((content, element) => {
+      const authorFacets = await searchFacetsComponent.findAllByText((content, element) => {
         return (
           element.tagName.toLowerCase() === 'span' &&
           ['Research (138993)', 'Analytics (57158)', 'Documentation (32444)'].includes(content)
@@ -143,9 +143,9 @@ describe('CollapsibleFacetsGroupComponent', () => {
 
     describe('clicking show more button', () => {
       describe('when there are 10 or fewer facet values', () => {
-        test('expands list of facet terms for appropriate field', () => {
+        test('expands list of facet terms for appropriate field', async () => {
           const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
-          const authorFacets = searchFacetsComponent.queryAllByText((content, element) => {
+          const authorFacets = await searchFacetsComponent.findAllByText((content, element) => {
             return (
               element.tagName.toLowerCase() === 'span' &&
               ['Research (138993)', 'Analytics (57158)', 'Documentation (32444)'].includes(content)
@@ -171,9 +171,9 @@ describe('CollapsibleFacetsGroupComponent', () => {
           expect(subjectFacets).toHaveLength(6);
         });
 
-        test('does not expand other fields', () => {
+        test('does not expand other fields', async () => {
           const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
-          const authorFacets = searchFacetsComponent.queryAllByText((content, element) => {
+          const authorFacets = await searchFacetsComponent.findAllByText((content, element) => {
             return (
               element.tagName.toLowerCase() === 'span' &&
               ['Research (138993)', 'Analytics (57158)', 'Documentation (32444)'].includes(content)
@@ -182,9 +182,9 @@ describe('CollapsibleFacetsGroupComponent', () => {
           expect(authorFacets).toHaveLength(2);
         });
 
-        test('changes button text to show less', () => {
+        test('changes button text to show less', async () => {
           const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
-          let showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
+          let showMoreButtons = await searchFacetsComponent.findAllByText('Show more');
           fireEvent.click(showMoreButtons[0]);
 
           showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
@@ -196,9 +196,9 @@ describe('CollapsibleFacetsGroupComponent', () => {
       });
 
       describe('when there are greater than 10 facet values', () => {
-        test('opens modal with correct header and full list of facet terms for appropriate field', () => {
+        test('opens modal with correct header and full list of facet terms for appropriate field', async () => {
           const { searchFacetsComponent } = setup();
-          const productsShowMoreButton = searchFacetsComponent.getByTestId(
+          const productsShowMoreButton = await searchFacetsComponent.findByTestId(
             'show-more-less-products'
           );
           fireEvent.click(productsShowMoreButton);
@@ -234,9 +234,9 @@ describe('CollapsibleFacetsGroupComponent', () => {
           expect(productsFacets).toHaveLength(16);
         });
 
-        test('allows for selection and deselection of these facet terms', () => {
+        test('allows for selection and deselection of these facet terms', async () => {
           const { searchFacetsComponent } = setup();
-          const productsShowMoreButton = searchFacetsComponent.getByTestId(
+          const productsShowMoreButton = await searchFacetsComponent.findByTestId(
             'show-more-less-products'
           );
           fireEvent.click(productsShowMoreButton);
@@ -253,9 +253,9 @@ describe('CollapsibleFacetsGroupComponent', () => {
           expect(assistantFacetValue['checked']).toEqual(false);
         });
 
-        test('on submit of the modal, updates search with new facet selections and preserves selections', () => {
+        test('on submit of the modal, updates search with new facet selections and preserves selections', async () => {
           const { searchFacetsComponent, performSearchMock } = setup();
-          const productsShowMoreButton = searchFacetsComponent.getByTestId(
+          const productsShowMoreButton = await searchFacetsComponent.findByTestId(
             'show-more-less-products'
           );
           fireEvent.click(productsShowMoreButton);
@@ -282,9 +282,9 @@ describe('CollapsibleFacetsGroupComponent', () => {
           expect(assistantFacetValues[1]['checked']).toEqual(true);
         });
 
-        test('on cancel of modal, does not update search or preserve selections', () => {
+        test('on cancel of modal, does not update search or preserve selections', async () => {
           const { searchFacetsComponent, performSearchMock } = setup();
-          const productsShowMoreButton = searchFacetsComponent.getByTestId(
+          const productsShowMoreButton = await searchFacetsComponent.findByTestId(
             'show-more-less-products'
           );
           fireEvent.click(productsShowMoreButton);
@@ -305,9 +305,9 @@ describe('CollapsibleFacetsGroupComponent', () => {
           expect(assistantFacetValues[1]['checked']).toEqual(false);
         });
 
-        test('on close of modal, does not update search or preserve selections', () => {
+        test('on close of modal, does not update search or preserve selections', async () => {
           const { searchFacetsComponent, performSearchMock } = setup();
-          const productsShowMoreButton = searchFacetsComponent.getByTestId(
+          const productsShowMoreButton = await searchFacetsComponent.findByTestId(
             'show-more-less-products'
           );
           fireEvent.click(productsShowMoreButton);
@@ -355,9 +355,9 @@ describe('CollapsibleFacetsGroupComponent', () => {
     let productsModal: HTMLElement;
     let productsSearchBar: HTMLElement;
 
-    beforeEach(() => {
+    beforeEach(async () => {
       const { searchFacetsComponent } = setup();
-      productsShowMoreButton = searchFacetsComponent.getByTestId('show-more-less-products');
+      productsShowMoreButton = await searchFacetsComponent.findByTestId('show-more-less-products');
       fireEvent.click(productsShowMoreButton);
       productsModal = searchFacetsComponent.getByTestId('search-facet-show-more-modal-products');
       expect(productsModal).toBeDefined();
@@ -457,9 +457,9 @@ describe('CollapsibleFacetsGroupComponent', () => {
   });
 
   describe('clicking show less button', () => {
-    test('collapses list of facet terms for appropriate field', () => {
+    test('collapses list of facet terms for appropriate field', async () => {
       const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
-      const showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
+      const showMoreButtons = await searchFacetsComponent.findAllByText('Show more');
       fireEvent.click(showMoreButtons[0]);
       fireEvent.click(showMoreButtons[1]);
 
@@ -474,9 +474,9 @@ describe('CollapsibleFacetsGroupComponent', () => {
       expect(authorFacets).toHaveLength(2);
     });
 
-    test('does not expand other fields', () => {
+    test('does not expand other fields', async () => {
       const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
-      const showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
+      const showMoreButtons = await searchFacetsComponent.findAllByText('Show more');
       showMoreButtons.forEach(button => fireEvent.click(button));
 
       const showLessButtons = searchFacetsComponent.queryAllByText('Show less');
@@ -497,9 +497,9 @@ describe('CollapsibleFacetsGroupComponent', () => {
       expect(subjectFacets).toHaveLength(6);
     });
 
-    test('change text of collapse button', () => {
+    test('change text of collapse button', async () => {
       const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
-      let showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
+      let showMoreButtons = await searchFacetsComponent.findAllByText('Show more');
       fireEvent.click(showMoreButtons[0]);
       fireEvent.click(showMoreButtons[1]);
 

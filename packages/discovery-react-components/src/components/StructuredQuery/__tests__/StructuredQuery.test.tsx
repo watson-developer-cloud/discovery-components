@@ -9,7 +9,6 @@ import {
   SearchApiIFC
 } from 'components/DiscoverySearch/DiscoverySearch';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
-import '@testing-library/jest-dom/extend-expect';
 
 interface SetupParams {
   projectFields?: DiscoveryV2.Field[];

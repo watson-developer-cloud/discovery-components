@@ -1,5 +1,5 @@
 import React, { cloneElement } from 'react';
-import { render, act, fireEvent, RenderResult } from '@testing-library/react';
+import { render, act, fireEvent, RenderResult, wait, findByText } from '@testing-library/react';
 import DiscoverySearch, {
   DiscoverySearchProps,
   SearchApi,
@@ -47,7 +47,7 @@ const setup = (props: Partial<DiscoverySearchProps>, children: JSX.Element): Set
 
 describe('DiscoverySearch', () => {
   describe('overrides', () => {
-    it('can override searchResponse', () => {
+    it('can override searchResponse', async () => {
       const tree = (
         <SearchContext.Consumer>
           {({ searchResponseStore: { data: searchResponse } }) => (
@@ -57,14 +57,14 @@ describe('DiscoverySearch', () => {
       );
       const {
         fullTree,
-        result: { getByTestId, rerender }
+        result: { findByTestId, getByTestId, rerender }
       } = setup({ overrideSearchResults: { matching_results: 1 } }, tree);
-      expect(getByTestId('value').textContent).toEqual('1');
+      expect((await findByTestId('value')).textContent).toEqual('1');
       rerender(cloneElement(fullTree, { overrideSearchResults: { matching_results: 2 } }));
       expect(getByTestId('value').textContent).toEqual('2');
     });
 
-    it('can override searchParameters', () => {
+    it('can override searchParameters', async () => {
       const tree = (
         <SearchContext.Consumer>
           {({ searchResponseStore: { parameters } }) => (
@@ -74,9 +74,9 @@ describe('DiscoverySearch', () => {
       );
       const {
         fullTree,
-        result: { getByTestId, rerender }
+        result: { findByTestId, getByTestId, rerender }
       } = setup({ overrideQueryParameters: { naturalLanguageQuery: 'foo' } }, tree);
-      expect(getByTestId('value').textContent).toEqual('foo');
+      expect((await findByTestId('value')).textContent).toEqual('foo');
       rerender(
         cloneElement(fullTree, {
           overrideQueryParameters: { naturalLanguageQuery: 'bar', count: 1 }
@@ -85,7 +85,7 @@ describe('DiscoverySearch', () => {
       expect(getByTestId('value').textContent).toEqual('bar');
     });
 
-    it('can override selectedResult', () => {
+    it('can override selectedResult', async () => {
       const tree = (
         <SearchContext.Consumer>
           {({ selectedResult }) => (
@@ -99,7 +99,7 @@ describe('DiscoverySearch', () => {
       );
       const {
         fullTree,
-        result: { getByTestId, rerender }
+        result: { findByTestId, getByTestId, rerender }
       } = setup(
         {
           overrideSelectedResult: {
@@ -110,7 +110,7 @@ describe('DiscoverySearch', () => {
         },
         tree
       );
-      expect(getByTestId('value').textContent).toEqual('foo');
+      expect((await findByTestId('value')).textContent).toEqual('foo');
       rerender(
         cloneElement(fullTree, {
           overrideSelectedResult: {
@@ -123,7 +123,7 @@ describe('DiscoverySearch', () => {
       expect(getByTestId('value').textContent).toEqual('bar');
     });
 
-    it('can override autocompletionResults', () => {
+    it('can override autocompletionResults', async () => {
       const tree = (
         <SearchContext.Consumer>
           {({ autocompletionStore: { data: autocompletionResults } }) => (
@@ -137,14 +137,14 @@ describe('DiscoverySearch', () => {
       );
       const {
         fullTree,
-        result: { getByTestId, rerender }
+        result: { findByTestId, getByTestId, rerender }
       } = setup({ overrideAutocompletionResults: { completions: ['foo'] } }, tree);
-      expect(getByTestId('value').textContent).toEqual('foo');
+      expect((await findByTestId('value')).textContent).toEqual('foo');
       rerender(cloneElement(fullTree, { overrideAutocompletionResults: { completions: ['bar'] } }));
       expect(getByTestId('value').textContent).toEqual('bar');
     });
 
-    it('can override collectionsResults', () => {
+    it('can override collectionsResults', async () => {
       const tree = (
         <SearchContext.Consumer>
           {({ collectionsResults }) => (
@@ -161,14 +161,18 @@ describe('DiscoverySearch', () => {
         fullTree,
         result: { getByTestId, rerender }
       } = setup({ overrideCollectionsResults: { collections: [{ name: 'foo' }] } }, tree);
+
       expect(getByTestId('value').textContent).toEqual('foo');
+
       rerender(
         cloneElement(fullTree, { overrideCollectionsResults: { collections: [{ name: 'bar' }] } })
       );
       expect(getByTestId('value').textContent).toEqual('bar');
+
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
     });
 
-    it('can override componentSettings', () => {
+    it('can override componentSettings', async () => {
       const tree = (
         <SearchContext.Consumer>
           {({ componentSettings }) => (
@@ -182,9 +186,13 @@ describe('DiscoverySearch', () => {
         fullTree,
         result: { getByTestId, rerender }
       } = setup({ overrideComponentSettings: { results_per_page: 5 } }, tree);
+
       expect(getByTestId('value').textContent).toEqual('5');
+
       rerender(cloneElement(fullTree, { overrideComponentSettings: { results_per_page: 10000 } }));
       expect(getByTestId('value').textContent).toEqual('10000');
+
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
     });
   });
 
@@ -201,12 +209,13 @@ describe('DiscoverySearch', () => {
         result: { getByText },
         searchClient
       } = setup({}, tree);
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
+
       const spy = jest.spyOn(searchClient, 'query');
       expect(spy).not.toHaveBeenCalled();
-      act(() => {
-        fireEvent.click(getByText('Action'));
-      });
+      fireEvent.click(getByText('Action'));
       expect(spy).toHaveBeenCalled();
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
     });
 
     it('can call performSearch once with resetAggregations = false and filter set', async () => {
@@ -223,12 +232,13 @@ describe('DiscoverySearch', () => {
         result: { getByText },
         searchClient
       } = setup({}, tree);
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
+
       const spy = jest.spyOn(searchClient, 'query');
       expect(spy).not.toHaveBeenCalled();
-      act(() => {
-        fireEvent.click(getByText('Action'));
-      });
+      fireEvent.click(getByText('Action'));
       expect(spy).toHaveBeenCalledTimes(1);
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
     });
 
     it('can call performSearch twice with resetAggregations = true and filter set', async () => {
@@ -245,12 +255,13 @@ describe('DiscoverySearch', () => {
         result: { getByText },
         searchClient
       } = setup({}, tree);
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
+
       const spy = jest.spyOn(searchClient, 'query');
       expect(spy).not.toHaveBeenCalled();
-      act(() => {
-        fireEvent.click(getByText('Action'));
-      });
+      fireEvent.click(getByText('Action'));
       expect(spy).toHaveBeenCalledTimes(2);
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
     });
 
     it('can call fetchDocuments', async () => {
@@ -265,11 +276,11 @@ describe('DiscoverySearch', () => {
         result: { getByText },
         searchClient
       } = setup({ projectId: 'foo' }, tree);
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
+
       const spy = jest.spyOn(searchClient, 'query');
       expect(spy).not.toHaveBeenCalled();
-      act(() => {
-        fireEvent.click(getByText('Action'));
-      });
+      fireEvent.click(getByText('Action'));
       expect(spy).toHaveBeenCalledWith({
         projectId: 'foo',
         filter: 'document_id::bar',
@@ -282,6 +293,7 @@ describe('DiscoverySearch', () => {
           enabled: false
         }
       });
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
     });
 
     it('can call setAutocompletionOptions then fetchAutocompletions', async () => {
@@ -307,19 +319,18 @@ describe('DiscoverySearch', () => {
         result: { getByText },
         searchClient
       } = setup({}, tree);
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
+
       const spy = jest.spyOn(searchClient, 'getAutocompletion');
       expect(spy).not.toHaveBeenCalled();
-      act(() => {
-        fireEvent.click(getByText('Options'));
-      });
-      act(() => {
-        fireEvent.click(getByText('Action'));
-      });
+      fireEvent.click(getByText('Options'));
+      fireEvent.click(getByText('Action'));
       expect(spy).toHaveBeenCalledWith({
         projectId: '',
         prefix: 'foo',
         count: 1
       });
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
     });
 
     it('can call fetchFields', async () => {
@@ -332,14 +343,15 @@ describe('DiscoverySearch', () => {
         result: { getByText },
         searchClient
       } = setup({}, tree);
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
+
       const spy = jest.spyOn(searchClient, 'listFields');
       expect(spy).not.toHaveBeenCalled();
-      act(() => {
-        fireEvent.click(getByText('Action'));
-      });
+      fireEvent.click(getByText('Action'));
       expect(spy).toHaveBeenCalledWith({
         projectId: ''
       });
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
     });
   });
 });

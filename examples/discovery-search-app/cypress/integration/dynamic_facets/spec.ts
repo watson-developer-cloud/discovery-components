@@ -59,7 +59,6 @@ describe('Dynamic Facets', () => {
 
       it('makes a query for the right facets', () => {
         cy.get('@singleRefinementQueryObject')
-          //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
           .its('requestBody.filter')
           .should('eq', '"regression"');
       });
@@ -83,7 +82,6 @@ describe('Dynamic Facets', () => {
 
         it('makes a query for both filters', () => {
           cy.get('@multiRefinementQueryObject')
-            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.filter')
             .should('eq', '"regression","classification"');
         });
@@ -106,7 +104,6 @@ describe('Dynamic Facets', () => {
 
         it('makes a query without any selected facets', () => {
           cy.get('@clearedFacetsQueryObject')
-            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.filter')
             .should('eq', '');
         });
@@ -130,7 +127,6 @@ describe('Dynamic Facets', () => {
 
         it('makes a query without any selected facets', () => {
           cy.get('@clearedFacetsQueryObject')
-            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.filter')
             .should('eq', '');
         });
@@ -151,7 +147,6 @@ describe('Dynamic Facets', () => {
 
         it('makes a query with both filters', () => {
           cy.get('@dynamicAndNonDynamicQueryObject')
-            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.filter')
             .should('eq', 'location:"Hancock, MN","regression"');
         });

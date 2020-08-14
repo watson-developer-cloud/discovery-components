@@ -7,7 +7,11 @@ import { SearchContext, SearchApi } from 'components/DiscoverySearch/DiscoverySe
 import { mergeFilterFacets } from './utils/mergeFilterFacets';
 import { mergeDynamicFacets } from './utils/mergeDynamicFacets';
 import { SearchFilterTransform } from './utils/searchFilterTransform';
-import { displayMessage, noAvailableFacetsMessage } from './utils/searchFacetMessages';
+import {
+  displayMessage,
+  noAvailableFacetsMessage,
+  errorMessage
+} from './utils/searchFacetMessages';
 import {
   SearchFilterFacets,
   SelectableDynamicFacets,
@@ -24,6 +28,7 @@ import { collectionFacetIdPrefix } from './cssClasses';
 import onErrorCallback from 'utils/onErrorCallback';
 import { FallbackComponent } from 'utils/FallbackComponent';
 import { withErrorBoundary } from 'react-error-boundary';
+import useCompare from 'utils/useCompare';
 
 interface SearchFacetsProps {
   /**
@@ -55,6 +60,10 @@ interface SearchFacetsProps {
    */
   collapsedFacetsCount?: number;
   /**
+   * Override default message displayed when receiving an error on server request
+   */
+  serverErrorMessage?: React.ReactNode;
+  /**
    * Custom handler invoked when any input element changes in the SearchFacets component.
    * Takes a synthethic event from an HTML Input Element or a string array from custom
    * onChange events that do not use synthethic events.
@@ -70,9 +79,11 @@ const SearchFacets: FC<SearchFacetsProps> = ({
   messages = defaultMessages,
   overrideComponentSettingsAggregations,
   collapsedFacetsCount = 5,
+  serverErrorMessage,
   onChange
 }) => {
   const facetsId = id || `search-facets__${uuid.v4()}`;
+
   const {
     aggregationResults,
     searchResponseStore: {
@@ -83,11 +94,14 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     collectionsResults,
     componentSettings
   } = useContext(SearchContext);
+
   const [facetSelectionState, setFacetSelectionState] = useState<SearchFilterFacets>(
     SearchFilterTransform.fromString(filter || '')
   );
+
   const collections: DiscoveryV2.Collection[] = get(collectionsResults, 'collections', []);
   const initialSelectedCollectionIds = collectionIds || [];
+
   const initialSelectedCollections = collections
     .filter(collection => {
       return (
@@ -101,21 +115,38 @@ const SearchFacets: FC<SearchFacetsProps> = ({
         label: collection.name || ''
       };
     });
+
   const [collectionSelectionState, setCollectionSelectionState] = useState<
     SelectedCollectionItems['selectedItems']
   >(initialSelectedCollections);
+
+  const [fetchState, setFetchState] = useState<'init' | 'loading' | 'success' | 'error'>('init');
+
   const { fetchAggregations, performSearch } = useContext(SearchApi);
   const aggregations = aggregationResults || [];
   const mergedMessages = { ...defaultMessages, ...messages };
+
   const componentSettingsAggregations =
     overrideComponentSettingsAggregations ||
     (componentSettings && componentSettings.aggregations) ||
     [];
 
+  const searchParamsAggregationChanged = useCompare(searchParameters.aggregation);
   useEffect(() => {
-    fetchAggregations(searchParameters);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetchAggregations, searchParameters.aggregation]);
+    async function fetchData() {
+      setFetchState('loading');
+      try {
+        await fetchAggregations(searchParameters);
+        setFetchState('success');
+      } catch (error) {
+        setFetchState('error');
+      }
+    }
+
+    if (searchParamsAggregationChanged || fetchState === 'init') {
+      fetchData();
+    }
+  }, [fetchAggregations, fetchState, searchParameters, searchParamsAggregationChanged]);
 
   useDeepCompareEffect(() => {
     if (filter === '') {
@@ -198,7 +229,15 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     performSearch({ ...searchParameters, collectionIds: [], offset: 0, filter: '' }, false);
   };
 
-  if (shouldShowFields || shouldShowCollections) {
+  if (fetchState === 'loading') {
+    return null;
+  } else if (fetchState === 'error') {
+    const errorNode =
+      typeof serverErrorMessage === 'string'
+        ? displayMessage(serverErrorMessage)
+        : serverErrorMessage || displayMessage(errorMessage);
+    return <> {errorNode} </>;
+  } else if (shouldShowFields || shouldShowCollections) {
     return (
       <div id={facetsId} className={`${settings.prefix}--search-facets`}>
         {hasSelection && (

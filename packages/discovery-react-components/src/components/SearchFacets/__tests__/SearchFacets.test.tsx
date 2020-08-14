@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render, RenderResult, fireEvent } from '@testing-library/react';
+import { render, RenderResult, fireEvent, wait } from '@testing-library/react';
 import { QueryTermAggregation } from 'ibm-watson/discovery/v2';
 import { wrapWithContext } from 'utils/testingUtils';
 import SearchFacets from '../SearchFacets';
@@ -12,7 +12,16 @@ import { facetsQueryResponse } from '../__fixtures__/facetsQueryResponse';
 import collectionsResponse from '../__fixtures__/collectionsResponse';
 import { noAvailableFacetsMessage } from '../utils/searchFacetMessages';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
-import '@testing-library/jest-dom/extend-expect';
+
+interface Props {
+  filter?: string;
+  showCollections?: boolean;
+  aggregations?: any;
+  componentSettingsAggregations?: DiscoveryV2.ComponentSettingsAggregation[];
+  collectionIds?: string[];
+  fetchAggregationsMock?: jest.Mock<any, any>;
+  serverErrorMessage?: React.ReactNode;
+}
 
 interface Setup {
   context: Partial<SearchContextIFC>;
@@ -24,16 +33,19 @@ interface Setup {
   searchFacetsComponent: RenderResult;
 }
 
-const setup = (
-  filter: string,
+const setup = ({
+  filter = '',
   showCollections = false,
   aggregations = facetsQueryResponse.result.aggregations,
-  componentSettingsAggregations?: DiscoveryV2.ComponentSettingsAggregation[],
-  collectionIds?: string[]
-): Setup => {
-  const fetchAggregationsMock = jest.fn();
+  componentSettingsAggregations,
+  collectionIds,
+  fetchAggregationsMock,
+  serverErrorMessage
+}: Props = {}): Setup => {
+  fetchAggregationsMock = fetchAggregationsMock || jest.fn();
   const performSearchMock = jest.fn();
   const onChangeMock = jest.fn();
+
   const context: Partial<SearchContextIFC> = {
     aggregationResults: aggregations,
     collectionsResults: collectionsResponse.result,
@@ -50,36 +62,84 @@ const setup = (
       aggregations: componentSettingsAggregations
     }
   };
+
   const api: Partial<SearchApiIFC> = {
     performSearch: performSearchMock,
     fetchAggregations: fetchAggregationsMock
   };
+
   const searchFacetsComponent = render(
     wrapWithContext(
-      <SearchFacets showCollections={showCollections} onChange={onChangeMock} />,
+      <SearchFacets
+        showCollections={showCollections}
+        onChange={onChangeMock}
+        serverErrorMessage={serverErrorMessage}
+      />,
       api,
       context
     )
   );
+
   return {
     context,
     performSearchMock,
     onChangeMock,
     fetchAggregationsMock,
-    searchFacetsComponent: searchFacetsComponent
+    searchFacetsComponent
   };
 };
 
 describe('SearchFacetsComponent', () => {
   describe('component load', () => {
-    test('it calls fetch aggregations with aggregation string', () => {
-      const { fetchAggregationsMock } = setup('');
+    test('it calls fetch aggregations with aggregation string', async () => {
+      const { fetchAggregationsMock } = setup();
       expect(fetchAggregationsMock).toBeCalledTimes(1);
       expect(fetchAggregationsMock).toBeCalledWith(
         expect.objectContaining({
           aggregation: '[term(author,count:3),term(subject,count:4)]'
         })
       );
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
+    });
+
+    test('shows error message when fetch aggregations fails', async () => {
+      const { searchFacetsComponent } = setup({
+        fetchAggregationsMock: jest.fn().mockImplementationOnce(() => {
+          const httpError: any = new Error('500 Server Error');
+          httpError.status = httpError.statusCode = 500;
+          throw httpError;
+        })
+      });
+
+      const errorMsg = await searchFacetsComponent.findByText('Error fetching facets.');
+      expect(errorMsg).toBeVisible();
+    });
+
+    test('shows custom error message string when fetch aggregations fails', () => {
+      const { searchFacetsComponent } = setup({
+        fetchAggregationsMock: jest.fn().mockImplementationOnce(() => {
+          const httpError: any = new Error('500 Server Error');
+          httpError.status = httpError.statusCode = 500;
+          throw httpError;
+        }),
+        serverErrorMessage: 'You messed up!'
+      });
+
+      searchFacetsComponent.getByText('You messed up!');
+    });
+
+    test('shows custom error message Element when fetch aggregations fails', () => {
+      const { searchFacetsComponent } = setup({
+        fetchAggregationsMock: jest.fn().mockImplementationOnce(() => {
+          const httpError: any = new Error('500 Server Error');
+          httpError.status = httpError.statusCode = 500;
+          throw httpError;
+        }),
+        serverErrorMessage: <span data-testid="server-msg-failure">FAILURE</span>
+      });
+
+      const elem = searchFacetsComponent.getByTestId('server-msg-failure');
+      expect(elem.textContent).toEqual('FAILURE');
     });
   });
 
@@ -87,39 +147,46 @@ describe('SearchFacetsComponent', () => {
     describe('when aggregations exist', () => {
       describe('legend header elements', () => {
         describe('When there are no aggregation component settings', () => {
-          test('contains first facet header with category field text', () => {
-            const { searchFacetsComponent } = setup('');
-            const headerCategoryField = searchFacetsComponent.getByText('category');
-            expect(headerCategoryField).toBeDefined();
+          test('contains first facet header with category field text', async () => {
+            const { searchFacetsComponent } = setup();
+            const headerCategoryField = await searchFacetsComponent.findByText('category');
+            expect(headerCategoryField).toBeVisible();
           });
 
-          test('contains second facet header with machine_learning_terms field text', () => {
-            const { searchFacetsComponent } = setup('');
-            const headerMachineLearningTermsField = searchFacetsComponent.getByText(
+          test('contains second facet header with machine_learning_terms field text', async () => {
+            const { searchFacetsComponent } = setup();
+            const headerMachineLearningTermsField = await searchFacetsComponent.findByText(
               'machine_learning_terms'
             );
-            expect(headerMachineLearningTermsField).toBeDefined();
+            expect(headerMachineLearningTermsField).toBeVisible();
           });
         });
 
         describe('When there are aggregation component settings', () => {
-          test('should render the labels contained in aggregation component settings', () => {
-            const { searchFacetsComponent } = setup('', undefined, undefined, [
-              { label: 'label1', name: 'category_id' },
-              { label: 'label2', name: 'machine_learning_id' }
-            ]);
-            expect(searchFacetsComponent.getByText('label1')).toBeInTheDocument();
-            expect(searchFacetsComponent.getByText('label2')).toBeInTheDocument();
+          test('should render the labels contained in aggregation component settings', async () => {
+            const { searchFacetsComponent } = setup({
+              componentSettingsAggregations: [
+                { label: 'label1', name: 'category_id' },
+                { label: 'label2', name: 'machine_learning_id' }
+              ]
+            });
+            const label1 = await searchFacetsComponent.findByText('label1');
+            expect(label1).toBeVisible();
+            expect(searchFacetsComponent.getByText('label2')).toBeVisible();
           });
 
           describe('And there is a filter string also', () => {
-            test('should render the labels contained in aggregation component settings', () => {
-              const { searchFacetsComponent } = setup('author:"editor"', undefined, undefined, [
-                { label: 'label1', name: 'category_id' },
-                { label: 'label2', name: 'machine_learning_id' }
-              ]);
-              expect(searchFacetsComponent.getByText('label1')).toBeInTheDocument();
-              expect(searchFacetsComponent.getByText('label2')).toBeInTheDocument();
+            test('should render the labels contained in aggregation component settings', async () => {
+              const { searchFacetsComponent } = setup({
+                filter: 'author:"editor"',
+                componentSettingsAggregations: [
+                  { label: 'label1', name: 'category_id' },
+                  { label: 'label2', name: 'machine_learning_id' }
+                ]
+              });
+              const label1 = await searchFacetsComponent.findByText('label1');
+              expect(label1).toBeVisible();
+              expect(searchFacetsComponent.getByText('label2')).toBeVisible();
             });
           });
         });
@@ -127,34 +194,39 @@ describe('SearchFacetsComponent', () => {
     });
 
     describe('when no aggregations exist', () => {
-      test('shows empty aggregations message', () => {
-        const { searchFacetsComponent } = setup('', false, []);
-        const emptyMessage = searchFacetsComponent.getByText(noAvailableFacetsMessage);
-        expect(emptyMessage).toBeDefined();
+      test('shows empty aggregations message', async () => {
+        const { searchFacetsComponent } = setup({ aggregations: [] });
+        const emptyMessage = await searchFacetsComponent.findByText(noAvailableFacetsMessage);
+        expect(emptyMessage).toBeVisible();
       });
     });
   });
 
   describe('collection facet', () => {
     describe('when collections exists', () => {
-      test('can be shown', () => {
-        const { searchFacetsComponent } = setup('subject:Animals', true);
-        const collectionSelect = searchFacetsComponent.getByText('Available collections');
-        expect(collectionSelect).toBeDefined();
+      test('can be shown', async () => {
+        const { searchFacetsComponent } = setup({
+          filter: 'subject:Animals',
+          showCollections: true
+        });
+        const collectionSelect = await searchFacetsComponent.findByText('Available collections');
+        expect(collectionSelect).toBeVisible();
       });
 
-      test('can be hidden', () => {
-        const { searchFacetsComponent } = setup('subject:Animals');
+      test('can be hidden', async () => {
+        const { searchFacetsComponent } = setup({ filter: 'subject:Animals' });
         const collectionSelect = searchFacetsComponent.queryByText('Available collections');
         expect(collectionSelect).toBeNull();
+        await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
     });
 
     describe('when no collections exists', () => {
-      test('is not shown', () => {
-        const { searchFacetsComponent } = setup('subject:Animals');
+      test('is not shown', async () => {
+        const { searchFacetsComponent } = setup({ filter: 'subject:Animals' });
         const collectionSelect = searchFacetsComponent.queryByText('Available collections');
         expect(collectionSelect).toBeNull();
+        await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
     });
   });
@@ -162,24 +234,28 @@ describe('SearchFacetsComponent', () => {
   describe('root clear all button', () => {
     let setupData: Setup;
     describe('when no filters are present', () => {
-      beforeEach(() => {
-        setupData = setup('');
+      beforeEach(async () => {
+        setupData = setup();
+        await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
 
-      test('does not show the root clear all button', () => {
+      test('does not show the root clear all button', async () => {
         const { searchFacetsComponent } = setupData;
         expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(0);
+        await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
     });
 
     describe('when there are filters present', () => {
-      beforeEach(() => {
-        setupData = setup('subject:Animals');
+      beforeEach(async () => {
+        setupData = setup({ filter: 'subject:Animals' });
+        await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
 
-      test('does show the root clear all button', () => {
+      test('does show the root clear all button', async () => {
         const { searchFacetsComponent } = setupData;
-        expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(1);
+        const buttons = await searchFacetsComponent.findAllByText('Clear all');
+        expect(buttons).toHaveLength(1);
       });
 
       describe('and the clear all button is clicked', () => {
@@ -188,7 +264,7 @@ describe('SearchFacetsComponent', () => {
           fireEvent.click(searchFacetsComponent.getByText('Clear all'));
         });
 
-        test('resets all the filters', () => {
+        test('resets all the filters', async () => {
           const { performSearchMock, onChangeMock } = setupData;
           expect(performSearchMock).toHaveBeenCalledWith(
             expect.objectContaining({
@@ -200,6 +276,7 @@ describe('SearchFacetsComponent', () => {
           );
           // test exposed onChange function for clear all
           expect(onChangeMock).toHaveBeenCalled();
+          await wait(); // wait for component to finish rendering (prevent "act" warning)
         });
       });
     });
@@ -207,15 +284,19 @@ describe('SearchFacetsComponent', () => {
     describe('when there are collection facets', () => {
       describe('and some collections are preselected', () => {
         let setupData: Setup;
-        beforeEach(() => {
-          setupData = setup('', true, undefined, undefined, ['machine-learning']);
+
+        beforeEach(async () => {
+          setupData = setup({ showCollections: true, collectionIds: ['machine-learning'] });
+          await wait(); // wait for component to finish rendering (prevent "act" warning)
         });
+
         test('does show the root clear all button on load', () => {
           const { searchFacetsComponent } = setupData;
           fireEvent.click(searchFacetsComponent.getByText('Available collections'));
           expect(searchFacetsComponent.getByLabelText('Machine Learning')['checked']).toEqual(true);
           expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(1);
         });
+
         describe('and the clear all button is clicked', () => {
           test('collection is deselected and clear all button is no longer shown', () => {
             const { searchFacetsComponent } = setupData;
@@ -228,15 +309,21 @@ describe('SearchFacetsComponent', () => {
           });
         });
       });
+
       describe('and no collections are preselected', () => {
         let setupData: Setup;
-        beforeEach(() => {
-          setupData = setup('', true);
+
+        beforeEach(async () => {
+          setupData = setup({ showCollections: true });
+          await wait(); // wait for component to finish rendering (prevent "act" warning)
         });
-        test('does not show the root clear all button on load', () => {
+
+        test('does not show the root clear all button on load', async () => {
           const { searchFacetsComponent } = setupData;
           expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(0);
+          await wait(); // wait for component to finish rendering (prevent "act" warning)
         });
+
         describe('and one collection is selected after load', () => {
           test('does show the root clear all button on selection', () => {
             const { searchFacetsComponent } = setupData;
@@ -247,6 +334,7 @@ describe('SearchFacetsComponent', () => {
             );
             expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(1);
           });
+
           describe('and the clear all button is clicked', () => {
             test('the collection is deselected and the clear all button is no longer shown', () => {
               const { searchFacetsComponent } = setupData;
@@ -260,6 +348,7 @@ describe('SearchFacetsComponent', () => {
             });
           });
         });
+
         describe('and multiple collections are selected after load', () => {
           test('does show the root clear all button on selection', () => {
             const { searchFacetsComponent } = setupData;
@@ -272,6 +361,7 @@ describe('SearchFacetsComponent', () => {
             expect(searchFacetsComponent.getByLabelText('AI Strategy')['checked']).toEqual(true);
             expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(1);
           });
+
           describe('and the clear all button is clicked', () => {
             test('all collections are deselected and the clear all button is no longer shown', () => {
               const { searchFacetsComponent } = setupData;
@@ -304,7 +394,7 @@ describe('SearchFacetsComponent', () => {
       ]
     };
     describe('when no messages are provided', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         result = render(
           wrapWithContext(
             <SearchFacets />,
@@ -321,6 +411,7 @@ describe('SearchFacetsComponent', () => {
             }
           )
         );
+        await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
 
       test('uses default messages', () => {
@@ -330,7 +421,7 @@ describe('SearchFacetsComponent', () => {
     });
 
     describe('when a message is overridden', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         result = render(
           wrapWithContext(
             <SearchFacets messages={{ clearAllButtonText: 'different text' }} />,
@@ -347,6 +438,7 @@ describe('SearchFacetsComponent', () => {
             }
           )
         );
+        await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
 
       test('only overrides provided messages and uses defaults for the rest', () => {

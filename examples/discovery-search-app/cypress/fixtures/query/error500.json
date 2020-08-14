@@ -1,0 +1,9 @@
+{
+  "status_code": 500,
+  "errors": [
+    {
+      "code": "discovery_error",
+      "message": "Query failed. Please try again."
+    }
+  ]
+}

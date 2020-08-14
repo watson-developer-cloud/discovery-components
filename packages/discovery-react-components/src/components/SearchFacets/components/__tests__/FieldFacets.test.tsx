@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render, fireEvent, RenderResult, within } from '@testing-library/react';
+import { render, fireEvent, RenderResult, wait, within, findByText } from '@testing-library/react';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { wrapWithContext } from 'utils/testingUtils';
 import {
@@ -101,16 +101,16 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
 
 describe('FieldFacetsComponent', () => {
   describe('legend header elements', () => {
-    test('contains first facet header with author field text', () => {
+    test('contains first facet header with author field text', async () => {
       const { fieldFacetsComponent } = setup();
-      const headerAuthorField = fieldFacetsComponent.getByText('Writers');
-      expect(headerAuthorField).toBeDefined();
+      const headerAuthorField = await fieldFacetsComponent.findByText('Writers');
+      expect(headerAuthorField).toBeInTheDocument();
     });
 
-    test('contains second facet header with subject field text', () => {
+    test('contains second facet header with subject field text', async () => {
       const { fieldFacetsComponent } = setup();
-      const headerSubjectField = fieldFacetsComponent.getByText('Topics');
-      expect(headerSubjectField).toBeDefined();
+      const headerSubjectField = await fieldFacetsComponent.findByText('Topics');
+      expect(headerSubjectField).toBeInTheDocument();
     });
 
     describe('when componentSettings and aggregations are different', () => {
@@ -127,7 +127,7 @@ describe('FieldFacetsComponent', () => {
         ]
       };
       const termAgg2 = { ...termAgg, name: 'two' };
-      beforeEach(() => {
+      beforeEach(async () => {
         setupResult = setup({
           aggregationResults: [termAgg2, termAgg],
           componentSettingsAggregations: [
@@ -141,6 +141,7 @@ describe('FieldFacetsComponent', () => {
             }
           ]
         });
+        await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
 
       test('should match labels by name', () => {
@@ -157,45 +158,45 @@ describe('FieldFacetsComponent', () => {
   });
 
   describe('checkbox elements', () => {
-    test('contains first facet checkboxes with correct labels', () => {
+    test('contains first facet checkboxes with correct labels', async () => {
       const { fieldFacetsComponent } = setup();
-      const ABMNStaffCheckbox = fieldFacetsComponent.getByLabelText('ABMN Staff (138993)');
+      const ABMNStaffCheckbox = await fieldFacetsComponent.findByLabelText('ABMN Staff (138993)');
       const newsStaffCheckbox = fieldFacetsComponent.getByLabelText('News Staff (57158)');
       const editorCheckbox = fieldFacetsComponent.getByLabelText('editor (32444)');
-      expect(ABMNStaffCheckbox).toBeDefined();
-      expect(newsStaffCheckbox).toBeDefined();
-      expect(editorCheckbox).toBeDefined();
+      expect(ABMNStaffCheckbox).toBeInTheDocument();
+      expect(newsStaffCheckbox).toBeInTheDocument();
+      expect(editorCheckbox).toBeInTheDocument();
     });
 
-    test('contains second facet checkboxes with correct labels', () => {
+    test('contains second facet checkboxes with correct labels', async () => {
       const { fieldFacetsComponent } = setup();
-      const animalsCheckbox = fieldFacetsComponent.getByLabelText('Animals (138993)');
+      const animalsCheckbox = await fieldFacetsComponent.findByLabelText('Animals (138993)');
       const peopleCheckbox = fieldFacetsComponent.getByLabelText('People (133760)');
       const placesCheckbox = fieldFacetsComponent.getByLabelText('Places (129139)');
       const thingsCheckbox = fieldFacetsComponent.getByLabelText('Things (76403)');
-      expect(animalsCheckbox).toBeDefined();
-      expect(peopleCheckbox).toBeDefined();
-      expect(placesCheckbox).toBeDefined();
-      expect(thingsCheckbox).toBeDefined();
+      expect(animalsCheckbox).toBeInTheDocument();
+      expect(peopleCheckbox).toBeInTheDocument();
+      expect(placesCheckbox).toBeInTheDocument();
+      expect(thingsCheckbox).toBeInTheDocument();
     });
 
-    test('checkboxes are unchecked when initially rendered', () => {
+    test('checkboxes are unchecked when initially rendered', async () => {
       const { fieldFacetsComponent } = setup();
-      const animalsCheckbox = fieldFacetsComponent.getByLabelText('Animals (138993)');
+      const animalsCheckbox = await fieldFacetsComponent.findByLabelText('Animals (138993)');
       expect(animalsCheckbox['checked']).toEqual(false);
     });
 
-    test('checkboxes are checked when set in filter query', () => {
+    test('checkboxes are checked when set in filter query', async () => {
       const { fieldFacetsComponent } = setup({ filter: 'subject:Animals' });
-      const animalsCheckbox = fieldFacetsComponent.getByLabelText('Animals (138993)');
+      const animalsCheckbox = await fieldFacetsComponent.findByLabelText('Animals (138993)');
       expect(animalsCheckbox['checked']).toEqual(true);
     });
   });
 
   describe('checkboxes apply filters', () => {
-    test('it adds correct filter when one checkbox within single facet is checked', () => {
+    test('it adds correct filter when one checkbox within single facet is checked', async () => {
       const { fieldFacetsComponent, performSearchMock, onChangeMock } = setup();
-      const animalsCheckbox = fieldFacetsComponent.getByLabelText('Animals (138993)');
+      const animalsCheckbox = await fieldFacetsComponent.findByLabelText('Animals (138993)');
       performSearchMock.mockReset();
       fireEvent.click(animalsCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);
@@ -209,11 +210,11 @@ describe('FieldFacetsComponent', () => {
       expect(onChangeMock).toBeCalled();
     });
 
-    test('it adds correct filter when aggregation contains `|`', () => {
+    test('it adds correct filter when aggregation contains `|`', async () => {
       const { fieldFacetsComponent, performSearchMock, onChangeMock } = setup({
         collapsedFacetsCount: 10
       });
-      const animalsCheckbox = fieldFacetsComponent.getByLabelText('This | that (2727)');
+      const animalsCheckbox = await fieldFacetsComponent.findByLabelText('This | that (2727)');
       performSearchMock.mockReset();
       fireEvent.click(animalsCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);
@@ -226,11 +227,11 @@ describe('FieldFacetsComponent', () => {
       expect(onChangeMock).toBeCalled();
     });
 
-    test('it adds correct filter when aggregation contains `,`', () => {
+    test('it adds correct filter when aggregation contains `,`', async () => {
       const { fieldFacetsComponent, performSearchMock, onChangeMock } = setup({
         collapsedFacetsCount: 10
       });
-      const animalsCheckbox = fieldFacetsComponent.getByLabelText('hey, you (8282)');
+      const animalsCheckbox = await fieldFacetsComponent.findByLabelText('hey, you (8282)');
       performSearchMock.mockReset();
       fireEvent.click(animalsCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);
@@ -243,11 +244,11 @@ describe('FieldFacetsComponent', () => {
       expect(onChangeMock).toBeCalled();
     });
 
-    test('it adds correct filter when aggregation contains `:`', () => {
+    test('it adds correct filter when aggregation contains `:`', async () => {
       const { fieldFacetsComponent, performSearchMock, onChangeMock } = setup({
         collapsedFacetsCount: 10
       });
-      const animalsCheckbox = fieldFacetsComponent.getByLabelText('something: else (18111)');
+      const animalsCheckbox = await fieldFacetsComponent.findByLabelText('something: else (18111)');
       performSearchMock.mockReset();
       fireEvent.click(animalsCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);
@@ -260,11 +261,11 @@ describe('FieldFacetsComponent', () => {
       expect(onChangeMock).toBeCalled();
     });
 
-    test('it adds correct filters when second checkbox within single facet is checked', () => {
+    test('it adds correct filters when second checkbox within single facet is checked', async () => {
       const { fieldFacetsComponent, performSearchMock, onChangeMock } = setup({
         filter: 'subject:Animals'
       });
-      const peopleCheckbox = fieldFacetsComponent.getByLabelText('People (133760)');
+      const peopleCheckbox = await fieldFacetsComponent.findByLabelText('People (133760)');
       performSearchMock.mockReset();
       fireEvent.click(peopleCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);
@@ -277,11 +278,11 @@ describe('FieldFacetsComponent', () => {
       expect(onChangeMock).toBeCalled();
     });
 
-    test('it adds correct filter when checkboxes from multiple facets are checked', () => {
+    test('it adds correct filter when checkboxes from multiple facets are checked', async () => {
       const { fieldFacetsComponent, performSearchMock, onChangeMock } = setup({
         filter: 'subject:"Animals"'
       });
-      const newsStaffCheckbox = fieldFacetsComponent.getByLabelText('News Staff (57158)');
+      const newsStaffCheckbox = await fieldFacetsComponent.findByLabelText('News Staff (57158)');
       performSearchMock.mockReset();
       fireEvent.click(newsStaffCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);
@@ -294,7 +295,7 @@ describe('FieldFacetsComponent', () => {
       expect(onChangeMock).toBeCalled();
     });
 
-    test('maintains the same order of checkboxes before and after selection', () => {
+    test('maintains the same order of checkboxes before and after selection', async () => {
       const { fieldFacetsComponent, onChangeMock } = setup();
       const expectedLabels = [
         'ABMN Staff (138993)',
@@ -306,6 +307,8 @@ describe('FieldFacetsComponent', () => {
         'Things (76403)',
         'This | that (2727)'
       ];
+      await fieldFacetsComponent.findByLabelText(expectedLabels[0]);
+
       const beforeLabels = [].slice.call(fieldFacetsComponent.container.querySelectorAll('label'));
       expect(beforeLabels.map((label: HTMLLabelElement) => label.textContent)).toEqual(
         expectedLabels
@@ -340,8 +343,9 @@ describe('FieldFacetsComponent', () => {
       };
       const termAgg2 = { ...termAgg, name: 'second' };
 
-      beforeEach(() => {
+      beforeEach(async () => {
         setupResult = setup({ aggregationResults: [termAgg, termAgg2], filter: 'foo:two' });
+        await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
 
       test('should only deselect one of the two', () => {
@@ -360,7 +364,7 @@ describe('FieldFacetsComponent', () => {
 
   describe('when component aggregations are different from aggregations on the same field', () => {
     let setupResult: Setup;
-    beforeEach(() => {
+    beforeEach(async () => {
       const componentSettingsAggregations = [
         {
           name: 'blah',
@@ -400,6 +404,7 @@ describe('FieldFacetsComponent', () => {
       ];
       const filter = 'foo:"hi"';
       setupResult = setup({ componentSettingsAggregations, aggregationResults, filter });
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
     });
 
     test('should only select one of the two', () => {
@@ -412,9 +417,9 @@ describe('FieldFacetsComponent', () => {
   });
 
   describe('checkboxes remove filters', () => {
-    test('it removes correct filter when checkbox within single facet is unchecked', () => {
+    test('it removes correct filter when checkbox within single facet is unchecked', async () => {
       const { fieldFacetsComponent, performSearchMock } = setup({ filter: 'subject:Animals' });
-      const animalsCheckbox = fieldFacetsComponent.getByLabelText('Animals (138993)');
+      const animalsCheckbox = await fieldFacetsComponent.findByLabelText('Animals (138993)');
       performSearchMock.mockReset();
       fireEvent.click(animalsCheckbox);
       expect(performSearchMock).toBeCalledTimes(1);
@@ -432,8 +437,9 @@ describe('FieldFacetsComponent', () => {
     let setupData: Setup;
 
     describe('when no selections are made', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         setupData = setup();
+        await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
 
       test('the clear button does not appear', () => {
@@ -443,8 +449,9 @@ describe('FieldFacetsComponent', () => {
     });
 
     describe('when 1 selection is made', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         setupData = setup({ filter: 'author:"ABMN Staff"' });
+        await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
 
       test('the clear button appears once', () => {
@@ -473,8 +480,9 @@ describe('FieldFacetsComponent', () => {
     });
 
     describe('when 2 selections are made in the same category', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         setupData = setup({ filter: 'author:"ABMN Staff"|"News Staff"' });
+        await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
 
       test('the clear button appears once', () => {
@@ -503,8 +511,9 @@ describe('FieldFacetsComponent', () => {
     });
 
     describe('when 2 selections are made in different categories', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         setupData = setup({ filter: 'author:"ABMN Staff",subject:"Animals"' });
+        await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
 
       test('the clear button appears twice', () => {
@@ -534,21 +543,21 @@ describe('FieldFacetsComponent', () => {
   });
 
   describe('when multiple_selections_allowed is false', () => {
-    test('radiobuttons are selected when set in filter query', () => {
+    test('radiobuttons are selected when set in filter query', async () => {
       const { fieldFacetsComponent } = setup({
         filter: 'subject:Animals',
         componentSettingsAggregations: updateSelectionSettings(['subject_id'])
       });
-      const animalRadioButton = fieldFacetsComponent.getAllByLabelText('Animals (138993)');
+      const animalRadioButton = await fieldFacetsComponent.findAllByLabelText('Animals (138993)');
       expect(animalRadioButton[0]['checked']).toEqual(true);
     });
 
-    test('it only allows one element selected at a time', () => {
+    test('it only allows one element selected at a time', async () => {
       const { fieldFacetsComponent, performSearchMock } = setup({
         componentSettingsAggregations: updateSelectionSettings(['subject_id'])
       });
       //Carbon uses a Label element that also has @aria-label, which matches twice
-      const animalRadioButton = fieldFacetsComponent.getAllByLabelText('Animals (138993)');
+      const animalRadioButton = await fieldFacetsComponent.findAllByLabelText('Animals (138993)');
       fireEvent.click(animalRadioButton[0]);
       performSearchMock.mockReset();
       const peopleRadioButton = fieldFacetsComponent.getAllByLabelText('People (133760)');
@@ -563,12 +572,12 @@ describe('FieldFacetsComponent', () => {
       );
     });
 
-    test('it allows unselecting term', () => {
+    test('it allows unselecting term', async () => {
       const { fieldFacetsComponent, performSearchMock } = setup({
         componentSettingsAggregations: updateSelectionSettings(['subject_id'])
       });
       //Carbon uses a Label element that also has @aria-label, which matches twice
-      const animalRadioButton = fieldFacetsComponent.getAllByLabelText('Animals (138993)');
+      const animalRadioButton = await fieldFacetsComponent.findAllByLabelText('Animals (138993)');
       fireEvent.click(animalRadioButton[0]);
       performSearchMock.mockReset();
       fireEvent.click(animalRadioButton[0]);
@@ -582,12 +591,12 @@ describe('FieldFacetsComponent', () => {
       );
     });
 
-    test('it allows other fields to still be multiselect', () => {
+    test('it allows other fields to still be multiselect', async () => {
       const { fieldFacetsComponent, performSearchMock } = setup({
         componentSettingsAggregations: updateSelectionSettings(['subject_id'])
       });
       //Carbon uses a Label element that also has @aria-label, which matches twice
-      const animalRadioButton = fieldFacetsComponent.getAllByLabelText('Animals (138993)');
+      const animalRadioButton = await fieldFacetsComponent.findAllByLabelText('Animals (138993)');
       fireEvent.click(animalRadioButton[0]);
 
       const ABMNStaffCheckbox = fieldFacetsComponent.getByLabelText('ABMN Staff (138993)');
@@ -609,12 +618,12 @@ describe('FieldFacetsComponent', () => {
       );
     });
 
-    test('it handles multiple, single select fields', () => {
+    test('it handles multiple, single select fields', async () => {
       const { fieldFacetsComponent, performSearchMock } = setup({
         componentSettingsAggregations: updateSelectionSettings(['author_id', 'subject_id'])
       });
       //Carbon uses a Label element that also has @aria-label, which matches twice
-      const animalRadioButton = fieldFacetsComponent.getAllByLabelText('Animals (138993)');
+      const animalRadioButton = await fieldFacetsComponent.findAllByLabelText('Animals (138993)');
       fireEvent.click(animalRadioButton[0]);
 
       const ABMNStaffRadioButton = fieldFacetsComponent.getAllByLabelText('ABMN Staff (138993)');
@@ -639,7 +648,7 @@ describe('FieldFacetsComponent', () => {
 
   describe('with categories', () => {
     let setupResult: Setup;
-    beforeEach(() => {
+    beforeEach(async () => {
       setupResult = setup({
         aggregationResults: facetsQueryResponse.result.aggregations,
         componentSettingsAggregations: [
@@ -665,6 +674,7 @@ describe('FieldFacetsComponent', () => {
           }
         ]
       });
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
     });
 
     describe('legend header elements', () => {
@@ -680,13 +690,13 @@ describe('FieldFacetsComponent', () => {
         expect(headerProducts).toBeDefined();
       });
 
-      test('nested facets with the field enriched_text.entities.text render correctly', () => {
+      test('nested facets with the field enriched_text.entities.text render correctly', async () => {
         let nestedResult: Setup;
         nestedResult = setup({
           aggregationResults: nestedFacetQueryResponse.result.aggregations
         });
         const { fieldFacetsComponent } = nestedResult;
-        const headerEnrichedEntities = fieldFacetsComponent.getByText(
+        const headerEnrichedEntities = await fieldFacetsComponent.findByText(
           'enriched_text.entities.text'
         );
         expect(headerEnrichedEntities).toBeDefined();

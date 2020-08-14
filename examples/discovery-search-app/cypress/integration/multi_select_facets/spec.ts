@@ -63,7 +63,6 @@ describe('Multi-Select Facets', () => {
 
       it('makes a query for the right facets', () => {
         cy.get('@amesFilterQueryObject')
-          //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
           .its('requestBody.filter')
           .should('eq', 'location:"Ames, IA"');
       });
@@ -87,7 +86,6 @@ describe('Multi-Select Facets', () => {
 
         it('makes a query for both filters in the facet', () => {
           cy.get('@multiFilterQueryObject')
-            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.filter')
             .should('eq', 'location:"Pittsburgh, PA"|"Ames, IA"');
         });
@@ -110,7 +108,6 @@ describe('Multi-Select Facets', () => {
 
         it('makes a query without any selected facets', () => {
           cy.get('@clearedFacetsQueryObject')
-            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.filter')
             .should('eq', '');
         });
@@ -133,7 +130,6 @@ describe('Multi-Select Facets', () => {
 
         it('makes a query without any selected facets', () => {
           cy.get('@clearedFacetsQueryObject')
-            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.filter')
             .should('eq', '');
         });
@@ -152,7 +148,6 @@ describe('Multi-Select Facets', () => {
 
         it('makes a query with both filters', () => {
           cy.get('@combinedFacetQueryObject')
-            //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
             .its('requestBody.filter')
             .should('eq', 'location:"Ames, IA",price:"Low"');
         });
@@ -170,7 +165,6 @@ describe('Multi-Select Facets', () => {
 
           it('has the filters from only that facet clear', () => {
             cy.get('@amesFilterQueryObject')
-              //@ts-ignore TODO: we'll need to handle typings for `cy.its` at some point, but for now, we'll ignore the error on the parameter string
               .its('requestBody.filter')
               .should('eq', 'location:"Ames, IA"');
           });

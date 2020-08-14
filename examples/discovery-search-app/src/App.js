@@ -44,6 +44,10 @@ function AppView() {
 }
 
 function SearchPage() {
+  const {
+    searchResponseStore: { isError }
+  } = useContext(SearchContext);
+
   return (
     <main>
       <div className="root">
@@ -72,7 +76,7 @@ function SearchPage() {
             <div
               className={`${settings.prefix}--col-md-6 ${settings.prefix}--search-app__facets-and-results__results`}
             >
-              <SearchResults />
+              {!isError ? <SearchResults /> : <p>An error occurred during search.</p>}
             </div>
           </div>
         </div>

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react';
 import { render, fireEvent, RenderResult } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
 import {
   SearchContextIFC,
   searchResponseStoreDefaults,
