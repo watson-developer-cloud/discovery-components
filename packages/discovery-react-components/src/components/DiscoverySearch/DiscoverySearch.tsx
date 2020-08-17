@@ -343,12 +343,20 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
 
   useEffect(() => {
     async function fetchCollections(): Promise<void> {
-      const { result } = await searchClient.listCollections({ projectId });
-      setCollectionsResults(result);
+      try {
+        const { result } = await searchClient.listCollections({ projectId });
+        setCollectionsResults(result);
+      } catch (err) {
+        console.error('Error fetching collections', err);
+      }
     }
     async function getComponentSettings(): Promise<void> {
-      const { result } = await searchClient.getComponentSettings({ projectId });
-      setComponentSettings(result);
+      try {
+        const { result } = await searchClient.getComponentSettings({ projectId });
+        setComponentSettings(result);
+      } catch (err) {
+        console.error('Error fetching component settings', err);
+      }
     }
     fetchCollections();
     getComponentSettings();
