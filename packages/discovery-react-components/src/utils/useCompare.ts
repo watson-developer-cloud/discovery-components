@@ -1,5 +1,5 @@
 import isEqual from 'lodash/isEqual';
-import usePrevious from './usePrevioius';
+import usePrevious from './usePrevious';
 
 export const useCompare = (val: any) => {
   const prevVal = usePrevious(val);

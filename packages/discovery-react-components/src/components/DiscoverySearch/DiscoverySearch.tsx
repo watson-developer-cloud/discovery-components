@@ -270,21 +270,22 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       // don't use the search response if filter is set, just do another search
       if (resetAggregations && searchParameters.filter !== '') {
         aggregationsFetched = true;
-        searchClient
-          .query({ ...searchParameters, ...aggregationQueryDefaults, filter: '' })
-          .then(async response => {
-            if (response && response.result && response.result.aggregations) {
-              if (isQueryAggregationWithName(response.result.aggregations)) {
-                const updatedAggregations = await fetchTypeForTopEntitiesAggregation(
-                  response.result.aggregations,
-                  searchParameters
-                );
-                setAggregationResults(updatedAggregations || null);
-              } else {
-                setAggregationResults(response.result.aggregations);
-              }
-            }
-          });
+        const response = await searchClient.query({
+          ...searchParameters,
+          ...aggregationQueryDefaults,
+          filter: ''
+        });
+        if (response && response.result && response.result.aggregations) {
+          if (isQueryAggregationWithName(response.result.aggregations)) {
+            const updatedAggregations = await fetchTypeForTopEntitiesAggregation(
+              response.result.aggregations,
+              searchParameters
+            );
+            setAggregationResults(updatedAggregations || null);
+          } else {
+            setAggregationResults(response.result.aggregations);
+          }
+        }
       }
 
       performSearch(async result => {
@@ -342,12 +343,20 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
 
   useEffect(() => {
     async function fetchCollections(): Promise<void> {
-      const { result } = await searchClient.listCollections({ projectId });
-      setCollectionsResults(result);
+      try {
+        const { result } = await searchClient.listCollections({ projectId });
+        setCollectionsResults(result);
+      } catch (err) {
+        console.error('Error fetching collections', err);
+      }
     }
     async function getComponentSettings(): Promise<void> {
-      const { result } = await searchClient.getComponentSettings({ projectId });
-      setComponentSettings(result);
+      try {
+        const { result } = await searchClient.getComponentSettings({ projectId });
+        setComponentSettings(result);
+      } catch (err) {
+        console.error('Error fetching component settings', err);
+      }
     }
     fetchCollections();
     getComponentSettings();
