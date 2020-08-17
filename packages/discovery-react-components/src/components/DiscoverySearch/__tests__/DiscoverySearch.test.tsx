@@ -260,8 +260,8 @@ describe('DiscoverySearch', () => {
       const spy = jest.spyOn(searchClient, 'query');
       expect(spy).not.toHaveBeenCalled();
       fireEvent.click(getByText('Action'));
-      expect(spy).toHaveBeenCalledTimes(2);
       await wait(); // wait for component to finish rendering (prevent "act" warning)
+      expect(spy).toHaveBeenCalledTimes(2);
     });
 
     it('can call fetchDocuments', async () => {
