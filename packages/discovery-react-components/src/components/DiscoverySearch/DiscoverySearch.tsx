@@ -270,21 +270,22 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       // don't use the search response if filter is set, just do another search
       if (resetAggregations && searchParameters.filter !== '') {
         aggregationsFetched = true;
-        searchClient
-          .query({ ...searchParameters, ...aggregationQueryDefaults, filter: '' })
-          .then(async response => {
-            if (response && response.result && response.result.aggregations) {
-              if (isQueryAggregationWithName(response.result.aggregations)) {
-                const updatedAggregations = await fetchTypeForTopEntitiesAggregation(
-                  response.result.aggregations,
-                  searchParameters
-                );
-                setAggregationResults(updatedAggregations || null);
-              } else {
-                setAggregationResults(response.result.aggregations);
-              }
-            }
-          });
+        const response = await searchClient.query({
+          ...searchParameters,
+          ...aggregationQueryDefaults,
+          filter: ''
+        });
+        if (response && response.result && response.result.aggregations) {
+          if (isQueryAggregationWithName(response.result.aggregations)) {
+            const updatedAggregations = await fetchTypeForTopEntitiesAggregation(
+              response.result.aggregations,
+              searchParameters
+            );
+            setAggregationResults(updatedAggregations || null);
+          } else {
+            setAggregationResults(response.result.aggregations);
+          }
+        }
       }
 
       performSearch(async result => {
