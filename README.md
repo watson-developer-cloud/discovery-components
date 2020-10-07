@@ -10,6 +10,7 @@
 
 <!-- toc -->
 
+- [Using Discovery Components](#using-discovery-components)
 - [Prerequisites](#prerequisites)
 - [Running the example app](#running-the-example-app)
   * [Setup script](#setup-script)
@@ -37,6 +38,10 @@
 - [Contributors](#contributors)
 
 <!-- tocstop -->
+
+## Using Discovery Components
+
+First, customize and improve your project on the [Improve and Customize page](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-improve) in IBM Watson Discovery. Then, you can build your application using Discovery Components, and it will pull in your configuration.
 
 ## Prerequisites
 
