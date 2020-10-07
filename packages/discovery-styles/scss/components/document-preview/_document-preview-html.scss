@@ -12,7 +12,10 @@
   .field--rect {
     position: absolute;
     background-color: $highlight;
-    // TODO why is z-index necessary?
-    z-index: -1;
   }
+}
+
+.#{$prefix}--html__content {
+  // needed so that absolutely positioned `.field--rect`s render underneath text
+  position: relative;
 }
