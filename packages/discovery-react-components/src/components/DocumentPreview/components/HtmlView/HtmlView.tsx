@@ -41,7 +41,7 @@ const SANITIZE_CONFIG = {
   WHOLE_DOCUMENT: true
 };
 
-const base = `${settings.prefix}--html`;
+const baseClassName = `${settings.prefix}--html`;
 
 export const HtmlView: FC<Props> = ({
   document,
@@ -91,10 +91,9 @@ export const HtmlView: FC<Props> = ({
 
           // set sanitized HTML (removing scripts, etc)
           setHtml(`
-          <div>
             <style>${processedDoc.styles}</style>
             ${DOMPurify.sanitize(fullHtml, SANITIZE_CONFIG)}
-          </div>`);
+          `);
           setLoading(false);
         };
         process();
@@ -171,10 +170,11 @@ export const HtmlView: FC<Props> = ({
   }, [highlight, html, highlightLocations]);
 
   return (
-    <div className={base}>
+    <div className={baseClassName}>
       <div ref={highlightRef} />
       {html && (
         <div
+          className={`${baseClassName}__content`}
           dangerouslySetInnerHTML={{
             __html: html
           }}

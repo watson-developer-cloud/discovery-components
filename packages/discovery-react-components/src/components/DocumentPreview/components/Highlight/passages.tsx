@@ -37,7 +37,7 @@ export function getPassagePageInfo(
 ): ReadonlyArray<CellPage> | null {
   const { start_offset, end_offset, field } = passage;
 
-  if (!start_offset || !end_offset) {
+  if (typeof start_offset !== 'number' || typeof end_offset !== 'number') {
     return null;
   }
 

@@ -8,8 +8,7 @@ $icon-size: 80px;
 
   .field--rect {
     position: absolute;
-    background-color: $disco-highlight-background-with-opacity;
-    opacity: $disco-highlight-background-opacity;
+    background-color: $highlight;
   }
 }
 
@@ -21,6 +20,8 @@ $icon-size: 80px;
 
 .#{$prefix}--simple-document__content {
   max-width: 78ch;
+  // needed so that absolutely positioned `.field--rect`s render underneath text
+  position: relative;
 }
 
 .#{$prefix}--simple-document__error-view {
