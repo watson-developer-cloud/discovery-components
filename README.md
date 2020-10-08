@@ -10,6 +10,7 @@
 
 <!-- toc -->
 
+- [Using Discovery Components](#using-discovery-components)
 - [Prerequisites](#prerequisites)
 - [Running the example app](#running-the-example-app)
   * [Setup script](#setup-script)
@@ -37,6 +38,10 @@
 - [Contributors](#contributors)
 
 <!-- tocstop -->
+
+## Using Discovery Components
+
+First, you will need to customize and improve your document retrieval project on the [Improve and Customize page](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-improve) in IBM Watson Discovery. For example, you can [configure facets](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-facets), as well as the search bar and search results for your project. Then, you can build your application using Discovery Components, and it will pull in your specified project's configuration.
 
 ## Prerequisites
 
