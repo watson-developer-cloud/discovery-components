@@ -15,8 +15,8 @@
 }
 
 .#{$prefix}--preview-toolbar__button {
-  padding-left: $spacing-xs !important;
-  padding-right: $spacing-xs !important;
+  padding-left: $spacing-03 !important;
+  padding-right: $spacing-03 !important;
 }
 
 .#{$prefix}--preview-toolbar__input {
@@ -39,8 +39,8 @@ input[type='number'] {
 
 .#{$prefix}--preview-toolbar__pageLabel {
   margin: auto;
-  padding-left: $spacing-xs;
-  padding-right: $spacing-xs;
+  padding-left: $spacing-03;
+  padding-right: $spacing-03;
 }
 
 .#{$prefix}--preview-toolbar__spacer,

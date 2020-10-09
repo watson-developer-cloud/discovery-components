@@ -9,7 +9,7 @@
     padding-right: $spacing-md;
 
     .#{$prefix}--search {
-      padding-top: $spacing-xs;
+      padding-top: $spacing-03;
     }
   }
 
@@ -24,14 +24,14 @@
       @include type-style('body-short-02');
       font-size: 0.875rem;
     }
-    margin-bottom: $spacing-xs;
+    margin-bottom: $spacing-03;
     padding-left: $spacing-baseline;
   }
   .#{$prefix}--search-facet__category--expand-collapse {
     background-color: $ui-01;
     color: $ui-05;
     height: $spacing-lg;
-    margin-bottom: $spacing-xs;
+    margin-bottom: $spacing-03;
     min-height: $spacing-lg;
     padding: 0px;
     transition: none;
@@ -64,7 +64,7 @@
   height: 1.5rem;
 
   .#{$prefix}--list-box__selection {
-    margin-left: $spacing-xs;
+    margin-left: $spacing-03;
   }
 }
 

@@ -44,7 +44,7 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   padding: 0;
 
   .#{$prefix}--btn--ghost.#{$prefix}--btn--sm {
-    padding-left: $spacing-xs;
+    padding-left: $spacing-03;
   }
 }
 
@@ -58,7 +58,7 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
 }
 
 .#{$prefix}--toggle__switch {
-  margin: $spacing-xs $spacing-2xl $spacing-xs $spacing-xs;
+  margin: $spacing-03 $spacing-2xl $spacing-03 $spacing-03;
 }
 
 .#{$prefix}--toggle-input__label {
@@ -139,7 +139,7 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   }
   th,
   td {
-    padding: $spacing-xs;
+    padding: $spacing-03;
   }
 }
 
@@ -150,7 +150,7 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   padding: 0;
   span {
     flex-grow: 2;
-    padding-left: $spacing-xs;
+    padding-left: $spacing-03;
   }
 
   .#{$prefix}--btn__icon {
