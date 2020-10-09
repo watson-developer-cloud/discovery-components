@@ -25,12 +25,12 @@
       font-weight: bold;
       color: $text-02;
       line-height: 1rem;
-      margin-bottom: $spacing-2xs;
+      margin-bottom: $spacing-02;
     }
 
     li {
       &:not(:first-child) {
-        margin-top: $spacing-2xs;
+        margin-top: $spacing-02;
       }
 
       a,
