@@ -9,7 +9,7 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
 }
 
 .#{$prefix}--search-result--loading {
-  padding: $spacing-lg;
+  padding: $spacing-06;
 
   .#{$prefix}--skeleton__text {
     height: $spacing-04;
@@ -176,7 +176,7 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  margin-right: $spacing-lg;
+  margin-right: $spacing-06;
 }
 
 .#{$prefix}--search-result__footer__collection-name {
