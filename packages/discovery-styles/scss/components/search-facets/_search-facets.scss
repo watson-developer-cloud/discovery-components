@@ -6,7 +6,7 @@
 
 .#{$prefix}--search-facet__facet__show-more-modal {
   .#{$prefix}--modal-header {
-    padding-right: $spacing-md;
+    padding-right: $spacing-05;
 
     .#{$prefix}--search {
       padding-top: $spacing-03;
@@ -44,7 +44,7 @@
 }
 
 .#{$prefix}--search-facet {
-  margin-bottom: $spacing-md;
+  margin-bottom: $spacing-05;
   word-break: break-word;
 
   // To prevent tags text from breaking inside of search facet

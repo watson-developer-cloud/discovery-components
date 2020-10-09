@@ -22,14 +22,14 @@
 
 .#{$prefix}--structured-query__rules {
   display: flex;
-  padding: $spacing-md;
+  padding: $spacing-05;
 
   .#{$prefix}--label {
     @include type-style('productive-heading-01');
   }
 
   .#{$prefix}--list-box__wrapper {
-    padding-right: $spacing-md;
+    padding-right: $spacing-05;
   }
 
   .#{$prefix}--form-item {
@@ -62,7 +62,7 @@
   display: flex;
 
   .#{$prefix}--snippet-container {
-    padding-right: $spacing-md;
+    padding-right: $spacing-05;
   }
 
   button {

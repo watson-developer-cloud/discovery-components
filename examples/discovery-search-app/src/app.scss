@@ -40,11 +40,11 @@ h1 {
 
 .#{$prefix}--search-app__facets-and-results {
   justify-content: space-between;
-  padding: $spacing-md;
+  padding: $spacing-05;
 
   .#{$prefix}--search-facet__facet__show-more-modal {
     .#{$prefix}--btn {
-      padding-left: $spacing-md;
+      padding-left: $spacing-05;
     }
   }
 

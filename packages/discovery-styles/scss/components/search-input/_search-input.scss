@@ -25,7 +25,7 @@
 .#{$prefix}--search-autocompletion__item {
   align-items: center;
   display: flex;
-  padding: 0 $spacing-md;
+  padding: 0 $spacing-05;
 
   &:focus {
     border: none;
@@ -39,7 +39,7 @@
 }
 
 .#{$prefix}--search-autocompletion__icon {
-  padding: $spacing-04 $spacing-md $spacing-03 0;
+  padding: $spacing-04 $spacing-05 $spacing-03 0;
 
   svg {
     fill: $interactive-04;
