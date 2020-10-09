@@ -35,11 +35,11 @@
 }
 
 .#{$prefix}--search-autocompletion__term {
-  padding: $spacing-sm 0 $spacing-03 0;
+  padding: $spacing-04 0 $spacing-03 0;
 }
 
 .#{$prefix}--search-autocompletion__icon {
-  padding: $spacing-sm $spacing-md $spacing-03 0;
+  padding: $spacing-04 $spacing-md $spacing-03 0;
 
   svg {
     fill: $interactive-04;

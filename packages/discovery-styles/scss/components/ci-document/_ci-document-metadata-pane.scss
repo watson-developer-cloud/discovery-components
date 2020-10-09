@@ -1,6 +1,6 @@
 .#{$prefix}--ci-doc-metadata {
   .section {
-    padding: $spacing-sm $spacing-lg;
+    padding: $spacing-04 $spacing-lg;
 
     &:first-child {
       padding-top: $spacing-lg;
@@ -17,7 +17,7 @@
 
   .group {
     &:not(:first-child) {
-      margin-top: $spacing-sm;
+      margin-top: $spacing-04;
     }
 
     .group-title {

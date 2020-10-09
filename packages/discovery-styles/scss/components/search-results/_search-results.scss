@@ -12,7 +12,7 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   padding: $spacing-lg;
 
   .#{$prefix}--skeleton__text {
-    height: $spacing-sm;
+    height: $spacing-04;
 
     &:last-child {
       margin-bottom: 0;
@@ -166,7 +166,7 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   border-top: 1px solid $ui-03;
   padding-top: $spacing-05;
   color: $gray-60;
-  font-size: $spacing-sm;
+  font-size: $spacing-04;
   display: flex;
   justify-content: space-between;
 }

@@ -18,7 +18,7 @@ h1 {
   color: white;
   display: flex;
   justify-content: space-between;
-  padding: $spacing-sm;
+  padding: $spacing-04;
 
   p {
     @include type-style('productive-heading-01');
