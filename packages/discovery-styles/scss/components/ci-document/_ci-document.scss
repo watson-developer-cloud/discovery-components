@@ -8,14 +8,14 @@
     width: 100%;
     flex: 0 0 auto;
     display: flex;
-    height: $spacing-3xl;
-    min-height: $spacing-3xl;
+    height: $spacing-09;
+    min-height: $spacing-09;
     align-items: center;
     justify-content: space-between;
     background-color: $ui-01;
 
     .#{$prefix}--ci-doc__title {
-      padding: 0 $spacing-md;
+      padding: 0 $spacing-05;
       font-size: 1.2em;
       line-height: 2;
       display: inline-block;
@@ -90,5 +90,5 @@
 
 .#{$prefix}--ci-doc__docError {
   text-align: center;
-  margin: $spacing-2xl;
+  margin: $spacing-08;
 }

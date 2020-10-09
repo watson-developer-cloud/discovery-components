@@ -36,12 +36,12 @@ $icon-size: 80px;
   display: inline-block;
   width: $icon-size;
   height: $icon-size;
-  margin-right: $spacing-lg;
+  margin-right: $spacing-06;
 }
 
 .#{$prefix}--simple-document__error-view__header {
   font-size: 1.25rem;
-  padding-bottom: $spacing-sm;
+  padding-bottom: $spacing-04;
   color: $gray-100;
 }
 

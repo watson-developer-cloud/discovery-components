@@ -1,15 +1,15 @@
 .#{$prefix}--search-facets__button-clear-all {
   .#{$prefix}--btn__icon {
-    margin-left: $spacing-2xs;
+    margin-left: $spacing-02;
   }
 }
 
 .#{$prefix}--search-facet__facet__show-more-modal {
   .#{$prefix}--modal-header {
-    padding-right: $spacing-md;
+    padding-right: $spacing-05;
 
     .#{$prefix}--search {
-      padding-top: $spacing-xs;
+      padding-top: $spacing-03;
     }
   }
 
@@ -24,15 +24,15 @@
       @include type-style('body-short-02');
       font-size: 0.875rem;
     }
-    margin-bottom: $spacing-xs;
+    margin-bottom: $spacing-03;
     padding-left: $spacing-baseline;
   }
   .#{$prefix}--search-facet__category--expand-collapse {
     background-color: $ui-01;
     color: $ui-05;
-    height: $spacing-lg;
-    margin-bottom: $spacing-xs;
-    min-height: $spacing-lg;
+    height: $spacing-06;
+    margin-bottom: $spacing-03;
+    min-height: $spacing-06;
     padding: 0px;
     transition: none;
     width: 100%;
@@ -44,7 +44,7 @@
 }
 
 .#{$prefix}--search-facet {
-  margin-bottom: $spacing-md;
+  margin-bottom: $spacing-05;
   word-break: break-word;
 
   // To prevent tags text from breaking inside of search facet
@@ -64,7 +64,7 @@
   height: 1.5rem;
 
   .#{$prefix}--list-box__selection {
-    margin-left: $spacing-xs;
+    margin-left: $spacing-03;
   }
 }
 

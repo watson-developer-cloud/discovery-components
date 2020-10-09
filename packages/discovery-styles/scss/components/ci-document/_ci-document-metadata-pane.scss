@@ -1,9 +1,9 @@
 .#{$prefix}--ci-doc-metadata {
   .section {
-    padding: $spacing-sm $spacing-lg;
+    padding: $spacing-04 $spacing-06;
 
     &:first-child {
-      padding-top: $spacing-lg;
+      padding-top: $spacing-06;
     }
 
     &:not(:first-child) {
@@ -11,13 +11,13 @@
     }
 
     &:last-child {
-      padding-bottom: $spacing-lg;
+      padding-bottom: $spacing-06;
     }
   }
 
   .group {
     &:not(:first-child) {
-      margin-top: $spacing-sm;
+      margin-top: $spacing-04;
     }
 
     .group-title {
@@ -25,12 +25,12 @@
       font-weight: bold;
       color: $text-02;
       line-height: 1rem;
-      margin-bottom: $spacing-2xs;
+      margin-bottom: $spacing-02;
     }
 
     li {
       &:not(:first-child) {
-        margin-top: $spacing-2xs;
+        margin-top: $spacing-02;
       }
 
       a,
@@ -41,7 +41,7 @@
       }
 
       svg {
-        margin-right: $spacing-xs;
+        margin-right: $spacing-03;
         cursor: help;
       }
 

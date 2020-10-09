@@ -11,23 +11,23 @@
 
   .title {
     font-weight: bold;
-    padding: $spacing-md;
+    padding: $spacing-05;
   }
 
   .nothingSelected {
-    padding-left: $spacing-md;
+    padding-left: $spacing-05;
     color: $text-02;
   }
 
   .section {
-    padding: $spacing-md;
+    padding: $spacing-05;
     border-top: 1px solid $ui-03;
   }
 
   .sectionHeader {
     font-size: 0.75rem;
     font-weight: bold;
-    margin-bottom: $spacing-sm;
+    margin-bottom: $spacing-04;
   }
 
   .selected {
@@ -39,14 +39,14 @@
   }
 
   .content {
-    margin-bottom: $spacing-xs;
+    margin-bottom: $spacing-03;
 
     &:last-child {
       margin-bottom: 0;
     }
 
     .display-name {
-      margin-bottom: $spacing-2xs;
+      margin-bottom: $spacing-02;
     }
   }
 

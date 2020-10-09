@@ -9,10 +9,10 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
 }
 
 .#{$prefix}--search-result--loading {
-  padding: $spacing-lg;
+  padding: $spacing-06;
 
   .#{$prefix}--skeleton__text {
-    height: $spacing-sm;
+    height: $spacing-04;
 
     &:last-child {
       margin-bottom: 0;
@@ -44,7 +44,7 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   padding: 0;
 
   .#{$prefix}--btn--ghost.#{$prefix}--btn--sm {
-    padding-left: $spacing-xs;
+    padding-left: $spacing-03;
   }
 }
 
@@ -58,7 +58,7 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
 }
 
 .#{$prefix}--toggle__switch {
-  margin: $spacing-xs $spacing-2xl $spacing-xs $spacing-xs;
+  margin: $spacing-03 $spacing-08 $spacing-03 $spacing-03;
 }
 
 .#{$prefix}--toggle-input__label {
@@ -88,7 +88,7 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   flex-grow: 2;
   max-height: $result-element-max-height;
   overflow: hidden;
-  padding-right: $spacing-xl;
+  padding-right: $spacing-07;
   position: relative;
 }
 
@@ -139,7 +139,7 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   }
   th,
   td {
-    padding: $spacing-xs;
+    padding: $spacing-03;
   }
 }
 
@@ -150,7 +150,7 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   padding: 0;
   span {
     flex-grow: 2;
-    padding-left: $spacing-xs;
+    padding-left: $spacing-03;
   }
 
   .#{$prefix}--btn__icon {
@@ -166,7 +166,7 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   border-top: 1px solid $ui-03;
   padding-top: $spacing-05;
   color: $gray-60;
-  font-size: $spacing-sm;
+  font-size: $spacing-04;
   display: flex;
   justify-content: space-between;
 }
@@ -176,7 +176,7 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  margin-right: $spacing-lg;
+  margin-right: $spacing-06;
 }
 
 .#{$prefix}--search-result__footer__collection-name {

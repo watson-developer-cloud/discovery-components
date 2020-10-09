@@ -3,7 +3,7 @@
   display: flex;
   justify-content: center;
   background-color: #eaeaea;
-  height: $spacing-2xl;
+  height: $spacing-08;
 }
 
 .#{$prefix}--preview-toolbar__nav {
@@ -15,14 +15,14 @@
 }
 
 .#{$prefix}--preview-toolbar__button {
-  padding-left: $spacing-xs !important;
-  padding-right: $spacing-xs !important;
+  padding-left: $spacing-03 !important;
+  padding-right: $spacing-03 !important;
 }
 
 .#{$prefix}--preview-toolbar__input {
   text-align: center;
   max-width: $layout-lg;
-  height: $spacing-xl;
+  height: $spacing-07;
 }
 
 // removes number wheel buttons from input (chrome and safari)
@@ -39,8 +39,8 @@ input[type='number'] {
 
 .#{$prefix}--preview-toolbar__pageLabel {
   margin: auto;
-  padding-left: $spacing-xs;
-  padding-right: $spacing-xs;
+  padding-left: $spacing-03;
+  padding-right: $spacing-03;
 }
 
 .#{$prefix}--preview-toolbar__spacer,
@@ -52,5 +52,5 @@ input[type='number'] {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-right: $spacing-md;
+  margin-right: $spacing-05;
 }

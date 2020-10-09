@@ -18,7 +18,7 @@ h1 {
   color: white;
   display: flex;
   justify-content: space-between;
-  padding: $spacing-sm;
+  padding: $spacing-04;
 
   p {
     @include type-style('productive-heading-01');
@@ -35,16 +35,16 @@ h1 {
   background-color: $search-app-background-color;
   max-height: 1500px;
   max-width: 1200px;
-  padding: $spacing-lg $spacing-lg 0 $spacing-lg;
+  padding: $spacing-06 $spacing-06 0 $spacing-06;
 }
 
 .#{$prefix}--search-app__facets-and-results {
   justify-content: space-between;
-  padding: $spacing-md;
+  padding: $spacing-05;
 
   .#{$prefix}--search-facet__facet__show-more-modal {
     .#{$prefix}--btn {
-      padding-left: $spacing-md;
+      padding-left: $spacing-05;
     }
   }
 
@@ -68,7 +68,7 @@ h1 {
 .#{$prefix}--search-app__facets-and-results__results {
   max-height: 100vh;
   overflow: auto;
-  padding-bottom: $spacing-2xl;
+  padding-bottom: $spacing-08;
 }
 
 .#{$prefix}--search-app__facets-and-results__facets {

@@ -17,19 +17,19 @@
 }
 
 .#{$prefix}--structured-query__rule-group--nested {
-  padding-left: $spacing-xl;
+  padding-left: $spacing-07;
 }
 
 .#{$prefix}--structured-query__rules {
   display: flex;
-  padding: $spacing-md;
+  padding: $spacing-05;
 
   .#{$prefix}--label {
     @include type-style('productive-heading-01');
   }
 
   .#{$prefix}--list-box__wrapper {
-    padding-right: $spacing-md;
+    padding-right: $spacing-05;
   }
 
   .#{$prefix}--form-item {
@@ -52,7 +52,7 @@
 
     svg {
       margin-left: 0;
-      margin-right: $spacing-xs;
+      margin-right: $spacing-03;
     }
   }
 }
@@ -62,7 +62,7 @@
   display: flex;
 
   .#{$prefix}--snippet-container {
-    padding-right: $spacing-md;
+    padding-right: $spacing-05;
   }
 
   button {
