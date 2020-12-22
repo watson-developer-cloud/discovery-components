@@ -1408,7 +1408,7 @@
     tunnel-agent "^0.6.0"
     uuid "^3.3.2"
 
-"@cypress/webpack-preprocessor@^5.1.2":
+"@cypress/webpack-preprocessor@^5.1.2", "@cypress/webpack-preprocessor@^5.5.0":
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/@cypress/webpack-preprocessor/-/webpack-preprocessor-5.5.0.tgz#e7010b2ee7449691cc16a9d5d1956af17ea175fd"
   integrity sha512-iqwPygSNZ1u6bM3r5QRVv6qYngkcgI2xCzi9Jmo4mrkcofwX08UaItJq7xlB2/dHbB2aryQYOsfe4xNKtQIm3A==
@@ -1660,7 +1660,7 @@
     htmlparser2 "^4.0.0"
     lodash "^4.17.15"
     mustache "^3.1.0"
-    pdfjs-dist "^2.2.228"
+    pdfjs-dist "^2.6.347"
     react-error-boundary "^1.2.5"
     react-resize-detector "^4.2.1"
     react-virtualized "^9.21.1"
@@ -14410,11 +14410,6 @@ pbkdf2@^3.0.3:
     ripemd160 "^2.0.1"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
-
-pdfjs-dist@^2.2.228:
-  version "2.5.207"
-  resolved "https://registry.yarnpkg.com/pdfjs-dist/-/pdfjs-dist-2.5.207.tgz#b5e8c19627be64269cd3fb6df3eaaf45ddffe7b6"
-  integrity sha512-xGDUhnCYPfHy+unMXCLCJtlpZaaZ17Ew3WIL0tnSgKFUZXHAPD49GO9xScyszSsQMoutNDgRb+rfBXIaX/lJbw==
 
 pdfjs-dist@^2.6.347:
   version "2.6.347"
