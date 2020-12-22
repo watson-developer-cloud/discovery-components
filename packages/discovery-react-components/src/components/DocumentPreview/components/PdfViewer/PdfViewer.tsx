@@ -1,5 +1,5 @@
 import React, { SFC, useEffect, useRef, useState } from 'react';
-import PdfjsLib from 'pdfjs-dist';
+import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist';
 import PdfjsWorkerAsText from 'pdfjs-dist/build/pdf.worker.min.js';
 import { settings } from 'carbon-components';
 
@@ -118,7 +118,7 @@ PdfViewer.defaultProps = {
 };
 
 function _loadPdf(data: string): Promise<any> {
-  return PdfjsLib.getDocument({ data }).promise;
+  return getDocument({ data }).promise;
 }
 
 function _loadPage(file: any, page: number): Promise<any> {
@@ -139,9 +139,9 @@ function setupPdfjs(): void {
   if (typeof Worker !== 'undefined') {
     const blob = new Blob([PdfjsWorkerAsText], { type: 'text/javascript' });
     const pdfjsWorker = new Worker(URL.createObjectURL(blob));
-    PdfjsLib.GlobalWorkerOptions.workerPort = pdfjsWorker;
+    GlobalWorkerOptions.workerPort = pdfjsWorker;
   } else {
-    PdfjsLib.GlobalWorkerOptions.workerSrc = PdfjsWorkerAsText;
+    GlobalWorkerOptions.workerSrc = PdfjsWorkerAsText;
   }
 }
 
