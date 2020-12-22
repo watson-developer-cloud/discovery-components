@@ -39,14 +39,16 @@ export function elementFromPointFallback(
   }
 
   // reset pointer events
-  els.forEach(el => (el.style.pointerEvents = null));
+  els.forEach(el => (el.style.pointerEvents = 'none'));
 
   return elem;
 }
 
+// @ts-expect-error function is not always defined
 const exportFn = document.elementsFromPoint
   ? elementFromPoint
-  : (document as MsDocument).msElementsFromPoint
+  : // @ts-expect-error function is not always defined
+  (document as MsDocument).msElementsFromPoint
   ? elementFromPointMs
   : elementFromPointFallback;
 export default exportFn;
