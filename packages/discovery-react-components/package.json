@@ -53,7 +53,7 @@
     "htmlparser2": "^4.0.0",
     "lodash": "^4.17.15",
     "mustache": "^3.1.0",
-    "pdfjs-dist": "^2.6.347",
+    "pdfjs-dist": "^2.2.228",
     "react-error-boundary": "^1.2.5",
     "react-resize-detector": "^4.2.1",
     "react-virtualized": "^9.21.1"
@@ -74,7 +74,6 @@
   },
   "devDependencies": {
     "css-loader": "^3.4.2",
-    "raw-loader": "^4.0.2",
     "sass-loader": "^8.0.2"
   }
 }
