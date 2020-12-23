@@ -13,6 +13,7 @@ branches:
     - /^hotfix\/.*/
 script:
   - yarn lint
+  - yarn audit
   - lerna run build
   - lerna run storybook:build
   - lerna run test
