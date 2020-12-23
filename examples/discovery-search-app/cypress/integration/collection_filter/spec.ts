@@ -34,13 +34,13 @@ describe('Collection Filter', () => {
       });
 
       it('displays a list of the collections in the project', () => {
-        cy.get('#collection-facet-select__menu')
+        cy.get('.bx--list-box__menu')
           .contains('deadspin')
           .should('exist');
-        cy.get('#collection-facet-select__menu')
+        cy.get('.bx--list-box__menu')
           .contains('espn')
           .should('exist');
-        cy.get('#collection-facet-select__menu')
+        cy.get('.bx--list-box__menu')
           .contains('finnegans wake')
           .should('exist');
       });
@@ -126,7 +126,7 @@ describe('Collection Filter', () => {
 
         it('the collection filter dropdown disappears', () => {
           cy.get('#collection-facet-select').should('exist'); // keeps a white screen from passing the test
-          cy.get('#collection-facet-select__menu').should('not.exist');
+          cy.get('.bx--list-box__menu').should('not.be.visible');
         });
       });
 
@@ -139,7 +139,7 @@ describe('Collection Filter', () => {
 
         it('the collection filter dropdown disappears', () => {
           cy.get('#collection-facet-select').should('exist'); // keeps a white screen from passing the test
-          cy.get('#collection-facet-select__menu').should('not.exist');
+          cy.get('.bx--list-box__menu').should('not.be.visible');
         });
       });
     });

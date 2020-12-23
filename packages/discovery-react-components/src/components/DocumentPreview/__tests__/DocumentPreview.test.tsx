@@ -30,7 +30,6 @@ expect.extend({
 });
 
 describe('DocumentPreview', () => {
-  let getByText: BoundFunction<GetByText>, findAllByTestId: BoundFunction<FindAllBy<any[]>>;
   const api: Partial<SearchApiIFC> = {};
   let context: Partial<SearchContextIFC> = {};
 
@@ -41,10 +40,6 @@ describe('DocumentPreview', () => {
     height: 12
   };
 
-  beforeAll(() => {
-    window.HTMLElement.prototype.scrollIntoView = jest.fn();
-  });
-
   // This is added since JSDOM does not support the getBBox function
   const originalGetBBox = (SVGElement.prototype as SVGTextElement).getBBox;
   beforeEach(() => {
@@ -52,8 +47,12 @@ describe('DocumentPreview', () => {
       return mockedBbox;
     };
     // This is added since the context needs to be reset to defaults for renders not wrappedWithContext
-    if (context.componentSettings) {
-      context.componentSettings.fields_shown!.body = undefined;
+    if (
+      context.componentSettings &&
+      context.componentSettings.fields_shown &&
+      context.componentSettings.fields_shown.body
+    ) {
+      context.componentSettings.fields_shown.body = undefined;
     }
   });
 

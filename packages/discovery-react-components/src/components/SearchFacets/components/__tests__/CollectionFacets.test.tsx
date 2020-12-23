@@ -64,8 +64,8 @@ describe('CollectionFacetsComponent', () => {
       const { collectionFacetsComponent } = setup(['machine-learning']);
       const collectionSelect = await collectionFacetsComponent.findByText('Available collections');
       fireEvent.click(collectionSelect);
-      const selectedCheckbox = collectionFacetsComponent.getByLabelText('Machine Learning');
-      expect(selectedCheckbox).toHaveProperty('checked');
+      const selectedCheckbox = collectionFacetsComponent.getByText('Machine Learning');
+      expect(selectedCheckbox).toHaveAttribute('data-contained-checkbox-state', 'true');
     });
 
     test('pre-selects collections excluded in query params', async () => {
@@ -73,7 +73,7 @@ describe('CollectionFacetsComponent', () => {
       const collectionSelect = await collectionFacetsComponent.findByText('Available collections');
       fireEvent.click(collectionSelect);
       const selectedCheckbox = collectionFacetsComponent.getByText('AI Strategy');
-      expect(selectedCheckbox).not.toHaveProperty('checked');
+      expect(selectedCheckbox).not.toHaveAttribute('data-contained-checkbox-state', 'true');
     });
   });
 
@@ -91,9 +91,7 @@ describe('CollectionFacetsComponent', () => {
       const { collectionFacetsComponent, performSearchMock } = setup();
       const collectionSelect = await collectionFacetsComponent.findByText('Available collections');
       fireEvent.click(collectionSelect);
-      const machineLearningCollection = collectionFacetsComponent.getByLabelText(
-        'Machine Learning'
-      );
+      const machineLearningCollection = collectionFacetsComponent.getByText('Machine Learning');
       fireEvent.click(machineLearningCollection);
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
@@ -102,7 +100,7 @@ describe('CollectionFacetsComponent', () => {
           collectionIds: ['machine-learning']
         })
       );
-      const aiStrategyCollection = collectionFacetsComponent.getByLabelText('AI Strategy');
+      const aiStrategyCollection = collectionFacetsComponent.getByTitle('AI Strategy');
       fireEvent.click(aiStrategyCollection);
       expect(performSearchMock).toBeCalledTimes(2);
       expect(performSearchMock).toBeCalledWith(

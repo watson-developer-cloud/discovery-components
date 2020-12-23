@@ -209,11 +209,11 @@ describe('<CIDocument />', () => {
     it('displays the correct party information on the details pane', async () => {
       // Expects metadata pane to be hidden until selected
       const metadataPane = getByTestId('metadata-pane').parentElement!;
-      expect(metadataPane.getAttribute('aria-hidden')).toEqual('true');
+      expect(metadataPane).toHaveProperty('hidden', true);
 
       const metadataTabTest = getByTestId('metadata-tab');
       fireEvent.click(metadataTabTest);
-      expect(metadataPane.getAttribute('aria-hidden')).toEqual('false');
+      expect(metadataPane).toHaveProperty('hidden', false);
 
       const partyButton = globalGetByText(metadataPane, 'ART EFFECTS (Buyer) (2)');
       fireEvent.click(partyButton);

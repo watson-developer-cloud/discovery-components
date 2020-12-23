@@ -15,7 +15,7 @@
     "circular": "madge --circular src/*",
     "build": "rollup -c",
     "eslint": "eslint --quiet '{src,.storybook}/**/*.{js,jsx,ts,tsx}'",
-    "lint": "yarn run eslint && yarn run circular",
+    "lint": "yarn run circular && yarn run eslint",
     "start": "rollup -c -w",
     "storybook": "start-storybook --ci --port=9002",
     "storybook:build": "build-storybook",

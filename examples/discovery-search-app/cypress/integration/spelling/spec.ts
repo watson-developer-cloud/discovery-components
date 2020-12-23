@@ -14,7 +14,7 @@ describe('Spelling', () => {
 
   describe('When entering a misspelled query', () => {
     beforeEach(() => {
-      cy.findByLabelText('Search').type('waston{enter}');
+      cy.findByPlaceholderText('Search').type('waston{enter}');
       cy.wait('@postQueryMisspelled');
     });
 
