@@ -23,12 +23,9 @@ describe('<Section />', () => {
   });
 
   it('renders enrichment fields', async () => {
-    let getAllByTestId: NonNullable<Function>;
-    act(() => {
-      ({ getAllByTestId } = render(<Section section={sectionData[0]} />));
-    });
+    const { findAllByTestId } = render(<Section section={sectionData[0]} />);
 
-    const fields = await waitForElement(() => getAllByTestId('field-rect'));
+    const fields = await findAllByTestId('field-rect');
     expect(fields.length).toEqual(6);
   });
 });
