@@ -8,6 +8,7 @@
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "scripts": {
+    "audit": "audit-ci --moderate",
     "test": "cross-env SKIP_PREFLIGHT_CHECK=true CI=1 react-scripts test",
     "test:coverage": "cross-env CI=1 SKIP_PREFLIGHT_CHECK=true react-scripts test --coverage",
     "test:watch": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts test --watch",
@@ -48,7 +49,7 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "debounce": "^1.2.0",
-    "dompurify": "^2.0.7",
+    "dompurify": "^2.0.17",
     "entities": "^2.0.0",
     "htmlparser2": "^4.0.0",
     "lodash": "^4.17.15",
