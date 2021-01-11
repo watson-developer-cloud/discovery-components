@@ -61,6 +61,19 @@ describe('Multi-Select Facets', () => {
         cy.wait('@postQueryFacetsAmes').as('amesFilterQueryObject');
       });
 
+      // todo: move test
+      describe('and a result is previewed', () => {
+        it('preserves facet selection after document preview', () => {
+          cy.findAllByTestId('search-result-element-preview-button')
+            .first()
+            .click();
+          cy.get('.bx--btn__icon').click();
+          cy.get('.bx--list-box__selection')
+            .contains('1')
+            .should('exist');
+        });
+      });
+
       it('makes a query for the right facets', () => {
         cy.get('@amesFilterQueryObject')
           .its('requestBody.filter')
