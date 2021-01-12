@@ -401,9 +401,10 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
 
   const handleFetchAggregations = useCallback(
     async (searchParameters): Promise<void> => {
-      // since we only call this when the aggregation changes, we can safely reset the filter
+      // we need to search with empty filter to fetch all (not just selected) aggregations
+      // but we don't want to set the filter to empty, as this will clear selected facets
+      // when we fetch aggregations after previewing results in documents
       const searchParamsWithoutFilter = { ...searchParameters, filter: '' };
-      setSearchParameters(searchParamsWithoutFilter);
       const searchParametersWithAggregationDefaults = {
         ...searchParamsWithoutFilter,
         ...aggregationQueryDefaults
