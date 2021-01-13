@@ -96,7 +96,7 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   onSelectResult,
   messages
 }) => {
-  const { setSelectedResult, setIsReturningFromResultPreview } = useContext(SearchApi);
+  const { setSelectedResult } = useContext(SearchApi);
   const {
     selectedResult,
     fetchDocumentsResponseStore: { isLoading }
@@ -146,7 +146,6 @@ export const Result: React.FunctionComponent<ResultProps> = ({
     element: SelectedResult['element'],
     elementType: SelectedResult['elementType']
   ) => {
-    setIsReturningFromResultPreview(true);
     return (event: React.MouseEvent) => {
       event.preventDefault();
       if (resultLinkField || resultLinkTemplate) {

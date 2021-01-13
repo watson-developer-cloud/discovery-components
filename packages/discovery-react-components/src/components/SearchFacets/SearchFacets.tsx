@@ -28,7 +28,6 @@ import { collectionFacetIdPrefix } from './cssClasses';
 import onErrorCallback from 'utils/onErrorCallback';
 import { FallbackComponent } from 'utils/FallbackComponent';
 import { withErrorBoundary } from 'react-error-boundary';
-import useCompare from 'utils/useCompare';
 
 interface SearchFacetsProps {
   /**
@@ -93,7 +92,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     },
     collectionsResults,
     componentSettings,
-    isReturningFromResultPreview
+    fetchAggregationState
   } = useContext(SearchContext);
 
   const [facetSelectionState, setFacetSelectionState] = useState<SearchFilterFacets>(
@@ -121,11 +120,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     SelectedCollectionItems['selectedItems']
   >(initialSelectedCollections);
 
-  const [fetchState, setFetchState] = useState<'init' | 'loading' | 'success' | 'error'>('init');
-
-  const { fetchAggregations, performSearch, setIsReturningFromResultPreview } = useContext(
-    SearchApi
-  );
+  const { fetchAggregations, performSearch, setFetchAggregationState } = useContext(SearchApi);
   const aggregations = aggregationResults || [];
   const mergedMessages = { ...defaultMessages, ...messages };
 
@@ -134,29 +129,21 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     (componentSettings && componentSettings.aggregations) ||
     [];
 
-  const searchParamsAggregationChanged = useCompare(searchParameters.aggregation);
   useEffect(() => {
     async function fetchData() {
-      setFetchState('loading');
+      setFetchAggregationState('loading');
       try {
         await fetchAggregations(searchParameters);
-        setFetchState('success');
+        setFetchAggregationState('success');
       } catch (error) {
-        setFetchState('error');
+        setFetchAggregationState('error');
       }
     }
 
-    if (
-      (searchParamsAggregationChanged || fetchState === 'init') &&
-      !isReturningFromResultPreview
-    ) {
+    if (fetchAggregationState === 'init') {
       fetchData();
-    } else {
-      // we don't need to refetch data if returning to search results and facets from previewing a result
-      setIsReturningFromResultPreview(false);
-      setFetchState('success');
     }
-  }, [fetchAggregations, fetchState, searchParameters, searchParamsAggregationChanged]);
+  }, [fetchAggregations, fetchAggregationState, searchParameters]);
 
   useDeepCompareEffect(() => {
     if (filter === '') {
@@ -239,9 +226,9 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     performSearch({ ...searchParameters, collectionIds: [], offset: 0, filter: '' }, false);
   };
 
-  if (fetchState === 'loading') {
+  if (fetchAggregationState === 'loading') {
     return null;
-  } else if (fetchState === 'error') {
+  } else if (fetchAggregationState === 'error') {
     const errorNode =
       typeof serverErrorMessage === 'string'
         ? displayMessage(serverErrorMessage)

@@ -106,7 +106,7 @@ export interface SearchContextIFC {
   autocompletionStore: AutocompleteStore;
   componentSettings: DiscoveryV2.ComponentSettingsResponse | null;
   isResultsPaginationComponentHidden: boolean | undefined;
-  isReturningFromResultPreview: boolean;
+  fetchAggregationState: 'init' | 'loading' | 'success' | 'error' | null;
   fieldsStore: FieldsStore;
 }
 
@@ -125,7 +125,9 @@ export interface SearchApiIFC {
   setIsResultsPaginationComponentHidden: (
     isResultsPaginationComponentHidden: boolean | React.SetStateAction<boolean | undefined>
   ) => void;
-  setIsReturningFromResultPreview: (isReturningFromResultPreview: boolean) => void;
+  setFetchAggregationState: (
+    fetchAggregationState: 'init' | 'loading' | 'success' | 'error' | null
+  ) => void;
   fetchFields: () => void;
 }
 
@@ -139,7 +141,7 @@ export const searchApiDefaults = {
   setAutocompletionOptions: (): void => {},
   setSearchParameters: (): void => {},
   setIsResultsPaginationComponentHidden: (): void => {},
-  setIsReturningFromResultPreview: (): void => {},
+  setFetchAggregationState: (): void => {},
   fetchFields: (): Promise<void> => Promise.resolve()
 };
 
@@ -206,7 +208,7 @@ export const searchContextDefaults = {
   collectionsResults: null,
   componentSettings: null,
   isResultsPaginationComponentHidden: false,
-  isReturningFromResultPreview: false,
+  fetchAggregationState: null,
   fieldsStore: fieldsStoreDefaults
 };
 
@@ -241,7 +243,9 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
   const [isResultsPaginationComponentHidden, setIsResultsPaginationComponentHidden] = useState<
     boolean
   >();
-  const [isReturningFromResultPreview, setIsReturningFromResultPreview] = useState<boolean>(false);
+  const [fetchAggregationState, setFetchAggregationState] = useState<
+    'init' | 'loading' | 'success' | 'error' | null
+  >('init');
 
   const [
     searchResponseStore,
@@ -480,7 +484,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
     setAutocompletionOptions,
     setSearchParameters,
     setIsResultsPaginationComponentHidden,
-    setIsReturningFromResultPreview,
+    setFetchAggregationState,
     fetchFields: handleFetchFields
   };
 
@@ -494,7 +498,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       collectionsResults,
       componentSettings,
       isResultsPaginationComponentHidden,
-      isReturningFromResultPreview,
+      fetchAggregationState,
       fieldsStore
     };
   }, [
@@ -506,7 +510,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
     collectionsResults,
     componentSettings,
     isResultsPaginationComponentHidden,
-    isReturningFromResultPreview,
+    fetchAggregationState,
     fieldsStore
   ]);
 
