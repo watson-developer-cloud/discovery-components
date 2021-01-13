@@ -92,7 +92,8 @@ const SearchFacets: FC<SearchFacetsProps> = ({
       data: searchResponse
     },
     collectionsResults,
-    componentSettings
+    componentSettings,
+    isReturningFromDocPreview
   } = useContext(SearchContext);
 
   const [facetSelectionState, setFacetSelectionState] = useState<SearchFilterFacets>(
@@ -122,7 +123,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
 
   const [fetchState, setFetchState] = useState<'init' | 'loading' | 'success' | 'error'>('init');
 
-  const { fetchAggregations, performSearch } = useContext(SearchApi);
+  const { fetchAggregations, performSearch, setIsReturningFromDocPreview } = useContext(SearchApi);
   const aggregations = aggregationResults || [];
   const mergedMessages = { ...defaultMessages, ...messages };
 
@@ -143,8 +144,12 @@ const SearchFacets: FC<SearchFacetsProps> = ({
       }
     }
 
-    if (searchParamsAggregationChanged || fetchState === 'init') {
+    if ((searchParamsAggregationChanged || fetchState === 'init') && !isReturningFromDocPreview) {
       fetchData();
+    } else {
+      // we don't need to refetch data if returning to search results and facets from document preview
+      setIsReturningFromDocPreview(false);
+      setFetchState('success');
     }
   }, [fetchAggregations, fetchState, searchParameters, searchParamsAggregationChanged]);
 

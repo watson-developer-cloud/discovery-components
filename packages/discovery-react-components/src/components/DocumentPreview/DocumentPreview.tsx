@@ -2,7 +2,7 @@ import React, { FC, ReactElement, useContext, useEffect, useState } from 'react'
 import { SkeletonText } from 'carbon-components-react';
 import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
-import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
+import { SearchApi, SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import { PreviewToolbar } from './components/PreviewToolbar/PreviewToolbar';
 import SimpleDocument from './components/SimpleDocument/SimpleDocument';
 import withErrorBoundary, { WithErrorBoundaryProps } from 'utils/hoc/withErrorBoundary';
@@ -42,6 +42,7 @@ const DocumentPreview: FC<Props> = ({
   didCatch
 }) => {
   const { selectedResult } = useContext(SearchContext);
+  const { setIsReturningFromDocPreview } = useContext(SearchApi);
   // document prop takes precedence over that in context
   const doc = document || selectedResult.document;
   highlight = highlight || selectedResult.element || undefined;
@@ -50,6 +51,10 @@ const DocumentPreview: FC<Props> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [hideToolbarControls, setHideToolbarControls] = useState(false);
+
+  useEffect(() => {
+    setIsReturningFromDocPreview(true);
+  }, []);
 
   useEffect(() => {
     // reset state if document changes

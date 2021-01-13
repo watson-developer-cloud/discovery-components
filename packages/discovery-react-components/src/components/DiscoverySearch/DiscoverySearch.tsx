@@ -106,6 +106,7 @@ export interface SearchContextIFC {
   autocompletionStore: AutocompleteStore;
   componentSettings: DiscoveryV2.ComponentSettingsResponse | null;
   isResultsPaginationComponentHidden: boolean | undefined;
+  isReturningFromDocPreview: boolean;
   fieldsStore: FieldsStore;
 }
 
@@ -124,6 +125,7 @@ export interface SearchApiIFC {
   setIsResultsPaginationComponentHidden: (
     isResultsPaginationComponentHidden: boolean | React.SetStateAction<boolean | undefined>
   ) => void;
+  setIsReturningFromDocPreview: (isisReturningFromDocPreview: boolean) => void;
   fetchFields: () => void;
 }
 
@@ -137,6 +139,7 @@ export const searchApiDefaults = {
   setAutocompletionOptions: (): void => {},
   setSearchParameters: (): void => {},
   setIsResultsPaginationComponentHidden: (): void => {},
+  setIsReturningFromDocPreview: (): void => {},
   fetchFields: (): Promise<void> => Promise.resolve()
 };
 
@@ -203,6 +206,7 @@ export const searchContextDefaults = {
   collectionsResults: null,
   componentSettings: null,
   isResultsPaginationComponentHidden: false,
+  isReturningFromDocPreview: false,
   fieldsStore: fieldsStoreDefaults
 };
 
@@ -237,6 +241,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
   const [isResultsPaginationComponentHidden, setIsResultsPaginationComponentHidden] = useState<
     boolean
   >();
+  const [isReturningFromDocPreview, setIsReturningFromDocPreview] = useState<boolean>(false);
 
   const [
     searchResponseStore,
@@ -401,10 +406,8 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
 
   const handleFetchAggregations = useCallback(
     async (searchParameters): Promise<void> => {
-      // we need to search with empty filter to fetch all (not just selected) aggregations
-      // but we don't want to set the filter to empty, as this will clear selected facets
-      // when we fetch aggregations after previewing results in documents
       const searchParamsWithoutFilter = { ...searchParameters, filter: '' };
+      setSearchParameters(searchParamsWithoutFilter);
       const searchParametersWithAggregationDefaults = {
         ...searchParamsWithoutFilter,
         ...aggregationQueryDefaults
@@ -476,6 +479,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
     setAutocompletionOptions,
     setSearchParameters,
     setIsResultsPaginationComponentHidden,
+    setIsReturningFromDocPreview,
     fetchFields: handleFetchFields
   };
 
@@ -489,6 +493,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       collectionsResults,
       componentSettings,
       isResultsPaginationComponentHidden,
+      isReturningFromDocPreview,
       fieldsStore
     };
   }, [
@@ -500,6 +505,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
     collectionsResults,
     componentSettings,
     isResultsPaginationComponentHidden,
+    isisReturningFromDocPreview,
     fieldsStore
   ]);
 
