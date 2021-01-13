@@ -125,7 +125,7 @@ export interface SearchApiIFC {
   setIsResultsPaginationComponentHidden: (
     isResultsPaginationComponentHidden: boolean | React.SetStateAction<boolean | undefined>
   ) => void;
-  setIsReturningFromDocPreview: (isisReturningFromDocPreview: boolean) => void;
+  setIsReturningFromDocPreview: (isReturningFromDocPreview: boolean) => void;
   fetchFields: () => void;
 }
 
