@@ -11,6 +11,7 @@ import {
 import { facetsQueryResponse } from '../__fixtures__/facetsQueryResponse';
 import collectionsResponse from '../__fixtures__/collectionsResponse';
 import { noAvailableFacetsMessage } from '../utils/searchFacetMessages';
+import { FetchAggregationStates } from '../utils/searchFacetInterfaces';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 
 interface Props {
@@ -22,7 +23,7 @@ interface Props {
   fetchAggregationsMock?: jest.Mock<any, any>;
   setFetchAggregationStateMock?: jest.Mock<any, any>;
   serverErrorMessage?: React.ReactNode;
-  fetchAggregationState?: 'init' | 'loading' | 'success' | 'error' | null;
+  fetchAggregationState?: FetchAggregationStates | null;
 }
 
 interface Setup {
@@ -45,10 +46,10 @@ const setup = ({
   fetchAggregationsMock,
   setFetchAggregationStateMock,
   serverErrorMessage,
-  fetchAggregationState = 'init'
+  fetchAggregationState = FetchAggregationStates.INIT
 }: Props = {}): Setup => {
   fetchAggregationsMock = fetchAggregationsMock || jest.fn();
-  setFetchAggregationStateMock = setFetchAggregationStateMock || jest.fn();
+  setFetchAggregationStateMock = jest.fn();
   const performSearchMock = jest.fn();
   const onChangeMock = jest.fn();
 
@@ -132,7 +133,7 @@ describe('SearchFacetsComponent', () => {
           httpError.status = httpError.statusCode = 500;
           throw httpError;
         }),
-        fetchAggregationState: 'error'
+        fetchAggregationState: FetchAggregationStates.ERROR
       });
 
       const errorMsg = await searchFacetsComponent.findByText('Error fetching facets.');
@@ -147,7 +148,7 @@ describe('SearchFacetsComponent', () => {
           throw httpError;
         }),
         serverErrorMessage: 'You messed up!',
-        fetchAggregationState: 'error'
+        fetchAggregationState: FetchAggregationStates.ERROR
       });
 
       searchFacetsComponent.getByText('You messed up!');
@@ -161,7 +162,7 @@ describe('SearchFacetsComponent', () => {
           throw httpError;
         }),
         serverErrorMessage: <span data-testid="server-msg-failure">FAILURE</span>,
-        fetchAggregationState: 'error'
+        fetchAggregationState: FetchAggregationStates.ERROR
       });
 
       const elem = searchFacetsComponent.getByTestId('server-msg-failure');
