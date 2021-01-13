@@ -506,7 +506,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
     collectionsResults,
     componentSettings,
     isResultsPaginationComponentHidden,
-    isisReturningFromDocPreview,
+    isReturningFromDocPreview,
     fieldsStore
   ]);
 
