@@ -15,7 +15,8 @@ import {
 import {
   SearchFilterFacets,
   SelectableDynamicFacets,
-  SelectedCollectionItems
+  SelectedCollectionItems,
+  FetchAggregationStates
 } from './utils/searchFacetInterfaces';
 import get from 'lodash/get';
 import uuid from 'uuid';
@@ -131,16 +132,16 @@ const SearchFacets: FC<SearchFacetsProps> = ({
 
   useEffect(() => {
     async function fetchData() {
-      setFetchAggregationState('loading');
+      setFetchAggregationState(FetchAggregationStates.LOADING);
       try {
         await fetchAggregations(searchParameters);
-        setFetchAggregationState('success');
+        setFetchAggregationState(FetchAggregationStates.SUCCESS);
       } catch (error) {
-        setFetchAggregationState('error');
+        setFetchAggregationState(FetchAggregationStates.ERROR);
       }
     }
 
-    if (fetchAggregationState === 'init') {
+    if (fetchAggregationState === FetchAggregationStates.INIT) {
       fetchData();
     }
   }, [fetchAggregations, fetchAggregationState, searchParameters]);
@@ -226,9 +227,9 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     performSearch({ ...searchParameters, collectionIds: [], offset: 0, filter: '' }, false);
   };
 
-  if (fetchAggregationState === 'loading') {
+  if (fetchAggregationState === FetchAggregationStates.LOADING) {
     return null;
-  } else if (fetchAggregationState === 'error') {
+  } else if (fetchAggregationState === FetchAggregationStates.ERROR) {
     const errorNode =
       typeof serverErrorMessage === 'string'
         ? displayMessage(serverErrorMessage)

@@ -22,7 +22,8 @@ import onErrorCallback from 'utils/onErrorCallback';
 import { buildAggregationQuery } from 'components/SearchFacets/utils/buildAggregationQuery';
 import {
   QueryAggregationWithName,
-  isQueryAggregationWithName
+  isQueryAggregationWithName,
+  FetchAggregationStates
 } from 'components/SearchFacets/utils/searchFacetInterfaces';
 
 export type SearchParams = Omit<DiscoveryV2.QueryParams, 'projectId' | 'headers'>;
@@ -106,7 +107,7 @@ export interface SearchContextIFC {
   autocompletionStore: AutocompleteStore;
   componentSettings: DiscoveryV2.ComponentSettingsResponse | null;
   isResultsPaginationComponentHidden: boolean | undefined;
-  fetchAggregationState: 'init' | 'loading' | 'success' | 'error' | null;
+  fetchAggregationState: FetchAggregationStates | null;
   fieldsStore: FieldsStore;
 }
 
@@ -125,9 +126,7 @@ export interface SearchApiIFC {
   setIsResultsPaginationComponentHidden: (
     isResultsPaginationComponentHidden: boolean | React.SetStateAction<boolean | undefined>
   ) => void;
-  setFetchAggregationState: (
-    fetchAggregationState: 'init' | 'loading' | 'success' | 'error' | null
-  ) => void;
+  setFetchAggregationState: (fetchAggregationState: FetchAggregationStates | null) => void;
   fetchFields: () => void;
 }
 
@@ -243,9 +242,9 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
   const [isResultsPaginationComponentHidden, setIsResultsPaginationComponentHidden] = useState<
     boolean
   >();
-  const [fetchAggregationState, setFetchAggregationState] = useState<
-    'init' | 'loading' | 'success' | 'error' | null
-  >('init');
+  const [fetchAggregationState, setFetchAggregationState] = useState<FetchAggregationStates | null>(
+    FetchAggregationStates.INIT
+  );
 
   const [
     searchResponseStore,
