@@ -406,6 +406,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
 
   const handleFetchAggregations = useCallback(
     async (searchParameters): Promise<void> => {
+      // since we only call this when the aggregation changes, we can safely reset the filter
       const searchParamsWithoutFilter = { ...searchParameters, filter: '' };
       setSearchParameters(searchParamsWithoutFilter);
       const searchParametersWithAggregationDefaults = {
