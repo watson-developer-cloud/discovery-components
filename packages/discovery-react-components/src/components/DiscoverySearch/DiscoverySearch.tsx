@@ -107,7 +107,7 @@ export interface SearchContextIFC {
   autocompletionStore: AutocompleteStore;
   componentSettings: DiscoveryV2.ComponentSettingsResponse | null;
   isResultsPaginationComponentHidden: boolean | undefined;
-  fetchAggregationState: FetchAggregationStates | null;
+  fetchAggregationState: FetchAggregationStates;
   fieldsStore: FieldsStore;
 }
 
@@ -126,7 +126,7 @@ export interface SearchApiIFC {
   setIsResultsPaginationComponentHidden: (
     isResultsPaginationComponentHidden: boolean | React.SetStateAction<boolean | undefined>
   ) => void;
-  setFetchAggregationState: (fetchAggregationState: FetchAggregationStates | null) => void;
+  setFetchAggregationState: (fetchAggregationState: FetchAggregationStates) => void;
   fetchFields: () => void;
 }
 
@@ -207,7 +207,7 @@ export const searchContextDefaults = {
   collectionsResults: null,
   componentSettings: null,
   isResultsPaginationComponentHidden: false,
-  fetchAggregationState: null,
+  fetchAggregationState: FetchAggregationStates.INIT,
   fieldsStore: fieldsStoreDefaults
 };
 
@@ -242,7 +242,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
   const [isResultsPaginationComponentHidden, setIsResultsPaginationComponentHidden] = useState<
     boolean
   >();
-  const [fetchAggregationState, setFetchAggregationState] = useState<FetchAggregationStates | null>(
+  const [fetchAggregationState, setFetchAggregationState] = useState<FetchAggregationStates>(
     FetchAggregationStates.INIT
   );
 
