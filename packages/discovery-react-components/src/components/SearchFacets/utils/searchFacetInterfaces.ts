@@ -92,10 +92,3 @@ export interface FieldFacetsByCategoryEntity {
     facets: SelectableFieldFacetWithCategory[];
   };
 }
-
-export enum FetchAggregationStates {
-  INIT = 'init',
-  LOADING = 'loading',
-  SUCCESS = 'success',
-  ERROR = 'error'
-}
