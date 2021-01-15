@@ -77,14 +77,14 @@ const TestSearchStoreComponent: FC<TestSearchStoreComponentProps> = ({
   searchParameters = {
     projectId: ''
   },
-  searchResults = null,
+  searchResults,
   searchClient = new BaseSearchClient(),
   callback
 }) => {
   const [searchResponseStore, searchResponseApi] = useSearchResultsApi(
     searchParameters,
-    searchResults,
-    searchClient
+    searchClient,
+    searchResults
   );
 
   return (
@@ -348,15 +348,16 @@ describe('useSearchResultsApi', () => {
 
   const TestAutocompleteStoreComponent: FC<TestAutocompleteStoreComponentProps> = ({
     autocompleteParameters = {
-      projectId: ''
+      projectId: '',
+      prefix: ''
     },
-    autocompletionResults = null,
+    autocompletionResults,
     searchClient = new BaseSearchClient()
   }) => {
     const [autocompleteStore, autocompleteApi] = useAutocompleteApi(
       autocompleteParameters,
-      autocompletionResults,
-      searchClient
+      searchClient,
+      autocompletionResults
     );
 
     return (

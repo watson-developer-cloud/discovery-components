@@ -86,9 +86,9 @@ interface FetchToken {
  */
 const useDataApi = <T, U>(
   initialParameters: T,
-  initialData: U | null,
   searchClientMethod: (params: T, callback?: any) => void | Promise<any>,
-  searchClient: SearchClient
+  searchClient: SearchClient,
+  initialData?: U
 ): UseDataApiReturn<T, U> => {
   // useRef stores state without rerenders
   // token to pass by reference instead of by value to keep track of cancellation state on unmount
@@ -196,7 +196,7 @@ export const useFieldsApi = (
   const { state: fieldsState, setData: setFieldsResponse, setFetchToken } = useDataApi<
     DiscoveryV2.ListFieldsParams,
     DiscoveryV2.ListFieldsResponse
-  >(fetchFieldsParams, null, searchClient.listFields, searchClient);
+  >(fetchFieldsParams, searchClient.listFields, searchClient);
 
   const fetchFields = useCallback(() => setFetchToken({ trigger: true }), [setFetchToken]);
 
@@ -246,8 +246,8 @@ export interface SearchResponseStoreActions {
  */
 export const useSearchResultsApi = (
   searchParameters: DiscoveryV2.QueryParams,
-  overrideSearchResults: DiscoveryV2.QueryResponse | null,
-  searchClient: SearchClient
+  searchClient: SearchClient,
+  overrideSearchResults?: DiscoveryV2.QueryResponse
 ): [SearchResponseStore, SearchResponseStoreActions] => {
   const {
     state: searchState,
@@ -257,9 +257,9 @@ export const useSearchResultsApi = (
     setFetchToken
   } = useDataApi<DiscoveryV2.QueryParams, DiscoveryV2.QueryResponse>(
     searchParameters,
-    overrideSearchResults,
     searchClient.query,
-    searchClient
+    searchClient,
+    overrideSearchResults
   );
   const setSearchParameters = (
     backwardsCompatibleSearchParameters: React.SetStateAction<DiscoveryV2.QueryParams>
@@ -318,9 +318,7 @@ export interface GlobalAggregationsStoreActions {
   /**
    * method to override the current aggregations
    */
-  setGlobalAggregationsResponse: (
-    aggregationsResponse: DiscoveryV2.QueryAggregation[] | null
-  ) => void;
+  setGlobalAggregationsResponse: (aggregationsResponse?: DiscoveryV2.QueryAggregation[]) => void;
   /**
    * method used to invoke the aggregations request with an optional callback to return the response data
    */
@@ -331,8 +329,8 @@ export interface GlobalAggregationsStoreActions {
 
 export const useGlobalAggregationsApi = (
   searchParameters: DiscoveryV2.QueryParams,
-  overrideAggregationResults: DiscoveryV2.QueryAggregation[] | null,
-  searchClient: SearchClient
+  searchClient: SearchClient,
+  overrideAggregationResults?: DiscoveryV2.QueryAggregation[]
 ): [GlobalAggregationsResponseStore, GlobalAggregationsStoreActions] => {
   const {
     state: aggregationState,
@@ -340,7 +338,12 @@ export const useGlobalAggregationsApi = (
     setParameters: setGlobalAggregationParameters,
     setData: setGlobalAggregationsResponse,
     setFetchToken
-  } = useDataApi(searchParameters, overrideAggregationResults, searchClient.query, searchClient);
+  } = useDataApi<DiscoveryV2.QueryParams, DiscoveryV2.QueryAggregation[]>(
+    searchParameters,
+    searchClient.query,
+    searchClient,
+    overrideAggregationResults
+  );
 
   const fetchGlobalAggregations = useCallback(
     (callback?: (result: DiscoveryV2.QueryAggregation[] | null) => void): void =>
@@ -392,7 +395,7 @@ export const useFetchDocumentsApi = (
   const { state: searchState, setParameters: setSearchParameters, setFetchToken } = useDataApi<
     DiscoveryV2.QueryParams,
     DiscoveryV2.QueryResponse
-  >(searchParameters, null, searchClient.query, searchClient);
+  >(searchParameters, searchClient.query, searchClient);
 
   const fetchDocuments = useCallback(
     (filter: string, callback: (result: DiscoveryV2.QueryResponse) => void): void => {
@@ -434,14 +437,14 @@ export interface AutocompleteActions {
 /**
  * concrete usage of the useDataApi helper method for fetching autocompletions
  * @param autocompleteParmeters - initial autocomplete parameters to set
- * @param overrideAutocompletions - initial autocomplete results to set
  * @param searchClient - search client used to perform requests
+ * @param overrideAutocompletions - initial autocomplete results to set
  * @return a 2-element array containing the autocomplete store data and autocomplete-specific store actions
  */
 export const useAutocompleteApi = (
   autocompleteParmeters: DiscoveryV2.GetAutocompletionParams,
-  overrideAutocompletions: DiscoveryV2.Completions | null,
-  searchClient: SearchClient
+  searchClient: SearchClient,
+  overrideAutocompletions?: DiscoveryV2.Completions
 ): [AutocompleteStore, AutocompleteActions] => {
   const {
     state: autocompletionsState,
@@ -451,9 +454,9 @@ export const useAutocompleteApi = (
     setFetchToken
   } = useDataApi<DiscoveryV2.GetAutocompletionParams, DiscoveryV2.Completions>(
     autocompleteParmeters,
-    overrideAutocompletions,
     searchClient.getAutocompletion,
-    searchClient
+    searchClient,
+    overrideAutocompletions
   );
 
   const fetchAutocompletions = useCallback(
