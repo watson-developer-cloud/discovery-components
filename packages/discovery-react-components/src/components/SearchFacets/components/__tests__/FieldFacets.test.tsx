@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { render, fireEvent, RenderResult, wait, within, findByText } from '@testing-library/react';
+import { render, fireEvent, RenderResult, wait, within } from '@testing-library/react';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { wrapWithContext } from 'utils/testingUtils';
 import {
   SearchContextIFC,
   SearchApiIFC,
-  searchResponseStoreDefaults
+  searchResponseStoreDefaults,
+  globalAggregationsResponseStoreDefaults
 } from 'components/DiscoverySearch/DiscoverySearch';
 import SearchFacets from 'components/SearchFacets/SearchFacets';
 import {
@@ -25,7 +26,7 @@ interface SetupConfig {
   filter: string;
   componentSettingsAggregations: DiscoveryV2.ComponentSettingsAggregation[];
   collapsedFacetsCount: number;
-  aggregationResults: DiscoveryV2.QueryAggregation[] | undefined;
+  aggregationResults?: DiscoveryV2.QueryAggregation[] | null;
   showMatchingResults: boolean;
 }
 
@@ -65,7 +66,10 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
   const performSearchMock = jest.fn();
   const onChangeMock = jest.fn();
   const context: Partial<SearchContextIFC> = {
-    aggregationResults: mergedSetupConfig.aggregationResults,
+    globalAggregationsResponseStore: {
+      ...globalAggregationsResponseStoreDefaults,
+      data: mergedSetupConfig.aggregationResults || []
+    },
     searchResponseStore: {
       ...searchResponseStoreDefaults,
       parameters: {

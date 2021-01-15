@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useState, SyntheticEvent } from 'react';
+import React, { FC, useContext, useState, useEffect, SyntheticEvent } from 'react';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { Button } from 'carbon-components-react';
 import { settings } from 'carbon-components';
@@ -15,8 +15,7 @@ import {
 import {
   SearchFilterFacets,
   SelectableDynamicFacets,
-  SelectedCollectionItems,
-  FetchAggregationStates
+  SelectedCollectionItems
 } from './utils/searchFacetInterfaces';
 import get from 'lodash/get';
 import uuid from 'uuid';
@@ -85,7 +84,6 @@ const SearchFacets: FC<SearchFacetsProps> = ({
   const facetsId = id || `search-facets__${uuid.v4()}`;
 
   const {
-    aggregationResults,
     searchResponseStore: {
       parameters: searchParameters,
       parameters: { filter, collectionIds },
@@ -93,7 +91,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     },
     collectionsResults,
     componentSettings,
-    fetchAggregationState
+    globalAggregationsResponseStore: { isLoading, isError, data: aggregations }
   } = useContext(SearchContext);
 
   const [facetSelectionState, setFacetSelectionState] = useState<SearchFilterFacets>(
@@ -121,8 +119,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     SelectedCollectionItems['selectedItems']
   >(initialSelectedCollections);
 
-  const { fetchAggregations, performSearch, setFetchAggregationState } = useContext(SearchApi);
-  const aggregations = aggregationResults || [];
+  const { performSearch, fetchGlobalAggregations } = useContext(SearchApi);
   const mergedMessages = { ...defaultMessages, ...messages };
 
   const componentSettingsAggregations =
@@ -132,19 +129,13 @@ const SearchFacets: FC<SearchFacetsProps> = ({
 
   useEffect(() => {
     async function fetchData() {
-      setFetchAggregationState(FetchAggregationStates.LOADING);
-      try {
-        await fetchAggregations(searchParameters);
-        setFetchAggregationState(FetchAggregationStates.SUCCESS);
-      } catch (error) {
-        setFetchAggregationState(FetchAggregationStates.ERROR);
-      }
+      await fetchGlobalAggregations(searchParameters);
     }
 
-    if (fetchAggregationState === FetchAggregationStates.INIT) {
+    if (!aggregations) {
       fetchData();
     }
-  }, [fetchAggregations, fetchAggregationState, searchParameters]);
+  }, [fetchGlobalAggregations, searchParameters]);
 
   useDeepCompareEffect(() => {
     if (filter === '') {
@@ -227,9 +218,9 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     performSearch({ ...searchParameters, collectionIds: [], offset: 0, filter: '' }, false);
   };
 
-  if (fetchAggregationState === FetchAggregationStates.LOADING) {
+  if (isLoading) {
     return null;
-  } else if (fetchAggregationState === FetchAggregationStates.ERROR) {
+  } else if (isError) {
     const errorNode =
       typeof serverErrorMessage === 'string'
         ? displayMessage(serverErrorMessage)

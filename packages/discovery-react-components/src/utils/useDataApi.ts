@@ -277,6 +277,67 @@ export const useSearchResultsApi = (
 };
 
 /**
+ * concrete implementation of the reducer state for fetch aggregations
+ */
+export interface GlobalAggregationsResponseStore extends ReducerState {
+  data: DiscoveryV2.QueryAggregation[] | null;
+  parameters: DiscoveryV2.QueryParams;
+}
+
+/**
+ * fetch aggregations actions used to interact with the search API and search state
+ */
+export interface GlobalAggregationsStoreActions {
+  /**
+   * method to set the parameters to be used with the search API when fetchAggregations is invoked
+   */
+  setGlobalAggregationParameters: React.Dispatch<React.SetStateAction<DiscoveryV2.QueryParams>>;
+  /**
+   * method to override the current aggregations
+   */
+  setGlobalAggregationsResponse: (
+    aggregationsResponse: DiscoveryV2.QueryAggregation[] | null
+  ) => void;
+  /**
+   * method used to invoke the aggregations request with an optional callback to return the response data
+   */
+  fetchGlobalAggregations: (
+    callback?: (result: DiscoveryV2.QueryAggregation[] | null) => void
+  ) => void;
+}
+
+export const useGlobalAggregationsApi = (
+  searchParameters: DiscoveryV2.QueryParams,
+  searchClient: SearchClient
+): [GlobalAggregationsResponseStore, GlobalAggregationsStoreActions] => {
+  const {
+    state: aggregationState,
+    parameters: currentGlobalAggregationParameters,
+    setParameters: setGlobalAggregationParameters,
+    setData: setGlobalAggregationsResponse,
+    setFetchToken
+  } = useDataApi(searchParameters, null, searchClient.query, searchClient);
+
+  const fetchGlobalAggregations = useCallback(
+    (callback?: (result: DiscoveryV2.QueryAggregation[] | null) => void): void =>
+      setFetchToken({ trigger: true, callback }),
+    [setFetchToken]
+  );
+
+  return [
+    {
+      ...aggregationState,
+      parameters: currentGlobalAggregationParameters
+    },
+    {
+      setGlobalAggregationParameters,
+      setGlobalAggregationsResponse,
+      fetchGlobalAggregations
+    }
+  ];
+};
+
+/**
  * concrete implementation of the reducer state for fetch documents
  */
 export interface FetchDocumentsResponseStore extends ReducerState {

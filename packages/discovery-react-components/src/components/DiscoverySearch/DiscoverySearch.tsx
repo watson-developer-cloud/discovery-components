@@ -13,7 +13,9 @@ import {
   useFetchDocumentsApi,
   useAutocompleteApi,
   useFieldsApi,
-  FieldsStore
+  FieldsStore,
+  useGlobalAggregationsApi,
+  GlobalAggregationsResponseStore
 } from 'utils/useDataApi';
 import { SearchClient } from './types';
 import { withErrorBoundary } from 'react-error-boundary';
@@ -22,8 +24,7 @@ import onErrorCallback from 'utils/onErrorCallback';
 import { buildAggregationQuery } from 'components/SearchFacets/utils/buildAggregationQuery';
 import {
   QueryAggregationWithName,
-  isQueryAggregationWithName,
-  FetchAggregationStates
+  isQueryAggregationWithName
 } from 'components/SearchFacets/utils/searchFacetInterfaces';
 
 export type SearchParams = Omit<DiscoveryV2.QueryParams, 'projectId' | 'headers'>;
@@ -107,14 +108,14 @@ export interface SearchContextIFC {
   autocompletionStore: AutocompleteStore;
   componentSettings: DiscoveryV2.ComponentSettingsResponse | null;
   isResultsPaginationComponentHidden: boolean | undefined;
-  fetchAggregationState: FetchAggregationStates;
   fieldsStore: FieldsStore;
+  globalAggregationsResponseStore: GlobalAggregationsResponseStore;
 }
 
 export interface SearchApiIFC {
   performSearch: (searchParameters: DiscoveryV2.QueryParams, resetAggregations?: boolean) => void;
   fetchAutocompletions: (nlq: string) => Promise<void>;
-  fetchAggregations: (searchParameters: DiscoveryV2.QueryParams) => Promise<void>;
+  fetchGlobalAggregations: (searchParameters: DiscoveryV2.QueryParams) => Promise<void>;
   fetchDocuments: (filterString: string, searchResponse: DiscoveryV2.QueryResponse | null) => void;
   setSelectedResult: (result: SelectedResult) => void;
   setAutocompletionOptions: (
@@ -126,25 +127,32 @@ export interface SearchApiIFC {
   setIsResultsPaginationComponentHidden: (
     isResultsPaginationComponentHidden: boolean | React.SetStateAction<boolean | undefined>
   ) => void;
-  setFetchAggregationState: (fetchAggregationState: FetchAggregationStates) => void;
   fetchFields: () => void;
 }
 
 export const searchApiDefaults = {
   performSearch: (): Promise<void> => Promise.resolve(),
   fetchAutocompletions: (): Promise<void> => Promise.resolve(),
-  fetchAggregations: (): Promise<void> => Promise.resolve(),
+  fetchGlobalAggregations: (): Promise<void> => Promise.resolve(),
   fetchComponentSettings: (): Promise<void> => Promise.resolve(),
   fetchDocuments: (): void => {},
   setSelectedResult: (): void => {},
   setAutocompletionOptions: (): void => {},
   setSearchParameters: (): void => {},
   setIsResultsPaginationComponentHidden: (): void => {},
-  setFetchAggregationState: (): void => {},
   fetchFields: (): Promise<void> => Promise.resolve()
 };
 
 export const searchResponseStoreDefaults: SearchResponseStore = {
+  parameters: {
+    projectId: ''
+  },
+  data: null,
+  isLoading: false,
+  isError: false
+};
+
+export const globalAggregationsResponseStoreDefaults: GlobalAggregationsResponseStore = {
   parameters: {
     projectId: ''
   },
@@ -201,13 +209,13 @@ const fieldsStoreDefaults: FieldsStore = {
 export const searchContextDefaults = {
   aggregationResults: null,
   searchResponseStore: searchResponseStoreDefaults,
+  globalAggregationsResponseStore: globalAggregationsResponseStoreDefaults,
   fetchDocumentsResponseStore: fetchDocumentsResponseStoreDefaults,
   selectedResult: emptySelectedResult,
   autocompletionStore: autocompletionStoreDefaults,
   collectionsResults: null,
   componentSettings: null,
   isResultsPaginationComponentHidden: false,
-  fetchAggregationState: FetchAggregationStates.INIT,
   fieldsStore: fieldsStoreDefaults
 };
 
@@ -242,9 +250,6 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
   const [isResultsPaginationComponentHidden, setIsResultsPaginationComponentHidden] = useState<
     boolean
   >();
-  const [fetchAggregationState, setFetchAggregationState] = useState<FetchAggregationStates>(
-    FetchAggregationStates.INIT
-  );
 
   const [
     searchResponseStore,
@@ -252,6 +257,14 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
   ] = useSearchResultsApi(
     { projectId, ...overrideQueryParameters },
     overrideSearchResults,
+    searchClient
+  );
+
+  const [
+    globalAggregationsResponseStore,
+    { setGlobalAggregationsResponse }
+  ] = useGlobalAggregationsApi(
+    { ...globalAggregationsResponseStoreDefaults, projectId },
     searchClient
   );
 
@@ -289,9 +302,9 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
               response.result.aggregations,
               searchParameters
             );
-            setAggregationResults(updatedAggregations || null);
+            setGlobalAggregationsResponse(updatedAggregations || null);
           } else {
-            setAggregationResults(response.result.aggregations);
+            setGlobalAggregationsResponse(response.result.aggregations);
           }
         }
       }
@@ -302,7 +315,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
             result.aggregations,
             searchParameters
           );
-          setAggregationResults(updatedAggregations || null);
+          setGlobalAggregationsResponse(updatedAggregations || null);
         }
       });
     },
@@ -476,14 +489,13 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
 
   const api = {
     performSearch: handleSearch,
-    fetchAggregations: handleFetchAggregations,
+    fetchGlobalAggregations: handleFetchAggregations,
     fetchAutocompletions: handleFetchAutocompletions,
     fetchDocuments: handleFetchDocuments,
     setSelectedResult: handleSetSelectedResult,
     setAutocompletionOptions,
     setSearchParameters,
     setIsResultsPaginationComponentHidden,
-    setFetchAggregationState,
     fetchFields: handleFetchFields
   };
 
@@ -493,11 +505,11 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       autocompletionStore,
       fetchDocumentsResponseStore,
       searchResponseStore,
+      globalAggregationsResponseStore,
       selectedResult,
       collectionsResults,
       componentSettings,
       isResultsPaginationComponentHidden,
-      fetchAggregationState,
       fieldsStore
     };
   }, [
@@ -505,11 +517,11 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
     autocompletionStore,
     fetchDocumentsResponseStore,
     searchResponseStore,
+    globalAggregationsResponseStore,
     selectedResult,
     collectionsResults,
     componentSettings,
     isResultsPaginationComponentHidden,
-    fetchAggregationState,
     fieldsStore
   ]);
 
