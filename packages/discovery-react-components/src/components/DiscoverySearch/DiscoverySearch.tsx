@@ -17,7 +17,7 @@ import {
   useGlobalAggregationsApi,
   GlobalAggregationsResponseStore
 } from 'utils/useDataApi';
-import { SearchClient } from './types';
+import { SearchClient, SearchParams } from './types';
 import { withErrorBoundary } from 'react-error-boundary';
 import { FallbackComponent } from 'utils/FallbackComponent';
 import onErrorCallback from 'utils/onErrorCallback';
@@ -26,8 +26,7 @@ import {
   QueryAggregationWithName,
   isQueryAggregationWithName
 } from 'components/SearchFacets/utils/searchFacetInterfaces';
-
-export type SearchParams = Omit<DiscoveryV2.QueryParams, 'projectId' | 'headers'>;
+import { deprecateReturnFields } from 'utils/deprecation';
 
 export interface DiscoverySearchProps {
   /**
@@ -163,7 +162,7 @@ export const globalAggregationsResponseStoreDefaults: GlobalAggregationsResponse
 export const fetchDocumentsResponseStoreDefaults: FetchDocumentsResponseStore = {
   parameters: {
     projectId: '',
-    returnFields: [],
+    _return: [],
     aggregation: '',
     passages: {
       enabled: false
@@ -179,7 +178,8 @@ export const fetchDocumentsResponseStoreDefaults: FetchDocumentsResponseStore = 
 
 export const autocompletionStoreDefaults: AutocompleteStore = {
   parameters: {
-    projectId: ''
+    projectId: '',
+    prefix: ''
   },
   data: null,
   isLoading: false,
@@ -250,7 +250,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
     searchResponseStore,
     { setSearchResponse, setSearchParameters, performSearch }
   ] = useSearchResultsApi(
-    { projectId, ...overrideQueryParameters },
+    { projectId, ...deprecateReturnFields(overrideQueryParameters) },
     overrideSearchResults,
     searchClient
   );
@@ -281,8 +281,14 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
   );
 
   const handleSearch = useCallback(
-    async (searchParameters, resetAggregations = true): Promise<void> => {
+    async (
+      backwardsCompatibleQueryParams: DiscoveryV2.QueryParams & { returnFields?: string[] },
+      resetAggregations = true
+    ): Promise<void> => {
       let aggregationsFetched = false;
+      const searchParameters = deprecateReturnFields(
+        backwardsCompatibleQueryParams
+      ) as DiscoveryV2.QueryParams;
       setSearchParameters(searchParameters);
       // don't use the search response if filter is set, just do another search
       if (resetAggregations && searchParameters.filter !== '') {
@@ -319,7 +325,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
   );
 
   const [autocompletionStore, { fetchAutocompletions, setAutocompletions }] = useAutocompleteApi(
-    { projectId, count: autocompletionOptions.completionsCount },
+    { projectId, count: autocompletionOptions.completionsCount, prefix: '' },
     overrideAutocompletionResults,
     searchClient
   );
@@ -333,7 +339,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       return {
         ...currentSearchParameters,
         projectId,
-        ...overrideQueryParameters
+        ...deprecateReturnFields(overrideQueryParameters)
       };
     });
   }, [projectId, overrideQueryParameters]);
@@ -417,7 +423,12 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
   );
 
   const handleFetchAggregations = useCallback(
-    async (searchParameters): Promise<void> => {
+    async (
+      backwardsCompatibleQueryParams: DiscoveryV2.QueryParams & { returnFields?: [] }
+    ): Promise<void> => {
+      const searchParameters = deprecateReturnFields(
+        backwardsCompatibleQueryParams
+      ) as DiscoveryV2.QueryParams;
       // since we only call this when the aggregation changes, we can safely reset the filter
       const searchParamsWithoutFilter = { ...searchParameters, filter: '' };
       setSearchParameters(searchParamsWithoutFilter);

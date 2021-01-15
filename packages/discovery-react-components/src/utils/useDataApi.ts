@@ -1,6 +1,7 @@
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { useState, useEffect, useReducer, useCallback, useRef } from 'react';
 import { SearchClient } from 'components/DiscoverySearch/types';
+import { deprecateReturnFields } from 'utils/deprecation';
 
 /**
  * generic reducer to handle updating loading, error, and data
@@ -36,7 +37,7 @@ const dataFetchReducer = (state: any, action: any) => {
 /**
  * interface to explain the return value of useDataApi
  */
-interface UseDataApiReturn {
+interface UseDataApiReturn<T, U> {
   /**
    * similar to useReducer, state is where the data and loading/error information live
    */
@@ -44,15 +45,15 @@ interface UseDataApiReturn {
   /**
    * parameters are sent to the API for the corresponding SDK method
    */
-  parameters: any;
+  parameters: T;
   /**
    * a method used to update the parameters that are sent to the API
    */
-  setParameters: (initialData: any) => void;
+  setParameters: React.Dispatch<React.SetStateAction<T>>;
   /**
    * a method that can be used to override the data attribute directly
    */
-  setData: React.Dispatch<React.SetStateAction<any>>;
+  setData: (value?: U) => void;
   /**
    * a method that is used to invoke the API call with whatever parameters are currently stored
    */
@@ -83,12 +84,12 @@ interface FetchToken {
  * @param searchClientMethod - api method reference on the searchClient
  * @param searchClient - the client used to do data fetching
  */
-const useDataApi = (
-  initialParameters: any,
-  initialData: any,
-  searchClientMethod: (params: any, callback?: any) => void | Promise<any>,
+const useDataApi = <T, U>(
+  initialParameters: T,
+  initialData: U | null,
+  searchClientMethod: (params: T, callback?: any) => void | Promise<any>,
   searchClient: SearchClient
-): UseDataApiReturn => {
+): UseDataApiReturn<T, U> => {
   // useRef stores state without rerenders
   // token to pass by reference instead of by value to keep track of cancellation state on unmount
   const cancelToken = useRef(false);
@@ -96,14 +97,14 @@ const useDataApi = (
   const requestIdRef = useRef(0);
   // token used to invoke the API call and optionally return the response data to the callback
   const [fetchToken, setFetchToken] = useState<FetchToken>({ trigger: false, callback: undefined });
-  const [parameters, setParameters] = useState(initialParameters);
+  const [parameters, setParameters] = useState<T>(initialParameters);
   const [state, dispatch] = useReducer(dataFetchReducer, {
     isLoading: false,
     isError: false,
     data: initialData
   });
 
-  const setData = (data: any): void => {
+  const setData = (data?: U): void => {
     dispatch({ type: 'FETCH_SUCCESS', payload: data });
   };
 
@@ -178,7 +179,7 @@ export interface FieldsStoreActions {
    * method used to invoke the search request with an optional callback to return the response data
    */
   fetchFields: () => void;
-  setFieldsResponse: (overrideResults: DiscoveryV2.ListFieldsResponse | null) => void;
+  setFieldsResponse: (overrideResults?: DiscoveryV2.ListFieldsResponse) => void;
 }
 
 /**
@@ -192,12 +193,10 @@ export const useFieldsApi = (
   fetchFieldsParams: DiscoveryV2.ListFieldsParams,
   searchClient: SearchClient
 ): [FieldsStore, FieldsStoreActions] => {
-  const { state: fieldsState, setData: setFieldsResponse, setFetchToken } = useDataApi(
-    fetchFieldsParams,
-    null,
-    searchClient.listFields,
-    searchClient
-  );
+  const { state: fieldsState, setData: setFieldsResponse, setFetchToken } = useDataApi<
+    DiscoveryV2.ListFieldsParams,
+    DiscoveryV2.ListFieldsResponse
+  >(fetchFieldsParams, null, searchClient.listFields, searchClient);
 
   const fetchFields = useCallback(() => setFetchToken({ trigger: true }), [setFetchToken]);
 
@@ -225,11 +224,13 @@ export interface SearchResponseStoreActions {
   /**
    * method to set the parameters to be used with the search API when performSearch is invoked
    */
-  setSearchParameters: React.Dispatch<React.SetStateAction<DiscoveryV2.QueryParams>>;
+  setSearchParameters: React.Dispatch<
+    React.SetStateAction<DiscoveryV2.QueryParams & { returnFields?: string[] }>
+  >;
   /**
    * method to override the current search response
    */
-  setSearchResponse: (overrideSearchResponse: DiscoveryV2.QueryResponse | null) => void;
+  setSearchResponse: (overrideSearchResponse?: DiscoveryV2.QueryResponse) => void;
   /**
    * method used to invoke the search request with an optional callback to return the response data
    */
@@ -251,10 +252,32 @@ export const useSearchResultsApi = (
   const {
     state: searchState,
     parameters: currentSearchParameters,
-    setParameters: setSearchParameters,
+    setParameters: setSearchParametersBackwardsCompatible,
     setData: setSearchResponse,
     setFetchToken
-  } = useDataApi(searchParameters, overrideSearchResults, searchClient.query, searchClient);
+  } = useDataApi<DiscoveryV2.QueryParams, DiscoveryV2.QueryResponse>(
+    searchParameters,
+    overrideSearchResults,
+    searchClient.query,
+    searchClient
+  );
+  const setSearchParameters = (
+    backwardsCompatibleSearchParameters: React.SetStateAction<DiscoveryV2.QueryParams>
+  ) => {
+    // if backwardsCompatibleSearchParameters is a function, we cannot modify the parameters, call it with previous state
+    if (typeof backwardsCompatibleSearchParameters === 'function') {
+      setSearchParametersBackwardsCompatible(prevState => {
+        return deprecateReturnFields(
+          backwardsCompatibleSearchParameters(prevState)
+        ) as DiscoveryV2.QueryParams;
+      });
+    } else {
+      // otherwise just modify the object
+      setSearchParametersBackwardsCompatible(
+        deprecateReturnFields(backwardsCompatibleSearchParameters) as DiscoveryV2.QueryParams
+      );
+    }
+  };
 
   // callback can be passed in here to return back data to the invoker of the search
   // in the specific case here, we need to set our aggregation store after performing a search
@@ -366,12 +389,10 @@ export const useFetchDocumentsApi = (
   searchParameters: DiscoveryV2.QueryParams,
   searchClient: SearchClient
 ): [FetchDocumentsResponseStore, FetchDocumentsActions] => {
-  const { state: searchState, setParameters: setSearchParameters, setFetchToken } = useDataApi(
-    searchParameters,
-    null,
-    searchClient.query,
-    searchClient
-  );
+  const { state: searchState, setParameters: setSearchParameters, setFetchToken } = useDataApi<
+    DiscoveryV2.QueryParams,
+    DiscoveryV2.QueryResponse
+  >(searchParameters, null, searchClient.query, searchClient);
 
   const fetchDocuments = useCallback(
     (filter: string, callback: (result: DiscoveryV2.QueryResponse) => void): void => {
@@ -403,7 +424,7 @@ export interface AutocompleteStore extends ReducerState {
  * autocomplete actions used to interact with the autocomplete API and autocomplete state
  */
 export interface AutocompleteActions {
-  setAutocompletions: (data: DiscoveryV2.Completions | null) => void;
+  setAutocompletions: (data?: DiscoveryV2.Completions) => void;
   /**
    * method used to invoke the async autocomplete request
    */
@@ -428,7 +449,7 @@ export const useAutocompleteApi = (
     setParameters: setAutocompleteParameters,
     setData: setAutocompletions,
     setFetchToken
-  } = useDataApi(
+  } = useDataApi<DiscoveryV2.GetAutocompletionParams, DiscoveryV2.Completions>(
     autocompleteParmeters,
     overrideAutocompletions,
     searchClient.getAutocompletion,
