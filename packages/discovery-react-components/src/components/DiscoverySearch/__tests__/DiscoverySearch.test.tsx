@@ -1,5 +1,5 @@
 import React, { cloneElement } from 'react';
-import { render, act, fireEvent, RenderResult, wait, findByText } from '@testing-library/react';
+import { render, fireEvent, RenderResult, wait } from '@testing-library/react';
 import DiscoverySearch, {
   DiscoverySearchProps,
   SearchApi,
@@ -103,7 +103,13 @@ describe('DiscoverySearch', () => {
       } = setup(
         {
           overrideSelectedResult: {
-            document: { extracted_metadata: { title: 'foo' } },
+            document: {
+              document_id: 'document_id',
+              result_metadata: {
+                collection_id: 'collection_id'
+              },
+              extracted_metadata: { title: 'foo' }
+            },
             element: null,
             elementType: null
           }
@@ -288,7 +294,7 @@ describe('DiscoverySearch', () => {
         passages: {
           enabled: false
         },
-        returnFields: [],
+        _return: [],
         tableResults: {
           enabled: false
         }
