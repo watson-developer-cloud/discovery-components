@@ -100,7 +100,6 @@ export const emptySelectedResult = {
 };
 
 export interface SearchContextIFC {
-  aggregationResults: DiscoveryV2.QueryAggregation[] | QueryAggregationWithName[] | null;
   searchResponseStore: SearchResponseStore;
   fetchDocumentsResponseStore: FetchDocumentsResponseStore;
   collectionsResults: DiscoveryV2.ListCollectionsResponse | null;
@@ -207,7 +206,6 @@ const fieldsStoreDefaults: FieldsStore = {
 };
 
 export const searchContextDefaults = {
-  aggregationResults: null,
   searchResponseStore: searchResponseStoreDefaults,
   globalAggregationsResponseStore: globalAggregationsResponseStoreDefaults,
   fetchDocumentsResponseStore: fetchDocumentsResponseStoreDefaults,
@@ -234,9 +232,6 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
   overrideComponentSettings = null,
   children
 }) => {
-  const [aggregationResults, setAggregationResults] = useState<
-    DiscoveryV2.QueryAggregation[] | QueryAggregationWithName[] | null
-  >(overrideAggregationResults);
   const [
     collectionsResults,
     setCollectionsResults
@@ -265,6 +260,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
     { setGlobalAggregationsResponse }
   ] = useGlobalAggregationsApi(
     { ...globalAggregationsResponseStoreDefaults, projectId },
+    overrideAggregationResults,
     searchClient
   );
 
@@ -341,10 +337,6 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       };
     });
   }, [projectId, overrideQueryParameters]);
-
-  useDeepCompareEffect(() => {
-    setAggregationResults(overrideAggregationResults);
-  }, [overrideAggregationResults]);
 
   useDeepCompareEffect(() => {
     setCollectionsResults(overrideCollectionsResults);
@@ -439,7 +431,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
             searchParametersWithAggregationDefaults
           );
         }
-        setAggregationResults(updatedAggregations || null);
+        setGlobalAggregationsResponse(updatedAggregations || null);
       }
     },
     [fetchTypeForTopEntitiesAggregation, searchClient, setSearchParameters]
@@ -501,7 +493,6 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
 
   const state = useDeepCompareMemo(() => {
     return {
-      aggregationResults,
       autocompletionStore,
       fetchDocumentsResponseStore,
       searchResponseStore,
@@ -513,7 +504,6 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       fieldsStore
     };
   }, [
-    aggregationResults,
     autocompletionStore,
     fetchDocumentsResponseStore,
     searchResponseStore,

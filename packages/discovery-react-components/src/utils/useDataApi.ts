@@ -308,6 +308,7 @@ export interface GlobalAggregationsStoreActions {
 
 export const useGlobalAggregationsApi = (
   searchParameters: DiscoveryV2.QueryParams,
+  overrideAggregationResults: DiscoveryV2.QueryAggregation[] | null,
   searchClient: SearchClient
 ): [GlobalAggregationsResponseStore, GlobalAggregationsStoreActions] => {
   const {
@@ -316,7 +317,7 @@ export const useGlobalAggregationsApi = (
     setParameters: setGlobalAggregationParameters,
     setData: setGlobalAggregationsResponse,
     setFetchToken
-  } = useDataApi(searchParameters, null, searchClient.query, searchClient);
+  } = useDataApi(searchParameters, overrideAggregationResults, searchClient.query, searchClient);
 
   const fetchGlobalAggregations = useCallback(
     (callback?: (result: DiscoveryV2.QueryAggregation[] | null) => void): void =>
