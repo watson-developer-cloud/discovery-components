@@ -44,6 +44,10 @@ storiesOf('CIDocument', module)
   })
   .add('parse error', () => {
     const badDoc = {
+      document_id: 'document_id',
+      result_metadata: {
+        collection_id: 'collection_id'
+      },
       extracted_metadata: {
         publicationdate: '2018-10-24',
         sha1: '754836ffd690207d39b9f8db08b8099e787c61fa',
