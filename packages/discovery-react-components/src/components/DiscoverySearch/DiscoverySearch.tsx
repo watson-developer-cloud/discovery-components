@@ -339,6 +339,10 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
   }, [projectId, overrideQueryParameters]);
 
   useDeepCompareEffect(() => {
+    setGlobalAggregationsResponse(overrideAggregationResults);
+  }, [overrideAggregationResults]);
+
+  useDeepCompareEffect(() => {
     setCollectionsResults(overrideCollectionsResults);
   }, [overrideCollectionsResults]);
 

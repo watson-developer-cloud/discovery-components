@@ -1,4 +1,4 @@
-import React, { FC, useContext, useState, useEffect, SyntheticEvent } from 'react';
+import React, { FC, useContext, useEffect, useState, SyntheticEvent } from 'react';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { Button } from 'carbon-components-react';
 import { settings } from 'carbon-components';
