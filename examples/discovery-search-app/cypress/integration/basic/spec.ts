@@ -98,7 +98,7 @@ describe('Basic search errors', () => {
       cy.fixture('query/query').as('queryJSON');
       cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQuery');
 
-      visitHomePage(['@getCollections', '@getComponentSettings', '@postQuery']);
+      visitHomePage(['@getCollections', '@getComponentSettings']);
 
       cy.findByPlaceholderText('Search').as('searchInput');
 
