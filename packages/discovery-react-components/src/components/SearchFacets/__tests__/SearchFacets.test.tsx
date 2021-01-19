@@ -326,7 +326,9 @@ describe('SearchFacetsComponent', () => {
         test('does show the root clear all button on load', () => {
           const { searchFacetsComponent } = setupData;
           fireEvent.click(searchFacetsComponent.getByText('Available collections'));
-          expect(searchFacetsComponent.getByLabelText('Machine Learning')['checked']).toEqual(true);
+          const checkbox = searchFacetsComponent.getByText('Machine Learning');
+
+          expect(checkbox).toHaveAttribute('data-contained-checkbox-state', 'true');
           expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(1);
         });
 
@@ -336,9 +338,9 @@ describe('SearchFacetsComponent', () => {
             fireEvent.click(searchFacetsComponent.getByText('Clear all'));
             fireEvent.click(searchFacetsComponent.getByText('Available collections'));
             expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(0);
-            expect(searchFacetsComponent.getByLabelText('Machine Learning')['checked']).toEqual(
-              false
-            );
+            const checkbox = searchFacetsComponent.getByText('Machine Learning');
+
+            expect(checkbox).toHaveAttribute('data-contained-checkbox-state', 'false');
           });
         });
       });
@@ -361,10 +363,10 @@ describe('SearchFacetsComponent', () => {
           test('does show the root clear all button on selection', () => {
             const { searchFacetsComponent } = setupData;
             fireEvent.click(searchFacetsComponent.getByText('Available collections'));
-            fireEvent.click(searchFacetsComponent.getByLabelText('Machine Learning'));
-            expect(searchFacetsComponent.getByLabelText('Machine Learning')['checked']).toEqual(
-              true
-            );
+            fireEvent.click(searchFacetsComponent.getByTitle('Machine Learning'));
+            const checkbox = searchFacetsComponent.getByText('Machine Learning');
+
+            expect(checkbox).toHaveAttribute('data-contained-checkbox-state', 'true');
             expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(1);
           });
 
@@ -372,12 +374,12 @@ describe('SearchFacetsComponent', () => {
             test('the collection is deselected and the clear all button is no longer shown', () => {
               const { searchFacetsComponent } = setupData;
               fireEvent.click(searchFacetsComponent.getByText('Available collections'));
-              fireEvent.click(searchFacetsComponent.getByLabelText('Machine Learning'));
+              fireEvent.click(searchFacetsComponent.getByTitle('Machine Learning'));
               fireEvent.click(searchFacetsComponent.getByText('Clear all'));
               expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(0);
-              expect(searchFacetsComponent.getByLabelText('Machine Learning')['checked']).toEqual(
-                false
-              );
+              const checkbox = searchFacetsComponent.getByText('Machine Learning');
+
+              expect(checkbox).toHaveAttribute('data-contained-checkbox-state', 'false');
             });
           });
         });
@@ -386,12 +388,13 @@ describe('SearchFacetsComponent', () => {
           test('does show the root clear all button on selection', () => {
             const { searchFacetsComponent } = setupData;
             fireEvent.click(searchFacetsComponent.getByText('Available collections'));
-            fireEvent.click(searchFacetsComponent.getByLabelText('Machine Learning'));
-            fireEvent.click(searchFacetsComponent.getByLabelText('AI Strategy'));
-            expect(searchFacetsComponent.getByLabelText('Machine Learning')['checked']).toEqual(
-              true
-            );
-            expect(searchFacetsComponent.getByLabelText('AI Strategy')['checked']).toEqual(true);
+            fireEvent.click(searchFacetsComponent.getByTitle('Machine Learning'));
+            fireEvent.click(searchFacetsComponent.getByTitle('AI Strategy'));
+            const checkbox = searchFacetsComponent.getByText('Machine Learning');
+            const otherCheckbox = searchFacetsComponent.getByText('Machine Learning');
+
+            expect(checkbox).toHaveAttribute('data-contained-checkbox-state', 'true');
+            expect(otherCheckbox).toHaveAttribute('data-contained-checkbox-state', 'true');
             expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(1);
           });
 
@@ -399,14 +402,15 @@ describe('SearchFacetsComponent', () => {
             test('all collections are deselected and the clear all button is no longer shown', () => {
               const { searchFacetsComponent } = setupData;
               fireEvent.click(searchFacetsComponent.getByText('Available collections'));
-              fireEvent.click(searchFacetsComponent.getByLabelText('Machine Learning'));
-              fireEvent.click(searchFacetsComponent.getByLabelText('AI Strategy'));
+              fireEvent.click(searchFacetsComponent.getByTitle('Machine Learning'));
+              fireEvent.click(searchFacetsComponent.getByTitle('AI Strategy'));
               fireEvent.click(searchFacetsComponent.getByText('Clear all'));
               expect(searchFacetsComponent.queryAllByText('Clear all')).toHaveLength(0);
-              expect(searchFacetsComponent.getByLabelText('Machine Learning')['checked']).toEqual(
-                false
-              );
-              expect(searchFacetsComponent.getByLabelText('AI Strategy')['checked']).toEqual(false);
+              const checkbox = searchFacetsComponent.getByText('Machine Learning');
+              const otherCheckbox = searchFacetsComponent.getByText('Machine Learning');
+
+              expect(checkbox).toHaveAttribute('data-contained-checkbox-state', 'false');
+              expect(otherCheckbox).toHaveAttribute('data-contained-checkbox-state', 'false');
             });
           });
         });

@@ -1,5 +1,5 @@
 import React, {
-  FC,
+  ForwardRefRenderFunction,
   forwardRef,
   MutableRefObject,
   useImperativeHandle,
@@ -28,7 +28,7 @@ interface VirtualScrollProps {
 
 const baseClassName = `${settings.prefix}--ci-doc-virtual-scroll`;
 
-const VirtualScroll: FC<VirtualScrollProps> = (
+const VirtualScroll: ForwardRefRenderFunction<any, VirtualScrollProps> = (
   { children: rowRenderer, rowCount, width, height },
   ref
 ) => {

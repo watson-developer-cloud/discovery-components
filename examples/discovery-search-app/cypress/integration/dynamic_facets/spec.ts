@@ -14,7 +14,7 @@ describe('Dynamic Facets', () => {
       'facetsQueryDynamicAndNonDynamicJSON'
     );
 
-    cy.findByLabelText('Search').type('restaurants{enter}');
+    cy.findByPlaceholderText('Search').type('restaurants{enter}');
     cy.wait('@postQuery');
     cy.get('.bx--search-facet')
       .filter(':contains("Dynamic Facets")')

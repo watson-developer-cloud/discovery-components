@@ -323,7 +323,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
             'assistant (32444)'
           );
           fireEvent.click(assistantModalFacetValue);
-          const closeButton = within(productsModal).getByTitle('close the modal');
+          const closeButton = within(productsModal).getByTitle('Close');
           fireEvent.click(closeButton);
           expect(performSearchMock).toBeCalledTimes(0);
           const assistantFacetValues = searchFacetsComponent.queryAllByLabelText(
@@ -456,7 +456,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
       fireEvent.click(productsShowMoreButton);
       const searchBarValue = productsSearchBar.getAttribute('value');
       expect(searchBarValue).toBe('');
-      const closeButton = within(productsModal).getByTitle('close the modal');
+      const closeButton = within(productsModal).getByTitle('Close');
       fireEvent.click(closeButton);
     });
   });

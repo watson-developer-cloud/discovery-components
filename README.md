@@ -489,6 +489,7 @@ Steps in the automation can be set in `.travis.yml`, located in the root directo
 - `master` is an eternal branch - bleeding edge, reviewed but not necessarily released code
 - `release/x.x.x` is a temporary branch created for beginning a production release. this contains all the features needed for the release and will only receive bugfixes. Once the release is complete, this branch is tagged and merged back into `master`. example steps:
   - `git checkout release/2.3.0`
+  - add a "Begin Release" commit (otherwise "ci skip" will prevent travis from building)
   - if we want to publish a release candidate (not final build):
     - `npx lerna publish --conventional-prerelease --preid rc --dist-tag rc`
     - (after we find out the `rc` is good to go) `npx lerna publish --create-release github --conventional-graduate` [docs](https://github.com/lerna/lerna/blob/master/commands/version/README.md#--conventional-graduate)
