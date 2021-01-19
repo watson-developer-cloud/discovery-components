@@ -4,7 +4,8 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = ({ config }) => {
   config.node = {
-    fs: 'empty'
+    fs: 'empty',
+    module: 'empty'
   };
   config.module.rules.push({
     test: /\.(ts|tsx)$/,
