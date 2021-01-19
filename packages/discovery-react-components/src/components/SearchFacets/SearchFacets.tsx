@@ -119,7 +119,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     SelectedCollectionItems['selectedItems']
   >(initialSelectedCollections);
 
-  const { performSearch, fetchGlobalAggregations } = useContext(SearchApi);
+  const { performSearch, fetchAggregations } = useContext(SearchApi);
   const mergedMessages = { ...defaultMessages, ...messages };
 
   const componentSettingsAggregations =
@@ -129,13 +129,13 @@ const SearchFacets: FC<SearchFacetsProps> = ({
 
   useEffect(() => {
     async function fetchData() {
-      await fetchGlobalAggregations(searchParameters);
+      await fetchAggregations(searchParameters);
     }
 
     if (!aggregations) {
       fetchData();
     }
-  }, [fetchGlobalAggregations, searchParameters]);
+  }, [fetchAggregations, searchParameters]);
 
   useDeepCompareEffect(() => {
     if (filter === '') {

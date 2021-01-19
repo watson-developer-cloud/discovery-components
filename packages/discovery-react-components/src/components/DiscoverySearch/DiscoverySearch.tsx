@@ -114,7 +114,7 @@ export interface SearchContextIFC {
 export interface SearchApiIFC {
   performSearch: (searchParameters: DiscoveryV2.QueryParams, resetAggregations?: boolean) => void;
   fetchAutocompletions: (nlq: string) => Promise<void>;
-  fetchGlobalAggregations: (searchParameters: DiscoveryV2.QueryParams) => Promise<void>;
+  fetchAggregations: (searchParameters: DiscoveryV2.QueryParams) => Promise<void>;
   fetchDocuments: (filterString: string, searchResponse: DiscoveryV2.QueryResponse | null) => void;
   setSelectedResult: (result: SelectedResult) => void;
   setAutocompletionOptions: (
@@ -132,7 +132,7 @@ export interface SearchApiIFC {
 export const searchApiDefaults = {
   performSearch: (): Promise<void> => Promise.resolve(),
   fetchAutocompletions: (): Promise<void> => Promise.resolve(),
-  fetchGlobalAggregations: (): Promise<void> => Promise.resolve(),
+  fetchAggregations: (): Promise<void> => Promise.resolve(),
   fetchComponentSettings: (): Promise<void> => Promise.resolve(),
   fetchDocuments: (): void => {},
   setSelectedResult: (): void => {},
@@ -481,7 +481,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
 
   const api = {
     performSearch: handleSearch,
-    fetchGlobalAggregations: handleFetchAggregations,
+    fetchAggregations: handleFetchAggregations,
     fetchAutocompletions: handleFetchAutocompletions,
     fetchDocuments: handleFetchDocuments,
     setSelectedResult: handleSetSelectedResult,

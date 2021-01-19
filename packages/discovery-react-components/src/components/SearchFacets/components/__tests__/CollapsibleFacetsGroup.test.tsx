@@ -13,7 +13,7 @@ import { facetsQueryResponse } from 'components/SearchFacets/__fixtures__/facets
 interface Setup {
   context: Partial<SearchContextIFC>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  fetchGlobalAggregationsMock: jest.Mock<any, any>;
+  fetchAggregationsMock: jest.Mock<any, any>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   performSearchMock: jest.Mock<any, any>;
   searchFacetsComponent: RenderResult;
@@ -33,14 +33,13 @@ const defaultSetupConfig: SetupConfig = {
 
 const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
   const mergedSetupConfig = { ...defaultSetupConfig, ...setupConfig };
-  const fetchGlobalAggregationsMock = jest.fn();
+  const fetchAggregationsMock = jest.fn();
   const performSearchMock = jest.fn();
   const context: Partial<SearchContextIFC> = {
     globalAggregationsResponseStore: {
       ...globalAggregationsResponseStoreDefaults,
       data: facetsQueryResponse.result.aggregations || []
     },
-    aggregationResults: facetsQueryResponse.result.aggregations,
     searchResponseStore: {
       ...searchResponseStoreDefaults,
       parameters: {
@@ -52,7 +51,7 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
   };
   const api: Partial<SearchApiIFC> = {
     performSearch: performSearchMock,
-    fetchGlobalAggregations: fetchGlobalAggregationsMock
+    fetchAggregations: fetchAggregationsMock
   };
   const searchFacetsComponent = render(
     wrapWithContext(
@@ -67,7 +66,7 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
   return {
     context,
     performSearchMock,
-    fetchGlobalAggregationsMock,
+    fetchAggregationsMock,
     searchFacetsComponent
   };
 };

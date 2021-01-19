@@ -22,14 +22,14 @@ interface Props {
   globalAggregationsResponseStoreOverrides?: GlobalAggregationsResponseStore;
   componentSettingsAggregations?: DiscoveryV2.ComponentSettingsAggregation[];
   collectionIds?: string[];
-  fetchGlobalAggregationsMock?: jest.Mock<any, any>;
+  fetchAggregationsMock?: jest.Mock<any, any>;
   serverErrorMessage?: React.ReactNode;
 }
 
 interface Setup {
   context: Partial<SearchContextIFC>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  fetchGlobalAggregationsMock: jest.Mock<any, any>;
+  fetchAggregationsMock: jest.Mock<any, any>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   performSearchMock: jest.Mock<any, any>;
   onChangeMock: jest.Mock;
@@ -43,10 +43,10 @@ const setup = ({
   globalAggregationsResponseStoreOverrides,
   componentSettingsAggregations,
   collectionIds,
-  fetchGlobalAggregationsMock,
+  fetchAggregationsMock,
   serverErrorMessage
 }: Props = {}): Setup => {
-  fetchGlobalAggregationsMock = fetchGlobalAggregationsMock || jest.fn();
+  fetchAggregationsMock = fetchAggregationsMock || jest.fn();
   const performSearchMock = jest.fn();
   const onChangeMock = jest.fn();
 
@@ -73,7 +73,7 @@ const setup = ({
 
   const api: Partial<SearchApiIFC> = {
     performSearch: performSearchMock,
-    fetchGlobalAggregations: fetchGlobalAggregationsMock
+    fetchAggregations: fetchAggregationsMock
   };
 
   const searchFacetsComponent = render(
@@ -92,7 +92,7 @@ const setup = ({
     context,
     performSearchMock,
     onChangeMock,
-    fetchGlobalAggregationsMock,
+    fetchAggregationsMock,
     searchFacetsComponent
   };
 };
@@ -105,11 +105,11 @@ describe('SearchFacetsComponent', () => {
         ...globalAggregationsResponseStoreOverrides,
         data: null
       };
-      const { fetchGlobalAggregationsMock } = setup({
+      const { fetchAggregationsMock } = setup({
         globalAggregationsResponseStoreOverrides
       });
-      expect(fetchGlobalAggregationsMock).toBeCalledTimes(1);
-      expect(fetchGlobalAggregationsMock).toBeCalledWith(
+      expect(fetchAggregationsMock).toBeCalledTimes(1);
+      expect(fetchAggregationsMock).toBeCalledWith(
         expect.objectContaining({
           aggregation: '[term(author,count:3),term(subject,count:4)]'
         })
@@ -124,7 +124,7 @@ describe('SearchFacetsComponent', () => {
         isError: true
       };
       const { searchFacetsComponent } = setup({
-        fetchGlobalAggregationsMock: jest.fn().mockImplementationOnce(() => {
+        fetchAggregationsMock: jest.fn().mockImplementationOnce(() => {
           const httpError: any = new Error('500 Server Error');
           httpError.status = httpError.statusCode = 500;
           throw httpError;
@@ -143,7 +143,7 @@ describe('SearchFacetsComponent', () => {
         isError: true
       };
       const { searchFacetsComponent } = setup({
-        fetchGlobalAggregationsMock: jest.fn().mockImplementationOnce(() => {
+        fetchAggregationsMock: jest.fn().mockImplementationOnce(() => {
           const httpError: any = new Error('500 Server Error');
           httpError.status = httpError.statusCode = 500;
           throw httpError;
@@ -162,7 +162,7 @@ describe('SearchFacetsComponent', () => {
         isError: true
       };
       const { searchFacetsComponent } = setup({
-        fetchGlobalAggregationsMock: jest.fn().mockImplementationOnce(() => {
+        fetchAggregationsMock: jest.fn().mockImplementationOnce(() => {
           const httpError: any = new Error('500 Server Error');
           httpError.status = httpError.statusCode = 500;
           throw httpError;
@@ -467,7 +467,10 @@ describe('SearchFacetsComponent', () => {
             <SearchFacets messages={{ clearAllButtonText: 'different text' }} />,
             {},
             {
-              aggregationResults: [termAgg],
+              globalAggregationsResponseStore: {
+                ...globalAggregationsResponseStoreDefaults,
+                data: [termAgg]
+              },
               searchResponseStore: {
                 ...searchResponseStoreDefaults,
                 parameters: {
