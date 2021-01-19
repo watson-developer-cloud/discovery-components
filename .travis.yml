@@ -13,9 +13,9 @@ branches:
     - /^hotfix\/.*/
 script:
   - yarn lint
-  - lerna run build
-  - lerna run storybook:build
-  - lerna run test
+  - lerna run build --parallel
+  - lerna run storybook:build --parallel
+  - lerna run test --parallel
 before_deploy:
   - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
   - git config --global push.default simple
