@@ -7,6 +7,7 @@ describe('Table Results', () => {
     // Set up/override routes & fixtures that are specific to this file
     cy.fixture('query/tableResults.json').as('tableResultsJSON');
     cy.route('POST', '**/query?version=2019-01-01', '@tableResultsJSON').as('postQueryTables');
+    cy.wait('@postQueryTables');
   });
 
   describe('When entering a query whose results contain tables', () => {
@@ -52,6 +53,7 @@ describe('Table Results', () => {
       describe('and clicking on the close preview button', () => {
         beforeEach(() => {
           cy.findByLabelText('Back to search').click();
+          cy.wait('@postQueryTables');
         });
 
         it('closes the document preview', () => {
@@ -97,6 +99,7 @@ describe('Table Results', () => {
           cy.get('label')
             .contains('Show table results only')
             .click();
+          cy.wait('@postQueryTables');
         });
 
         it('all of the results are displayed', () => {
