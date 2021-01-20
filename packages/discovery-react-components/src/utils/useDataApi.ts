@@ -245,7 +245,7 @@ export interface SearchResponseStoreActions {
  * @return a 2-element array containing the search store data and search-specific store actions
  */
 export const useSearchResultsApi = (
-  searchParameters: DiscoveryV2.QueryParams,
+  searchParameters: DiscoveryV2.QueryParams & { returnFields?: string[] },
   searchClient: SearchClient,
   overrideSearchResults?: DiscoveryV2.QueryResponse
 ): [SearchResponseStore, SearchResponseStoreActions] => {
@@ -256,7 +256,7 @@ export const useSearchResultsApi = (
     setData: setSearchResponse,
     setFetchToken
   } = useDataApi<DiscoveryV2.QueryParams, DiscoveryV2.QueryResponse>(
-    searchParameters,
+    deprecateReturnFields(searchParameters) as DiscoveryV2.QueryParams,
     searchClient.query,
     searchClient,
     overrideSearchResults

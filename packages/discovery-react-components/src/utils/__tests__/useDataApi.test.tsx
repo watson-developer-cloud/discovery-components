@@ -101,6 +101,12 @@ const TestSearchStoreComponent: FC<TestSearchStoreComponentProps> = ({
         data-testid="setSearchParameters"
         onClick={() => searchResponseApi.setSearchParameters({ projectId: 'set' })}
       />
+      <button
+        data-testid="setSearchParametersLegacy"
+        onClick={() =>
+          searchResponseApi.setSearchParameters({ projectId: 'set', returnFields: ['field'] })
+        }
+      />
       <div data-testid="searchResponseStore">{JSON.stringify(searchResponseStore)}</div>
     </>
   );
@@ -132,6 +138,24 @@ describe('useSearchResultsApi', () => {
         expect.objectContaining({
           projectId: 'foo',
           naturalLanguageQuery: 'bar'
+        })
+      );
+    });
+
+    test('can set initial search parameters with legacy returnFields', () => {
+      const searchParameters = {
+        projectId: 'foo',
+        returnFields: ['bar']
+      };
+      const result = render(<TestSearchStoreComponent searchParameters={searchParameters} />);
+      const json: SearchResponseStore = JSON.parse(
+        result.getByTestId('searchResponseStore').textContent || '{}'
+      );
+
+      expect(json.parameters).toEqual(
+        expect.objectContaining({
+          projectId: 'foo',
+          _return: ['bar']
         })
       );
     });
@@ -335,6 +359,24 @@ describe('useSearchResultsApi', () => {
       expect(json.parameters).toEqual(
         expect.objectContaining({
           projectId: 'set'
+        })
+      );
+    });
+  });
+
+  describe('when calling setSearchParametersLegacy', () => {
+    test('it sets search parameters', () => {
+      const result = render(<TestSearchStoreComponent searchClient={new BaseSearchClient()} />);
+      const setSearchParametersLegacyButton = result.getByTestId('setSearchParametersLegacy');
+
+      fireEvent.click(setSearchParametersLegacyButton);
+      const json: SearchResponseStore = JSON.parse(
+        result.getByTestId('searchResponseStore').textContent || '{}'
+      );
+      expect(json.parameters).toEqual(
+        expect.objectContaining({
+          projectId: 'set',
+          _return: ['field']
         })
       );
     });
