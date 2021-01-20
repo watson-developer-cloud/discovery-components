@@ -33,7 +33,7 @@ export function mockHomePage(overrideFixturePaths: HomePageFixturePaths = {}): v
   cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQuery');
 
   // visit the home page and wait for page load requests
-  visitHomePage(['@getCollections', '@getComponentSettings']);
+  visitHomePage(['@getCollections', '@getComponentSettings', '@postQuery']);
 }
 
 /**
