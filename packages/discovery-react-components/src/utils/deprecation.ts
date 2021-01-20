@@ -8,10 +8,11 @@ export function deprecateReturnFields(
     | undefined
 ): DiscoveryV2.QueryParams | SearchParams | undefined {
   if (queryParams && queryParams.returnFields) {
+    const { returnFields, ...rest } = queryParams;
     console.warn(
       '"returnFields" has been renamed to "_return". Support for "returnFields" will be removed in the next major release'
     );
-    return { ...queryParams, _return: queryParams.returnFields };
+    return { ...rest, _return: returnFields };
   }
   return queryParams;
 }
