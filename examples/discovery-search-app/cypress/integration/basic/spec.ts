@@ -28,11 +28,10 @@ describe('Basic search', () => {
     beforeEach(() => {
       cy.get('@searchInput').type('abil{enter}');
       cy.wait('@postQuery');
-      cy.wait('@postQuery').as('queryObject');
     });
 
     it('makes the appropriate query request', () => {
-      cy.get('@queryObject')
+      cy.get('@postQuery')
         .its('requestBody.natural_language_query')
         .should('eq', 'abil');
     });
