@@ -261,23 +261,24 @@ export const useSearchResultsApi = (
     searchClient,
     overrideSearchResults
   );
-  const setSearchParameters = (
-    backwardsCompatibleSearchParameters: React.SetStateAction<DiscoveryV2.QueryParams>
-  ) => {
-    // if backwardsCompatibleSearchParameters is a function, we cannot modify the parameters, call it with previous state
-    if (typeof backwardsCompatibleSearchParameters === 'function') {
-      setSearchParametersBackwardsCompatible(prevState => {
-        return deprecateReturnFields(
-          backwardsCompatibleSearchParameters(prevState)
-        ) as DiscoveryV2.QueryParams;
-      });
-    } else {
-      // otherwise just modify the object
-      setSearchParametersBackwardsCompatible(
-        deprecateReturnFields(backwardsCompatibleSearchParameters) as DiscoveryV2.QueryParams
-      );
-    }
-  };
+  const setSearchParameters = useCallback(
+    (backwardsCompatibleSearchParameters: React.SetStateAction<DiscoveryV2.QueryParams>) => {
+      // if backwardsCompatibleSearchParameters is a function, we cannot modify the parameters, call it with previous state
+      if (typeof backwardsCompatibleSearchParameters === 'function') {
+        setSearchParametersBackwardsCompatible(prevState => {
+          return deprecateReturnFields(
+            backwardsCompatibleSearchParameters(prevState)
+          ) as DiscoveryV2.QueryParams;
+        });
+      } else {
+        // otherwise just modify the object
+        setSearchParametersBackwardsCompatible(
+          deprecateReturnFields(backwardsCompatibleSearchParameters) as DiscoveryV2.QueryParams
+        );
+      }
+    },
+    [setSearchParametersBackwardsCompatible]
+  );
 
   // callback can be passed in here to return back data to the invoker of the search
   // in the specific case here, we need to set our aggregation store after performing a search
