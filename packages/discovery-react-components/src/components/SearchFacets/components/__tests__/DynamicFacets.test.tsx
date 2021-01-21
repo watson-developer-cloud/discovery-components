@@ -4,7 +4,8 @@ import { wrapWithContext } from 'utils/testingUtils';
 import {
   SearchContextIFC,
   SearchApiIFC,
-  searchResponseStoreDefaults
+  searchResponseStoreDefaults,
+  globalAggregationsResponseStoreDefaults
 } from 'components/DiscoverySearch/DiscoverySearch';
 import SearchFacets from 'components/SearchFacets/SearchFacets';
 import { weirdFacetsQueryResponse } from 'components/SearchFacets/__fixtures__/facetsQueryResponse';
@@ -31,7 +32,10 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
   const performSearchMock = jest.fn();
   const onChangeMock = jest.fn();
   const context: Partial<SearchContextIFC> = {
-    aggregationResults: weirdFacetsQueryResponse.result.aggregations,
+    globalAggregationsResponseStore: {
+      ...globalAggregationsResponseStoreDefaults,
+      data: weirdFacetsQueryResponse.result.aggregations || []
+    },
     searchResponseStore: {
       ...searchResponseStoreDefaults,
       parameters: {

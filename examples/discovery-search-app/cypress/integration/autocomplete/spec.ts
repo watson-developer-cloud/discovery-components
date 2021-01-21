@@ -71,11 +71,10 @@ describe('Autocomplete', () => {
       beforeEach(() => {
         cy.get('@searchInput').type('{enter}');
         cy.wait('@postQuery');
-        cy.wait('@postQuery').as('queryObject');
       });
 
       it('performs a query with the correct term', () => {
-        cy.get('@queryObject')
+        cy.get('@postQuery')
           .its('requestBody.natural_language_query')
           .should('be.eq', ' ');
       });

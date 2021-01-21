@@ -97,6 +97,19 @@ describe('Multi-Select Facets', () => {
         });
       });
 
+      describe('and a result is previewed', () => {
+        it('preserves facet selection after document preview', () => {
+          cy.findAllByTestId('search-result-element-preview-button')
+            .first()
+            .click();
+          cy.get('.bx--btn__icon').click();
+          cy.get("input[id='checkbox-location-Ames,_IA']").should('have.attr', 'checked');
+          cy.get('.bx--list-box__selection')
+            .contains('1')
+            .should('exist');
+        });
+      });
+
       describe('and the "Clear all" button is clicked', () => {
         beforeEach(() => {
           cy.route('POST', '**/query?version=2019-01-01', '@facetsQueryJSON').as('postQueryFacets');

@@ -28,7 +28,6 @@ import { collectionFacetIdPrefix } from './cssClasses';
 import onErrorCallback from 'utils/onErrorCallback';
 import { FallbackComponent } from 'utils/FallbackComponent';
 import { withErrorBoundary } from 'react-error-boundary';
-import useCompare from 'utils/useCompare';
 
 interface SearchFacetsProps {
   /**
@@ -85,14 +84,14 @@ const SearchFacets: FC<SearchFacetsProps> = ({
   const facetsId = id || `search-facets__${uuid.v4()}`;
 
   const {
-    aggregationResults,
     searchResponseStore: {
       parameters: searchParameters,
       parameters: { filter, collectionIds },
       data: searchResponse
     },
     collectionsResults,
-    componentSettings
+    componentSettings,
+    globalAggregationsResponseStore: { isLoading, isError, data: aggregations }
   } = useContext(SearchContext);
 
   const [facetSelectionState, setFacetSelectionState] = useState<SearchFilterFacets>(
@@ -120,10 +119,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     SelectedCollectionItems['selectedItems']
   >(initialSelectedCollections);
 
-  const [fetchState, setFetchState] = useState<'init' | 'loading' | 'success' | 'error'>('init');
-
-  const { fetchAggregations, performSearch } = useContext(SearchApi);
-  const aggregations = aggregationResults || [];
+  const { performSearch, fetchAggregations } = useContext(SearchApi);
   const mergedMessages = { ...defaultMessages, ...messages };
 
   const componentSettingsAggregations =
@@ -131,22 +127,15 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     (componentSettings && componentSettings.aggregations) ||
     [];
 
-  const searchParamsAggregationChanged = useCompare(searchParameters.aggregation);
   useEffect(() => {
     async function fetchData() {
-      setFetchState('loading');
-      try {
-        await fetchAggregations(searchParameters);
-        setFetchState('success');
-      } catch (error) {
-        setFetchState('error');
-      }
+      await fetchAggregations(searchParameters);
     }
 
-    if (searchParamsAggregationChanged || fetchState === 'init') {
+    if (!aggregations) {
       fetchData();
     }
-  }, [fetchAggregations, fetchState, searchParameters, searchParamsAggregationChanged]);
+  }, [fetchAggregations, searchParameters]);
 
   useDeepCompareEffect(() => {
     if (filter === '') {
@@ -229,9 +218,9 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     performSearch({ ...searchParameters, collectionIds: [], offset: 0, filter: '' }, false);
   };
 
-  if (fetchState === 'loading') {
+  if (isLoading) {
     return null;
-  } else if (fetchState === 'error') {
+  } else if (isError) {
     const errorNode =
       typeof serverErrorMessage === 'string'
         ? displayMessage(serverErrorMessage)

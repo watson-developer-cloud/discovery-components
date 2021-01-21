@@ -14,34 +14,22 @@ describe('Basic search', () => {
 
   // Rendering initial page
   describe('When the example app loads', () => {
-    it('SearchInput should appear', () => {
+    it('should be able to query and show expected results', () => {
+      // SearchInput should appear with magnifying glass icon
       cy.get('@searchInput').should('be.visible');
-    });
-
-    it('SearchInput has magnifying glass icon', () => {
       cy.get('svg.bx--search-magnifier').should('be.visible');
-    });
-  });
 
-  // Querying with results
-  describe('When entering a query with results', () => {
-    beforeEach(() => {
+      // Querying with results
       cy.get('@searchInput').type('abil{enter}');
-      cy.wait('@postQuery');
-      cy.wait('@postQuery').as('queryObject');
-    });
-
-    it('makes the appropriate query request', () => {
-      cy.get('@queryObject')
+      cy.get('@postQuery')
         .its('requestBody.natural_language_query')
         .should('eq', 'abil');
-    });
 
-    it('SearchResults displays a list of results', () => {
+      // SearchResults displays a list of results
       cy.get('.bx--search-result').should('have.length', 3);
-    });
+      // });
 
-    it('each result displays the file title and collection id of its source document', () => {
+      // each result displays the file title and collection id of its source document
       cy.get('.bx--search-result')
         .filter(':contains("COLLECTION_ID_0")')
         .should('have.length', 2);
@@ -98,7 +86,7 @@ describe('Basic search errors', () => {
       cy.fixture('query/query').as('queryJSON');
       cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQuery');
 
-      visitHomePage(['@getCollections', '@getComponentSettings', '@postQuery']);
+      visitHomePage(['@getCollections', '@getComponentSettings']);
 
       cy.findByPlaceholderText('Search').as('searchInput');
 

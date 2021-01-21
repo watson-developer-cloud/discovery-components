@@ -78,5 +78,7 @@
 
 .#{$prefix}--search-facet__facet__option-label {
   @include type-style('body-short-02');
+  align-items: center;
   color: $ui-05;
+  display: flex;
 }

@@ -13,7 +13,9 @@ import {
   useFetchDocumentsApi,
   useAutocompleteApi,
   useFieldsApi,
-  FieldsStore
+  FieldsStore,
+  useGlobalAggregationsApi,
+  GlobalAggregationsResponseStore
 } from 'utils/useDataApi';
 import { SearchClient } from './types';
 import { withErrorBoundary } from 'react-error-boundary';
@@ -98,7 +100,6 @@ export const emptySelectedResult = {
 };
 
 export interface SearchContextIFC {
-  aggregationResults: DiscoveryV2.QueryAggregation[] | QueryAggregationWithName[] | null;
   searchResponseStore: SearchResponseStore;
   fetchDocumentsResponseStore: FetchDocumentsResponseStore;
   collectionsResults: DiscoveryV2.ListCollectionsResponse | null;
@@ -107,6 +108,7 @@ export interface SearchContextIFC {
   componentSettings: DiscoveryV2.ComponentSettingsResponse | null;
   isResultsPaginationComponentHidden: boolean | undefined;
   fieldsStore: FieldsStore;
+  globalAggregationsResponseStore: GlobalAggregationsResponseStore;
 }
 
 export interface SearchApiIFC {
@@ -141,6 +143,15 @@ export const searchApiDefaults = {
 };
 
 export const searchResponseStoreDefaults: SearchResponseStore = {
+  parameters: {
+    projectId: ''
+  },
+  data: null,
+  isLoading: false,
+  isError: false
+};
+
+export const globalAggregationsResponseStoreDefaults: GlobalAggregationsResponseStore = {
   parameters: {
     projectId: ''
   },
@@ -195,8 +206,8 @@ const fieldsStoreDefaults: FieldsStore = {
 };
 
 export const searchContextDefaults = {
-  aggregationResults: null,
   searchResponseStore: searchResponseStoreDefaults,
+  globalAggregationsResponseStore: globalAggregationsResponseStoreDefaults,
   fetchDocumentsResponseStore: fetchDocumentsResponseStoreDefaults,
   selectedResult: emptySelectedResult,
   autocompletionStore: autocompletionStoreDefaults,
@@ -221,9 +232,6 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
   overrideComponentSettings = null,
   children
 }) => {
-  const [aggregationResults, setAggregationResults] = useState<
-    DiscoveryV2.QueryAggregation[] | QueryAggregationWithName[] | null
-  >(overrideAggregationResults);
   const [
     collectionsResults,
     setCollectionsResults
@@ -244,6 +252,15 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
   ] = useSearchResultsApi(
     { projectId, ...overrideQueryParameters },
     overrideSearchResults,
+    searchClient
+  );
+
+  const [
+    globalAggregationsResponseStore,
+    { setGlobalAggregationsResponse }
+  ] = useGlobalAggregationsApi(
+    { ...globalAggregationsResponseStoreDefaults, projectId },
+    overrideAggregationResults,
     searchClient
   );
 
@@ -281,9 +298,9 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
               response.result.aggregations,
               searchParameters
             );
-            setAggregationResults(updatedAggregations || null);
+            setGlobalAggregationsResponse(updatedAggregations || null);
           } else {
-            setAggregationResults(response.result.aggregations);
+            setGlobalAggregationsResponse(response.result.aggregations);
           }
         }
       }
@@ -294,7 +311,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
             result.aggregations,
             searchParameters
           );
-          setAggregationResults(updatedAggregations || null);
+          setGlobalAggregationsResponse(updatedAggregations || null);
         }
       });
     },
@@ -322,7 +339,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
   }, [projectId, overrideQueryParameters]);
 
   useDeepCompareEffect(() => {
-    setAggregationResults(overrideAggregationResults);
+    setGlobalAggregationsResponse(overrideAggregationResults);
   }, [overrideAggregationResults]);
 
   useDeepCompareEffect(() => {
@@ -418,7 +435,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
             searchParametersWithAggregationDefaults
           );
         }
-        setAggregationResults(updatedAggregations || null);
+        setGlobalAggregationsResponse(updatedAggregations || null);
       }
     },
     [fetchTypeForTopEntitiesAggregation, searchClient, setSearchParameters]
@@ -480,10 +497,10 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
 
   const state = useDeepCompareMemo(() => {
     return {
-      aggregationResults,
       autocompletionStore,
       fetchDocumentsResponseStore,
       searchResponseStore,
+      globalAggregationsResponseStore,
       selectedResult,
       collectionsResults,
       componentSettings,
@@ -491,10 +508,10 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       fieldsStore
     };
   }, [
-    aggregationResults,
     autocompletionStore,
     fetchDocumentsResponseStore,
     searchResponseStore,
+    globalAggregationsResponseStore,
     selectedResult,
     collectionsResults,
     componentSettings,

@@ -5,7 +5,8 @@ import SearchFacets from 'components/SearchFacets/SearchFacets';
 import {
   SearchContextIFC,
   SearchApiIFC,
-  searchResponseStoreDefaults
+  searchResponseStoreDefaults,
+  globalAggregationsResponseStoreDefaults
 } from 'components/DiscoverySearch/DiscoverySearch';
 import { facetsQueryResponse } from 'components/SearchFacets/__fixtures__/facetsQueryResponse';
 
@@ -35,7 +36,10 @@ const setup = (setupConfig: Partial<SetupConfig> = {}): Setup => {
   const fetchAggregationsMock = jest.fn();
   const performSearchMock = jest.fn();
   const context: Partial<SearchContextIFC> = {
-    aggregationResults: facetsQueryResponse.result.aggregations,
+    globalAggregationsResponseStore: {
+      ...globalAggregationsResponseStoreDefaults,
+      data: facetsQueryResponse.result.aggregations || []
+    },
     searchResponseStore: {
       ...searchResponseStoreDefaults,
       parameters: {

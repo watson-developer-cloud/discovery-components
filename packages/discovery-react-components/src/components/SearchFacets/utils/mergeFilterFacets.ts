@@ -8,7 +8,7 @@ import get from 'lodash/get';
 import unionBy from 'lodash/unionBy';
 
 export const mergeFilterFacets = (
-  aggregations: DiscoveryV2.QueryAggregation[],
+  aggregations: DiscoveryV2.QueryAggregation[] | null,
   filterFields: InternalQueryTermAggregation[],
   componentSettingsAggregations: DiscoveryV2.ComponentSettingsAggregation[]
 ): InternalQueryTermAggregation[] => {

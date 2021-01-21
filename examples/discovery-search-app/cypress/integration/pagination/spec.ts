@@ -55,9 +55,11 @@ describe('Pagination', () => {
 
     describe('and the next page arrow is clicked', () => {
       beforeEach(() => {
+        cy.route('POST', '**/query?version=2019-01-01', '@multiPageResultsJSON').as(
+          'nextPageQueryObject'
+        );
         cy.get('.bx--pagination__button--forward').click();
-        cy.wait('@postQueryMultiPage');
-        cy.wait('@postQueryMultiPage').as('nextPageQueryObject');
+        cy.wait('@nextPageQueryObject');
       });
 
       it('correctly requests the next page', () => {
@@ -68,8 +70,11 @@ describe('Pagination', () => {
 
       describe('and the previous page arrow is clicked', () => {
         beforeEach(() => {
+          cy.route('POST', '**/query?version=2019-01-01', '@multiPageResultsJSON').as(
+            'prevPageQueryObject'
+          );
           cy.get('.bx--pagination__button--backward').click();
-          cy.wait('@postQueryMultiPage').as('prevPageQueryObject');
+          cy.wait('@prevPageQueryObject');
         });
 
         it('correctly requests the previous page', () => {
@@ -82,15 +87,17 @@ describe('Pagination', () => {
 
     describe('and we use the page selector to go to the second page', () => {
       beforeEach(() => {
+        cy.route('POST', '**/query?version=2019-01-01', '@multiPageResultsJSON').as(
+          'nextPageQueryObject'
+        );
         cy.get('.bx--pagination__right')
           .find('.bx--select-input')
           .select('2');
-        cy.wait('@postQueryMultiPage');
-        cy.wait('@postQueryMultiPage').as('secondPageQueryObject');
+        cy.wait('@nextPageQueryObject');
       });
 
       it('makes a query for the correct page of results', () => {
-        cy.get('@secondPageQueryObject')
+        cy.get('@nextPageQueryObject')
           .its('requestBody.offset')
           .should('eq', 5);
       });
@@ -131,11 +138,13 @@ describe('Pagination', () => {
 
       describe('and we increase the number of results per page to 50', () => {
         beforeEach(() => {
+          cy.route('POST', '**/query?version=2019-01-01', '@multiPageResultsJSON').as(
+            'largerpostQueryMultiPageObject'
+          );
           cy.get('.bx--pagination__left')
             .find('.bx--select-input')
             .select('50');
-          cy.wait('@postQueryMultiPage');
-          cy.wait('@postQueryMultiPage').as('largerpostQueryMultiPageObject');
+          cy.wait('@largerpostQueryMultiPageObject');
         });
 
         it('returns to the first page, with the correct size', () => {
@@ -154,10 +163,13 @@ describe('Pagination', () => {
 
     describe('and items per page is set to 5', () => {
       beforeEach(() => {
+        cy.route('POST', '**/query?version=2019-01-01', '@multiPageResultsJSON').as(
+          'fiveResultspostQueryMultiPageObject'
+        );
         cy.get('.bx--pagination__left')
           .find('.bx--select-input')
           .select('5');
-        cy.wait('@postQueryMultiPage').as('fiveResultspostQueryMultiPageObject');
+        cy.wait('@fiveResultspostQueryMultiPageObject');
       });
 
       it('makes a request for 5 results', () => {
@@ -173,11 +185,13 @@ describe('Pagination', () => {
 
     describe('and items per page is set to 10', () => {
       beforeEach(() => {
+        cy.route('POST', '**/query?version=2019-01-01', '@multiPageResultsJSON').as(
+          'tenResultsPerPageQueryObject'
+        );
         cy.get('.bx--pagination__left')
           .find('.bx--select-input')
           .select('10');
-        cy.wait('@postQueryMultiPage');
-        cy.wait('@postQueryMultiPage').as('tenResultsPerPageQueryObject');
+        cy.wait('@tenResultsPerPageQueryObject');
       });
 
       it('makes a request for 10 results', () => {
@@ -193,11 +207,13 @@ describe('Pagination', () => {
 
     describe('and items per page is set to 50', () => {
       beforeEach(() => {
+        cy.route('POST', '**/query?version=2019-01-01', '@multiPageResultsJSON').as(
+          'fiftyResultsPerPageQueryObject'
+        );
         cy.get('.bx--pagination__left')
           .find('.bx--select-input')
           .select('50');
-        cy.wait('@postQueryMultiPage');
-        cy.wait('@postQueryMultiPage').as('fiftyResultsPerPageQueryObject');
+        cy.wait('@fiftyResultsPerPageQueryObject');
       });
 
       it('makes a request for 50 results', () => {
