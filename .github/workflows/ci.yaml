@@ -24,14 +24,14 @@ jobs:
       - name: Test
         run: lerna run test
       - name: NPM Identity
-        if: github.ref == 'refs/heads/master' || contains(github.ref, "release/")
+        if: github.ref == 'refs/heads/master' || contains(github.ref, 'release/')
         run: |
           echo "registry=//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
           npm whoami
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Github Identity
-        if: github.ref == 'refs/heads/master' || contains(github.ref, "release/")
+        if: github.ref == 'refs/heads/master' || contains(github.ref, 'release/')
         run: |
           git config --global push.default simple
           git config --global user.email "watdevex@us.ibm.com"
@@ -43,5 +43,5 @@ jobs:
         if: github.ref == 'refs/heads/master'
         run: npx lerna publish -y --conventional-prerelease --no-changelog --preid beta --dist-tag beta
       - name: Publish Release Candidate (Release)
-        if: contains(github.ref, "release/")
+        if: contains(github.ref, 'release/')
         run: npx lerna publish -y --conventional-prerelease --no-changelog --preid rc --dist-tag rc
