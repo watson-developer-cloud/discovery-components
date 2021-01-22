@@ -17,7 +17,7 @@ import {
   useGlobalAggregationsApi,
   GlobalAggregationsResponseStore
 } from 'utils/useDataApi';
-import { SearchClient } from './types';
+import { SearchClient, SearchParams } from './types';
 import { withErrorBoundary } from 'react-error-boundary';
 import { FallbackComponent } from 'utils/FallbackComponent';
 import onErrorCallback from 'utils/onErrorCallback';
@@ -26,8 +26,7 @@ import {
   QueryAggregationWithName,
   isQueryAggregationWithName
 } from 'components/SearchFacets/utils/searchFacetInterfaces';
-
-export type SearchParams = Omit<DiscoveryV2.QueryParams, 'projectId' | 'headers'>;
+import { deprecateReturnFields } from 'utils/deprecation';
 
 export interface DiscoverySearchProps {
   /**
@@ -102,11 +101,11 @@ export const emptySelectedResult = {
 export interface SearchContextIFC {
   searchResponseStore: SearchResponseStore;
   fetchDocumentsResponseStore: FetchDocumentsResponseStore;
-  collectionsResults: DiscoveryV2.ListCollectionsResponse | null;
+  collectionsResults?: DiscoveryV2.ListCollectionsResponse;
   selectedResult: SelectedResult;
   autocompletionStore: AutocompleteStore;
-  componentSettings: DiscoveryV2.ComponentSettingsResponse | null;
-  isResultsPaginationComponentHidden: boolean | undefined;
+  componentSettings?: DiscoveryV2.ComponentSettingsResponse;
+  isResultsPaginationComponentHidden?: boolean;
   fieldsStore: FieldsStore;
   globalAggregationsResponseStore: GlobalAggregationsResponseStore;
 }
@@ -163,7 +162,7 @@ export const globalAggregationsResponseStoreDefaults: GlobalAggregationsResponse
 export const fetchDocumentsResponseStoreDefaults: FetchDocumentsResponseStore = {
   parameters: {
     projectId: '',
-    returnFields: [],
+    _return: [],
     aggregation: '',
     passages: {
       enabled: false
@@ -179,7 +178,8 @@ export const fetchDocumentsResponseStoreDefaults: FetchDocumentsResponseStore = 
 
 export const autocompletionStoreDefaults: AutocompleteStore = {
   parameters: {
-    projectId: ''
+    projectId: '',
+    prefix: ''
   },
   data: null,
   isLoading: false,
@@ -211,8 +211,6 @@ export const searchContextDefaults = {
   fetchDocumentsResponseStore: fetchDocumentsResponseStoreDefaults,
   selectedResult: emptySelectedResult,
   autocompletionStore: autocompletionStoreDefaults,
-  collectionsResults: null,
-  componentSettings: null,
   isResultsPaginationComponentHidden: false,
   fieldsStore: fieldsStoreDefaults
 };
@@ -223,25 +221,23 @@ export const SearchContext = createContext<SearchContextIFC>(searchContextDefaul
 const DiscoverySearch: FC<DiscoverySearchProps> = ({
   searchClient,
   projectId,
-  overrideAggregationResults = null,
-  overrideSearchResults = null,
+  overrideAggregationResults,
+  overrideSearchResults,
   overrideQueryParameters,
   overrideSelectedResult = emptySelectedResult,
-  overrideAutocompletionResults = null,
-  overrideCollectionsResults = null,
-  overrideComponentSettings = null,
+  overrideAutocompletionResults,
+  overrideCollectionsResults,
+  overrideComponentSettings,
   children
 }) => {
-  const [
-    collectionsResults,
-    setCollectionsResults
-  ] = useState<DiscoveryV2.ListCollectionsResponse | null>(overrideCollectionsResults);
+  const [collectionsResults, setCollectionsResults] = useState<
+    DiscoveryV2.ListCollectionsResponse | undefined
+  >(overrideCollectionsResults);
   const [autocompletionOptions, setAutocompletionOptions] = useState<AutocompletionOptions>({});
   const [selectedResult, setSelectedResult] = useState<SelectedResult>(overrideSelectedResult);
-  const [
-    componentSettings,
-    setComponentSettings
-  ] = useState<DiscoveryV2.ComponentSettingsResponse | null>(overrideComponentSettings);
+  const [componentSettings, setComponentSettings] = useState<
+    DiscoveryV2.ComponentSettingsResponse | undefined
+  >(overrideComponentSettings);
   const [isResultsPaginationComponentHidden, setIsResultsPaginationComponentHidden] = useState<
     boolean
   >();
@@ -250,9 +246,9 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
     searchResponseStore,
     { setSearchResponse, setSearchParameters, performSearch }
   ] = useSearchResultsApi(
-    { projectId, ...overrideQueryParameters },
-    overrideSearchResults,
-    searchClient
+    { projectId, ...deprecateReturnFields(overrideQueryParameters) },
+    searchClient,
+    overrideSearchResults
   );
 
   const [
@@ -260,8 +256,8 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
     { setGlobalAggregationsResponse }
   ] = useGlobalAggregationsApi(
     { ...globalAggregationsResponseStoreDefaults, projectId },
-    overrideAggregationResults,
-    searchClient
+    searchClient,
+    overrideAggregationResults
   );
 
   const fetchTypeForTopEntitiesAggregation = useCallback(
@@ -281,8 +277,14 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
   );
 
   const handleSearch = useCallback(
-    async (searchParameters, resetAggregations = true): Promise<void> => {
+    async (
+      backwardsCompatibleQueryParams: DiscoveryV2.QueryParams & { returnFields?: string[] },
+      resetAggregations = true
+    ): Promise<void> => {
       let aggregationsFetched = false;
+      const searchParameters = deprecateReturnFields(
+        backwardsCompatibleQueryParams
+      ) as DiscoveryV2.QueryParams;
       setSearchParameters(searchParameters);
       // don't use the search response if filter is set, just do another search
       if (resetAggregations && searchParameters.filter !== '') {
@@ -298,7 +300,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
               response.result.aggregations,
               searchParameters
             );
-            setGlobalAggregationsResponse(updatedAggregations || null);
+            setGlobalAggregationsResponse(updatedAggregations);
           } else {
             setGlobalAggregationsResponse(response.result.aggregations);
           }
@@ -311,17 +313,23 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
             result.aggregations,
             searchParameters
           );
-          setGlobalAggregationsResponse(updatedAggregations || null);
+          setGlobalAggregationsResponse(updatedAggregations);
         }
       });
     },
-    [fetchTypeForTopEntitiesAggregation, performSearch, searchClient, setSearchParameters]
+    [
+      fetchTypeForTopEntitiesAggregation,
+      performSearch,
+      searchClient,
+      setGlobalAggregationsResponse,
+      setSearchParameters
+    ]
   );
 
   const [autocompletionStore, { fetchAutocompletions, setAutocompletions }] = useAutocompleteApi(
-    { projectId, count: autocompletionOptions.completionsCount },
-    overrideAutocompletionResults,
-    searchClient
+    { projectId, count: autocompletionOptions.completionsCount, prefix: '' },
+    searchClient,
+    overrideAutocompletionResults
   );
 
   useDeepCompareEffect(() => {
@@ -333,7 +341,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       return {
         ...currentSearchParameters,
         projectId,
-        ...overrideQueryParameters
+        ...deprecateReturnFields(overrideQueryParameters)
       };
     });
   }, [projectId, overrideQueryParameters]);
@@ -410,14 +418,19 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
           fetchAutocompletions(completionParams);
           return;
         }
-        setAutocompletions(null);
+        setAutocompletions(undefined);
       }
     },
     [autocompletionOptions, projectId]
   );
 
   const handleFetchAggregations = useCallback(
-    async (searchParameters): Promise<void> => {
+    async (
+      backwardsCompatibleQueryParams: DiscoveryV2.QueryParams & { returnFields?: [] }
+    ): Promise<void> => {
+      const searchParameters = deprecateReturnFields(
+        backwardsCompatibleQueryParams
+      ) as DiscoveryV2.QueryParams;
       // since we only call this when the aggregation changes, we can safely reset the filter
       const searchParamsWithoutFilter = { ...searchParameters, filter: '' };
       setSearchParameters(searchParamsWithoutFilter);
@@ -435,10 +448,15 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
             searchParametersWithAggregationDefaults
           );
         }
-        setGlobalAggregationsResponse(updatedAggregations || null);
+        setGlobalAggregationsResponse(updatedAggregations);
       }
     },
-    [fetchTypeForTopEntitiesAggregation, searchClient, setSearchParameters]
+    [
+      fetchTypeForTopEntitiesAggregation,
+      searchClient,
+      setGlobalAggregationsResponse,
+      setSearchParameters
+    ]
   );
 
   const handleSetSelectedResult = (overrideSelectedResult: SelectedResult) => {

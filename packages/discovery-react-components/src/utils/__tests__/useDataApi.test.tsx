@@ -77,14 +77,14 @@ const TestSearchStoreComponent: FC<TestSearchStoreComponentProps> = ({
   searchParameters = {
     projectId: ''
   },
-  searchResults = null,
+  searchResults,
   searchClient = new BaseSearchClient(),
   callback
 }) => {
   const [searchResponseStore, searchResponseApi] = useSearchResultsApi(
     searchParameters,
-    searchResults,
-    searchClient
+    searchClient,
+    searchResults
   );
 
   return (
@@ -100,6 +100,12 @@ const TestSearchStoreComponent: FC<TestSearchStoreComponentProps> = ({
       <button
         data-testid="setSearchParameters"
         onClick={() => searchResponseApi.setSearchParameters({ projectId: 'set' })}
+      />
+      <button
+        data-testid="setSearchParametersLegacy"
+        onClick={() =>
+          searchResponseApi.setSearchParameters({ projectId: 'set', returnFields: ['field'] })
+        }
       />
       <div data-testid="searchResponseStore">{JSON.stringify(searchResponseStore)}</div>
     </>
@@ -132,6 +138,24 @@ describe('useSearchResultsApi', () => {
         expect.objectContaining({
           projectId: 'foo',
           naturalLanguageQuery: 'bar'
+        })
+      );
+    });
+
+    test('can set initial search parameters with legacy returnFields', () => {
+      const searchParameters = {
+        projectId: 'foo',
+        returnFields: ['bar']
+      };
+      const result = render(<TestSearchStoreComponent searchParameters={searchParameters} />);
+      const json: SearchResponseStore = JSON.parse(
+        result.getByTestId('searchResponseStore').textContent || '{}'
+      );
+
+      expect(json.parameters).toEqual(
+        expect.objectContaining({
+          projectId: 'foo',
+          _return: ['bar']
         })
       );
     });
@@ -340,6 +364,24 @@ describe('useSearchResultsApi', () => {
     });
   });
 
+  describe('when calling setSearchParametersLegacy', () => {
+    test('it sets search parameters', () => {
+      const result = render(<TestSearchStoreComponent searchClient={new BaseSearchClient()} />);
+      const setSearchParametersLegacyButton = result.getByTestId('setSearchParametersLegacy');
+
+      fireEvent.click(setSearchParametersLegacyButton);
+      const json: SearchResponseStore = JSON.parse(
+        result.getByTestId('searchResponseStore').textContent || '{}'
+      );
+      expect(json.parameters).toEqual(
+        expect.objectContaining({
+          projectId: 'set',
+          _return: ['field']
+        })
+      );
+    });
+  });
+
   interface TestAutocompleteStoreComponentProps {
     autocompleteParameters?: DiscoveryV2.GetAutocompletionParams;
     autocompletionResults?: DiscoveryV2.Completions;
@@ -348,15 +390,16 @@ describe('useSearchResultsApi', () => {
 
   const TestAutocompleteStoreComponent: FC<TestAutocompleteStoreComponentProps> = ({
     autocompleteParameters = {
-      projectId: ''
+      projectId: '',
+      prefix: ''
     },
-    autocompletionResults = null,
+    autocompletionResults,
     searchClient = new BaseSearchClient()
   }) => {
     const [autocompleteStore, autocompleteApi] = useAutocompleteApi(
       autocompleteParameters,
-      autocompletionResults,
-      searchClient
+      searchClient,
+      autocompletionResults
     );
 
     return (
@@ -697,9 +740,9 @@ describe('useFetchDocumentsApi', () => {
           return createDummyResponse({});
         }
       }
-      const searchParameters = {
+      const searchParameters: DiscoveryV2.QueryParams = {
         projectId: 'foo',
-        returnFields: [],
+        _return: [],
         aggregation: '',
         passages: {},
         tableResults: {}
@@ -715,7 +758,7 @@ describe('useFetchDocumentsApi', () => {
       fireEvent.click(fetchDocumentsButton, { target: { value: 'filter_string' } });
       expect(checkParametersMock).toHaveBeenCalledWith({
         projectId: 'foo',
-        returnFields: [],
+        _return: [],
         aggregation: '',
         passages: {},
         tableResults: {},
