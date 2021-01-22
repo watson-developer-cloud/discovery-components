@@ -1,0 +1,47 @@
+name: ci
+on: push
+env:
+  CI: true
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node ${{ matrix.node_version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+      - name: Install
+        run: yarn install
+      - name: Lint
+        run: yarn lint
+      - name: Build
+        run: lerna run build
+      - name: Build storybook
+        run: yarn workspace @ibm-watson/discovery-react-components run storybook:build
+      - name: Test
+        run: lerna run test
+      - name: NPM Identity
+        if: github.ref == 'refs/heads/master' || contains(github.ref, "release/")
+        run: |
+          echo "registry=//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+          npm whoami
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Github Identity
+        if: github.ref == 'refs/heads/master' || contains(github.ref, "release/")
+        run: |
+          git config --global push.default simple
+          git config --global user.email "watdevex@us.ibm.com"
+          git config --global user.name "Watson Github Bot"
+          git config remote.origin.url https://$GH_TOKEN@github.com/$GITHUB_REPOSITORY
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      - name: Publish Beta (Master)
+        if: github.ref == 'refs/heads/master'
+        run: npx lerna publish -y --conventional-prerelease --no-changelog --preid beta --dist-tag beta
+      - name: Publish Release Candidate (Release)
+        if: contains(github.ref, "release/")
+        run: npx lerna publish -y --conventional-prerelease --no-changelog --preid rc --dist-tag rc
