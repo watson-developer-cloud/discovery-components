@@ -740,9 +740,9 @@ describe('useFetchDocumentsApi', () => {
           return createDummyResponse({});
         }
       }
-      const searchParameters = {
+      const searchParameters: DiscoveryV2.QueryParams = {
         projectId: 'foo',
-        returnFields: [],
+        _return: [],
         aggregation: '',
         passages: {},
         tableResults: {}
@@ -758,7 +758,7 @@ describe('useFetchDocumentsApi', () => {
       fireEvent.click(fetchDocumentsButton, { target: { value: 'filter_string' } });
       expect(checkParametersMock).toHaveBeenCalledWith({
         projectId: 'foo',
-        returnFields: [],
+        _return: [],
         aggregation: '',
         passages: {},
         tableResults: {},
