@@ -9,6 +9,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+           # pulls all commits (needed for lerna to correctly version)
+          fetch-depth: "0"
+      # pulls all tags (needed for lerna to correctly version)
+      - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
       - name: Setup Node ${{ matrix.node_version }}
         uses: actions/setup-node@v2
         with:
@@ -18,11 +23,11 @@ jobs:
       - name: Lint
         run: yarn lint
       - name: Build
-        run: lerna run build
+        run: npx lerna run build
       - name: Build storybook
         run: yarn workspace @ibm-watson/discovery-react-components run storybook:build
       - name: Test
-        run: lerna run test
+        run: npx lerna run test
       - name: NPM Identity
         if: github.ref == 'refs/heads/master' || contains(github.ref, 'release/')
         run: |
