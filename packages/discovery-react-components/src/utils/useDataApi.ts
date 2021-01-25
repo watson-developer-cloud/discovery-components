@@ -321,10 +321,11 @@ export interface GlobalAggregationsStoreActions {
    */
   setGlobalAggregationsResponse: (aggregationsResponse?: DiscoveryV2.QueryAggregation[]) => void;
   /**
-   * method used to invoke the aggregations request with an optional callback to return the response data
+   * method used to invoke the aggregations request with search parameters and an optional callback to return the response data
    */
   fetchGlobalAggregations: (
-    callback?: (result: DiscoveryV2.QueryAggregation[] | null) => void
+    searchParameters: DiscoveryV2.QueryParams,
+    callback?: (result: DiscoveryV2.QueryAggregation[]) => void
   ) => void;
 }
 
