@@ -232,7 +232,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
   children
 }) => {
   const [aggregationResults, setAggregationResults] = useState<
-    DiscoveryV2.QueryAggregation[] | QueryAggregationWithName[] | null | undefined
+    DiscoveryV2.QueryAggregation[] | QueryAggregationWithName[] | undefined
   >(overrideAggregationResults);
   const [collectionsResults, setCollectionsResults] = useState<
     DiscoveryV2.ListCollectionsResponse | undefined
