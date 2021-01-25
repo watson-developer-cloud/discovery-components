@@ -348,9 +348,14 @@ export const useGlobalAggregationsApi = (
   );
 
   const fetchGlobalAggregations = useCallback(
-    (callback?: (result: DiscoveryV2.QueryAggregation[] | null) => void): void =>
-      setFetchToken({ trigger: true, callback }),
-    [setFetchToken]
+    (
+      searchParameters: DiscoveryV2.QueryParams,
+      callback?: (result: DiscoveryV2.QueryAggregation[]) => void
+    ): void => {
+      setGlobalAggregationParameters(searchParameters);
+      setFetchToken({ trigger: true, callback });
+    },
+    [setFetchToken, setGlobalAggregationParameters]
   );
 
   return [
