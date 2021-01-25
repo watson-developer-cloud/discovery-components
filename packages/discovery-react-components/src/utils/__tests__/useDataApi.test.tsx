@@ -10,7 +10,9 @@ import {
   useAutocompleteApi,
   AutocompleteStore,
   useFieldsApi,
-  FieldsStore
+  FieldsStore,
+  useGlobalAggregationsApi,
+  GlobalAggregationsResponseStore
 } from '../useDataApi';
 import { SearchClient } from 'components/DiscoverySearch/types';
 
@@ -379,6 +381,266 @@ describe('useSearchResultsApi', () => {
           _return: ['field']
         })
       );
+    });
+  });
+
+  interface TestGlobalAggregationsResponseStoreComponentProps {
+    searchParameters?: DiscoveryV2.QueryParams;
+    globalAggregationResults?: DiscoveryV2.QueryAggregation[];
+    searchClient?: SearchClient;
+    callback?: (aggregations: DiscoveryV2.QueryAggregation[] | null) => void;
+  }
+
+  const TestGlobalAggregationsResponseStoreComponent: FC<TestGlobalAggregationsResponseStoreComponentProps> = ({
+    searchParameters = {
+      projectId: ''
+    },
+    globalAggregationResults,
+    searchClient = new BaseSearchClient(),
+    callback
+  }) => {
+    const [globalAggregationsResponseStore, globalAggregationsApi] = useGlobalAggregationsApi(
+      searchParameters,
+      searchClient,
+      globalAggregationResults
+    );
+
+    return (
+      <>
+        <button
+          data-testid="fetchGlobalAggregations"
+          onClick={() => globalAggregationsApi.fetchGlobalAggregations(callback)}
+        />
+        <button
+          data-testid="setGlobalAggregationsResponse"
+          onClick={() => globalAggregationsApi.setGlobalAggregationsResponse()}
+        />
+        <button
+          data-testid="setGlobalAggregationParameters"
+          onClick={() => globalAggregationsApi.setGlobalAggregationParameters({ projectId: 'set' })}
+        />
+        <div data-testid="globalAggregationsResponseStore">
+          {JSON.stringify(globalAggregationsResponseStore)}
+        </div>
+      </>
+    );
+  };
+
+  describe('useGlobalAggregationsApi', () => {
+    const globalAggregationResults = [
+      {
+        type: 'term',
+        name: 'category_id',
+        field: 'category',
+        count: 3,
+        results: [
+          {
+            key: 'Research',
+            matching_results: 138993
+          },
+          {
+            key: 'Analytics',
+            matching_results: 57158
+          },
+          {
+            key: 'Documentation',
+            matching_results: 32444
+          }
+        ]
+      }
+    ];
+    describe('initial state', () => {
+      test('can initialize reducer state', () => {
+        const result = render(<TestGlobalAggregationsResponseStoreComponent />);
+        const json: GlobalAggregationsResponseStore = JSON.parse(
+          result.getByTestId('globalAggregationsResponseStore').textContent || '{}'
+        );
+
+        expect(json.isError).toEqual(false);
+        expect(json.isLoading).toEqual(false);
+      });
+
+      test('can set initial global aggregation results', () => {
+        const result = render(
+          <TestGlobalAggregationsResponseStoreComponent
+            globalAggregationResults={globalAggregationResults}
+          />
+        );
+        const json: GlobalAggregationsResponseStore = JSON.parse(
+          result.getByTestId('globalAggregationsResponseStore').textContent || '{}'
+        );
+
+        expect(json.data).toEqual(globalAggregationResults);
+      });
+    });
+
+    describe('when calling fetchGlobalAggregations', () => {
+      test('it sets loading state', async () => {
+        const result = render(
+          <TestGlobalAggregationsResponseStoreComponent
+            searchClient={new SingleQueryResultSearchClient()}
+          />
+        );
+        const fetchGlobalAggregationsButton = result.getByTestId('fetchGlobalAggregations');
+
+        fireEvent.click(fetchGlobalAggregationsButton);
+        const json: GlobalAggregationsResponseStore = JSON.parse(
+          result.getByTestId('globalAggregationsResponseStore').textContent || '{}'
+        );
+        expect(json.isLoading).toEqual(true);
+        await wait(); // wait for component to finish rendering (prevent "act" warning)
+      });
+
+      test('it sets error state', async () => {
+        const result = render(
+          <TestGlobalAggregationsResponseStoreComponent searchClient={new ErrorSearchClient()} />
+        );
+        const fetchGlobalAggregationsButton = result.getByTestId('fetchGlobalAggregations');
+
+        fireEvent.click(fetchGlobalAggregationsButton);
+        await waitForDomChange({ container: result.container });
+        const json: GlobalAggregationsResponseStore = JSON.parse(
+          result.getByTestId('globalAggregationsResponseStore').textContent || '{}'
+        );
+        expect(json.isError).toEqual(true);
+      });
+
+      test('sets the global aggregations', async () => {
+        const result = render(
+          <TestGlobalAggregationsResponseStoreComponent
+            searchClient={new SingleQueryResultSearchClient()}
+          />
+        );
+        const fetchGlobalAggregationsButton = result.getByTestId('fetchGlobalAggregations');
+        fireEvent.click(fetchGlobalAggregationsButton);
+        await waitForDomChange({ container: result.container });
+        const json: GlobalAggregationsResponseStore = JSON.parse(
+          result.getByTestId('globalAggregationsResponseStore').textContent || '{}'
+        );
+
+        expect(json.data).toEqual(
+          expect.objectContaining({
+            matching_results: 1
+          })
+        );
+      });
+
+      describe('callback', () => {
+        test('calls callback method with results', async () => {
+          const callbackMock = jest.fn();
+          const result = render(
+            <TestGlobalAggregationsResponseStoreComponent callback={callbackMock} />
+          );
+          const fetchGlobalAggregationsButton = result.getByTestId('fetchGlobalAggregations');
+          fireEvent.click(fetchGlobalAggregationsButton);
+          await waitForDomChange({ container: result.container });
+
+          expect(callbackMock).toHaveBeenCalledWith({});
+        });
+      });
+
+      describe('cancellation', () => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let consoleError: jest.SpyInstance<any, any>;
+        beforeAll(() => {
+          consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+        });
+
+        afterAll(() => {
+          consoleError.mockRestore();
+        });
+
+        afterEach(() => {
+          jest.clearAllMocks();
+          jest.useRealTimers();
+        });
+
+        test('does not attempt to set state when unmounted (to prevent memory leaks)', () => {
+          jest.useFakeTimers();
+          const result = render(
+            <TestGlobalAggregationsResponseStoreComponent searchClient={new SlowClient()} />
+          );
+          const { unmount, getByTestId } = result;
+          const fetchGlobalAggregationsButton = getByTestId('fetchGlobalAggregations');
+
+          fireEvent.click(fetchGlobalAggregationsButton);
+          unmount();
+
+          jest.runOnlyPendingTimers();
+          expect(consoleError).not.toHaveBeenCalled();
+        });
+      });
+
+      describe('freshest data', () => {
+        const SLOW_AGGS = [
+          {
+            type: 'term',
+            name: 'category_id',
+            field: 'slow',
+            count: 1,
+            results: [
+              {
+                key: 'Research',
+                matching_results: 138993
+              }
+            ]
+          }
+        ];
+        const FAST_AGGS = globalAggregationResults;
+        class TwoRequestsClient extends BaseSearchClient {
+          public async query(searchParams?: DiscoveryV2.QueryParams): Promise<any> {
+            if (searchParams && searchParams.projectId === 'set') {
+              return createDummyResponse(FAST_AGGS);
+            } else {
+              return new Promise(resolve => {
+                setTimeout(() => {
+                  resolve(SLOW_AGGS);
+                }, 100);
+              });
+            }
+          }
+        }
+        beforeEach(() => {
+          jest.useFakeTimers();
+        });
+
+        afterEach(() => {
+          jest.useRealTimers();
+        });
+
+        test('retrieves the latest request', async () => {
+          jest.useFakeTimers();
+          const searchParameters = {
+            projectId: 'foo'
+          };
+          const { getByTestId } = render(
+            <TestGlobalAggregationsResponseStoreComponent
+              searchParameters={searchParameters}
+              searchClient={new TwoRequestsClient()}
+            />
+          );
+          const fetchGlobalAggregationsButton = getByTestId('fetchGlobalAggregations');
+          const setGlobalAggregationParametersButton = getByTestId(
+            'setGlobalAggregationParameters'
+          );
+
+          fireEvent.click(fetchGlobalAggregationsButton);
+          fireEvent.click(fetchGlobalAggregationsButton);
+          fireEvent.click(fetchGlobalAggregationsButton);
+          fireEvent.click(setGlobalAggregationParametersButton);
+          fireEvent.click(fetchGlobalAggregationsButton);
+          jest.runAllTimers();
+          await wait(() => {
+            JSON.parse(getByTestId('globalAggregationsResponseStore').textContent || '{}');
+          });
+
+          const json: GlobalAggregationsResponseStore = JSON.parse(
+            getByTestId('globalAggregationsResponseStore').textContent || '{}'
+          );
+
+          expect(json.data).toEqual(expect.objectContaining(FAST_AGGS));
+        });
+      });
     });
   });
 
