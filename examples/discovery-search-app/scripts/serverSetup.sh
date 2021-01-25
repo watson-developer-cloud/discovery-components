@@ -22,7 +22,7 @@ if [ -z "$accessToken" ]; then
   exit 1
 fi
 
-deploymentId=$(curl -s -k ${baseUrl}/zen-data/v3/deployments/discovery -H "Authorization: Bearer ${accessToken}" -d "{}" -H "Content-Type: application/json" | jq --raw-output '.deployments[0].id')
+deploymentId=$(curl -s -k ${baseUrl}/zen-data/v3/deployments/discovery -H "Authorization: Bearer ${accessToken}" -H "Content-Type: application/json" | jq --raw-output '.deployments[0].id')
 instanceId=$(curl -s -k -H "Authorization: Bearer ${accessToken}" -X GET "${baseUrl}/watson/common/discovery/api/ibmcloud/resource-controller/resource_instances?resource_id=discovery" -H "Content-Type: application/json" | jq --raw-output '.resources[].id')
 
 cat >.server-env <<EOL
