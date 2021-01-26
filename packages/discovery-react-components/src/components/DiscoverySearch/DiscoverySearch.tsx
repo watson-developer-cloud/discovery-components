@@ -99,7 +99,7 @@ export const emptySelectedResult = {
 };
 
 export interface SearchContextIFC {
-  aggregationResults?: DiscoveryV2.QueryAggregation[] | QueryAggregationWithName[];
+  aggregationResults?: DiscoveryV2.QueryAggregation[] | QueryAggregationWithName[] | null;
   searchResponseStore: SearchResponseStore;
   fetchDocumentsResponseStore: FetchDocumentsResponseStore;
   collectionsResults?: DiscoveryV2.ListCollectionsResponse;
