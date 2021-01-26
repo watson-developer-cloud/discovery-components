@@ -32,7 +32,7 @@ jobs:
       - name: Install
         run: yarn install
       - name: Lint
-        run: npx lerna lint --stream
+        run: npx lerna run lint --stream
       - name: Build
         run: npx lerna run build --stream & npx lerna run build:storybook --stream
       - name: Test
