@@ -10,7 +10,9 @@ import {
   useAutocompleteApi,
   AutocompleteStore,
   useFieldsApi,
-  FieldsStore
+  FieldsStore,
+  GlobalAggregationsResponseStore,
+  useGlobalAggregationsApi
 } from '../useDataApi';
 import { SearchClient } from 'components/DiscoverySearch/types';
 
@@ -43,6 +45,14 @@ class BaseSearchClient implements SearchClient {
 class SingleQueryResultSearchClient extends BaseSearchClient {
   public async query(): Promise<any> {
     return createDummyResponsePromise({ matching_results: 1 });
+  }
+}
+
+class AggregationResultSearchClient extends BaseSearchClient {
+  public async query(): Promise<any> {
+    return createDummyResponsePromise<DiscoveryV2.QueryResponse>({
+      aggregations: [{ type: 'term' }]
+    });
   }
 }
 
@@ -955,6 +965,96 @@ describe('useFieldsApi', () => {
         jest.runOnlyPendingTimers();
         expect(consoleError).not.toHaveBeenCalled();
       });
+    });
+  });
+});
+
+describe('useGlobalAggregationsApi', () => {
+  interface TestGlobalAggregationsStoreComponentProps {
+    searchParameters?: DiscoveryV2.QueryParams;
+    searchClient?: SearchClient;
+    aggregations?: DiscoveryV2.QueryAggregation[];
+  }
+
+  const TestGlobalAggregationsStoreComponent: FC<TestGlobalAggregationsStoreComponentProps> = ({
+    searchParameters = {
+      projectId: ''
+    },
+    searchClient = new BaseSearchClient(),
+    aggregations = []
+  }) => {
+    const [globalAggregationsStore, globalAggregationsApi] = useGlobalAggregationsApi(
+      searchParameters,
+      searchClient,
+      aggregations
+    );
+    return (
+      <>
+        <button
+          data-testid="fetchGlobalAggregations"
+          onClick={() =>
+            globalAggregationsApi.fetchGlobalAggregations(globalAggregationsStore.parameters)
+          }
+        />
+        <div data-testid="globalAggregationsStore">{JSON.stringify(globalAggregationsStore)}</div>
+      </>
+    );
+  };
+
+  describe('initial state', () => {
+    test('can initialize reducer state', () => {
+      const result = render(<TestGlobalAggregationsStoreComponent />);
+      const json: GlobalAggregationsResponseStore = JSON.parse(
+        result.getByTestId('globalAggregationsStore').textContent || '{}'
+      );
+
+      expect(json.isError).toEqual(false);
+      expect(json.isLoading).toEqual(false);
+    });
+  });
+
+  describe('when calling fetchGlobalAggregations', () => {
+    test('it sets the loading state', async () => {
+      const result = render(
+        <TestGlobalAggregationsStoreComponent searchClient={new BaseSearchClient()} />
+      );
+
+      const fetchGlobalAggregationsButton = result.getByTestId('fetchGlobalAggregations');
+
+      fireEvent.click(fetchGlobalAggregationsButton);
+      const json: GlobalAggregationsResponseStore = JSON.parse(
+        result.getByTestId('globalAggregationsStore').textContent || '{}'
+      );
+      expect(json.isLoading).toEqual(true);
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
+    });
+
+    test('it sets error state', async () => {
+      const result = render(
+        <TestGlobalAggregationsStoreComponent searchClient={new ErrorSearchClient()} />
+      );
+      const fetchGlobalAggregationsButton = result.getByTestId('fetchGlobalAggregations');
+
+      fireEvent.click(fetchGlobalAggregationsButton);
+      await waitForDomChange({ container: result.container });
+      const json: GlobalAggregationsResponseStore = JSON.parse(
+        result.getByTestId('globalAggregationsStore').textContent || '{}'
+      );
+      expect(json.isError).toEqual(true);
+    });
+
+    test('transforms query response to aggregations array', async () => {
+      const result = render(
+        <TestGlobalAggregationsStoreComponent searchClient={new AggregationResultSearchClient()} />
+      );
+      const fetchGlobalAggregationsButton = result.getByTestId('fetchGlobalAggregations');
+
+      fireEvent.click(fetchGlobalAggregationsButton);
+      await waitForDomChange({ container: result.container });
+      const json: GlobalAggregationsResponseStore = JSON.parse(
+        result.getByTestId('globalAggregationsStore').textContent || '{}'
+      );
+      expect(json.data).toEqual([{ type: 'term' }]);
     });
   });
 });
