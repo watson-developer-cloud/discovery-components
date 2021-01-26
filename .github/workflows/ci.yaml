@@ -30,6 +30,7 @@ jobs:
         with:
           node-version: 12
       - name: Install
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn install
       - name: Lint
         run: npx lerna run lint --stream
