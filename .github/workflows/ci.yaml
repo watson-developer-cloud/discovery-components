@@ -14,7 +14,7 @@ jobs:
           fetch-depth: "0"
       # pulls all tags (needed for lerna to correctly version)
       - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
-      - name: Setup Node ${{ matrix.node_version }}
+      - name: Setup Node 12
         uses: actions/setup-node@v2
         with:
           node-version: 12
