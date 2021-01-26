@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useState, SyntheticEvent } from 'react';
+import React, { FC, useContext, useState, SyntheticEvent } from 'react';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { Button } from 'carbon-components-react';
 import { settings } from 'carbon-components';
@@ -91,7 +91,12 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     },
     collectionsResults,
     componentSettings,
-    globalAggregationsResponseStore: { isLoading, isError, data: aggregations }
+    globalAggregationsResponseStore: {
+      isLoading,
+      isError,
+      data: aggregations,
+      parameters: globalAggregationsParameters
+    }
   } = useContext(SearchContext);
 
   const [facetSelectionState, setFacetSelectionState] = useState<SearchFilterFacets>(
@@ -127,15 +132,11 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     (componentSettings && componentSettings.aggregations) ||
     [];
 
-  useEffect(() => {
-    async function fetchData() {
-      await fetchAggregations(searchParameters);
+  useDeepCompareEffect(() => {
+    if (!aggregations && !isError && !isLoading) {
+      fetchAggregations(globalAggregationsParameters);
     }
-
-    if (!aggregations) {
-      fetchData();
-    }
-  }, [fetchAggregations, searchParameters]);
+  }, [fetchAggregations, globalAggregationsParameters, aggregations, isError, isLoading]);
 
   useDeepCompareEffect(() => {
     if (filter === '') {

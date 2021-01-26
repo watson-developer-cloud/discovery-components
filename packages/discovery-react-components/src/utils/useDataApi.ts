@@ -88,7 +88,8 @@ const useDataApi = <T, U>(
   initialParameters: T,
   searchClientMethod: (params: T, callback?: any) => void | Promise<any>,
   searchClient: SearchClient,
-  initialData?: U
+  initialData?: U,
+  transformResult?: (result: any) => U
 ): UseDataApiReturn<T, U> => {
   // useRef stores state without rerenders
   // token to pass by reference instead of by value to keep track of cancellation state on unmount
@@ -116,9 +117,13 @@ const useDataApi = <T, U>(
         // before storing the data, make sure the component hasn't been unmounted
         // and make sure this request is the most recent one (discard old requests)
         if (!cancelToken.current && requestId === requestIdRef.current) {
-          dispatch({ type: 'FETCH_SUCCESS', payload: result });
+          let payload = result;
+          if (transformResult) {
+            payload = transformResult(result);
+          }
+          dispatch({ type: 'FETCH_SUCCESS', payload });
           if (callback) {
-            callback(result);
+            callback(payload);
           }
         }
       } catch (error) {
@@ -127,7 +132,7 @@ const useDataApi = <T, U>(
         }
       }
     },
-    [searchClient, searchClientMethod]
+    [searchClient, searchClientMethod, transformResult]
   );
 
   // in order to prevent state updates after component unmount, set the cancel token
@@ -321,10 +326,11 @@ export interface GlobalAggregationsStoreActions {
    */
   setGlobalAggregationsResponse: (aggregationsResponse?: DiscoveryV2.QueryAggregation[]) => void;
   /**
-   * method used to invoke the aggregations request with an optional callback to return the response data
+   * method used to invoke the aggregations request with search parameters and an optional callback to return the response data
    */
   fetchGlobalAggregations: (
-    callback?: (result: DiscoveryV2.QueryAggregation[] | null) => void
+    searchParameters: DiscoveryV2.QueryParams,
+    callback?: (result: DiscoveryV2.QueryAggregation[]) => void
   ) => void;
 }
 
@@ -343,13 +349,19 @@ export const useGlobalAggregationsApi = (
     searchParameters,
     searchClient.query,
     searchClient,
-    overrideAggregationResults
+    overrideAggregationResults,
+    (result: DiscoveryV2.QueryResponse) => result.aggregations || []
   );
 
   const fetchGlobalAggregations = useCallback(
-    (callback?: (result: DiscoveryV2.QueryAggregation[] | null) => void): void =>
-      setFetchToken({ trigger: true, callback }),
-    [setFetchToken]
+    (
+      searchParameters: DiscoveryV2.QueryParams,
+      callback?: (result: DiscoveryV2.QueryAggregation[]) => void
+    ): void => {
+      setGlobalAggregationParameters(searchParameters);
+      setFetchToken({ trigger: true, callback });
+    },
+    [setFetchToken, setGlobalAggregationParameters]
   );
 
   return [
