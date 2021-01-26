@@ -34,7 +34,7 @@ jobs:
       - name: Lint
         run: npx lerna run lint --stream
       - name: Build
-        run: npx lerna run build --stream & npx lerna run build:storybook --stream
+        run: npx lerna run build:ci --stream
       - name: Test
         run: npx lerna run test --stream
       - name: NPM Identity

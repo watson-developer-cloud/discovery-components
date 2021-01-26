@@ -15,6 +15,7 @@
     "test:debug": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts --inspect-brk test --runInBand --no-cache",
     "circular": "madge --circular src/*",
     "build": "rollup -c",
+    "build:ci": "yarn run build && yarn run storybook:build",
     "eslint": "eslint --quiet '{src,.storybook}/**/*.{js,jsx,ts,tsx}'",
     "lint": "yarn run circular && yarn run eslint",
     "start": "rollup -c -w",
