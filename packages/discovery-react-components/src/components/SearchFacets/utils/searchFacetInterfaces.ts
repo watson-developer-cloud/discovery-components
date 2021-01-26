@@ -66,7 +66,7 @@ export interface QueryAggregationWithName extends DiscoveryV2.QueryAggregation {
 export const isQueryAggregationWithName = (
   aggregations?: (DiscoveryV2.QueryAggregation | QueryAggregationWithName)[]
 ): aggregations is QueryAggregationWithName[] => {
-  const { field, path, match } = (aggregations as QueryAggregationWithName[])[0];
+  const { field, path, match } = (aggregations as QueryAggregationWithName[])[0] || {};
   return field !== undefined || path !== undefined || match !== undefined;
 };
 

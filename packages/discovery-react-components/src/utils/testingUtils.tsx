@@ -31,7 +31,7 @@ export function createDummyResponse(result: any) {
   };
 }
 
-export function createDummyResponsePromise(result: any) {
+export function createDummyResponsePromise<T>(result: T) {
   return Promise.resolve(createDummyResponse(result));
 }
 

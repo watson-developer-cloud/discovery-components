@@ -53,6 +53,10 @@ const setup = ({
   const context: Partial<SearchContextIFC> = {
     globalAggregationsResponseStore: {
       ...globalAggregationsResponseStoreDefaults,
+      parameters: {
+        projectId: '',
+        aggregation: '[term(author,count:3),term(subject,count:4)]'
+      },
       data: aggregations,
       ...globalAggregationsResponseStoreOverrides
     },
@@ -62,8 +66,7 @@ const setup = ({
       parameters: {
         projectId: '',
         collectionIds,
-        filter,
-        aggregation: '[term(author,count:3),term(subject,count:4)]'
+        filter
       }
     },
     componentSettings: {

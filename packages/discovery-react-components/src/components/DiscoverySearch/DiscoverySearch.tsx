@@ -257,7 +257,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
 
   const [
     globalAggregationsResponseStore,
-    { setGlobalAggregationsResponse }
+    { setGlobalAggregationsResponse, fetchGlobalAggregations }
   ] = useGlobalAggregationsApi(
     { ...globalAggregationsResponseStoreDefaults, projectId },
     searchClient,
@@ -269,15 +269,17 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       aggregationResults: QueryAggregationWithName[],
       searchParams: DiscoveryV2.QueryParams
     ) => {
-      const updatedAggQuery = buildAggregationQuery(aggregationResults);
-      const updatedSearchParameters = {
-        ...searchParams,
-        aggregation: updatedAggQuery
-      };
-      const { result } = await searchClient.query(updatedSearchParameters);
-      return result.aggregations;
+      // TODO make this only run if aggregationResults doesn't already have type for top entities aggregation in the results
+      if (isQueryAggregationWithName(aggregationResults)) {
+        const updatedAggQuery = buildAggregationQuery(aggregationResults);
+        const updatedSearchParameters = {
+          ...searchParams,
+          aggregation: updatedAggQuery
+        };
+        fetchGlobalAggregations(updatedSearchParameters);
+      }
     },
-    [searchClient]
+    [fetchGlobalAggregations]
   );
 
   const handleSearch = useCallback(
@@ -293,39 +295,28 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       // don't use the search response if filter is set, just do another search
       if (resetAggregations && searchParameters.filter !== '') {
         aggregationsFetched = true;
-        const response = await searchClient.query({
-          ...searchParameters,
-          ...aggregationQueryDefaults,
-          filter: ''
-        });
-        if (response && response.result && response.result.aggregations) {
-          if (isQueryAggregationWithName(response.result.aggregations)) {
-            const updatedAggregations = await fetchTypeForTopEntitiesAggregation(
-              response.result.aggregations,
-              searchParameters
-            );
-            setGlobalAggregationsResponse(updatedAggregations);
-          } else {
-            setGlobalAggregationsResponse(response.result.aggregations);
+        fetchGlobalAggregations(
+          {
+            ...searchParameters,
+            ...aggregationQueryDefaults,
+            filter: ''
+          },
+          async aggregations => {
+            fetchTypeForTopEntitiesAggregation(aggregations, searchParameters);
           }
-        }
+        );
       }
 
       performSearch(async result => {
         if (!aggregationsFetched && resetAggregations && result && result.aggregations) {
-          const updatedAggregations = await fetchTypeForTopEntitiesAggregation(
-            result.aggregations,
-            searchParameters
-          );
-          setGlobalAggregationsResponse(updatedAggregations);
+          fetchTypeForTopEntitiesAggregation(result.aggregations, searchParameters);
         }
       });
     },
     [
+      fetchGlobalAggregations,
       fetchTypeForTopEntitiesAggregation,
       performSearch,
-      searchClient,
-      setGlobalAggregationsResponse,
       setSearchParameters
     ]
   );
@@ -448,25 +439,11 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
         ...searchParamsWithoutFilter,
         ...aggregationQueryDefaults
       };
-      const { result } = await searchClient.query(searchParametersWithAggregationDefaults);
-      if (result) {
-        const { aggregations } = result;
-        let updatedAggregations = aggregations;
-        if (aggregations && isQueryAggregationWithName(aggregations)) {
-          updatedAggregations = await fetchTypeForTopEntitiesAggregation(
-            aggregations,
-            searchParametersWithAggregationDefaults
-          );
-        }
-        setGlobalAggregationsResponse(updatedAggregations);
-      }
+      fetchGlobalAggregations(searchParametersWithAggregationDefaults, async aggregations => {
+        fetchTypeForTopEntitiesAggregation(aggregations, searchParametersWithAggregationDefaults);
+      });
     },
-    [
-      fetchTypeForTopEntitiesAggregation,
-      searchClient,
-      setGlobalAggregationsResponse,
-      setSearchParameters
-    ]
+    [fetchGlobalAggregations, fetchTypeForTopEntitiesAggregation, setSearchParameters]
   );
 
   const handleSetSelectedResult = (overrideSelectedResult: SelectedResult) => {
