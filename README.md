@@ -1,6 +1,6 @@
 # Discovery Components
 
-![ci](https://github.com/watson-developer-cloud/discovery-components/workflows/ci/badge.svg)
+![ci](https://github.com/watson-developer-cloud/discovery-components/workflows/ci/badge.svg)(https://github.com/watson-developer-cloud/discovery-components/actions?query=branch%3Amaster)
 [![Apache-2.0 license](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/watson-developer-cloud/discovery-components/blob/master/LICENSE)
 [![Lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/watson-developer-cloud/discovery-components/blob/master/.github/CONTRIBUTING.md)
