@@ -12,25 +12,13 @@ jobs:
         uses: actions/checkout@v2
       # https://github.com/actions/checkout/issues/217 pulls all tags (needed for lerna to correctly version)
       - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
-      # https://github.com/actions/cache
-      - name: Cache node_modules
-        uses: actions/cache@v2
-        id: yarn-cache
-        with:
-          path: |
-            **/node_modules
-            ~/.cache/Cypress
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
       # https://github.com/actions/setup-node
       - name: Setup Node 12
         uses: actions/setup-node@v2
         with:
           node-version: 12
       - name: Install
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: yarn install
+        run: yarn install --frozen-lockfile
       - name: Lint
         run: npx lerna run lint --stream
       - name: Build Packages
