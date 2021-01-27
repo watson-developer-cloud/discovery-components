@@ -8,6 +8,7 @@
   "homepage": ".",
   "scripts": {
     "audit": "audit-ci --moderate",
+    "build:app": "yarn run build",
     "build": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts build",
     "eject": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts eject",
     "start": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts start",

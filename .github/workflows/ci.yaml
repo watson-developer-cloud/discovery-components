@@ -1,0 +1,51 @@
+name: ci
+on: push
+env:
+  CI: true
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-18.04
+    steps:
+      # https://github.com/actions/checkout
+      - name: Checkout
+        uses: actions/checkout@v2
+      # https://github.com/actions/checkout/issues/217 pulls all tags (needed for lerna to correctly version)
+      - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+      # https://github.com/actions/setup-node
+      - name: Setup Node 12
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+      - name: Install
+        run: yarn install --frozen-lockfile
+      - name: Lint
+        run: npx lerna run lint --stream
+      - name: Build Packages
+        run: npx lerna run build --stream --scope '@ibm-watson/*'
+      - name: Build Apps
+        run: npx lerna run build:app --parallel
+      - name: Test
+        run: npx lerna run test --stream
+      - name: NPM Identity
+        if: github.ref == 'refs/heads/master' || contains(github.ref, 'release/')
+        run: |
+          echo "registry=//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+          npm whoami
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Github Identity
+        if: github.ref == 'refs/heads/master' || contains(github.ref, 'release/')
+        run: |
+          git config --global push.default simple
+          git config --global user.email "watdevex@us.ibm.com"
+          git config --global user.name "Watson Github Bot"
+          git config remote.origin.url https://$GH_TOKEN@github.com/$GITHUB_REPOSITORY
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      - name: Publish Beta (Master)
+        if: github.ref == 'refs/heads/master'
+        run: npx lerna publish -y --conventional-prerelease --no-changelog --preid beta --dist-tag beta
+      - name: Publish Release Candidate (Release)
+        if: contains(github.ref, 'release/')
+        run: npx lerna publish -y --conventional-prerelease --no-changelog --preid rc --dist-tag rc
