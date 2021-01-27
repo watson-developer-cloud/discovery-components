@@ -178,6 +178,34 @@ describe('DiscoverySearch', () => {
       await wait(); // wait for component to finish rendering (prevent "act" warning)
     });
 
+    it('overrides aggregation results and keeps aggregationResults in sync with globalAggregationsResponseStore', async () => {
+      const tree = (
+        <SearchContext.Consumer>
+          {({
+            aggregationResults,
+            globalAggregationsResponseStore: { data: globalAggResults }
+          }) => (
+            <>
+              <span data-testid="aggResults">
+                {aggregationResults && aggregationResults[0].type}
+              </span>
+              <span data-testid="globalAggResponseStore">
+                {globalAggResults && globalAggResults[0].type}
+              </span>
+            </>
+          )}
+        </SearchContext.Consumer>
+      );
+      const {
+        result: { getByTestId }
+      } = setup({ overrideAggregationResults: [{ type: 'term' }] }, tree);
+      expect(getByTestId('globalAggResponseStore').textContent).toEqual('term');
+      // testing that aggregationResults is updated to be in sync with globalAggregationsResponseStore data
+      // to support it until deprecated in next major release
+      expect(getByTestId('aggResults').textContent).toEqual('term');
+      await wait(); // wait for component to finish rendering (prevent "act" warning)
+    });
+
     it('can override componentSettings', async () => {
       const tree = (
         <SearchContext.Consumer>

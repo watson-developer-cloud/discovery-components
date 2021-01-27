@@ -99,6 +99,7 @@ export const emptySelectedResult = {
 };
 
 export interface SearchContextIFC {
+  aggregationResults?: DiscoveryV2.QueryAggregation[] | QueryAggregationWithName[] | null;
   searchResponseStore: SearchResponseStore;
   fetchDocumentsResponseStore: FetchDocumentsResponseStore;
   collectionsResults?: DiscoveryV2.ListCollectionsResponse;
@@ -230,6 +231,9 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
   overrideComponentSettings,
   children
 }) => {
+  const [aggregationResults, setAggregationResults] = useState<
+    DiscoveryV2.QueryAggregation[] | QueryAggregationWithName[] | undefined | null
+  >(null);
   const [collectionsResults, setCollectionsResults] = useState<
     DiscoveryV2.ListCollectionsResponse | undefined
   >(overrideCollectionsResults);
@@ -322,6 +326,12 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
     searchClient,
     overrideAutocompletionResults
   );
+
+  // Keep aggregationResults in sync with globalAggregationsResponseStore data
+  // to support it until deprecated in next major release
+  useDeepCompareEffect(() => {
+    setAggregationResults(globalAggregationsResponseStore.data);
+  }, [globalAggregationsResponseStore.data]);
 
   useDeepCompareEffect(() => {
     setSearchResponse(overrideSearchResults);
@@ -492,6 +502,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
 
   const state = useDeepCompareMemo(() => {
     return {
+      aggregationResults,
       autocompletionStore,
       fetchDocumentsResponseStore,
       searchResponseStore,
@@ -503,6 +514,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       fieldsStore
     };
   }, [
+    aggregationResults,
     autocompletionStore,
     fetchDocumentsResponseStore,
     searchResponseStore,
