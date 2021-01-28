@@ -22,11 +22,10 @@ if [ -z "$accessToken" ]; then
   exit 1
 fi
 
-releasePath=$(curl -s -k -X POST ${baseUrl}/zen-data/v1/addOn/query -H "Authorization: Bearer ${accessToken}" -d "{}" -H "Content-Type: application/json" | jq --raw-output '.requestObj[] | select(.Type=="discovery") | .Details.provisionURL' | sed 's/\/watson//')
-resourceInstance=$(curl -s -k -H "Authorization: Bearer ${accessToken}" -X GET "${baseUrl}/watson/${releasePath}/api/ibmcloud/resource-controller/resource_instances?resource_id=discovery" -H "Content-Type: application/json")
-instanceId=$(echo ${resourceInstance} | jq --raw-output '.resources[].zen_id')
+deploymentId=$(curl -s -k ${baseUrl}/zen-data/v3/deployments/discovery -H "Authorization: Bearer ${accessToken}" -H "Content-Type: application/json" | jq --raw-output '.deployments[0].id')
+instanceId=$(curl -s -k -H "Authorization: Bearer ${accessToken}" -X GET "${baseUrl}/watson/common/discovery/api/ibmcloud/resource-controller/resource_instances?resource_id=discovery" -H "Content-Type: application/json" | jq --raw-output '.resources[].zen_id')
 
 cat >.server-env <<EOL
-RELEASE_PATH=${releasePath}instances/${instanceId}/api
+RELEASE_PATH=/discovery/${deploymentId}/instances/${instanceId}/api
 BASE_URL=${baseUrl}
 EOL
