@@ -14,7 +14,7 @@
     "@carbon/icons": "^10.5.0",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
-    "@cypress/webpack-preprocessor": "^5.1.2",
+    "@cypress/webpack-preprocessor": "^5.5.0",
     "@rollup/plugin-alias": "^3.0.1",
     "@rollup/plugin-commonjs": "^11.0.0",
     "@rollup/plugin-json": "^4.0.1",
@@ -27,7 +27,7 @@
     "@storybook/react": "^5.3.14",
     "@storybook/source-loader": "^5.3.14",
     "@svgr/rollup": "^4.3.2",
-    "@testing-library/cypress": "5.3.1",
+    "@testing-library/cypress": "^7.0.3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/react-hooks": "^3.4.1",
@@ -43,6 +43,7 @@
     "@types/react-resize-detector": "^4.2.0",
     "@types/react-virtualized": "^9.21.2",
     "@types/seedrandom": "^2.4.28",
+    "@types/testing-library__cypress": "^5.0.8",
     "@types/uuid": "^3.4.5",
     "@typescript-eslint/eslint-plugin": "^2.21.0",
     "@typescript-eslint/parser": "^2.21.0",
@@ -54,11 +55,11 @@
     "carbon-components-react": "^7.7.0",
     "carbon-icons": "^7.0.7",
     "cross-env": "^7.0.2",
-    "cypress": "4.11.0",
+    "cypress": "^6.3.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-config-react-app": "^5.2.0",
-    "eslint-plugin-cypress": "^2.10.3",
+    "eslint-plugin-cypress": "^2.11.2",
     "eslint-plugin-flowtype": "3.x",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
@@ -101,9 +102,6 @@
     "vue": "^2.6.11",
     "webpack": "4.41.2",
     "wsrun": "^5.2.0"
-  },
-  "resolutions": {
-    "cypress": "4.11.0"
   },
   "lint-staged": {
     "{packages,examples}/**/*.{json,css,scss,md}": [
