@@ -61,13 +61,10 @@ describe('Multi-Select Facets', () => {
         cy.wait('@postQueryFacetsAmes').as('amesFilterQueryObject');
       });
 
-      it('makes a query for the right facets', () => {
+      it('queries and selects the right facets', () => {
         cy.get('@amesFilterQueryObject')
           .its('requestBody.filter')
           .should('eq', 'location:"Ames, IA"');
-      });
-
-      it('changes the bubble next to that facet to say 1', () => {
         cy.get('.bx--list-box__selection')
           .contains('1')
           .should('exist');
@@ -84,13 +81,10 @@ describe('Multi-Select Facets', () => {
           cy.wait('@postQueryFacetsAmesOrPittsburgh').as('multiFilterQueryObject');
         });
 
-        it('makes a query for both filters in the facet', () => {
+        it('queries and selects the right facets', () => {
           cy.get('@multiFilterQueryObject')
             .its('requestBody.filter')
             .should('eq', 'location:"Pittsburgh, PA"|"Ames, IA"');
-        });
-
-        it('changes the bubble next to that facet to say 2', () => {
           cy.get('.bx--list-box__selection')
             .contains('2')
             .should('exist');
@@ -119,13 +113,10 @@ describe('Multi-Select Facets', () => {
           cy.wait('@postQueryFacets').as('clearedFacetsQueryObject');
         });
 
-        it('makes a query without any selected facets', () => {
+        it('makes a query without any selected facets and there is no "Clear all" button', () => {
           cy.get('@clearedFacetsQueryObject')
             .its('requestBody.filter')
             .should('eq', '');
-        });
-
-        it('has the "Clear all" button disappear', () => {
           cy.get('button')
             .contains('Clear all')
             .should('not.exist');
