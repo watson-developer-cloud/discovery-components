@@ -15,9 +15,7 @@ describe('Passage Results', () => {
     cy.findByText(
       'This result multiple passages, but you should only be able to see the first one.'
     ).should('be.visible');
-    cy.findByText('if you can see this passage, something probably borked').should(
-      'not.be.visible'
-    );
+    cy.findByText('if you can see this passage, something probably borked').should('not.exist');
     cy.findByText('This result only has one passage, and it should be visible').should(
       'be.visible'
     );
