@@ -14,6 +14,9 @@ jobs:
         with:
           # https://github.com/actions/checkout/issues/217
           fetch-depth: 0
+          # do not overwrite github auth in release step
+          # https://github.com/lerna/lerna/issues/1957#issuecomment-702396095
+          persist-credentials: false
       # https://github.com/actions/checkout/issues/217 pulls all tags (needed for lerna to correctly version)
       - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
       # https://github.com/actions/setup-node
@@ -44,7 +47,7 @@ jobs:
           git config --global push.default simple
           git config --global user.email "watdevex@us.ibm.com"
           git config --global user.name "Watson Github Bot"
-          git config remote.origin.url https://$GH_TOKEN@github.com/$GITHUB_REPOSITORY
+          git config remote.origin.url https://x-access-token:$GH_TOKEN@github.com/$GITHUB_REPOSITORY
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Publish Beta (Master)
