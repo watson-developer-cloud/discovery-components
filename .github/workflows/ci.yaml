@@ -10,6 +10,9 @@ jobs:
       # https://github.com/actions/checkout
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          # https://github.com/actions/checkout/issues/217
+          fetch-depth: 0
       # https://github.com/actions/checkout/issues/217 pulls all tags (needed for lerna to correctly version)
       - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
       # https://github.com/actions/setup-node
