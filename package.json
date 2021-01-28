@@ -102,9 +102,6 @@
     "webpack": "4.41.2",
     "wsrun": "^5.2.0"
   },
-  "resolutions": {
-    "cypress": "4.11.0"
-  },
   "lint-staged": {
     "{packages,examples}/**/*.{json,css,scss,md}": [
       "prettier --write",
