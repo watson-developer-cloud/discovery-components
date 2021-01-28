@@ -36,9 +36,8 @@ describe('Single-Select Facets', () => {
       cy.get('@cityFacet').should('exist');
       cy.get('@cuisineFacet').should('exist');
       cy.get('@priceFacet').should('exist');
-    });
 
-    it('has facets displayed as radio buttons', () => {
+      // facets should be radio buttons
       cy.get('@cityFacet')
         .find('.bx--radio-button')
         .should('have.length', 5);
@@ -94,13 +93,10 @@ describe('Single-Select Facets', () => {
           cy.wait('@postQueryFacets').as('clearedFacetsQueryObject');
         });
 
-        it('makes a query without any selected facets', () => {
+        it('makes a query without any selected facets and "Clear all" button disappears', () => {
           cy.get('@clearedFacetsQueryObject')
             .its('requestBody.filter')
             .should('eq', '');
-        });
-
-        it('has the "Clear all" button disappear', () => {
           cy.get('button')
             .contains('Clear all')
             .should('not.exist');
