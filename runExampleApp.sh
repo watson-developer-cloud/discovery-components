@@ -2,7 +2,7 @@
 
 set -e
 
-PREREQUISITES=("yarn" "node" "jq")
+PREREQUISITES=("yarn" "node")
 SCRIPT_DIR=$(
     cd "$(dirname "$0")"
     pwd
@@ -11,7 +11,8 @@ USE_FORMAT=$(
   type tput >/dev/null 2>&1
   if [ $? -eq 0 ]; then echo "true"; else echo "false"; fi
 )
-ENV_LOCAL="${SCRIPT_DIR}/examples/discovery-search-app/.env.local"
+CREDENTIALS_FILE="${SCRIPT_DIR}/examples/discovery-search-app/ibm-credentials.env"
+ENV_LOCAL_FILE="${SCRIPT_DIR}/examples/discovery-search-app/.env.local"
 
 function boldMessage() {
   if [ "$USE_FORMAT" == "true" ]; then
@@ -48,7 +49,7 @@ function checkForDependencies() {
 
     if [ $exists -eq 0 ]; then
       colorMessage "Y" 2
-    else 
+    else
       colorMessage "N" 1
     fi
 
@@ -65,37 +66,77 @@ function checkForDependencies() {
 }
 
 function updateEnvFile() {
+  local authType
+  local url
+  local projectId
+  local username
+  local password
+  local apikey
+  local authTypeValid=false
+
+  paddedMessage "What kind of authorization type are you using?"
+  paddedMessage "Cloud = iam"
+  paddedMessage "CP4D = cp4d"
+  echo
+
+  while ! $authTypeValid; do
+    read -p "  authType" authType
+    if [[ "$authType" == "iam" || "$authType" == "cp4d" ]]; then
+      authTypeValid=true
+    else
+      paddedMessage "Please provide a valid value (iam/cp4d)"
+    fi
+  done
+
   paddedMessage "Provide the following based on the Discovery workspace url template:"
-  colorMessage "  https://{cluster_host}:{cluster_port}/discovery/{release_name}/projects/{project_id}/workspace" 3
+  paddedMessage "CP4D"
+  colorMessage "  {url}/discovery/{deployment_id}/projects/{project_id}/workspace" 3
+  paddedMessage "Cloud (project_id not available in URL)"
+  colorMessage "  https://api.us-south.discovery.cloud.ibm.com/instances/1234" 3
   echo
+  while [[ "$url" == "" ]]; do
+      read -p "  url: " url
+  done
+  while [[ "$projectId" == "" ]]; do
+      read -p "  project_id: " url
+  done
 
-  read -p "  cluster_host: " host
-  read -p "  cluster_port (e.g. 443): " port
-  read -p "  project_id: " projectId
-
-  paddedMessage "CP4D credentials:"
-  echo "  These are the credentials used to log into the CP4D dashboard"
-  echo
-  read -p "  username: " username
-  read -sp "  password: " password
-
-  if [[ -z $host || -z $port || -z $username || -z $password ]]; then
+  if [[ "$authType" == "cp4d" ]]; then
+    paddedMessage "CP4D credentials:"
+    echo "  These are the credentials used to log into the CP4D dashboard"
     echo
+    while [[ "$username" == "" ]]; do
+        read -p "  username: " username
+    done
+
+    while [[ "$password" == "" ]]; do
+        read -p "  password: " password
+    done
+
+    cat >$CREDENTIALS_FILE <<EOL
+DISCOVERY_AUTH_TYPE=${authType}
+DISCOVERY_URL=${url}
+DISCOVERY_USERNAME=${username}
+DISCOVERY_PASSWORD=${password}
+EOL
+  elif [[ "$authType" == "iam" ]]; then
+    paddedMessage "Cloud credentials:"
     echo
-    echo "You provide all of the following: host, port, username and password" >&2
-    exit 1
+    while [[ "$apikey" == "" ]]; do
+        read -p "  apikey: " apikey
+    done
+      cat >$CREDENTIALS_FILE <<EOL
+DISCOVERY_AUTH_TYPE=${authType}
+DISCOVERY_URL=${url}
+DISCOVERY_APIKEY=${apikey}
+EOL
   fi
 
-  cat >$ENV_LOCAL <<EOL
-REACT_APP_PROJECT_ID=${projectId}
-CLUSTER_USERNAME=${username}
-CLUSTER_PASSWORD=${password}
-CLUSTER_PORT=${port}
-CLUSTER_HOST=${host}
-EOL
+  node "${SCRIPT_DIR}/examples/discovery-search-app/scripts/setReleasePath.js"
+  echo "REACT_APP_PROJECT_ID=${projectId}" >> $ENV_LOCAL_FILE
 
   if [ $OSTYPE == 'msys' ]; then
-    echo "SASS_PATH=\"../../node_modules;src\"" >> $ENV_LOCAL
+    echo "SASS_PATH=\"../../node_modules;src\"" >> $ENV_LOCAL_FILE
   fi
   echo
 }
@@ -117,9 +158,9 @@ colorMessage "done" 2
 #
 # collection discovery instance information
 #
-if [ -f $ENV_LOCAL ]; then
+if [ -f $CREDENTIALS_FILE ]; then
   paddedMessage "File already exists:"
-  colorMessage "  $ENV_LOCAL" 3
+  colorMessage "  $CREDENTIALS_FILE" 3
   read -p "$(paddedMessage 'Update file before configuring server (y/n)? ')" updateEnvValues
 
   if [[ "${updateEnvValues}" =~ ^(Y|y)$ ]]; then
