@@ -75,12 +75,12 @@ function updateEnvFile() {
   local authTypeValid=false
 
   paddedMessage "What kind of authorization type are you using?"
-  paddedMessage "Cloud = iam"
-  paddedMessage "CP4D = cp4d"
+  echo "iam (Cloud)"
+  echo "cp4d (CP4D)"
   echo
 
   while ! $authTypeValid; do
-    read -p "  authType" authType
+    read -p "  authType: " authType
     if [[ "$authType" == "iam" || "$authType" == "cp4d" ]]; then
       authTypeValid=true
     else
@@ -88,23 +88,16 @@ function updateEnvFile() {
     fi
   done
 
-  paddedMessage "Provide the following based on the Discovery workspace url template:"
-  paddedMessage "CP4D"
-  colorMessage "  {url}/discovery/{deployment_id}/projects/{project_id}/workspace" 3
-  paddedMessage "Cloud (project_id not available in URL)"
-  colorMessage "  https://api.us-south.discovery.cloud.ibm.com/instances/1234" 3
-  echo
-  while [[ "$url" == "" ]]; do
-      read -p "  url: " url
-  done
-  while [[ "$projectId" == "" ]]; do
-      read -p "  project_id: " url
-  done
-
   if [[ "$authType" == "cp4d" ]]; then
+    paddedMessage "Provide the following based on the Discovery workspace url template:"
+    echo "CP4D"
+    colorMessage "  {url}/discovery/{deployment_id}/projects/{project_id}/workspace" 3
     paddedMessage "CP4D credentials:"
     echo "  These are the credentials used to log into the CP4D dashboard"
     echo
+    while [[ "$url" == "" ]]; do
+        read -p "  url: " url
+    done
     while [[ "$username" == "" ]]; do
         read -p "  username: " username
     done
@@ -121,7 +114,12 @@ DISCOVERY_PASSWORD=${password}
 EOL
   elif [[ "$authType" == "iam" ]]; then
     paddedMessage "Cloud credentials:"
+    echo "Cloud URL example (project_id not available in URL):"
+    colorMessage "  https://api.us-south.discovery.cloud.ibm.com/instances/1234" 3
     echo
+    while [[ "$url" == "" ]]; do
+        read -p "  url: " url
+    done
     while [[ "$apikey" == "" ]]; do
         read -p "  apikey: " apikey
     done
@@ -130,9 +128,21 @@ DISCOVERY_AUTH_TYPE=${authType}
 DISCOVERY_URL=${url}
 DISCOVERY_APIKEY=${apikey}
 EOL
+  else
+    echo "Unsupported auth type: ${authType}"
+    exit 1
   fi
 
+  paddedMessage "Project ID:"
+  echo "Copy from available project IDs"
+  node "${SCRIPT_DIR}/examples/discovery-search-app/scripts/listProjects.js"
+  while [[ "$projectId" == "" ]]; do
+    read -p "  project_id: " projectId
+  done
+
+  # for CP4D setupProxy, we need to set the release path. this also creates the ENV_LOCAL_FILE
   node "${SCRIPT_DIR}/examples/discovery-search-app/scripts/setReleasePath.js"
+
   echo "REACT_APP_PROJECT_ID=${projectId}" >> $ENV_LOCAL_FILE
 
   if [ $OSTYPE == 'msys' ]; then
