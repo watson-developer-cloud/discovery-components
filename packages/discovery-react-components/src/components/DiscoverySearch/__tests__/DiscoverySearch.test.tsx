@@ -275,7 +275,7 @@ describe('DiscoverySearch', () => {
       await wait(); // wait for component to finish rendering (prevent "act" warning)
     });
 
-    it('can call performSearch twice with resetAggregations = true and filter set', async () => {
+    it('can call performSearch once with resetAggregations = true and filter set', async () => {
       const tree = (
         <SearchApi.Consumer>
           {({ performSearch }) => (
@@ -295,7 +295,7 @@ describe('DiscoverySearch', () => {
       expect(spy).not.toHaveBeenCalled();
       fireEvent.click(getByText('Action'));
       await wait(); // wait for component to finish rendering (prevent "act" warning)
-      expect(spy).toHaveBeenCalledTimes(2);
+      expect(spy).toHaveBeenCalledTimes(1);
     });
 
     it('can call fetchDocuments', async () => {
