@@ -1,11 +1,11 @@
 const path = require('path');
 const dotenv = require('dotenv');
-const envLocal = dotenv.config({ path: path.join(__dirname, '../', '.env.local') });
 const proxy = require('http-proxy-middleware');
 const { getAuthenticatorFromEnvironment } = require('ibm-watson/auth');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const setSdkUrl = require('./scripts/setSdkUrl');
+const setSdkUrl = require('../scripts/setSdkUrl');
+const envLocal = dotenv.config({ path: path.join(__dirname, '../', '.env.local') });
 
 // if we are just running cypress tests, we don't need to setup a proxy
 if (process.env.CYPRESS_MODE) {
