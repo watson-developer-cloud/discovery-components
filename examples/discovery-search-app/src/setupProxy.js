@@ -14,8 +14,6 @@ if (process.env.CYPRESS_MODE) {
   return;
 }
 
-const target = setSdkUrl();
-
 if (envLocal.error) {
   console.warn(
     'Error retrieving local environment variables. Please make sure you have set .env.local'
@@ -34,7 +32,8 @@ const addAuthorization = async (req, _res, next) => {
   return next();
 };
 
-module.exports = function(app) {
+module.exports = async function(app) {
+  const target = await setSdkUrl();
   app.use(
     '/api',
     addAuthorization,
