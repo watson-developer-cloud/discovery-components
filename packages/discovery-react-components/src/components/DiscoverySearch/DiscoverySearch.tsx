@@ -151,9 +151,21 @@ export const searchResponseStoreDefaults: SearchResponseStore = {
   isError: false
 };
 
+const aggregationQueryDefaults: Partial<DiscoveryV2.QueryParams> = {
+  count: 0,
+  filter: '',
+  passages: {
+    enabled: false
+  },
+  tableResults: {
+    enabled: false
+  }
+};
+
 export const globalAggregationsResponseStoreDefaults: GlobalAggregationsResponseStore = {
   parameters: {
-    projectId: ''
+    projectId: '',
+    ...aggregationQueryDefaults
   },
   data: null,
   isLoading: false,
@@ -185,17 +197,6 @@ export const autocompletionStoreDefaults: AutocompleteStore = {
   data: null,
   isLoading: false,
   isError: false
-};
-
-const aggregationQueryDefaults: Partial<DiscoveryV2.QueryParams> = {
-  count: 0,
-  filter: '',
-  passages: {
-    enabled: false
-  },
-  tableResults: {
-    enabled: false
-  }
 };
 
 const fieldsStoreDefaults: FieldsStore = {
@@ -285,42 +286,17 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
 
   const handleSearch = useCallback(
     async (
-      backwardsCompatibleQueryParams: DiscoveryV2.QueryParams & { returnFields?: string[] },
-      resetAggregations = true
+      backwardsCompatibleQueryParams: DiscoveryV2.QueryParams & { returnFields?: string[] }
     ): Promise<void> => {
-      let aggregationsFetched = false;
       const searchParameters = deprecateReturnFields(
         backwardsCompatibleQueryParams
       ) as DiscoveryV2.QueryParams;
       setSearchParameters(searchParameters);
-      // don't use the search response if filter is set, just do another search
-      if (resetAggregations && searchParameters.filter !== '') {
-        aggregationsFetched = true;
-        fetchGlobalAggregations(
-          resetAggreationsToDefaults(searchParameters),
-          async aggregations => {
-            fetchTypeForTopEntitiesAggregation(aggregations, searchParameters);
-          }
-        );
-      }
 
-      performSearch(async result => {
-        if (!aggregationsFetched && resetAggregations && result && result.aggregations) {
-          fetchTypeForTopEntitiesAggregation(result.aggregations, searchParameters);
-        }
-      });
+      performSearch();
     },
-    [
-      fetchGlobalAggregations,
-      fetchTypeForTopEntitiesAggregation,
-      performSearch,
-      setSearchParameters
-    ]
+    [performSearch, setSearchParameters]
   );
-
-  const resetAggreationsToDefaults = (searchParameters: DiscoveryV2.QueryParams) => {
-    return { ...searchParameters, ...aggregationQueryDefaults };
-  };
 
   const [autocompletionStore, { fetchAutocompletions, setAutocompletions }] = useAutocompleteApi(
     { projectId, count: autocompletionOptions.completionsCount, prefix: '' },
