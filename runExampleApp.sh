@@ -74,7 +74,7 @@ function updateEnvFile() {
   local apikey
   local authTypeValid=false
 
-  paddedMessage "What kind of authorization type are you using?"
+  paddedMessage "What kind of authentication are you using?"
   echo "iam (Cloud)"
   echo "cp4d (CP4D)"
   echo
@@ -90,7 +90,8 @@ function updateEnvFile() {
 
   if [[ "$authType" == "cp4d" ]]; then
     paddedMessage "CP4D credentials:"
-    echo "  These are the credentials used to log into the CP4D dashboard"
+    echo "  These are the credentials used to log into the CP4D dashboard. Example URL:"
+    colorMessage "  https://zen-25-cpd-zen-25.apps.my-cluster-name.com"
     echo
     while [[ "$url" == "" ]]; do
         read -p "  url: " url
@@ -114,7 +115,7 @@ DISCOVERY_DISABLE_SSL=true
 EOL
   elif [[ "$authType" == "iam" ]]; then
     paddedMessage "Cloud credentials:"
-    echo "These are the credentials used to access the Discovery API, for example"
+    echo "  These are the credentials used to access the Discovery API. Example URL:"
     colorMessage "  https://api.us-south.discovery.cloud.ibm.com/instances/1234" 3
     echo
     while [[ "$url" == "" ]]; do
@@ -129,15 +130,15 @@ DISCOVERY_URL=${url}
 DISCOVERY_APIKEY=${apikey}
 EOL
   else
-    echo "Unsupported auth type: ${authType}"
+    echo "Unsupported authentication type: ${authType}"
     exit 1
   fi
 
-  # for CP4D setupProxy, we need to set the url
+  # for CP4D setupProxy, we need to augment the DISCOVERY_URL to include the release path
   node "${SCRIPT_DIR}/examples/discovery-search-app/scripts/setSdkUrl.js"
 
   paddedMessage "Project ID:"
-  echo "Copy from available project IDs"
+  echo "  Copy one of available project IDs:"
   node "${SCRIPT_DIR}/examples/discovery-search-app/scripts/listProjects.js"
   while [[ "$projectId" == "" ]]; do
     read -p "  project_id: " projectId
