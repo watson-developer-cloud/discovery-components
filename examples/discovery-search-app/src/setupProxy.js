@@ -5,7 +5,7 @@ const proxy = require('http-proxy-middleware');
 const { getAuthenticatorFromEnvironment } = require('ibm-watson/auth');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const setReleasePath = require('./scripts/setReleasePath');
+const setSdkUrl = require('./scripts/setSdkUrl');
 
 // if we are just running cypress tests, we don't need to setup a proxy
 if (process.env.CYPRESS_MODE) {
@@ -14,10 +14,7 @@ if (process.env.CYPRESS_MODE) {
   return;
 }
 
-const releasePath = setReleasePath();
-dotenv.config({
-  path: path.join(__dirname, '../', '.ibm-credentials.env')
-});
+const target = setSdkUrl();
 
 if (envLocal.error) {
   console.warn(
@@ -42,7 +39,7 @@ module.exports = function(app) {
     '/api',
     addAuthorization,
     proxy({
-      target: `${process.env.DISCOVERY_URL}${releasePath}`,
+      target,
       secure: false,
       changeOrigin: true,
       pathRewrite: {

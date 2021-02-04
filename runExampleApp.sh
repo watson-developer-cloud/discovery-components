@@ -89,9 +89,6 @@ function updateEnvFile() {
   done
 
   if [[ "$authType" == "cp4d" ]]; then
-    paddedMessage "Provide the following based on the Discovery workspace url template:"
-    echo "CP4D"
-    colorMessage "  {url}/discovery/{deployment_id}/projects/{project_id}/workspace" 3
     paddedMessage "CP4D credentials:"
     echo "  These are the credentials used to log into the CP4D dashboard"
     echo
@@ -108,13 +105,16 @@ function updateEnvFile() {
 
     cat >$CREDENTIALS_FILE <<EOL
 DISCOVERY_AUTH_TYPE=${authType}
+DISCOVERY_AUTH_URL=${url}
+DISCOVERY_AUTH_DISABLE_SSL=true
 DISCOVERY_URL=${url}
 DISCOVERY_USERNAME=${username}
 DISCOVERY_PASSWORD=${password}
+DISCOVERY_DISABLE_SSL=true
 EOL
   elif [[ "$authType" == "iam" ]]; then
     paddedMessage "Cloud credentials:"
-    echo "Cloud URL example (project_id not available in URL):"
+    echo "These are the credentials used to access the Discovery API, for example"
     colorMessage "  https://api.us-south.discovery.cloud.ibm.com/instances/1234" 3
     echo
     while [[ "$url" == "" ]]; do
@@ -133,6 +133,9 @@ EOL
     exit 1
   fi
 
+  # for CP4D setupProxy, we need to set the url
+  node "${SCRIPT_DIR}/examples/discovery-search-app/scripts/setSdkUrl.js"
+
   paddedMessage "Project ID:"
   echo "Copy from available project IDs"
   node "${SCRIPT_DIR}/examples/discovery-search-app/scripts/listProjects.js"
@@ -140,10 +143,10 @@ EOL
     read -p "  project_id: " projectId
   done
 
-  # for CP4D setupProxy, we need to set the release path. this also creates the ENV_LOCAL_FILE
-  node "${SCRIPT_DIR}/examples/discovery-search-app/scripts/setReleasePath.js"
-
-  echo "REACT_APP_PROJECT_ID=${projectId}" >> $ENV_LOCAL_FILE
+  echo "Writing ${projectId} to $ENV_LOCAL_FILE..."
+  cat >$ENV_LOCAL_FILE <<EOL
+REACT_APP_PROJECT_ID=${projectId}
+EOL
 
   if [ $OSTYPE == 'msys' ]; then
     echo "SASS_PATH=\"../../node_modules;src\"" >> $ENV_LOCAL_FILE

@@ -1,28 +1,24 @@
-const path = require('path');
-const dotenv = require('dotenv');
-const ibmCredentialsFilePath = path.join(__dirname, '../', 'ibm-credentials.env');
-const ibmCredentialsEnv = dotenv.config({
-  path: ibmCredentialsFilePath
-});
 const DiscoveryV2 = require('ibm-watson/discovery/v2');
-
-if (ibmCredentialsEnv.error) {
-  console.warn(
-    `Error retrieving server environment variables. Please make sure you have created ${ibmCredentialsFilePath}. Read more at https://github.com/watson-developer-cloud/node-sdk`
-  );
-  throw new Error(ibmCredentialsEnv.error);
-}
+const setSdkUrl = require('./setSdkUrl');
 
 async function listProjects() {
+  await setSdkUrl();
   const client = new DiscoveryV2({ version: '2021-02-01' });
-  const { result } = await client.listProjects();
-  return result.projects.map(({ id, name }) => {
-    return `${id} (${name})`;
-  });
+  try {
+    const { result } = await client.listProjects();
+    return result.projects
+      .map(({ project_id, name }) => {
+        return `${project_id} (${name})`;
+      })
+      .join('\n');
+  } catch (e) {
+    console.error('Error listing projects');
+    throw e;
+  }
 }
 
-if (require.module === 'main') {
-  console.log(listProjects());
+if (require.main === module) {
+  listProjects().then(result => console.log(result));
 }
 
-module.exports = { listProjects, default: listProjects };
+module.exports = { listProjects };
