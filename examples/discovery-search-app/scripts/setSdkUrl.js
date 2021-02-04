@@ -7,6 +7,7 @@ const ibmCredentialsFilePath = path.join(__dirname, '../', 'ibm-credentials.env'
 
 function writeReleasePathToFileAndReturn(url, deployment, resource) {
   const releasePath = `/discovery/${deployment.id}/instances/${resource.zen_id}/api`;
+  const fullDiscoveryUrl = `${url}${releasePath}`;
   try {
     if (process.env.IBM_CREDENTIALS_FILE || fs.existsSync(ibmCredentialsFilePath)) {
       const ibmCredentialsFileContent =
@@ -15,15 +16,15 @@ function writeReleasePathToFileAndReturn(url, deployment, resource) {
         }) || '';
       const replacement = ibmCredentialsFileContent.replace(
         /DISCOVERY_URL=[^\n]+/,
-        `DISCOVERY_URL=${url}${releasePath}`
+        `DISCOVERY_URL=${fullDiscoveryUrl}`
       );
       fs.writeFileSync(process.env.IBM_CREDENTIALS_FILE || ibmCredentialsFilePath, replacement);
     }
   } catch (e) {
-    console.error('Error writing release path to file');
+    console.error('Error appending release path to file');
     throw e;
   }
-  return releasePath;
+  return fullDiscoveryUrl;
 }
 
 module.exports = async function() {
