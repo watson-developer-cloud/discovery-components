@@ -189,6 +189,7 @@ export const autocompletionStoreDefaults: AutocompleteStore = {
 
 const aggregationQueryDefaults: Partial<DiscoveryV2.QueryParams> = {
   count: 0,
+  filter: '',
   passages: {
     enabled: false
   },
@@ -259,7 +260,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
     globalAggregationsResponseStore,
     { setGlobalAggregationsResponse, fetchGlobalAggregations }
   ] = useGlobalAggregationsApi(
-    { ...globalAggregationsResponseStoreDefaults, projectId },
+    { ...globalAggregationsResponseStoreDefaults.parameters, projectId },
     searchClient,
     overrideAggregationResults
   );
@@ -296,11 +297,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       if (resetAggregations && searchParameters.filter !== '') {
         aggregationsFetched = true;
         fetchGlobalAggregations(
-          {
-            ...searchParameters,
-            ...aggregationQueryDefaults,
-            filter: ''
-          },
+          resetAggreationsToDefaults(searchParameters),
           async aggregations => {
             fetchTypeForTopEntitiesAggregation(aggregations, searchParameters);
           }
@@ -320,6 +317,10 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       setSearchParameters
     ]
   );
+
+  const resetAggreationsToDefaults = (searchParameters: DiscoveryV2.QueryParams) => {
+    return { ...searchParameters, ...aggregationQueryDefaults };
+  };
 
   const [autocompletionStore, { fetchAutocompletions, setAutocompletions }] = useAutocompleteApi(
     { projectId, count: autocompletionOptions.completionsCount, prefix: '' },
@@ -429,18 +430,15 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
     async (
       backwardsCompatibleQueryParams: DiscoveryV2.QueryParams & { returnFields?: [] }
     ): Promise<void> => {
-      const searchParameters = deprecateReturnFields(
+      const aggregationsSearchParameters = deprecateReturnFields(
         backwardsCompatibleQueryParams
       ) as DiscoveryV2.QueryParams;
       // since we only call this when the aggregation changes, we can safely reset the filter
-      const searchParamsWithoutFilter = { ...searchParameters, filter: '' };
-      setSearchParameters(searchParamsWithoutFilter);
-      const searchParametersWithAggregationDefaults = {
-        ...searchParamsWithoutFilter,
-        ...aggregationQueryDefaults
-      };
-      fetchGlobalAggregations(searchParametersWithAggregationDefaults, async aggregations => {
-        fetchTypeForTopEntitiesAggregation(aggregations, searchParametersWithAggregationDefaults);
+      setSearchParameters(prevSearchParams => {
+        return { ...prevSearchParams, filter: '' };
+      });
+      fetchGlobalAggregations(aggregationsSearchParameters, async aggregations => {
+        fetchTypeForTopEntitiesAggregation(aggregations, aggregationsSearchParameters);
       });
     },
     [fetchGlobalAggregations, fetchTypeForTopEntitiesAggregation, setSearchParameters]
