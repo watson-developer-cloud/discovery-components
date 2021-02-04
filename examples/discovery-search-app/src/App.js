@@ -32,7 +32,7 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  if (process.env.REACT_APP_CYPRESS_MODE) {
+  if (process.env.REACT_APP_CYPRESS_MODE && !projectId) {
     console.warn('Running in feature test mode, setting REACT_APP_PROJECT_ID to "cypress"');
     setProjectId('cypress');
   }
