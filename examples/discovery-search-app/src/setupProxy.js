@@ -44,6 +44,9 @@ module.exports = async function(app) {
       pathRewrite: {
         '^/api': '/'
       },
+      onProxyReq: proxyReq => {
+        proxyReq.removeHeader('Cookie');
+      },
       onProxyRes: proxyRes => {
         proxyRes.headers['Access-Control-Allow-Origin'] = '*';
       },
