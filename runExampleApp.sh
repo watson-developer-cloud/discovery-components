@@ -143,7 +143,6 @@ EOL
     read -p "  project_id: " projectId
   done
 
-  echo "Writing ${projectId} to $ENV_LOCAL_FILE..."
   cat >$ENV_LOCAL_FILE <<EOL
 REACT_APP_PROJECT_ID=${projectId}
 EOL

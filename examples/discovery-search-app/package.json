@@ -19,7 +19,7 @@
     "cypress": "cross-env CYPRESS_MODE=true cypress open",
     "server": "yarn server:setup && yarn server:run",
     "server:run": "node ./server.js",
-    "server:setup": "node ./scripts/setReleasePath.js"
+    "server:setup": "node ./scripts/setSdkUrl.js"
   },
   "dependencies": {
     "@carbon/icons": "^10.5.0",
