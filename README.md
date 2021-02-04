@@ -58,7 +58,7 @@ The example app is a catalogue of the core components provided by this library. 
 The `runExampleApp.sh` script provides prompts to help configure and run the example application. The script iterates through the following steps:
 
 1. Verify all prerequisite programs are installed
-1. Prompt you for necessary cluster information
+1. Prompt you for necessary credential information
 1. Configure the example application server
 1. Build the React components
 1. Ask you if you'd like to start the example application
@@ -77,7 +77,7 @@ yarn workspace discovery-search-app run start
 
 ### Manual setup
 
-1. Install [Yarn](https://yarnpkg.com/lang/en/docs/install), as it is required build the components locally.
+1. Install [Yarn](https://yarnpkg.com/lang/en/docs/install), as it is required to build the components locally.
 
 2. Clone the repository
 
@@ -103,17 +103,11 @@ yarn workspace discovery-search-app run start
 
    ```
    REACT_APP_PROJECT_ID={REPLACE_ME}
-   CLUSTER_USERNAME={REPLACE_ME}
-   CLUSTER_PASSWORD={REPLACE_ME}
-   CLUSTER_PORT={REPLACE_ME}
-   CLUSTER_HOST={REPLACE_ME}
    ```
 
-   1. `REACT_APP_PROJECT_ID` is a guid contained in the URL (sample URL: `https://{CLUSTER_HOST}:{CLUSTER_PORT}/discovery/{RELEASE_NAME}/projects/{REACT_APP_PROJECT_ID}/workspace`) when viewing your Discovery project on the CP4D cluster (ex. `97ba736d-6563-4270-a489-c19d682b6369`)
-   2. `CLUSTER_USERNAME` the username used to log in to your CP4D dashboard and access your instance of Discovery (ex. `my_cp4d_username`)
-   3. `CLUSTER_PASSWORD` the password used to log in to your CP4D dashboard and access your instance of Discovery (ex. `my_cp4d_password`)
-   4. `CLUSTER_PORT` defaults to `443` unless configured otherwise
-   5. `CLUSTER_HOST` the base URL of your CP4D cluster (ex. `example.com`)
+   1. `REACT_APP_PROJECT_ID` is a guid contained in the URL (ex: `97ba736d-6563-4270-a489-c19d682b6369`)
+      - CP4D sample URL: `https://zen-25-cpd-zen-25.apps.my-cluster-name.com/discovery/wd/projects/{REACT_APP_PROJECT_ID}/workspace`)
+      - Cloud sample URL: `https://us-south.discovery.cloud.ibm.com/v2/instances/123/projects/{REACT_APP_PROJECT_ID}/workspace`)
 
    #### Windows Only
 
@@ -123,26 +117,38 @@ yarn workspace discovery-search-app run start
    SASS_PATH="./node_modules;./src"
    ```
 
-5. Build the React components:
+5. Either create a `examples/discovery-search-app/ibm-credentials.env` file or populate your environment with the following values:
+
+   - CP4D:
+     ```
+     DISCOVERY_AUTH_TYPE=cp4d
+     DISCOVERY_AUTH_URL={REPLACE_ME}
+     DISCOVERY_AUTH_DISABLE_SSL=true
+     DISCOVERY_URL={REPLACE_ME}
+     DISCOVERY_USERNAME={REPLACE_ME}
+     DISCOVERY_PASSWORD={REPLACE_ME}
+     DISCOVERY_DISABLE_SSL=true
+     ```
+     where:
+     - `DISCOVERY_AUTH_URL` is the URL to your base CP4D installation (ex. `https://zen-25-cpd-zen-25.apps.my-cluster-name.com`)
+     - `DISCOVERY_URL` is the API URL to your Discovery installation (ex. `https://zen-25-cpd-zen-25.apps.my-cluster-name.com/discovery/wd/instances/1578610482214/api`)
+     - `DISCOVERY_USERNAME` the username used to login to `DISCOVERY_AUTH_URL`
+     - `DISCOVERY_PASSWORD` the password used to login to `DISCOVERY_AUTH_URL`
+   - Cloud:
+     ```
+     DISCOVERY_AUTH_TYPE=iam
+     DISCOVERY_URL={REPLACE_ME}
+     DISCOVERY_APIKEY={REPLACE_ME}
+     ```
+     where:
+     - `DISCOVERY_URL` is the API URL to your Discovery instance (ex. `https://api.us-south.discovery.cloud.ibm.com/instances/2386cfd4-a584-41d0-868d-671d8be819bc`)
+     - `DISCOVERY_APIKEY` the api key associated with `DISCOVERY_URL`
+
+6. Build the React components:
 
    ```
    yarn workspace @ibm-watson/discovery-react-components run build
    ```
-
-6. Perform one of the two steps
-
-   - Run the setup script (which does the same thing as the below step using the username/password provided in `.env.local` but requires `jq` to be installed locally -> Mac OSX: `brew install jq`)
-     ```
-     yarn workspace discovery-search-app run server:setup
-     ```
-   - Create a `examples/discovery-search-app/.server-env` file with the following values:
-     ```
-     RELEASE_PATH={REPLACE_ME}
-     BASE_URL={REPLACE_ME}
-     ```
-     where:
-     - `RELEASE_PATH` is the url path part of the API URL shown in the CP4D UI (ex. `/discovery/release-name/instances/1578610482214/api`)
-     - `BASE_URL` is the protocol + host + port of the location that CP4D UI is hosted (ex. `https://zen-25-cpd-zen-25.apps.my-cluster-name.com:443`)
 
 7. Start the example app:
 
@@ -186,125 +192,128 @@ If you don't have a React application already, start with [create react app](htt
 
 3. Add the `DiscoverySearch` component with corresponding `searchClient` and optionally any components you would like to use to display Discovery Search Results.
 
-  ```jsx
-    // src/App.js
-    import React from 'react';
-    import {
-      DiscoverySearch,
-      SearchInput,
-      SearchResults,
-      SearchFacets,
-      ResultsPagination,
-      DocumentPreview
-    } from '@ibm-watson/discovery-react-components';
-    import DiscoveryV2 from 'ibm-watson/discovery/v2';
-    import { BearerTokenAuthenticator } from 'ibm-watson/auth';
-    import '@ibm-watson/discovery-styles/scss/index.scss';
-    // Replace these values
-    const bearerToken = '{REPLACE_ME}'; // retrieved from CP4D Admin UI under instance details which expires daily
-    const url = '{REPLACE_ME}'; // retrieved from CP4D Admin UI under instance details
-    const version = '{REPLACE_ME}'; // YYYY-MM-DD date format
-    const projectId = '{REPLACE_ME}'; // retrieved from Discovery Tooling UI
-    const App = () => {
-      let authenticator, searchClient, success;
-      try {
-        // see https://github.com/IBM/node-sdk-core/blob/master/AUTHENTICATION.md#bearer-token-authentication
-        authenticator = new BearerTokenAuthenticator({ bearerToken });
-        searchClient = new DiscoveryV2({ url, version, authenticator });
-        success = true;
-      } catch (err) {
-        console.error(err);
-      }
-      return success ? (
-          <DiscoverySearch searchClient={searchClient} projectId={projectId}>
-            <SearchInput />
-            <SearchResults />
-            <SearchFacets />
-            <ResultsPagination />
-            <DocumentPreview />
-          </DiscoverySearch>
-      ) : (
-        setupMessage()
-      );
-    };
-    function setupMessage() {
-      return (
-        <div style={{
-          textAlign: 'center',
-          margin: '20%',
-          fontSize: '1.5rem',
-        }}>
-          Please replace the constants in App.js in order to see the Discovery sample application.
-          <br /><br />
-          Check the console log for more information if you have replaced these constants and are still seeing this message.
-        </div>
-      );
-    }
-    export default App;
-  ```
+```jsx
+// src/App.js
+import React from 'react';
+import {
+  DiscoverySearch,
+  SearchInput,
+  SearchResults,
+  SearchFacets,
+  ResultsPagination,
+  DocumentPreview
+} from '@ibm-watson/discovery-react-components';
+import DiscoveryV2 from 'ibm-watson/discovery/v2';
+import '@ibm-watson/discovery-styles/scss/index.scss';
+// Make sure to setup your ibm-credentials.env file first
+// see https://github.com/IBM/node-sdk-core/blob/master/Authentication.md for low-level details
+// see https://github.com/watson-developer-cloud/node-sdk#authentication for high-level usage
+// Then replace these variables:
+const version = '{REPLACE_ME}'; // YYYY-MM-DD date format
+const projectId = '{REPLACE_ME}'; // retrieved from Discovery Tooling UI, ex.
+const App = () => {
+  let searchClient, success;
+  try {
+    searchClient = new DiscoveryV2({ version });
+    success = true;
+  } catch (err) {
+    console.error(err);
+  }
+  return success ? (
+    <DiscoverySearch searchClient={searchClient} projectId={projectId}>
+      <SearchInput />
+      <SearchResults />
+      <SearchFacets />
+      <ResultsPagination />
+      <DocumentPreview />
+    </DiscoverySearch>
+  ) : (
+    setupMessage()
+  );
+};
+function setupMessage() {
+  return (
+    <div
+      style={{
+        textAlign: 'center',
+        margin: '20%',
+        fontSize: '1.5rem'
+      }}
+    >
+      Please replace the constants in App.js along with setting up your credentials file in order to
+      see the Discovery sample application.
+      <br />
+      <br />
+      Check the console log for more information if you have replaced these constants and are still seeing
+      this message.
+    </div>
+  );
+}
+export default App;
+```
 
-  For more information on how each component can be customized and configured, check out our hosted [storybook](https://watson-developer-cloud.github.io/discovery-components)
+For more information on how each component can be customized and configured, check out our hosted [storybook](https://watson-developer-cloud.github.io/discovery-components)
 
-  ### Interacting with Discovery data in custom components
+### Interacting with Discovery data in custom components
 
-  Interacting with Discovery data is facilitated by the use of [React Context](https://reactjs.org/docs/context.html). The only requirement for a component to consume or request data is that it be nested underneath the `DiscoverySearch` component.
+Interacting with Discovery data is facilitated by the use of [React Context](https://reactjs.org/docs/context.html). The only requirement for a component to consume or request data is that it be nested underneath the `DiscoverySearch` component.
 
-  ex.
+ex.
 
-  ```jsx
-  // src/App.js
+```jsx
+// src/App.js
 
-  import React from 'react';
-  import { DiscoverySearch } from '@ibm-watson/discovery-react-components';
-  import { MyCustomComponent } from './MyCustomComponent.js';
+import React from 'react';
+import { DiscoverySearch } from '@ibm-watson/discovery-react-components';
+import { MyCustomComponent } from './MyCustomComponent.js';
 
-  const App = () => {
-    // see more detailed searchClient example above for `searchClient` variable
-    return (
-      <DiscoverySearch searchClient={searchClient} projectId={'REPLACE_ME'}>
-        <MyCustomComponent />
-      </DiscoverySearch>
-    );
+const App = () => {
+  // see more detailed searchClient example above for `searchClient` variable
+  return (
+    <DiscoverySearch searchClient={searchClient} projectId={'REPLACE_ME'}>
+      <MyCustomComponent />
+    </DiscoverySearch>
+  );
+};
+
+export default App;
+```
+
+```jsx
+// src/MyCustomComponent.js
+
+import React from 'react';
+import { SearchContext, SearchApi } from '@ibm-watson/discovery-react-components';
+
+const MyCustomComponent = () => {
+  // for more information about the shape of SearchContext, see SearchContextIFC defined in DiscoverySearch.tsx
+  const {
+    searchResponseStore: { data: searchResponse }
+  } = React.useContext(SearchContext);
+
+  const { performSearch } = useContext(SearchApi);
+  // for more information about the params needed to perform searches, see the Watson Developer Cloud SDK
+  // DiscoveryV2.QueryParams in https://github.com/watson-developer-cloud/node-sdk/blob/master/discovery/v2.ts
+  const searchParameters = {
+    projectId: 'REPLACE_ME',
+    naturalLanguageQuery: 'SEARCH TERM'
   };
 
-  export default App;
-  ```
+  return (
+    <div>
+      There are {searchResponse.matching_results} results
+      <button
+        onClick={() => {
+          performSearch(searchParameters);
+        }}
+      >
+        Click here to search
+      </button>
+    </div>
+  );
+};
 
-  ```jsx
-  // src/MyCustomComponent.js
-
-  import React from 'react';
-  import { SearchContext, SearchApi } from '@ibm-watson/discovery-react-components';
-
-  const MyCustomComponent = () => {
-    // for more information about the shape of SearchContext, see SearchContextIFC defined in DiscoverySearch.tsx
-    const {
-      searchResponseStore: { data: searchResponse }
-    } = React.useContext(SearchContext);
-
-    const { performSearch } = useContext(SearchApi);
-    // for more information about the params needed to perform searches, see the Watson Developer Cloud SDK
-    // DiscoveryV2.QueryParams in https://github.com/watson-developer-cloud/node-sdk/blob/master/discovery/v2.ts
-    const searchParameters = {
-      projectId: 'REPLACE_ME',
-      naturalLanguageQuery: 'SEARCH TERM'
-    };
-
-    return (
-      <div>
-        There are {searchResponse.matching_results} results
-        <button
-          onClick={() => {
-            performSearch(searchParameters);
-          }}
-        >
-          Click here to search
-        </button>
-      </div>
-    );
-  };
-
-  export default MyCustomComponent;
+export default MyCustomComponent;
 ```
 
 ### Optimize CSS
@@ -341,7 +350,7 @@ This method brings in Discovery Component styles as needed. Use this method if y
 3. Wholesale CSS
 
 ```html
-<link rel="stylesheet" href="/path/to/discoverey-components/index.css">
+<link rel="stylesheet" href="/path/to/discoverey-components/index.css" />
 ```
 
 This method uses the vanilla CSS that is built from the Discovery Component styles SCSS files and also includes the Carbon Component styles. Use this method if you do not have SCSS importing as part of your application build pipeline.
@@ -392,17 +401,17 @@ See the following for [more info about Lerna](https://github.com/lerna/lerna) or
 
 #### Example app (examples/discovery-search-app)
 
-| Command             | Description                                                            |
-| ------------------- | ---------------------------------------------------------------------- |
-| `yarn start`        | runs the client and runs the express server without configuring first  |
-| `yarn start:client` | runs the client at http://localhost:3000/                              |
-| `yarn build`        | creates a production build of the example project                      |
-| `yarn cypress`      | opens the cypress application for feature testing                      |
-| `yarn lint`         | runs `eslint` on `src` and `cypress`                                   |
-| `yarn server`       | configures and runs an express server                                  |
-| `yarn server:setup` | configures express server only                                         |
-| `yarn server:run`   | runs an express server without configuring first                       |
-| `yarn test:e2e`     | starts the server and runs cypress headless                            |
+| Command             | Description                                                           |
+| ------------------- | --------------------------------------------------------------------- |
+| `yarn start`        | runs the client and runs the express server without configuring first |
+| `yarn start:client` | runs the client at http://localhost:3000/                             |
+| `yarn build`        | creates a production build of the example project                     |
+| `yarn cypress`      | opens the cypress application for feature testing                     |
+| `yarn lint`         | runs `eslint` on `src` and `cypress`                                  |
+| `yarn server`       | configures and runs an express server                                 |
+| `yarn server:setup` | configures express server only                                        |
+| `yarn server:run`   | runs an express server without configuring first                      |
+| `yarn test:e2e`     | starts the server and runs cypress headless                           |
 
 #### React components (packages/discovery-react-components)
 
