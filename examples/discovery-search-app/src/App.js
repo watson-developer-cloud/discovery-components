@@ -29,8 +29,14 @@ const App = () => {
     authenticator
   });
 
+  let projectId = process.env.REACT_APP_PROJECT_ID;
+  if (process.env.REACT_APP_CYPRESS_MODE && !projectId) {
+    console.warn('Running in feature test mode, setting REACT_APP_PROJECT_ID to "cypress"');
+    projectId = 'cypress';
+  }
+
   return (
-    <DiscoverySearch searchClient={searchClient} projectId={process.env.REACT_APP_PROJECT_ID}>
+    <DiscoverySearch searchClient={searchClient} projectId={projectId}>
       <AppView />
     </DiscoverySearch>
   );

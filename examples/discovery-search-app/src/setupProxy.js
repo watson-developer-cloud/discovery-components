@@ -8,8 +8,8 @@ const setSdkUrl = require('../scripts/setSdkUrl');
 const envLocal = dotenv.config({ path: path.join(__dirname, '../', '.env.local') });
 
 // if we are just running cypress tests, we don't need to setup a proxy
-if (process.env.CYPRESS_MODE) {
-  console.log('CYPRESS_MODE=true   --->   Skipping proxy setup');
+if (process.env.REACT_APP_CYPRESS_MODE) {
+  console.log('REACT_APP_CYPRESS_MODE=true   --->   Skipping proxy setup');
   module.exports = function(app) {};
   return;
 }
