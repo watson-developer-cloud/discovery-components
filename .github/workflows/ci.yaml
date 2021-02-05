@@ -34,6 +34,12 @@ jobs:
         run: npx lerna run build:app --parallel
       - name: Test
         run: npx lerna run test --stream
+      - name: Archive test artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: cypress
+          path: |
+            examples/cypress/screenshots
       - name: NPM Identity
         if: github.ref == 'refs/heads/master' || contains(github.ref, 'release/')
         run: |
