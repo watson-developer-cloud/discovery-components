@@ -289,6 +289,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       backwardsCompatibleQueryParams: DiscoveryV2.QueryParams & { returnFields?: string[] },
       resetAggregations = true
     ): Promise<void> => {
+      let aggregationsFetched = false;
       const searchParameters = deprecateReturnFields(
         backwardsCompatibleQueryParams
       ) as DiscoveryV2.QueryParams;
@@ -297,16 +298,24 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       // TODO proper fix is to have any caller of handleSearch that needs aggregations
       // to call handleFetchAggregations instead
       if (resetAggregations && searchParameters.filter !== '') {
-        const aggregationSearchParams = {
-          ...searchParameters,
-          ...aggregationQueryDefaults
-        };
-        fetchGlobalAggregations(aggregationSearchParams, async aggregations => {
-          fetchTypeForTopEntitiesAggregation(aggregations, aggregationSearchParams);
-        });
+        aggregationsFetched = true;
+        fetchGlobalAggregations(
+          {
+            ...searchParameters,
+            ...aggregationQueryDefaults,
+            filter: ''
+          },
+          async aggregations => {
+            fetchTypeForTopEntitiesAggregation(aggregations, searchParameters);
+          }
+        );
       }
 
-      performSearch();
+      performSearch(async result => {
+        if (!aggregationsFetched && resetAggregations && result && result.aggregations) {
+          fetchTypeForTopEntitiesAggregation(result.aggregations, searchParameters);
+        }
+      });
     },
     [
       fetchGlobalAggregations,
