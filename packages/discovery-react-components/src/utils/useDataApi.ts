@@ -385,6 +385,8 @@ export const useGlobalAggregationsApi = (
     [setFetchToken, setGlobalAggregationParameters]
   );
 
+  // allow us to chain the result without storing in our reducer state
+  // used alongside the fetchTypeForTopEntitiesAggregation
   const fetchGlobalAggregationsWithoutStoring = useCallback(
     (
       searchParameters: DiscoveryV2.QueryParams,
