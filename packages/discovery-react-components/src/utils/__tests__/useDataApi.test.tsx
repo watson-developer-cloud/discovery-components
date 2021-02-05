@@ -996,6 +996,14 @@ describe('useGlobalAggregationsApi', () => {
             globalAggregationsApi.fetchGlobalAggregations(globalAggregationsStore.parameters)
           }
         />
+        <button
+          data-testid="fetchGlobalAggregationsWithoutStoring"
+          onClick={() =>
+            globalAggregationsApi.fetchGlobalAggregationsWithoutStoring(
+              globalAggregationsStore.parameters
+            )
+          }
+        />
         <div data-testid="globalAggregationsStore">{JSON.stringify(globalAggregationsStore)}</div>
       </>
     );
@@ -1055,6 +1063,24 @@ describe('useGlobalAggregationsApi', () => {
         result.getByTestId('globalAggregationsStore').textContent || '{}'
       );
       expect(json.data).toEqual([{ type: 'term' }]);
+    });
+  });
+
+  describe('when calling fetchGlobalAggregationsWithoutStoring', () => {
+    test('does not update the store with a payload and keeps isLoading true', async () => {
+      const result = render(
+        <TestGlobalAggregationsStoreComponent searchClient={new AggregationResultSearchClient()} />
+      );
+      const fetchGlobalAggregationsWithoutStoringButton = result.getByTestId(
+        'fetchGlobalAggregationsWithoutStoring'
+      );
+
+      fireEvent.click(fetchGlobalAggregationsWithoutStoringButton);
+      const json: GlobalAggregationsResponseStore = JSON.parse(
+        result.getByTestId('globalAggregationsStore').textContent || '{}'
+      );
+      expect(json.isLoading).toEqual(true);
+      expect(json.data).toEqual([]);
     });
   });
 });

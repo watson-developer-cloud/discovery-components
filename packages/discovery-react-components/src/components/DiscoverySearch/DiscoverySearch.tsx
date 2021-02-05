@@ -151,9 +151,21 @@ export const searchResponseStoreDefaults: SearchResponseStore = {
   isError: false
 };
 
+const aggregationQueryDefaults: Partial<DiscoveryV2.QueryParams> = {
+  count: 0,
+  filter: '',
+  passages: {
+    enabled: false
+  },
+  tableResults: {
+    enabled: false
+  }
+};
+
 export const globalAggregationsResponseStoreDefaults: GlobalAggregationsResponseStore = {
   parameters: {
-    projectId: ''
+    projectId: '',
+    ...aggregationQueryDefaults
   },
   data: null,
   isLoading: false,
@@ -185,16 +197,6 @@ export const autocompletionStoreDefaults: AutocompleteStore = {
   data: null,
   isLoading: false,
   isError: false
-};
-
-const aggregationQueryDefaults: Partial<DiscoveryV2.QueryParams> = {
-  count: 0,
-  passages: {
-    enabled: false
-  },
-  tableResults: {
-    enabled: false
-  }
 };
 
 const fieldsStoreDefaults: FieldsStore = {
@@ -257,9 +259,13 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
 
   const [
     globalAggregationsResponseStore,
-    { setGlobalAggregationsResponse, fetchGlobalAggregations }
+    {
+      setGlobalAggregationsResponse,
+      fetchGlobalAggregations,
+      fetchGlobalAggregationsWithoutStoring
+    }
   ] = useGlobalAggregationsApi(
-    { ...globalAggregationsResponseStoreDefaults, projectId },
+    { ...globalAggregationsResponseStoreDefaults.parameters, projectId },
     searchClient,
     overrideAggregationResults
   );
@@ -292,10 +298,12 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
         backwardsCompatibleQueryParams
       ) as DiscoveryV2.QueryParams;
       setSearchParameters(searchParameters);
-      // don't use the search response if filter is set, just do another search
+
+      // TODO proper fix is to have any caller of handleSearch that needs aggregations
+      // to call handleFetchAggregations instead
       if (resetAggregations && searchParameters.filter !== '') {
         aggregationsFetched = true;
-        fetchGlobalAggregations(
+        fetchGlobalAggregationsWithoutStoring(
           {
             ...searchParameters,
             ...aggregationQueryDefaults,
@@ -314,7 +322,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       });
     },
     [
-      fetchGlobalAggregations,
+      fetchGlobalAggregationsWithoutStoring,
       fetchTypeForTopEntitiesAggregation,
       performSearch,
       setSearchParameters
@@ -429,21 +437,18 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
     async (
       backwardsCompatibleQueryParams: DiscoveryV2.QueryParams & { returnFields?: [] }
     ): Promise<void> => {
-      const searchParameters = deprecateReturnFields(
+      const aggregationsSearchParameters = deprecateReturnFields(
         backwardsCompatibleQueryParams
       ) as DiscoveryV2.QueryParams;
       // since we only call this when the aggregation changes, we can safely reset the filter
-      const searchParamsWithoutFilter = { ...searchParameters, filter: '' };
-      setSearchParameters(searchParamsWithoutFilter);
-      const searchParametersWithAggregationDefaults = {
-        ...searchParamsWithoutFilter,
-        ...aggregationQueryDefaults
-      };
-      fetchGlobalAggregations(searchParametersWithAggregationDefaults, async aggregations => {
-        fetchTypeForTopEntitiesAggregation(aggregations, searchParametersWithAggregationDefaults);
+      setSearchParameters(prevSearchParams => {
+        return { ...prevSearchParams, filter: '' };
+      });
+      fetchGlobalAggregationsWithoutStoring(aggregationsSearchParameters, async aggregations => {
+        fetchTypeForTopEntitiesAggregation(aggregations, aggregationsSearchParameters);
       });
     },
-    [fetchGlobalAggregations, fetchTypeForTopEntitiesAggregation, setSearchParameters]
+    [fetchGlobalAggregationsWithoutStoring, fetchTypeForTopEntitiesAggregation, setSearchParameters]
   );
 
   const handleSetSelectedResult = (overrideSelectedResult: SelectedResult) => {
