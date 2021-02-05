@@ -286,16 +286,32 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
 
   const handleSearch = useCallback(
     async (
-      backwardsCompatibleQueryParams: DiscoveryV2.QueryParams & { returnFields?: string[] }
+      backwardsCompatibleQueryParams: DiscoveryV2.QueryParams & { returnFields?: string[] },
+      resetAggregations = true
     ): Promise<void> => {
       const searchParameters = deprecateReturnFields(
         backwardsCompatibleQueryParams
       ) as DiscoveryV2.QueryParams;
       setSearchParameters(searchParameters);
 
+      if (resetAggregations) {
+        const aggregationSearchParams = {
+          ...searchParameters,
+          ...aggregationQueryDefaults
+        };
+        fetchGlobalAggregations(aggregationSearchParams, async aggregations => {
+          fetchTypeForTopEntitiesAggregation(aggregations, aggregationSearchParams);
+        });
+      }
+
       performSearch();
     },
-    [performSearch, setSearchParameters]
+    [
+      fetchGlobalAggregations,
+      fetchTypeForTopEntitiesAggregation,
+      performSearch,
+      setSearchParameters
+    ]
   );
 
   const [autocompletionStore, { fetchAutocompletions, setAutocompletions }] = useAutocompleteApi(
