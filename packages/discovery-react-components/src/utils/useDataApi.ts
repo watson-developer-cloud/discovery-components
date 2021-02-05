@@ -23,6 +23,12 @@ const dataFetchReducer = (state: any, action: any) => {
         isError: false,
         data: action.payload
       };
+    case 'FETCH_COMPLETE':
+      return {
+        ...state,
+        isLoading: false,
+        isError: false
+      };
     case 'FETCH_FAILURE':
       return {
         ...state,
@@ -72,6 +78,10 @@ interface FetchToken {
    * optional function called on successful API response with the response data
    */
   callback?: (data: any) => void;
+  /**
+   * optional parameter to determine whether to store successful response data
+   */
+  storeResult?: boolean;
 }
 
 /**
@@ -110,7 +120,7 @@ const useDataApi = <T, U>(
   };
 
   const fetchData = useCallback(
-    async (parameters, requestId, callback): Promise<void> => {
+    async (parameters, requestId, callback, storeResult = true): Promise<void> => {
       dispatch({ type: 'FETCH_REQUEST' });
       try {
         const { result } = await searchClientMethod.call(searchClient, parameters);
@@ -121,7 +131,11 @@ const useDataApi = <T, U>(
           if (transformResult) {
             payload = transformResult(result);
           }
-          dispatch({ type: 'FETCH_SUCCESS', payload });
+          if (storeResult) {
+            dispatch({ type: 'FETCH_SUCCESS', payload });
+          } else {
+            dispatch({ type: 'FETCH_COMPLETE' });
+          }
           if (callback) {
             callback(payload);
           }
@@ -148,7 +162,7 @@ const useDataApi = <T, U>(
     if (fetchToken.trigger) {
       requestIdRef.current++;
       // pass the request id by value
-      fetchData(parameters, requestIdRef.current, fetchToken.callback);
+      fetchData(parameters, requestIdRef.current, fetchToken.callback, fetchToken.storeResult);
       setFetchToken({ trigger: false, callback: undefined });
     }
   }, [fetchToken, fetchData, parameters]);
@@ -332,6 +346,13 @@ export interface GlobalAggregationsStoreActions {
     searchParameters: DiscoveryV2.QueryParams,
     callback?: (result: DiscoveryV2.QueryAggregation[]) => void
   ) => void;
+  /**
+   * method used to invoke the aggregations request without storing the data with search parameters and an optional callback to return the response data
+   */
+  fetchGlobalAggregationsWithoutStoring: (
+    searchParameters: DiscoveryV2.QueryParams,
+    callback?: (result: DiscoveryV2.QueryAggregation[]) => void
+  ) => void;
 }
 
 export const useGlobalAggregationsApi = (
@@ -364,6 +385,17 @@ export const useGlobalAggregationsApi = (
     [setFetchToken, setGlobalAggregationParameters]
   );
 
+  const fetchGlobalAggregationsWithoutStoring = useCallback(
+    (
+      searchParameters: DiscoveryV2.QueryParams,
+      callback?: (result: DiscoveryV2.QueryAggregation[]) => void
+    ): void => {
+      setGlobalAggregationParameters(searchParameters);
+      setFetchToken({ trigger: true, callback, storeResult: false });
+    },
+    [setFetchToken, setGlobalAggregationParameters]
+  );
+
   return [
     {
       ...aggregationState,
@@ -372,7 +404,8 @@ export const useGlobalAggregationsApi = (
     {
       setGlobalAggregationParameters,
       setGlobalAggregationsResponse,
-      fetchGlobalAggregations
+      fetchGlobalAggregations,
+      fetchGlobalAggregationsWithoutStoring
     }
   ];
 };

@@ -259,7 +259,11 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
 
   const [
     globalAggregationsResponseStore,
-    { setGlobalAggregationsResponse, fetchGlobalAggregations }
+    {
+      setGlobalAggregationsResponse,
+      fetchGlobalAggregations,
+      fetchGlobalAggregationsWithoutStoring
+    }
   ] = useGlobalAggregationsApi(
     { ...globalAggregationsResponseStoreDefaults.parameters, projectId },
     searchClient,
@@ -299,7 +303,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       // to call handleFetchAggregations instead
       if (resetAggregations && searchParameters.filter !== '') {
         aggregationsFetched = true;
-        fetchGlobalAggregations(
+        fetchGlobalAggregationsWithoutStoring(
           {
             ...searchParameters,
             ...aggregationQueryDefaults,
@@ -318,7 +322,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       });
     },
     [
-      fetchGlobalAggregations,
+      fetchGlobalAggregationsWithoutStoring,
       fetchTypeForTopEntitiesAggregation,
       performSearch,
       setSearchParameters
@@ -440,11 +444,11 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       setSearchParameters(prevSearchParams => {
         return { ...prevSearchParams, filter: '' };
       });
-      fetchGlobalAggregations(aggregationsSearchParameters, async aggregations => {
+      fetchGlobalAggregationsWithoutStoring(aggregationsSearchParameters, async aggregations => {
         fetchTypeForTopEntitiesAggregation(aggregations, aggregationsSearchParameters);
       });
     },
-    [fetchGlobalAggregations, fetchTypeForTopEntitiesAggregation, setSearchParameters]
+    [fetchGlobalAggregationsWithoutStoring, fetchTypeForTopEntitiesAggregation, setSearchParameters]
   );
 
   const handleSetSelectedResult = (overrideSelectedResult: SelectedResult) => {

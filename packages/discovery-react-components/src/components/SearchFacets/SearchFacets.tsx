@@ -219,7 +219,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     performSearch({ ...searchParameters, collectionIds: [], offset: 0, filter: '' }, false);
   };
 
-  if (isLoading) {
+  if (isLoading && !aggregations) {
     return null;
   } else if (isError) {
     const errorNode =
