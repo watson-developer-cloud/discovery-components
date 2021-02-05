@@ -294,6 +294,8 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       ) as DiscoveryV2.QueryParams;
       setSearchParameters(searchParameters);
 
+      // TODO proper fix is to have any caller of handleSearch that needs aggregations
+      // to call handleFetchAggregations instead
       if (resetAggregations) {
         const aggregationSearchParams = {
           ...searchParameters,
