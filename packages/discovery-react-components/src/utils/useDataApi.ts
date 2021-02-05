@@ -23,12 +23,6 @@ const dataFetchReducer = (state: any, action: any) => {
         isError: false,
         data: action.payload
       };
-    case 'FETCH_COMPLETE':
-      return {
-        ...state,
-        isLoading: false,
-        isError: false
-      };
     case 'FETCH_FAILURE':
       return {
         ...state,
@@ -133,8 +127,6 @@ const useDataApi = <T, U>(
           }
           if (storeResult) {
             dispatch({ type: 'FETCH_SUCCESS', payload });
-          } else {
-            dispatch({ type: 'FETCH_COMPLETE' });
           }
           if (callback) {
             callback(payload);

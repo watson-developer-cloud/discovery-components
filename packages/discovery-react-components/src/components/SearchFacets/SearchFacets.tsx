@@ -219,7 +219,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     performSearch({ ...searchParameters, collectionIds: [], offset: 0, filter: '' }, false);
   };
 
-  if (isLoading && !(shouldShowFields || shouldShowCollections)) {
+  if (isLoading && !shouldShowFields && !shouldShowCollections) {
     return null;
   } else if (isError) {
     const errorNode =

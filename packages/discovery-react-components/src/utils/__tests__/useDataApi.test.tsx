@@ -1067,7 +1067,7 @@ describe('useGlobalAggregationsApi', () => {
   });
 
   describe('when calling fetchGlobalAggregationsWithoutStoring', () => {
-    test('does not update the store with a payload', async () => {
+    test('does not update the store with a payload and keeps isLoading true', async () => {
       const result = render(
         <TestGlobalAggregationsStoreComponent searchClient={new AggregationResultSearchClient()} />
       );
@@ -1080,7 +1080,7 @@ describe('useGlobalAggregationsApi', () => {
       const json: GlobalAggregationsResponseStore = JSON.parse(
         result.getByTestId('globalAggregationsStore').textContent || '{}'
       );
-      expect(json.isLoading).toEqual(false);
+      expect(json.isLoading).toEqual(true);
       expect(json.data).toEqual([]);
     });
   });
