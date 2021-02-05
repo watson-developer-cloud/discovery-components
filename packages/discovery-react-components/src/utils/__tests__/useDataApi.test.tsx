@@ -1076,7 +1076,6 @@ describe('useGlobalAggregationsApi', () => {
       );
 
       fireEvent.click(fetchGlobalAggregationsWithoutStoringButton);
-      await waitForDomChange({ container: result.container });
       const json: GlobalAggregationsResponseStore = JSON.parse(
         result.getByTestId('globalAggregationsStore').textContent || '{}'
       );
