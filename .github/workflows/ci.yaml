@@ -36,10 +36,11 @@ jobs:
         run: npx lerna run test --stream
       - name: Archive test artifacts
         uses: actions/upload-artifact@v2
+        if: failure()
         with:
           name: cypress
           path: |
-            examples/cypress/screenshots
+            examples/discovery-search-app/cypress/screenshots
       - name: NPM Identity
         if: github.ref == 'refs/heads/master' || contains(github.ref, 'release/')
         run: |
