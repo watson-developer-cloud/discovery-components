@@ -91,7 +91,7 @@ function updateEnvFile() {
   if [[ "$authType" == "cp4d" ]]; then
     paddedMessage "CP4D:"
     echo "  Provide the base URL (and port, if necessary) for your CP4D deployment. Example:"
-    colorMessage "  https://zen-25-cpd-zen-25.apps.my-cluster-name.com"
+    colorMessage "  https://zen-25-cpd-zen-25.apps.my-cluster-name.com" 3
     echo
     while [[ "$url" == "" ]]; do
         read -p "  url: " url
