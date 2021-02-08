@@ -96,6 +96,7 @@ function updateEnvFile() {
     while [[ "$url" == "" ]]; do
         read -p "  url: " url
     done
+    echo "  Provide the credentials used to log into the CP4D dashboard."
     while [[ "$username" == "" ]]; do
         read -p "  username: " username
     done
@@ -114,8 +115,8 @@ DISCOVERY_PASSWORD=${password}
 DISCOVERY_DISABLE_SSL=true
 EOL
   elif [[ "$authType" == "iam" ]]; then
-    paddedMessage "Cloud credentials:"
-    echo "  These are the credentials used to access the Discovery API. Example URL:"
+    paddedMessage "Cloud:"
+    echo "  Provide the API URL and key for your Cloud instance. Example URL:"
     colorMessage "  https://api.us-south.discovery.cloud.ibm.com/instances/1234" 3
     echo
     while [[ "$url" == "" ]]; do
