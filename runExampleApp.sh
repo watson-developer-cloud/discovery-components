@@ -89,8 +89,8 @@ function updateEnvFile() {
   done
 
   if [[ "$authType" == "cp4d" ]]; then
-    paddedMessage "CP4D credentials:"
-    echo "  These are the credentials used to log into the CP4D dashboard. Example URL:"
+    paddedMessage "CP4D:"
+    echo "  Provide the base URL (and port, if necessary) for your CP4D deployment. Example:"
     colorMessage "  https://zen-25-cpd-zen-25.apps.my-cluster-name.com"
     echo
     while [[ "$url" == "" ]]; do
