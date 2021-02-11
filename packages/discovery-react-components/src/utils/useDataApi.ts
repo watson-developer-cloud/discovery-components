@@ -27,7 +27,8 @@ const dataFetchReducer = (state: any, action: any) => {
       return {
         ...state,
         isLoading: false,
-        isError: true
+        isError: true,
+        error: action.error?.message || ''
       };
     default:
       throw new Error();
@@ -106,7 +107,8 @@ const useDataApi = <T, U>(
   const [state, dispatch] = useReducer(dataFetchReducer, {
     isLoading: false,
     isError: false,
-    data: initialData
+    data: initialData,
+    error: null
   });
 
   const setData = (data?: U): void => {
@@ -134,7 +136,7 @@ const useDataApi = <T, U>(
         }
       } catch (error) {
         if (!cancelToken.current) {
-          dispatch({ type: 'FETCH_FAILURE' });
+          dispatch({ type: 'FETCH_FAILURE', error });
         }
       }
     },
@@ -172,6 +174,7 @@ interface ReducerState {
   data: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   parameters: any;
+  error: string | null;
 }
 
 /**

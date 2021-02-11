@@ -58,7 +58,11 @@ class AggregationResultSearchClient extends BaseSearchClient {
 
 class ErrorSearchClient extends BaseSearchClient {
   public async query(): Promise<any> {
-    return Promise.reject();
+    return Promise.reject(
+      new Error(
+        '"status_code":429,"errors":[{"code":"query_rate_limit","message":"Your query cannot be run because there are too many concurrent requests. Reduce the number of concurrent queries and try again.","more_info":"https://cloud.ibm.com/docs/discovery-data"}],"trace":"TOOLING-9947g26q0x1x9"}'
+      )
+    );
   }
 
   public async listFields(): Promise<any> {
@@ -212,6 +216,9 @@ describe('useSearchResultsApi', () => {
         result.getByTestId('searchResponseStore').textContent || '{}'
       );
       expect(json.isError).toEqual(true);
+      expect(json.error).toEqual(
+        '"status_code":429,"errors":[{"code":"query_rate_limit","message":"Your query cannot be run because there are too many concurrent requests. Reduce the number of concurrent queries and try again.","more_info":"https://cloud.ibm.com/docs/discovery-data"}],"trace":"TOOLING-9947g26q0x1x9"}'
+      );
     });
 
     test('sets the search results', async () => {
