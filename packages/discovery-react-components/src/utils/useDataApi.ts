@@ -108,7 +108,7 @@ const useDataApi = <T, U>(
     isLoading: false,
     isError: false,
     data: initialData,
-    error: null
+    error: ''
   });
 
   const setData = (data?: U): void => {
@@ -174,7 +174,7 @@ interface ReducerState {
   data: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   parameters: any;
-  error: string | null;
+  error: string;
 }
 
 /**
