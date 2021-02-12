@@ -60,7 +60,7 @@ class ErrorSearchClient extends BaseSearchClient {
   public async query(): Promise<any> {
     return Promise.reject(
       new Error(
-        '"status_code":429,"errors":[{"code":"query_rate_limit","message":"Your query cannot be run because there are too many concurrent requests. Reduce the number of concurrent queries and try again.","more_info":"https://cloud.ibm.com/docs/discovery-data"}],"trace":"TOOLING-9947g26q0x1x9"}'
+        '"status_code":400,"errors":[{"code":"query_daily_limit","message":"You have exceeded the number of daily queries allowed for your plan. You can resume requests after the daily reset.","more_info":"https://cloud.ibm.com/docs/discovery-data"}],"trace":"TOOLING-9947g26q0x1x9"}'
       )
     );
   }
@@ -217,7 +217,7 @@ describe('useSearchResultsApi', () => {
       );
       expect(json.isError).toEqual(true);
       expect(json.error).toEqual(
-        '"status_code":429,"errors":[{"code":"query_rate_limit","message":"Your query cannot be run because there are too many concurrent requests. Reduce the number of concurrent queries and try again.","more_info":"https://cloud.ibm.com/docs/discovery-data"}],"trace":"TOOLING-9947g26q0x1x9"}'
+        '"status_code":400,"errors":[{"code":"query_daily_limit","message":"You have exceeded the number of daily queries allowed for your plan. You can resume requests after the daily reset.","more_info":"https://cloud.ibm.com/docs/discovery-data"}],"trace":"TOOLING-9947g26q0x1x9"}'
       );
     });
 
