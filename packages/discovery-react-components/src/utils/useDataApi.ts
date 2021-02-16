@@ -14,13 +14,15 @@ const dataFetchReducer = (state: any, action: any) => {
       return {
         ...state,
         isLoading: true,
-        isError: false
+        isError: false,
+        error: null
       };
     case 'FETCH_SUCCESS':
       return {
         ...state,
         isLoading: false,
         isError: false,
+        error: null,
         data: action.payload
       };
     case 'FETCH_FAILURE':
