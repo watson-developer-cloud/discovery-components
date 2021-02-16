@@ -28,7 +28,7 @@ const dataFetchReducer = (state: any, action: any) => {
         ...state,
         isLoading: false,
         isError: true,
-        error: action.error?.message || ''
+        error: action.error || null
       };
     default:
       throw new Error();
@@ -108,7 +108,7 @@ const useDataApi = <T, U>(
     isLoading: false,
     isError: false,
     data: initialData,
-    error: ''
+    error: null
   });
 
   const setData = (data?: U): void => {
@@ -174,7 +174,7 @@ interface ReducerState {
   data: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   parameters: any;
-  error: string;
+  error: Error;
 }
 
 /**
