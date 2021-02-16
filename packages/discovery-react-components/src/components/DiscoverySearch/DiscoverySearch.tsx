@@ -148,7 +148,8 @@ export const searchResponseStoreDefaults: SearchResponseStore = {
   },
   data: null,
   isLoading: false,
-  isError: false
+  isError: false,
+  error: null
 };
 
 const aggregationQueryDefaults: Partial<DiscoveryV2.QueryParams> = {
@@ -169,7 +170,8 @@ export const globalAggregationsResponseStoreDefaults: GlobalAggregationsResponse
   },
   data: null,
   isLoading: false,
-  isError: false
+  isError: false,
+  error: null
 };
 
 export const fetchDocumentsResponseStoreDefaults: FetchDocumentsResponseStore = {
@@ -186,7 +188,8 @@ export const fetchDocumentsResponseStoreDefaults: FetchDocumentsResponseStore = 
   },
   data: null,
   isLoading: false,
-  isError: false
+  isError: false,
+  error: null
 };
 
 export const autocompletionStoreDefaults: AutocompleteStore = {
@@ -196,7 +199,8 @@ export const autocompletionStoreDefaults: AutocompleteStore = {
   },
   data: null,
   isLoading: false,
-  isError: false
+  isError: false,
+  error: null
 };
 
 const fieldsStoreDefaults: FieldsStore = {
@@ -205,7 +209,8 @@ const fieldsStoreDefaults: FieldsStore = {
   },
   data: null,
   isLoading: false,
-  isError: false
+  isError: false,
+  error: null
 };
 
 export const searchContextDefaults = {

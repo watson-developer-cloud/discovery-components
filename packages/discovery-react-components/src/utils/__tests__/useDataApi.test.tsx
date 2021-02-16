@@ -58,7 +58,20 @@ class AggregationResultSearchClient extends BaseSearchClient {
 
 class ErrorSearchClient extends BaseSearchClient {
   public async query(): Promise<any> {
-    return Promise.reject();
+    const error = new Error();
+    error.message =
+      'You have exceeded the number of daily queries allowed for your plan. You can resume requests after the daily reset.';
+    error.body = {
+      status_code: 400,
+      errors: [
+        {
+          code: 'query_daily_limit',
+          message:
+            'You have exceeded the number of daily queries allowed for your plan. You can resume requests after the daily reset.'
+        }
+      ]
+    };
+    return Promise.reject(error);
   }
 
   public async listFields(): Promise<any> {
@@ -212,6 +225,20 @@ describe('useSearchResultsApi', () => {
         result.getByTestId('searchResponseStore').textContent || '{}'
       );
       expect(json.isError).toEqual(true);
+      expect(json.error).toEqual({
+        message:
+          'You have exceeded the number of daily queries allowed for your plan. You can resume requests after the daily reset.',
+        body: {
+          status_code: 400,
+          errors: [
+            {
+              code: 'query_daily_limit',
+              message:
+                'You have exceeded the number of daily queries allowed for your plan. You can resume requests after the daily reset.'
+            }
+          ]
+        }
+      });
     });
 
     test('sets the search results', async () => {
