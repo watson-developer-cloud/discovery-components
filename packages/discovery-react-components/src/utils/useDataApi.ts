@@ -176,7 +176,7 @@ interface ReducerState {
   data: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   parameters: any;
-  error: Error;
+  error: Error | null;
 }
 
 /**
