@@ -12,7 +12,9 @@ async function listProjects() {
       })
       .join('\n');
   } catch (e) {
-    console.error('Error listing projects');
+    console.error(
+      'Error listing projects.\nYou may still enter a project id manually, but you might want to verify that your credentials are correct.\nIf your credentials are invalid, you may experience errors when running the example app.\nTo update your credentials, quit and then restart this script.'
+    );
     throw e;
   }
 }
