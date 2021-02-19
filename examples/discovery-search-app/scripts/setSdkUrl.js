@@ -6,9 +6,12 @@ const urlJoin = require('proper-url-join');
 const { validateSdkEnvVars } = require('./validateSdkEnvVars.js');
 const ibmCredentialsFilePath = path.join(__dirname, '../', 'ibm-credentials.env');
 
-function writeReleasePathToFileAndReturn(authUrl, deployment, resource) {
+function generateDiscoveryUrlForCp4d(authUrl, deployment, resource) {
   const releasePath = `/discovery/${deployment.id}/instances/${resource.zen_id}/api`;
-  const fullDiscoveryUrl = urlJoin(authUrl, releasePath);
+  return urlJoin(authUrl, releasePath);
+}
+
+function writeEnvVarToFileAndReturn(key, value) {
   try {
     if (process.env.IBM_CREDENTIALS_FILE || fs.existsSync(ibmCredentialsFilePath)) {
       const filePath = process.env.IBM_CREDENTIALS_FILE || ibmCredentialsFilePath;
@@ -16,16 +19,14 @@ function writeReleasePathToFileAndReturn(authUrl, deployment, resource) {
         fs.readFileSync(filePath, {
           encoding: 'utf-8'
         }) || '';
-      const fileContentWithDiscoveryUrl = ibmCredentialsFileContent.concat(
-        `\nDISCOVERY_URL=${fullDiscoveryUrl}`
-      );
+      const fileContentWithDiscoveryUrl = ibmCredentialsFileContent.concat(`\n${key}=${value}`);
       fs.writeFileSync(filePath, fileContentWithDiscoveryUrl);
     }
   } catch (e) {
-    console.error('Error appending DISCOVERY_URL to file');
+    console.error(`Error appending ${key}=${value} to file`);
     throw e;
   }
-  return fullDiscoveryUrl;
+  return value;
 }
 
 module.exports = async function() {
@@ -75,11 +76,8 @@ module.exports = async function() {
           }
         );
         if (resources && resources.length > 0) {
-          process.env.DISCOVERY_URL = writeReleasePathToFileAndReturn(
-            authUrl,
-            deployments[0],
-            resources[0]
-          );
+          const discoveryUrl = generateDiscoveryUrlForCp4d(authUrl, deployments[0], resources[0]);
+          process.env.DISCOVERY_URL = writeEnvVarToFileAndReturn('DISCOVERY_URL', discoveryUrl);
         } else {
           throw new Error('No discovery instances found');
         }
@@ -90,6 +88,16 @@ module.exports = async function() {
       console.error('Error setting up release path');
       throw e;
     }
+  } else if (
+    process.env.DISCOVERY_AUTH_TYPE === 'iam' &&
+    /\.(test|dev)\./.test(process.env.DISCOVERY_URL) &&
+    !process.env.DISCOVERY_AUTH_URL
+  ) {
+    // when using a dev/test instance, use the test IAM identity endpoint
+    process.env.DISCOVERY_AUTH_URL = writeEnvVarToFileAndReturn(
+      'DISCOVERY_AUTH_URL',
+      'https://iam.test.cloud.ibm.com/identity/token'
+    );
   }
   return process.env.DISCOVERY_URL;
 };
