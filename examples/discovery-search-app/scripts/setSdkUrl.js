@@ -51,14 +51,15 @@ module.exports = async function() {
         },
         httpsAgent
       });
-      const {
-        data: { deployments }
-      } = await axios.get(urlJoin(authUrl, '/zen-data/v3/deployments/discovery'), {
+      const axiosOptions = {
         headers: {
           Authorization: `Bearer ${accessToken}`
         },
         httpsAgent
-      });
+      };
+      const {
+        data: { deployments }
+      } = await axios.get(urlJoin(authUrl, '/zen-data/v3/deployments/discovery'), axiosOptions);
 
       if (deployments && deployments.length > 0) {
         const {
@@ -68,12 +69,7 @@ module.exports = async function() {
             authUrl,
             '/watson/common/discovery/api/ibmcloud/resource-controller/resource_instances?resource_id=discovery'
           ),
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`
-            },
-            httpsAgent
-          }
+          axiosOptions
         );
         if (resources && resources.length > 0) {
           const discoveryUrl = generateDiscoveryUrlForCp4d(authUrl, deployments[0], resources[0]);
