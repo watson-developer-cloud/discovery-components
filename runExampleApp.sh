@@ -138,9 +138,6 @@ EOL
     exit 1
   fi
 
-  # for CP4D setupProxy, we need to augment the DISCOVERY_URL to include the release path
-  node "${SCRIPT_DIR}/examples/discovery-search-app/scripts/setSdkUrl.js"
-
   paddedMessage "Project ID:"
   echo "  Copy one of available project IDs:"
   node "${SCRIPT_DIR}/examples/discovery-search-app/scripts/listProjects.js"
