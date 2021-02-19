@@ -45,6 +45,8 @@ module.exports = async function(app) {
         '^/api': '/'
       },
       onProxyReq: proxyReq => {
+        // this prevents cryptic errors from the Watson Discovery service
+        // when localhost cookies are sent along with the proxied request, overloading the request header size
         proxyReq.removeHeader('Cookie');
       },
       onProxyRes: proxyRes => {
