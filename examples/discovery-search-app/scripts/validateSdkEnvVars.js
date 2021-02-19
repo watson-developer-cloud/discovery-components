@@ -31,12 +31,9 @@ function validateSdkEnvVars() {
   }
 
   if (process.env.DISCOVERY_AUTH_TYPE === 'cp4d') {
-    [
-      'DISCOVERY_URL',
-      'DISCOVERY_AUTH_URL',
-      'DISCOVERY_USERNAME',
-      'DISCOVERY_PASSWORD'
-    ].forEach(envVar => validateRequiredEnvVar(envVar));
+    ['DISCOVERY_AUTH_URL', 'DISCOVERY_USERNAME', 'DISCOVERY_PASSWORD'].forEach(envVar =>
+      validateRequiredEnvVar(envVar)
+    );
   } else if (process.env.DISCOVERY_AUTH_TYPE === 'iam') {
     ['DISCOVERY_URL', 'DISCOVERY_APIKEY'].forEach(envVar => validateRequiredEnvVar(envVar));
   }

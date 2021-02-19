@@ -10,18 +10,18 @@ function writeReleasePathToFileAndReturn(url, deployment, resource) {
   const fullDiscoveryUrl = `${url}${releasePath}`;
   try {
     if (process.env.IBM_CREDENTIALS_FILE || fs.existsSync(ibmCredentialsFilePath)) {
+      const filePath = process.env.IBM_CREDENTIALS_FILE || ibmCredentialsFilePath;
       const ibmCredentialsFileContent =
-        fs.readFileSync(process.env.IBM_CREDENTIALS_FILE || ibmCredentialsFilePath, {
+        fs.readFileSync(filePath, {
           encoding: 'utf-8'
         }) || '';
-      const replacement = ibmCredentialsFileContent.replace(
-        /DISCOVERY_URL=[^\n]+/,
-        `DISCOVERY_URL=${fullDiscoveryUrl}`
+      const fileContentWithDiscoveryUrl = ibmCredentialsFileContent.concat(
+        `\nDISCOVERY_URL=${fullDiscoveryUrl}`
       );
-      fs.writeFileSync(process.env.IBM_CREDENTIALS_FILE || ibmCredentialsFilePath, replacement);
+      fs.writeFileSync(filePath, fileContentWithDiscoveryUrl);
     }
   } catch (e) {
-    console.error('Error appending release path to file');
+    console.error('Error appending DISCOVERY_URL to file');
     throw e;
   }
   return fullDiscoveryUrl;
@@ -29,16 +29,16 @@ function writeReleasePathToFileAndReturn(url, deployment, resource) {
 
 module.exports = async function() {
   validateSdkEnvVars();
-  let sdkUrl = process.env.DISCOVERY_URL.replace(/\/$/, '');
 
-  if (process.env.DISCOVERY_AUTH_TYPE === 'cp4d' && !sdkUrl.endsWith('/api')) {
+  if (process.env.DISCOVERY_AUTH_TYPE === 'cp4d' && !process.env.DISCOVERY_URL) {
+    const authUrl = process.env.DISCOVERY_AUTH_URL;
     const httpsAgent = new https.Agent({
       rejectUnauthorized: false
     });
     try {
       const {
         data: { accessToken }
-      } = await axios.get(`${sdkUrl}/v1/preauth/validateAuth`, {
+      } = await axios.get(`${authUrl}/v1/preauth/validateAuth`, {
         headers: {
           'Content-Type': 'application/json'
         },
@@ -50,7 +50,7 @@ module.exports = async function() {
       });
       const {
         data: { deployments }
-      } = await axios.get(`${sdkUrl}/zen-data/v3/deployments/discovery`, {
+      } = await axios.get(`${authUrl}/zen-data/v3/deployments/discovery`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         },
@@ -61,7 +61,7 @@ module.exports = async function() {
         const {
           data: { resources }
         } = await axios.get(
-          `${sdkUrl}/watson/common/discovery/api/ibmcloud/resource-controller/resource_instances?resource_id=discovery`,
+          `${authUrl}/watson/common/discovery/api/ibmcloud/resource-controller/resource_instances?resource_id=discovery`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`
@@ -70,8 +70,11 @@ module.exports = async function() {
           }
         );
         if (resources && resources.length > 0) {
-          sdkUrl = writeReleasePathToFileAndReturn(sdkUrl, deployments[0], resources[0]);
-          process.env.DISCOVERY_URL = sdkUrl;
+          process.env.DISCOVERY_URL = writeReleasePathToFileAndReturn(
+            authUrl,
+            deployments[0],
+            resources[0]
+          );
         } else {
           throw new Error('No discovery instances found');
         }
@@ -83,5 +86,5 @@ module.exports = async function() {
       throw e;
     }
   }
-  return sdkUrl;
+  return process.env.DISCOVERY_URL;
 };
