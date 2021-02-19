@@ -33,8 +33,9 @@ module.exports = async function() {
 
   if (process.env.DISCOVERY_AUTH_TYPE === 'cp4d' && !process.env.DISCOVERY_URL) {
     const authUrl = process.env.DISCOVERY_AUTH_URL;
+    const rejectUnauthorized = process.env.DISCOVERY_AUTH_DISABLE_SSL !== 'true';
     const httpsAgent = new https.Agent({
-      rejectUnauthorized: false
+      rejectUnauthorized
     });
     try {
       const {
