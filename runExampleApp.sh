@@ -102,7 +102,7 @@ function updateEnvFile() {
     done
 
     while [[ "$password" == "" ]]; do
-        read -p "  password: " password
+        read -p -s "  password: " password
     done
 
     cat >$CREDENTIALS_FILE <<EOL
@@ -122,7 +122,7 @@ EOL
         read -p "  url: " url
     done
     while [[ "$apikey" == "" ]]; do
-        read -p "  apikey: " apikey
+        read -p -s "  apikey: " apikey
     done
       cat >$CREDENTIALS_FILE <<EOL
 DISCOVERY_AUTH_TYPE=${authType}
