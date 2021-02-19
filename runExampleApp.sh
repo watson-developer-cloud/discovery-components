@@ -129,6 +129,10 @@ DISCOVERY_AUTH_TYPE=${authType}
 DISCOVERY_URL=${url}
 DISCOVERY_APIKEY=${apikey}
 EOL
+  # if we see "test" or "dev" in the DISCOVERY_URL, set the DISCOVERY_AUTH_URL accordingly
+  if [[ "$url" == *".test."* || "$url" == *".dev."* ]]; then
+    echo "DISCOVERY_AUTH_URL=https://iam.test.cloud.ibm.com/identity/token" >> $CREDENTIALS_FILE
+  fi
   else
     echo "Unsupported authentication type: ${authType}"
     exit 1
