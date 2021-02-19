@@ -205,6 +205,7 @@ import {
 } from '@ibm-watson/discovery-react-components';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import '@ibm-watson/discovery-styles/scss/index.scss';
+// the DiscoveryV2 class reads credentials from your environment variables for authentication
 // Make sure to setup your ibm-credentials.env file first
 // see https://github.com/IBM/node-sdk-core/blob/master/Authentication.md for low-level details
 // see https://github.com/watson-developer-cloud/node-sdk#authentication for high-level usage
