@@ -117,7 +117,7 @@ yarn workspace discovery-search-app run start
    SASS_PATH="./node_modules;./src"
    ```
 
-5. Either create a `examples/discovery-search-app/ibm-credentials.env` file or populate your environment with the following values:
+5. After [retrieving your credentials](https://github.com/watson-developer-cloud/node-sdk#getting-credentials), Either create a `examples/discovery-search-app/ibm-credentials.env` file or populate your environment with the following values:
 
    - CP4D:
      ```
