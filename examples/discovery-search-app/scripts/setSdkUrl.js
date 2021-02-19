@@ -2,12 +2,13 @@ const fs = require('fs');
 const path = require('path');
 const axios = require('axios').default;
 const https = require('https');
+const urlJoin = require('proper-url-join');
 const { validateSdkEnvVars } = require('./validateSdkEnvVars.js');
 const ibmCredentialsFilePath = path.join(__dirname, '../', 'ibm-credentials.env');
 
-function writeReleasePathToFileAndReturn(url, deployment, resource) {
+function writeReleasePathToFileAndReturn(authUrl, deployment, resource) {
   const releasePath = `/discovery/${deployment.id}/instances/${resource.zen_id}/api`;
-  const fullDiscoveryUrl = `${url}${releasePath}`;
+  const fullDiscoveryUrl = urlJoin(authUrl, releasePath);
   try {
     if (process.env.IBM_CREDENTIALS_FILE || fs.existsSync(ibmCredentialsFilePath)) {
       const filePath = process.env.IBM_CREDENTIALS_FILE || ibmCredentialsFilePath;
@@ -38,7 +39,7 @@ module.exports = async function() {
     try {
       const {
         data: { accessToken }
-      } = await axios.get(`${authUrl}/v1/preauth/validateAuth`, {
+      } = await axios.get(urlJoin(authUrl, '/v1/preauth/validateAuth'), {
         headers: {
           'Content-Type': 'application/json'
         },
@@ -50,7 +51,7 @@ module.exports = async function() {
       });
       const {
         data: { deployments }
-      } = await axios.get(`${authUrl}/zen-data/v3/deployments/discovery`, {
+      } = await axios.get(urlJoin(authUrl, '/zen-data/v3/deployments/discovery'), {
         headers: {
           Authorization: `Bearer ${accessToken}`
         },
@@ -61,7 +62,10 @@ module.exports = async function() {
         const {
           data: { resources }
         } = await axios.get(
-          `${authUrl}/watson/common/discovery/api/ibmcloud/resource-controller/resource_instances?resource_id=discovery`,
+          urlJoin(
+            authUrl,
+            '/watson/common/discovery/api/ibmcloud/resource-controller/resource_instances?resource_id=discovery'
+          ),
           {
             headers: {
               Authorization: `Bearer ${accessToken}`
