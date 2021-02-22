@@ -43,11 +43,17 @@ const App = () => {
         const {
           result: { projects }
         } = await searchClient.listProjects();
-        setProjectId(
+        const projectId =
           projects.find(project => project.name === 'Sample Project')?.project_id ||
-            projects[0]?.project_id ||
-            'NOT_FOUND'
-        );
+          projects[0]?.project_id;
+        if (projectId) {
+          setProjectId(projectId);
+        } else {
+          console.error(
+            'No projects found. Please ensure your Discovery instance has at least 1 project'
+          );
+          setIsError(true);
+        }
       } catch (e) {
         console.error('Error fetching projects', e);
         setIsError(true);
