@@ -1,42 +1,28 @@
 const path = require('path');
 const dotenv = require('dotenv');
-const serverEnv = dotenv.config({ path: path.join(__dirname, '../', '.server-env') });
-const clusterEnv = dotenv.config({ path: path.join(__dirname, '../', '.env.local') });
 const proxy = require('http-proxy-middleware');
-const { CloudPakForDataAuthenticator } = require('ibm-watson/auth');
+const { getAuthenticatorFromEnvironment } = require('ibm-watson/auth');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const setSdkUrl = require('../scripts/setSdkUrl');
+const envLocal = dotenv.config({ path: path.join(__dirname, '../', '.env.local') });
 
 // if we are just running cypress tests, we don't need to setup a proxy
-if (process.env.CYPRESS_MODE) {
-  console.log('CYPRESS_MODE=true   --->   Skipping proxy setup');
+if (process.env.REACT_APP_CYPRESS_MODE) {
+  console.log('REACT_APP_CYPRESS_MODE=true   --->   Skipping proxy setup');
   module.exports = function(app) {};
   return;
 }
 
-if (serverEnv.error) {
+if (envLocal.error) {
   console.warn(
-    'Error retrieving server environment variables. Please make sure you have set .server-env'
+    'Error retrieving local environment variables. Please make sure you have set .env.local'
   );
-  throw new Error(serverEnv.error);
+  throw new Error(envLocal.error);
 }
 
-if (clusterEnv.error) {
-  console.warn(
-    'Error retrieving cluster environment variables. Please make sure you have set .env.local'
-  );
-  throw new Error(clusterEnv.error);
-}
-
-const RELEASE_PATH = process.env.RELEASE_PATH || '/example/release/path';
-const BASE_URL = process.env.BASE_URL || 'http://example.com';
 const addAuthorization = async (req, _res, next) => {
-  const authenticator = new CloudPakForDataAuthenticator({
-    url: BASE_URL,
-    username: process.env.CLUSTER_USERNAME || 'username',
-    password: process.env.CLUSTER_PASSWORD || 'password',
-    disableSslVerification: true
-  });
+  const authenticator = getAuthenticatorFromEnvironment('discovery');
   try {
     const accessToken = await authenticator.tokenManager.getToken();
     req.headers.authorization = `Bearer ${accessToken}`;
@@ -46,16 +32,22 @@ const addAuthorization = async (req, _res, next) => {
   return next();
 };
 
-module.exports = function(app) {
+module.exports = async function(app) {
+  const target = await setSdkUrl();
   app.use(
     '/api',
     addAuthorization,
     proxy({
-      target: `${BASE_URL}${RELEASE_PATH}`,
+      target,
       secure: false,
       changeOrigin: true,
       pathRewrite: {
         '^/api': '/'
+      },
+      onProxyReq: proxyReq => {
+        // this prevents cryptic errors from the Watson Discovery service
+        // when localhost cookies are sent along with the proxied request, overloading the request header size
+        proxyReq.removeHeader('Cookie');
       },
       onProxyRes: proxyRes => {
         proxyRes.headers['Access-Control-Allow-Origin'] = '*';

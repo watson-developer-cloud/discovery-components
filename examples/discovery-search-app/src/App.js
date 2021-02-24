@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { NoAuthAuthenticator } from 'ibm-watson/auth';
 import './app.scss';
 import { settings } from 'carbon-components';
-import { Button, Tabs, Tab } from 'carbon-components-react';
+import { Button, Tabs, Tab, Loading } from 'carbon-components-react';
 import Close from '@carbon/icons-react/lib/close/16';
 import cx from 'classnames';
 
@@ -28,9 +28,54 @@ const App = () => {
     version: '2019-01-01',
     authenticator
   });
+  const [projectId, setProjectId] = useState(process.env.REACT_APP_PROJECT_ID);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
-  return (
-    <DiscoverySearch searchClient={searchClient} projectId={process.env.REACT_APP_PROJECT_ID}>
+  if (process.env.REACT_APP_CYPRESS_MODE && !projectId) {
+    console.warn('Running in feature test mode, setting REACT_APP_PROJECT_ID to "cypress"');
+    setProjectId('cypress');
+  }
+
+  useEffect(() => {
+    async function fetchProjects() {
+      try {
+        const {
+          result: { projects }
+        } = await searchClient.listProjects();
+        const projectId =
+          projects.find(project => project.name === 'Sample Project')?.project_id ||
+          projects[0]?.project_id;
+        if (projectId) {
+          setProjectId(projectId);
+        } else {
+          console.error(
+            'No projects found. Please ensure your Discovery instance has at least 1 project'
+          );
+          setIsError(true);
+        }
+      } catch (e) {
+        console.error('Error fetching projects', e);
+        setIsError(true);
+      }
+      setIsLoading(false);
+    }
+
+    if (!projectId && !isLoading && !isError) {
+      console.warn(
+        'REACT_APP_PROJECT_ID was not set, attempting to use sample project id or first available project...'
+      );
+      setIsLoading(true);
+      fetchProjects();
+    }
+  }, [projectId, isLoading, searchClient, isError]);
+
+  return isLoading || !projectId ? (
+    <Loading />
+  ) : isError ? (
+    <div>Unable to load Discovery projects. Please check your console for more details.</div>
+  ) : (
+    <DiscoverySearch searchClient={searchClient} projectId={projectId}>
       <AppView />
     </DiscoverySearch>
   );
