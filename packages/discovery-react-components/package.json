@@ -53,7 +53,7 @@
     "dompurify": "^2.0.17",
     "entities": "^2.0.0",
     "htmlparser2": "^4.0.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "mustache": "^3.1.0",
     "pdfjs-dist": "^2.2.228",
     "react-error-boundary": "^1.2.5",
