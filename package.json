@@ -76,7 +76,7 @@
     "lerna-update-wizard": "^0.16.0",
     "lint-staged": "^9.2.5",
     "lorem-ipsum": "^2.0.3",
-    "madge": "^3.6.0",
+    "madge": "^4.0.1",
     "markdown-toc": "^1.2.0",
     "marked": "^0.7.0",
     "node-sass": "^4.12.0",
