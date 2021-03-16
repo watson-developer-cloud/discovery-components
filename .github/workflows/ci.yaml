@@ -57,15 +57,9 @@ jobs:
           git config remote.origin.url https://x-access-token:$GH_TOKEN@github.com/$GITHUB_REPOSITORY
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-      - name: Publish Beta (Master)
+      - name: Publish
         if: github.ref == 'refs/heads/master'
         # must include --no-verify-access for automation tokens https://github.com/lerna/lerna/issues/2788
-        run: npx lerna publish -y --conventional-prerelease --no-changelog --no-verify-access --preid beta --dist-tag beta
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-      - name: Publish Release Candidate (Release)
-        if: contains(github.ref, 'release/')
-        # must include --no-verify-access for automation tokens https://github.com/lerna/lerna/issues/2788
-        run: npx lerna publish -y --conventional-prerelease --no-changelog --no-verify-access --preid rc --dist-tag rc
+        run: npx lerna publish -y --no-verify-access --create-release github
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}

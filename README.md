@@ -488,29 +488,17 @@ To start the example app server and run all Cypress tests, use `yarn workspace d
 
 #### Continuous integration
 
-[Travis CI](https://travis-ci.org/) is used to continuously run integration tests against this repository, and any PRs that are made against it.
+[Github Actions](https://github.com/watson-developer-cloud/discovery-components/actions) is used to continuously run integration tests against this repository, and any PRs that are made against it.
 
-When triggered, Travis will build the project, then run the test scripts, and output the pass/fail to whichever branch/PR triggered the build.
+When triggered, Github Actions will build the project, then run the test scripts, and output the pass/fail to whichever branch/PR triggered the build.
 
-Steps in the automation can be set in `.travis.yml`, located in the root directory.
+Steps in the automation can be set in `.github/workflows/ci.yml`, located in the root directory.
 
 ### Branching and Releasing
 
-- `master` is an eternal branch - bleeding edge, reviewed but not necessarily released code
-- `release/x.x.x` is a temporary branch created for beginning a production release. this contains all the features needed for the release and will only receive bugfixes. Once the release is complete, this branch is tagged and merged back into `master`. example steps:
-  - `git checkout release/2.3.0`
-  - add a "Begin Release" commit (otherwise "ci skip" will prevent travis from building)
-  - if we want to publish a release candidate (not final build):
-    - `npx lerna publish --conventional-prerelease --preid rc --dist-tag rc`
-    - (after we find out the `rc` is good to go) `npx lerna publish --create-release github --conventional-graduate` [docs](https://github.com/lerna/lerna/blob/master/commands/version/README.md#--conventional-graduate)
-  - otherwise for the official release:
-    - `npx lerna publish --create-release github`
-  - `git checkout master`
-  - `git merge release/2.3.0`
-  - `git push --tags origin master`
-  - `git branch -d release/2.3.0`
+- `master` is an eternal branch with latest stable code
 
-The only branches permitted for release are `release/*`, `hotfix/*`, and `master`
+The only branch permitted for releasing is `master`
 
 More information about the `lerna publish` command can be found in the README for [lerna publish](https://github.com/lerna/lerna/tree/master/commands/publish)
 
