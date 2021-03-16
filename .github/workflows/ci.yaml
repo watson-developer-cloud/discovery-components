@@ -59,11 +59,13 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Publish Beta (Master)
         if: github.ref == 'refs/heads/master'
-        run: npx lerna publish -y --conventional-prerelease --no-changelog --preid beta --dist-tag beta
+        # must include --no-verify-access for automation tokens https://github.com/lerna/lerna/issues/2788
+        run: npx lerna publish -y --conventional-prerelease --no-changelog --no-verify-access --preid beta --dist-tag beta
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Publish Release Candidate (Release)
         if: contains(github.ref, 'release/')
-        run: npx lerna publish -y --conventional-prerelease --no-changelog --preid rc --dist-tag rc
+        # must include --no-verify-access for automation tokens https://github.com/lerna/lerna/issues/2788
+        run: npx lerna publish -y --conventional-prerelease --no-changelog --no-verify-access --preid rc --dist-tag rc
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
