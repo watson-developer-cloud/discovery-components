@@ -1,24 +1,16 @@
 {
-  "packages": [
-    "packages/*"
-  ],
+  "packages": ["packages/*"],
   "version": "1.4.0-beta.2",
   "npmClient": "yarn",
   "useWorkspaces": true,
   "command": {
     "publish": {
       "conventionalCommits": true,
-      "allowBranch": [
-        "master",
-        "release/*",
-        "hotfix/*"
-      ]
+      "allowBranch": ["master"]
     },
     "version": {
       "message": "chore: publish %s [ci skip]",
-      "ignoreChanges": [
-        "examples/**"
-      ]
+      "ignoreChanges": ["examples/**"]
     }
   }
 }
