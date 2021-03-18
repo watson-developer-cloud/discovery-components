@@ -500,11 +500,11 @@ Steps in the automation can be set in `.github/workflows/ci.yml`, located in the
 - for hotfix/patch-style releases, perform the following steps:
   1. `git checkout -b hotfix/1.4.0-patch-1 v1.4.0-beta.2` (checks out a new branch from the tag needing the hotfix)
   2. make changes and push changes to `hotfix/1.4.0-patch-1` as usual
-  3. ensure you have access to publish the package `npm login && npm whoami && npm access ls-collaborators` (must have `read-write`)
+  3. ensure you have access to publish the package `npm login && npm whoami && npm access ls-collaborators` (must have `read-write`, contact someone from https://www.npmjs.com/settings/ibm-watson/members to gain access)
   4. `npx lerna publish 1.4.0-patch-1.0 --dist-tag patch-1 --allow-branch hotfix/1.4.0` (see [lerna publish](https://github.com/lerna/lerna/tree/master/commands/publish))
   5. `git checkout master && git merge hotfix/1.4.0 || git mergetool && git push origin master` (merge changes/tags back to `master`, resolving merge conflicts by taking `lerna.json` version from `master` branch)
 
-The only branch permitted for releasing is `master`
+The only branch permitted for automatic releasing on CI is `master`
 
 More information about the `lerna publish` command can be found in the README for [lerna publish](https://github.com/lerna/lerna/tree/master/commands/publish)
 
