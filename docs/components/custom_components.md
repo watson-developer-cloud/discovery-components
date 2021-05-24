@@ -7,17 +7,17 @@ permalink: /docs/Custom_Components
 
 # Implementing a Custom Component
 
-The components we provide here may not fit your specific needs, and you'll need to write a custom component. Below is an example of how this could be done using React.
+The components provided here may not fit your specific needs, and you'll need to write a custom component. The following example shows you how this could be done using React.
 
 ## Scenario
 
-Let's say you want to use the Discovery's [Answer finding](https://medium.com/ibm-data-ai/finding-concise-answers-to-questions-in-enterprise-documents-53a865898dbd). Instead of returning _documents_, we want to get _answers_ from within those documents.
+Let's say you want to use the Watson Discovery [answer finding](https://medium.com/ibm-data-ai/finding-concise-answers-to-questions-in-enterprise-documents-53a865898dbd) capability. Instead of returning _documents_, you want to get _answers_ from within those documents.
 
 ## Implement a custom Answers component
 
 To make things easier, we're going to reuse the `discovery-search-app` example code -- specifically, within `src/App.js`. We'll keep using the search field, but create a custom component to show the top 3 answers.
 
-First, we need to update the query that is sent out when a user presses `Enter` in the search field. The value is set as the `natural_language_query` field of the request body. But we also need to enable _answers_, as described in the article. To do so, we can set the `overrideQueryParameters` property for `<DiscoverySearch>`:
+The `<SearchInput>` component renders the search field. It takes a string input value and generates a `/query` request, passing the value in the `natural_language_query` field for the request body. You will need to update that to enable _answers_, as described in the article. To do so, set the `overrideQueryParameters` property for `<DiscoverySearch>`:
 
 ```diff
    ) : isError ? (
@@ -44,11 +44,11 @@ First, we need to update the query that is sent out when a user presses `Enter` 
    );
 ```
 
-The overall details are explained in the article, but I did want to point out a couple things. First, `fields` should be set to reflect the data in your project/collection. This property tells Discovery in which document fields to look for answers. Second, we're setting `_return` to a set of top-level fields in the document results. Only the fields listed will be returned, cutting down on the response size (especially since we're not listing `text` and `html`, which can be quite large).
+The overall details are explained in the article, but here are a few things to keep in mind. First, `fields` should be set to reflect the data in your project/collection. This property tells Discovery in which document fields to look for answers. Second, this sets `_return` to a set of top-level fields in the document results. Only the fields listed will be returned, cutting down on the response size (especially since it doesn't list `text` and `html`, which can be quite large).
 
 (Note: Besides `overrideQueryParameters`, you can also update the query parameters by calling the `setSearchParameters` function on the `SearchApi` context.)
 
-Now let's build our custom component. The Discovery Components use [React Context](https://reactjs.org/docs/context.html) to pass data and give access to their API. The results of a search are provided in the `searchResponseStore` property of `SearchContext`. From within that, we'll find the most relevant `answers`, based on their `confidence` score.
+Now let's build our custom component. The Discovery Components use [React Context](https://reactjs.org/docs/context.html) to pass data and give access to their API. The results of a search are provided in the `searchResponseStore` property of the `SearchContext`. From within that, you'll find the most relevant `answers`, based on their `confidence` score.
 
 Copy the following code into `src/App.js`:
 
@@ -87,9 +87,7 @@ function Answers() {
 }
 ```
 
-(Note: no styling provided for this component.)
-
-To make use of it, replace `<SearchResults>`:
+To make use of this new component, replace `<SearchResults>`:
 
 ```diff
              <div
@@ -104,7 +102,7 @@ To make use of it, replace `<SearchResults>`:
 
 ## Write everything from scratch
 
-The example above uses a custom component alongside several existing Discovery Components. But you may wish to create everything from scratch. There's two ways to approach this.
+The previous example uses a custom component along with several existing Discovery Components. But you might want to create everything from scratch. There are two ways to approach adding your own code.
 
 First, you can continue to use `<DiscoverySearch>`. It is a component which does not render UI, but provides an API and properties for dealing with search. It is an abstraction on top of Discovery API.
 
