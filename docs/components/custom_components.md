@@ -15,7 +15,7 @@ Let's say you want to use the Watson Discovery [answer finding](https://medium.c
 
 ## Implement a custom Answers component
 
-To make things easier, we're going to reuse the `discovery-search-app` example code -- specifically, within `src/App.js`. We'll keep using the search field, but create a custom component to show the top 3 answers.
+To make things easier, we're going to edit the existing code for `discovery-search-app` in `src/App.js`. We'll keep using the search field, but create a custom component to show the top 3 answers.
 
 The `<SearchInput>` component renders the search field. It takes a string input value and generates a `/query` request, passing the value in the `natural_language_query` field for the request body. You will need to update that to enable _answers_, as described in the article. To do so, set the `overrideQueryParameters` property for `<DiscoverySearch>`:
 
