@@ -2,7 +2,6 @@
 layout: default
 title: Custom Components
 parent: Components
-permalink: /docs/Custom_Components
 ---
 
 # Implementing a Custom Component
