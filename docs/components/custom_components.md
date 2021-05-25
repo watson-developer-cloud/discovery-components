@@ -18,6 +18,8 @@ To make things easier, we're going to edit the existing code for `discovery-sear
 
 The `<SearchInput>` component renders the search field. It takes a string input value and generates a `/query` request, passing the value in the `natural_language_query` field for the request body. You will need to update that to enable _answers_, as described in the article. To do so, set the `overrideQueryParameters` property for `<DiscoverySearch>`:
 
+{% raw %}
+
 ```diff
    ) : isError ? (
      <div>Unable to load Discovery projects. Please check your console for more details.</div>
@@ -42,6 +44,8 @@ The `<SearchInput>` component renders the search field. It takes a string input 
      </DiscoverySearch>
    );
 ```
+
+{% endraw %}
 
 The overall details are explained in the article, but here are a few things to keep in mind. First, `fields` should be set to reflect the data in your project/collection. This property tells Discovery in which document fields to look for answers. Second, this sets `_return` to a set of top-level fields in the document results. Only the fields listed will be returned, cutting down on the response size (especially since it doesn't list `text` and `html`, which can be quite large).
 
