@@ -253,7 +253,7 @@ function setupMessage() {
 export default App;
 ```
 
-For more information on how each component can be customized and configured, check out our hosted [storybook](https://watson-developer-cloud.github.io/discovery-components)
+For more information on how each component can be customized and configured, check out our hosted [storybook](https://watson-developer-cloud.github.io/discovery-components/storybook/)
 
 ### Interacting with Discovery data in custom components
 
