@@ -1,5 +1,5 @@
 import React, { FC, useContext, useState, useEffect } from 'react';
-import { Pagination as CarbonPagination } from 'carbon-components-react';
+import { unstable_Pagination as CarbonPagination } from 'carbon-components-react';
 import { SearchApi, SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import get from 'lodash/get';
@@ -115,11 +115,11 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
   };
 
   const handleItemRangeText = (min: number, max: number, total: number) => {
-    return formatMessage(mergedMessages.itemRangeText, { min: min, max: max, total: total }, false);
+    return formatMessage(mergedMessages.itemRangeText, { min, max, total }, false);
   };
 
-  const handlePageRangeText = (_current: number, total: number) => {
-    return formatMessage(mergedMessages.pageRangeText, { total: total }, false);
+  const handlePageRangeText = (current: number, total: number) => {
+    return formatMessage(mergedMessages.pageRangeText, { current, total }, false);
   };
 
   if (!!componentSettings) {
@@ -128,7 +128,7 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
         {!isResultsPaginationComponentHidden && (
           <CarbonPagination
             className={classNames.join(' ')}
-            page={currentPage}
+            initialPage={currentPage}
             totalItems={matchingResults}
             pageSize={actualPageSize}
             pageSizes={pageSizes}
