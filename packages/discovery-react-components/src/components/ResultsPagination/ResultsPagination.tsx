@@ -83,7 +83,7 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
     }
   }, [currentPage, searchParameters.count, searchParameters.offset]);
 
-  const matchingResults = (searchResponse && searchResponse.matching_results) || 0;
+  const matchingResults = (searchResponse && searchResponse.matching_results) || undefined;
   const actualPageSize = searchParameters.count || 10;
   // the default behavior of Carbon is to discard pageSize if it is not included in pageSizes,
   // we instead choose to make it so that pageSize is appended to pageSizes if it is not already included.
@@ -114,13 +114,13 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
     );
   };
 
-  const handleItemRangeText = (min: number, max: number, total: number) => {
-    return formatMessage(mergedMessages.itemRangeText, { min, max, total }, false);
-  };
+  const handleItemRangeText = (min: number, max: number, total: number) =>
+    formatMessage(mergedMessages.itemRangeText, { min, max, total }, false);
 
-  const handlePageRangeText = (_current: number, total: number) => {
-    return formatMessage(mergedMessages.pageRangeText, { total }, false);
-  };
+  const handlePageRangeText = (_current: number, total: number) =>
+    formatMessage(mergedMessages.pageRangeText, { total }, false);
+
+  const handlePageText = (page: number) => formatMessage(mergedMessages.pageText, { page }, false);
 
   if (!!componentSettings) {
     return (
@@ -136,6 +136,7 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
             itemRangeText={handleItemRangeText}
             itemsPerPageText={mergedMessages.itemsPerPageText}
             pageRangeText={handlePageRangeText}
+            pageText={handlePageText}
             {...inputProps}
           >
             {(props: PageSelectorProps) => <PageSelector {...props} onChange={handleOnChange} />}
@@ -183,7 +184,11 @@ function PageSelector({ currentPage, currentPageSize, onSetPage, onChange }: Pag
     }
   }, [currentPage, currentPageSize, onChange, onSetPage, page, pageSize]);
 
-  return <span className={`${settings.prefix}--unstable-pagination__text`}>{currentPage}</span>;
+  return (
+    <span className={`${settings.prefix}--unstable-pagination__text`} data-testid="current-page">
+      {currentPage}
+    </span>
+  );
 }
 
 export default withErrorBoundary(

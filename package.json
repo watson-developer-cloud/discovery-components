@@ -27,7 +27,7 @@
     "@storybook/react": "^5.3.21",
     "@storybook/source-loader": "^5.3.21",
     "@svgr/rollup": "^4.3.2",
-    "@testing-library/cypress": "^7.0.3",
+    "@testing-library/cypress": "^7.0.6",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/react-hooks": "^3.4.1",
