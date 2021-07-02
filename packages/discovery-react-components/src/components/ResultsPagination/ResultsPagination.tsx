@@ -2,7 +2,6 @@ import React, { FC, useContext, useState, useEffect } from 'react';
 import { unstable_Pagination as CarbonPagination } from 'carbon-components-react';
 import { SearchApi, SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
-import get from 'lodash/get';
 import { settings } from 'carbon-components';
 import { withErrorBoundary } from 'react-error-boundary';
 import { FallbackComponent } from 'utils/FallbackComponent';
@@ -50,7 +49,7 @@ interface ResultsPaginationEvent {
 const ResultsPagination: FC<ResultsPaginationProps> = ({
   page = 1,
   pageSizes = [10, 20, 30, 40, 50],
-  pageSize = 10,
+  pageSize,
   showPageSizeSelector = true,
   messages = defaultMessages,
   onChange,
@@ -64,7 +63,7 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
     isResultsPaginationComponentHidden
   } = useContext(SearchContext);
   const [currentPage, setCurrentPage] = useState(page);
-  const resultsPerPage = get(componentSettings, 'results_per_page', 10);
+  const resultsPerPage = componentSettings?.results_per_page ?? 10;
 
   useEffect(() => {
     if (!!pageSize || !!resultsPerPage) {
