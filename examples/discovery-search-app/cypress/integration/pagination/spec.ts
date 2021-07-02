@@ -1,6 +1,6 @@
 import { mockHomePage } from '../../support/utils';
 
-const itemsPerPageOptions = ['5', '10', '20', '30', '40', '50'];
+const itemsPerPageOptions = ['10', '20', '30', '40', '50'];
 
 describe('Pagination', () => {
   beforeEach(() => {
@@ -8,28 +8,25 @@ describe('Pagination', () => {
 
     // Set up/override routes & fixtures that are specific to this file
     cy.fixture('query/multiPageResults.json').as('multiPageResultsJSON');
+    cy.fixture('query/query.json').as('singlePageResultsJSON');
   });
 
   describe('When the application loads', () => {
     it('pagination component is present', () => {
-      cy.get('.bx--pagination').should('exist');
+      cy.findByRole('searchbox').should('exist');
     });
 
     it('pagination has the correct initial settings', () => {
       // items per page
-      cy.get('.bx--pagination__left') //TODO: change this selector to use id instead of class
-        .find('.bx--select-input')
-        .should('have.value', '5');
+      cy.findByLabelText(/^Items per page/).should('have.value', '10');
+
       // page number
-      cy.get('.bx--pagination__right')
-        .find('.bx--select-input')
-        .should('have.value', '1');
+      cy.findByText('Page 1');
     });
 
     it('items per page has the correct options available', () => {
       itemsPerPageOptions.forEach(option => {
-        cy.get('.bx--pagination__left')
-          .find('.bx--select-input')
+        cy.findByLabelText(/^Items per page/)
           .select(option)
           .should('have.value', option);
       });
@@ -41,16 +38,18 @@ describe('Pagination', () => {
       cy.route('POST', '**/query?version=2019-01-01', '@multiPageResultsJSON').as(
         'postQueryMultiPage'
       );
-      cy.get('.bx--search-input').type('abil{enter}');
+      cy.findByRole('searchbox').type('abil{enter}');
       cy.wait('@postQueryMultiPage');
     });
 
     it('lists the correct number of total pages', () => {
-      cy.get('.bx--pagination__text').should('contain', '12');
+      cy.findByText('of 6 pages');
     });
 
     it('the previous page button is disabled', () => {
-      cy.get('.bx--pagination__button--backward').should('be.disabled');
+      cy.findByLabelText('Previous page')
+        .closest('button')
+        .should('be.disabled');
     });
 
     describe('and the next page arrow is clicked', () => {
@@ -58,14 +57,14 @@ describe('Pagination', () => {
         cy.route('POST', '**/query?version=2019-01-01', '@multiPageResultsJSON').as(
           'nextPageQueryObject'
         );
-        cy.get('.bx--pagination__button--forward').click();
+        cy.findByLabelText('Next page').click();
         cy.wait('@nextPageQueryObject');
       });
 
       it('correctly requests the next page', () => {
         cy.get('@nextPageQueryObject')
           .its('requestBody.offset')
-          .should('eq', 5);
+          .should('eq', 10);
       });
 
       describe('and the previous page arrow is clicked', () => {
@@ -73,7 +72,7 @@ describe('Pagination', () => {
           cy.route('POST', '**/query?version=2019-01-01', '@multiPageResultsJSON').as(
             'prevPageQueryObject'
           );
-          cy.get('.bx--pagination__button--backward').click();
+          cy.findByLabelText('Previous page').click();
           cy.wait('@prevPageQueryObject');
         });
 
@@ -85,55 +84,22 @@ describe('Pagination', () => {
       });
     });
 
-    describe('and we use the page selector to go to the second page', () => {
-      beforeEach(() => {
-        cy.route('POST', '**/query?version=2019-01-01', '@multiPageResultsJSON').as(
-          'nextPageQueryObject'
-        );
-        cy.get('.bx--pagination__right')
-          .find('.bx--select-input')
-          .select('2');
-        cy.wait('@nextPageQueryObject');
-      });
-
-      it('makes a query for the correct page of results', () => {
-        cy.get('@nextPageQueryObject')
-          .its('requestBody.offset')
-          .should('eq', 5);
-      });
-
-      it('should display the correct page number in the page selector', () => {
-        cy.get('span')
-          .contains('6–10 of 60 results')
-          .should('exist');
-        cy.get('.bx--pagination__right')
-          .find('.bx--select-input')
-          .should('have.value', '2');
-      });
-
-      describe('and we submit a new query', () => {
-        it('should return to the first page', () => {
-          cy.get('.bx--pagination__right')
-            .find('.bx--select-input')
-            .should('have.value', '2');
-          cy.findByPlaceholderText('Search').type('something{enter}');
-          cy.get('.bx--pagination__right')
-            .find('.bx--select-input')
-            .should('have.value', '1');
-        });
-      });
-    });
-
     describe('and we navigate to the last page of results', () => {
       beforeEach(() => {
-        cy.get('.bx--pagination__right')
-          .find('.bx--select-input')
-          .select('12');
+        // click 'next' 5 times to get to end
+        cy.findByLabelText('Next page')
+          .click()
+          .click()
+          .click()
+          .click()
+          .click();
         cy.wait('@postQueryMultiPage');
       });
 
       it('the next page button is disabled', () => {
-        cy.get('.bx--pagination__button--forward').should('be.disabled');
+        cy.findByLabelText('Next page')
+          .closest('button')
+          .should('be.disabled');
       });
 
       describe('and we increase the number of results per page to 50', () => {
@@ -141,9 +107,7 @@ describe('Pagination', () => {
           cy.route('POST', '**/query?version=2019-01-01', '@multiPageResultsJSON').as(
             'largerpostQueryMultiPageObject'
           );
-          cy.get('.bx--pagination__left')
-            .find('.bx--select-input')
-            .select('50');
+          cy.findByLabelText(/^Items per page/).select('50');
           cy.wait('@largerpostQueryMultiPageObject');
         });
 
@@ -154,54 +118,28 @@ describe('Pagination', () => {
           cy.get('@largerpostQueryMultiPageObject')
             .its('requestBody.offset')
             .should('eq', 0);
-          cy.get('.bx--pagination__right')
-            .find('.bx--select-input')
-            .should('have.value', '1');
+          cy.findByTestId('current-page').should('contain', '1');
         });
       });
     });
 
-    describe('and items per page is set to 5', () => {
+    describe('and items per page is set to 20', () => {
       beforeEach(() => {
         cy.route('POST', '**/query?version=2019-01-01', '@multiPageResultsJSON').as(
-          'fiveResultspostQueryMultiPageObject'
+          'twentyResultspostQueryMultiPageObject'
         );
-        cy.get('.bx--pagination__left')
-          .find('.bx--select-input')
-          .select('5');
-        cy.wait('@fiveResultspostQueryMultiPageObject');
+        cy.findByLabelText(/^Items per page/).select('20');
+        cy.wait('@twentyResultspostQueryMultiPageObject');
       });
 
-      it('makes a request for 5 results', () => {
-        cy.get('@fiveResultspostQueryMultiPageObject')
+      it('makes a request for 20 results', () => {
+        cy.get('@twentyResultspostQueryMultiPageObject')
           .its('requestBody.count')
-          .should('eq', 5);
+          .should('eq', 20);
       });
 
-      it('only lists twelve pages of results', () => {
-        cy.get('.bx--pagination__text').should('contain', '12');
-      });
-    });
-
-    describe('and items per page is set to 10', () => {
-      beforeEach(() => {
-        cy.route('POST', '**/query?version=2019-01-01', '@multiPageResultsJSON').as(
-          'tenResultsPerPageQueryObject'
-        );
-        cy.get('.bx--pagination__left')
-          .find('.bx--select-input')
-          .select('10');
-        cy.wait('@tenResultsPerPageQueryObject');
-      });
-
-      it('makes a request for 10 results', () => {
-        cy.get('@tenResultsPerPageQueryObject')
-          .its('requestBody.count')
-          .should('eq', 10);
-      });
-
-      it('only lists six pages of results', () => {
-        cy.get('.bx--pagination__text').should('contain', '6');
+      it('only lists 3 pages of results', () => {
+        cy.findByText('of 3 pages');
       });
     });
 
@@ -210,9 +148,7 @@ describe('Pagination', () => {
         cy.route('POST', '**/query?version=2019-01-01', '@multiPageResultsJSON').as(
           'fiftyResultsPerPageQueryObject'
         );
-        cy.get('.bx--pagination__left')
-          .find('.bx--select-input')
-          .select('50');
+        cy.findByLabelText(/^Items per page/).select('50');
         cy.wait('@fiftyResultsPerPageQueryObject');
       });
 
@@ -223,19 +159,31 @@ describe('Pagination', () => {
       });
 
       it('only lists two pages of results', () => {
-        cy.get('.bx--pagination__text').should('contain', '2');
+        cy.findByText('of 2 pages');
       });
     });
   });
 
   describe('When there is only one page of results', () => {
+    beforeEach(() => {
+      cy.route('POST', '**/query?version=2019-01-01', '@singlePageResultsJSON').as(
+        'postQuerySinglePage'
+      );
+      cy.findByRole('searchbox').type('abil{enter}');
+      cy.wait('@postQuerySinglePage');
+    });
+
     it('the next page and previous page buttons are disabled', () => {
-      cy.get('.bx--pagination__button--forward').should('be.disabled');
-      cy.get('.bx--pagination__button--backward').should('be.disabled');
+      cy.findByLabelText('Previous page')
+        .closest('button')
+        .should('be.disabled');
+      cy.findByLabelText('Next page')
+        .closest('button')
+        .should('be.disabled');
     });
 
     it('the first page is listed as the last page', () => {
-      cy.get('.bx--pagination__text').should('contain', '1');
+      cy.findByTestId('current-page').should('contain', '1');
     });
   });
 });
