@@ -17,5 +17,5 @@ export interface Messages {
 export const defaultMessages: Messages = {
   itemRangeText: '{min}–{max} of {total} results',
   itemsPerPageText: 'Items per page:',
-  pageRangeText: '{current} of {total} pages'
+  pageRangeText: 'of {total} pages'
 };

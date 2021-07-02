@@ -50,7 +50,7 @@ interface ResultsPaginationEvent {
 const ResultsPagination: FC<ResultsPaginationProps> = ({
   page = 1,
   pageSizes = [10, 20, 30, 40, 50],
-  pageSize,
+  pageSize = 10,
   showPageSizeSelector = true,
   messages = defaultMessages,
   onChange,
@@ -118,8 +118,8 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
     return formatMessage(mergedMessages.itemRangeText, { min, max, total }, false);
   };
 
-  const handlePageRangeText = (current: number, total: number) => {
-    return formatMessage(mergedMessages.pageRangeText, { current, total }, false);
+  const handlePageRangeText = (_current: number, total: number) => {
+    return formatMessage(mergedMessages.pageRangeText, { total }, false);
   };
 
   if (!!componentSettings) {
@@ -132,12 +132,14 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
             totalItems={matchingResults}
             pageSize={actualPageSize}
             pageSizes={pageSizes}
-            onChange={handleOnChange}
+            // onChange={handleOnChange} // see PageSelector for why this is commented out
             itemRangeText={handleItemRangeText}
             itemsPerPageText={mergedMessages.itemsPerPageText}
             pageRangeText={handlePageRangeText}
             {...inputProps}
-          />
+          >
+            {(props: PageSelectorProps) => <PageSelector {...props} onChange={handleOnChange} />}
+          </CarbonPagination>
         )}
       </>
     );
@@ -145,6 +147,44 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
 
   return null;
 };
+
+// XXX Slight hack. unstabled_Pagination doesn't currently emit an `onChange`
+// event, so we create a fake "page selector" child which gets the updates we
+// need. We can then call the original `handleOnChange` with the updated values.
+type PageSelectorProps = {
+  currentPage: number;
+  currentPageSize: number;
+  onSetPage: Function;
+  onChange: Function;
+};
+
+function PageSelector({ currentPage, currentPageSize, onSetPage, onChange }: PageSelectorProps) {
+  const [page, setPage] = useState(currentPage);
+  const [pageSize, setPageSize] = useState(currentPageSize);
+
+  useEffect(() => {
+    if (currentPageSize !== pageSize) {
+      setPageSize(currentPageSize);
+      setPage(1);
+
+      onChange({
+        page: 1,
+        pageSize: currentPageSize
+      });
+      // update unstable_Pagination state
+      onSetPage(1);
+    } else if (currentPage !== page) {
+      setPage(currentPage);
+
+      onChange({
+        page: currentPage,
+        pageSize: pageSize
+      });
+    }
+  }, [currentPage, currentPageSize, onChange, onSetPage, page, pageSize]);
+
+  return <span className={`${settings.prefix}--unstable-pagination__text`}>{currentPage}</span>;
+}
 
 export default withErrorBoundary(
   ResultsPagination,
