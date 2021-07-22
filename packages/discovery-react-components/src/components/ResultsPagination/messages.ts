@@ -12,10 +12,15 @@ export interface Messages {
    * override the default text showing where the current page is out of the total pages
    */
   pageRangeText: string;
+  /**
+   * override the default text showing the current page if total items is unknown
+   */
+  pageText: string;
 }
 
 export const defaultMessages: Messages = {
   itemRangeText: '{min}–{max} of {total} results',
   itemsPerPageText: 'Items per page:',
-  pageRangeText: 'of {total} pages'
+  pageRangeText: 'of {total} pages',
+  pageText: 'Page {page}'
 };

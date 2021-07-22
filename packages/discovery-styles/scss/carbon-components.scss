@@ -35,7 +35,7 @@ $css--use-layer: true !default;
 @import '~carbon-components/scss/components/tabs/tabs';
 
 // results-pagination
-@import '~carbon-components/scss/components/pagination/pagination';
+@import '~carbon-components/scss/components/pagination/_unstable_pagination';
 
 // search-facets
 @import '~carbon-components/scss/components/modal/modal';

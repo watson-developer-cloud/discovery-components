@@ -1,8 +1,7 @@
 import React, { FC, useContext, useState, useEffect } from 'react';
-import { Pagination as CarbonPagination } from 'carbon-components-react';
+import { unstable_Pagination as CarbonPagination } from 'carbon-components-react';
 import { SearchApi, SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
-import get from 'lodash/get';
 import { settings } from 'carbon-components';
 import { withErrorBoundary } from 'react-error-boundary';
 import { FallbackComponent } from 'utils/FallbackComponent';
@@ -64,7 +63,7 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
     isResultsPaginationComponentHidden
   } = useContext(SearchContext);
   const [currentPage, setCurrentPage] = useState(page);
-  const resultsPerPage = get(componentSettings, 'results_per_page', 10);
+  const resultsPerPage = componentSettings?.results_per_page ?? 10;
 
   useEffect(() => {
     if (!!pageSize || !!resultsPerPage) {
@@ -83,7 +82,7 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
     }
   }, [currentPage, searchParameters.count, searchParameters.offset]);
 
-  const matchingResults = (searchResponse && searchResponse.matching_results) || 0;
+  const matchingResults = (searchResponse && searchResponse.matching_results) || undefined;
   const actualPageSize = searchParameters.count || 10;
   // the default behavior of Carbon is to discard pageSize if it is not included in pageSizes,
   // we instead choose to make it so that pageSize is appended to pageSizes if it is not already included.
@@ -114,13 +113,13 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
     );
   };
 
-  const handleItemRangeText = (min: number, max: number, total: number) => {
-    return formatMessage(mergedMessages.itemRangeText, { min: min, max: max, total: total }, false);
-  };
+  const handleItemRangeText = (min: number, max: number, total: number) =>
+    formatMessage(mergedMessages.itemRangeText, { min, max, total }, false);
 
-  const handlePageRangeText = (_current: number, total: number) => {
-    return formatMessage(mergedMessages.pageRangeText, { total: total }, false);
-  };
+  const handlePageRangeText = (_current: number, total: number) =>
+    formatMessage(mergedMessages.pageRangeText, { total }, false);
+
+  const handlePageText = (page: number) => formatMessage(mergedMessages.pageText, { page }, false);
 
   if (!!componentSettings) {
     return (
@@ -128,16 +127,19 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
         {!isResultsPaginationComponentHidden && (
           <CarbonPagination
             className={classNames.join(' ')}
-            page={currentPage}
+            initialPage={currentPage}
             totalItems={matchingResults}
             pageSize={actualPageSize}
             pageSizes={pageSizes}
-            onChange={handleOnChange}
+            // onChange={handleOnChange} // see PageSelector for why this is commented out
             itemRangeText={handleItemRangeText}
             itemsPerPageText={mergedMessages.itemsPerPageText}
             pageRangeText={handlePageRangeText}
+            pageText={handlePageText}
             {...inputProps}
-          />
+          >
+            {(props: PageSelectorProps) => <PageSelector {...props} onChange={handleOnChange} />}
+          </CarbonPagination>
         )}
       </>
     );
@@ -145,6 +147,48 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
 
   return null;
 };
+
+// XXX Slight hack. unstabled_Pagination doesn't currently emit an `onChange`
+// event, so we create a fake "page selector" child which gets the updates we
+// need. We can then call the original `handleOnChange` with the updated values.
+type PageSelectorProps = {
+  currentPage: number;
+  currentPageSize: number;
+  onSetPage: Function;
+  onChange: Function;
+};
+
+function PageSelector({ currentPage, currentPageSize, onSetPage, onChange }: PageSelectorProps) {
+  const [page, setPage] = useState(currentPage);
+  const [pageSize, setPageSize] = useState(currentPageSize);
+
+  useEffect(() => {
+    if (currentPageSize !== pageSize) {
+      setPageSize(currentPageSize);
+      setPage(1);
+
+      onChange({
+        page: 1,
+        pageSize: currentPageSize
+      });
+      // update unstable_Pagination state
+      onSetPage(1);
+    } else if (currentPage !== page) {
+      setPage(currentPage);
+
+      onChange({
+        page: currentPage,
+        pageSize: pageSize
+      });
+    }
+  }, [currentPage, currentPageSize, onChange, onSetPage, page, pageSize]);
+
+  return (
+    <span className={`${settings.prefix}--unstable-pagination__text`} data-testid="current-page">
+      {currentPage}
+    </span>
+  );
+}
 
 export default withErrorBoundary(
   ResultsPagination,

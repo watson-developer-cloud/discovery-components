@@ -14,8 +14,8 @@ interface Setup extends RenderResult {
   setSearchParametersMock: jest.Mock<any>;
   onChangeMock: jest.Mock;
   pageSizeSelect: Promise<HTMLElement>;
+  nextButton: Promise<HTMLElement>;
   fullTree: React.ReactElement;
-  pageNumberSelect: Promise<HTMLElement>;
 }
 
 const setup = (
@@ -50,22 +50,22 @@ const setup = (
   const paginationComponent = render(fullTree);
 
   const pageSizeSelect = paginationComponent.findByLabelText('Items per page:');
-  const pageNumberSelect = paginationComponent.findByLabelText(/Page number, of [0-9]+ pages/);
+  const nextButton = paginationComponent.findByLabelText('Next page');
 
   return {
     performSearchMock,
     setSearchParametersMock,
     onChangeMock,
     pageSizeSelect,
-    pageNumberSelect,
     fullTree,
+    nextButton,
     ...paginationComponent
   };
 };
 
 describe('ResultsPaginationComponent', () => {
   test('uses count from search parameter', () => {
-    const { performSearchMock, pageNumberSelect, onChangeMock } = setup(
+    const { performSearchMock, nextButton, onChangeMock } = setup(
       {},
       {
         searchResponseStore: {
@@ -79,8 +79,8 @@ describe('ResultsPaginationComponent', () => {
     );
 
     // Have to return here or else failed expectations aren't reported
-    return pageNumberSelect.then(numberSelect => {
-      fireEvent.change(numberSelect, { target: { value: 2 } });
+    return nextButton.then(nextButton => {
+      fireEvent.click(nextButton);
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
@@ -99,12 +99,12 @@ describe('ResultsPaginationComponent', () => {
 
   describe('page size select', () => {
     test('calls onUpdateResultsPagination from first page', () => {
-      const { performSearchMock, pageSizeSelect, pageNumberSelect, onChangeMock } = setup();
+      const { performSearchMock, pageSizeSelect, nextButton, onChangeMock } = setup();
 
       // Have to return here or else failed expectations aren't reported
-      return Promise.all([pageSizeSelect, pageNumberSelect]).then(([sizeSelect, numberSelect]) => {
+      return Promise.all([pageSizeSelect, nextButton]).then(([sizeSelect, nextButton]) => {
         fireEvent.change(sizeSelect, { target: { value: 20 } });
-        fireEvent.change(numberSelect, { target: { value: 2 } });
+        fireEvent.click(nextButton);
 
         expect(performSearchMock).toBeCalledTimes(2);
         expect(performSearchMock).toBeCalledWith(
