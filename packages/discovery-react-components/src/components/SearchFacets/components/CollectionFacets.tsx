@@ -1,14 +1,9 @@
 import React, { FC, useContext } from 'react';
 import get from 'lodash/get';
 import { Messages } from '../messages';
-import {
-  collectionFacetIdPrefix
-  // labelClasses,
-  // labelAndSelectionContainerClass
-} from '../cssClasses';
+import { collectionFacetIdPrefix } from '../cssClasses';
 import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import { MultiSelect as CarbonMultiSelect } from 'carbon-components-react';
-// import { settings } from 'carbon-components';
 import { Collection } from 'ibm-watson/discovery/v2';
 import { CollectionItem, SelectedCollectionItems } from '../utils/searchFacetInterfaces';
 
