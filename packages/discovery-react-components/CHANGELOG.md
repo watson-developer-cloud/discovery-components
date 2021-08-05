@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0-beta.4](https://github.com/watson-developer-cloud/discovery-components/compare/v1.4.0-beta.3...v1.4.0-beta.4) (2021-08-05)
+
+
+### Bug Fixes
+
+* use carbon's built-in label for MultiSelect ([#196](https://github.com/watson-developer-cloud/discovery-components/issues/196)) ([a17e2c6](https://github.com/watson-developer-cloud/discovery-components/commit/a17e2c68901d0f4983707919f33c20742597834d))
+
+
+
+
+
 # [1.4.0-beta.3](https://github.com/watson-developer-cloud/discovery-components/compare/v1.4.0-beta.2...v1.4.0-beta.3) (2021-07-22)
 
 
