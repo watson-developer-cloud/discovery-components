@@ -1,14 +1,9 @@
 import React, { FC, useContext } from 'react';
 import get from 'lodash/get';
 import { Messages } from '../messages';
-import {
-  collectionFacetIdPrefix,
-  labelClasses,
-  labelAndSelectionContainerClass
-} from '../cssClasses';
+import { collectionFacetIdPrefix } from '../cssClasses';
 import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import { MultiSelect as CarbonMultiSelect } from 'carbon-components-react';
-import { settings } from 'carbon-components';
 import { Collection } from 'ibm-watson/discovery/v2';
 import { CollectionItem, SelectedCollectionItems } from '../utils/searchFacetInterfaces';
 
@@ -49,20 +44,14 @@ export const CollectionFacets: FC<CollectionFacetsProps> = ({
   // TODO: figure out why MultiSelect doesn't set initialSelectedItems on subsequent renders
   if (collectionItems.length > 0) {
     return (
-      <fieldset className={`${settings.prefix}--fieldset`}>
-        <legend className={labelClasses.join(' ')}>
-          <div className={labelAndSelectionContainerClass}>
-            {messages.collectionSelectTitleText}
-          </div>
-        </legend>
-        <CarbonMultiSelect
-          id={`${collectionFacetIdPrefix}select`}
-          items={collectionItems}
-          initialSelectedItems={initialSelectedCollections}
-          label={messages.collectionSelectLabel}
-          onChange={handleCollectionToggle}
-        />
-      </fieldset>
+      <CarbonMultiSelect
+        id={`${collectionFacetIdPrefix}select`}
+        items={collectionItems}
+        initialSelectedItems={initialSelectedCollections}
+        label={messages.collectionSelectLabel}
+        onChange={handleCollectionToggle}
+        titleText={messages.collectionSelectTitleText}
+      />
     );
   }
   return null;
