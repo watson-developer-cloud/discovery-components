@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect, SyntheticEvent } from 'react';
 import filter from 'lodash/filter';
 import get from 'lodash/get';
-import ListBox from 'carbon-components-react/lib/components/ListBox';
+import ListBox from 'carbon-components-react/es/components/ListBox';
 import {
   fieldsetClasses,
   labelClasses,
