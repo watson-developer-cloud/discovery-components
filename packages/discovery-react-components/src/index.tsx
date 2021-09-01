@@ -1,3 +1,4 @@
+// components
 export {
   default as DiscoverySearch,
   SearchApi,
@@ -14,4 +15,7 @@ export {
 } from './components/DocumentPreview/components/HtmlView/HtmlView';
 export { CIDocument, canRenderCIDocument } from './components/CIDocument/CIDocument';
 export { default as StructuredQuery } from './components/StructuredQuery/StructuredQuery';
+
+// utility methods
 export { getDocumentTitle } from './utils/getDocumentTitle';
+export { escapeFieldName } from './components/SearchFacets/utils/escapeFieldName';
