@@ -8,18 +8,16 @@ export const buildAggregationQuery = (configuration: QueryAggregationWithName[])
         const escapedFieldName = escapeFieldName(field);
         const termCount = count ? ',count:' + count : '';
         const termName = name ? ',name:' + name : '';
-        let nestedTypeTermAgg = '';
-
-        let query = `term(${escapedFieldName}${termCount}${termName})${nestedTypeTermAgg}`;
+        const termAggField = `term(${escapedFieldName}${termCount}${termName})`;
 
         if (field.includes('enriched_') && field.includes('entities.text')) {
           const topLevelTermEntityField = field.split('.')[0];
           const topLevelNestedField = field.slice(0, field.lastIndexOf('.'));
-          nestedTypeTermAgg = `.term(${topLevelTermEntityField}.entities.type,count:1)`;
-          query = `nested(${topLevelNestedField}).${query}`;
+          const nestedTypeTermAgg = `.term(${topLevelTermEntityField}.entities.type,count:1)`;
+          return `nested(${topLevelNestedField}).${termAggField}${nestedTypeTermAgg}`;
         }
 
-        return query;
+        return termAggField;
       }
 
       // This supports nested and filter aggregations, including dictionary aggregations
