@@ -1,8 +1,8 @@
 import { buildAggregationQuery } from '../buildAggregationQuery';
 import {
   configurationWithOneField,
-  configurationWithOneFieldWithSpecialChars,
   configurationWithTwoFields,
+  configurationWithTwoFielsdWithSpecialChars,
   configurationWithoutCounts,
   configurationWithTopEntities,
   configurationWithFilterQueryAggregation,
@@ -47,7 +47,9 @@ describe('BuildAggregationQuery', () => {
   });
 
   test('it converts configuration with one term that contains special characters to expected aggregation parameter', () => {
-    const aggParam = buildAggregationQuery(configurationWithOneFieldWithSpecialChars);
-    expect(aggParam).toEqual('[term(s\\:o\\~m\\<e\\|t\\^h\\*i\\[n\\(g\\)\\]\\>,count:10)]');
+    const aggParam = buildAggregationQuery(configurationWithTwoFielsdWithSpecialChars);
+    expect(aggParam).toEqual(
+      '[term(s\\:o\\~m\\<e\\|t\\^h\\*i\\[n\\(g\\)\\]\\>,count:10),nested(enriched_s\\:o\\~m\\<e\\|t\\^h\\*i\\[n\\(g\\)\\]\\>.entities).term(enriched_s\\:o\\~m\\<e\\|t\\^h\\*i\\[n\\(g\\)\\]\\>.entities.text,count:10).term(enriched_s\\:o\\~m\\<e\\|t\\^h\\*i\\[n\\(g\\)\\]\\>.entities.type,count:1)]'
+    );
   });
 });

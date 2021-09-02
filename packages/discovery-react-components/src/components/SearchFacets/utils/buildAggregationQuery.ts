@@ -11,8 +11,8 @@ export const buildAggregationQuery = (configuration: QueryAggregationWithName[])
         const termAggField = `term(${escapedFieldName}${termCount}${termName})`;
 
         if (field.includes('enriched_') && field.includes('entities.text')) {
-          const topLevelTermEntityField = field.split('.')[0];
-          const topLevelNestedField = field.slice(0, field.lastIndexOf('.'));
+          const topLevelTermEntityField = escapeFieldName(field.split('.')[0]);
+          const topLevelNestedField = escapeFieldName(field.slice(0, field.lastIndexOf('.')));
           const nestedTypeTermAgg = `.term(${topLevelTermEntityField}.entities.type,count:1)`;
           return `nested(${topLevelNestedField}).${termAggField}${nestedTypeTermAgg}`;
         }
