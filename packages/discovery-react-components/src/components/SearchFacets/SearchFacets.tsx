@@ -2,7 +2,7 @@ import React, { FC, useContext, useState, SyntheticEvent } from 'react';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { Button } from 'carbon-components-react';
 import { settings } from 'carbon-components';
-import Close from '@carbon/icons-react/lib/close/16';
+import Close from '@carbon/icons-react/es/close/16';
 import { SearchContext, SearchApi } from 'components/DiscoverySearch/DiscoverySearch';
 import { mergeFilterFacets } from './utils/mergeFilterFacets';
 import { mergeDynamicFacets } from './utils/mergeDynamicFacets';

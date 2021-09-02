@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect, SyntheticEvent } from 'react';
 import { Button } from 'carbon-components-react';
-import ChevronDown from '@carbon/icons-react/lib/chevron--down/16';
-import ChevronUp from '@carbon/icons-react/lib/chevron--up/16';
+import ChevronDown from '@carbon/icons-react/es/chevron--down/16';
+import ChevronUp from '@carbon/icons-react/es/chevron--up/16';
 import { Messages } from 'components/SearchFacets/messages';
 import { MultiSelectFacetsGroup } from './MultiSelectFacetsGroup';
 import { SingleSelectFacetsGroup } from './SingleSelectFacetsGroup';
