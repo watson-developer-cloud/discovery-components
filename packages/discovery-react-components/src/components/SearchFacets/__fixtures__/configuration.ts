@@ -9,6 +9,14 @@ export const configurationWithOneField: DiscoveryV2.QueryTermAggregation[] = [
   }
 ];
 
+export const configurationWithOneFieldWithSpecialChars: DiscoveryV2.QueryTermAggregation[] = [
+  {
+    type: 'term',
+    field: 's:o~m<e|t^h*i[n(g)]>',
+    count: 10
+  }
+];
+
 export const configurationWithTwoFields: DiscoveryV2.QueryTermAggregation[] = [
   {
     type: 'term',

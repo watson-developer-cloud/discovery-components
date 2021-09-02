@@ -1,6 +1,7 @@
 import { buildAggregationQuery } from '../buildAggregationQuery';
 import {
   configurationWithOneField,
+  configurationWithOneFieldWithSpecialChars,
   configurationWithTwoFields,
   configurationWithoutCounts,
   configurationWithTopEntities,
@@ -43,5 +44,10 @@ describe('BuildAggregationQuery', () => {
     expect(aggParam).toEqual(
       '[nested(enriched_text.entities).term(enriched_text.entities.text,count:12,name:entities).term(enriched_text.entities.type,count:1),term(author),nested(enriched_text.entities.enriched_text.entities.text).filter(enriched_text.entities.enriched_text.entities.model_name:"Dictionary:.test").term(enriched_text.entities.enriched_text.entities.text,count:4,name:dict_yqYQPpM8OljE)]'
     );
+  });
+
+  test('it converts configuration with one term that contains special characters to expected aggregation parameter', () => {
+    const aggParam = buildAggregationQuery(configurationWithOneFieldWithSpecialChars);
+    expect(aggParam).toEqual('[term(s\\:o\\~m\\<e\\|t\\^h\\*i\\[n\\(g\\)\\]\\>,count:10)]');
   });
 });
