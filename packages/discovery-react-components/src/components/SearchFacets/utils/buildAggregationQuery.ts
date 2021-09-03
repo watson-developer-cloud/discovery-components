@@ -24,7 +24,7 @@ export const buildAggregationQuery = (configuration: QueryAggregationWithName[])
       let nestedOrFilterAgg = '';
       if (aggregations && aggregations[0]) {
         nestedOrFilterAgg += 'nested(';
-        const initialNested = path ? path : aggregations[0].field;
+        const initialNested = escapeFieldName(path ? path : aggregations[0].field || '');
         const matchAgg = match ? match : aggregations[0].match;
         nestedOrFilterAgg = nestedOrFilterAgg + initialNested + ').filter(' + matchAgg + ')';
         let termAggregation;
@@ -36,7 +36,12 @@ export const buildAggregationQuery = (configuration: QueryAggregationWithName[])
         const termCount = termAggregation.count ? ',count:' + termAggregation.count : '';
         const termName = termAggregation.name ? ',name:' + termAggregation.name : '';
         nestedOrFilterAgg =
-          nestedOrFilterAgg + '.term(' + termAggregation.field + termCount + termName + ')';
+          nestedOrFilterAgg +
+          '.term(' +
+          escapeFieldName(termAggregation.field || '') +
+          termCount +
+          termName +
+          ')';
       }
       return nestedOrFilterAgg;
     }
