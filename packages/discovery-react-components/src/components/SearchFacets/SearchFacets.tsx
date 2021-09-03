@@ -2,7 +2,7 @@ import React, { FC, useContext, useState, SyntheticEvent } from 'react';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { Button } from 'carbon-components-react';
 import { settings } from 'carbon-components';
-import Close from '@carbon/icons-react/es/close/16';
+import { Close16 } from '@carbon/icons-react';
 import { SearchContext, SearchApi } from 'components/DiscoverySearch/DiscoverySearch';
 import { mergeFilterFacets } from './utils/mergeFilterFacets';
 import { mergeDynamicFacets } from './utils/mergeDynamicFacets';
@@ -235,7 +235,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
             className={`${settings.prefix}--search-facets__button-clear-all`}
             id={`${facetsId}--search-facets-button-clear-all`}
             kind="ghost"
-            renderIcon={Close}
+            renderIcon={Close16}
             size="small"
             onClick={handleOnClear}
           >

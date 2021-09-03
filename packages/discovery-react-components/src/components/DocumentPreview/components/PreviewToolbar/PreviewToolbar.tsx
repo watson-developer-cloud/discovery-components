@@ -2,11 +2,11 @@ import React, { SFC, useRef, useEffect, ReactElement } from 'react';
 import { Button, FormLabel, Form, TextInput } from 'carbon-components-react';
 import { settings } from 'carbon-components';
 
-import ZoomIn24 from '@carbon/icons-react/es/zoom--in/24.js';
-import ZoomOut24 from '@carbon/icons-react/es/zoom--out/24.js';
-import CaretLeft24 from '@carbon/icons-react/es/caret--left/24.js';
-import CaretRight24 from '@carbon/icons-react/es/caret--right/24.js';
-import Reset24 from '@carbon/icons-react/es/reset/24.js';
+import { ZoomIn24 } from '@carbon/icons-react';
+import { ZoomOut24 } from '@carbon/icons-react';
+import { CaretLeft24 } from '@carbon/icons-react';
+import { CaretRight24 } from '@carbon/icons-react';
+import { Reset24 } from '@carbon/icons-react';
 
 export const ZOOM_IN = 'zoom-in';
 export const ZOOM_OUT = 'zoom-out';

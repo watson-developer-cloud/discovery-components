@@ -11,7 +11,7 @@ import ListBox from 'carbon-components-react/es/components/ListBox';
 import { SearchApi, SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import useDebounce from 'utils/useDebounce';
 import uuid from 'uuid';
-import Search16 from '@carbon/icons-react/es/search/16';
+import { Search16 } from '@carbon/icons-react';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { useDeepCompareCallback } from 'utils/useDeepCompareMemoize';
 import { defaultMessages, Messages } from './messages';
