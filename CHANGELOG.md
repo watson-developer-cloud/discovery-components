@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0-beta.6](https://github.com/watson-developer-cloud/discovery-components/compare/v1.4.0-beta.5...v1.4.0-beta.6) (2021-09-16)
+
+
+### Bug Fixes
+
+* safari regex lookbehind ([#211](https://github.com/watson-developer-cloud/discovery-components/issues/211)) ([c9dd8fc](https://github.com/watson-developer-cloud/discovery-components/commit/c9dd8fc04c9c8a5cdfc285607e8e50388b58a60d))
+
+
+
+
+
 # [1.4.0-beta.5](https://github.com/watson-developer-cloud/discovery-components/compare/v1.4.0-beta.4...v1.4.0-beta.5) (2021-09-03)
 
 
