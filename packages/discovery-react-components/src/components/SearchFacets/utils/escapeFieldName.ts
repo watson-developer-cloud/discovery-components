@@ -13,6 +13,7 @@ export function escapeFieldName(fieldName: string): string {
   // return (fieldName || '').replace(/(?<!\\)[\^~><:!,|()[\]* ]/g, (char: string) => `\\${char}`);
   return (fieldName || '').replace(
     /(\\)?([\^~><:!,|()[\]* ])/g,
+    // don't escape if character (`p2`) was already escaped (`p1`)
     (str: string, p1: string, p2: string) => (p1 ? str : `\\${p2}`)
   );
 }
