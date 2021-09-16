@@ -7,7 +7,10 @@ describe('escapeFieldName', () => {
   });
 
   test('does not escape already escaped characters', () => {
-    const escapedFieldName = escapeFieldName('t\\(ext)');
+    let escapedFieldName = escapeFieldName('t\\(ext)');
     expect(escapedFieldName).toEqual('t\\(ext\\)');
+
+    escapedFieldName = escapeFieldName('\\(text)');
+    expect(escapedFieldName).toEqual('\\(text\\)');
   });
 });
