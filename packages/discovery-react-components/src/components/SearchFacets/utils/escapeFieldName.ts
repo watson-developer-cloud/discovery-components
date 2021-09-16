@@ -7,5 +7,12 @@
  * @returns escaped field name string
  */
 export function escapeFieldName(fieldName: string): string {
-  return (fieldName || '').replace(/(?<!\\)[\^~><:!,|()[\]* ]/g, (char: string) => `\\${char}`);
+  // Originally used the following code, with regex lookbehind. However, that's
+  // not supported by Safari (yet?).
+  // @see https://caniuse.com/js-regexp-lookbehind
+  // return (fieldName || '').replace(/(?<!\\)[\^~><:!,|()[\]* ]/g, (char: string) => `\\${char}`);
+  return (fieldName || '').replace(
+    /(\\)?([\^~><:!,|()[\]* ])/g,
+    (str: string, p1: string, p2: string) => (p1 ? str : `\\${p2}`)
+  );
 }
