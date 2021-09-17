@@ -1,4 +1,4 @@
-import { escapeFieldName } from '../escapeFieldName';
+import { escapeFieldName, unescapeFieldName } from '../escapeFieldName';
 
 describe('escapeFieldName', () => {
   test('correctly escapes special characters', () => {
@@ -12,5 +12,17 @@ describe('escapeFieldName', () => {
 
     escapedFieldName = escapeFieldName('\\(text)');
     expect(escapedFieldName).toEqual('\\(text\\)');
+  });
+});
+
+describe('unescapeFieldName', () => {
+  test('correctly unescapes special characters in an already escaped string', () => {
+    const unescapedFieldName = unescapeFieldName('t\\(ext\\)');
+    expect(unescapedFieldName).toEqual('t(ext)');
+  });
+
+  test('does not affect string without special characters', () => {
+    const unescapedFieldName = unescapeFieldName('here\\is_something.com');
+    expect(unescapedFieldName).toEqual('here\\is_something.com');
   });
 });
