@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0-beta.7](https://github.com/watson-developer-cloud/discovery-components/compare/v1.4.0-beta.6...v1.4.0-beta.7) (2021-09-17)
+
+
+### Bug Fixes
+
+* escape/unescape field name in search filters ([#212](https://github.com/watson-developer-cloud/discovery-components/issues/212)) ([c7d5318](https://github.com/watson-developer-cloud/discovery-components/commit/c7d53188926adaa367b3a3166d6e47f7e841f9f7))
+
+
+
+
+
 # [1.4.0-beta.6](https://github.com/watson-developer-cloud/discovery-components/compare/v1.4.0-beta.5...v1.4.0-beta.6) (2021-09-16)
 
 
