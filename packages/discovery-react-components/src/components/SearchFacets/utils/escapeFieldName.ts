@@ -1,10 +1,12 @@
+// These characters within a field name must be escaped when generating queries: ^ ~ > < : ! , | ( ) [ ] *
 const SPECIAL_CHARS = '[\\^~><:!,|()[\\]* ]';
+// When escaping, look for any special characters (that haven't already been escaped).
 const RE_SPECIAL_CHARS_LOOKBEHIND = new RegExp(`(\\\\)?(${SPECIAL_CHARS})`, 'g'); // /(\\)?([\^~><:!,|()[\]* ])/g
+// When unescaping, look for any of the special characters that have been escaped
 const RE_SPECIAL_CHARS_ESCAPED = new RegExp(`(\\\\${SPECIAL_CHARS})`, 'g');
 
 /**
- * Before field names can be used as part of an aggregation query, the following
- * characters within the name must be escaped: ^ ~ > < : ! , | ( ) [ ] *
+ * Escape "special" characters in field names.
  * Note: this method does not escape already escaped chars.
  *
  * @param fieldName
