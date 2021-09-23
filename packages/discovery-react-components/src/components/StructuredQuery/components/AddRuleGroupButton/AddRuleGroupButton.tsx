@@ -1,6 +1,6 @@
 import React, { FC, Dispatch, SetStateAction } from 'react';
 import { Button } from 'carbon-components-react';
-import Add16 from '@carbon/icons-react/lib/add/16';
+import { Add16 } from '@carbon/icons-react';
 import { Messages } from 'components/StructuredQuery/messages';
 import { getNewId } from 'components/StructuredQuery/utils';
 import { StructuredQuerySelection } from 'components/StructuredQuery/utils/structuredQueryInterfaces';

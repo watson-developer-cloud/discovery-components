@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect, SyntheticEvent } from 'react';
 import { Button } from 'carbon-components-react';
-import ChevronDown from '@carbon/icons-react/lib/chevron--down/16';
-import ChevronUp from '@carbon/icons-react/lib/chevron--up/16';
+import { ChevronDown16 } from '@carbon/icons-react';
+import { ChevronUp16 } from '@carbon/icons-react';
 import { Messages } from 'components/SearchFacets/messages';
 import { MultiSelectFacetsGroup } from './MultiSelectFacetsGroup';
 import { SingleSelectFacetsGroup } from './SingleSelectFacetsGroup';
@@ -112,7 +112,7 @@ export const CategoryFacets: FC<CategoryFacetsProps> = ({
   };
 
   const categoryFacetsToShow = isCollapsed ? facets.slice(0, collapsedFacetsCount) : facets;
-  const iconToRender = categoryIsExpanded ? ChevronUp : ChevronDown;
+  const iconToRender = categoryIsExpanded ? ChevronUp16 : ChevronDown16;
   const totalNumberFacets = facets.length;
   const showMoreButtonOnClick =
     totalNumberFacets <= MAX_FACETS_UNTIL_MODAL ? toggleFacetsCollapse : setModalOpen;
