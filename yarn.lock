@@ -8266,8 +8266,8 @@ escodegen@^1.11.0, escodegen@^1.12.0, escodegen@^1.8.0, escodegen@^1.9.1:
 
 eslint-config-prettier@^8.3.0:
   version "8.3.0"
-  resolved "https://na.artifactory.swg-devops.com/artifactory/api/npm/res-disco-ccs-npm-virtual/eslint-config-prettier/-/eslint-config-prettier-8.3.0.tgz?dl=https%3A%2F%2Fregistry.npmjs.org%2Feslint-config-prettier%2F-%2Feslint-config-prettier-8.3.0.tgz#f7471b20b6fe8a9a9254cc684454202886a2dd7a"
-  integrity sha1-90cbILb+ipqSVMxoRFQgKIai3Xo=
+  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-8.3.0.tgz#f7471b20b6fe8a9a9254cc684454202886a2dd7a"
+  integrity sha512-BgZuLUSeKzvlL/VUjx/Yb787VQ26RU3gGjA3iiFvdsp/2bMfVIWUVP7tjxtjS0e+HP409cPlPvNkQloz8C91ew==
 
 eslint-config-react-app@^5.2.0, eslint-config-react-app@^5.2.1:
   version "5.2.1"
@@ -8402,8 +8402,8 @@ eslint-plugin-no-only-tests@^2.4.0:
 
 eslint-plugin-prettier@^4.0.0:
   version "4.0.0"
-  resolved "https://na.artifactory.swg-devops.com/artifactory/api/npm/res-disco-ccs-npm-virtual/eslint-plugin-prettier/-/eslint-plugin-prettier-4.0.0.tgz?dl=https%3A%2F%2Fregistry.npmjs.org%2Feslint-plugin-prettier%2F-%2Feslint-plugin-prettier-4.0.0.tgz#8b99d1e4b8b24a762472b4567992023619cb98e0"
-  integrity sha1-i5nR5LiySnYkcrRWeZICNhnLmOA=
+  resolved "https://registry.yarnpkg.com/eslint-plugin-prettier/-/eslint-plugin-prettier-4.0.0.tgz#8b99d1e4b8b24a762472b4567992023619cb98e0"
+  integrity sha512-98MqmCJ7vJodoQK359bqQWaxOE0CS8paAz/GgjaZLyex4TTk3g9HugoO89EqWCrFiOqn9EVvcoo7gZzONCWVwQ==
   dependencies:
     prettier-linter-helpers "^1.0.0"
 
@@ -15645,8 +15645,8 @@ prettier@^1.16.4:
 
 prettier@^2.4.1:
   version "2.4.1"
-  resolved "https://na.artifactory.swg-devops.com/artifactory/api/npm/res-disco-ccs-npm-virtual/prettier/-/prettier-2.4.1.tgz?dl=https%3A%2F%2Fregistry.npmjs.org%2Fprettier%2F-%2Fprettier-2.4.1.tgz#671e11c89c14a4cfc876ce564106c4a6726c9f5c"
-  integrity sha1-Zx4RyJwUpM/Ids5WQQbEpnJsn1w=
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.4.1.tgz#671e11c89c14a4cfc876ce564106c4a6726c9f5c"
+  integrity sha512-9fbDAXSBcc6Bs1mZrDYb3XKzDLm4EXXL9sC1LqKP5rZkT6KRr/rf9amVUcODVXgguK/isJz0d0hP72WeaKWsvA==
 
 pretty-bytes@^5.1.0:
   version "5.4.1"
