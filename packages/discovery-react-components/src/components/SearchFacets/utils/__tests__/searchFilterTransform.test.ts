@@ -58,12 +58,29 @@ const weirdAggs = [
         selected: true
       }
     ]
+  },
+  {
+    type: 'term',
+    field: 't(ext)',
+    results: [
+      {
+        key: 'something normal',
+        matching_results: 293668,
+        selected: true
+      },
+      {
+        key: 'nospaces',
+        matching_results: 2968,
+        selected: true
+      }
+    ]
   }
 ];
 const weirdFilters =
   'extracted_stuff.weirdAggs:"this | that"|"1:30"|"1,200"|"double \\" quote",' +
   'extracted_stuff.oddAggs:"something, new"|"blah|junk",' +
-  'extracted_stuff.normalAggs:"something normal"|"nospaces"';
+  'extracted_stuff.normalAggs:"something normal"|"nospaces",' +
+  't\\(ext\\):"something normal"|"nospaces"';
 
 describe('QueryTermAggregation array to filter string', () => {
   test('it properly handles aggregations with reserved characters', () => {
@@ -93,6 +110,7 @@ describe('Filter string to QueryTermAggregation array', () => {
       }
     ]);
   });
+
   test('it properly handles aggregations with reserved characters', () => {
     expect(SearchFilterTransform.fromString(weirdFilters).filterFields).toEqual([
       {
@@ -115,6 +133,14 @@ describe('Filter string to QueryTermAggregation array', () => {
       {
         type: 'term',
         field: 'extracted_stuff.normalAggs',
+        results: expect.arrayContaining([
+          expect.objectContaining({ key: 'something normal', selected: true }),
+          expect.objectContaining({ key: 'nospaces', selected: true })
+        ])
+      },
+      {
+        type: 'term',
+        field: 't(ext)',
         results: expect.arrayContaining([
           expect.objectContaining({ key: 'something normal', selected: true }),
           expect.objectContaining({ key: 'nospaces', selected: true })

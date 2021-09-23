@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0-beta.7](https://github.com/watson-developer-cloud/discovery-components/compare/v1.4.0-beta.6...v1.4.0-beta.7) (2021-09-17)
+
+
+### Bug Fixes
+
+* escape/unescape field name in search filters ([#212](https://github.com/watson-developer-cloud/discovery-components/issues/212)) ([c7d5318](https://github.com/watson-developer-cloud/discovery-components/commit/c7d53188926adaa367b3a3166d6e47f7e841f9f7))
+
+
+
+
+
+# [1.4.0-beta.6](https://github.com/watson-developer-cloud/discovery-components/compare/v1.4.0-beta.5...v1.4.0-beta.6) (2021-09-16)
+
+
+### Bug Fixes
+
+* safari regex lookbehind ([#211](https://github.com/watson-developer-cloud/discovery-components/issues/211)) ([c9dd8fc](https://github.com/watson-developer-cloud/discovery-components/commit/c9dd8fc04c9c8a5cdfc285607e8e50388b58a60d))
+
+
+
+
+
+# [1.4.0-beta.5](https://github.com/watson-developer-cloud/discovery-components/compare/v1.4.0-beta.4...v1.4.0-beta.5) (2021-09-03)
+
+
+### Bug Fixes
+
+* escape field names before building aggregation string ([#207](https://github.com/watson-developer-cloud/discovery-components/issues/207)) ([078e753](https://github.com/watson-developer-cloud/discovery-components/commit/078e7530cb8cd391afa9c08776bd0793cb1c0f60))
+
+
+
+
+
 # [1.4.0-beta.4](https://github.com/watson-developer-cloud/discovery-components/compare/v1.4.0-beta.3...v1.4.0-beta.4) (2021-08-05)
 
 
