@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0-beta.8](https://github.com/watson-developer-cloud/discovery-components/compare/v1.4.0-beta.7...v1.4.0-beta.8) (2021-09-23)
+
+
+### Bug Fixes
+
+* better tree shaking with @carbon/icons-react and carbon-react-components ([#209](https://github.com/watson-developer-cloud/discovery-components/issues/209)) ([0c3d14e](https://github.com/watson-developer-cloud/discovery-components/commit/0c3d14e3aa3ee6b8afa38e99bd57140b66ac6b6a))
+
+
+
+
+
 # [1.4.0-beta.7](https://github.com/watson-developer-cloud/discovery-components/compare/v1.4.0-beta.6...v1.4.0-beta.7) (2021-09-17)
 
 **Note:** Version bump only for package discovery-search-app
