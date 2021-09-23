@@ -105,7 +105,7 @@ function updateEnvFile() {
         read -s -p "  password: " password
     done
 
-    cat >$CREDENTIALS_FILE <<EOL
+    cat > "$CREDENTIALS_FILE" <<EOL
 DISCOVERY_AUTH_TYPE=${authType}
 DISCOVERY_AUTH_URL=${url}
 DISCOVERY_AUTH_DISABLE_SSL=true
@@ -124,7 +124,7 @@ EOL
     while [[ "$apikey" == "" ]]; do
         read -s -p "  apikey: " apikey
     done
-      cat >$CREDENTIALS_FILE <<EOL
+      cat > "$CREDENTIALS_FILE" <<EOL
 DISCOVERY_AUTH_TYPE=${authType}
 DISCOVERY_URL=${url}
 DISCOVERY_APIKEY=${apikey}
@@ -141,12 +141,12 @@ EOL
     read -p "  project_id: " projectId
   done
 
-  cat >$ENV_LOCAL_FILE <<EOL
+  cat > "$ENV_LOCAL_FILE" <<EOL
 REACT_APP_PROJECT_ID=${projectId}
 EOL
 
   if [ $OSTYPE == 'msys' ]; then
-    echo "SASS_PATH=\"../../node_modules;src\"" >> $ENV_LOCAL_FILE
+    echo "SASS_PATH=\"../../node_modules;src\"" >> "$ENV_LOCAL_FILE"
   fi
   echo
 }
@@ -168,7 +168,7 @@ colorMessage "done" 2
 #
 # collection discovery instance information
 #
-if [ -f $CREDENTIALS_FILE ]; then
+if [ -f "$CREDENTIALS_FILE" ]; then
   paddedMessage "File already exists:"
   colorMessage "  $CREDENTIALS_FILE" 3
   read -p "$(paddedMessage 'Update file before configuring server (y/n)? ')" updateEnvValues
