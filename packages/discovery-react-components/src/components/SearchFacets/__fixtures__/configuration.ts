@@ -22,6 +22,19 @@ export const configurationWithTwoFields: DiscoveryV2.QueryTermAggregation[] = [
   }
 ];
 
+export const configurationWithTwoFielsdWithSpecialChars: DiscoveryV2.QueryTermAggregation[] = [
+  {
+    type: 'term',
+    field: 's:o~m<e|t^h*i[n(g)]>',
+    count: 10
+  },
+  {
+    type: 'term',
+    field: 'enriched_s:o~m<e|t^h*i[n(g)]>.entities.text',
+    count: 10
+  }
+];
+
 export const configurationWithoutCounts: DiscoveryV2.QueryTermAggregation[] = [
   {
     type: 'term',
@@ -98,6 +111,32 @@ export const configurationWithFilterQueryAggregation: QueryAggregationWithName[]
       {
         type: 'term',
         field: 'enriched_text.entities.enriched_text.entities.text',
+        count: 4,
+        name: 'dict_yqYQPpM8OljE'
+      }
+    ]
+  }
+];
+
+export const configurationWithFilterQueryAggregationWithSpecialCharacters: QueryAggregationWithName[] = [
+  {
+    type: 'term',
+    field: 'enriched_text.entities.text',
+    count: 12,
+    name: 'entities'
+  },
+  {
+    type: 'term',
+    field: 'author'
+  },
+  {
+    type: 'filter',
+    match: 'enriched_t\\(ext\\).entities.model_name:"Dictionary:.my_dict"',
+    matching_results: 0,
+    aggregations: [
+      {
+        type: 'term',
+        field: 'enriched_t(ext).entities.text',
         count: 4,
         name: 'dict_yqYQPpM8OljE'
       }

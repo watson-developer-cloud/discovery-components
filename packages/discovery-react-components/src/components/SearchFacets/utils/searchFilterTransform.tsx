@@ -1,5 +1,6 @@
 import get from 'lodash/get';
 import partition from 'lodash/partition';
+import { escapeFieldName, unescapeFieldName } from './escapeFieldName';
 import {
   SearchFilterFacets,
   InternalQueryTermAggregation,
@@ -42,7 +43,7 @@ export class SearchFilterTransform {
 
       return {
         type: 'term',
-        field,
+        field: unescapeFieldName(field),
         results
       };
     });
@@ -78,7 +79,7 @@ export class SearchFilterTransform {
       const results = get(facet, 'results', []);
       const keys = this.quoteSelectedFacets(results, 'key');
       if (keys.length) {
-        filterStrings.push(`${field}:${keys.join('|')}`);
+        filterStrings.push(`${escapeFieldName(field)}:${keys.join('|')}`);
       }
     });
     return filterStrings.join(',');

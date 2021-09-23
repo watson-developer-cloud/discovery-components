@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "discovery-search-app",
-  "version": "1.4.0-beta.4",
+  "version": "1.4.0-beta.8",
   "description": "Discovery components example application used to showcase components in a full application",
   "license": "Apache-2.0",
   "author": "IBM Corp.",
@@ -48,6 +48,11 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!carbon-components-react)/"
     ]
   }
 }
