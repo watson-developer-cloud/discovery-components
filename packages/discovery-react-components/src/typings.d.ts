@@ -16,11 +16,11 @@ declare module '*.svg' {
 
 declare module 'carbon-components-react';
 declare module 'carbon-components';
-declare module '@carbon/icons-react/*';
+declare module '@carbon/icons-react';
 declare module '*.md';
 declare module 'marked';
 declare module 'uuid';
-declare module 'carbon-components-react/lib/components/ListBox';
+declare module 'carbon-components-react/es/components/ListBox';
 
 // Required for storybook build
 // https://github.com/storybookjs/storybook/issues/8233#issuecomment-558563086

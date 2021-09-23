@@ -1,8 +1,8 @@
 import React, { useLayoutEffect } from 'react';
 import { SelectedResult } from 'components/DiscoverySearch/DiscoverySearch';
 import { Button, Tile } from 'carbon-components-react';
-import Launch from '@carbon/icons-react/lib/launch/16';
-import TableSplit from '@carbon/icons-react/lib/table--split/16';
+import { Launch16 } from '@carbon/icons-react';
+import { TableSplit16 } from '@carbon/icons-react';
 import DOMPurify from 'dompurify';
 import {
   searchResultContentWrapperBodyClass,
@@ -72,7 +72,7 @@ export const ResultElement: React.FunctionComponent<ResultElementProps> = ({
       ? elementBodyClassNames.push(passageTextClassName)
       : elementBodyClassNames.push(searchResultContentWrapperBodyPassageHighlightsClass);
   }
-  const icon = elementType === 'table' ? TableSplit : Launch;
+  const icon = elementType === 'table' ? TableSplit16 : Launch16;
 
   const elementBodyProps = {
     className: elementBodyClassNames.join(' '),

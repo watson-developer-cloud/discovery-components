@@ -44,7 +44,7 @@ export default {
     }
   ],
   external: Object.keys(pkg.peerDependencies).concat([
-    'carbon-components-react/lib/components/ListBox'
+    'carbon-components-react/es/components/ListBox'
   ]),
   plugins: [
     replacePdfWorker,
