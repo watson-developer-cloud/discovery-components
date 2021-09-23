@@ -1,6 +1,7 @@
 import React, { SFC, useEffect, useRef, useState } from 'react';
-import PdfjsLib from 'pdfjs-dist';
-import PdfjsWorkerAsText from 'pdfjs-dist/build/pdf.worker.min.js';
+// TODO don't use legacy build
+import PdfjsLib from 'pdfjs-dist/legacy/build/pdf';
+import PdfjsWorkerAsText from 'pdfjs-dist/legacy/build/pdf.worker.min.js';
 import { settings } from 'carbon-components';
 
 setupPdfjs();
