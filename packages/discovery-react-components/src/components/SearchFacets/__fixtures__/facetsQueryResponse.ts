@@ -1,8 +1,8 @@
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { createDummyResponse } from 'utils/testingUtils';
 
-export const facetsQueryResponse: DiscoveryV2.Response<DiscoveryV2.QueryResponse> = createDummyResponse(
-  {
+export const facetsQueryResponse: DiscoveryV2.Response<DiscoveryV2.QueryResponse> =
+  createDummyResponse({
     matching_results: 123456,
     results: [],
     aggregations: [
@@ -546,11 +546,10 @@ export const facetsQueryResponse: DiscoveryV2.Response<DiscoveryV2.QueryResponse
         text: 'trees'
       }
     ]
-  }
-);
+  });
 
-export const weirdFacetsQueryResponse: DiscoveryV2.Response<DiscoveryV2.QueryResponse> = createDummyResponse(
-  {
+export const weirdFacetsQueryResponse: DiscoveryV2.Response<DiscoveryV2.QueryResponse> =
+  createDummyResponse({
     matching_results: 123456,
     results: [],
     aggregations: [
@@ -631,11 +630,10 @@ export const weirdFacetsQueryResponse: DiscoveryV2.Response<DiscoveryV2.QueryRes
         text: 'maybe | not'
       }
     ]
-  }
-);
+  });
 
-export const nestedFacetQueryResponse: DiscoveryV2.Response<DiscoveryV2.QueryResponse> = createDummyResponse(
-  {
+export const nestedFacetQueryResponse: DiscoveryV2.Response<DiscoveryV2.QueryResponse> =
+  createDummyResponse({
     type: 'nested',
     path: 'enriched_text.entities',
     matching_results: 276,
@@ -672,7 +670,6 @@ export const nestedFacetQueryResponse: DiscoveryV2.Response<DiscoveryV2.QueryRes
         ]
       }
     ]
-  }
-);
+  });
 
 export default facetsQueryResponse;

@@ -213,9 +213,11 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     setCollectionSelectionState([]);
     // We should update to not select with a click
     // when Carbon MultiSelect selection can be controlled and Downshift's action props are exposed
-    (document.querySelectorAll(`.${settings.prefix}--list-box__selection--multi`) as NodeListOf<
-      HTMLElement
-    >).forEach(element => element.click());
+    (
+      document.querySelectorAll(
+        `.${settings.prefix}--list-box__selection--multi`
+      ) as NodeListOf<HTMLElement>
+    ).forEach(element => element.click());
     performSearch({ ...searchParameters, collectionIds: [], offset: 0, filter: '' }, false);
   };
 

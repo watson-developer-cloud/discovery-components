@@ -21,30 +21,18 @@ describe('Basic search', () => {
 
       // Querying with results
       cy.get('@searchInput').type('abil{enter}');
-      cy.get('@postQuery')
-        .its('requestBody.natural_language_query')
-        .should('eq', 'abil');
+      cy.get('@postQuery').its('requestBody.natural_language_query').should('eq', 'abil');
 
       // SearchResults displays a list of results
       cy.get('.bx--search-result').should('have.length', 3);
       // });
 
       // each result displays the file title and collection id of its source document
-      cy.get('.bx--search-result')
-        .filter(':contains("COLLECTION_ID_0")')
-        .should('have.length', 2);
-      cy.get('.bx--search-result')
-        .filter(':contains("COLLECTION_ID_1")')
-        .should('have.length', 1);
-      cy.get('.bx--search-result')
-        .contains('file 1 title')
-        .should('exist');
-      cy.get('.bx--search-result')
-        .contains('file 2 title')
-        .should('exist');
-      cy.get('.bx--search-result')
-        .contains('file 3 title')
-        .should('exist');
+      cy.get('.bx--search-result').filter(':contains("COLLECTION_ID_0")').should('have.length', 2);
+      cy.get('.bx--search-result').filter(':contains("COLLECTION_ID_1")').should('have.length', 1);
+      cy.get('.bx--search-result').contains('file 1 title').should('exist');
+      cy.get('.bx--search-result').contains('file 2 title').should('exist');
+      cy.get('.bx--search-result').contains('file 3 title').should('exist');
     });
   });
 

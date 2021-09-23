@@ -43,7 +43,7 @@ describe('elementFromPoint returns expected mock element', () => {
 
   it('runs elementsFromPoint function for standard web browsers', () => {
     document.elementsFromPoint = (x: number, y: number): Element[] => {
-      return (mockElements as unknown) as Element[];
+      return mockElements as unknown as Element[];
     };
 
     const elementResult = elementFromPoint(clientX, clientY, 'field--rect');
@@ -52,7 +52,7 @@ describe('elementFromPoint returns expected mock element', () => {
 
   it('runs elementFromPointMs function for MS Edge browser', () => {
     (document as MsDocument).msElementsFromPoint = (x: number, y: number): HTMLElement[] => {
-      return (mockElements as unknown) as HTMLElement[];
+      return mockElements as unknown as HTMLElement[];
     };
 
     const elementResult = elementFromPointMs(clientX, clientY, 'field--rect');
@@ -63,7 +63,7 @@ describe('elementFromPoint returns expected mock element', () => {
     let nextElementIndex = 0;
     document.elementFromPoint = (x: number, y: number): Element | null => {
       return nextElementIndex < mockElements.length
-        ? ((mockElements[nextElementIndex++] as unknown) as Element)
+        ? (mockElements[nextElementIndex++] as unknown as Element)
         : null;
     };
 
@@ -75,7 +75,7 @@ describe('elementFromPoint returns expected mock element', () => {
     let nextElementIndex = 0;
     document.elementFromPoint = (x: number, y: number): Element | null => {
       return nextElementIndex < mockElements.length
-        ? ((mockElements[nextElementIndex++] as unknown) as Element)
+        ? (mockElements[nextElementIndex++] as unknown as Element)
         : null;
     };
 

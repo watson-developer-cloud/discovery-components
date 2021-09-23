@@ -225,11 +225,10 @@ const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
                 );
               })
             : (results as DiscoveryV2.QueryResult[]).map(result => {
-                const documentTableResult:
-                  | DiscoveryV2.QueryTableResult
-                  | undefined = tableResults.find(tableResult => {
-                  return tableResult.source_document_id === result.document_id;
-                });
+                const documentTableResult: DiscoveryV2.QueryTableResult | undefined =
+                  tableResults.find(tableResult => {
+                    return tableResult.source_document_id === result.document_id;
+                  });
                 const collectionName = findCollectionName(collectionsResults, result);
                 return (
                   <Result

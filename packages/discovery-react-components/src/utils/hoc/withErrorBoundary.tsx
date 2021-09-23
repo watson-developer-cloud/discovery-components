@@ -30,9 +30,9 @@ export function withErrorBoundary<P extends {}>(
       this.state = { didCatch: false };
     }
 
-    static readonly displayName = `WithErrorBoundary(${WrappedComponent.displayName ||
-      WrappedComponent.name ||
-      'Component'})`;
+    static readonly displayName = `WithErrorBoundary(${
+      WrappedComponent.displayName || WrappedComponent.name || 'Component'
+    })`;
     static readonly WrappedComponent = WrappedComponent;
 
     static getDerivedStateFromError(/* error: Error */): WithErrorBoundaryState {

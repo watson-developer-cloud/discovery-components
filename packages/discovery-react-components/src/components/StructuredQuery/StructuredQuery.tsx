@@ -26,21 +26,20 @@ export interface StructuredQueryProps {
 
 const StructuredQuery: FC<StructuredQueryProps> = ({ messages = defaultMessages }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
-  const [structuredQuerySelection, setStructuredQuerySelection] = useState<
-    StructuredQuerySelection
-  >({
-    groups: {
-      0: { rows: [0], operator: ',' }
-    },
-    rows: {
-      0: {
-        field: '',
-        operator: '',
-        value: ''
-      }
-    },
-    group_order: [0]
-  });
+  const [structuredQuerySelection, setStructuredQuerySelection] =
+    useState<StructuredQuerySelection>({
+      groups: {
+        0: { rows: [0], operator: ',' }
+      },
+      rows: {
+        0: {
+          field: '',
+          operator: '',
+          value: ''
+        }
+      },
+      group_order: [0]
+    });
 
   const stringifiedSelection = stringifyStructuredQuerySelection(structuredQuerySelection);
 

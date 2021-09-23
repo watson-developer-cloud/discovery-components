@@ -41,9 +41,7 @@ describe('Passage Results', () => {
       .click();
 
     // navigates to Document Preview for that document
-    cy.get('p')
-      .contains('Document')
-      .should('exist');
+    cy.get('p').contains('Document').should('exist');
     cy.get('.bx--document-preview').should('exist');
     cy.get('.bx--document-preview')
       .contains(
@@ -76,10 +74,7 @@ describe('Passage Results', () => {
     cy.get('.bx--search-result').should('have.length', 4);
 
     // the passage text in each result is dangerously rendered
-    cy.get('.bx--search-result')
-      .get('em')
-      .contains('IBM')
-      .should('exist');
+    cy.get('.bx--search-result').get('em').contains('IBM').should('exist');
 
     // passages and tables can be displayed in the same result
     cy.get('.bx--search-result')

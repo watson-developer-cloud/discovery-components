@@ -26,19 +26,20 @@ describe('stringifyStructuredQuerySelection', () => {
 
       describe('and the selections include reserved characters', () => {
         it('returns the expected query string with backslashes before the fields with reserved characters', () => {
-          const structuredQuerySelectionWithOneRowAndReservedCharacters: StructuredQuerySelection = {
-            groups: {
-              0: { rows: [0], operator: ',' }
-            },
-            rows: {
-              0: {
-                field: 'example,field',
-                operator: '::',
-                value: 'watson'
-              }
-            },
-            group_order: [0]
-          };
+          const structuredQuerySelectionWithOneRowAndReservedCharacters: StructuredQuerySelection =
+            {
+              groups: {
+                0: { rows: [0], operator: ',' }
+              },
+              rows: {
+                0: {
+                  field: 'example,field',
+                  operator: '::',
+                  value: 'watson'
+                }
+              },
+              group_order: [0]
+            };
 
           expect(
             stringifyStructuredQuerySelection(
@@ -82,29 +83,30 @@ describe('stringifyStructuredQuerySelection', () => {
 
       describe('and the selections include reserved characters', () => {
         it('returns expected query string with backslashes before fields with reserved characters and values with double quotes', () => {
-          const structuredQuerySelectionWithThreeRowsAndReservedCharacters: StructuredQuerySelection = {
-            groups: {
-              0: { rows: [0, 1, 2], operator: ',' }
-            },
-            rows: {
-              0: {
-                field: 'example_field,0',
-                operator: '::',
-                value: 'wat"son'
+          const structuredQuerySelectionWithThreeRowsAndReservedCharacters: StructuredQuerySelection =
+            {
+              groups: {
+                0: { rows: [0, 1, 2], operator: ',' }
               },
-              1: {
-                field: 'examp!le_field_1',
-                operator: ':!',
-                value: 'machine"'
+              rows: {
+                0: {
+                  field: 'example_field,0',
+                  operator: '::',
+                  value: 'wat"son'
+                },
+                1: {
+                  field: 'examp!le_field_1',
+                  operator: ':!',
+                  value: 'machine"'
+                },
+                2: {
+                  field: 'example_field:_2',
+                  operator: ':',
+                  value: 'learning'
+                }
               },
-              2: {
-                field: 'example_field:_2',
-                operator: ':',
-                value: 'learning'
-              }
-            },
-            group_order: [0]
-          };
+              group_order: [0]
+            };
 
           expect(
             stringifyStructuredQuerySelection(

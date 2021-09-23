@@ -100,12 +100,8 @@ const SearchInput: FC<SearchInputProps> = ({
         : showAutocomplete
   };
 
-  const {
-    performSearch,
-    fetchAutocompletions,
-    setAutocompletionOptions,
-    setSearchParameters
-  } = useContext(SearchApi);
+  const { performSearch, fetchAutocompletions, setAutocompletionOptions, setSearchParameters } =
+    useContext(SearchApi);
   const [value, setValue] = useState(searchParameters.naturalLanguageQuery || '');
   const completions = (autocompletionResults && autocompletionResults.completions) || [];
   const lastWordOfValue = value.split(splitSearchQuerySelector).pop();

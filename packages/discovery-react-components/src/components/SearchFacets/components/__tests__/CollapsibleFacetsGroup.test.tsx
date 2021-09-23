@@ -266,9 +266,8 @@ describe('CollapsibleFacetsGroupComponent', () => {
           const productsModal = searchFacetsComponent.getByTestId(
             'search-facet-show-more-modal-products'
           );
-          const assistantModalFacetValue = within(productsModal).getByLabelText(
-            'assistant (32444)'
-          );
+          const assistantModalFacetValue =
+            within(productsModal).getByLabelText('assistant (32444)');
           fireEvent.click(assistantModalFacetValue);
           const saveButton = within(productsModal).getByText('Apply');
           fireEvent.click(saveButton);
@@ -279,9 +278,8 @@ describe('CollapsibleFacetsGroupComponent', () => {
             }),
             false
           );
-          const assistantFacetValues = searchFacetsComponent.queryAllByLabelText(
-            'assistant (32444)'
-          );
+          const assistantFacetValues =
+            searchFacetsComponent.queryAllByLabelText('assistant (32444)');
           expect(assistantFacetValues[0]['checked']).toEqual(true);
           expect(assistantFacetValues[1]['checked']).toEqual(true);
         });
@@ -295,16 +293,14 @@ describe('CollapsibleFacetsGroupComponent', () => {
           const productsModal = searchFacetsComponent.getByTestId(
             'search-facet-show-more-modal-products'
           );
-          const assistantModalFacetValue = within(productsModal).getByLabelText(
-            'assistant (32444)'
-          );
+          const assistantModalFacetValue =
+            within(productsModal).getByLabelText('assistant (32444)');
           fireEvent.click(assistantModalFacetValue);
           const cancelButton = within(productsModal).getByText('Cancel');
           fireEvent.click(cancelButton);
           expect(performSearchMock).toBeCalledTimes(0);
-          const assistantFacetValues = searchFacetsComponent.queryAllByLabelText(
-            'assistant (32444)'
-          );
+          const assistantFacetValues =
+            searchFacetsComponent.queryAllByLabelText('assistant (32444)');
           expect(assistantFacetValues[0]['checked']).toEqual(false);
           expect(assistantFacetValues[1]['checked']).toEqual(false);
         });
@@ -318,16 +314,14 @@ describe('CollapsibleFacetsGroupComponent', () => {
           const productsModal = searchFacetsComponent.getByTestId(
             'search-facet-show-more-modal-products'
           );
-          const assistantModalFacetValue = within(productsModal).getByLabelText(
-            'assistant (32444)'
-          );
+          const assistantModalFacetValue =
+            within(productsModal).getByLabelText('assistant (32444)');
           fireEvent.click(assistantModalFacetValue);
           const closeButton = within(productsModal).getByTitle('Close');
           fireEvent.click(closeButton);
           expect(performSearchMock).toBeCalledTimes(0);
-          const assistantFacetValues = searchFacetsComponent.queryAllByLabelText(
-            'assistant (32444)'
-          );
+          const assistantFacetValues =
+            searchFacetsComponent.queryAllByLabelText('assistant (32444)');
           expect(assistantFacetValues[0]['checked']).toEqual(false);
           expect(assistantFacetValues[1]['checked']).toEqual(false);
         });
