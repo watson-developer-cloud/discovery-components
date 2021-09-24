@@ -4,9 +4,22 @@ import json from '@rollup/plugin-json';
 import resolve from '@rollup/plugin-node-resolve';
 import { string } from 'rollup-plugin-string';
 import svgr from '@svgr/rollup';
+import { terser } from 'rollup-plugin-terser';
 import typescript from 'rollup-plugin-typescript2';
 import url from '@rollup/plugin-url';
 import pkg from './package.json';
+
+const INPUT = 'src/index.tsx';
+
+function onwarn(warning, warn) {
+  // skip circular dependency warning from `react-virtualized` (known issue; doesn't cause any harm)
+  if (warning.code === 'CIRCULAR_DEPENDENCY' && warning.message.includes('react-virtualized')) {
+    return;
+  }
+
+  // use default for everything else
+  warn(warning);
+}
 
 // for some reason, '**/*.worker.min.js' doesn't work
 const pdfWorkerRegex = /\.worker\.min\.js$/;
@@ -27,64 +40,83 @@ const replacePdfWorker = {
   }
 };
 
-export default {
-  input: 'src/index.tsx',
-  output: [
-    {
-      file: pkg.main,
-      format: 'cjs',
-      exports: 'named',
-      sourcemap: true
-    },
-    {
-      file: pkg.module,
-      format: 'es',
-      exports: 'named',
-      sourcemap: true
-    }
-  ],
-  external: Object.keys(pkg.peerDependencies).concat([
-    'carbon-components-react/es/components/ListBox'
-  ]),
-  plugins: [
-    replacePdfWorker,
-    alias({
-      entries: [
-        // By default, the `esm` build of `react-resize-detector` is imported, but that results
-        // in a build error ("Error: 'bool' is not exported by ../../node_modules/prop-types/index.js").
-        // This makes it so we import the CommonJS version, which builds just fine.
-        { find: 'react-resize-detector', replacement: 'react-resize-detector/lib/index.js' }
-      ]
-    }),
-    resolve({
-      browser: true,
-      preferBuiltins: false
-    }),
-    commonjs({
-      exclude: [pdfWorkerRegex]
-    }),
-    json({
-      compact: true,
-      namedExports: false
-    }),
-    url(),
-    svgr({ ref: true }),
-    string({
-      include: [pdfWorkerRegex]
-    }),
-    typescript({
-      rollupCommonJSResolveHack: true,
-      clean: true,
-      tsconfig: 'tsconfig.prod.json'
-    })
-  ],
-  onwarn(warning, warn) {
-    // skip circular dependency warning from `react-virtualized` (known issue; doesn't cause any harm)
-    if (warning.code === 'CIRCULAR_DEPENDENCY' && warning.message.includes('react-virtualized')) {
-      return;
-    }
+const COMMON_PLUGINS = [
+  replacePdfWorker,
+  resolve({
+    browser: true,
+    preferBuiltins: false
+  }),
+  commonjs({
+    exclude: [pdfWorkerRegex]
+  }),
+  json({
+    compact: true,
+    namedExports: false
+  }),
+  url(),
+  svgr({ ref: true }),
+  string({
+    include: [pdfWorkerRegex]
+  }),
+  typescript({
+    rollupCommonJSResolveHack: true,
+    clean: true,
+    tsconfig: 'tsconfig.prod.json'
+  })
+];
 
-    // use default for everything else
-    warn(warning);
+export default [
+  /*** ES MODULE ***/
+  {
+    input: INPUT,
+    output: [
+      {
+        file: pkg.module,
+        format: 'es',
+        exports: 'named',
+        sourcemap: true
+      },
+      {
+        file: pkg.module.replace(/\.js$/, '.min.js'),
+        format: 'es',
+        exports: 'named',
+        sourcemap: true,
+        plugins: [terser()]
+      }
+    ],
+    external: Object.keys(pkg.peerDependencies).concat([
+      'carbon-components-react/es/components/ListBox'
+    ]),
+    plugins: COMMON_PLUGINS,
+    onwarn
+  },
+  /*** COMMONJS MODULE ***/
+  {
+    input: INPUT,
+    output: [
+      {
+        file: pkg.main,
+        format: 'cjs',
+        exports: 'named',
+        sourcemap: true,
+        interop: 'auto'
+      }
+    ],
+    external: Object.keys(pkg.peerDependencies).concat([
+      'carbon-components-react/lib/components/ListBox'
+    ]),
+    plugins: [
+      COMMON_PLUGINS[0],
+      // Replace the ES module with the CJS version, when building CJS library.
+      // Otherwise, we'll get errors when this CJS version is used by Jest.
+      alias({
+        entries: {
+          'carbon-components-react/es/components/ListBox':
+            'carbon-components-react/lib/components/ListBox'
+        }
+      }),
+      ...COMMON_PLUGINS.slice(1)
+    ],
+    onwarn
   }
-};
+];
