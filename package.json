@@ -56,7 +56,7 @@
     "carbon-components-react": "^7.7.0",
     "carbon-icons": "^7.0.7",
     "cross-env": "^7.0.2",
-    "cypress": "^6.3.0",
+    "cypress": "^7.7.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-react-app": "^5.2.0",
