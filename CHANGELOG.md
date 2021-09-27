@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0-beta.10](https://github.com/watson-developer-cloud/discovery-components/compare/v1.4.0-beta.9...v1.4.0-beta.10) (2021-09-27)
+
+
+### Bug Fixes
+
+* how CJS output handles ListBox import ([#218](https://github.com/watson-developer-cloud/discovery-components/issues/218)) ([b6edd4f](https://github.com/watson-developer-cloud/discovery-components/commit/b6edd4f1bd750e0fea25b6d88ce1072f43f56cdc))
+
+
+
+
+
 # [1.4.0-beta.9](https://github.com/watson-developer-cloud/discovery-components/compare/v1.4.0-beta.8...v1.4.0-beta.9) (2021-09-27)
 
 
