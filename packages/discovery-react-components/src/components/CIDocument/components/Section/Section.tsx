@@ -198,7 +198,7 @@ function renderSectionFields(
       fragment,
       parentRect: sectionRect as DOMRect,
       fieldType,
-      fieldId: getId((field as unknown) as Item),
+      fieldId: getId(field as unknown as Item),
       ...offsets
     });
   }

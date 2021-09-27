@@ -12,8 +12,7 @@ export default [
           begin: 148514,
           end: 148738
         },
-        text:
-          'Supplier agrees to have and maintain a business continuity plan and business continuity testing procedures, which include but are not limited to the areas of disaster recovery planning, pandemic planning, and cyber security.',
+        text: 'Supplier agrees to have and maintain a business continuity plan and business continuity testing procedures, which include but are not limited to the areas of disaster recovery planning, pandemic planning, and cyber security.',
         attributes: [],
         categories: [],
         types: [
@@ -36,8 +35,7 @@ export default [
           begin: 148739,
           end: 148862
         },
-        text:
-          'Cyber security programs must include, at a minimum, provisions to prevent, detect, and respond to cyber security incidents.',
+        text: 'Cyber security programs must include, at a minimum, provisions to prevent, detect, and respond to cyber security incidents.',
         attributes: [],
         categories: [
           {
@@ -53,8 +51,7 @@ export default [
           begin: 148863,
           end: 149053
         },
-        text:
-          "Supplier agrees to review, update, and test the business continuity plan annually and, upon Buyer's request, Supplier will provide a summary of the business continuity plan and test results.",
+        text: "Supplier agrees to review, update, and test the business continuity plan annually and, upon Buyer's request, Supplier will provide a summary of the business continuity plan and test results.",
         attributes: [
           {
             type: 'Duration',
@@ -96,8 +93,7 @@ export default [
           begin: 149054,
           end: 149211
         },
-        text:
-          "Buyer may, from time to time, provide feedback regarding the plan and requests that Supplier take Buyer's comments into consideration when updating the plan.",
+        text: "Buyer may, from time to time, provide feedback regarding the plan and requests that Supplier take Buyer's comments into consideration when updating the plan.",
         attributes: [],
         categories: [],
         types: [
@@ -119,8 +115,7 @@ export default [
           begin: 149212,
           end: 149436
         },
-        text:
-          'However, Supplier remains solely responsible for the performance of its responsibilities under the Agreement and the adequacy of the business continuity plan regardless of whether Buyer has reviewed or commented on the plan.',
+        text: 'However, Supplier remains solely responsible for the performance of its responsibilities under the Agreement and the adequacy of the business continuity plan regardless of whether Buyer has reviewed or commented on the plan.',
         attributes: [],
         categories: [],
         types: [],
@@ -142,8 +137,7 @@ export default [
           begin: 10178,
           end: 10669
         },
-        text:
-          '• AcmeCo product overview/walkthrough: The intent is to familiarize the core team on the out of box functionalities/features of AcmeCo.',
+        text: '• AcmeCo product overview/walkthrough: The intent is to familiarize the core team on the out of box functionalities/features of AcmeCo.',
         attributes: [
           {
             type: 'Person',
@@ -189,8 +183,7 @@ export default [
           begin: 10670,
           end: 10798
         },
-        text:
-          'This allows the core team to have a basic understanding of the system which helps during the business process mapping workshops.',
+        text: 'This allows the core team to have a basic understanding of the system which helps during the business process mapping workshops.',
         attributes: [],
         categories: [],
         types: [],
@@ -212,8 +205,7 @@ export default [
           begin: 11441,
           end: 11531
         },
-        text:
-          'Comm-IT in tandem with the customer Project Manager facilitates the requirement workshops.',
+        text: 'Comm-IT in tandem with the customer Project Manager facilitates the requirement workshops.',
         attributes: [],
         categories: [],
         types: [],
@@ -224,8 +216,7 @@ export default [
           begin: 11532,
           end: 11818
         },
-        text:
-          'In these workshops the consensus is reached on how the cross functional activities will be managed using the system.',
+        text: 'In these workshops the consensus is reached on how the cross functional activities will be managed using the system.',
         attributes: [],
         categories: [],
         types: [],
@@ -236,8 +227,7 @@ export default [
           begin: 11819,
           end: 12061
         },
-        text:
-          "Comm-IT then documents the outcome of the workshops in the form of Business/Functional requirements (called BRD) defining in detail 'to-be' business processes and other information that needs to be captured/shared from the system prospective.",
+        text: "Comm-IT then documents the outcome of the workshops in the form of Business/Functional requirements (called BRD) defining in detail 'to-be' business processes and other information that needs to be captured/shared from the system prospective.",
         attributes: [],
         categories: [],
         types: [],
@@ -248,8 +238,7 @@ export default [
           begin: 12062,
           end: 12206
         },
-        text:
-          'Once the document is signed off by the customer, the document is base-lined and will form the basis of system design, configuration and testing.',
+        text: 'Once the document is signed off by the customer, the document is base-lined and will form the basis of system design, configuration and testing.',
         attributes: [],
         categories: [],
         types: [],
@@ -260,8 +249,7 @@ export default [
           begin: 12400,
           end: 12977
         },
-        text:
-          '• Integration Technical Requirement Study workshops: Comm-IT conducts technical requirement gathering workshops with the various vendors and the business owners of external systems that need to be integrated with AcmeCo.',
+        text: '• Integration Technical Requirement Study workshops: Comm-IT conducts technical requirement gathering workshops with the various vendors and the business owners of external systems that need to be integrated with AcmeCo.',
         attributes: [
           {
             type: 'Person',
@@ -290,8 +278,7 @@ export default [
           begin: 12978,
           end: 13137
         },
-        text:
-          'The result of these sessions will be documented in Integration Detailed Design Document (IDD), which will be reviewed and signed-off by the Customer Core team.',
+        text: 'The result of these sessions will be documented in Integration Detailed Design Document (IDD), which will be reviewed and signed-off by the Customer Core team.',
         attributes: [],
         categories: [],
         types: [],

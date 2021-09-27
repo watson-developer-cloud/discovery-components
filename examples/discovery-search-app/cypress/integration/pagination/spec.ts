@@ -47,9 +47,7 @@ describe('Pagination', () => {
     });
 
     it('the previous page button is disabled', () => {
-      cy.findByLabelText('Previous page')
-        .closest('button')
-        .should('be.disabled');
+      cy.findByLabelText('Previous page').closest('button').should('be.disabled');
     });
 
     describe('and the next page arrow is clicked', () => {
@@ -62,9 +60,7 @@ describe('Pagination', () => {
       });
 
       it('correctly requests the next page', () => {
-        cy.get('@nextPageQueryObject')
-          .its('requestBody.offset')
-          .should('eq', 10);
+        cy.get('@nextPageQueryObject').its('requestBody.offset').should('eq', 10);
       });
 
       describe('and the previous page arrow is clicked', () => {
@@ -77,9 +73,7 @@ describe('Pagination', () => {
         });
 
         it('correctly requests the previous page', () => {
-          cy.get('@prevPageQueryObject')
-            .its('requestBody.offset')
-            .should('eq', 0);
+          cy.get('@prevPageQueryObject').its('requestBody.offset').should('eq', 0);
         });
       });
     });
@@ -87,19 +81,12 @@ describe('Pagination', () => {
     describe('and we navigate to the last page of results', () => {
       beforeEach(() => {
         // click 'next' 5 times to get to end
-        cy.findByLabelText('Next page')
-          .click()
-          .click()
-          .click()
-          .click()
-          .click();
+        cy.findByLabelText('Next page').click().click().click().click().click();
         cy.wait('@postQueryMultiPage');
       });
 
       it('the next page button is disabled', () => {
-        cy.findByLabelText('Next page')
-          .closest('button')
-          .should('be.disabled');
+        cy.findByLabelText('Next page').closest('button').should('be.disabled');
       });
 
       describe('and we increase the number of results per page to 50', () => {
@@ -112,12 +99,8 @@ describe('Pagination', () => {
         });
 
         it('returns to the first page, with the correct size', () => {
-          cy.get('@largerpostQueryMultiPageObject')
-            .its('requestBody.count')
-            .should('eq', 50);
-          cy.get('@largerpostQueryMultiPageObject')
-            .its('requestBody.offset')
-            .should('eq', 0);
+          cy.get('@largerpostQueryMultiPageObject').its('requestBody.count').should('eq', 50);
+          cy.get('@largerpostQueryMultiPageObject').its('requestBody.offset').should('eq', 0);
           cy.findByTestId('current-page').should('contain', '1');
         });
       });
@@ -133,9 +116,7 @@ describe('Pagination', () => {
       });
 
       it('makes a request for 20 results', () => {
-        cy.get('@twentyResultspostQueryMultiPageObject')
-          .its('requestBody.count')
-          .should('eq', 20);
+        cy.get('@twentyResultspostQueryMultiPageObject').its('requestBody.count').should('eq', 20);
       });
 
       it('only lists 3 pages of results', () => {
@@ -153,9 +134,7 @@ describe('Pagination', () => {
       });
 
       it('makes a request for 50 results', () => {
-        cy.get('@fiftyResultsPerPageQueryObject')
-          .its('requestBody.count')
-          .should('eq', 50);
+        cy.get('@fiftyResultsPerPageQueryObject').its('requestBody.count').should('eq', 50);
       });
 
       it('only lists two pages of results', () => {
@@ -174,12 +153,8 @@ describe('Pagination', () => {
     });
 
     it('the next page and previous page buttons are disabled', () => {
-      cy.findByLabelText('Previous page')
-        .closest('button')
-        .should('be.disabled');
-      cy.findByLabelText('Next page')
-        .closest('button')
-        .should('be.disabled');
+      cy.findByLabelText('Previous page').closest('button').should('be.disabled');
+      cy.findByLabelText('Next page').closest('button').should('be.disabled');
     });
 
     it('the first page is listed as the last page', () => {

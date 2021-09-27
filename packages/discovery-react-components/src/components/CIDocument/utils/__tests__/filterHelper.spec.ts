@@ -8,7 +8,7 @@ describe('filterHelper', () => {
 
   beforeEach(() => {
     filterHelper = getFilterHelper({
-      knownFilterGroups: (mockFilterGroups as unknown) as FilterGroup[],
+      knownFilterGroups: mockFilterGroups as unknown as FilterGroup[],
       itemList: mockFilterElements,
       enrichmentName: 'foobar',
       messages: {

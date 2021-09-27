@@ -249,18 +249,15 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
   const [componentSettings, setComponentSettings] = useState<
     DiscoveryV2.ComponentSettingsResponse | undefined
   >(overrideComponentSettings);
-  const [isResultsPaginationComponentHidden, setIsResultsPaginationComponentHidden] = useState<
-    boolean
-  >();
+  const [isResultsPaginationComponentHidden, setIsResultsPaginationComponentHidden] =
+    useState<boolean>();
 
-  const [
-    searchResponseStore,
-    { setSearchResponse, setSearchParameters, performSearch }
-  ] = useSearchResultsApi(
-    { projectId, ...deprecateReturnFields(overrideQueryParameters) },
-    searchClient,
-    overrideSearchResults
-  );
+  const [searchResponseStore, { setSearchResponse, setSearchParameters, performSearch }] =
+    useSearchResultsApi(
+      { projectId, ...deprecateReturnFields(overrideQueryParameters) },
+      searchClient,
+      overrideSearchResults
+    );
 
   const [
     globalAggregationsResponseStore,

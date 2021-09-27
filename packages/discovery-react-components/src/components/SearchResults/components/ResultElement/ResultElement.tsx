@@ -85,7 +85,7 @@ export const ResultElement: React.FunctionComponent<ResultElementProps> = ({
 
   useLayoutEffect(() => {
     if (elementType === 'table') {
-      DOMPurify.addHook('afterSanitizeAttributes', function(node) {
+      DOMPurify.addHook('afterSanitizeAttributes', function (node) {
         if (node.tagName === 'TABLE') {
           node.setAttribute('role', 'presentation');
         }

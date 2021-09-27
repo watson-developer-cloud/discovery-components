@@ -58,7 +58,7 @@ const NavigationToolbar: FC<NavigationToolbarProps> = ({
 };
 
 function handleChange(onChange: ChangeFn, index: number, max: number, change: number) {
-  return function(): void {
+  return function (): void {
     // If the previous button is pressed when there is no index, set index to max.
     // Otherwise, set the index to the current index + or - 1, looping from 1 to max or max to 1 as needed
     const isBelowMin = index <= 0 && change < 0;

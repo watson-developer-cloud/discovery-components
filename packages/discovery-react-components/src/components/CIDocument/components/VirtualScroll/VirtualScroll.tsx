@@ -98,25 +98,23 @@ function initInstance(listRef: MutableRefObject<any>, instanceRef: MutableRefObj
     getPrefixedId: (id: string): string => `${instanceRef.current.idPrefix}${id}`,
 
     scrollToRow: (index: number, ttl = 500): Promise<void> =>
-      new Promise(
-        async (resolve, reject): Promise<void> => {
-          const { promisedRow, cache, getElementById, getPrefixedId } = instanceRef.current;
+      new Promise(async (resolve, reject): Promise<void> => {
+        const { promisedRow, cache, getElementById, getPrefixedId } = instanceRef.current;
 
-          if (getElementById(getPrefixedId(index))) resolve();
+        if (getElementById(getPrefixedId(index))) resolve();
 
-          // If we've seen the row before, scroll once. If we haven't, scroll twice. See this issue for
-          // explanation: https://github.com/bvaughn/react-virtualized/issues/995
-          instanceRef.current.promisedRow = {
-            index,
-            resolve,
-            remainingTries: cache._rowHeightCache[`${index}-0`] ? 0 : 1
-          };
+        // If we've seen the row before, scroll once. If we haven't, scroll twice. See this issue for
+        // explanation: https://github.com/bvaughn/react-virtualized/issues/995
+        instanceRef.current.promisedRow = {
+          index,
+          resolve,
+          remainingTries: cache._rowHeightCache[`${index}-0`] ? 0 : 1
+        };
 
-          listRef.current.scrollToRow(index);
+        listRef.current.scrollToRow(index);
 
-          setTimeout(() => promisedRow && promisedRow.index === index && reject(), ttl);
-        }
-      ),
+        setTimeout(() => promisedRow && promisedRow.index === index && reject(), ttl);
+      }),
 
     // This function is called in onRowsRendered as (sort of) a callback after the scroll event occurs
     scrollToRowCallback: (): void => {

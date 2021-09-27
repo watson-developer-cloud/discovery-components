@@ -11,7 +11,7 @@ const NavToolbarWrapper = () => {
 };
 
 function onChange(navAction: HandlerFunction, setIndex: Dispatch<SetStateAction<number>>) {
-  return function(newIndex: number): void {
+  return function (newIndex: number): void {
     setIndex(newIndex);
     navAction(newIndex);
   };

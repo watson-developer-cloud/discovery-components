@@ -107,7 +107,7 @@ function handleChange(
   onFilterChange?: OnFilterChangeFn
 ): ((value: boolean | string) => void) | undefined {
   if (onFilterChange) {
-    return function(value): void {
+    return function (value): void {
       // value is string for radio buttons, boolean for checkbox
       // Always send true for radio buttons; otherwise, send along checkbox boolean
       const checked: boolean = typeof value === 'string' || value;

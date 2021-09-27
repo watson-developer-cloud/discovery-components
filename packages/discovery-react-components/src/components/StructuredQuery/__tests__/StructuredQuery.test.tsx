@@ -93,9 +93,8 @@ describe('<StructuredQuery />', () => {
         });
         test('operator dropdown has the correct default messages', () => {
           const operatorDropdownTitleText = structuredQuery.getByText('Operator');
-          const operatorDropdownPlaceholderText = structuredQuery.getByPlaceholderText(
-            'Select operator'
-          );
+          const operatorDropdownPlaceholderText =
+            structuredQuery.getByPlaceholderText('Select operator');
           expect(operatorDropdownTitleText).toBeDefined();
           expect(operatorDropdownPlaceholderText).toBeDefined();
         });
@@ -198,9 +197,8 @@ describe('<StructuredQuery />', () => {
           const addRuleGroupTextOverride = structuredQuery.getByText('A new rules group');
           const operatorDropdownTitleText = structuredQuery.getByText('Hello operator');
           const addRuleRowText = structuredQuery.getByText('Add rule');
-          const operatorDropdownPlaceholderText = structuredQuery.getByPlaceholderText(
-            'Select operator'
-          );
+          const operatorDropdownPlaceholderText =
+            structuredQuery.getByPlaceholderText('Select operator');
           const valueInputPlaceholderText = structuredQuery.getByPlaceholderText('Enter value');
           const fieldLoadingOverride = structuredQuery.getByPlaceholderText('Placeholder text');
           expect(addRuleGroupTextOverride).toBeDefined();

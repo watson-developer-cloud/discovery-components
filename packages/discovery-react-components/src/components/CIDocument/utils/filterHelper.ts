@@ -141,7 +141,7 @@ function _addOptionsToFilterGroup(group: FilterGroup, itemList?: any[]): FilterG
   }
 
   itemList.forEach(item => {
-    uniq(((group as unknown) as FilterGroupWithFns).labelsFromItem(item)).forEach(label => {
+    uniq((group as unknown as FilterGroupWithFns).labelsFromItem(item)).forEach(label => {
       const foundLabel = labels.find(labelObj => labelObj.id === label);
       if (foundLabel) {
         foundLabel.count++;
@@ -179,7 +179,7 @@ function _applyFilter(list: any[], filter: any, filterGroups: FilterGroup[]): an
 
     if (foundGroup) {
       (activeLabels as any[]).forEach(activeLabel => {
-        filteredList = ((foundGroup as unknown) as FilterGroupWithFns).applyFilter(
+        filteredList = (foundGroup as unknown as FilterGroupWithFns).applyFilter(
           filteredList,
           activeLabel
         );

@@ -19,9 +19,7 @@ describe('Spelling', () => {
     });
 
     it('a spelling correction is displayed in SearchResults', () => {
-      cy.get('button')
-        .contains('watson')
-        .should('exist');
+      cy.get('button').contains('watson').should('exist');
     });
 
     describe('and clicking on the suggested query term', () => {
@@ -30,9 +28,7 @@ describe('Spelling', () => {
           'postQueryCorrected'
         );
         cy.contains('There were no results found').click(); // Makes this test less flakey, but there's a race condition in SearchInput we should solve at some point
-        cy.get('button')
-          .contains('watson')
-          .click();
+        cy.get('button').contains('watson').click();
         cy.wait('@postQueryCorrected').as('correctedQueryObject');
       });
 

@@ -51,8 +51,7 @@ const searchResults: DiscoveryV2.QueryResponse = {
         title: 'IBM_Analytics_Machine_Learning.pdf'
       },
       title: 'Alternate title',
-      text:
-        '<em>Machine learning</em> trains a model from patterns in your data, exploring a space of possible models defined by parameters. If your parameter space is too big, you’ll overfit to your training data and train a model that doesn’t generalize beyond it. A detailed explanation requires more math, but as a rule you should keep your models as simple as possible.'
+      text: '<em>Machine learning</em> trains a model from patterns in your data, exploring a space of possible models defined by parameters. If your parameter space is too big, you’ll overfit to your training data and train a model that doesn’t generalize beyond it. A detailed explanation requires more math, but as a rule you should keep your models as simple as possible.'
     },
     {
       document_id: '79953f3b6f304adef09b470762567435',

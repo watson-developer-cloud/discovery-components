@@ -545,7 +545,7 @@ function onFilterChange({
   currentFilter: Filter;
   setCurrentFilter: Dispatch<SetStateAction<Filter>>;
 }) {
-  return function(filterPart: FilterChangeArgs): void {
+  return function (filterPart: FilterChangeArgs): void {
     setCurrentFilter(updateFilter(currentFilter, filterPart));
   };
 }
@@ -557,7 +557,7 @@ function onNavigationChange({
   setActiveIds: Dispatch<SetStateAction<string[]>>;
   highlightedList: any[];
 }) {
-  return function(index: number): void {
+  return function (index: number): void {
     const activeItem = highlightedList[index - 1]; // turn 1-based index to 0-based index
     if (isRelationObject(activeItem)) {
       setActiveIds(activeItem.allAttributeIds);
@@ -574,7 +574,7 @@ function onItemClick({
   setActiveIds: Dispatch<SetStateAction<string[]>>;
   elementList: any[];
 }) {
-  return function(clickedItem: Field): void {
+  return function (clickedItem: Field): void {
     if (clickedItem) {
       if (hasRelation(elementList)) {
         const relation = elementList.find(rel => rel.allAttributeIds.includes(clickedItem.id));
@@ -595,7 +595,7 @@ function onDetailsLink({
   activeElement: any;
   setActivePartIds: Dispatch<SetStateAction<string[]>>;
 }) {
-  return function(linkItem: { sectionTitle: string; type: string }): void {
+  return function (linkItem: { sectionTitle: string; type: string }): void {
     const { sectionTitle, type } = linkItem;
     // Set the active item sub-parts to the parts of the active element that match the clicked item
     // e.g. attributes of the active element that are of type "DateTime"

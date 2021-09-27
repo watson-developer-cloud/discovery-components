@@ -209,10 +209,15 @@ export const useFieldsApi = (
   fetchFieldsParams: DiscoveryV2.ListFieldsParams,
   searchClient: SearchClient
 ): [FieldsStore, FieldsStoreActions] => {
-  const { state: fieldsState, setData: setFieldsResponse, setFetchToken } = useDataApi<
-    DiscoveryV2.ListFieldsParams,
-    DiscoveryV2.ListFieldsResponse
-  >(fetchFieldsParams, searchClient.listFields, searchClient);
+  const {
+    state: fieldsState,
+    setData: setFieldsResponse,
+    setFetchToken
+  } = useDataApi<DiscoveryV2.ListFieldsParams, DiscoveryV2.ListFieldsResponse>(
+    fetchFieldsParams,
+    searchClient.listFields,
+    searchClient
+  );
 
   const fetchFields = useCallback(() => setFetchToken({ trigger: true }), [setFetchToken]);
 
@@ -437,10 +442,15 @@ export const useFetchDocumentsApi = (
   searchParameters: DiscoveryV2.QueryParams,
   searchClient: SearchClient
 ): [FetchDocumentsResponseStore, FetchDocumentsActions] => {
-  const { state: searchState, setParameters: setSearchParameters, setFetchToken } = useDataApi<
-    DiscoveryV2.QueryParams,
-    DiscoveryV2.QueryResponse
-  >(searchParameters, searchClient.query, searchClient);
+  const {
+    state: searchState,
+    setParameters: setSearchParameters,
+    setFetchToken
+  } = useDataApi<DiscoveryV2.QueryParams, DiscoveryV2.QueryResponse>(
+    searchParameters,
+    searchClient.query,
+    searchClient
+  );
 
   const fetchDocuments = useCallback(
     (filter: string, callback: (result: DiscoveryV2.QueryResponse) => void): void => {

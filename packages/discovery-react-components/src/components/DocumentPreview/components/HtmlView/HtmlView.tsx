@@ -61,7 +61,7 @@ export const HtmlView: FC<Props> = ({
   const [highlightLocations, setHighlightLocations] = useState<Location[]>([]);
 
   useLayoutEffect(() => {
-    DOMPurify.addHook('afterSanitizeAttributes', function(node) {
+    DOMPurify.addHook('afterSanitizeAttributes', function (node) {
       if (node.tagName === 'TABLE') {
         node.setAttribute('role', 'presentation');
       }

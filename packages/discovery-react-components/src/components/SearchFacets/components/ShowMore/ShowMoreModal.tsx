@@ -88,9 +88,8 @@ export const ShowMoreModal: FC<ShowMoreModalProps> = ({
   categoryName
 }) => {
   const [tempSelectedFacets, setTempSelectedFacets] = useState<SelectedFacet[]>([]);
-  const [filteredFacets, setFilteredFacets] = useState<
-    (SelectableDynamicFacets | SelectableQueryTermAggregationResult)[]
-  >();
+  const [filteredFacets, setFilteredFacets] =
+    useState<(SelectableDynamicFacets | SelectableQueryTermAggregationResult)[]>();
 
   const handleOnRequestSubmit = () => {
     onShowMoreModalChange(tempSelectedFacets);
