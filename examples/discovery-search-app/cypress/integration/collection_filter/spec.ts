@@ -23,9 +23,7 @@ describe('Collection Filter', () => {
 
     it('the collection selector should appear', () => {
       cy.get('#collection-facet-select').should('exist');
-      cy.get('#collection-facet-select')
-        .contains('Available collections')
-        .should('exist');
+      cy.get('#collection-facet-select').contains('Available collections').should('exist');
     });
 
     describe('and we click the collection filter', () => {
@@ -34,15 +32,9 @@ describe('Collection Filter', () => {
       });
 
       it('displays a list of the collections in the project', () => {
-        cy.get('.bx--list-box__menu')
-          .contains('deadspin')
-          .should('exist');
-        cy.get('.bx--list-box__menu')
-          .contains('espn')
-          .should('exist');
-        cy.get('.bx--list-box__menu')
-          .contains('finnegans wake')
-          .should('exist');
+        cy.get('.bx--list-box__menu').contains('deadspin').should('exist');
+        cy.get('.bx--list-box__menu').contains('espn').should('exist');
+        cy.get('.bx--list-box__menu').contains('finnegans wake').should('exist');
       });
 
       describe('and we select a single collection', () => {
@@ -50,9 +42,7 @@ describe('Collection Filter', () => {
           cy.route('POST', '**/query?version=2019-01-01', '@singleCollectionQueryJSON').as(
             'postQuerySingleCollection'
           );
-          cy.get('.bx--list-box__menu-item')
-            .contains('finnegans wake')
-            .click();
+          cy.get('.bx--list-box__menu-item').contains('finnegans wake').click();
           cy.wait('@postQuerySingleCollection').as('singleCollectionQueryObject');
         });
 
@@ -88,9 +78,7 @@ describe('Collection Filter', () => {
             cy.route('POST', '**/query?version=2019-01-01', 'doubleCollectionQueryJSON').as(
               'postQueryDoubleCollection'
             );
-            cy.get('.bx--list-box__menu-item')
-              .contains('deadspin')
-              .click();
+            cy.get('.bx--list-box__menu-item').contains('deadspin').click();
             cy.wait('@postQueryDoubleCollection').as('doubleCollectionQueryObject');
           });
 
@@ -111,9 +99,7 @@ describe('Collection Filter', () => {
             });
 
             it('makes a query against all available collections', () => {
-              cy.get('@originalQueryObject')
-                .its('requestBody.collection_ids')
-                .should('be.empty');
+              cy.get('@originalQueryObject').its('requestBody.collection_ids').should('be.empty');
             });
           });
         });
@@ -132,9 +118,7 @@ describe('Collection Filter', () => {
 
       describe('and we click away from the selection box', () => {
         beforeEach(() => {
-          cy.get('.bx--search-result')
-            .first()
-            .click();
+          cy.get('.bx--search-result').first().click();
         });
 
         it('the collection filter dropdown disappears', () => {

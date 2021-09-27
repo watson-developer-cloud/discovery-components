@@ -39,7 +39,7 @@ storiesOf('DocumentPreview', module)
   .add('passage highlighting', () => {
     const usedPassage = doc.extracted_metadata.file_type === 'json' ? jsonPassages : passages;
     const docWithPassage = passageSelection(doc, usedPassage);
-    const highlight = ((docWithPassage.document_passages as unknown) as QueryResultPassage[])[0];
+    const highlight = (docWithPassage.document_passages as unknown as QueryResultPassage[])[0];
 
     return (
       <Wrapper>

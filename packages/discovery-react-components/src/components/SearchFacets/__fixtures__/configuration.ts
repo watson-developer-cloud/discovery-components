@@ -118,28 +118,29 @@ export const configurationWithFilterQueryAggregation: QueryAggregationWithName[]
   }
 ];
 
-export const configurationWithFilterQueryAggregationWithSpecialCharacters: QueryAggregationWithName[] = [
-  {
-    type: 'term',
-    field: 'enriched_text.entities.text',
-    count: 12,
-    name: 'entities'
-  },
-  {
-    type: 'term',
-    field: 'author'
-  },
-  {
-    type: 'filter',
-    match: 'enriched_t\\(ext\\).entities.model_name:"Dictionary:.my_dict"',
-    matching_results: 0,
-    aggregations: [
-      {
-        type: 'term',
-        field: 'enriched_t(ext).entities.text',
-        count: 4,
-        name: 'dict_yqYQPpM8OljE'
-      }
-    ]
-  }
-];
+export const configurationWithFilterQueryAggregationWithSpecialCharacters: QueryAggregationWithName[] =
+  [
+    {
+      type: 'term',
+      field: 'enriched_text.entities.text',
+      count: 12,
+      name: 'entities'
+    },
+    {
+      type: 'term',
+      field: 'author'
+    },
+    {
+      type: 'filter',
+      match: 'enriched_t\\(ext\\).entities.model_name:"Dictionary:.my_dict"',
+      matching_results: 0,
+      aggregations: [
+        {
+          type: 'term',
+          field: 'enriched_t(ext).entities.text',
+          count: 4,
+          name: 'dict_yqYQPpM8OljE'
+        }
+      ]
+    }
+  ];

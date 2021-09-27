@@ -113,17 +113,15 @@ function createRelationObject(
   // relation is either a array of relations of the same type, or a single relation object
   const relationArray = Array.isArray(relation) ? relation : [relation];
 
-  const result = relationArray.map(
-    (rel: Relations): Relations => {
-      const attributes = setAttributes(ontology, rel);
-      const relations = setRelations(ontology, rel);
-      return {
-        type,
-        attributes: attributes.length > 0 ? attributes : [],
-        relations: relations.length > 0 ? relations : []
-      };
-    }
-  );
+  const result = relationArray.map((rel: Relations): Relations => {
+    const attributes = setAttributes(ontology, rel);
+    const relations = setRelations(ontology, rel);
+    return {
+      type,
+      attributes: attributes.length > 0 ? attributes : [],
+      relations: relations.length > 0 ? relations : []
+    };
+  });
 
   result.map(rel => {
     rel.attributes.push(...getAllAttributesInRelation(rel));

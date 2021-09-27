@@ -38,7 +38,7 @@ describe('uniqRects', () => {
       }
     ];
 
-    expect(uniqRects((rects as unknown) as DOMRectList)).toHaveLength(2);
+    expect(uniqRects(rects as unknown as DOMRectList)).toHaveLength(2);
   });
 
   it('does not remove similar but not identical rects', () => {
@@ -75,7 +75,7 @@ describe('uniqRects', () => {
       }
     ];
 
-    expect(uniqRects((rects as unknown) as DOMRectList)).toHaveLength(3);
+    expect(uniqRects(rects as unknown as DOMRectList)).toHaveLength(3);
   });
 });
 

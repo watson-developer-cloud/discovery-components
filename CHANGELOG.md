@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0-beta.9](https://github.com/watson-developer-cloud/discovery-components/compare/v1.4.0-beta.8...v1.4.0-beta.9) (2021-09-27)
+
+
+### Bug Fixes
+
+* add quotes for file paths ([#214](https://github.com/watson-developer-cloud/discovery-components/issues/214)) ([71248c3](https://github.com/watson-developer-cloud/discovery-components/commit/71248c395ccbd404a40572e19bca72464895ce95))
+
+
+
+
+
 # [1.4.0-beta.8](https://github.com/watson-developer-cloud/discovery-components/compare/v1.4.0-beta.7...v1.4.0-beta.8) (2021-09-23)
 
 

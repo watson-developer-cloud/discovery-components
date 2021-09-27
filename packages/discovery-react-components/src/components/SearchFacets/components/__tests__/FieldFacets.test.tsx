@@ -712,9 +712,8 @@ describe('FieldFacetsComponent', () => {
         const { fieldFacetsComponent } = setupResult;
         const headerTopEntities = fieldFacetsComponent.getByText('Top Entities');
         const topEntitiesGroupContainer = headerTopEntities.parentElement!.parentElement!;
-        const topEntitiesHeaders = within(topEntitiesGroupContainer).queryAllByTestId(
-          'search-facet-category'
-        );
+        const topEntitiesHeaders =
+          within(topEntitiesGroupContainer).queryAllByTestId('search-facet-category');
         expect(topEntitiesHeaders).toHaveLength(3);
 
         const locationCategoryHeader = fieldFacetsComponent.getByText('Location');

@@ -34,9 +34,7 @@ describe('Autocomplete', () => {
 
     describe('and clicking on an autocomplete option', () => {
       beforeEach(() => {
-        cy.get('.bx--search-autocompletion__item')
-          .first()
-          .click();
+        cy.get('.bx--search-autocompletion__item').first().click();
       });
 
       it('updates the query with the correct completion', () => {
@@ -74,9 +72,7 @@ describe('Autocomplete', () => {
       });
 
       it('performs a query with the correct term', () => {
-        cy.get('@postQuery')
-          .its('requestBody.natural_language_query')
-          .should('be.eq', ' ');
+        cy.get('@postQuery').its('requestBody.natural_language_query').should('be.eq', ' ');
       });
     });
   });

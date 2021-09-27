@@ -18,35 +18,21 @@ describe('Single-Select Facets', () => {
     beforeEach(() => {
       cy.get('.bx--search-input').type('restaurants{enter}');
       cy.wait('@postQuery');
-      cy.get('.bx--search-facet')
-        .filter(':contains("City")')
-        .as('cityFacet');
-      cy.get('.bx--search-facet')
-        .filter(':contains("Cuisine")')
-        .as('cuisineFacet');
-      cy.get('.bx--search-facet')
-        .filter(':contains("Price Range")')
-        .as('priceFacet');
+      cy.get('.bx--search-facet').filter(':contains("City")').as('cityFacet');
+      cy.get('.bx--search-facet').filter(':contains("Cuisine")').as('cuisineFacet');
+      cy.get('.bx--search-facet').filter(':contains("Price Range")').as('priceFacet');
     });
 
     it('shows available facets listed on the side', () => {
-      cy.get('.bx--search-facet')
-        .as('allFacets')
-        .should('have.length', 4);
+      cy.get('.bx--search-facet').as('allFacets').should('have.length', 4);
       cy.get('@cityFacet').should('exist');
       cy.get('@cuisineFacet').should('exist');
       cy.get('@priceFacet').should('exist');
 
       // facets should be radio buttons
-      cy.get('@cityFacet')
-        .find('.bx--radio-button')
-        .should('have.length', 5);
-      cy.get('@cuisineFacet')
-        .find('.bx--radio-button')
-        .should('have.length', 5);
-      cy.get('@priceFacet')
-        .find('.bx--radio-button')
-        .should('have.length', 3);
+      cy.get('@cityFacet').find('.bx--radio-button').should('have.length', 5);
+      cy.get('@cuisineFacet').find('.bx--radio-button').should('have.length', 5);
+      cy.get('@priceFacet').find('.bx--radio-button').should('have.length', 3);
     });
 
     describe('and a facet filter is selected', () => {
@@ -54,9 +40,7 @@ describe('Single-Select Facets', () => {
         cy.route('POST', '**/query?version=2019-01-01', '@facetsQueryAmesJSON').as(
           'postQueryFacetsAmes'
         );
-        cy.get('label')
-          .contains('Ames, IA')
-          .click();
+        cy.get('label').contains('Ames, IA').click();
         cy.wait('@postQueryFacetsAmes').as('amesFilterQueryObject');
       });
 
@@ -71,9 +55,7 @@ describe('Single-Select Facets', () => {
           cy.route('POST', '**/query?version=2019-01-01', '@facetsQueryHancockJSON').as(
             'postQueryFacetsHancock'
           );
-          cy.get('label')
-            .contains('Hancock, MN')
-            .click();
+          cy.get('label').contains('Hancock, MN').click();
           cy.wait('@postQueryFacetsHancock').as('hancockFilterQueryObject');
         });
 
@@ -87,35 +69,25 @@ describe('Single-Select Facets', () => {
       describe('and the "Clear all" button is clicked', () => {
         beforeEach(() => {
           cy.route('POST', '**/query?version=2019-01-01', '@facetsQueryJSON').as('postQueryFacets');
-          cy.get('button')
-            .contains('Clear all')
-            .click();
+          cy.get('button').contains('Clear all').click();
           cy.wait('@postQueryFacets').as('clearedFacetsQueryObject');
         });
 
         it('makes a query without any selected facets and "Clear all" button disappears', () => {
-          cy.get('@clearedFacetsQueryObject')
-            .its('requestBody.filter')
-            .should('eq', '');
-          cy.get('button')
-            .contains('Clear all')
-            .should('not.exist');
+          cy.get('@clearedFacetsQueryObject').its('requestBody.filter').should('eq', '');
+          cy.get('button').contains('Clear all').should('not.exist');
         });
       });
 
       describe('and the same facet radio button is clicked', () => {
         beforeEach(() => {
           cy.route('POST', '**/query?version=2019-01-01', '@facetsQueryJSON').as('postQueryFacets');
-          cy.get('label')
-            .contains('Ames, IA')
-            .click();
+          cy.get('label').contains('Ames, IA').click();
           cy.wait('@postQueryFacets').as('clearedFacetsQueryObject');
         });
 
         it('makes a query without any selected facets', () => {
-          cy.get('@clearedFacetsQueryObject')
-            .its('requestBody.filter')
-            .should('eq', '');
+          cy.get('@clearedFacetsQueryObject').its('requestBody.filter').should('eq', '');
         });
       });
 
@@ -124,9 +96,7 @@ describe('Single-Select Facets', () => {
           cy.route('POST', '**/query?version=2019-01-01', '@facetsQueryAmesLowPriceJSON').as(
             'postQueryFacetsCombined'
           );
-          cy.get('@priceFacet')
-            .contains('Low')
-            .click();
+          cy.get('@priceFacet').contains('Low').click();
           cy.wait('@postQueryFacetsCombined').as('combinedFacetQueryObject');
         });
 
@@ -140,28 +110,20 @@ describe('Single-Select Facets', () => {
 
     describe('and "Show more" is clicked', () => {
       beforeEach(() => {
-        cy.get('@cuisineFacet')
-          .contains('Show more')
-          .click();
+        cy.get('@cuisineFacet').contains('Show more').click();
       });
 
       it('has the list of facets expand', () => {
-        cy.get('@cuisineFacet')
-          .find('input')
-          .should('have.length', 9);
+        cy.get('@cuisineFacet').find('input').should('have.length', 9);
       });
 
       describe('and "Show less" is clicked', () => {
         beforeEach(() => {
-          cy.get('@cuisineFacet')
-            .contains('Show less')
-            .click();
+          cy.get('@cuisineFacet').contains('Show less').click();
         });
 
         it('has the list of facets collapse', () => {
-          cy.get('@cuisineFacet')
-            .find('input')
-            .should('have.length', 5);
+          cy.get('@cuisineFacet').find('input').should('have.length', 5);
         });
       });
     });
