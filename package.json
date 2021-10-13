@@ -24,7 +24,7 @@
     "@storybook/addon-docs": "^5.3.21",
     "@storybook/addon-knobs": "^5.3.21",
     "@storybook/core": "^5.3.21",
-    "@storybook/react": "^5.3.21",
+    "@storybook/react": "^6.3.11",
     "@storybook/source-loader": "^5.3.21",
     "@svgr/rollup": "^5.5.0",
     "@testing-library/cypress": "^7.0.6",
