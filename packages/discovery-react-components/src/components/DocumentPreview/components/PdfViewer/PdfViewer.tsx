@@ -1,5 +1,5 @@
-import React, { SFC, useEffect, useRef, useState, useMemo } from 'react';
-import PdfjsLib from 'pdfjs-dist';
+import React, { FC, useEffect, useRef, useState, useMemo } from 'react';
+import PdfjsLib, { PDFDocumentProxy, PDFPageProxy, PDFPageViewport, PDFSource } from 'pdfjs-dist';
 import PdfjsWorkerAsText from 'pdfjs-dist/build/pdf.worker.min.js';
 import { settings } from 'carbon-components';
 
@@ -35,7 +35,7 @@ interface Props {
   setHideToolbarControls?: (disabled: boolean) => void;
 }
 
-const PdfViewer: SFC<Props> = ({
+const PdfViewer: FC<Props> = ({
   file,
   page,
   scale,
@@ -46,8 +46,8 @@ const PdfViewer: SFC<Props> = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // In order to prevent unnecessary re-loading, loaded file and page are stored in state
-  const [loadedFile, setLoadedFile] = useState<any>(null);
-  const [loadedPage, setLoadedPage] = useState<any>(null);
+  const [loadedFile, setLoadedFile] = useState<PDFDocumentProxy | null>(null);
+  const [loadedPage, setLoadedPage] = useState<PDFPageProxy | null>(null);
 
   useEffect(() => {
     let didCancel = false;
@@ -95,7 +95,7 @@ const PdfViewer: SFC<Props> = ({
   }, [loadedPage, scale]);
 
   useEffect(() => {
-    if (loadedPage && !loadedPage.then && viewport && canvasInfo) {
+    if (loadedPage && !(loadedPage as any).then && viewport && canvasInfo) {
       _renderPage(loadedPage, canvasRef.current!, viewport, canvasInfo);
       setLoading(false);
     }
@@ -127,14 +127,14 @@ function _loadPdf(data: string): Promise<any> {
   return PdfjsLib.getDocument({ data }).promise;
 }
 
-function _loadPage(file: any, page: number): Promise<any> {
+function _loadPage(file: PDFDocumentProxy, page: number) {
   return file.getPage(page);
 }
 
 function _renderPage(
-  pdfPage: any,
+  pdfPage: PDFPageProxy,
   canvas: HTMLCanvasElement,
-  viewport: any,
+  viewport: PDFPageViewport,
   canvasInfo: CanvasInfo
 ): void {
   const canvasContext = canvas.getContext('2d');
@@ -148,7 +148,7 @@ function _renderPage(
 function setupPdfjs(): void {
   if (typeof Worker !== 'undefined') {
     const blob = new Blob([PdfjsWorkerAsText], { type: 'text/javascript' });
-    const pdfjsWorker = new Worker(URL.createObjectURL(blob));
+    const pdfjsWorker = new Worker(URL.createObjectURL(blob)) as any; // TODO is this usage correct?
     PdfjsLib.GlobalWorkerOptions.workerPort = pdfjsWorker;
   } else {
     PdfjsLib.GlobalWorkerOptions.workerSrc = PdfjsWorkerAsText;
