@@ -28,6 +28,7 @@ interface Options {
   sections?: boolean;
   tables?: boolean;
   bbox?: boolean;
+  bboxInnerText?: boolean;
   itemMap?: boolean;
 }
 
@@ -66,6 +67,8 @@ export interface ProcessedBbox {
   page: number;
   className: string;
   location: Location;
+  innerTextSource?: string;
+  innerTextLocation?: Location;
 }
 
 export interface Table {
@@ -130,7 +133,7 @@ export async function processDoc(
   const parser = new SaxParser();
 
   // setup initial parsing handling
-  setupDocParser(parser, doc);
+  setupDocParser(parser, doc, options);
 
   const htmlContent = Array.isArray(html) ? html[0] : html;
 
@@ -145,7 +148,7 @@ export async function processDoc(
   return doc;
 }
 
-function setupDocParser(parser: SaxParser, doc: ProcessedDoc): void {
+function setupDocParser(parser: SaxParser, doc: ProcessedDoc, options: Options): void {
   parser.pushState({
     onopentag: (_: Parser, tagName: string): void => {
       /* eslint-disable-next-line default-case */
@@ -155,7 +158,7 @@ function setupDocParser(parser: SaxParser, doc: ProcessedDoc): void {
           break;
         }
         case 'body': {
-          setupBodyParser(parser, doc);
+          setupBodyParser(parser, doc, options);
           break;
         }
       }
@@ -189,11 +192,11 @@ function setupStyleParser(parser: SaxParser, doc: ProcessedDoc): void {
   });
 }
 
-function setupBodyParser(parser: SaxParser, doc: ProcessedDoc): void {
+function setupBodyParser(parser: SaxParser, doc: ProcessedDoc, options: Options): void {
   parser.pushState({
     onopentag: (p: Parser, tagName: string, attributes: Attributes): void => {
       if (SECTION_NAMES.includes(tagName)) {
-        setupSectionParser(parser, doc, tagName, attributes, p.startIndex, p);
+        setupSectionParser(parser, doc, tagName, attributes, p.startIndex, p, options);
       }
     }
   });
@@ -205,7 +208,8 @@ function setupSectionParser(
   sectionTagName: string,
   sectionTagAttrs: Attributes,
   sectionStartIndex: number,
-  sectionParser: Parser
+  sectionParser: Parser,
+  options: Options
 ): void {
   let lastClassName = '';
   let currentTable: Table | null = null;
@@ -283,6 +287,13 @@ function setupSectionParser(
           if (doc.bboxes) {
             doc.bboxes.push(currentBbox);
           }
+          if (options.bboxInnerText) {
+            currentBbox.innerTextSource = '';
+            currentBbox.innerTextLocation = {
+              begin: p.endIndex != null ? p.endIndex + 1 : -1,
+              end: -1
+            };
+          }
           if (currentTable && doc.tables) {
             currentTable.bboxes.push(currentBbox);
           }
@@ -307,6 +318,10 @@ function setupSectionParser(
             />$/,
             ` data-orig-text="${encodeHTML(text)}">`
           );
+        }
+
+        if (currentBbox && options.bboxInnerText) {
+          currentBbox.innerTextSource += text;
         }
 
         sectionHtml.push(text);
@@ -335,6 +350,15 @@ function setupSectionParser(
 
         if (doc.bboxes && tagName === BBOX_TAG && currentBbox) {
           currentBbox.location.end = getChildEndFromCloseTag(p);
+
+          if (options.bboxInnerText && currentBbox.innerTextLocation) {
+            currentBbox.innerTextLocation.end = getChildEndFromCloseTag(p);
+            if (currentBbox.innerTextLocation.end < 0 && currentBbox.innerTextSource != null) {
+              currentBbox.innerTextLocation.begin =
+                currentBbox.innerTextLocation.end - currentBbox.innerTextSource.length;
+            }
+          }
+
           currentBbox = null;
         }
 
