@@ -1,4 +1,4 @@
-import React, { SFC, useEffect, useRef, useState } from 'react';
+import React, { SFC, useEffect, useRef, useState, useMemo } from 'react';
 import PdfjsLib from 'pdfjs-dist';
 import PdfjsWorkerAsText from 'pdfjs-dist/build/pdf.worker.min.js';
 import { settings } from 'carbon-components';
@@ -22,6 +22,11 @@ interface Props {
   scale: number;
 
   /**
+   * Consider device pixel ration on rendering
+   */
+  useDeviceResolution?: boolean;
+
+  /**
    * Callback invoked with page count, once `file` has been parsed
    */
   setPageCount?: (count: number) => void;
@@ -39,6 +44,7 @@ const PdfViewer: SFC<Props> = ({
   file,
   page,
   scale,
+  useDeviceResolution = true,
   setPageCount,
   setLoading,
   setHideToolbarControls
@@ -88,12 +94,18 @@ const PdfViewer: SFC<Props> = ({
     };
   }, [loadedFile, page]);
 
+  const [viewport, canvasInfo] = useMemo(() => {
+    const viewport = loadedPage?.getViewport({ scale });
+    const canvasInfo = viewport ? getCanvasInfo(viewport, useDeviceResolution) : undefined;
+    return [viewport, canvasInfo];
+  }, [loadedPage, scale, useDeviceResolution]);
+
   useEffect(() => {
-    if (loadedPage && !loadedPage.then) {
-      _renderPage(loadedPage, canvasRef.current!, scale);
+    if (loadedPage && !loadedPage.then && viewport && canvasInfo) {
+      _renderPage(loadedPage, canvasRef.current!, viewport, canvasInfo);
       setLoading(false);
     }
-  }, [loadedPage, scale, setLoading]);
+  }, [loadedPage, viewport, canvasInfo, setLoading]);
 
   useEffect(() => {
     if (setHideToolbarControls) {
@@ -103,11 +115,11 @@ const PdfViewer: SFC<Props> = ({
 
   return (
     <canvas
-      style={{
-        transform: `scale(${scale})`
-      }}
       ref={canvasRef}
       className={`${settings.prefix}--document-preview-pdf-viewer`}
+      style={{ width: `${canvasInfo?.width ?? 0}px`, height: `${canvasInfo?.height ?? 0}px` }}
+      width={canvasInfo?.canvasWidth}
+      height={canvasInfo?.canvasHeight}
     />
   );
 };
@@ -125,12 +137,20 @@ function _loadPage(file: any, page: number): Promise<any> {
   return file.getPage(page);
 }
 
-function _renderPage(pdfPage: any, canvas: HTMLCanvasElement, scale: number): void {
-  const viewport = pdfPage.getViewport({ scale });
-  canvas.width = viewport.width;
-  canvas.height = viewport.height;
+function _renderPage(
+  pdfPage: any,
+  canvas: HTMLCanvasElement,
+  viewport: any,
+  canvasInfo: CanvasInfo
+): void {
+  canvas.style.width = `${canvasInfo.width}px`;
+  canvas.style.height = `${canvasInfo.height}px`;
+  canvas.width = canvasInfo.canvasWidth;
+  canvas.height = canvasInfo.canvasHeight;
 
-  pdfPage.render({ canvasContext: canvas.getContext('2d'), viewport });
+  const canvasContext = canvas.getContext('2d');
+  canvasContext?.scale(canvasInfo.canvasScale, canvasInfo.canvasScale);
+  pdfPage.render({ canvasContext: canvasContext, viewport });
 }
 
 // set up web worker for use by PDF.js library
@@ -143,6 +163,24 @@ function setupPdfjs(): void {
   } else {
     PdfjsLib.GlobalWorkerOptions.workerSrc = PdfjsWorkerAsText;
   }
+}
+
+type CanvasInfo = {
+  width: number;
+  height: number;
+  canvasWidth: number;
+  canvasHeight: number;
+  canvasScale: number;
+};
+
+function getCanvasInfo(viewport: any, useDevicePixelRatio: boolean): CanvasInfo {
+  const { width, height } = viewport;
+
+  const canvasScale = useDevicePixelRatio ? window.devicePixelRatio ?? 1 : 1;
+  const canvasWidth = Math.ceil(width * canvasScale);
+  const canvasHeight = Math.ceil(height * canvasScale);
+
+  return { width, height, canvasWidth, canvasHeight, canvasScale };
 }
 
 export default PdfViewer;
