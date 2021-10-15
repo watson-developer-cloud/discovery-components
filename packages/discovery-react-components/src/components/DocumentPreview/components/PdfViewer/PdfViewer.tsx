@@ -103,9 +103,7 @@ const PdfViewer: SFC<Props> = ({
 
   return (
     <canvas
-      style={{
-        transform: `scale(${scale})`
-      }}
+      style={{}}
       ref={canvasRef}
       className={`${settings.prefix}--document-preview-pdf-viewer`}
     />
