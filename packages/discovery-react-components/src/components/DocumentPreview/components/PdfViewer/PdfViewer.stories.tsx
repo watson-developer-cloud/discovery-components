@@ -1,6 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, radios, number } from '@storybook/addon-knobs';
+import { withKnobs, radios, number, boolean } from '@storybook/addon-knobs';
+import { action } from '@storybook/addon-actions';
 import PdfViewer from './PdfViewer';
 import { document as doc } from 'components/DocumentPreview/__fixtures__/Art Effects.pdf';
 
@@ -32,6 +33,19 @@ storiesOf('DocumentPreview/components/PdfViewer', module)
 
     const zoom = radios(zoomKnob.label, zoomKnob.options, zoomKnob.defaultValue);
     const scale = parseFloat(zoom);
+    const showTextLayer = boolean('Show text layer', false);
 
-    return <PdfViewer file={atob(doc)} page={page} scale={scale} setLoading={(): void => {}} />;
+    const setLoadingAction = action('setLoading');
+    const setTextLayerInfoAction = action('setTextLayerInfo');
+
+    return (
+      <PdfViewer
+        file={atob(doc)}
+        page={page}
+        scale={scale}
+        showTextLayer={showTextLayer}
+        setLoading={setLoadingAction}
+        setTextLayerInfo={setTextLayerInfoAction}
+      />
+    );
   });

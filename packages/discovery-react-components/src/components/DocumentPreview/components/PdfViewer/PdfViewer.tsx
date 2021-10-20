@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useRef, useState, useMemo } from 'react';
+import cx from 'classnames';
 import PdfjsLib, {
   PDFDocumentProxy,
   PDFPageProxy,
@@ -7,12 +8,15 @@ import PdfjsLib, {
 } from 'pdfjs-dist';
 import PdfjsWorkerAsText from 'pdfjs-dist/build/pdf.worker.min.js';
 import { settings } from 'carbon-components';
+import PdfViewerTextLayer, { PdfTextLayerInfo } from './PdfViewerTextLayer';
 
 const { RenderingCancelledException } = PdfjsLib as any;
 
 setupPdfjs();
 
 interface Props {
+  className?: string;
+
   /**
    * PDF file data as base64-encoded string
    */
@@ -29,6 +33,16 @@ interface Props {
   scale: number;
 
   /**
+   * Render text layer
+   */
+  showTextLayer?: boolean;
+
+  /**
+   * Text layer class name. Only applicable when showTextLayer is true
+   */
+  textLayerClassName?: string;
+
+  /**
    * Callback invoked with page count, once `file` has been parsed
    */
   setPageCount?: (count: number) => void;
@@ -40,15 +54,24 @@ interface Props {
    * Callback which is invoked with whether to enable/disable toolbar controls
    */
   setHideToolbarControls?: (disabled: boolean) => void;
+  /**
+   * Callback for text layer info
+   */
+  setTextLayerInfo?: (info: PdfTextLayerInfo | null) => any;
 }
 
 const PdfViewer: FC<Props> = ({
+  className,
   file,
   page,
   scale,
+  showTextLayer,
+  textLayerClassName,
   setPageCount,
   setLoading,
-  setHideToolbarControls
+  setHideToolbarControls,
+  setTextLayerInfo,
+  children
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -141,15 +164,28 @@ const PdfViewer: FC<Props> = ({
     }
   }, [setHideToolbarControls]);
 
-  const { canvasInfo } = currentPage || {};
+  const classNameBase = `${settings.prefix}--document-preview-pdf-viewer`;
+  const { loadedPage: currentLoadedPage, canvasInfo } = currentPage || {};
   return (
-    <canvas
-      ref={canvasRef}
-      className={`${settings.prefix}--document-preview-pdf-viewer`}
-      style={{ width: `${canvasInfo?.width ?? 0}px`, height: `${canvasInfo?.height ?? 0}px` }}
-      width={canvasInfo?.canvasWidth}
-      height={canvasInfo?.canvasHeight}
-    />
+    <div className={cx(classNameBase, className)}>
+      <canvas
+        ref={canvasRef}
+        className={`${classNameBase}--canvas`}
+        style={{ width: `${canvasInfo?.width ?? 0}px`, height: `${canvasInfo?.height ?? 0}px` }}
+        width={canvasInfo?.canvasWidth}
+        height={canvasInfo?.canvasHeight}
+      />
+      {showTextLayer && (
+        <PdfViewerTextLayer
+          className={cx(`${classNameBase}--text`, textLayerClassName)}
+          loadedPage={currentLoadedPage}
+          page={page}
+          scale={scale}
+          setTextLayerInfo={setTextLayerInfo}
+        />
+      )}
+      {children}
+    </div>
   );
 };
 
