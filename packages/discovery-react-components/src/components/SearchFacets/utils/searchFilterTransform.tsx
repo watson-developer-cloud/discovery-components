@@ -79,7 +79,7 @@ export class SearchFilterTransform {
       const results = get(facet, 'results', []);
       const keys = this.quoteSelectedFacets(results, 'key');
       if (keys.length) {
-        filterStrings.push(`${escapeFieldName(field)}:(${keys.join('|')})`);
+        filterStrings.push(keys.map(key => `${escapeFieldName(field)}:${key}`).join('|'));
       }
     });
     return filterStrings.join(',');
