@@ -938,7 +938,7 @@ describe('FieldFacetsComponent', () => {
           expect(performSearchMock).toBeCalledTimes(2);
           expect(performSearchMock).toBeCalledWith(
             expect.objectContaining({
-              filter: 'enriched_text.entities.text:"ibm"|enriched_text.entities.text"pittsburgh"',
+              filter: 'enriched_text.entities.text:"ibm"|enriched_text.entities.text:"pittsburgh"',
               offset: 0
             }),
             false
