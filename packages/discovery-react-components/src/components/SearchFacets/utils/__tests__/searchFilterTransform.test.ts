@@ -91,7 +91,8 @@ describe('QueryTermAggregation array to filter string', () => {
 describe('Filter string to QueryTermAggregation array', () => {
   test('it properly handles unquoted terms', () => {
     expect(
-      SearchFilterTransform.fromString('field:term|two words,field2:blah\\"stuff').filterFields
+      SearchFilterTransform.fromString('field:term|field:two words,field2:blah\\"stuff')
+        .filterFields
     ).toEqual([
       {
         type: 'term',
@@ -112,6 +113,11 @@ describe('Filter string to QueryTermAggregation array', () => {
   });
 
   test('it properly handles aggregations with reserved characters', () => {
+    //TODO: failing
+    console.log(
+      'Received filters value: ',
+      SearchFilterTransform.fromString(weirdFilters).filterFields[1]
+    );
     expect(SearchFilterTransform.fromString(weirdFilters).filterFields).toEqual([
       {
         type: 'term',
@@ -119,7 +125,8 @@ describe('Filter string to QueryTermAggregation array', () => {
         results: expect.arrayContaining([
           expect.objectContaining({ key: 'this | that', selected: true }),
           expect.objectContaining({ key: '1:30', selected: true }),
-          expect.objectContaining({ key: '1,200', selected: true })
+          expect.objectContaining({ key: '1,200', selected: true }),
+          expect.objectContaining({ key: 'double " quote', selected: true })
         ])
       },
       {
