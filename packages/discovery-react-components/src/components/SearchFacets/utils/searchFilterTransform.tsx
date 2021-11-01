@@ -12,7 +12,6 @@ export class SearchFilterTransform {
   static SPLIT_UNQUOTED_COMMAS = /,(?=(?:(?:[^"\\"]*["\\"]){2})*[^"\\"]*$)/;
   static SPLIT_UNQUOTED_COLONS = /:(?=(?:(?:[^"\\"]*["\\"]){2})*[^"\\"]*$)/;
   static SPLIT_UNQUOTED_PIPES = /\|(?=(?:(?:[^"\\"]*["\\"]){2})*[^"\\"]*$)/;
-  static SPLIT_UNQUOTED_PIPES_OR_COLONS = /(\||:)(?=(?:(?:[^"\\"]*["\\"]){2})*[^"\\"]*$)/;
 
   static fromString(filterString: string): SearchFilterFacets {
     if (filterString === '') {
