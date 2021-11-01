@@ -113,11 +113,6 @@ describe('Filter string to QueryTermAggregation array', () => {
   });
 
   test('it properly handles aggregations with reserved characters', () => {
-    //TODO: failing
-    console.log(
-      'Received filters value: ',
-      SearchFilterTransform.fromString(weirdFilters).filterFields[1]
-    );
     expect(SearchFilterTransform.fromString(weirdFilters).filterFields).toEqual([
       {
         type: 'term',
