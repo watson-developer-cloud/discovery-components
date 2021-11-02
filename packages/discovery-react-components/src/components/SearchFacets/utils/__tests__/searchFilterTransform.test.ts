@@ -77,10 +77,10 @@ const weirdAggs = [
   }
 ];
 const weirdFilters =
-  'extracted_stuff.weirdAggs:"this | that"|"1:30"|"1,200"|"double \\" quote",' +
-  'extracted_stuff.oddAggs:"something, new"|"blah|junk",' +
-  'extracted_stuff.normalAggs:"something normal"|"nospaces",' +
-  't\\(ext\\):"something normal"|"nospaces"';
+  'extracted_stuff.weirdAggs:"this | that"|extracted_stuff.weirdAggs:"1:30"|extracted_stuff.weirdAggs:"1,200"|extracted_stuff.weirdAggs:"double \\" quote",' +
+  'extracted_stuff.oddAggs:"something, new"|extracted_stuff.oddAggs:"blah|junk",' +
+  'extracted_stuff.normalAggs:"something normal"|extracted_stuff.normalAggs:"nospaces",' +
+  't\\(ext\\):"something normal"|t\\(ext\\):"nospaces"';
 
 describe('QueryTermAggregation array to filter string', () => {
   test('it properly handles aggregations with reserved characters', () => {
@@ -91,7 +91,8 @@ describe('QueryTermAggregation array to filter string', () => {
 describe('Filter string to QueryTermAggregation array', () => {
   test('it properly handles unquoted terms', () => {
     expect(
-      SearchFilterTransform.fromString('field:term|two words,field2:blah\\"stuff').filterFields
+      SearchFilterTransform.fromString('field:term|field:two words,field2:blah\\"stuff')
+        .filterFields
     ).toEqual([
       {
         type: 'term',
@@ -119,7 +120,8 @@ describe('Filter string to QueryTermAggregation array', () => {
         results: expect.arrayContaining([
           expect.objectContaining({ key: 'this | that', selected: true }),
           expect.objectContaining({ key: '1:30', selected: true }),
-          expect.objectContaining({ key: '1,200', selected: true })
+          expect.objectContaining({ key: '1,200', selected: true }),
+          expect.objectContaining({ key: 'double " quote', selected: true })
         ])
       },
       {
