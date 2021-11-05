@@ -22,11 +22,6 @@ interface Props {
   scale: number;
 
   /**
-   * Consider device pixel ration on rendering
-   */
-  useDeviceResolution?: boolean;
-
-  /**
    * Callback invoked with page count, once `file` has been parsed
    */
   setPageCount?: (count: number) => void;
@@ -44,7 +39,6 @@ const PdfViewer: SFC<Props> = ({
   file,
   page,
   scale,
-  useDeviceResolution = true,
   setPageCount,
   setLoading,
   setHideToolbarControls
@@ -96,9 +90,9 @@ const PdfViewer: SFC<Props> = ({
 
   const [viewport, canvasInfo] = useMemo(() => {
     const viewport = loadedPage?.getViewport({ scale });
-    const canvasInfo = viewport ? getCanvasInfo(viewport, useDeviceResolution) : undefined;
+    const canvasInfo = viewport ? getCanvasInfo(viewport) : undefined;
     return [viewport, canvasInfo];
-  }, [loadedPage, scale, useDeviceResolution]);
+  }, [loadedPage, scale]);
 
   useEffect(() => {
     if (loadedPage && !loadedPage.then && viewport && canvasInfo) {
@@ -169,10 +163,10 @@ type CanvasInfo = {
   canvasScale: number;
 };
 
-function getCanvasInfo(viewport: any, useDevicePixelRatio: boolean): CanvasInfo {
+function getCanvasInfo(viewport: any): CanvasInfo {
   const { width, height } = viewport;
 
-  const canvasScale = useDevicePixelRatio ? window.devicePixelRatio ?? 1 : 1;
+  const canvasScale = window.devicePixelRatio ?? 1;
   const canvasWidth = Math.ceil(width * canvasScale);
   const canvasHeight = Math.ceil(height * canvasScale);
 

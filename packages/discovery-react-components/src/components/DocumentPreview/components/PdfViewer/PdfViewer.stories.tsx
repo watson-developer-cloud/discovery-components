@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, radios, number, boolean } from '@storybook/addon-knobs';
+import { withKnobs, radios, number } from '@storybook/addon-knobs';
 import PdfViewer from './PdfViewer';
 import { document as doc } from 'components/DocumentPreview/__fixtures__/Art Effects.pdf';
 
@@ -32,15 +32,6 @@ storiesOf('DocumentPreview/components/PdfViewer', module)
 
     const zoom = radios(zoomKnob.label, zoomKnob.options, zoomKnob.defaultValue);
     const scale = parseFloat(zoom);
-    const useDeviceResolution = boolean('Use device resolution', true);
 
-    return (
-      <PdfViewer
-        file={atob(doc)}
-        page={page}
-        scale={scale}
-        useDeviceResolution={useDeviceResolution}
-        setLoading={(): void => {}}
-      />
-    );
+    return <PdfViewer file={atob(doc)} page={page} scale={scale} setLoading={(): void => {}} />;
   });
