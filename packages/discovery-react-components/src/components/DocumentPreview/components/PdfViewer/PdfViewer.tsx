@@ -143,12 +143,8 @@ function _renderPage(
   viewport: any,
   canvasInfo: CanvasInfo
 ): void {
-  canvas.style.width = `${canvasInfo.width}px`;
-  canvas.style.height = `${canvasInfo.height}px`;
-  canvas.width = canvasInfo.canvasWidth;
-  canvas.height = canvasInfo.canvasHeight;
-
   const canvasContext = canvas.getContext('2d');
+  canvasContext?.resetTransform();
   canvasContext?.scale(canvasInfo.canvasScale, canvasInfo.canvasScale);
   pdfPage.render({ canvasContext: canvasContext, viewport });
 }
