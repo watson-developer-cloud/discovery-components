@@ -25,7 +25,7 @@ jobs:
         with:
           node-version: 12
       - name: Install
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
       - name: Lint
         run: npx lerna run lint --stream
       - name: Build Packages
