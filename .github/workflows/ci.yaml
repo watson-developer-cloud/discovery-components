@@ -41,6 +41,15 @@ jobs:
           name: cypress
           path: |
             examples/discovery-search-app/cypress/screenshots
+      - name: NPM Identity
+        if: github.ref == 'refs/heads/master'
+        run: |
+          echo "npmRegistries:" >> ~/.yarnrc.yml
+          echo "  //registry.npmjs.org:" >> ~/.yarnrc.yml
+          echo "    npmAuthToken: $NPM_TOKEN" >> ~/.yarnrc.yml
+          npm whoami
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Github Identity
         if: github.ref == 'refs/heads/master'
         run: |
