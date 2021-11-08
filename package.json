@@ -106,16 +106,6 @@
     "webpack": "4.41.2",
     "wsrun": "^5.2.0"
   },
-  "resolutions": {
-    "react-scripts/**/url-parse": "^1.5.1",
-    "@storybook/addon-docs/**/pug": "^3.0.2",
-    "webpack/**/elliptic": "^6.5.4",
-    "**/hosted-git-info": "^3.0.8",
-    "**/lodash": "^4.17.21",
-    "**/react-dev-utils": "^11.0.4",
-    "**/react-syntax-highlighter/**/prismjs": "^1.23.0",
-    "**/ssri": "^8.0.1"
-  },
   "lint-staged": {
     "{packages,examples}/**/*.{json,css,scss,md}": [
       "prettier --write",
@@ -136,5 +126,6 @@
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "post-rewrite": "lint-staged"
     }
-  }
+  },
+  "packageManager": "yarn@3.1.0"
 }
