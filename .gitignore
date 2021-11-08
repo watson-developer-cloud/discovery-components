@@ -5,6 +5,14 @@
 coverage
 
 .npmrc
+# yarn v2
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
 
 lerna-debug.log
 yarn-error.log
