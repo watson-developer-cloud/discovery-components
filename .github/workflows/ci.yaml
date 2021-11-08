@@ -41,13 +41,6 @@ jobs:
           name: cypress
           path: |
             examples/discovery-search-app/cypress/screenshots
-      - name: NPM Identity
-        if: github.ref == 'refs/heads/master'
-        run: |
-          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-          npm whoami
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Github Identity
         if: github.ref == 'refs/heads/master'
         run: |
