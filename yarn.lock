@@ -2267,34 +2267,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ibm-watson/discovery-react-components@file:../../packages/discovery-react-components::locator=discovery-search-app%40workspace%3Aexamples%2Fdiscovery-search-app":
-  version: 1.4.1-beta.1
-  resolution: "@ibm-watson/discovery-react-components@file:../../packages/discovery-react-components#../../packages/discovery-react-components::hash=1b9ea7&locator=discovery-search-app%40workspace%3Aexamples%2Fdiscovery-search-app"
-  dependencies:
-    classnames: ^2.2.6
-    debounce: ^1.2.0
-    dompurify: ^2.0.17
-    entities: ^2.0.0
-    htmlparser2: ^4.0.0
-    lodash: ^4.17.21
-    mustache: ^3.1.0
-    pdfjs-dist: ^2.2.228
-    react-error-boundary: ^1.2.5
-    react-resize-detector: ^4.2.1
-    react-virtualized: 9.21.1
-  peerDependencies:
-    "@carbon/icons": ">= 10.5.0 < 11"
-    "@ibm-watson/discovery-styles": 1.x.x
-    carbon-components: ">= 10.6.0 < 11"
-    carbon-components-react: ">= 7.6.0 < 8"
-    ibm-watson: ^6.0.2
-    react: ">= 16.8.0 < 17"
-    react-dom: ">= 16.8.0 < 17"
-  checksum: c2cf1f3baa13e0d68c9f3a969825e762ef3f82fb4b431e921b4109450d8030e9292d2f8b234f9806b3a27fda15d3cacf4bf81bbf710a8e5e9cc01c86bf9c6de1
-  languageName: node
-  linkType: hard
-
-"@ibm-watson/discovery-react-components@workspace:packages/discovery-react-components":
+"@ibm-watson/discovery-react-components@workspace:*, @ibm-watson/discovery-react-components@workspace:packages/discovery-react-components":
   version: 0.0.0-use.local
   resolution: "@ibm-watson/discovery-react-components@workspace:packages/discovery-react-components"
   dependencies:
@@ -2322,16 +2295,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ibm-watson/discovery-styles@file:../../packages/discovery-styles::locator=discovery-search-app%40workspace%3Aexamples%2Fdiscovery-search-app":
-  version: 1.4.1-beta.1
-  resolution: "@ibm-watson/discovery-styles@file:../../packages/discovery-styles#../../packages/discovery-styles::hash=88c4cc&locator=discovery-search-app%40workspace%3Aexamples%2Fdiscovery-search-app"
-  peerDependencies:
-    carbon-components: ">= 10.6.0 < 11"
-  checksum: 8e5fcd7c671c26e3746833479a43e88bb56bbd31357a851ec9830b60bac32460ab3ff07bc50f94dd1f58553e8758ffd303f84900c2fdeb68a7dea1bc454da245
-  languageName: node
-  linkType: hard
-
-"@ibm-watson/discovery-styles@workspace:packages/discovery-styles":
+"@ibm-watson/discovery-styles@workspace:*, @ibm-watson/discovery-styles@workspace:packages/discovery-styles":
   version: 0.0.0-use.local
   resolution: "@ibm-watson/discovery-styles@workspace:packages/discovery-styles"
   peerDependencies:
@@ -10224,8 +10188,8 @@ __metadata:
   resolution: "discovery-search-app@workspace:examples/discovery-search-app"
   dependencies:
     "@carbon/icons": ^10.5.0
-    "@ibm-watson/discovery-react-components": "file:../../packages/discovery-react-components"
-    "@ibm-watson/discovery-styles": "file:../../packages/discovery-styles"
+    "@ibm-watson/discovery-react-components": "workspace:*"
+    "@ibm-watson/discovery-styles": "workspace:*"
     body-parser: ^1.19.0
     carbon-components: ^10.6.0
     carbon-components-react: ^7.7.0
