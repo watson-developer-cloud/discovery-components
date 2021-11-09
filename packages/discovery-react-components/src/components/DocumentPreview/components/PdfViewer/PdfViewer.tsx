@@ -101,15 +101,7 @@ const PdfViewer: SFC<Props> = ({
     }
   }, [setHideToolbarControls]);
 
-  return (
-    <canvas
-      style={{
-        transform: `scale(${scale})`
-      }}
-      ref={canvasRef}
-      className={`${settings.prefix}--document-preview-pdf-viewer`}
-    />
-  );
+  return <canvas ref={canvasRef} className={`${settings.prefix}--document-preview-pdf-viewer`} />;
 };
 
 PdfViewer.defaultProps = {
