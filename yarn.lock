@@ -2448,7 +2448,7 @@
   integrity sha512-wdppn25U8z/2yiaT6YGquE6X8sSv7hNMWSXYSSU1jGv/yd6XqjXgTDJ8KP4NgjTXfJ3GbRjeeb8RTV7a/VpM+w==
 
 "@ibm-watson/discovery-react-components@file:packages/discovery-react-components":
-  version "1.4.0-beta.9"
+  version "1.4.1-beta.2"
   dependencies:
     classnames "^2.2.6"
     debounce "^1.2.0"
@@ -2463,7 +2463,7 @@
     react-virtualized "9.21.1"
 
 "@ibm-watson/discovery-styles@file:packages/discovery-styles":
-  version "1.4.0-beta.3"
+  version "1.4.1-beta.1"
 
 "@icons/material@^0.2.4":
   version "0.2.4"
@@ -21598,9 +21598,9 @@ write@1.0.3:
     mkdirp "^0.5.1"
 
 ws@^5.2.0:
-  version "5.2.2"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-5.2.2.tgz#dffef14866b8e8dc9133582514d1befaf96e980f"
-  integrity sha512-jaHFD6PFv6UgoIVda6qZllptQsMlDEJkTQcybzzXDYM1XO9Y8em691FGMPmM46WGyLU4z9KMgQN+qrux/nhlHA==
+  version "5.2.3"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-5.2.3.tgz#05541053414921bc29c63bee14b8b0dd50b07b3d"
+  integrity sha512-jZArVERrMsKUatIdnLzqvcfydI85dvd/Fp1u/VOpfdDWQ4c9qWXe+VIeAbQ5FrDwciAkr+lzofXLz3Kuf26AOA==
   dependencies:
     async-limiter "~1.0.0"
 
