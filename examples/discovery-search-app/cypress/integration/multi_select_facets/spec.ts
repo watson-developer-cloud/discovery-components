@@ -64,7 +64,7 @@ describe('Multi-Select Facets', () => {
         it('queries and selects the right facets', () => {
           cy.get('@multiFilterQueryObject')
             .its('requestBody.filter')
-            .should('eq', 'location:"Pittsburgh, PA"|"Ames, IA"');
+            .should('eq', 'location:"Pittsburgh, PA"|location:"Ames, IA"');
           cy.get('.bx--list-box__selection').contains('2').should('exist');
         });
       });
