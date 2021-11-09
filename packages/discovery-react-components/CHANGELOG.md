@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.1-beta.2](https://github.com/watson-developer-cloud/discovery-components/compare/v1.4.1-beta.1...v1.4.1-beta.2) (2021-11-09)
+
+
+### Bug Fixes
+
+* PdfViewer scale parameter issue ([#232](https://github.com/watson-developer-cloud/discovery-components/issues/232)) ([d42ccbf](https://github.com/watson-developer-cloud/discovery-components/commit/d42ccbf8977a3c515153f4eccfc7da96c82b5708))
+
+
+
+
+
 ## [1.4.1-beta.1](https://github.com/watson-developer-cloud/discovery-components/compare/v1.4.0-beta.10...v1.4.1-beta.1) (2021-11-02)
 
 
