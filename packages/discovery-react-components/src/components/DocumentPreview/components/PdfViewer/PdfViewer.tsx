@@ -1,7 +1,14 @@
 import React, { FC, useEffect, useRef, useState, useMemo } from 'react';
-import PdfjsLib, { PDFDocumentProxy, PDFPageProxy, PDFPageViewport, PDFSource } from 'pdfjs-dist';
+import PdfjsLib, {
+  PDFDocumentProxy,
+  PDFPageProxy,
+  PDFPageViewport,
+  PDFRenderTask
+} from 'pdfjs-dist';
 import PdfjsWorkerAsText from 'pdfjs-dist/build/pdf.worker.min.js';
 import { settings } from 'carbon-components';
+
+const { RenderingCancelledException } = PdfjsLib as any;
 
 setupPdfjs();
 
@@ -88,18 +95,45 @@ const PdfViewer: FC<Props> = ({
     };
   }, [loadedFile, page]);
 
-  const [viewport, canvasInfo] = useMemo(() => {
-    const viewport = loadedPage?.getViewport({ scale });
-    const canvasInfo = viewport ? getCanvasInfo(viewport) : undefined;
-    return [viewport, canvasInfo];
-  }, [loadedPage, scale]);
+  const currentPage = useMemo(() => {
+    const isPageValid = !!loadedPage && loadedPage.pageNumber === page;
+    if (isPageValid) {
+      const viewport = loadedPage?.getViewport({ scale });
+      const canvasInfo = viewport ? getCanvasInfo(viewport) : undefined;
+      return { loadedPage, viewport, canvasInfo };
+    }
+    return null;
+  }, [loadedPage, page, scale]);
 
   useEffect(() => {
+    let didCancel = false;
+    let task: PDFRenderTask | null = null;
+
+    const { loadedPage, viewport, canvasInfo } = currentPage || {};
     if (loadedPage && !(loadedPage as any).then && viewport && canvasInfo) {
-      _renderPage(loadedPage, canvasRef.current!, viewport, canvasInfo);
-      setLoading(false);
+      const render = async () => {
+        try {
+          task = _renderPage(loadedPage, canvasRef.current!, viewport, canvasInfo);
+          await task?.promise;
+        } catch (e) {
+          if (e instanceof RenderingCancelledException) {
+            // ignore
+          } else {
+            throw e; // rethrow unknown exception
+          }
+        } finally {
+          if (!didCancel) {
+            setLoading(false);
+          }
+        }
+      };
+      render();
     }
-  }, [loadedPage, viewport, canvasInfo, setLoading]);
+    return () => {
+      didCancel = true;
+      task?.cancel();
+    };
+  }, [loadedPage, currentPage, setLoading]);
 
   useEffect(() => {
     if (setHideToolbarControls) {
@@ -107,6 +141,7 @@ const PdfViewer: FC<Props> = ({
     }
   }, [setHideToolbarControls]);
 
+  const { canvasInfo } = currentPage || {};
   return (
     <canvas
       ref={canvasRef}
@@ -136,11 +171,14 @@ function _renderPage(
   canvas: HTMLCanvasElement,
   viewport: PDFPageViewport,
   canvasInfo: CanvasInfo
-): void {
+): PDFRenderTask | null {
   const canvasContext = canvas.getContext('2d');
-  canvasContext?.resetTransform();
-  canvasContext?.scale(canvasInfo.canvasScale, canvasInfo.canvasScale);
-  pdfPage.render({ canvasContext, viewport });
+  if (canvasContext) {
+    canvasContext.resetTransform();
+    canvasContext.scale(canvasInfo.canvasScale, canvasInfo.canvasScale);
+    return pdfPage.render({ canvasContext, viewport });
+  }
+  return null;
 }
 
 // set up web worker for use by PDF.js library
@@ -148,7 +186,7 @@ function _renderPage(
 function setupPdfjs(): void {
   if (typeof Worker !== 'undefined') {
     const blob = new Blob([PdfjsWorkerAsText], { type: 'text/javascript' });
-    const pdfjsWorker = new Worker(URL.createObjectURL(blob)) as any; // TODO is this usage correct?
+    const pdfjsWorker = new Worker(URL.createObjectURL(blob)) as any;
     PdfjsLib.GlobalWorkerOptions.workerPort = pdfjsWorker;
   } else {
     PdfjsLib.GlobalWorkerOptions.workerSrc = PdfjsWorkerAsText;
