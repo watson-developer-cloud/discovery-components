@@ -140,7 +140,7 @@ function _renderPage(
   const canvasContext = canvas.getContext('2d');
   canvasContext?.resetTransform();
   canvasContext?.scale(canvasInfo.canvasScale, canvasInfo.canvasScale);
-  pdfPage.render({ canvasContext: canvasContext, viewport });
+  pdfPage.render({ canvasContext, viewport });
 }
 
 // set up web worker for use by PDF.js library
