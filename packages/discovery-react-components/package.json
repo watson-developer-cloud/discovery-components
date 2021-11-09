@@ -16,7 +16,7 @@
     "circular": "madge --circular src/*",
     "build": "rollup -c",
     "build:app": "yarn run storybook:build --quiet",
-    "eslint": "eslint --quiet '{src,.storybook}/**/*.{js,jsx,ts,tsx}'",
+    "eslint": "yarn run g:eslint --quiet '{src,.storybook}/**/*.{js,jsx,ts,tsx}'",
     "lint": "yarn run circular && yarn run eslint",
     "start": "rollup -c -w",
     "storybook": "start-storybook --ci --port=9002",
@@ -75,6 +75,7 @@
   },
   "devDependencies": {
     "css-loader": "^3.4.2",
+    "madge": "^5.0.1",
     "sass-loader": "^8.0.2"
   }
 }

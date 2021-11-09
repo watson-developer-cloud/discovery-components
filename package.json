@@ -6,8 +6,12 @@
     "examples/*"
   ],
   "scripts": {
-    "lint": "wsrun -m -e -c lint",
-    "audit": "wsrun -m -e -c audit"
+    "lint": "yarn workspaces foreach -v --parallel run lint",
+    "audit": "yarn workspaces foreach -v --parallel run audit",
+    "build:pkgs": "yarn workspaces foreach -v --parallel --from '@ibm-watson/*' run build",
+    "build:apps": "yarn workspaces foreach -v --parallel run build:app",
+    "test": "yarn workspaces foreach -v --parallel run test",
+    "g:eslint": "cd $INIT_CWD && eslint"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
@@ -76,7 +80,6 @@
     "lerna-update-wizard": "^0.17.8",
     "lint-staged": "^9.2.5",
     "lorem-ipsum": "^2.0.3",
-    "madge": "^4.0.1",
     "markdown-toc": "^1.2.0",
     "marked": "^0.7.0",
     "node-sass": "^4.12.0",
@@ -103,8 +106,7 @@
     "tsconfig-paths-webpack-plugin": "^3.2.0",
     "typescript": "^3.8.2",
     "vue": "^2.6.11",
-    "webpack": "4.41.2",
-    "wsrun": "^5.2.0"
+    "webpack": "4.41.2"
   },
   "lint-staged": {
     "{packages,examples}/**/*.{json,css,scss,md}": [
