@@ -7,7 +7,7 @@
   ],
   "scripts": {
     "lint": "yarn workspaces foreach -v --parallel run lint",
-    "audit": "yarn workspaces foreach -v --parallel run audit",
+    "audit": "audit-ci --moderate",
     "build:pkgs": "yarn workspaces foreach -v --parallel --from '@ibm-watson/*' run build",
     "build:apps": "yarn workspaces foreach -v --parallel run build:app",
     "test": "yarn workspaces foreach -v --parallel run test",
@@ -51,7 +51,7 @@
     "@types/uuid": "^3.4.5",
     "@typescript-eslint/eslint-plugin": "^2.21.0",
     "@typescript-eslint/parser": "^2.21.0",
-    "audit-ci": "^4.1.0",
+    "audit-ci": "^5.1.2",
     "awesome-typescript-loader": "^5.2.1",
     "axios": "^0.21.4",
     "babel-eslint": "^10.1.0",
