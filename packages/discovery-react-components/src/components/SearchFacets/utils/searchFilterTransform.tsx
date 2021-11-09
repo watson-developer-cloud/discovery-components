@@ -27,10 +27,13 @@ export class SearchFilterTransform {
       filter => colonRegex.test(filter)
     );
     const fields = filterFacets[0].map(facetField => {
-      const facetSplit = facetField.split(SearchFilterTransform.SPLIT_UNQUOTED_COLONS);
-      const field = facetSplit[0];
-      const results = facetSplit[1]
-        .split(SearchFilterTransform.SPLIT_UNQUOTED_PIPES)
+      const facets = facetField.split(SearchFilterTransform.SPLIT_UNQUOTED_PIPES);
+      const field = facets[0].split(SearchFilterTransform.SPLIT_UNQUOTED_COLONS)[0];
+      const results = facets
+        .map(facet => {
+          const facetPair = facet.split(SearchFilterTransform.SPLIT_UNQUOTED_COLONS);
+          return facetPair[1];
+        })
         .sort()
         .map(result => {
           const unquotedResult = this.unquoteString(result);
@@ -79,7 +82,7 @@ export class SearchFilterTransform {
       const results = get(facet, 'results', []);
       const keys = this.quoteSelectedFacets(results, 'key');
       if (keys.length) {
-        filterStrings.push(`${escapeFieldName(field)}:${keys.join('|')}`);
+        filterStrings.push(keys.map(key => `${escapeFieldName(field)}:${key}`).join('|'));
       }
     });
     return filterStrings.join(',');

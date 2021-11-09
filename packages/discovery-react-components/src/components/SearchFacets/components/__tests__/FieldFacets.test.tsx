@@ -275,7 +275,7 @@ describe('FieldFacetsComponent', () => {
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: 'subject:"Animals"|"People"'
+          filter: 'subject:"Animals"|subject:"People"'
         }),
         false
       );
@@ -485,7 +485,7 @@ describe('FieldFacetsComponent', () => {
 
     describe('when 2 selections are made in the same category', () => {
       beforeEach(async () => {
-        setupData = setup({ filter: 'author:"ABMN Staff"|"News Staff"' });
+        setupData = setup({ filter: 'author:"ABMN Staff"|author:"News Staff"' });
         await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
 
@@ -615,7 +615,7 @@ describe('FieldFacetsComponent', () => {
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: 'author:"ABMN Staff"|"News Staff",subject:"People"',
+          filter: 'author:"ABMN Staff"|author:"News Staff",subject:"People"',
           offset: 0
         }),
         false
@@ -892,7 +892,7 @@ describe('FieldFacetsComponent', () => {
           expect(performSearchMock).toBeCalledTimes(2);
           expect(performSearchMock).toBeCalledWith(
             expect.objectContaining({
-              filter: 'enriched_text.entities.text:"us"|"pittsburgh"',
+              filter: 'enriched_text.entities.text:"us"|enriched_text.entities.text:"pittsburgh"',
               offset: 0
             }),
             false
@@ -938,7 +938,7 @@ describe('FieldFacetsComponent', () => {
           expect(performSearchMock).toBeCalledTimes(2);
           expect(performSearchMock).toBeCalledWith(
             expect.objectContaining({
-              filter: 'enriched_text.entities.text:"ibm"|"pittsburgh"',
+              filter: 'enriched_text.entities.text:"ibm"|enriched_text.entities.text:"pittsburgh"',
               offset: 0
             }),
             false
