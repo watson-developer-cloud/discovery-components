@@ -18,6 +18,20 @@ To find highlight boundary box, we typically starts with cells from `text_mappin
 
 However, calculation of the mapping is not straightforward. Cells can be over-wrapped, order of smaller cells may not same to the text in a larger cells. `getTextBoxMappings` and it helpers `TextNormalizer`, `TextProvider`, `CellProvider` are used to calculate a good mapping even with the situation.
 
+#### How to build mappings
+
+`CellProvider` denotes fine-grained text layout. It provides small text layout cells with the text. `MappingTargetBoxProvider` wraps `CellProvider` mainly for normalizing text. Normalization is important because the text in original PDF can be refined in field text. For example, two consequence spaces are normalized to one, and quotation marks can be normalized.
+
+`TextProvider` provides text from course-grained text layout cells. User can consume spans on the text (i.e. mark the text span used) and the class manages text which is yet to be consumed. The class can find `match` to a given text in the remaining text and returns score of match. `MappingSourceTextProvider` wraps `TextProvider` for text normalization.
+
+With these classes, `getTextBoxMappings` builds mappings as follow:
+
+1. Load text from `CellProvider`. It may spans on multiple text layout cells
+2. Find match in `TextProvider`, and then consume the matched text
+3. For each text layout cells in the matched text,
+   1. associate the text layout cell and a span on the matched text
+   2. mark the text layout cell consumed
+
 ### Text layout cell to boundary box
 
 Now, we have small cells for highlighting.
