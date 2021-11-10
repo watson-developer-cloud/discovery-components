@@ -1,0 +1,25 @@
+.withTextSelection {
+  display: flex;
+  height: 800px;
+
+  .rightPane {
+    flex: 1 1 auto;
+    width: 20%;
+    overflow-y: scroll;
+
+    p {
+      margin-bottom: 0.5rem;
+    }
+  }
+  .text {
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    font-size: 10pt;
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+  .highlight {
+    opacity: 0.4;
+    background: rgba(255, 64, 128, 1);
+  }
+}
