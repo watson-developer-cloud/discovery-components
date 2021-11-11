@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0-beta.0](https://github.com/watson-developer-cloud/discovery-components/compare/v1.4.1-beta.2...v1.5.0-beta.0) (2021-11-09)
+
+
+### Features
+
+* use device pixel ratio to render PDF ([#233](https://github.com/watson-developer-cloud/discovery-components/issues/233)) ([43e0870](https://github.com/watson-developer-cloud/discovery-components/commit/43e087048ccec2c4560344b6881af44c6d84cb1e))
+
+
+
+
+
 ## [1.4.1-beta.2](https://github.com/watson-developer-cloud/discovery-components/compare/v1.4.1-beta.1...v1.4.1-beta.2) (2021-11-09)
 
 
