@@ -8,7 +8,7 @@
   "scripts": {
     "lint": "yarn workspaces foreach -v --parallel run lint",
     "audit": "audit-ci --moderate",
-    "build:pkgs": "yarn workspaces foreach -v --parallel --from '@ibm-watson/*' run build",
+    "build:pkgs": "yarn workspaces foreach -v --parallel --include '@ibm-watson/*' run build",
     "build:apps": "yarn workspaces foreach -v --parallel run build:app",
     "test": "yarn workspaces foreach -v --parallel run test",
     "g:eslint": "cd $INIT_CWD && eslint"
