@@ -2269,7 +2269,7 @@ __metadata:
 
 "@ibm-watson/discovery-react-components@file:../../packages/discovery-react-components::locator=discovery-search-app%40workspace%3Aexamples%2Fdiscovery-search-app":
   version: 1.5.0-beta.0
-  resolution: "@ibm-watson/discovery-react-components@file:../../packages/discovery-react-components#../../packages/discovery-react-components::hash=8abf16&locator=discovery-search-app%40workspace%3Aexamples%2Fdiscovery-search-app"
+  resolution: "@ibm-watson/discovery-react-components@file:../../packages/discovery-react-components#../../packages/discovery-react-components::hash=9c23b1&locator=discovery-search-app%40workspace%3Aexamples%2Fdiscovery-search-app"
   dependencies:
     classnames: ^2.2.6
     debounce: ^1.2.0
@@ -2290,7 +2290,7 @@ __metadata:
     ibm-watson: ^6.0.2
     react: ">= 16.8.0 < 17"
     react-dom: ">= 16.8.0 < 17"
-  checksum: 2aff000be0c5291b3690eea88a4aaea6d8a9f618ddf52109c2f21c785f04b4214d4c7d371b96d60d52f197f063cf0b7fa0584b1c9f103ed33fb141dcae131f30
+  checksum: 32fb2a4b1ffc14b7b821133391375b4cf4a40cc20a4f00a096330ec50c65b90823db306ae63960b9c26bcce01dd449fe693523855d131bd01ebf462bd5a95b24
   languageName: node
   linkType: hard
 
