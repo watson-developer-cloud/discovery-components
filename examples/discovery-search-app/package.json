@@ -22,8 +22,8 @@
   },
   "dependencies": {
     "@carbon/icons": "^10.5.0",
-    "@ibm-watson/discovery-react-components": "workspace:*",
-    "@ibm-watson/discovery-styles": "workspace:*",
+    "@ibm-watson/discovery-react-components": "^1",
+    "@ibm-watson/discovery-styles": "^1",
     "body-parser": "^1.19.0",
     "carbon-components": "^10.6.0",
     "carbon-components-react": "^7.7.0",
