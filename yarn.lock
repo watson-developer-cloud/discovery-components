@@ -2267,30 +2267,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ibm-watson/discovery-react-components@npm:^1":
-  version: 1.3.0
-  resolution: "@ibm-watson/discovery-react-components@npm:1.3.0"
+"@ibm-watson/discovery-react-components@file:../../packages/discovery-react-components::locator=discovery-search-app%40workspace%3Aexamples%2Fdiscovery-search-app":
+  version: 1.5.0-beta.0
+  resolution: "@ibm-watson/discovery-react-components@file:../../packages/discovery-react-components#../../packages/discovery-react-components::hash=8abf16&locator=discovery-search-app%40workspace%3Aexamples%2Fdiscovery-search-app"
   dependencies:
     classnames: ^2.2.6
     debounce: ^1.2.0
-    dompurify: ^2.0.7
+    dompurify: ^2.0.17
     entities: ^2.0.0
     htmlparser2: ^4.0.0
-    lodash: ^4.17.15
+    lodash: ^4.17.21
     mustache: ^3.1.0
     pdfjs-dist: ^2.2.228
     react-error-boundary: ^1.2.5
     react-resize-detector: ^4.2.1
-    react-virtualized: ^9.21.1
+    react-virtualized: 9.21.1
   peerDependencies:
     "@carbon/icons": ">= 10.5.0 < 11"
     "@ibm-watson/discovery-styles": 1.x.x
     carbon-components: ">= 10.6.0 < 11"
     carbon-components-react: ">= 7.6.0 < 8"
-    ibm-watson: ^5.2.0-alpha-1
+    ibm-watson: ^6.0.2
     react: ">= 16.8.0 < 17"
     react-dom: ">= 16.8.0 < 17"
-  checksum: 74e63d587fa17b96884f67b01daf4587166303298692ba4ad8ff7fe45463f85f1e77d6a02c1a1b8c5c4172b25f939a1a54ac455412f5c5d004bd0fde418d367c
+  checksum: 2aff000be0c5291b3690eea88a4aaea6d8a9f618ddf52109c2f21c785f04b4214d4c7d371b96d60d52f197f063cf0b7fa0584b1c9f103ed33fb141dcae131f30
   languageName: node
   linkType: hard
 
@@ -2323,12 +2323,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ibm-watson/discovery-styles@npm:^1":
-  version: 1.3.0
-  resolution: "@ibm-watson/discovery-styles@npm:1.3.0"
+"@ibm-watson/discovery-styles@file:../../packages/discovery-styles::locator=discovery-search-app%40workspace%3Aexamples%2Fdiscovery-search-app":
+  version: 1.4.1-beta.1
+  resolution: "@ibm-watson/discovery-styles@file:../../packages/discovery-styles#../../packages/discovery-styles::hash=88c4cc&locator=discovery-search-app%40workspace%3Aexamples%2Fdiscovery-search-app"
   peerDependencies:
     carbon-components: ">= 10.6.0 < 11"
-  checksum: fbd963d34c894467ef96368ae4c4f514b1962521c2cad893ee5993b651ac6d9882acc170a3c8cac0c16654f6680f9f69919d97f8c59095dfe6ff2d96a3c3b464
+  checksum: 8e5fcd7c671c26e3746833479a43e88bb56bbd31357a851ec9830b60bac32460ab3ff07bc50f94dd1f58553e8758ffd303f84900c2fdeb68a7dea1bc454da245
   languageName: node
   linkType: hard
 
@@ -8533,7 +8533,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clsx@npm:^1.0.1, clsx@npm:^1.0.4":
+"clsx@npm:^1.0.1":
   version: 1.1.1
   resolution: "clsx@npm:1.1.1"
   checksum: ff052650329773b9b245177305fc4c4dc3129f7b2be84af4f58dc5defa99538c61d4207be7419405a5f8f3d92007c954f4daba5a7b74e563d5de71c28c830063
@@ -10270,8 +10270,8 @@ __metadata:
   resolution: "discovery-search-app@workspace:examples/discovery-search-app"
   dependencies:
     "@carbon/icons": ^10.5.0
-    "@ibm-watson/discovery-react-components": ^1
-    "@ibm-watson/discovery-styles": ^1
+    "@ibm-watson/discovery-react-components": "file:../../packages/discovery-react-components"
+    "@ibm-watson/discovery-styles": "file:../../packages/discovery-styles"
     body-parser: ^1.19.0
     carbon-components: ^10.6.0
     carbon-components-react: ^7.7.0
@@ -10380,7 +10380,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dom-helpers@npm:^5.0.1, dom-helpers@npm:^5.1.3":
+"dom-helpers@npm:^5.0.1":
   version: 5.2.1
   resolution: "dom-helpers@npm:5.2.1"
   dependencies:
@@ -10475,7 +10475,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dompurify@npm:^2.0.17, dompurify@npm:^2.0.7":
+"dompurify@npm:^2.0.17":
   version: 2.3.3
   resolution: "dompurify@npm:2.3.3"
   checksum: 947e3661681bd183aae1cd08f991b14c6aa41fd188f6c801c5e916c2dc4575bbefbaa121ed06dbe0cb0f595545527d588a44b53bfc35d1cbb898c214dc0d7930
@@ -21863,23 +21863,6 @@ __metadata:
     react: ^15.3.0 || ^16.0.0-alpha
     react-dom: ^15.3.0 || ^16.0.0-alpha
   checksum: 49c728a1fa5dfd3251529d7cb62408dbca5842d927272f047bbf0bf2583862da58fca353e686ba75fd6395357547d9ed9aa0c20c4a312a52af75d1c128aa5ea7
-  languageName: node
-  linkType: hard
-
-"react-virtualized@npm:^9.21.1":
-  version: 9.22.3
-  resolution: "react-virtualized@npm:9.22.3"
-  dependencies:
-    "@babel/runtime": ^7.7.2
-    clsx: ^1.0.4
-    dom-helpers: ^5.1.3
-    loose-envify: ^1.4.0
-    prop-types: ^15.7.2
-    react-lifecycles-compat: ^3.0.4
-  peerDependencies:
-    react: ^15.3.0 || ^16.0.0-alpha
-    react-dom: ^15.3.0 || ^16.0.0-alpha
-  checksum: 5e3b566592293bc0057bc6be4f6ee29c58c8931421d2882a3ef45ca9b24c6f3ea78bbc5a182c2916af6520845e5a90f569b3a63c9b5e89428720913e6d6239cc
   languageName: node
   linkType: hard
 
