@@ -2272,6 +2272,7 @@ __metadata:
   resolution: "@ibm-watson/discovery-react-components@workspace:packages/discovery-react-components"
   dependencies:
     classnames: ^2.2.6
+    cross-env: ^7.0.3
     css-loader: ^3.4.2
     debounce: ^1.2.0
     dompurify: ^2.0.17
@@ -9205,7 +9206,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cross-env@npm:^7.0.2":
+"cross-env@npm:^7.0.3":
   version: 7.0.3
   resolution: "cross-env@npm:7.0.3"
   dependencies:
@@ -10241,6 +10242,7 @@ __metadata:
     carbon-components-react: ^7.7.0
     classnames: ^2.2.6
     cors: ^2.8.5
+    cross-env: ^7.0.3
     dotenv: ^8.1.0
     express: ^4.17.1
     http-proxy-middleware: ^0.20.0
@@ -22911,7 +22913,6 @@ __metadata:
     carbon-components: ^10.6.0
     carbon-components-react: ^7.7.0
     carbon-icons: ^7.0.7
-    cross-env: ^7.0.2
     cypress: ^6.3.0
     eslint: ^7.32.0
     eslint-config-prettier: ^8.3.0
