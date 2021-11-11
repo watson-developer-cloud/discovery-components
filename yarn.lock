@@ -2269,7 +2269,7 @@ __metadata:
 
 "@ibm-watson/discovery-react-components@file:../../packages/discovery-react-components::locator=discovery-search-app%40workspace%3Aexamples%2Fdiscovery-search-app":
   version: 1.5.0-beta.0
-  resolution: "@ibm-watson/discovery-react-components@file:../../packages/discovery-react-components#../../packages/discovery-react-components::hash=9c23b1&locator=discovery-search-app%40workspace%3Aexamples%2Fdiscovery-search-app"
+  resolution: "@ibm-watson/discovery-react-components@file:../../packages/discovery-react-components#../../packages/discovery-react-components::hash=8f0cd1&locator=discovery-search-app%40workspace%3Aexamples%2Fdiscovery-search-app"
   dependencies:
     classnames: ^2.2.6
     debounce: ^1.2.0
@@ -2290,7 +2290,7 @@ __metadata:
     ibm-watson: ^6.0.2
     react: ">= 16.8.0 < 17"
     react-dom: ">= 16.8.0 < 17"
-  checksum: 32fb2a4b1ffc14b7b821133391375b4cf4a40cc20a4f00a096330ec50c65b90823db306ae63960b9c26bcce01dd449fe693523855d131bd01ebf462bd5a95b24
+  checksum: afa6d3b6507e56958f177db2f450d26602aed88fd051a0612e77fc7b2ef1ba85503bb1aab662700054542ecf969ac9e1f494be6a13ecb8fa122014166bb645bd
   languageName: node
   linkType: hard
 
@@ -2325,10 +2325,10 @@ __metadata:
 
 "@ibm-watson/discovery-styles@file:../../packages/discovery-styles::locator=discovery-search-app%40workspace%3Aexamples%2Fdiscovery-search-app":
   version: 1.4.1-beta.1
-  resolution: "@ibm-watson/discovery-styles@file:../../packages/discovery-styles#../../packages/discovery-styles::hash=88c4cc&locator=discovery-search-app%40workspace%3Aexamples%2Fdiscovery-search-app"
+  resolution: "@ibm-watson/discovery-styles@file:../../packages/discovery-styles#../../packages/discovery-styles::hash=de0d72&locator=discovery-search-app%40workspace%3Aexamples%2Fdiscovery-search-app"
   peerDependencies:
     carbon-components: ">= 10.6.0 < 11"
-  checksum: 8e5fcd7c671c26e3746833479a43e88bb56bbd31357a851ec9830b60bac32460ab3ff07bc50f94dd1f58553e8758ffd303f84900c2fdeb68a7dea1bc454da245
+  checksum: 852f31fec0cee4fe49d92ade85d0941a3412bb69c8a82718147b47b23fb840e26807034c5b49d61f3fe874db22055709a20f5a27d06fc368fbe8dcd6cd07125b
   languageName: node
   linkType: hard
 
