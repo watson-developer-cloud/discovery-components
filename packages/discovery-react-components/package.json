@@ -21,7 +21,7 @@
     "storybook": "start-storybook --ci --port=9002",
     "storybook:build": "build-storybook",
     "storybook:build:release": "cross-env STORYBOOK_BUILD_MODE=production build-storybook -o ../../docs/storybook",
-    "analyze": "source-map-explorer 'dist/index.js'",
+    "analyze": "yarn run g:analyze 'dist/index.js'",
     "prepublish": "yarn run build",
     "preversion": "yarn run storybook:build:release",
     "version": "git add ../../docs"

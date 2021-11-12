@@ -11,6 +11,7 @@
     "build:pkgs": "yarn workspaces foreach -v --parallel --include '@ibm-watson/*' run build",
     "build:apps": "yarn workspaces foreach -v --parallel run build:app",
     "test": "yarn workspaces foreach -v --parallel run test",
+    "g:analyze": "cd $INIT_CWD && source-map-explorer",
     "g:eslint": "cd $INIT_CWD && eslint"
   },
   "devDependencies": {

@@ -10,7 +10,7 @@
     "build": "node-sass --importer=../../node_modules/node-sass-tilde-importer --source-map=true scss/index.scss css/index.css",
     "prepublish": "yarn run build",
     "start": "yarn run build -- --watch",
-    "analyze": "source-map-explorer css/index.css"
+    "analyze": "yarn run g:analyze css/index.css"
   },
   "files": [
     "css/**/*",
