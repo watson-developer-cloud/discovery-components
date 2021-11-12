@@ -36,6 +36,10 @@
     "react": "^16.4.1",
     "react-dom": "^16.4.1"
   },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "react-scripts": "^3.4.4"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -47,9 +51,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "cross-env": "^7.0.3",
-    "react-scripts": "^3.4.4"
   }
 }

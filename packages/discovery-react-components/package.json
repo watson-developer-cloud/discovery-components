@@ -29,6 +29,26 @@
   "files": [
     "dist"
   ],
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "debounce": "^1.2.0",
+    "dompurify": "^2.0.17",
+    "entities": "^2.0.0",
+    "htmlparser2": "^4.0.0",
+    "lodash": "^4.17.21",
+    "mustache": "^3.1.0",
+    "pdfjs-dist": "^2.2.228",
+    "react-error-boundary": "^1.2.5",
+    "react-resize-detector": "^4.2.1",
+    "react-virtualized": "9.21.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "css-loader": "^3.4.2",
+    "madge": "^5.0.1",
+    "react-scripts": "^3.4.4",
+    "sass-loader": "^8.0.2"
+  },
   "peerDependencies": {
     "@carbon/icons": ">= 10.5.0 < 11",
     "@ibm-watson/discovery-styles": "1.x.x",
@@ -45,19 +65,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {
-    "classnames": "^2.2.6",
-    "debounce": "^1.2.0",
-    "dompurify": "^2.0.17",
-    "entities": "^2.0.0",
-    "htmlparser2": "^4.0.0",
-    "lodash": "^4.17.21",
-    "mustache": "^3.1.0",
-    "pdfjs-dist": "^2.2.228",
-    "react-error-boundary": "^1.2.5",
-    "react-resize-detector": "^4.2.1",
-    "react-virtualized": "9.21.1"
-  },
   "jest": {
     "transformIgnorePatterns": [
       "/!node_modules\\/react-virtualized/"
@@ -71,12 +78,5 @@
       "!src/**/__stories__/**",
       "!src/**/*.stories.*"
     ]
-  },
-  "devDependencies": {
-    "cross-env": "^7.0.3",
-    "css-loader": "^3.4.2",
-    "madge": "^5.0.1",
-    "react-scripts": "^3.4.4",
-    "sass-loader": "^8.0.2"
   }
 }
