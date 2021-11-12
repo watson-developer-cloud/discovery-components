@@ -10248,7 +10248,6 @@ __metadata:
     express: ^4.17.1
     http-proxy-middleware: ^0.20.0
     ibm-watson: ^6.2.1
-    prop-types: ^15.6.2
     react: ^16.4.1
     react-dom: ^16.4.1
     react-scripts: ^3.4.4
@@ -22940,7 +22939,6 @@ __metadata:
     node-sass: ^4.12.0
     node-sass-tilde-importer: ^1.0.2
     prettier: ^2.4.1
-    prop-types: ^15.6.2
     proper-url-join: ^2.1.1
     raw-loader: ^4.0.2
     react: ^16.4.1
