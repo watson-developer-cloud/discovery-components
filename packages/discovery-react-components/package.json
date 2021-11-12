@@ -76,6 +76,7 @@
     "cross-env": "^7.0.3",
     "css-loader": "^3.4.2",
     "madge": "^5.0.1",
+    "react-scripts": "^3.4.4",
     "sass-loader": "^8.0.2"
   }
 }

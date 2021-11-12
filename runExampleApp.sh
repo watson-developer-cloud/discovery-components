@@ -184,14 +184,14 @@ fi
 # run server setup script
 #
 paddedMessage "Setting up server..."
-yarn workspace discovery-search-app run --silent server:setup
+yarn workspace discovery-search-app run server:setup
 colorMessage "done" 2
 
 #
 # build discovery-react-components
 #
 paddedMessage "Building components..."
-yarn workspace @ibm-watson/discovery-react-components run --silent build 2>/tmp/component_build
+yarn run build:pkgs 2>/tmp/component_build
 if [ $? -ne 0 ]; then
   echo
   cat /tmp/component_build

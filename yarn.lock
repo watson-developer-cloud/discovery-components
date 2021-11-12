@@ -2284,6 +2284,7 @@ __metadata:
     pdfjs-dist: ^2.2.228
     react-error-boundary: ^1.2.5
     react-resize-detector: ^4.2.1
+    react-scripts: ^3.4.4
     react-virtualized: 9.21.1
     sass-loader: ^8.0.2
   peerDependencies:
@@ -10250,6 +10251,7 @@ __metadata:
     prop-types: ^15.6.2
     react: ^16.4.1
     react-dom: ^16.4.1
+    react-scripts: ^3.4.4
   languageName: unknown
   linkType: soft
 
@@ -22945,7 +22947,6 @@ __metadata:
     react-docgen-typescript-loader: ^3.1.1
     react-dom: ^16.4.1
     react-is: ^16.12.0
-    react-scripts: ^3.4.4
     react-test-renderer: ^16.12.0
     regenerator-runtime: ^0.13.3
     rollup: ^2.57.0
