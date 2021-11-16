@@ -79,6 +79,7 @@ const PdfViewer: FC<Props> = ({
   const [loadedFile, setLoadedFile] = useState<PDFDocumentProxy | null>(null);
   const [loadedPage, setLoadedPage] = useState<PDFPageProxy | null>(null);
 
+  // load PDF file
   useEffect(() => {
     let didCancel = false;
 
@@ -100,6 +101,7 @@ const PdfViewer: FC<Props> = ({
     };
   }, [file, setPageCount]);
 
+  // load page from PDF file
   useEffect(() => {
     let didCancel = false;
 
@@ -118,21 +120,18 @@ const PdfViewer: FC<Props> = ({
     };
   }, [loadedFile, page]);
 
-  const currentPage = useMemo(() => {
-    const isPageValid = !!loadedPage && loadedPage.pageNumber === page;
-    if (isPageValid) {
-      const viewport = loadedPage?.getViewport({ scale });
-      const canvasInfo = viewport ? getCanvasInfo(viewport) : undefined;
-      return { loadedPage, viewport, canvasInfo };
-    }
-    return null;
-  }, [loadedPage, page, scale]);
+  // extract canvas size of the current page
+  const [viewport, canvasInfo] = useMemo(() => {
+    const viewport = loadedPage?.getViewport({ scale });
+    const canvasInfo = viewport ? getCanvasInfo(viewport) : undefined;
+    return [viewport, canvasInfo];
+  }, [loadedPage, scale]);
 
+  // render the current page
   useEffect(() => {
     let didCancel = false;
     let task: PDFRenderTask | null = null;
 
-    const { loadedPage, viewport, canvasInfo } = currentPage || {};
     if (loadedPage && !(loadedPage as any).then && viewport && canvasInfo) {
       const render = async () => {
         try {
@@ -140,7 +139,8 @@ const PdfViewer: FC<Props> = ({
           await task?.promise;
         } catch (e) {
           if (e instanceof RenderingCancelledException) {
-            // ignore
+            // Ignore. Rendering is interrupted by the effect cleanup method
+            // and another rendering will be taken place soon
           } else {
             throw e; // rethrow unknown exception
           }
@@ -156,7 +156,7 @@ const PdfViewer: FC<Props> = ({
       didCancel = true;
       task?.cancel();
     };
-  }, [loadedPage, currentPage, setLoading]);
+  }, [loadedPage, viewport, canvasInfo, setLoading]);
 
   useEffect(() => {
     if (setHideToolbarControls) {
@@ -165,7 +165,6 @@ const PdfViewer: FC<Props> = ({
   }, [setHideToolbarControls]);
 
   const classNameBase = `${settings.prefix}--document-preview-pdf-viewer`;
-  const { loadedPage: currentLoadedPage, canvasInfo } = currentPage || {};
   return (
     <div className={cx(classNameBase, className)}>
       <canvas
@@ -178,8 +177,7 @@ const PdfViewer: FC<Props> = ({
       {showTextLayer && (
         <PdfViewerTextLayer
           className={cx(`${classNameBase}--text`, textLayerClassName)}
-          loadedPage={currentLoadedPage}
-          page={page}
+          loadedPage={loadedPage}
           scale={scale}
           setTextLayerInfo={setTextLayerInfo}
         />

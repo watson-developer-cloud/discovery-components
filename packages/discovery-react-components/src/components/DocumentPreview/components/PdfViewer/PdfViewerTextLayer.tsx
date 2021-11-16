@@ -15,11 +15,6 @@ interface Props {
   loadedPage: PDFPageProxy | null | undefined;
 
   /**
-   * Page number, starting at 1
-   */
-  page: number;
-
-  /**
    * Zoom factor, where `1` is equal to 100%
    */
   scale: number;
@@ -57,7 +52,6 @@ export type PdfTextLayerInfo = {
 const PdfViewerTextLayer: FC<Props> = ({
   className,
   loadedPage,
-  page = 1,
   scale = 1,
   setTextLayerInfo: setTextLayerInfoCallback = () => {}
 }) => {
@@ -71,20 +65,21 @@ const PdfViewerTextLayer: FC<Props> = ({
     viewport: PDFPageViewport;
   } | null>(null);
 
+  // load text content from the page
   useEffect(() => {
     async function loadTextInfo() {
-      const isPageReady = !!loadedPage && loadedPage.pageNumber === page;
-      if (isPageReady) {
+      if (loadedPage) {
         const viewport = loadedPage.getViewport({ scale });
         const textContent = await loadedPage.getTextContent();
-        setTextRenderInfo({ textContent, viewport, page, scale });
+        setTextRenderInfo({ textContent, viewport, page: loadedPage.pageNumber, scale });
       }
     }
     loadTextInfo();
-  }, [loadedPage, page, scale]);
+  }, [loadedPage, scale]);
 
   const textLayerBuilderRef = useRef<TextLayerBuilder | null>(null); // ref for debugging purpose
   const [textLayerInfo, setTextLayerInfo] = useState<PdfTextLayerInfo | null>(null);
+  // render text content
   useEffect(() => {
     let textLayerBuilder: TextLayerBuilder | null = null;
     async function loadTextLayer() {
@@ -104,23 +99,16 @@ const PdfViewerTextLayer: FC<Props> = ({
         // render
         textLayerDiv.innerHTML = '';
         try {
-          const deferredRenderEnd = (() => {
-            let resolve: null | Function = null;
-            const promise = new Promise(resolvePromise => {
-              resolve = resolvePromise;
-            });
-
+          const deferredRenderEndPromise = new Promise(resolve => {
             const listener = () => {
-              resolve!();
+              resolve(undefined);
               textLayerBuilder?.eventBus.off('textlayerrendered', listener);
             };
-            textLayerBuilder.eventBus.on('textlayerrendered', listener);
-
-            return { promise };
-          })();
+            textLayerBuilder?.eventBus.on('textlayerrendered', listener);
+          });
 
           textLayerBuilder.render();
-          await deferredRenderEnd.promise;
+          await deferredRenderEndPromise;
 
           // fix text divs
           _adjustTextDivs(textLayerBuilder.textDivs, textContent.items, scale);
@@ -133,20 +121,21 @@ const PdfViewerTextLayer: FC<Props> = ({
           };
         } catch (e) {
           if (e instanceof RenderingCancelledException) {
-            // ignore
+            // Ignore. Rendering is interrupted by useEffect cleanup method.
+            // Another rendering starts soon
             return;
           } else {
-            throw e;
+            throw e; // rethrow unknown exception
           }
         }
       }
       setTextLayerInfo(textLayerInfo);
     }
+
     loadTextLayer();
 
     return () => {
       textLayerBuilder?.cancel();
-      // should we set text items??
     };
   }, [textLayerDiv, textRenderInfo]);
 
@@ -168,7 +157,7 @@ const PdfViewerTextLayer: FC<Props> = ({
 };
 
 /**
- * Adjust text span width
+ * Adjust text span width based on scale
  * @param textDivs
  * @param textItems
  * @param scale

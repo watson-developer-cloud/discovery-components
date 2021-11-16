@@ -38,7 +38,8 @@
     background: rgba(0, 0, 255, 1);
   }
 
-  /* Avoids https://github.com/mozilla/pdf.js/issues/13840 in Chrome */
+  // Avoid unexpected text selection box in Chrome
+  // see https://github.com/mozilla/pdf.js/issues/13840
   &.textLayer br::selection {
     background: transparent;
   }
