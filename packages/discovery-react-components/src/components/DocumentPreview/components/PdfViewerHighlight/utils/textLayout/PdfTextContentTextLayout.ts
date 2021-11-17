@@ -5,10 +5,13 @@ import { BaseTextLayoutCell } from './BaseTextLayout';
 import { getAdjustedCellByOffsetByDom } from './dom';
 import { HtmlBboxInfo, PdfTextContentInfo, TextLayout } from './types';
 
+/**
+ * Text layout based on PDF text objects
+ */
 export class PdfTextContentTextLayout implements TextLayout<PdfTextContentTextLayoutCell> {
   private readonly textContentInfo: PdfTextContentInfo;
   readonly cells: PdfTextContentTextLayoutCell[];
-  private spans: HTMLElement[] | undefined;
+  private divs: HTMLElement[] | undefined;
 
   constructor(textContentInfo: PdfTextContentInfo, pageNum: number, htmlBboxInfo?: HtmlBboxInfo) {
     this.textContentInfo = textContentInfo;
@@ -29,25 +32,31 @@ export class PdfTextContentTextLayout implements TextLayout<PdfTextContentTextLa
       });
   }
 
-  get viewport() {
+  /** get viewport of the current page */
+  get viewport(): PDFPageViewport {
     return this.textContentInfo.viewport;
   }
 
+  /** @inheritdoc */
   cellAt(id: number) {
     return this.cells[id];
   }
 
-  setSpans(spans: HTMLElement[] | undefined) {
-    this.spans = spans;
+  /** set text content element divs */
+  setDivs(divs: HTMLElement[] | undefined) {
+    this.divs = divs;
   }
-  spanAt(id: number) {
-    return this.spans?.[id];
+
+  /** get HTML element for a given cell id  */
+  divAt(id: number): HTMLElement | undefined {
+    return this.divs?.[id];
   }
 }
 
+/**
+ * Text layout cell based on PDF text objects
+ */
 class PdfTextContentTextLayoutCell extends BaseTextLayoutCell<PdfTextContentTextLayout> {
-  // private readonly textItem: TextContentItem;
-
   constructor(
     parent: PdfTextContentTextLayout,
     index: number,
@@ -58,12 +67,11 @@ class PdfTextContentTextLayoutCell extends BaseTextLayoutCell<PdfTextContentText
     const bbox = PdfTextContentTextLayoutCell.getBbox(textItem, parent.viewport);
     const text = textItem.str;
     super({ parent, id, pageNum, bbox, text });
-
-    // this.textItem = textItem;
   }
 
+  /** @inheritdoc */
   getBboxForTextSpan(span: TextSpan, options: { useRatio?: boolean }): Bbox | null {
-    const spanElement = this.parent.spanAt(this.id);
+    const spanElement = this.parent.divAt(this.id);
     if (spanElement && spanElement.parentNode) {
       const scale = this.parent.viewport.scale;
       const bbox = getAdjustedCellByOffsetByDom(this, span, spanElement, scale);
@@ -74,7 +82,10 @@ class PdfTextContentTextLayoutCell extends BaseTextLayoutCell<PdfTextContentText
     return super.getBboxForTextSpan(span, options);
   }
 
-  static getBbox(textItem: TextContentItem, viewport: PDFPageViewport): Bbox {
+  /**
+   * Get bbox from a PDF text content item
+   */
+  private static getBbox(textItem: TextContentItem, viewport: PDFPageViewport): Bbox {
     const { transform } = textItem;
 
     const patchedViewport = viewport as PDFPageViewportOptions & PDFPageViewport;

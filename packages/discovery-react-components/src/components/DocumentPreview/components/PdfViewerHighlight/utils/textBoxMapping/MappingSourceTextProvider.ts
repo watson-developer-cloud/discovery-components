@@ -10,6 +10,10 @@ function debug(...args: any) {
   debugOut?.apply(null, args);
 }
 
+/**
+ * TextProvider with normalization
+ * @see TextProvider
+ */
 export class MappingSourceTextProvider {
   private readonly cell: TextLayoutCell;
   private readonly normalizer: TextNormalizer;
@@ -21,6 +25,9 @@ export class MappingSourceTextProvider {
     this.provider = new TextProvider(this.normalizer.normalizedText);
   }
 
+  /**
+   * Find the best span where the give text matches to the rest of the text
+   */
   getMatch(text: string) {
     const normalizedText = this.normalizer.normalize(text);
     debug('getMatch "%s", normalized "%s"', text, normalizedText);
@@ -49,13 +56,19 @@ export class MappingSourceTextProvider {
     return r;
   }
 
+  /**
+   * Mark the given `span` as used
+   */
   consume(span: TextSpan) {
     const normalizedSpan = this.normalizer.toNormalized(span);
     this.provider.consume(normalizedSpan);
     debug('text span consumed %o', span);
   }
 
-  isBlank(text: string) {
+  /**
+   * Check whether a given text is blank or not
+   */
+  isBlank(text: string): boolean {
     return this.normalizer.isBlank(text);
   }
 }

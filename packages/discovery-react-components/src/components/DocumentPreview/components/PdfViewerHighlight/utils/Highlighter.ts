@@ -10,7 +10,7 @@ import {
 import { getTextBoxMappings } from './textBoxMapping';
 import { TextBoxMapping, TextBoxMappingResult } from './textBoxMapping/types';
 import { HtmlBboxTextLayout, PdfTextContentTextLayout, TextMappingsTextLayout } from './textLayout';
-import { HtmlBboxInfo } from './textLayout/types';
+import { HtmlBboxInfo, TextLayout, TextLayoutCell } from './textLayout/types';
 import { spanOffset, START } from './common/textSpanUtils';
 import { nonEmpty } from './common/nonEmpty';
 
@@ -46,7 +46,7 @@ export class Highlighter {
     this.pageNum = pageNum;
     this.textMappingsLayout = new TextMappingsTextLayout({ document, textMappings }, pageNum);
     if (htmlBboxInfo) {
-      this.setProcessedDoc(htmlBboxInfo);
+      this.setHtmlBboxInfo(htmlBboxInfo);
     }
     if (pdfTextContentInfo) {
       this.setTextContentItems(
@@ -58,15 +58,26 @@ export class Highlighter {
     }
   }
 
-  setProcessedDoc(htmlBoxInfo: HtmlBboxInfo) {
+  /**
+   * Update highlight with bboxes in HTML field in document
+   * @param htmlBoxInfo processed document info including bboxes
+   */
+  setHtmlBboxInfo(htmlBoxInfo: HtmlBboxInfo) {
     const htmlLayout = new HtmlBboxTextLayout(htmlBoxInfo, this.pageNum);
     this.textToHtmlBboxMappings = getTextBoxMappings(this.textMappingsLayout, htmlLayout);
   }
 
+  /**
+   * Update highlighter with PDF text content
+   * @param textContent PDF text content of the current page
+   * @param viewport viewport of the currently rendered PDF page
+   * @param textContentDivs HTML elements where text content items are rendered
+   * @param htmlBoxInfo processed document info including bboxes
+   */
   setTextContentItems(
     textContent: TextContent,
     viewport: PDFPageViewport,
-    spans?: HTMLElement[],
+    textContentDivs?: HTMLElement[],
     htmlBoxInfo?: HtmlBboxInfo
   ) {
     this.pdfTextContentLayout = new PdfTextContentTextLayout(
@@ -78,44 +89,22 @@ export class Highlighter {
       this.textMappingsLayout,
       this.pdfTextContentLayout
     );
-    this.setTextContentDivs(spans);
+    this.setTextContentDivs(textContentDivs);
   }
 
-  setTextContentDivs(spans?: HTMLElement[]) {
-    this.pdfTextContentLayout?.setSpans(spans);
+  /**
+   * Update text content HTML elements
+   * @param textContentDivs HTML elements where text content items are rendered
+   */
+  setTextContentDivs(textContentDivs?: HTMLElement[]) {
+    this.pdfTextContentLayout?.setDivs(textContentDivs);
   }
 
-  getHighlightTextMappingResult(highlight: DocumentFieldHighlight): TextBoxMappingResult {
-    let items = this.textMappingsLayout.getHighlight(highlight);
-
-    const doMapping = (items: TextBoxMappingResult, textBoxMapping: TextBoxMapping, parent: any) =>
-      flatMap(items, item => {
-        if (item.cell) {
-          const { cell: baseCell } = item.cell.getNormalized();
-          if (baseCell.parent === parent) {
-            const newItems = textBoxMapping.apply(item.cell);
-            return newItems.map(({ cell, sourceSpan }) => {
-              return {
-                cell,
-                sourceSpan: spanOffset(sourceSpan, item.sourceSpan[START])
-              };
-            });
-          }
-          return item;
-        }
-        return [];
-      });
-
-    const { textToPdfTextItemMappings, textToHtmlBboxMappings } = this;
-    if (textToPdfTextItemMappings) {
-      items = doMapping(items, textToPdfTextItemMappings, this.textMappingsLayout);
-    }
-    if (textToHtmlBboxMappings) {
-      items = doMapping(items, textToHtmlBboxMappings, this.textMappingsLayout);
-    }
-    return items;
-  }
-
+  /**
+   * Get highlight shape from a span on a field
+   * @param highlight a span on a document field to highlight
+   * @returns highlight shape
+   */
   getHighlight<T extends DocumentFieldHighlight = DocumentFieldHighlight>(
     highlight: T
   ): HighlightShape & Omit<T, keyof DocumentFieldHighlight> {
@@ -142,10 +131,8 @@ export class Highlighter {
             isStart: index === 0,
             isEnd: index === items.length - 1
           };
-        } else {
-          debug('getHighlight - cell(%i) missing. source span: %o', item.sourceSpan);
         }
-        // drop something!!
+        debug('getHighlight - cell(%i) is not mapped. source span: %o', item.sourceSpan);
         return null;
       })
       .filter(nonEmpty);
@@ -154,5 +141,45 @@ export class Highlighter {
       className,
       ...rest
     };
+  }
+
+  /**
+   * Get text layout cells from a span on a field
+   * @param highlight a span on a document field to highlight
+   * @returns TextLayoutCells representing the given highlight
+   */
+  private getHighlightTextMappingResult(highlight: DocumentFieldHighlight): TextBoxMappingResult {
+    let items = this.textMappingsLayout.getHighlight(highlight);
+
+    const doMapping = (
+      items: TextBoxMappingResult,
+      textBoxMapping: TextBoxMapping,
+      parent: TextLayout<TextLayoutCell>
+    ) =>
+      flatMap(items, item => {
+        if (item.cell) {
+          const { cell: baseCell } = item.cell.getNormalized();
+          if (baseCell.parent === parent) {
+            const newItems = textBoxMapping.apply(item.cell);
+            return newItems.map(({ cell, sourceSpan }) => {
+              return {
+                cell,
+                sourceSpan: spanOffset(sourceSpan, item.sourceSpan[START])
+              };
+            });
+          }
+          return item;
+        }
+        return [];
+      });
+
+    const { textToPdfTextItemMappings, textToHtmlBboxMappings } = this;
+    if (textToPdfTextItemMappings) {
+      items = doMapping(items, textToPdfTextItemMappings, this.textMappingsLayout);
+    }
+    if (textToHtmlBboxMappings) {
+      items = doMapping(items, textToHtmlBboxMappings, this.textMappingsLayout);
+    }
+    return items;
   }
 }

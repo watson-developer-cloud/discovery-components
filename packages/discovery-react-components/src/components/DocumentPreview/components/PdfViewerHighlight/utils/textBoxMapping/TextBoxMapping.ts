@@ -17,6 +17,9 @@ function debug(...args: any) {
   debugOut?.apply(null, args);
 }
 
+/**
+ * Text box mapping
+ */
 export class TextBoxMappingImpl implements TextBoxMapping {
   private readonly mappingEntryMap: Dictionary<TextBoxMappingEntry[]>;
 
@@ -31,12 +34,17 @@ export class TextBoxMappingImpl implements TextBoxMapping {
     debug(this);
   }
 
-  getEntries(sourceCell: TextLayoutCell, spanInSourceCell: TextSpan) {
+  /** get text mapping entries for a given span `spanInSourceCell` on a given `sourceCell` */
+  private getEntries(
+    sourceCell: TextLayoutCell,
+    spanOnSourceCell: TextSpan
+  ): TextBoxMappingEntry[] {
     return (this.mappingEntryMap[sourceCell.id] || []).filter(m =>
-      spanIntersects(m.text.span, spanInSourceCell)
+      spanIntersects(m.text.span, spanOnSourceCell)
     );
   }
 
+  /** @inheritdoc */
   apply(source: TextLayoutCellBase, aSpan?: TextSpan): TextBoxMappingResult {
     const span: TextSpan = aSpan || [0, source.text.length];
 
@@ -51,7 +59,7 @@ export class TextBoxMappingImpl implements TextBoxMapping {
         return { cell: null, sourceSpan: m.text.span };
       } else {
         let boxSpan;
-        if (hasSameText(m.text.cell, m.text.span, source, spanInSourceCell)) {
+        if (equalsSpanText(m.text.cell, m.text.span, source, spanInSourceCell)) {
           boxSpan = spanGetSubSpan(m.text.span, spanInSourceCell);
         } else {
           const n1 = new TextNormalizer(m.text.cell.text);
@@ -75,7 +83,10 @@ export class TextBoxMappingImpl implements TextBoxMapping {
   }
 }
 
-function hasSameText(
+/**
+ * Check if text on spans on cells are the same or not
+ */
+function equalsSpanText(
   textCell: TextLayoutCellBase,
   textSpan: TextSpan,
   sourceCell: TextLayoutCellBase,

@@ -12,12 +12,21 @@ import { findLargestIndex } from '../common/findLargestIndex';
 const MAX_HISTORY = 3;
 
 export type TextMatch = {
+  /** matched text span */
   span: TextSpan;
+  /** text before the matched text. i.e. text that will be skipped by using this match */
   skipText: string;
+  /** distance from the nearest cursors */
   minHistoryDistance: number;
+  /** text after the matched text */
   textAfterEnd: string;
 };
 
+/**
+ * Manage text in a source (larger) cell.
+ * - Find text (in a target cell) from the _unused_ text
+ * - Once a span is mapped to a target (smaller) cell, mark the the correspondent span _used_
+ */
 export class TextProvider {
   private readonly fieldText: string;
   private remainingSpans: TextSpan[];
@@ -28,6 +37,9 @@ export class TextProvider {
     this.remainingSpans = [[0, fieldText.length]];
   }
 
+  /**
+   * Get how the given `text` matches to the currently available text
+   */
   getMatches(text: string, minLength = 1, maxLength = text.length): TextMatch[] {
     const match = findLargestIndex(minLength, maxLength + 1, index => {
       const lengthToMatch = index;
@@ -65,6 +77,9 @@ export class TextProvider {
     return match ? match.value : [];
   }
 
+  /**
+   * Mark the `span` as used
+   */
   consume(span: TextSpan) {
     const remaining: TextSpan[] = [];
     this.remainingSpans.forEach(remainingSpan => {

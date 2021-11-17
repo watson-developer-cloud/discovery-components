@@ -3,13 +3,24 @@ import { END, spanLen, START } from './textSpanUtils';
 
 type SpanMapping = { rawSpan: TextSpan; normalizedSpan: TextSpan };
 
-const SPACES = {
+type CharNormalizer = {
+  /**
+   * Get normalized character of the original string
+   */
+  normal: (original: string) => string;
+  /**
+   * String representation regex that matches to characters to be normalized
+   */
+  regexString: string;
+};
+
+const SPACES: CharNormalizer = {
   normal: () => ' ',
   regexString: '\\s+'
 };
 
-const DOUBLE_QUOTE = {
-  normal: () => '"',
+const DOUBLE_QUOTE: CharNormalizer = {
+  normal: (_: string) => '"',
   regexString: `[${[
     '«', // U+00AB
     '»', // U+00BB
@@ -27,7 +38,7 @@ const DOUBLE_QUOTE = {
   ].join('')}]`
 };
 
-const QUOTE = {
+const QUOTE: CharNormalizer = {
   normal: () => "'",
   regexString: `[${[
     '‹', // U+2039
@@ -44,7 +55,10 @@ const QUOTE = {
   ].join('')}]`
 };
 
-const SURROGATE_PAIR = {
+// handle a character that is encoded as a surrogate pair
+// in Javascript string (i.e. UTF-16), whose length is 2
+// as a single character
+const SURROGATE_PAIR: CharNormalizer = {
   normal: (_: string) => '_',
   regexString: '[\uD800-\uDBFF][\uDC00-\uDFFF]'
 };
@@ -52,13 +66,13 @@ const SURROGATE_PAIR = {
 // remove "Combining Diacritical Marks" from the string
 // NOTE: we may have to do this after conversion again
 // str.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-const DIACRITICAL_MARK = {
+const DIACRITICAL_MARK: CharNormalizer = {
   normal: () => '',
   regexString: '[\u0300-\u036f]'
 };
 const DIACRITICAL_MARK_REGEX = new RegExp(DIACRITICAL_MARK.regexString, 'g');
 
-function normalizeDiacriticalMarks(text: string, keepLength = false) {
+function normalizeDiacriticalMarks(text: string, keepLength = false): string {
   const r = text
     .normalize('NFD')
     .replace(DIACRITICAL_MARK_REGEX, DIACRITICAL_MARK.normal)
@@ -86,11 +100,20 @@ const NORMALIZATIONS_REGEX = new RegExp(
 );
 
 /**
- * Normalize text
+ * Normalize the following in text:
+ * - two or more consecutive spaces to a single space
+ * - variants of single quote to `'`
+ * - variants of double quote to `"`
+ * - surrogate pairs to a single character `_`
+ * - remove diacritical marks (accent) from characters
+ *
+ * This is used for preprocessing to compare texts to ignore minor
+ * text differences.
+ *
  * @param text text to normalize
  * @returns normalized text @see TextNormalizer
  */
-export function normalizeText(text: string) {
+function normalizeText(text: string): string {
   const r = NORMALIZATIONS.reduce((text, n) => {
     return text.replace(n.regex, m => n.normal(m));
   }, text);
@@ -101,10 +124,11 @@ export function normalizeText(text: string) {
  * Text normalizer with mapping between spans on original and normalized text
  *
  * Normalize the following in a text:
- * - two or more consequent spaces
- * - single or double quote
- * - surrogate pairs
- * - diacritical marks (accent)
+ * - two or more consecutive spaces to a single space
+ * - variants of single quote to `'`
+ * - variants of double quote to `"`
+ * - surrogate pairs to a single character `_`
+ * - remove diacritical marks (accent) from characters
  */
 export class TextNormalizer {
   readonly rawText: string;
@@ -161,6 +185,7 @@ export class TextNormalizer {
       }
       match = re.exec(this.rawText);
     }
+
     if (cur < this.rawText.length) {
       const newText = this.rawText.substring(cur);
       const rawSpan: TextSpan = [cur, cur + newText.length];
@@ -171,10 +196,16 @@ export class TextNormalizer {
       normalizationMappings.push({ rawSpan, normalizedSpan });
       addNormalizedText(newText);
     }
+
     this.normalizedText = normalizedText;
     this.normalizationMappings = optimizeSpanMappings(normalizationMappings);
   }
 
+  /**
+   * Convert a span on original text to a span on normalized text
+   * @param rawSpan span on original text
+   * @returns span on normalized text
+   */
   toNormalized(rawSpan: TextSpan): TextSpan {
     const [rawBegin, rawEnd] = rawSpan;
 
@@ -193,6 +224,11 @@ export class TextNormalizer {
     return [normalizedIndex(rawBegin), normalizedIndex(rawEnd)];
   }
 
+  /**
+   * Convert a span on normalized text to a span on normalized text
+   * @param normalizedSpan span on normalized text
+   * @returns span on original text
+   */
   toRaw(normalizedSpan: TextSpan): TextSpan {
     const [normalizedBegin, normalizedEnd] = normalizedSpan;
 
@@ -213,12 +249,22 @@ export class TextNormalizer {
     return [rawIndex(normalizedBegin), rawIndex(normalizedEnd)];
   }
 
-  normalize(text: string) {
+  /**
+   * Normalize a text. @see TextNormalizer for the details of the normalization
+   * @param text text to be normalized
+   * @returns normalized text
+   */
+  normalize(text: string): string {
     return normalizeText(text);
   }
 
-  isBlank(text: string) {
-    return text.length === 0 || text.trim().length === 0 || text.match(/^\s*$/);
+  /**
+   * Check whether a given text is blank or not
+   * @param text text to be tested
+   * @returns `true` when the text only contains spaces
+   */
+  isBlank(text: string): boolean {
+    return text.length === 0 || text.trim().length === 0 || !!text.match(/^\s*$/);
   }
 }
 
@@ -241,7 +287,19 @@ function mapCharIndexOnSpans(
   );
 }
 
-function optimizeSpanMappings(mappings: SpanMapping[]) {
+/**
+ * Optimize the mappings between spans on original text and spans on normalized text
+ * by merging consecutive identical mappings
+ *
+ * Example: given mapping:
+ *  (original: [0,10] -> normalized: [0,10])
+ *  (original: [10,20] -> normalized: [10,20])
+ *  (original: [20,25] -> normalized: [20,21])
+ * The mapping above is optimized to:
+ *  (original: [0,20] -> normalized: [0,20])
+ *  (original: [20,25] -> normalized: [20,21])
+ */
+function optimizeSpanMappings(mappings: SpanMapping[]): SpanMapping[] {
   const sameLength = (mapping: SpanMapping) =>
     spanLen(mapping.normalizedSpan) === spanLen(mapping.rawSpan);
   const isShifted = (a: SpanMapping, b: SpanMapping) =>

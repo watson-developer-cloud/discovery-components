@@ -1,64 +1,37 @@
 import React, { FC, useState, useEffect } from 'react';
-import { PDFSource } from 'pdfjs-dist';
-import { QueryResult } from 'ibm-watson/discovery/v2';
 import { DocumentFieldHighlight } from './types';
-import PdfViewer from '../PdfViewer/PdfViewer';
+import PdfViewer, { PdfViewerProps } from '../PdfViewer/PdfViewer';
 import PdfViewerHighlight from './PdfViewerHighlight';
 import { extractDocumentInfo, ExtractedDocumentInfo } from './utils/common/documentUtils';
+import { QueryResult } from 'ibm-watson/discovery/v2';
+import { PdfTextLayerInfo } from '../PdfViewer/PdfViewerTextLayer';
 
-interface Props {
-  className?: string;
+interface Props extends PdfViewerProps {
+  /**
+   * Class name to style each highlight
+   */
   highlightClassName?: string;
 
   /**
-   * PDF file data as base64-encoded string
-   */
-  file: string;
-
-  /**
-   * Page number, starting at 1
-   */
-  page: number;
-
-  /**
-   * Zoom factor, where `1` is equal to 100%
-   */
-  scale: number;
-
-  /**
-   * Options passed to PdfJsLib.getDocument
-   */
-  pdfLoadOptions?: PDFSource;
-
-  /**
-   * Callback invoked with page count, once `file` has been parsed
-   */
-  setPageCount?: (count: number) => void;
-  /**
-   * Check if document is loading
-   */
-  setLoading?: (loading: boolean) => void;
-  /**
-   * Callback which is invoked with whether to enable/disable toolbar controls
-   */
-  setHideToolbarControls?: (disabled: boolean) => void;
-
-  /**
-   * A document
+   * Document data returned by query
    */
   document: QueryResult;
 
   /**
-   * Highlight
+   * Highlight spans on fields in document
    */
   highlights: DocumentFieldHighlight[];
 
   /**
-   * Consider bboxes in HTML field to highlight (internal)
+   * Consider bboxes in HTML field to highlight.
+   * True by default. This is for testing purpose.
    */
   useHtmlBbox?: boolean;
 }
 
+/**
+ * PDF viewer component with text highlighting capability
+ */
 const PdfViewerWithHighlight: FC<Props> = ({
   highlightClassName,
   document,
@@ -67,7 +40,7 @@ const PdfViewerWithHighlight: FC<Props> = ({
   ...rest
 }) => {
   const { page, scale } = rest;
-  const [textLayerInfo, setTextLayerInfo] = useState<any>();
+  const [textLayerInfo, setTextLayerInfo] = useState<PdfTextLayerInfo | null>(null);
 
   const [documentInfo, setDocumentInfo] = useState<ExtractedDocumentInfo | null>(null);
   useEffect(() => {
@@ -90,7 +63,7 @@ const PdfViewerWithHighlight: FC<Props> = ({
       <PdfViewerHighlight
         highlightClassName={highlightClassName}
         document={document}
-        documentInfo={highlightReady ? documentInfo : null}
+        parsedDocument={highlightReady ? documentInfo : null}
         pdfTextLayerInfo={highlightReady ? textLayerInfo : null}
         pageNum={page}
         highlights={highlights}

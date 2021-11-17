@@ -6,28 +6,71 @@ import { PdfTextLayerInfo } from '../PdfViewer/PdfViewerTextLayer';
 import { Highlighter } from './utils/Highlighter';
 import { ExtractedDocumentInfo } from './utils/common/documentUtils';
 import { settings } from 'carbon-components';
+import { TextMappings } from 'components/DocumentPreview/types';
+import { ProcessedDoc } from 'utils/document';
 
 interface Props {
+  /**
+   * Class name to style highlight layer
+   */
   className?: string;
+
+  /**
+   * Class name to style each highlight
+   */
   highlightClassName?: string;
 
+  /**
+   * Document data returned by query
+   */
   document: QueryResult;
-  documentInfo: ExtractedDocumentInfo | null;
-  pageNum: number;
-  highlights: DocumentFieldHighlight[];
-  pdfTextLayerInfo?: PdfTextLayerInfo;
 
+  /**
+   * Parsed document information
+   */
+  parsedDocument: ExtractedDocumentInfo | null;
+
+  /**
+   * Current page, starting at index 1
+   */
+  pageNum: number;
+
+  /**
+   * Highlight spans on fields in document
+   */
+  highlights: DocumentFieldHighlight[];
+
+  /**
+   * PDF text content information in a page from parsed PDF
+   */
+  pdfTextLayerInfo: PdfTextLayerInfo | null;
+
+  /**
+   * Zoom factor, where `1` is equal to 100%
+   */
   scale?: number;
 
+  /**
+   * Flag to whether or not to use bbox information from html field in the document.
+   * True by default. This is for testing and debugging purpose.
+   */
   useHtmlBbox?: boolean;
+
+  /**
+   * Flag to whether to use PDF text items for finding bbox for highlighting.
+   * True by default. This is for testing and debugging purpose.
+   */
   usePdfTextItem?: boolean;
 }
 
+/**
+ * Text highlight layer for PdfViewer
+ */
 const PdfViewerHighlight: FC<Props> = ({
   className,
   highlightClassName,
   document,
-  documentInfo,
+  parsedDocument,
   pageNum,
   highlights,
   pdfTextLayerInfo,
@@ -35,37 +78,20 @@ const PdfViewerHighlight: FC<Props> = ({
   useHtmlBbox = true,
   usePdfTextItem = true
 }) => {
-  const {
-    viewport: pdfViewport,
-    textContent: pdfTextContent,
-    textDivs: pdfTextDivs
-  } = pdfTextLayerInfo || {};
-  const highlighter = useMemo(() => {
-    if (documentInfo && documentInfo.textMappings) {
-      return new Highlighter({
-        document,
-        textMappings: documentInfo.textMappings,
-        pageNum,
-        htmlBboxInfo: useHtmlBbox
-          ? {
-              bboxes: documentInfo.processedDoc.bboxes,
-              styles: documentInfo.processedDoc.styles
-            }
-          : undefined,
-        pdfTextContentInfo:
-          usePdfTextItem && pdfTextContent && pdfViewport
-            ? { textContent: pdfTextContent, viewport: pdfViewport }
-            : undefined
-      });
-    }
-    return null;
-  }, [document, documentInfo, pageNum, pdfTextContent, pdfViewport, useHtmlBbox, usePdfTextItem]);
+  const highlighter = useHighlighter({
+    document,
+    textMappings: parsedDocument?.textMappings,
+    processedDoc: useHtmlBbox ? parsedDocument?.processedDoc : undefined,
+    pdfTextLayerInfo: (usePdfTextItem && pdfTextLayerInfo) || undefined,
+    pageNum
+  });
 
+  const { textDivs } = pdfTextLayerInfo || {};
   useEffect(() => {
     if (highlighter) {
-      highlighter.setTextContentDivs(pdfTextDivs);
+      highlighter.setTextContentDivs(textDivs);
     }
-  }, [highlighter, pdfTextDivs]);
+  }, [highlighter, textDivs]);
 
   const highlightBoxes = useMemo(() => {
     return highlights.map(highlight => {
@@ -104,6 +130,37 @@ const PdfViewerHighlight: FC<Props> = ({
       })}
     </div>
   );
+};
+
+const useHighlighter = ({
+  document,
+  textMappings,
+  processedDoc,
+  pdfTextLayerInfo,
+  pageNum
+}: {
+  document: QueryResult;
+  textMappings?: TextMappings;
+  processedDoc?: ProcessedDoc;
+  pdfTextLayerInfo?: PdfTextLayerInfo;
+  pageNum: number;
+}) => {
+  return useMemo(() => {
+    if (textMappings) {
+      return new Highlighter({
+        document,
+        textMappings,
+        pageNum,
+        htmlBboxInfo: processedDoc && {
+          bboxes: processedDoc.bboxes,
+          styles: processedDoc.styles
+        },
+        pdfTextContentInfo:
+          pdfTextLayerInfo?.textContent && pdfTextLayerInfo?.viewport ? pdfTextLayerInfo : undefined
+      });
+    }
+    return null;
+  }, [document, pageNum, pdfTextLayerInfo, processedDoc, textMappings]);
 };
 
 export default PdfViewerHighlight;

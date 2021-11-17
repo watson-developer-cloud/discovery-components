@@ -1,16 +1,16 @@
-import { isSideBySideOnLine } from '../common/bboxUtils';
+import { isNextToEachOther } from '../common/bboxUtils';
 import { TextLayoutCell, TextLayoutCellBase } from '../textLayout/types';
 
 export class CellProvider {
   private readonly skippedCells: TextLayoutCellBase[] = [];
-  private cells: TextLayoutCellBase[]; // make sure to handle this as immutable array
+  private cells: readonly TextLayoutCellBase[];
   private cursor: number = 0;
 
   constructor(cells: TextLayoutCellBase[]) {
-    this.cells = [...cells];
+    this.cells = Object.freeze([...cells]);
   }
 
-  hasNext() {
+  hasNext(): boolean {
     while (this.cursor < this.cells.length) {
       const cell = this.cells[this.cursor];
       if (cell.text.trim().length !== 0) {
@@ -22,44 +22,55 @@ export class CellProvider {
   }
 
   /** get cells on a line */
-  private getNextCells = (() => {
-    let lastCells: TextLayoutCellBase[] | null = null;
-    let lastCursor: number | null = null;
-    let lastResult: TextLayoutCellBase[] | null = null;
+  private getNextCells(): TextLayoutCellBase[] {
+    const {
+      cells: lastCells,
+      cursor: lastCursor,
+      result: lastResult
+    } = this.getNextCellsCache || {};
 
-    return () => {
-      if (lastResult && lastCells === this.cells && lastCursor === this.cursor) {
-        return lastResult;
+    if (lastResult && lastCells === this.cells && lastCursor === this.cursor) {
+      return lastResult;
+    }
+
+    const result: TextLayoutCellBase[] = [];
+    let lastCell: TextLayoutCell | null = null;
+    for (let i = this.cursor; i < this.cells.length; i += 1) {
+      const currentBox = this.cells[i];
+      // maybe we need to break this loop by big box change
+      const { cell: baseCurrentCell } = currentBox.getNormalized();
+      if (lastCell && !isNextToEachOther(lastCell.bbox, baseCurrentCell.bbox)) {
+        break;
       }
+      result.push(currentBox);
+      lastCell = baseCurrentCell;
+    }
 
-      const result: TextLayoutCellBase[] = [];
-      let lastCell: TextLayoutCell | null = null;
-      for (let i = this.cursor; i < this.cells.length; i += 1) {
-        const currentBox = this.cells[i];
-        // maybe we need to break this loop by big box change
-        const { cell: baseCurrentCell } = currentBox.getNormalized();
-        if (lastCell && !isSideBySideOnLine(lastCell.bbox, baseCurrentCell.bbox)) {
-          break;
-        }
-        result.push(currentBox);
-        lastCell = baseCurrentCell;
-      }
-      lastCells = this.cells;
-      lastCursor = this.cursor;
-      lastResult = result;
-
-      return result;
+    this.getNextCellsCache = {
+      cells: this.cells,
+      cursor: this.cursor,
+      result
     };
-  })();
+    return result;
+  }
+
+  private getNextCellsCache: {
+    cells: readonly TextLayoutCellBase[];
+    cursor: number;
+    result: TextLayoutCellBase[];
+  } | null = null;
 
   /** get text from cells on a line */
-  getNextText() {
+  getNextText(): { texts: string[]; nextCellIndex: number } {
     const nextCells = this.getNextCells();
     const texts = nextCells.map(cell => cell.text);
     return { texts, nextCellIndex: this.cursor };
   }
 
-  /** consume first n chars */
+  /**
+   * consume (mark as used) first n chars from the cursor
+   * @return text layout cells on the consumed text
+   */
   consume(length: number): TextLayoutCellBase[] {
     const result: TextLayoutCellBase[] = [];
 
@@ -77,7 +88,7 @@ export class CellProvider {
         const remaining = current.getPartial([lengthToConsume, bboxTextLength]);
         const newCells = [...this.cells];
         newCells[this.cursor] = remaining;
-        this.cells = newCells;
+        this.cells = Object.freeze(newCells);
         break;
       }
 

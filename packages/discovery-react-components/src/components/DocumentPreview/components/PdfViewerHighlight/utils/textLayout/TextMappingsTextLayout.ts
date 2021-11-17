@@ -11,6 +11,9 @@ import {
 import { BaseTextLayoutCell } from './BaseTextLayout';
 import { TextLayout, TextMappingInfo } from './types';
 
+/**
+ * Text layout based on text mappings
+ */
 export class TextMappingsTextLayout implements TextLayout<TextMappingsTextLayoutCell> {
   readonly cells: TextMappingsTextLayoutCell[];
 
@@ -24,10 +27,16 @@ export class TextMappingsTextLayout implements TextLayout<TextMappingsTextLayout
       });
   }
 
+  /** @inheritdoc */
   cellAt(id: number) {
     return this.cells[id];
   }
 
+  /**
+   * Get highlighted text layout cells from a span on a field in a search result document
+   * @param highlight field and span to highlight
+   * @returns a text cell based on
+   */
   getHighlight(highlight: DocumentFieldHighlight): TextBoxMappingResult {
     const highlightSpan: TextSpan = [highlight.location.begin, highlight.location.end];
     const highlightCells = this.cells
@@ -52,6 +61,9 @@ export class TextMappingsTextLayout implements TextLayout<TextMappingsTextLayout
   }
 }
 
+/**
+ * Text layout cell based on a text mapping cell
+ */
 class TextMappingsTextLayoutCell extends BaseTextLayoutCell<TextMappingsTextLayout> {
   readonly cellField: CellField;
 

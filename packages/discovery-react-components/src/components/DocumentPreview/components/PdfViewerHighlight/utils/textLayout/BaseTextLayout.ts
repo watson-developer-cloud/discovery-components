@@ -35,12 +35,17 @@ export class BaseTextLayoutCell<Layout extends TextLayout<TextLayoutCell>>
     this.text = text;
   }
 
+  /** @inheritdoc */
   getPartial(span: TextSpan): TextLayoutCellBase {
     return new PartialTextLayoutCell(this, span);
   }
+
+  /** @inheritdoc */
   getNormalized(): { cell: TextLayoutCell; span?: TextSpan } {
     return { cell: this };
   }
+
+  /** @inheritdoc */
   getBboxForTextSpan(span: TextSpan, options: { useRatio?: boolean }): Bbox | null {
     if (options?.useRatio) {
       return bboxGetSpanByRatio(this.bbox, this.text.length, span);
@@ -61,14 +66,18 @@ export class PartialTextLayoutCell implements TextLayoutCellBase {
     this.span = spanIntersection([0, base.text.length], span);
   }
 
+  /* @inheritdoc */
   get text() {
     return spanGetText(this.base.text, this.span);
   }
 
+  /** @inheritdoc */
   getPartial(span: TextSpan): TextLayoutCellBase {
     const newSpan = spanIntersection(this.span, spanOffset(span, this.span[START]));
     return new PartialTextLayoutCell(this.base, newSpan);
   }
+
+  /** @inheritdoc */
   getNormalized() {
     return { cell: this.base, span: this.span };
   }

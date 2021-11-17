@@ -2,18 +2,24 @@ import minBy from 'lodash/minBy';
 import { TextSpan } from '../../types';
 import { bboxIntersects } from '../common/bboxUtils';
 import { nonEmpty } from '../common/nonEmpty';
-import { spanLen, spanUnion } from '../common/textSpanUtils';
+import { spanLen, spanMerge } from '../common/textSpanUtils';
 import { TextLayout, TextLayoutCell, TextLayoutCellBase } from '../textLayout/types';
 import { MappingSourceTextProvider } from './MappingSourceTextProvider';
 import { MappingTargetBoxProvider } from './MappingTargetCellProvider';
 import { TextBoxMappingImpl } from './TextBoxMapping';
-import { TextBoxMappingEntry } from './types';
+import { TextBoxMapping, TextBoxMappingEntry } from './types';
 
 const debugOut = require('debug')?.('pdf:mapping:getTextBoxMapping');
 function debug(...args: any) {
   debugOut?.apply(null, args);
 }
 
+/**
+ * Find the best source (larger text layout cell) where text `textToMatch` is in
+ * @param sources source (larger) text layout cells overlapping the current target cell
+ * @param textToMatch text form target cell(s)
+ * @returns the best source where the `textToMatch` is matched and the text location in the source
+ */
 function findMatchInSources(
   sources: {
     cell: TextLayoutCell;
@@ -49,10 +55,16 @@ function findMatchInSources(
   return bestMatch;
 }
 
+/**
+ * Calculate text box mapping from `source` text layout to `target` text layout
+ * @param source text layout with larger cells
+ * @param target text layout with smaller cells
+ * @returns a text box mapping instance
+ */
 export function getTextBoxMappings<
   SourceCell extends TextLayoutCell,
   TargetCell extends TextLayoutCell
->(source: TextLayout<SourceCell>, target: TextLayout<TargetCell>) {
+>(source: TextLayout<SourceCell>, target: TextLayout<TargetCell>): TextBoxMapping {
   const sourceProviders = source.cells.map(cell => new MappingSourceTextProvider(cell));
   const targetProvider = new MappingTargetBoxProvider(target.cells);
 
@@ -100,7 +112,7 @@ export function getTextBoxMappings<
         if (matchToTargetCell) {
           // consume source text which is just mapped to the target
           matchedSourceProvider.consume(matchToTargetCell.span);
-          consumedSourceSpan = spanUnion(consumedSourceSpan, matchToTargetCell.span);
+          consumedSourceSpan = spanMerge(consumedSourceSpan, matchToTargetCell.span);
           mappingEntries.push({
             text: { cell: matchInSource.cell, span: matchToTargetCell.span },
             box: { cell: trimmedCell }
@@ -119,6 +131,10 @@ export function getTextBoxMappings<
   return new TextBoxMappingImpl(mappingEntries);
 }
 
+/**
+ * Get a text layout cell that represents a trimmed text of a given `cell`
+ * @returns a new cell for the trimmed text. Zero-length cell when the text of the given `cell` is blank
+ */
 function trimCell(cell: TextLayoutCellBase) {
   const text = cell.text;
   const nLeadingSpaces = text.match(/^\s*/)![0].length;
@@ -129,5 +145,5 @@ function trimCell(cell: TextLayoutCellBase) {
   if (text.length > nLeadingSpaces + nTrailingSpaces) {
     return cell.getPartial([nLeadingSpaces, text.length - nTrailingSpaces]);
   }
-  return cell.getPartial([0, 0]);
+  return cell.getPartial([0, 0]); // return zero-length cell
 }

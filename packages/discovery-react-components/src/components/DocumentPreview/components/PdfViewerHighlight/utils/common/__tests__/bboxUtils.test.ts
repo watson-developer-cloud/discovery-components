@@ -1,4 +1,4 @@
-import { bboxGetSpanByRatio, bboxIntersects, isSideBySideOnLine } from '../bboxUtils';
+import { bboxGetSpanByRatio, bboxIntersects, isNextToEachOther } from '../bboxUtils';
 
 describe('bboxIntersects', () => {
   it('should return true when boxes intersect', () => {
@@ -30,12 +30,12 @@ describe('bboxGetSpanByRatio', () => {
 
 describe('isSideBySideOnLine', () => {
   it('should return true for side-by-side boxes', () => {
-    expect(isSideBySideOnLine([0, 0, 5, 2], [5, 0, 10, 2])).toBeTruthy();
+    expect(isNextToEachOther([0, 0, 5, 2], [5, 0, 10, 2])).toBeTruthy();
   });
   it('should return false when boxes are not vertically aligned', () => {
-    expect(isSideBySideOnLine([0, 0, 5, 2], [5, 1, 10, 3])).toBeFalsy();
+    expect(isNextToEachOther([0, 0, 5, 2], [5, 1, 10, 3])).toBeFalsy();
   });
   it('should return false when two boxes are apart from each other', () => {
-    expect(isSideBySideOnLine([0, 0, 5, 2], [7, 0, 10, 2])).toBeFalsy();
+    expect(isNextToEachOther([0, 0, 5, 2], [7, 0, 10, 2])).toBeFalsy();
   });
 });

@@ -5,12 +5,21 @@ import { processDoc, ProcessedDoc } from 'utils/document';
 import { Location } from 'utils/document/processDoc';
 import { DocumentFields, TextSpan } from '../../types';
 
+/**
+ * Get value of the specified field from a search result document
+ *
+ * @param document search result document
+ * @param field field name
+ * @param index field index. 0 by default
+ * @param span (optional) span on the field value to return. Returns entire the field value by default
+ * @returns text
+ */
 export function getDocFieldValue(
   document: DocumentFields,
   field: string,
   index?: number,
   span?: Location | TextSpan
-) {
+): string | undefined {
   let fieldText: string | undefined;
 
   const documentFieldArray = document[field];
@@ -35,11 +44,13 @@ export type ExtractedDocumentInfo = {
   textMappings?: TextMappings;
 };
 
-export async function extractDocumentInfo(document: QueryResult) {
+/**
+ * Extract bboxes and text_mappings from a search result document
+ */
+export async function extractDocumentInfo(document: QueryResult): Promise<ExtractedDocumentInfo> {
   const docHtml = document.html;
   const textMappings = getTextMappings(document) ?? undefined;
 
-  // HtmlView.tsx
   const processedDoc = await processDoc(
     { ...document, docHtml },
     { sections: true, bbox: true, bboxInnerText: true }

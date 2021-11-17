@@ -1,3 +1,4 @@
+import { intersects } from 'components/DocumentPreview/utils/box';
 import { Bbox, TextSpan } from '../../types';
 import { spanIntersection, spanLen } from './textSpanUtils';
 
@@ -13,12 +14,10 @@ export const BOTTOM = 3;
  * but for type `Bbox`, which doesn't have page property
  * @param boxA one bbox
  * @param boxB another bbox
- * @returns true iff boxA and boxB are overwrapped
+ * @returns true iff boxA and boxB are overlapped
  */
-export function bboxIntersects(boxA: Bbox, boxB: Bbox) {
-  const [leftA, topA, rightA, bottomA] = boxA;
-  const [leftB, topB, rightB, bottomB] = boxB;
-  return !(leftB >= rightA || rightB <= leftA || topB >= bottomA || bottomB <= topA);
+export function bboxIntersects(boxA: Bbox, boxB: Bbox): boolean {
+  return intersects(boxA, boxB);
 }
 
 /**
@@ -27,7 +26,7 @@ export function bboxIntersects(boxA: Bbox, boxB: Bbox) {
  * @param origLength length of the text
  * @returns bbox for the text
  */
-export function bboxGetSpanByRatio(bbox: Bbox, origLength: number, span: TextSpan) {
+export function bboxGetSpanByRatio(bbox: Bbox, origLength: number, span: TextSpan): Bbox {
   const theSpan = spanIntersection([0, origLength], span);
   if (origLength === 0 || spanLen(theSpan) <= 0) {
     return [bbox[0], bbox[1], bbox[0], bbox[3]] as Bbox;
@@ -39,16 +38,14 @@ export function bboxGetSpanByRatio(bbox: Bbox, origLength: number, span: TextSpa
   const resultLeft = left + (width / origLength) * spanStart;
   const resultRight = left + (width / origLength) * spanEnd;
 
-  return [resultLeft, top, resultRight, bottom] as Bbox;
+  return [resultLeft, top, resultRight, bottom];
 }
 
 /**
- * Check whether two bboxes seems to be side-by-side on a same line.
- * @param boxA
- * @param boxB
- * @returns
+ * Check whether the two bboxes are next to each other in a row.
+ * This is used to get a text of a line from a list of small text cells.
  */
-export function isSideBySideOnLine(boxA: Bbox, boxB: Bbox) {
+export function isNextToEachOther(boxA: Bbox, boxB: Bbox): boolean {
   if (bboxIntersects(boxA, boxB)) {
     return false;
   }
@@ -59,14 +56,14 @@ export function isSideBySideOnLine(boxA: Bbox, boxB: Bbox) {
   const heightB = bottomB - topB;
 
   // compare height ratio
-  const OVERWRAP_RATIO = 0.8;
-  if (!(heightA * OVERWRAP_RATIO < heightB || heightB * OVERWRAP_RATIO < heightA)) {
+  const OVERLAP_RATIO = 0.8;
+  if (!(heightA * OVERLAP_RATIO < heightB || heightB * OVERLAP_RATIO < heightA)) {
     return false;
   }
 
   const avgHeight = (heightA + heightB) / 2;
-  const overWrapHeight = Math.max(0, Math.min(bottomA, bottomB) - Math.max(topA, topB));
-  if (overWrapHeight < avgHeight * OVERWRAP_RATIO) {
+  const overlapHeight = Math.max(0, Math.min(bottomA, bottomB) - Math.max(topA, topB));
+  if (overlapHeight < avgHeight * OVERLAP_RATIO) {
     return false;
   }
 

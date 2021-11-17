@@ -6,7 +6,7 @@ import { Bbox, DocumentFields, TextSpan } from '../../types';
 /**
  * Text layout information
  */
-export interface TextLayout<CellType extends TextLayoutCell> {
+export interface TextLayout<CellType extends TextLayoutCell = TextLayoutCell> {
   /** cells, paris of bbox and text, of this text layout */
   readonly cells: CellType[];
   /** get cell by ID */

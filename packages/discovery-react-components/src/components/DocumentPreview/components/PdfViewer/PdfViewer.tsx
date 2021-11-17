@@ -199,4 +199,5 @@ function getCanvasInfo(viewport: any): CanvasInfo {
   return { width, height, canvasWidth, canvasHeight, canvasScale };
 }
 
+export type PdfViewerProps = Props;
 export default PdfViewer;
