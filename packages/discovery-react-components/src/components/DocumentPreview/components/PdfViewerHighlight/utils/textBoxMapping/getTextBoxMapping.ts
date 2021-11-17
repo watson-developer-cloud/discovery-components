@@ -69,7 +69,7 @@ export function getTextBoxMappings<
   const targetProvider = new MappingTargetBoxProvider(target.cells);
 
   const targetIndexToSources = target.cells.map(targetCell => {
-    return source.cells
+    const cells = source.cells
       .map((sourceCell, index) => {
         if (!bboxIntersects(sourceCell.bbox, targetCell.bbox)) {
           return null;
@@ -77,6 +77,11 @@ export function getTextBoxMappings<
         return { cell: sourceCell, provider: sourceProviders[index] };
       })
       .filter(nonEmpty);
+
+    if (cells.some(({ cell }) => cell.isInHtmlBbox)) {
+      return cells.filter(({ cell }) => cell.isInHtmlBbox);
+    }
+    return cells;
   });
 
   const mappingEntries: TextBoxMappingEntry[] = [];

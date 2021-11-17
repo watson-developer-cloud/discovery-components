@@ -18,18 +18,16 @@ export class PdfTextContentTextLayout implements TextLayout<PdfTextContentTextLa
 
     const textContentItems = textContentInfo.textContent.items;
 
-    this.cells = textContentItems
-      .map((item, index) => {
-        return new PdfTextContentTextLayoutCell(this, index, item, pageNum);
-      })
-      .filter(cell => {
-        if (htmlBboxInfo?.bboxes?.length) {
-          return htmlBboxInfo.bboxes.some(bbox => {
-            return bboxIntersects(cell.bbox, [bbox.left, bbox.top, bbox.right, bbox.bottom]);
-          });
-        }
-        return true;
-      });
+    this.cells = textContentItems.map((item, index) => {
+      const cellBbox = PdfTextContentTextLayoutCell.getBbox(item, this.viewport);
+      let isInHtmlBbox = false;
+      if (htmlBboxInfo?.bboxes?.length) {
+        isInHtmlBbox = htmlBboxInfo.bboxes.some(bbox => {
+          return bboxIntersects(cellBbox, [bbox.left, bbox.top, bbox.right, bbox.bottom]);
+        });
+      }
+      return new PdfTextContentTextLayoutCell(this, index, item, pageNum, cellBbox, isInHtmlBbox);
+    });
   }
 
   /** get viewport of the current page */
@@ -57,14 +55,18 @@ export class PdfTextContentTextLayout implements TextLayout<PdfTextContentTextLa
  * Text layout cell based on PDF text objects
  */
 class PdfTextContentTextLayoutCell extends BaseTextLayoutCell<PdfTextContentTextLayout> {
+  /** @inheritdoc */
+  readonly isInHtmlBbox?: boolean;
+
   constructor(
     parent: PdfTextContentTextLayout,
     index: number,
     textItem: TextContentItem,
-    pageNum: number
+    pageNum: number,
+    bbox: Bbox,
+    isInHtmlBbox?: boolean
   ) {
     const id = index;
-    const bbox = PdfTextContentTextLayoutCell.getBbox(textItem, parent.viewport);
     const text = textItem.str;
     super({ parent, id, pageNum, bbox, text });
   }
@@ -85,7 +87,7 @@ class PdfTextContentTextLayoutCell extends BaseTextLayoutCell<PdfTextContentText
   /**
    * Get bbox from a PDF text content item
    */
-  private static getBbox(textItem: TextContentItem, viewport: PDFPageViewport): Bbox {
+  static getBbox(textItem: TextContentItem, viewport: PDFPageViewport): Bbox {
     const { transform } = textItem;
 
     const patchedViewport = viewport as PDFPageViewportOptions & PDFPageViewport;

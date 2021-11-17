@@ -30,6 +30,9 @@ export interface TextLayoutCell<IDType = number> extends TextLayoutCellBase {
    * @returns null when it's not available
    */
   getBboxForTextSpan(span: TextSpan, options?: { useRatio?: boolean }): Bbox | null;
+
+  /** a special property for PDF text content item cell. True when this cell overlaps HTML cell */
+  readonly isInHtmlBbox?: boolean;
 }
 
 /**
