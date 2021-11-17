@@ -91,9 +91,7 @@ class PdfTextContentTextLayoutCell extends BaseTextLayoutCell<PdfTextContentText
     const patchedViewport = viewport as PDFPageViewportOptions & PDFPageViewport;
     const defaultSideways = patchedViewport.rotation % 180 !== 0;
 
-    // not sure this is true...
     const [fontHeightPx, , offsetX, offsetY, x, y] = transform;
-
     const [xMin, yMin, , yMax] = patchedViewport.viewBox;
     const top = defaultSideways ? x + offsetX + yMin : yMax - (y + offsetY);
     const left = defaultSideways ? y - xMin : x - xMin;
