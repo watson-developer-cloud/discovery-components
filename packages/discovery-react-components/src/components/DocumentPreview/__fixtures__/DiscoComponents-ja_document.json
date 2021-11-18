@@ -1,0 +1,55 @@
+{
+  "document_id": "feab8705259090b89fbcbb15942cb10d",
+  "result_metadata": {
+    "collection_id": "b6cdf1cd-902c-8ea3-0000-017d32224d8f"
+  },
+  "enriched_text": [
+    {
+      "entities": [
+        {
+          "model_name": "natural_language_understanding",
+          "mentions": [
+            {
+              "confidence": 0.9950965,
+              "location": {
+                "end": 2,
+                "begin": 0
+              },
+              "text": "最初"
+            }
+          ],
+          "text": "最初",
+          "type": "Ordinal"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "parent_document_id": "feab8705259090b89fbcbb15942cb10d",
+    "customer_id": "IBMid-270001M55T"
+  },
+  "extracted_metadata": {
+    "sha1": "4FF2B41ED7A77975ABB21D9E4025DF31335E6451",
+    "numPages": "1",
+    "filename": "DiscoComponents-ja-updated.pdf",
+    "file_type": "pdf",
+    "text_mappings": "{\"text_mappings\":[{\"page\":{\"page_number\":1,\"bbox\":[54.51987838745117,87.82411193847656,400.4930725097656,194.260009765625]},\"field\":{\"name\":\"title\",\"index\":0,\"span\":[0,20]}},{\"page\":{\"page_number\":1,\"bbox\":[54.51987838745117,411.83612060546875,262.9510192871094,425.62003993988037]},\"field\":{\"name\":\"subtitle\",\"index\":0,\"span\":[0,19]}},{\"page\":{\"page_number\":1,\"bbox\":[268.46466064453125,416.1183776855469,325.5726318359375,425.375319480896]},\"field\":{\"name\":\"subtitle\",\"index\":1,\"span\":[0,3]}},{\"page\":{\"page_number\":1,\"bbox\":[54.51987838745117,644.3582763671875,313.07745361328125,653.6152181625366]},\"field\":{\"name\":\"subtitle\",\"index\":2,\"span\":[0,15]}},{\"page\":{\"page_number\":1,\"bbox\":[54.51987838745117,456.12786865234375,95.6172866821289,463.06002855300903]},\"field\":{\"name\":\"text\",\"index\":0,\"span\":[0,4]}},{\"page\":{\"page_number\":1,\"bbox\":[100.0745620727539,452.9471435546875,257.0570983886719,463.06002855300903]},\"field\":{\"name\":\"text\",\"index\":0,\"span\":[4,27]}},{\"page\":{\"page_number\":1,\"bbox\":[261.5120849609375,452.9471435546875,408.1592712402344,463.0600233078003]},\"field\":{\"name\":\"text\",\"index\":0,\"span\":[27,49]}},{\"page\":{\"page_number\":1,\"bbox\":[412.5315856933594,456.12786865234375,464.3571472167969,463.06002855300903]},\"field\":{\"name\":\"text\",\"index\":0,\"span\":[49,54]}},{\"page\":{\"page_number\":1,\"bbox\":[54.51987838745117,452.9471435546875,534.0211791992188,596.2600049972534]},\"field\":{\"name\":\"text\",\"index\":0,\"span\":[54,234]}},{\"page\":{\"page_number\":1,\"bbox\":[54.519996643066406,679.4979858398438,535.1033325195312,723.2200269699097]},\"field\":{\"name\":\"text\",\"index\":0,\"span\":[234,353]}}],\"pages\":[{\"page_number\":0,\"height\":842.0,\"width\":595.0,\"origin\":\"TopLeft\"}]}",
+    "title": "Discovery Component README Japanese",
+    "publicationdate": "2021-11-18"
+  },
+  "subtitle": ["Discovery Component", "の使用", "サンプルアプリケーションの実行"],
+  "html": "<html><head><meta charset=\"UTF-8\"/><meta name=\"publicationdate\" content=\"2021-11-18\"/><meta name=\"numPages\" content=\"1\"/><title>Discovery Component README Japanese</title><style>.css_1902558513 { font: bold 18.96pt '/MS-PGothic-Bold'; } .css_904416330 { font: 11.04pt '/SymbolMT'; } .css_1548729052 { font: bold 18.96pt '/Tahoma-Bold-Bold'; } .css_2121319508 { font: bold 54.96pt '/Tahoma-Bold-Bold'; } .css_1950597664 { font: 13.92pt '/Tahoma'; } .css_1579914921 { font: 13.92pt '/MS-PGothic'; }</style></head><body><section id=\"1\" data-level=\"1\"><p text-alignment=\"left\"><span class=\"title css_2121319508\"><bbox page=\"1\" x=\"54.51987838745117\" y=\"87.82411193847656\" height=\"106.43589782714844\" width=\"345.97319412231445\">Discovery Components</bbox></span></p><p text-alignment=\"left\"><span class=\"subtitle css_1548729052\"><bbox page=\"1\" x=\"54.51987838745117\" y=\"411.83612060546875\" height=\"13.783919334411621\" width=\"208.4311408996582\">Discovery Component</bbox></span></p><p text-alignment=\"left\"><span class=\"subtitle css_1902558513\"><bbox page=\"1\" x=\"268.46466064453125\" y=\"416.1183776855469\" height=\"9.256941795349121\" width=\"57.10797119140625\">の使用</bbox></span></p><p text-alignment=\"left\"><span class=\"text css_1579914921\"><bbox page=\"1\" x=\"54.51987838745117\" y=\"456.12786865234375\" height=\"6.932159900665283\" width=\"41.097408294677734\">最初に</bbox></span></p><p text-alignment=\"left\"><span class=\"text css_1950597664\"><bbox page=\"1\" x=\"100.0745620727539\" y=\"452.9471435546875\" height=\"10.112884998321533\" width=\"156.98253631591797\">IBM Watson Discovery の</bbox></span></p><p text-alignment=\"left\"><span class=\"text css_1950597664\"><bbox page=\"1\" x=\"261.5120849609375\" y=\"452.9471435546875\" height=\"10.112879753112793\" width=\"146.64718627929688\">Improve and Customize</bbox></span></p><p text-alignment=\"left\"><span class=\"text css_1579914921\"><bbox page=\"1\" x=\"412.5315856933594\" y=\"456.12786865234375\" height=\"6.932159900665283\" width=\"51.8255615234375\">ページで</bbox></span></p><p text-alignment=\"left\"><span class=\"text css_1950597664\"><bbox page=\"1\" x=\"54.51987838745117\" y=\"452.9471435546875\" height=\"143.31286144256592\" width=\"479.5013008117676\">Document retrieval プロジェクトをカスタマイズする必要があります。たとえばファセットや検索 バーや検索結果を設定できます。その後 Discovery component を使ったアプリケ ーションを作成します。アプリケーションは指定したプロジェクトの設定をロードしま す。 必要なソフトウェア: git, nvm, yarn または npm</bbox></span></p><p text-alignment=\"left\"><span class=\"subtitle css_1902558513\"><bbox page=\"1\" x=\"54.51987838745117\" y=\"644.3582763671875\" height=\"9.256941795349121\" width=\"258.5575752258301\">サンプルアプリケーションの実行</bbox></span></p><p text-alignment=\"left\"><span class=\"text css_904416330\"><bbox page=\"1\" x=\"54.519996643066406\" y=\"679.4979858398438\" height=\"43.72204113006592\" width=\"480.58333587646484\">• サンプルアプリケーションはこのライブラリーが提供するコアコンポーネントのカタログです。実際のデ ータを使ってコンポーネントがどのように動くかを簡単に見ることができます。コードを変更して、カスタ マイズする方法を確認することもできます。</bbox></span></p></section></body></html>",
+  "text": [
+    "最初に IBM Watson Discovery の Improve and Customize ページで Document retrieval プロジェクトをカスタマイズする必要があります。たとえばファセットや検索 バーや検索結果を設定できます。その後 Discovery component を使ったアプリケ ーションを作成します。アプリケーションは指定したプロジェクトの設定をロードしま す。 必要なソフトウェア: git, nvm, yarn または npm • サンプルアプリケーションはこのライブラリーが提供するコアコンポーネントのカタログです。実際のデ ータを使ってコンポーネントがどのように動くかを簡単に見ることができます。コードを変更して、カスタ マイズする方法を確認することもできます。"
+  ],
+  "title": "Discovery Components",
+  "document_passages": [
+    {
+      "passage_text": "Discovery Components",
+      "start_offset": 0,
+      "end_offset": 20,
+      "field": "title"
+    }
+  ],
+  "table_results_references": []
+}

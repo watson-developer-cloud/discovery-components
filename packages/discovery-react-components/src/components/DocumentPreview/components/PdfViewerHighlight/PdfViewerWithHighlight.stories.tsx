@@ -5,11 +5,18 @@ import { action } from '@storybook/addon-actions';
 import PdfViewerWithHighlight from './PdfViewerWithHighlight';
 import { flatten } from 'lodash';
 import { DocumentFieldHighlight } from './types';
+import './PdfViewerWithHighlight.stories.scss';
 
 import { document as doc } from 'components/DocumentPreview/__fixtures__/Art Effects.pdf';
 import document from 'components/DocumentPreview/__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
 
-import './PdfViewerWithHighlight.stories.scss';
+import { document as docJa } from 'components/DocumentPreview/__fixtures__/DiscoComponent-ja.pdf';
+import documentJa from 'components/DocumentPreview/__fixtures__/DiscoComponents-ja_document.json';
+
+import PDFJS from 'pdfjs-dist';
+import { getDocFieldValue } from './utils/common/documentUtils';
+(PDFJS as any).cMapUrl = './node_modules/pdfjs-dist/cmaps/';
+(PDFJS as any).cMapPacked = true;
 
 const pageKnob = {
   label: 'Page',
@@ -49,9 +56,11 @@ const WithTextSelection: typeof PdfViewerWithHighlight = props => {
     const fields = Object.keys(document).filter(field => {
       return !field.match(/^(document_id|extracted_|enriched_)/) && document[field]?.length > 0;
     });
+
     return flatten(
       fields.map(field => {
-        return document[field]
+        const documentFields = Array.isArray(document[field]) ? document[field] : [document[field]];
+        return documentFields
           .map((content: any, index: number) => {
             if (typeof content === 'string') {
               return {
@@ -99,7 +108,7 @@ const WithTextSelection: typeof PdfViewerWithHighlight = props => {
     }
 
     const { begin, end } = textSelection;
-    const fieldText = document[selectedFieldName][selectedFieldIndex];
+    const fieldText = getDocFieldValue(document, selectedFieldName, selectedFieldIndex);
 
     const highlight: DocumentFieldHighlight = {
       field: selectedFieldName,
@@ -135,9 +144,9 @@ const WithTextSelection: typeof PdfViewerWithHighlight = props => {
         {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
         <p className="text" onMouseUp={handleOnMouseUp as any} ref={fieldTextNodeRef}>
           {selectedField &&
-            document[selectedFieldName][selectedFieldIndex]
+            getDocFieldValue(document, selectedFieldName, selectedFieldIndex)!
               .replace(/ /g, '\u00a0') // NBSP
-              .replaceAll('\n', '\\n')}
+              .replace(/\n/g, '\\n')}
         </p>
       </div>
     </div>
@@ -176,6 +185,23 @@ storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
         scale={scale}
         setLoading={setLoadingAction}
         document={document}
+        highlights={EMPTY}
+      />
+    );
+  })
+  .add('with PDF in Japanese', () => {
+    const page = number(pageKnob.label, pageKnob.defaultValue, pageKnob.options);
+    const zoom = radios(zoomKnob.label, zoomKnob.options, zoomKnob.defaultValue);
+    const scale = parseFloat(zoom);
+    const setLoadingAction = action('setLoading');
+
+    return (
+      <WithTextSelection
+        file={atob(docJa)}
+        page={page}
+        scale={scale}
+        setLoading={setLoadingAction}
+        document={documentJa}
         highlights={EMPTY}
       />
     );
