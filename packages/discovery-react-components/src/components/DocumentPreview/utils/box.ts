@@ -10,7 +10,13 @@ import { ProcessedBbox } from '../../../utils/document/processDoc';
 export function intersects(boxA: number[], boxB: number[]): boolean {
   const [leftA, topA, rightA, bottomA, pageA] = boxA;
   const [leftB, topB, rightB, bottomB, pageB] = boxB;
-  return !(leftB > rightA || rightB < leftA || topB > bottomA || bottomB < topA || pageA !== pageB);
+  return !(
+    leftB >= rightA ||
+    rightB <= leftA ||
+    topB >= bottomA ||
+    bottomB <= topA ||
+    pageA !== pageB
+  );
 }
 
 /**
