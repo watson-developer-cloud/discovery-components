@@ -1,4 +1,3 @@
-import { intersects } from 'components/DocumentPreview/utils/box';
 import { Bbox, TextSpan } from '../../types';
 import { spanIntersection, spanLen } from './textSpanUtils';
 
@@ -10,14 +9,18 @@ export const BOTTOM = 3;
 /**
  * Check whether two bbox intersect
  *
- * Same to `intersects` in DocumentPreview/utils/box.ts,
- * but for type `Bbox`, which doesn't have page property
+ * Similar to `intersects` in DocumentPreview/utils/box.ts, differences are:
+ * - this is for type `Bbox`, which doesn't have page property
+ * - the `right` and `bottom` values are exclusive. So
+ *   `bboxIntersects([0,1,0,1], [1,2,0,1])` returns `false`
  * @param boxA one bbox
  * @param boxB another bbox
  * @returns true iff boxA and boxB are overlapped
  */
 export function bboxIntersects(boxA: Bbox, boxB: Bbox): boolean {
-  return intersects(boxA, boxB);
+  const [leftA, topA, rightA, bottomA] = boxA;
+  const [leftB, topB, rightB, bottomB] = boxB;
+  return !(leftB >= rightA || rightB <= leftA || topB >= bottomA || bottomB <= topA);
 }
 
 /**
