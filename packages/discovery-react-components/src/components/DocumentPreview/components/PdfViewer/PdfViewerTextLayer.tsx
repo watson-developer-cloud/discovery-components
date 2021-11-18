@@ -49,6 +49,20 @@ export type PdfTextLayerInfo = {
   page: number;
 };
 
+type PdfTextContentInfo = {
+  /** extracted PDF text content */
+  textContent: TextContent;
+
+  /** @see Props['scale'] */
+  scale: number;
+
+  /** @see PdfTextLayerInfo['viewport'] */
+  viewport: PDFPageViewport;
+
+  /** @see PdfTextLayerInfo['page'] */
+  page: number;
+};
+
 const PdfViewerTextLayer: FC<Props> = ({
   className,
   loadedPage,
@@ -58,27 +72,46 @@ const PdfViewerTextLayer: FC<Props> = ({
   const textLayerRef = useRef<HTMLDivElement>(null);
   const textLayerDiv = textLayerRef.current;
 
-  const [textRenderInfo, setTextRenderInfo] = useState<{
-    page: number;
-    scale: number;
-    textContent: TextContent;
-    viewport: PDFPageViewport;
-  } | null>(null);
-
   // load text content from the page
+  const [textContentInfo, setTextContentInfo] = useState<PdfTextContentInfo | null>(null);
   useEffect(() => {
     async function loadTextInfo() {
       if (loadedPage) {
         const viewport = loadedPage.getViewport({ scale });
         const textContent = await loadedPage.getTextContent();
-        setTextRenderInfo({ textContent, viewport, page: loadedPage.pageNumber, scale });
+        setTextContentInfo({ textContent, viewport, page: loadedPage.pageNumber, scale });
       }
     }
     loadTextInfo();
   }, [loadedPage, scale]);
 
+  // render text content
+  const [renderedTextInfo, setRenderedTextInfo] = useState<PdfTextLayerInfo | null>(null);
+  useTextLayerRendering(textLayerDiv, textContentInfo, setRenderedTextInfo);
+
+  useEffect(() => {
+    setTextLayerInfoCallback(renderedTextInfo);
+  }, [renderedTextInfo, setTextLayerInfoCallback]);
+
+  const rootClassName = cx(className, `textLayer`);
+  return (
+    <div
+      className={rootClassName}
+      ref={textLayerRef}
+      style={{
+        width: `${textContentInfo?.viewport?.width ?? 0}px`,
+        height: `${textContentInfo?.viewport?.height ?? 0}px`
+      }}
+    />
+  );
+};
+
+function useTextLayerRendering(
+  textLayerDiv: HTMLDivElement | null,
+  textRenderInfo: PdfTextContentInfo | null,
+  setRenderedTextInfo?: (info: PdfTextLayerInfo | null) => any
+) {
   const textLayerBuilderRef = useRef<TextLayerBuilder | null>(null); // ref for debugging purpose
-  const [textLayerInfo, setTextLayerInfo] = useState<PdfTextLayerInfo | null>(null);
   // render text content
   useEffect(() => {
     let textLayerBuilder: TextLayerBuilder | null = null;
@@ -129,7 +162,9 @@ const PdfViewerTextLayer: FC<Props> = ({
           }
         }
       }
-      setTextLayerInfo(textLayerInfo);
+      if (setRenderedTextInfo) {
+        setRenderedTextInfo(textLayerInfo);
+      }
     }
 
     loadTextLayer();
@@ -137,24 +172,8 @@ const PdfViewerTextLayer: FC<Props> = ({
     return () => {
       textLayerBuilder?.cancel();
     };
-  }, [textLayerDiv, textRenderInfo]);
-
-  useEffect(() => {
-    setTextLayerInfoCallback(textLayerInfo);
-  }, [textLayerInfo, setTextLayerInfoCallback]);
-
-  const rootClassName = cx(className, `textLayer`);
-  return (
-    <div
-      className={rootClassName}
-      ref={textLayerRef}
-      style={{
-        width: `${textRenderInfo?.viewport?.width ?? 0}px`,
-        height: `${textRenderInfo?.viewport?.height ?? 0}px`
-      }}
-    />
-  );
-};
+  }, [setRenderedTextInfo, textLayerDiv, textRenderInfo]);
+}
 
 /**
  * Adjust text span width based on scale
