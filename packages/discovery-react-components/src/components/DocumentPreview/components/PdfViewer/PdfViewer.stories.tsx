@@ -36,7 +36,7 @@ storiesOf('DocumentPreview/components/PdfViewer', module)
     const showTextLayer = boolean('Show text layer', false);
 
     const setLoadingAction = action('setLoading');
-    const setTextLayerInfoAction = action('setTextLayerInfo');
+    const setRenderedTextAction = action('setRenderedText');
 
     return (
       <PdfViewer
@@ -45,7 +45,7 @@ storiesOf('DocumentPreview/components/PdfViewer', module)
         scale={scale}
         showTextLayer={showTextLayer}
         setLoading={setLoadingAction}
-        setTextLayerInfo={setTextLayerInfoAction}
+        setRenderedText={setRenderedTextAction}
       />
     );
   });

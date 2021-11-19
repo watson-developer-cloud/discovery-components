@@ -1,10 +1,9 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useCallback } from 'react';
 import cx from 'classnames';
-import PDFJSLib, { PDFPageProxy, PDFPageViewport, TextContent, TextContentItem } from 'pdfjs-dist';
+import { PDFPageProxy, PDFPageViewport, TextContent, TextContentItem } from 'pdfjs-dist';
 import { EventBus } from 'pdfjs-dist/lib/web/ui_utils';
 import { TextLayerBuilder } from 'pdfjs-dist/lib/web/text_layer_builder';
-
-const { RenderingCancelledException } = PDFJSLib as any;
+import useAsyncFunctionCall from './useAsyncFunctionCall';
 
 interface Props {
   className?: string;
@@ -22,10 +21,10 @@ interface Props {
   /**
    * Callback for text layer info
    */
-  setTextLayerInfo?: (info: PdfTextLayerInfo | null) => any;
+  setRenderedText?: (info: PdfRenderedText | null) => any;
 }
 
-export type PdfTextLayerInfo = {
+export type PdfRenderedText = {
   /**
    * PDF text content
    */
@@ -49,49 +48,56 @@ export type PdfTextLayerInfo = {
   page: number;
 };
 
-type PdfTextContentInfo = {
-  /** extracted PDF text content */
-  textContent: TextContent;
-
-  /** @see Props['scale'] */
-  scale: number;
-
-  /** @see PdfTextLayerInfo['viewport'] */
-  viewport: PDFPageViewport;
-
-  /** @see PdfTextLayerInfo['page'] */
-  page: number;
-};
-
 const PdfViewerTextLayer: FC<Props> = ({
   className,
   loadedPage,
   scale = 1,
-  setTextLayerInfo: setTextLayerInfoCallback = () => {}
+  setRenderedText = () => {}
 }) => {
   const textLayerRef = useRef<HTMLDivElement>(null);
   const textLayerDiv = textLayerRef.current;
 
   // load text content from the page
-  const [textContentInfo, setTextContentInfo] = useState<PdfTextContentInfo | null>(null);
-  useEffect(() => {
-    async function loadTextInfo() {
+  const loadedText = useAsyncFunctionCall(
+    useCallback(async () => {
       if (loadedPage) {
         const viewport = loadedPage.getViewport({ scale });
         const textContent = await loadedPage.getTextContent();
-        setTextContentInfo({ textContent, viewport, page: loadedPage.pageNumber, scale });
+        return { textContent, viewport, page: loadedPage.pageNumber, scale };
       }
-    }
-    loadTextInfo();
-  }, [loadedPage, scale]);
+      return null;
+    }, [loadedPage, scale])
+  );
 
   // render text content
-  const [renderedTextInfo, setRenderedTextInfo] = useState<PdfTextLayerInfo | null>(null);
-  useTextLayerRendering(textLayerDiv, textContentInfo, setRenderedTextInfo);
+  const renderedText = useAsyncFunctionCall(
+    useCallback(
+      async (signal: AbortSignal) => {
+        if (textLayerDiv && loadedText) {
+          const { textContent, viewport, scale, page } = loadedText;
+
+          const builder = new TextLayerBuilder({
+            textLayerDiv,
+            viewport,
+            eventBus: new EventBus(),
+            pageIndex: page - 1
+          });
+          signal.addEventListener('abort', () => builder.cancel());
+
+          await _renderTextLayer(builder, textContent, textLayerDiv, scale);
+          return { textContent, viewport, page, textDivs: builder.textDivs };
+        }
+        return undefined;
+      },
+      [loadedText, textLayerDiv]
+    )
+  );
 
   useEffect(() => {
-    setTextLayerInfoCallback(renderedTextInfo);
-  }, [renderedTextInfo, setTextLayerInfoCallback]);
+    if (renderedText !== undefined) {
+      setRenderedText(renderedText);
+    }
+  }, [renderedText, setRenderedText]);
 
   const rootClassName = cx(className, `textLayer`);
   return (
@@ -99,80 +105,38 @@ const PdfViewerTextLayer: FC<Props> = ({
       className={rootClassName}
       ref={textLayerRef}
       style={{
-        width: `${textContentInfo?.viewport?.width ?? 0}px`,
-        height: `${textContentInfo?.viewport?.height ?? 0}px`
+        width: `${loadedText?.viewport?.width ?? 0}px`,
+        height: `${loadedText?.viewport?.height ?? 0}px`
       }}
     />
   );
 };
 
-function useTextLayerRendering(
-  textLayerDiv: HTMLDivElement | null,
-  textRenderInfo: PdfTextContentInfo | null,
-  setRenderedTextInfo?: (info: PdfTextLayerInfo | null) => any
+/**
+ * Render text into DOM using the text layer builder
+ */
+async function _renderTextLayer(
+  builder: TextLayerBuilder,
+  textContent: TextContent,
+  textLayerDiv: HTMLDivElement,
+  scale: number
 ) {
-  const textLayerBuilderRef = useRef<TextLayerBuilder | null>(null); // ref for debugging purpose
-  // render text content
-  useEffect(() => {
-    let textLayerBuilder: TextLayerBuilder | null = null;
-    async function loadTextLayer() {
-      let textLayerInfo: PdfTextLayerInfo | null = null;
+  builder.setTextContent(textContent);
 
-      if (textLayerDiv && textRenderInfo) {
-        const { textContent, viewport, scale, page } = textRenderInfo;
-        // prepare text layer
-        textLayerBuilder = textLayerBuilderRef.current = new TextLayerBuilder({
-          textLayerDiv,
-          viewport,
-          eventBus: new EventBus(),
-          pageIndex: page - 1
-        });
-        textLayerBuilder.setTextContent(textContent);
-
-        // render
-        textLayerDiv.innerHTML = '';
-        try {
-          const deferredRenderEndPromise = new Promise(resolve => {
-            const listener = () => {
-              resolve(undefined);
-              textLayerBuilder?.eventBus.off('textlayerrendered', listener);
-            };
-            textLayerBuilder?.eventBus.on('textlayerrendered', listener);
-          });
-
-          textLayerBuilder.render();
-          await deferredRenderEndPromise;
-
-          // fix text divs
-          _adjustTextDivs(textLayerBuilder.textDivs, textContent.items, scale);
-
-          textLayerInfo = {
-            textContent,
-            textDivs: textLayerBuilder.textDivs,
-            viewport,
-            page
-          };
-        } catch (e) {
-          if (e instanceof RenderingCancelledException) {
-            // Ignore. Rendering is interrupted by useEffect cleanup method.
-            // Another rendering starts soon
-            return;
-          } else {
-            throw e; // rethrow unknown exception
-          }
-        }
-      }
-      if (setRenderedTextInfo) {
-        setRenderedTextInfo(textLayerInfo);
-      }
-    }
-
-    loadTextLayer();
-
-    return () => {
-      textLayerBuilder?.cancel();
+  // render
+  textLayerDiv.innerHTML = '';
+  const deferredRenderEndPromise = new Promise(resolve => {
+    const listener = () => {
+      resolve(undefined);
+      builder?.eventBus.off('textlayerrendered', listener);
     };
-  }, [setRenderedTextInfo, textLayerDiv, textRenderInfo]);
+    builder?.eventBus.on('textlayerrendered', listener);
+  });
+
+  builder.render();
+  await deferredRenderEndPromise;
+
+  _adjustTextDivs(builder.textDivs, textContent.items, scale);
 }
 
 /**
