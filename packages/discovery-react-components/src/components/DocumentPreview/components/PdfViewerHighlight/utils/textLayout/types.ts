@@ -46,6 +46,8 @@ export interface TextLayoutCellBase {
   getPartial(span: TextSpan): TextLayoutCellBase;
   /** get normalized form, the base text layout cell and a span on it */
   getNormalized(): { cell: TextLayoutCell; span?: TextSpan };
+  /** get cell for the trimmed text */
+  trim(): TextLayoutCellBase;
 }
 
 /**

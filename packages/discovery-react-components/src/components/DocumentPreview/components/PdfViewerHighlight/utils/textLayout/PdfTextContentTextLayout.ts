@@ -19,7 +19,7 @@ export class PdfTextContentTextLayout implements TextLayout<PdfTextContentTextLa
     const textContentItems = textContentInfo.textContent.items;
 
     this.cells = textContentItems.map((item, index) => {
-      const cellBbox = PdfTextContentTextLayoutCell.getBbox(item, this.viewport);
+      const cellBbox = getBbox(item, this.viewport);
       let isInHtmlBbox = false;
       if (htmlBboxInfo?.bboxes?.length) {
         isInHtmlBbox = htmlBboxInfo.bboxes.some(bbox => {
@@ -64,11 +64,12 @@ class PdfTextContentTextLayoutCell extends BaseTextLayoutCell<PdfTextContentText
     textItem: TextContentItem,
     pageNum: number,
     bbox: Bbox,
-    isInHtmlBbox?: boolean
+    isInHtmlBbox: boolean
   ) {
     const id = index;
     const text = textItem.str;
     super({ parent, id, pageNum, bbox, text });
+    this.isInHtmlBbox = isInHtmlBbox;
   }
 
   /** @inheritdoc */
@@ -83,23 +84,23 @@ class PdfTextContentTextLayoutCell extends BaseTextLayoutCell<PdfTextContentText
     }
     return super.getBboxForTextSpan(span, options);
   }
+}
 
-  /**
-   * Get bbox from a PDF text content item
-   */
-  static getBbox(textItem: TextContentItem, viewport: PDFPageViewport): Bbox {
-    const { transform } = textItem;
+/**
+ * Get bbox from a PDF text content item
+ */
+function getBbox(textItem: TextContentItem, viewport: PDFPageViewport): Bbox {
+  const { transform } = textItem;
 
-    const patchedViewport = viewport as PDFPageViewportOptions & PDFPageViewport;
-    const defaultSideways = patchedViewport.rotation % 180 !== 0;
+  const patchedViewport = viewport as PDFPageViewportOptions & PDFPageViewport;
+  const defaultSideways = patchedViewport.rotation % 180 !== 0;
 
-    const [fontHeightPx, , offsetX, offsetY, x, y] = transform;
-    const [xMin, yMin, , yMax] = patchedViewport.viewBox;
-    const top = defaultSideways ? x + offsetX + yMin : yMax - (y + offsetY);
-    const left = defaultSideways ? y - xMin : x - xMin;
-    const bottom = top + fontHeightPx;
-    const adjustHeight = fontHeightPx * 0.2;
+  const [fontHeightPx, , offsetX, offsetY, x, y] = transform;
+  const [xMin, yMin, , yMax] = patchedViewport.viewBox;
+  const top = defaultSideways ? x + offsetX + yMin : yMax - (y + offsetY);
+  const left = defaultSideways ? y - xMin : x - xMin;
+  const bottom = top + fontHeightPx;
+  const adjustHeight = fontHeightPx * 0.2;
 
-    return [left, top + adjustHeight, left + textItem.width, bottom + adjustHeight];
-  }
+  return [left, top + adjustHeight, left + textItem.width, bottom + adjustHeight];
 }

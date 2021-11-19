@@ -52,6 +52,11 @@ export class BaseTextLayoutCell<Layout extends TextLayout<TextLayoutCell>>
     }
     return null;
   }
+
+  /** @inheritdoc */
+  trim(): TextLayoutCellBase {
+    return trimCell(this);
+  }
 }
 
 /**
@@ -81,4 +86,26 @@ export class PartialTextLayoutCell implements TextLayoutCellBase {
   getNormalized() {
     return { cell: this.base, span: this.span };
   }
+
+  /** @inheritdoc */
+  trim(): TextLayoutCellBase {
+    return trimCell(this);
+  }
+}
+
+/**
+ * Get a text layout cell that represents a trimmed text of a given `cell`
+ * @returns a new cell for the trimmed text. Zero-length cell when the text of the given `cell` is blank
+ */
+function trimCell(cell: TextLayoutCellBase) {
+  const text = cell.text;
+  const nLeadingSpaces = text.match(/^\s*/)![0].length;
+  const nTrailingSpaces = text.match(/\s*$/)![0].length;
+  if (nLeadingSpaces === 0 && nTrailingSpaces === 0) {
+    return cell;
+  }
+  if (text.length > nLeadingSpaces + nTrailingSpaces) {
+    return cell.getPartial([nLeadingSpaces, text.length - nTrailingSpaces]);
+  }
+  return cell.getPartial([0, 0]); // return zero-length cell
 }

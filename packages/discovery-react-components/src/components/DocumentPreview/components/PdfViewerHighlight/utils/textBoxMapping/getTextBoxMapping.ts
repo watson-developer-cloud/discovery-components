@@ -3,7 +3,7 @@ import { TextSpan } from '../../types';
 import { bboxIntersects } from '../common/bboxUtils';
 import { nonEmpty } from '../common/nonEmpty';
 import { spanLen, spanMerge } from '../common/textSpanUtils';
-import { TextLayout, TextLayoutCell, TextLayoutCellBase } from '../textLayout/types';
+import { TextLayout, TextLayoutCell } from '../textLayout/types';
 import { MappingSourceTextProvider } from './MappingSourceTextProvider';
 import { MappingTargetBoxProvider } from './MappingTargetCellProvider';
 import { TextBoxMappingImpl } from './TextBoxMapping';
@@ -30,11 +30,7 @@ function findMatchInSources(
   // find matches
   const matches = sources.map(source => {
     const match = source.provider.getMatch(textToMatch);
-    return {
-      cell: source.cell,
-      provider: source.provider,
-      match
-    };
+    return { ...source, match };
   });
 
   // calc cost for each match
@@ -110,7 +106,7 @@ export function getTextBoxMappings<
 
     let consumedSourceSpan: TextSpan = [0, 0];
     matchedTargetCells.forEach(mTargetCell => {
-      const trimmedCell = trimCell(mTargetCell);
+      const trimmedCell = mTargetCell.trim();
       if (trimmedCell.text.length > 0) {
         const matchToTargetCell = matchedSourceProvider.getMatch(trimmedCell.text);
         debug('>> target cell %o (%o) to source %o', mTargetCell, trimmedCell, matchToTargetCell);
@@ -134,21 +130,4 @@ export function getTextBoxMappings<
   }
 
   return new TextBoxMappingImpl(mappingEntries);
-}
-
-/**
- * Get a text layout cell that represents a trimmed text of a given `cell`
- * @returns a new cell for the trimmed text. Zero-length cell when the text of the given `cell` is blank
- */
-function trimCell(cell: TextLayoutCellBase) {
-  const text = cell.text;
-  const nLeadingSpaces = text.match(/^\s*/)![0].length;
-  const nTrailingSpaces = text.match(/\s*$/)![0].length;
-  if (nLeadingSpaces === 0 && nTrailingSpaces === 0) {
-    return cell;
-  }
-  if (text.length > nLeadingSpaces + nTrailingSpaces) {
-    return cell.getPartial([nLeadingSpaces, text.length - nTrailingSpaces]);
-  }
-  return cell.getPartial([0, 0]); // return zero-length cell
 }
