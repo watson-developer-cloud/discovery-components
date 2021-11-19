@@ -47,7 +47,7 @@ jobs:
           echo "npmRegistries:" >> ~/.yarnrc.yml
           echo "  //registry.npmjs.org:" >> ~/.yarnrc.yml
           echo "    npmAuthToken: $NPM_TOKEN" >> ~/.yarnrc.yml
-          npm whoami
+          yarn npm whoami
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Github Identity
