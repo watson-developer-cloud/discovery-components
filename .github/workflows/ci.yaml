@@ -61,6 +61,6 @@ jobs:
       - name: Publish
         if: github.ref == 'refs/heads/master'
         # must include --no-verify-access for automation tokens https://github.com/lerna/lerna/issues/2788
-        run: lerna publish -y --no-verify-access --create-release github
+        run: yarn run lerna publish -y --no-verify-access --create-release github
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
