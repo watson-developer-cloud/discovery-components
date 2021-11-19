@@ -8,7 +8,6 @@
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "scripts": {
-    "audit": "audit-ci --moderate",
     "test": "cross-env SKIP_PREFLIGHT_CHECK=true CI=1 react-scripts test",
     "test:coverage": "cross-env CI=1 SKIP_PREFLIGHT_CHECK=true react-scripts test --coverage",
     "test:watch": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts test --watch",
@@ -16,13 +15,13 @@
     "circular": "madge --circular src/*",
     "build": "rollup -c",
     "build:app": "yarn run storybook:build --quiet",
-    "eslint": "eslint --quiet '{src,.storybook}/**/*.{js,jsx,ts,tsx}'",
+    "eslint": "yarn run g:eslint --quiet '{src,.storybook}/**/*.{js,jsx,ts,tsx}'",
     "lint": "yarn run circular && yarn run eslint",
     "start": "rollup -c -w",
     "storybook": "start-storybook --ci --port=9002",
     "storybook:build": "build-storybook",
     "storybook:build:release": "cross-env STORYBOOK_BUILD_MODE=production build-storybook -o ../../docs/storybook",
-    "analyze": "source-map-explorer 'dist/index.js'",
+    "analyze": "yarn run g:analyze 'dist/index.js'",
     "prepublish": "yarn run build",
     "preversion": "yarn run storybook:build:release",
     "version": "git add ../../docs"
@@ -30,23 +29,6 @@
   "files": [
     "dist"
   ],
-  "peerDependencies": {
-    "@carbon/icons": ">= 10.5.0 < 11",
-    "@ibm-watson/discovery-styles": "1.x.x",
-    "carbon-components": ">= 10.6.0 < 11",
-    "carbon-components-react": ">= 7.6.0 < 8",
-    "ibm-watson": "^6.0.2",
-    "react": ">= 16.8.0 < 17",
-    "react-dom": ">= 16.8.0 < 17"
-  },
-  "engines": {
-    "node": ">=8",
-    "npm": ">=5"
-  },
-  "jsnext:main": "dist/index.es.js",
-  "publishConfig": {
-    "access": "public"
-  },
   "dependencies": {
     "classnames": "^2.2.6",
     "debounce": "^1.2.0",
@@ -59,6 +41,29 @@
     "react-error-boundary": "^1.2.5",
     "react-resize-detector": "^4.2.1",
     "react-virtualized": "9.21.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "css-loader": "^3.4.2",
+    "madge": "^5.0.1",
+    "react-scripts": "^3.4.4",
+    "sass-loader": "^8.0.2"
+  },
+  "peerDependencies": {
+    "@carbon/icons": ">= 10.5.0 < 11",
+    "@ibm-watson/discovery-styles": "1.x.x",
+    "carbon-components": ">= 10.6.0 < 11",
+    "carbon-components-react": ">= 7.6.0 < 8",
+    "ibm-watson": "^6.0.2",
+    "react": ">= 16.8.0 < 17",
+    "react-dom": ">= 16.8.0 < 17"
+  },
+  "engines": {
+    "node": ">=12"
+  },
+  "jsnext:main": "dist/index.es.js",
+  "publishConfig": {
+    "access": "public"
   },
   "jest": {
     "transformIgnorePatterns": [
@@ -73,9 +78,5 @@
       "!src/**/__stories__/**",
       "!src/**/*.stories.*"
     ]
-  },
-  "devDependencies": {
-    "css-loader": "^3.4.2",
-    "sass-loader": "^8.0.2"
   }
 }

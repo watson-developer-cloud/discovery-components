@@ -1,5 +1,4 @@
 import React, { MutableRefObject, ReactElement, useRef } from 'react';
-import PropTypes from 'prop-types';
 
 import { LoremIpsum } from 'lorem-ipsum';
 import seedrandom from 'seedrandom';
@@ -47,7 +46,6 @@ const PseudoRandomRow = ({ index }: Index): ReactElement => (
       })}
   </>
 );
-PseudoRandomRow.propTypes = { index: PropTypes.number.isRequired };
 
 const VirtualScrollTester = (): ReactElement => {
   const virtualScrollRef: MutableRefObject<any> = useRef();
