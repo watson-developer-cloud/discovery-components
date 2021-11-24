@@ -43,6 +43,7 @@
     "@types/lodash": "^4.14.141",
     "@types/mustache": "^0.8.32",
     "@types/node": "^12.7.3",
+    "@types/pdfjs-dist": "2.7.5",
     "@types/react": "^16.9.2",
     "@types/react-dom": "^16.9.0",
     "@types/react-resize-detector": "^4.2.0",

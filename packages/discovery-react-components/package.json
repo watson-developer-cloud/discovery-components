@@ -18,7 +18,7 @@
     "eslint": "yarn run g:eslint --quiet '{src,.storybook}/**/*.{js,jsx,ts,tsx}'",
     "lint": "yarn run circular && yarn run eslint",
     "start": "rollup -c -w",
-    "storybook": "start-storybook --ci --port=9002",
+    "storybook": "../../node_modules/.bin/start-storybook --ci --port=9002",
     "storybook:build": "build-storybook",
     "storybook:build:release": "cross-env STORYBOOK_BUILD_MODE=production build-storybook -o ../../docs/storybook",
     "analyze": "yarn run g:analyze 'dist/index.js'",
@@ -43,7 +43,6 @@
     "react-virtualized": "9.21.1"
   },
   "devDependencies": {
-    "@types/pdfjs-dist": "^2.10.378",
     "cross-env": "^7.0.3",
     "css-loader": "^3.4.2",
     "madge": "^5.0.1",

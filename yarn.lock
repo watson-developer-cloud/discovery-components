@@ -2271,7 +2271,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ibm-watson/discovery-react-components@workspace:packages/discovery-react-components"
   dependencies:
-    "@types/pdfjs-dist": ^2.10.378
     classnames: ^2.2.6
     cross-env: ^7.0.3
     css-loader: ^3.4.2
@@ -4939,12 +4938,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pdfjs-dist@npm:^2.10.378":
-  version: 2.10.378
-  resolution: "@types/pdfjs-dist@npm:2.10.378"
-  dependencies:
-    pdfjs-dist: "*"
-  checksum: 36dd6010f7d23a995efdf11ea4ecb56f371f8bfb3e83a5c311666726e13238597ed1519701d0e2e6fb297270d01ad6aece9582b036fd4cb3aa301e61ea364978
+"@types/pdfjs-dist@npm:2.7.5":
+  version: 2.7.5
+  resolution: "@types/pdfjs-dist@npm:2.7.5"
+  checksum: a81d499327520f46cf25c683a1f56cfcf07e12d9ad0ef4d560e320a7072f7dd7e7f2a2b26966655120cf7aa084c90f5c732ba65fc835a6271d4ab9858b9fc2b4
   languageName: node
   linkType: hard
 
@@ -19528,18 +19525,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pdfjs-dist@npm:*":
-  version: 2.11.338
-  resolution: "pdfjs-dist@npm:2.11.338"
-  peerDependencies:
-    worker-loader: ^3.0.8
-  peerDependenciesMeta:
-    worker-loader:
-      optional: true
-  checksum: 1b946a3eeb3312a79e12b4e0aa066bb2b98487b9ee329666edc840a194602595cf84de9a3f6dbb023b808699a6ebb0cd06e751314fc4c0ffa56f7be12855d296
-  languageName: node
-  linkType: hard
-
 "pdfjs-dist@npm:^2.2.228":
   version: 2.2.228
   resolution: "pdfjs-dist@npm:2.2.228"
@@ -22919,6 +22904,7 @@ __metadata:
     "@types/lodash": ^4.14.141
     "@types/mustache": ^0.8.32
     "@types/node": ^12.7.3
+    "@types/pdfjs-dist": 2.7.5
     "@types/react": ^16.9.2
     "@types/react-dom": ^16.9.0
     "@types/react-resize-detector": ^4.2.0
