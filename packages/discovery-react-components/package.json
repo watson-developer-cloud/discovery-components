@@ -43,6 +43,7 @@
     "react-virtualized": "9.21.1"
   },
   "devDependencies": {
+    "@types/pdfjs-dist": "^2.10.378",
     "cross-env": "^7.0.3",
     "css-loader": "^3.4.2",
     "madge": "^5.0.1",
