@@ -4,7 +4,7 @@ import PdfViewer, { PdfViewerProps } from '../PdfViewer/PdfViewer';
 import PdfViewerHighlight from './PdfViewerHighlight';
 import { extractDocumentInfo, ExtractedDocumentInfo } from './utils/common/documentUtils';
 import { QueryResult } from 'ibm-watson/discovery/v2';
-import { PdfTextLayerInfo } from '../PdfViewer/PdfViewerTextLayer';
+import { PdfRenderedText } from '../PdfViewer/PdfViewerTextLayer';
 
 interface Props extends PdfViewerProps {
   /**
@@ -40,7 +40,7 @@ const PdfViewerWithHighlight: FC<Props> = ({
   ...rest
 }) => {
   const { page, scale } = rest;
-  const [textLayerInfo, setTextLayerInfo] = useState<PdfTextLayerInfo | null>(null);
+  const [renderedText, setRenderedText] = useState<PdfRenderedText | null>(null);
 
   const [documentInfo, setDocumentInfo] = useState<ExtractedDocumentInfo | null>(null);
   useEffect(() => {
@@ -57,14 +57,14 @@ const PdfViewerWithHighlight: FC<Props> = ({
     };
   }, [document]);
 
-  const highlightReady = !!documentInfo && !!textLayerInfo;
+  const highlightReady = !!documentInfo && !!renderedText;
   return (
-    <PdfViewer {...rest} setTextLayerInfo={setTextLayerInfo} showTextLayer>
+    <PdfViewer {...rest} setRenderedText={setRenderedText} showTextLayer>
       <PdfViewerHighlight
         highlightClassName={highlightClassName}
         document={document}
         parsedDocument={highlightReady ? documentInfo : null}
-        pdfTextLayerInfo={highlightReady ? textLayerInfo : null}
+        pdfRenderedText={highlightReady ? renderedText : null}
         pageNum={page}
         highlights={highlights}
         scale={scale}

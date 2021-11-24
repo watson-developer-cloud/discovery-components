@@ -2,7 +2,7 @@ import React, { FC, useMemo, useEffect } from 'react';
 import cx from 'classnames';
 import { DocumentFieldHighlight } from './types';
 import { QueryResult } from 'ibm-watson/discovery/v2';
-import { PdfTextLayerInfo } from '../PdfViewer/PdfViewerTextLayer';
+import { PdfRenderedText } from '../PdfViewer/PdfViewerTextLayer';
 import { Highlighter } from './utils/Highlighter';
 import { ExtractedDocumentInfo } from './utils/common/documentUtils';
 import { settings } from 'carbon-components';
@@ -43,7 +43,7 @@ interface Props {
   /**
    * PDF text content information in a page from parsed PDF
    */
-  pdfTextLayerInfo: PdfTextLayerInfo | null;
+  pdfRenderedText: PdfRenderedText | null;
 
   /**
    * Zoom factor, where `1` is equal to 100%
@@ -73,7 +73,7 @@ const PdfViewerHighlight: FC<Props> = ({
   parsedDocument,
   pageNum,
   highlights,
-  pdfTextLayerInfo,
+  pdfRenderedText,
   scale = 1.0,
   useHtmlBbox = true,
   usePdfTextItem = true
@@ -82,11 +82,11 @@ const PdfViewerHighlight: FC<Props> = ({
     document,
     textMappings: parsedDocument?.textMappings,
     processedDoc: useHtmlBbox ? parsedDocument?.processedDoc : undefined,
-    pdfTextLayerInfo: (usePdfTextItem && pdfTextLayerInfo) || undefined,
+    pdfRenderedText: (usePdfTextItem && pdfRenderedText) || undefined,
     pageNum
   });
 
-  const { textDivs } = pdfTextLayerInfo || {};
+  const { textDivs } = pdfRenderedText || {};
   useEffect(() => {
     if (highlighter) {
       highlighter.setTextContentDivs(textDivs);
@@ -136,13 +136,13 @@ const useHighlighter = ({
   document,
   textMappings,
   processedDoc,
-  pdfTextLayerInfo,
+  pdfRenderedText,
   pageNum
 }: {
   document: QueryResult;
   textMappings?: TextMappings;
   processedDoc?: ProcessedDoc;
-  pdfTextLayerInfo?: PdfTextLayerInfo;
+  pdfRenderedText?: PdfRenderedText;
   pageNum: number;
 }) => {
   return useMemo(() => {
@@ -156,11 +156,11 @@ const useHighlighter = ({
           styles: processedDoc.styles
         },
         pdfTextContentInfo:
-          pdfTextLayerInfo?.textContent && pdfTextLayerInfo?.viewport ? pdfTextLayerInfo : undefined
+          pdfRenderedText?.textContent && pdfRenderedText?.viewport ? pdfRenderedText : undefined
       });
     }
     return null;
-  }, [document, pageNum, pdfTextLayerInfo, processedDoc, textMappings]);
+  }, [document, pageNum, pdfRenderedText, processedDoc, textMappings]);
 };
 
 export default PdfViewerHighlight;
