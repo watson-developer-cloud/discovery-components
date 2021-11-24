@@ -25,15 +25,15 @@ jobs:
         with:
           node-version: 12
       - name: Install
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
       - name: Lint
-        run: npx lerna run lint --stream
+        run: yarn run lint
       - name: Build Packages
-        run: npx lerna run build --stream --scope '@ibm-watson/*'
+        run: yarn run build:pkgs
       - name: Build Apps
-        run: npx lerna run build:app --parallel
+        run: yarn run build:apps
       - name: Test
-        run: npx lerna run test --stream
+        run: yarn run test
       - name: Archive test artifacts
         uses: actions/upload-artifact@v2
         if: failure()
@@ -44,6 +44,9 @@ jobs:
       - name: NPM Identity
         if: github.ref == 'refs/heads/master'
         run: |
+          echo "npmRegistries:" >> ~/.yarnrc.yml
+          echo "  //registry.npmjs.org:" >> ~/.yarnrc.yml
+          echo "    npmAuthToken: $NPM_TOKEN" >> ~/.yarnrc.yml
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
           npm whoami
         env:
@@ -60,6 +63,6 @@ jobs:
       - name: Publish
         if: github.ref == 'refs/heads/master'
         # must include --no-verify-access for automation tokens https://github.com/lerna/lerna/issues/2788
-        run: npx lerna publish -y --no-verify-access --create-release github
+        run: yarn run lerna publish -y --no-verify-access --create-release github
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}

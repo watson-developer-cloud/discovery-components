@@ -389,7 +389,7 @@ yarn
 
 This will install and bundle all of the shared dependencies for `packages` and for `examples`, and will also create a single `yarn.lock` file at the root directory. Dependency hoisting is taken care of with Yarn Workspaces, setup inside `package.json`.
 
-See the following for [more info about Lerna](https://github.com/lerna/lerna) or [more info about Yarn Workspaces](https://yarnpkg.com/lang/en/docs/workspaces/).
+See the following for [more info about Lerna](https://github.com/lerna/lerna) or [more info about Yarn Workspaces](https://yarnpkg.com/features/workspaces).
 
 ### Available commands
 
@@ -397,7 +397,7 @@ See the following for [more info about Lerna](https://github.com/lerna/lerna) or
 
 | Command                                         | Description                                                              |
 | ----------------------------------------------- | ------------------------------------------------------------------------ |
-| `yarn` or `npx lerna bootstrap`                 | installs yarn dependencies in all of the packages                        |
+| `yarn`                                          | installs yarn dependencies in all of the packages                        |
 | `yarn workspace discovery-search-app <command>` | runs the specified `yarn` script in the `discovery-search-app` workspace |
 
 #### Example app (examples/discovery-search-app)
@@ -501,7 +501,7 @@ Steps in the automation can be set in `.github/workflows/ci.yml`, located in the
   1. `git checkout -b hotfix/1.4.0-patch-1 v1.4.0-beta.2` (checks out a new branch from the tag needing the hotfix)
   2. make changes and push changes to `hotfix/1.4.0-patch-1` as usual
   3. ensure you have access to publish the package `npm login && npm whoami && npm access ls-collaborators` (must have `read-write`, contact someone from https://www.npmjs.com/settings/ibm-watson/members to gain access)
-  4. `npx lerna publish 1.4.0-patch-1.0 --dist-tag patch-1 --allow-branch hotfix/1.4.0` (see [lerna publish](https://github.com/lerna/lerna/tree/master/commands/publish))
+  4. `lerna publish 1.4.0-patch-1.0 --dist-tag patch-1 --allow-branch hotfix/1.4.0` (see [lerna publish](https://github.com/lerna/lerna/tree/master/commands/publish))
   5. `git checkout master && git merge hotfix/1.4.0 || git mergetool && git push origin master` (merge changes/tags back to `master`, resolving merge conflicts by taking `lerna.json` version from `master` branch)
 
 The only branch permitted for automatic releasing on CI is `master`
