@@ -3,7 +3,7 @@ import { SkeletonText } from 'carbon-components-react';
 import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
-import { PreviewToolbar } from './components/PreviewToolbar/PreviewToolbar';
+import { PreviewToolbar, ToolbarAction } from './components/PreviewToolbar/PreviewToolbar';
 import SimpleDocument from './components/SimpleDocument/SimpleDocument';
 import withErrorBoundary, { WithErrorBoundaryProps } from 'utils/hoc/withErrorBoundary';
 import { defaultMessages, Messages } from './messages';
@@ -31,6 +31,10 @@ interface Props extends WithErrorBoundaryProps {
    * i18n messages for the component
    */
   messages?: Messages;
+  /**
+   * Additional user actions on toolbar
+   */
+  toolbarActions?: ToolbarAction[];
 }
 
 const SCALE_FACTOR = 1.2;
@@ -40,6 +44,7 @@ const DocumentPreview: FC<Props> = ({
   file,
   highlight,
   messages = defaultMessages,
+  toolbarActions,
   didCatch
 }) => {
   const { selectedResult } = useContext(SearchContext);
@@ -70,6 +75,7 @@ const DocumentPreview: FC<Props> = ({
           <PreviewToolbar
             loading={loading}
             hideControls={hideToolbarControls}
+            toolbarActions={toolbarActions}
             current={currentPage}
             total={0}
             onChange={setCurrentPage}

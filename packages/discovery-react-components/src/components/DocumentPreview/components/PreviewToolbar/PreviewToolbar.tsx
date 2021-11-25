@@ -8,9 +8,19 @@ import { CaretLeft24 } from '@carbon/icons-react';
 import { CaretRight24 } from '@carbon/icons-react';
 import { Reset24 } from '@carbon/icons-react';
 
+import { defaultMessages, Messages } from '../../messages';
+
 export const ZOOM_IN = 'zoom-in';
 export const ZOOM_OUT = 'zoom-out';
 export const ZOOM_RESET = 'reset-zoom';
+
+export type ToolbarAction = {
+  id?: string;
+  icon: React.Component;
+  description: string;
+  onClick: () => void;
+  disabled: boolean;
+};
 
 interface Props {
   /**
@@ -22,6 +32,21 @@ interface Props {
    * Hide toolbar controls
    */
   hideControls?: boolean;
+
+  /**
+   * Show pager (true by default)
+   */
+  showPager?: boolean;
+
+  /**
+   * Show zoom (true by default)
+   */
+  showZoom?: boolean;
+
+  /**
+   * User actions displayed on the end of the toolbar
+   */
+  actions?: ToolbarAction[];
 
   /**
    * Current page number, starting at 1
@@ -39,6 +64,10 @@ interface Props {
    * Callback for changing the current page
    */
   onChange: (newPage: number) => void;
+  /**
+   * Messages
+   */
+  messages?: Messages;
 }
 
 const base = `${settings.prefix}--preview-toolbar`;
@@ -46,10 +75,14 @@ const base = `${settings.prefix}--preview-toolbar`;
 const PreviewToolbar: SFC<Props> = ({
   loading = false,
   hideControls = false,
+  showPager = true,
+  showZoom = true,
+  actions = [],
   current,
   total,
   onZoom,
-  onChange
+  onChange,
+  messages
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -59,63 +92,78 @@ const PreviewToolbar: SFC<Props> = ({
     }
   }, [current]);
 
+  const msgs = { ...defaultMessages, messages };
   return (
     <div className={`${base}`}>
       {!hideControls ? (
         <>
-          <div className={`${base}__spacer`} />
-          <div className={`${base}__nav`}>
-            {renderButton({
-              icon: CaretLeft24,
-              description: 'Previous Page',
-              onClick: () => nextPrevButtonClicked(current, total, onChange, -1),
-              disabled: loading || current === 1
-            })}
-            <Form
-              onSubmit={(e: Event): void => currentPageChanged(e, onChange, inputRef)}
-              autoComplete="off"
-            >
-              <TextInput
-                id="pageInput"
-                defaultValue={current}
-                type="number"
-                ref={inputRef}
-                min={1}
-                max={total}
-                className={`${base}__input`}
-                onBlur={(e: Event): void => currentPageChanged(e, onChange, inputRef)}
-                labelText="labelText"
-                hideLabel={true}
-                disabled={loading}
-              />
-            </Form>
-            <FormLabel className={`${base}__pageLabel`}>/ {total}</FormLabel>
-            {renderButton({
-              icon: CaretRight24,
-              description: 'Next Page',
-              onClick: () => nextPrevButtonClicked(current, total, onChange, 1),
-              disabled: loading || current === total
-            })}
+          <div className={`${base}__left`}>
+            {showPager && (
+              <div className={`${base}__nav`}>
+                {renderButton({
+                  icon: CaretLeft24,
+                  description: msgs.previousPageLabel,
+                  onClick: () => nextPrevButtonClicked(current, total, onChange, -1),
+                  disabled: loading || current === 1
+                })}
+                <Form
+                  onSubmit={(e: Event): void => currentPageChanged(e, onChange, inputRef)}
+                  autoComplete="off"
+                >
+                  <TextInput
+                    id="pageInput"
+                    defaultValue={current}
+                    type="number"
+                    ref={inputRef}
+                    min={1}
+                    max={total}
+                    className={`${base}__input`}
+                    onBlur={(e: Event): void => currentPageChanged(e, onChange, inputRef)}
+                    labelText="labelText"
+                    hideLabel={true}
+                    disabled={loading}
+                  />
+                </Form>
+                <FormLabel className={`${base}__pageLabel`}>/ {total}</FormLabel>
+                {renderButton({
+                  icon: CaretRight24,
+                  description: msgs.nextPageLabel,
+                  onClick: () => nextPrevButtonClicked(current, total, onChange, 1),
+                  disabled: loading || current === total
+                })}
+              </div>
+            )}
           </div>
-          <div className={`${base}__zoom`}>
-            {renderButton({
-              icon: ZoomIn24,
-              description: 'Zoom In',
-              onClick: () => onZoom(ZOOM_IN),
-              disabled: loading
-            })}
-            {renderButton({
-              icon: ZoomOut24,
-              description: 'Zoom Out',
-              onClick: () => onZoom(ZOOM_OUT),
-              disabled: loading
-            })}
-            {renderButton({
-              icon: Reset24,
-              description: 'Reset Zoom',
-              onClick: () => onZoom(ZOOM_RESET),
-              disabled: loading
-            })}
+          <div className={`${base}__center ${base}__nav`}></div>
+          <div className={`${base}__right`}>
+            {showZoom && (
+              <>
+                {renderButton({
+                  icon: ZoomIn24,
+                  description: msgs.zoomInLabel,
+                  onClick: () => onZoom(ZOOM_IN),
+                  disabled: loading
+                })}
+                {renderButton({
+                  icon: ZoomOut24,
+                  description: msgs.zoomOutLabel,
+                  onClick: () => onZoom(ZOOM_OUT),
+                  disabled: loading
+                })}
+                {renderButton({
+                  icon: Reset24,
+                  description: msgs.resetZoomLabel,
+                  onClick: () => onZoom(ZOOM_RESET),
+                  disabled: loading
+                })}
+              </>
+            )}
+            {actions.map((action, index) =>
+              renderButton({
+                ...action,
+                key: `toolbar-action-${action.id || index}`
+              })
+            )}
           </div>
         </>
       ) : null}
@@ -124,6 +172,7 @@ const PreviewToolbar: SFC<Props> = ({
 };
 
 function renderButton(obj: {
+  key?: string;
   icon: React.Component;
   description: string;
   onClick: () => void;
@@ -131,6 +180,8 @@ function renderButton(obj: {
 }): ReactElement {
   return (
     <Button
+      key={obj.key}
+      data-testid={obj.key}
       className={`${base}__button`}
       disabled={obj.disabled}
       size="small"
