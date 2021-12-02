@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@storybook/addon-actions": "^5.3.21",
-    "@storybook/addon-docs": "^5.3.21",
+    "@storybook/addon-docs": "^6.4.4",
     "@storybook/addon-knobs": "^5.3.21",
     "@storybook/core": "^5.3.21",
     "@storybook/react": "^5.3.21",
