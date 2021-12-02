@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { PDFPageProxy, PDFPageViewport, TextContent, TextContentItem } from 'pdfjs-dist';
 import { EventBus } from 'pdfjs-dist/lib/web/ui_utils';
 import { TextLayerBuilder } from 'pdfjs-dist/lib/web/text_layer_builder';
-import useAsyncFunctionCall from './useAsyncFunctionCall';
+import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
 
 interface Props {
   className?: string;
@@ -127,7 +127,7 @@ async function _renderTextLayer(
   textLayerDiv.innerHTML = '';
   const deferredRenderEndPromise = new Promise(resolve => {
     const listener = () => {
-      resolve(undefined);
+      resolve();
       builder?.eventBus.off('textlayerrendered', listener);
     };
     builder?.eventBus.on('textlayerrendered', listener);

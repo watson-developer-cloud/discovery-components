@@ -9,7 +9,7 @@ import PdfjsLib, {
 import PdfjsWorkerAsText from 'pdfjs-dist/build/pdf.worker.min.js';
 import { settings } from 'carbon-components';
 import PdfViewerTextLayer, { PdfRenderedText } from './PdfViewerTextLayer';
-import useAsyncFunctionCall from './useAsyncFunctionCall';
+import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
 
 setupPdfjs();
 

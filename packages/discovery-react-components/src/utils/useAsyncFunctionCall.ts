@@ -16,25 +16,25 @@ function useAsyncFunctionCall<Func extends AsyncFunc<any>, ReturnType = AsyncFun
   const [result, setResult] = useState<ReturnType | undefined>();
 
   useEffect(() => {
-    let state: 'pending' | 'fulfilled' | 'rejected' = 'pending';
+    let resolved = false;
     const abortController = new AbortController();
 
     asyncFunction(abortController.signal)
       .then((promiseResult: ReturnType) => {
-        state = 'fulfilled';
+        resolved = false;
         if (!abortController.signal.aborted && promiseResult !== undefined) {
           setResult(promiseResult);
         }
       })
       .catch(err => {
-        state = 'rejected';
+        resolved = false;
         if (!abortController.signal.aborted) {
           throw err;
         }
       });
 
     return (): void => {
-      if (state === 'pending') {
+      if (!resolved) {
         abortController.abort();
       }
     };

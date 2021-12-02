@@ -154,6 +154,7 @@ function PreviewDocument({
 const ErrorBoundDocumentPreview: any = withErrorBoundary(DocumentPreview);
 ErrorBoundDocumentPreview.PreviewToolbar = PreviewToolbar;
 ErrorBoundDocumentPreview.PreviewDocument = PreviewDocument;
+ErrorBoundDocumentPreview.PdfViewerHighlight = PdfViewerHighlight;
 
 export default ErrorBoundDocumentPreview;
 export { ErrorBoundDocumentPreview as DocumentPreview };
