@@ -21,13 +21,13 @@ function useAsyncFunctionCall<Func extends AsyncFunc<any>, ReturnType = AsyncFun
 
     asyncFunction(abortController.signal)
       .then((promiseResult: ReturnType) => {
-        resolved = false;
+        resolved = true;
         if (!abortController.signal.aborted && promiseResult !== undefined) {
           setResult(promiseResult);
         }
       })
       .catch(err => {
-        resolved = false;
+        resolved = true;
         if (!abortController.signal.aborted) {
           throw err;
         }
