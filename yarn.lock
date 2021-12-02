@@ -2272,6 +2272,12 @@ __metadata:
   resolution: "@ibm-watson/discovery-react-components@workspace:packages/discovery-react-components"
   dependencies:
     "@types/pdfjs-dist": ^2.10.378
+    "@storybook/addon-actions": ^5.3.21
+    "@storybook/addon-docs": ^5.3.21
+    "@storybook/addon-knobs": ^5.3.21
+    "@storybook/core": ^5.3.21
+    "@storybook/react": ^5.3.21
+    "@storybook/source-loader": ^5.3.21
     classnames: ^2.2.6
     cross-env: ^7.0.3
     css-loader: ^3.4.2
@@ -22901,12 +22907,6 @@ __metadata:
     "@rollup/plugin-json": ^4.1.0
     "@rollup/plugin-node-resolve": ^13.0.5
     "@rollup/plugin-url": ^6.1.0
-    "@storybook/addon-actions": ^5.3.21
-    "@storybook/addon-docs": ^5.3.21
-    "@storybook/addon-knobs": ^5.3.21
-    "@storybook/core": ^5.3.21
-    "@storybook/react": ^5.3.21
-    "@storybook/source-loader": ^5.3.21
     "@svgr/rollup": ^5.5.0
     "@testing-library/cypress": ^7.0.6
     "@testing-library/jest-dom": ^4.2.4
