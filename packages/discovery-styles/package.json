@@ -7,7 +7,7 @@
   "repository": "https://github.com/watson-developer-cloud/discovery-components",
   "main": "scss/index.scss",
   "scripts": {
-    "prebuild": "scripts/update-styles.sh",
+    "update-style": "scripts/update-styles.sh",
     "build": "node-sass --importer=../../node_modules/node-sass-tilde-importer --source-map=true scss/index.scss css/index.css",
     "prepublish": "yarn run build",
     "start": "yarn run build -- --watch",
