@@ -2271,13 +2271,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ibm-watson/discovery-react-components@workspace:packages/discovery-react-components"
   dependencies:
-    "@types/pdfjs-dist": ^2.10.378
     "@storybook/addon-actions": ^5.3.21
     "@storybook/addon-docs": ^5.3.21
     "@storybook/addon-knobs": ^5.3.21
     "@storybook/core": ^5.3.21
     "@storybook/react": ^5.3.21
     "@storybook/source-loader": ^5.3.21
+    "@types/pdfjs-dist": ^2.10.378
     classnames: ^2.2.6
     cross-env: ^7.0.3
     css-loader: ^3.4.2
