@@ -2271,6 +2271,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ibm-watson/discovery-react-components@workspace:packages/discovery-react-components"
   dependencies:
+    "@storybook/addon-actions": ^5.3.21
+    "@storybook/addon-docs": ^5.3.21
+    "@storybook/addon-knobs": ^5.3.21
+    "@storybook/core": ^5.3.21
+    "@storybook/react": ^5.3.21
+    "@storybook/source-loader": ^5.3.21
+    "@types/pdfjs-dist": 2.1.7
     classnames: ^2.2.6
     cross-env: ^7.0.3
     css-loader: ^3.4.2
@@ -2301,6 +2308,9 @@ __metadata:
 "@ibm-watson/discovery-styles@^1.5.0-beta.2, @ibm-watson/discovery-styles@workspace:packages/discovery-styles":
   version: 0.0.0-use.local
   resolution: "@ibm-watson/discovery-styles@workspace:packages/discovery-styles"
+  dependencies:
+    "@types/prettier": ^2
+    prettier: ^2.4.1
   peerDependencies:
     carbon-components: ">= 10.6.0 < 11"
   languageName: unknown
@@ -4938,10 +4948,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pdfjs-dist@npm:2.7.5":
-  version: 2.7.5
-  resolution: "@types/pdfjs-dist@npm:2.7.5"
-  checksum: a81d499327520f46cf25c683a1f56cfcf07e12d9ad0ef4d560e320a7072f7dd7e7f2a2b26966655120cf7aa084c90f5c732ba65fc835a6271d4ab9858b9fc2b4
+"@types/pdfjs-dist@npm:2.1.7":
+  version: 2.1.7
+  resolution: "@types/pdfjs-dist@npm:2.1.7"
+  checksum: 14ca335658a85ab5cab908f3ef3ec104cb62487acc2465bb74b6d0430cd720dca30a8804440e152967b1dd7fb384c65ef05da1702a1ec87b905c0f5c73bbe653
+  languageName: node
+  linkType: hard
+
+"@types/prettier@npm:^2":
+  version: 2.4.2
+  resolution: "@types/prettier@npm:2.4.2"
+  checksum: 76e230b2d11028af11fe12e09b2d5b10b03738e9abf819ae6ebb0f78cac13d39f860755ce05ac3855b608222518d956628f5d00322dc206cc6d1f2d8d1519f1e
   languageName: node
   linkType: hard
 
@@ -22886,12 +22903,6 @@ __metadata:
     "@rollup/plugin-json": ^4.1.0
     "@rollup/plugin-node-resolve": ^13.0.5
     "@rollup/plugin-url": ^6.1.0
-    "@storybook/addon-actions": ^5.3.21
-    "@storybook/addon-docs": ^5.3.21
-    "@storybook/addon-knobs": ^5.3.21
-    "@storybook/core": ^5.3.21
-    "@storybook/react": ^5.3.21
-    "@storybook/source-loader": ^5.3.21
     "@svgr/rollup": ^5.5.0
     "@testing-library/cypress": ^7.0.6
     "@testing-library/jest-dom": ^4.2.4
@@ -22904,7 +22915,6 @@ __metadata:
     "@types/lodash": ^4.14.141
     "@types/mustache": ^0.8.32
     "@types/node": ^12.7.3
-    "@types/pdfjs-dist": 2.7.5
     "@types/react": ^16.9.2
     "@types/react-dom": ^16.9.0
     "@types/react-resize-detector": ^4.2.0

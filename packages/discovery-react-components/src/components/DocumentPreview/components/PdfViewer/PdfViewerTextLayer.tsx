@@ -3,9 +3,10 @@ import cx from 'classnames';
 import { PDFPageProxy, PDFPageViewport, TextContent, TextContentItem } from 'pdfjs-dist';
 import { EventBus } from 'pdfjs-dist/lib/web/ui_utils';
 import { TextLayerBuilder } from 'pdfjs-dist/lib/web/text_layer_builder';
-import useAsyncFunctionCall from './useAsyncFunctionCall';
+import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
+import { PdfDisplayProps } from './types';
 
-interface Props {
+type Props = Pick<PdfDisplayProps, 'scale'> & {
   className?: string;
 
   /**
@@ -14,15 +15,10 @@ interface Props {
   loadedPage: PDFPageProxy | null | undefined;
 
   /**
-   * Zoom factor, where `1` is equal to 100%
-   */
-  scale: number;
-
-  /**
    * Callback for text layer info
    */
   setRenderedText?: (info: PdfRenderedText | null) => any;
-}
+};
 
 export type PdfRenderedText = {
   /**
@@ -127,7 +123,7 @@ async function _renderTextLayer(
   textLayerDiv.innerHTML = '';
   const deferredRenderEndPromise = new Promise(resolve => {
     const listener = () => {
-      resolve(undefined);
+      resolve();
       builder?.eventBus.off('textlayerrendered', listener);
     };
     builder?.eventBus.on('textlayerrendered', listener);

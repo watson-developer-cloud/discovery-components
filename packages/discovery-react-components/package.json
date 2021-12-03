@@ -43,6 +43,13 @@
     "react-virtualized": "9.21.1"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^5.3.21",
+    "@storybook/addon-docs": "^5.3.21",
+    "@storybook/addon-knobs": "^5.3.21",
+    "@storybook/core": "^5.3.21",
+    "@storybook/react": "^5.3.21",
+    "@storybook/source-loader": "^5.3.21",
+    "@types/pdfjs-dist": "2.1.7",
     "cross-env": "^7.0.3",
     "css-loader": "^3.4.2",
     "madge": "^5.0.1",

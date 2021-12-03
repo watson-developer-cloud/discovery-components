@@ -4,16 +4,18 @@ import PdfjsLib, {
   PDFDocumentProxy,
   PDFPageProxy,
   PDFPageViewport,
+  PDFPromise,
   PDFRenderTask
 } from 'pdfjs-dist';
 import PdfjsWorkerAsText from 'pdfjs-dist/build/pdf.worker.min.js';
 import { settings } from 'carbon-components';
+import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
 import PdfViewerTextLayer, { PdfRenderedText } from './PdfViewerTextLayer';
-import useAsyncFunctionCall from './useAsyncFunctionCall';
+import { PdfDisplayProps } from './types';
 
 setupPdfjs();
 
-interface Props {
+type Props = PdfDisplayProps & {
   className?: string;
 
   /**
@@ -22,22 +24,7 @@ interface Props {
   file: string;
 
   /**
-   * Page number, starting at 1
-   */
-  page: number;
-
-  /**
-   * Zoom factor, where `1` is equal to 100%
-   */
-  scale: number;
-
-  /**
-   * Render text layer
-   */
-  showTextLayer?: boolean;
-
-  /**
-   * Text layer class name. Only applicable when showTextLayer is true
+   * Text layer class name
    */
   textLayerClassName?: string;
 
@@ -57,14 +44,13 @@ interface Props {
    * Callback for text layer info
    */
   setRenderedText?: (info: PdfRenderedText | null) => any;
-}
+};
 
 const PdfViewer: FC<Props> = ({
   className,
   file,
   page,
   scale,
-  showTextLayer,
   textLayerClassName,
   setPageCount,
   setLoading,
@@ -128,14 +114,12 @@ const PdfViewer: FC<Props> = ({
         width={canvasInfo?.canvasWidth}
         height={canvasInfo?.canvasHeight}
       />
-      {showTextLayer && (
-        <PdfViewerTextLayer
-          className={cx(`${classNameBase}--text`, textLayerClassName)}
-          loadedPage={loadedPage}
-          scale={scale}
-          setRenderedText={setRenderedText}
-        />
-      )}
+      <PdfViewerTextLayer
+        className={cx(`${classNameBase}--text`, textLayerClassName)}
+        loadedPage={loadedPage}
+        scale={scale}
+        setRenderedText={setRenderedText}
+      />
       {children}
     </div>
   );
@@ -146,7 +130,7 @@ PdfViewer.defaultProps = {
   scale: 1
 };
 
-function _loadPdf(data: string): Promise<PDFDocumentProxy> {
+function _loadPdf(data: string): PDFPromise<PDFDocumentProxy> {
   return PdfjsLib.getDocument({ data }).promise;
 }
 
@@ -175,6 +159,7 @@ function setupPdfjs(): void {
   if (typeof Worker !== 'undefined') {
     const blob = new Blob([PdfjsWorkerAsText], { type: 'text/javascript' });
     const pdfjsWorker = new Worker(URL.createObjectURL(blob)) as any;
+    // @ts-expect-error Upgrading pdfjs-dist and its typings would resolve the issue
     PdfjsLib.GlobalWorkerOptions.workerPort = pdfjsWorker;
   } else {
     PdfjsLib.GlobalWorkerOptions.workerSrc = PdfjsWorkerAsText;
