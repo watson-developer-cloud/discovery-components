@@ -2277,7 +2277,7 @@ __metadata:
     "@storybook/core": ^5.3.21
     "@storybook/react": ^5.3.21
     "@storybook/source-loader": ^5.3.21
-    "@types/pdfjs-dist": ^2.10.378
+    "@types/pdfjs-dist": ^2.1.7
     classnames: ^2.2.6
     cross-env: ^7.0.3
     css-loader: ^3.4.2
@@ -4948,12 +4948,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pdfjs-dist@npm:^2.10.378":
-  version: 2.10.378
-  resolution: "@types/pdfjs-dist@npm:2.10.378"
+"@types/pdfjs-dist@npm:^2.1.7":
+  version: 2.10.377
+  resolution: "@types/pdfjs-dist@npm:2.10.377"
   dependencies:
     pdfjs-dist: "*"
-  checksum: 36dd6010f7d23a995efdf11ea4ecb56f371f8bfb3e83a5c311666726e13238597ed1519701d0e2e6fb297270d01ad6aece9582b036fd4cb3aa301e61ea364978
+  checksum: c4623b60e334dfcc50bc584d35977f13edd95646e139df8ae3cb52338e919dbdaf443454055368eb535cf3d1cc3f2f62463c3d883ab85c60ea9acf98e794aba1
   languageName: node
   linkType: hard
 
