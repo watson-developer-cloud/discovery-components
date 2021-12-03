@@ -4,8 +4,9 @@ import { PDFPageProxy, PDFPageViewport, TextContent, TextContentItem } from 'pdf
 import { EventBus } from 'pdfjs-dist/lib/web/ui_utils';
 import { TextLayerBuilder } from 'pdfjs-dist/lib/web/text_layer_builder';
 import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
+import { PdfDisplayProps } from './types';
 
-interface Props {
+type Props = Pick<PdfDisplayProps, 'scale'> & {
   className?: string;
 
   /**
@@ -14,15 +15,10 @@ interface Props {
   loadedPage: PDFPageProxy | null | undefined;
 
   /**
-   * Zoom factor, where `1` is equal to 100%
-   */
-  scale: number;
-
-  /**
    * Callback for text layer info
    */
   setRenderedText?: (info: PdfRenderedText | null) => any;
-}
+};
 
 export type PdfRenderedText = {
   /**
