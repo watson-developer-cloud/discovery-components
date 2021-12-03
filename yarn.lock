@@ -2308,6 +2308,9 @@ __metadata:
 "@ibm-watson/discovery-styles@^1.5.0-beta.2, @ibm-watson/discovery-styles@workspace:packages/discovery-styles":
   version: 0.0.0-use.local
   resolution: "@ibm-watson/discovery-styles@workspace:packages/discovery-styles"
+  dependencies:
+    "@types/prettier": ^2
+    prettier: ^2.4.1
   peerDependencies:
     carbon-components: ">= 10.6.0 < 11"
   languageName: unknown
@@ -4951,6 +4954,13 @@ __metadata:
   dependencies:
     pdfjs-dist: "*"
   checksum: 36dd6010f7d23a995efdf11ea4ecb56f371f8bfb3e83a5c311666726e13238597ed1519701d0e2e6fb297270d01ad6aece9582b036fd4cb3aa301e61ea364978
+  languageName: node
+  linkType: hard
+
+"@types/prettier@npm:^2":
+  version: 2.4.2
+  resolution: "@types/prettier@npm:2.4.2"
+  checksum: 76e230b2d11028af11fe12e09b2d5b10b03738e9abf819ae6ebb0f78cac13d39f860755ce05ac3855b608222518d956628f5d00322dc206cc6d1f2d8d1519f1e
   languageName: node
   linkType: hard
 

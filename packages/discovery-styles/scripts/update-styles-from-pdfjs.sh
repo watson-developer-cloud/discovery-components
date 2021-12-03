@@ -13,7 +13,7 @@ BASEDIR=$(dirname "$0")/..
 # pdfjs textLayer styles
 PDFJS_WEB_CSS=$BASEDIR/../../node_modules/pdfjs-dist/web/pdf_viewer.css
 PDFJS_SCSS=$BASEDIR/scss/components/document-preview/_pdfjs_web_mixins.scss
-node $BASEDIR/scripts/generate-pdfjs_web_mixin.js "$PDFJS_WEB_CSS" "$PDFJS_SCSS"
+yarn node $BASEDIR/scripts/generate-pdfjs_web_mixin.js "$PDFJS_WEB_CSS" "$PDFJS_SCSS"
 
-# perttier
-../../node_modules/.bin/prettier --write "$PDFJS_SCSS"
+# prettier
+yarn run prettier --write "$PDFJS_SCSS"

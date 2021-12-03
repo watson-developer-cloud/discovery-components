@@ -7,11 +7,11 @@
   "repository": "https://github.com/watson-developer-cloud/discovery-components",
   "main": "scss/index.scss",
   "scripts": {
-    "update-style": "scripts/update-styles.sh",
     "build": "node-sass --importer=../../node_modules/node-sass-tilde-importer --source-map=true scss/index.scss css/index.css",
     "prepublish": "yarn run build",
     "start": "yarn run build -- --watch",
-    "analyze": "yarn run g:analyze css/index.css"
+    "analyze": "yarn run g:analyze css/index.css",
+    "update-styles-from-pdfjs": "scripts/update-styles-from-pdfjs.sh"
   },
   "files": [
     "css/**/*",
@@ -25,5 +25,9 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "@types/prettier": "^2",
+    "prettier": "^2.4.1"
   }
 }
