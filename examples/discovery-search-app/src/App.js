@@ -75,11 +75,21 @@ const App = () => {
   ) : isError ? (
     <div>Unable to load Discovery projects. Please check your console for more details.</div>
   ) : (
-    <DiscoverySearch searchClient={searchClient} projectId={projectId}>
+    <DiscoverySearch
+      searchClient={searchClient}
+      projectId={projectId}
+      documentProvider={new ExampleDocumentProvider()}
+    >
       <AppView />
     </DiscoverySearch>
   );
 };
+
+class ExampleDocumentProvider implements DocumentProvider {
+  provides: (document: DocumentProviderProps) => false;
+
+  get: (document: DocumentProviderProps) => null;
+}
 
 function AppView() {
   const {
