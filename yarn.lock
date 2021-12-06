@@ -2277,6 +2277,7 @@ __metadata:
     "@storybook/core": ^5.3.21
     "@storybook/react": ^5.3.21
     "@storybook/source-loader": ^5.3.21
+    "@types/pdfjs-dist": 2.1.7
     classnames: ^2.2.6
     cross-env: ^7.0.3
     css-loader: ^3.4.2
@@ -2307,6 +2308,9 @@ __metadata:
 "@ibm-watson/discovery-styles@^1.5.0-beta.2, @ibm-watson/discovery-styles@workspace:packages/discovery-styles":
   version: 0.0.0-use.local
   resolution: "@ibm-watson/discovery-styles@workspace:packages/discovery-styles"
+  dependencies:
+    "@types/prettier": ^2
+    prettier: ^2.4.1
   peerDependencies:
     carbon-components: ">= 10.6.0 < 11"
   languageName: unknown
@@ -4941,6 +4945,20 @@ __metadata:
   version: 5.0.3
   resolution: "@types/parse5@npm:5.0.3"
   checksum: d6b7495cb1850f9f2e9c5e103ede9f2d30a5320669707b105c403868adc9e4bf8d3a7ff314cc23f67826bbbbbc0e6147346ce9062ab429f099dba7a01f463919
+  languageName: node
+  linkType: hard
+
+"@types/pdfjs-dist@npm:2.1.7":
+  version: 2.1.7
+  resolution: "@types/pdfjs-dist@npm:2.1.7"
+  checksum: 14ca335658a85ab5cab908f3ef3ec104cb62487acc2465bb74b6d0430cd720dca30a8804440e152967b1dd7fb384c65ef05da1702a1ec87b905c0f5c73bbe653
+  languageName: node
+  linkType: hard
+
+"@types/prettier@npm:^2":
+  version: 2.4.2
+  resolution: "@types/prettier@npm:2.4.2"
+  checksum: 76e230b2d11028af11fe12e09b2d5b10b03738e9abf819ae6ebb0f78cac13d39f860755ce05ac3855b608222518d956628f5d00322dc206cc6d1f2d8d1519f1e
   languageName: node
   linkType: hard
 

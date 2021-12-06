@@ -1,3 +1,14 @@
+@import './pdfjs_web_mixins';
+
 .#{$prefix}--document-preview-pdf-viewer {
+  position: relative;
+  @include pdfjsTextLayer;
+}
+
+.#{$prefix}--document-preview-pdf-viewer--canvas {
+  transform-origin: left top 0px;
+}
+
+.#{$prefix}--document-preview-pdf-viewer--text {
   transform-origin: left top 0px;
 }
