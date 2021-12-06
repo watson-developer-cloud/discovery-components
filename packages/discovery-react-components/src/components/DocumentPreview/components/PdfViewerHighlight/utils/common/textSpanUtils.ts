@@ -1,7 +1,16 @@
+import { spansIntersect } from 'utils/document/documentUtils';
 import { TextSpan } from '../../types';
 
 export const START = 0;
 export const END = 1;
+
+/**
+ * Check whether two spans has intersection or not
+ * TextSpan version of spansIntersect in utils/document/documentUtil.ts
+ */
+export function spanIntersects([beginA, endA]: TextSpan, [beginB, endB]: TextSpan): boolean {
+  return spansIntersect({ begin: beginA, end: endA }, { begin: beginB, end: endB });
+}
 
 /**
  * Get text for a given span
@@ -20,14 +29,6 @@ export function spanGetText<T extends string | null | undefined>(
  */
 export function spanLen(span: TextSpan): number {
   return Math.max(0, span[END] - span[START]);
-}
-
-/**
- * Check whether two spans has intersection or not
- */
-export function spanIntersects([beginA, endA]: TextSpan, [beginB, endB]: TextSpan): boolean {
-  // TODO: integrate with spansIntersect in documentUtils.ts
-  return beginA < endB && endA > beginB;
 }
 
 /**

@@ -1,9 +1,12 @@
-import { Bbox as DocumentPreviewBbox } from '../../../DocumentPreview/types';
+import {
+  Bbox as DocPreviewBbox,
+  TextSpan as DocPreviewTextSpan
+} from '../../../DocumentPreview/types';
 import { Location } from 'utils/document/processDoc';
 
 // (re-)export useful types
-export type Bbox = DocumentPreviewBbox;
-export type TextSpan = [number, number];
+export type Bbox = DocPreviewBbox;
+export type TextSpan = DocPreviewTextSpan;
 
 /**
  * A document. Same to QueryResult, but this more focuses on document fields
