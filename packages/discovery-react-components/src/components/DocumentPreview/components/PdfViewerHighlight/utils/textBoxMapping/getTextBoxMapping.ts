@@ -3,52 +3,15 @@ import { TextSpan } from '../../types';
 import { bboxIntersects } from '../common/bboxUtils';
 import { nonEmpty } from '../common/nonEmpty';
 import { spanLen, spanMerge } from '../common/textSpanUtils';
-import { TextLayout, TextLayoutCell } from '../textLayout/types';
+import { TextLayout, TextLayoutCell, TextLayoutCellBase } from '../textLayout/types';
 import { MappingSourceTextProvider } from './MappingSourceTextProvider';
 import { MappingTargetBoxProvider } from './MappingTargetCellProvider';
-import { TextBoxMappingImpl } from './TextBoxMapping';
-import { TextBoxMapping, TextBoxMappingEntry } from './types';
+import { TextBoxMappingBuilder } from './TextBoxMapping';
+import { TextBoxMapping } from './types';
 
 const debugOut = require('debug')?.('pdf:mapping:getTextBoxMapping');
 function debug(...args: any) {
   debugOut?.apply(null, args);
-}
-
-/**
- * Find the best source (larger text layout cell) where text `textToMatch` is in
- * @param sources source (larger) text layout cells overlapping the current target cell
- * @param textToMatch text form target cell(s)
- * @returns the best source where the `textToMatch` is matched and the text location in the source
- */
-function findMatchInSources(
-  sources: {
-    cell: TextLayoutCell;
-    provider: MappingSourceTextProvider;
-  }[],
-  textToMatch: string
-) {
-  // find matches
-  const matches = sources.map(source => {
-    const match = source.provider.getMatch(textToMatch);
-    return { ...source, match };
-  });
-
-  // calc cost for each match
-  let skipTextLen = 0;
-  const matchesWithCost = matches.map(aMatch => {
-    const { match: providerMatch } = aMatch;
-    const cost = !providerMatch
-      ? Number.MAX_SAFE_INTEGER
-      : skipTextLen + providerMatch.skipText.length - spanLen(providerMatch.span);
-
-    skipTextLen += providerMatch?.approxLenAfterEnd ?? 0;
-
-    return { ...aMatch, cost };
-  });
-
-  // find best match
-  const bestMatch = minBy(matchesWithCost, match => match.cost);
-  return bestMatch;
 }
 
 /**
@@ -60,74 +23,183 @@ function findMatchInSources(
 export function getTextBoxMappings<
   SourceCell extends TextLayoutCell,
   TargetCell extends TextLayoutCell
->(source: TextLayout<SourceCell>, target: TextLayout<TargetCell>): TextBoxMapping {
-  const sourceProviders = source.cells.map(cell => new MappingSourceTextProvider(cell));
-  const targetProvider = new MappingTargetBoxProvider(target.cells);
+>(sourceLayout: TextLayout<SourceCell>, targetLayout: TextLayout<TargetCell>): TextBoxMapping {
+  debug('getTextBoxMapping: enter');
 
-  const targetIndexToSources = target.cells.map(targetCell => {
-    const cells = source.cells
-      .map((sourceCell, index) => {
-        if (!bboxIntersects(sourceCell.bbox, targetCell.bbox)) {
-          return null;
+  const target = new Target(targetLayout);
+  const source = new Source(sourceLayout, targetLayout);
+  const builder = new TextBoxMappingBuilder();
+
+  target.processText((targetCellId, targetText, markTargetAsMapped) => {
+    const matchInSource = source.findMatch(targetCellId, targetText);
+    if (matchInSource) {
+      const mappedTargetCells = markTargetAsMapped(matchInSource.matchLength);
+
+      let mappedSourceFullSpan: TextSpan = [0, 0];
+      mappedTargetCells.forEach(targetCell => {
+        const mappedSourceSpan = matchInSource.markSourceAsMapped(targetCell.text);
+        if (mappedSourceSpan) {
+          builder.addMapping(
+            { cell: matchInSource.cell, span: mappedSourceSpan },
+            { cell: targetCell }
+          );
+          mappedSourceFullSpan = spanMerge(mappedSourceFullSpan, mappedSourceSpan);
         }
-        return { cell: sourceCell, provider: sourceProviders[index] };
-      })
-      .filter(nonEmpty);
-
-    if (cells.some(({ cell }) => cell.isInHtmlBbox)) {
-      return cells.filter(({ cell }) => cell.isInHtmlBbox);
+      });
+      if (spanLen(mappedSourceFullSpan) > 0) {
+        matchInSource.markSourceMappedBySpan(mappedSourceFullSpan);
+      }
     }
-    return cells;
   });
 
-  const mappingEntries: TextBoxMappingEntry[] = [];
+  return builder.toTextBoxMapping();
+}
 
-  debug('getTextBoxMapping');
-  while (targetProvider.hasNext()) {
-    // find matches
-    const { index: targetCellIndex, text: targetText } = targetProvider.getNextInfo();
-    debug('> find match at index %d, text: %s', targetCellIndex, targetText);
-    const matchInSource = findMatchInSources(targetIndexToSources[targetCellIndex], targetText);
-    debug('> source cell(s) matched: %o', matchInSource);
+/**
+ * Utility class for manipulating target text layout in getTextBoxMapping
+ */
+class Target<TargetCell extends TextLayoutCell> {
+  targetProvider: MappingTargetBoxProvider;
 
-    // skip when no match found...
-    if (!matchInSource?.match || spanLen(matchInSource.match.span) === 0) {
-      targetProvider.skip();
-      continue;
-    }
-
-    const matchedSourceSpan = matchInSource.match.span;
-    const matchedSourceProvider = matchInSource.provider;
-    const matchedLength = spanLen(matchedSourceSpan);
-
-    const matchedTargetCells = targetProvider.consume(matchedLength);
-    debug('> target cells for matched length: %d', matchedLength);
-    debug(matchedTargetCells);
-
-    let consumedSourceSpan: TextSpan = [0, 0];
-    matchedTargetCells.forEach(mTargetCell => {
-      const trimmedCell = mTargetCell.trim();
-      if (trimmedCell.text.length > 0) {
-        const matchToTargetCell = matchedSourceProvider.getMatch(trimmedCell.text);
-        debug('>> target cell %o (%o) to source %o', mTargetCell, trimmedCell, matchToTargetCell);
-        if (matchToTargetCell) {
-          // consume source text which is just mapped to the target
-          matchedSourceProvider.consume(matchToTargetCell.span);
-          consumedSourceSpan = spanMerge(consumedSourceSpan, matchToTargetCell.span);
-          mappingEntries.push({
-            text: { cell: matchInSource.cell, span: matchToTargetCell.span },
-            box: { cell: trimmedCell }
-          });
-          debug('>> added mapping entry %o', mappingEntries[mappingEntries.length - 1]);
-        }
-      }
-    });
-    // consume entire the range that is matched to sources
-    if (spanLen(consumedSourceSpan) > 0) {
-      matchedSourceProvider.consume(consumedSourceSpan);
-      debug('> span consumed in source: ', consumedSourceSpan);
-    }
+  constructor(targetLayout: TextLayout<TargetCell>) {
+    this.targetProvider = new MappingTargetBoxProvider(targetLayout.cells);
   }
 
-  return new TextBoxMappingImpl(mappingEntries);
+  /**
+   * Try to map text fragments (`cellId` and `text` passed to `textMapper`)
+   * in target using a given `textMapper`
+   */
+  processText(
+    textMapper: (
+      cellId: number,
+      text: string,
+      markTargetMapped: (length: number) => TextLayoutCellBase[]
+    ) => void
+  ) {
+    while (this.targetProvider.hasNext()) {
+      const { index: cellId, text: nextText } = this.targetProvider.getNextInfo();
+      debug('> find match at index %d, text: %s', cellId, nextText);
+
+      let isMapped = false;
+      const markAsMapped = (matchedLength: number) => {
+        if (matchedLength > 0) {
+          isMapped = true;
+          const matchedTargetCells = this.targetProvider.consume(matchedLength);
+          debug('> raw target cells for matched length: %d', matchedLength);
+          debug(matchedTargetCells);
+
+          return matchedTargetCells.map(cell => cell.trim()).filter(cell => cell.text.length > 0);
+        }
+        return [];
+      };
+
+      textMapper(cellId, nextText, markAsMapped);
+      if (!isMapped) {
+        this.targetProvider.skip();
+      }
+    }
+  }
+}
+
+/**
+ * Utility class for manipulating source text layout and its source text in getTextBoxMapping
+ */
+class Source<SourceCell extends TextLayoutCell, TargetCell extends TextLayoutCell> {
+  sourceProviders: MappingSourceTextProvider[];
+  targetIndexToSources: {
+    cell: SourceCell;
+    provider: MappingSourceTextProvider;
+  }[][];
+
+  constructor(sourceLayout: TextLayout<SourceCell>, targetLayout: TextLayout<TargetCell>) {
+    this.sourceProviders = sourceLayout.cells.map(cell => new MappingSourceTextProvider(cell));
+    this.targetIndexToSources = targetLayout.cells.map(targetCell => {
+      const cells = sourceLayout.cells
+        .map((sourceCell, index) => {
+          if (!bboxIntersects(sourceCell.bbox, targetCell.bbox)) {
+            return null;
+          }
+          return { cell: sourceCell, provider: this.sourceProviders[index] };
+        })
+        .filter(nonEmpty);
+
+      if (cells.some(({ cell }) => cell.isInHtmlBbox)) {
+        return cells.filter(({ cell }) => cell.isInHtmlBbox);
+      }
+      return cells;
+    });
+  }
+
+  /**
+   * Find the best (i.e. longest length `text`) match in source which intersects
+   * with the target cell of given `targetCellId`
+   * @param targetCellId
+   * @param text
+   * @return matched source information and functions to mark the matched span as mapped
+   */
+  findMatch(targetCellId: TargetCell['id'], text: string) {
+    const candidateSources = this.targetIndexToSources[targetCellId];
+    const bestMatch = Source.findBestMatch(candidateSources, text);
+    debug('> source cell(s) matched: %o', bestMatch);
+
+    if (!bestMatch?.match || spanLen(bestMatch.match.span) === 0) {
+      return null;
+    }
+
+    const matchedCell = bestMatch.cell;
+    const matchedSourceSpan = bestMatch.match.span;
+    const matchedSourceProvider = bestMatch.provider;
+
+    return {
+      cell: matchedCell,
+      matchLength: spanLen(matchedSourceSpan),
+      markSourceAsMapped: (text: string) => {
+        const mappedSource = matchedSourceProvider.getMatch(text);
+        debug('>> target cell %o to source %o', text, mappedSource);
+        return mappedSource?.span;
+      },
+      markSourceMappedBySpan: (span: TextSpan) => {
+        if (spanLen(span) > 0) {
+          matchedSourceProvider.consume(span);
+        }
+      }
+    };
+  }
+
+  /**
+   * Find the best source (larger text layout cell) where text `textToMatch` is in
+   * @param sources source (larger) text layout cells overlapping the current target cell
+   * @param textToMatch text form target cell(s)
+   * @returns the best source where the `textToMatch` is matched and the text location in the source
+   */
+  private static findBestMatch(
+    sources: {
+      cell: TextLayoutCell;
+      provider: MappingSourceTextProvider;
+    }[],
+    textToMatch: string
+  ) {
+    // find matches
+    const matches = sources.map(source => {
+      const match = source.provider.getMatch(textToMatch);
+      return { ...source, match };
+    });
+
+    // calc cost for each match
+    let skipTextLen = 0;
+    const matchesWithCost = matches.map(aMatch => {
+      const { match: providerMatch } = aMatch;
+      const cost = !providerMatch
+        ? Number.MAX_SAFE_INTEGER
+        : skipTextLen + providerMatch.skipText.length - spanLen(providerMatch.span);
+
+      skipTextLen += providerMatch?.approxLenAfterEnd ?? 0;
+
+      return { ...aMatch, cost };
+    });
+
+    // find best match
+    const bestMatch = minBy(matchesWithCost, match => match.cost);
+    return bestMatch;
+  }
 }

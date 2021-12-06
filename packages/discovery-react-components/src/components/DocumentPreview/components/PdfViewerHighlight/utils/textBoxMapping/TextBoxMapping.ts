@@ -12,7 +12,7 @@ import {
 import { TextLayoutCell, TextLayoutCellBase } from '../textLayout/types';
 import { TextNormalizer } from '../common/TextNormalizer';
 
-const debugOut = require('debug')?.('pdf:mapping:TextBoxMappingImpl');
+const debugOut = require('debug')?.('pdf:mapping:TextBoxMapping');
 function debug(...args: any) {
   debugOut?.apply(null, args);
 }
@@ -20,7 +20,7 @@ function debug(...args: any) {
 /**
  * Text box mapping
  */
-export class TextBoxMappingImpl implements TextBoxMapping {
+class TextBoxMappingImpl implements TextBoxMapping {
   private readonly mappingEntryMap: Dictionary<TextBoxMappingEntry[]>;
 
   constructor(mappingEntries: TextBoxMappingEntry[]) {
@@ -80,6 +80,24 @@ export class TextBoxMappingImpl implements TextBoxMapping {
     debug('applying TextBoxMapping - result');
     debug(result);
     return result;
+  }
+}
+
+/**
+ * Text mapping builder
+ */
+export class TextBoxMappingBuilder {
+  mappingEntries: TextBoxMappingEntry[] = [];
+
+  /** add new mapping data */
+  addMapping(text: TextBoxMappingEntry['text'], box: TextBoxMappingEntry['box']) {
+    this.mappingEntries.push({ text, box });
+    debug('>> added a new mapping entry (%o) => (cell: %o)', text, text, box?.cell);
+  }
+
+  /** get TextBoxMapping */
+  toTextBoxMapping() {
+    return new TextBoxMappingImpl(this.mappingEntries);
   }
 }
 
