@@ -13976,7 +13976,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"husky@npm:^7.0.0":
+"husky@npm:^7.0.4":
   version: 7.0.4
   resolution: "husky@npm:7.0.4"
   bin:
@@ -22917,7 +22917,7 @@ __metadata:
     eslint-plugin-react-hooks: 1.x
     fast-xml-parser: ^3.14.0
     gh-pages: ^2.1.1
-    husky: ^7.0.0
+    husky: ^7.0.4
     ibm-watson: ^6.2.1
     lerna: ^4.0.0
     lerna-update-wizard: ^0.17.8
