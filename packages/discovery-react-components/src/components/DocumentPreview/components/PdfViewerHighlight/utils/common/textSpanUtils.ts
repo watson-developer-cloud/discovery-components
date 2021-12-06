@@ -1,4 +1,3 @@
-import { spansIntersect } from 'utils/document/documentUtils';
 import { TextSpan } from '../../types';
 
 export const START = 0;
@@ -9,7 +8,11 @@ export const END = 1;
  * TextSpan version of spansIntersect in utils/document/documentUtil.ts
  */
 export function spanIntersects([beginA, endA]: TextSpan, [beginB, endB]: TextSpan): boolean {
-  return spansIntersect({ begin: beginA, end: endA }, { begin: beginB, end: endB });
+  // TODO: integrate with spansIntersect in documentUtils.ts
+  // currently, the function returns true to spansIntersect([1,2], [0,1])
+  // which is expected to be false here. And fixing it results in test error
+  // We need further investigate if we can fix the spansIntersect.
+  return beginA < endB && endA > beginB;
 }
 
 /**
