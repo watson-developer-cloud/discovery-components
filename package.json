@@ -6,6 +6,7 @@
     "examples/*"
   ],
   "scripts": {
+    "postinstall": "husky install",
     "lint": "yarn workspaces foreach -v --parallel run lint",
     "audit": "audit-ci --moderate",
     "build:pkgs": "yarn workspaces foreach -v --parallel --include '@ibm-watson/*' run build",
@@ -68,7 +69,7 @@
     "eslint-plugin-react-hooks": "1.x",
     "fast-xml-parser": "^3.14.0",
     "gh-pages": "^2.1.1",
-    "husky": "^3.0.5",
+    "husky": "^7.0.0",
     "ibm-watson": "^6.2.1",
     "lerna": "^4.0.0",
     "lerna-update-wizard": "^0.17.8",
@@ -98,7 +99,8 @@
     "tsconfig-paths-webpack-plugin": "^3.2.0",
     "typescript": "^3.8.2",
     "vue": "^2.6.11",
-    "webpack": "4.41.2"
+    "webpack": "4.41.2",
+    "yarnhook": "0.5.2-0"
   },
   "lint-staged": {
     "{packages,examples}/**/*.{json,css,scss,md}": [
@@ -113,13 +115,6 @@
       "markdown-toc -i",
       "git add"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "post-rewrite": "lint-staged"
-    }
   },
   "packageManager": "yarn@3.1.0"
 }
