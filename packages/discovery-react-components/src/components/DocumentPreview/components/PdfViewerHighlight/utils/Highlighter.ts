@@ -19,6 +19,9 @@ function debug(...args: any) {
   debugOut?.apply(null, args);
 }
 
+/**
+ * Highlighter - calculate highlight bbox from spans on text fields
+ */
 export class Highlighter {
   readonly pageNum: number;
   private readonly textMappingsLayout: TextMappingsTextLayout;
