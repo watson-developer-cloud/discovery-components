@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0-beta.4](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.3...v1.5.0-beta.4) (2021-12-06)
+
+
+### Features
+
+* add text layer support to PDF viewer ([#237](https://github.com/watson-developer-cloud/discovery-components/issues/237)) ([b9dc342](https://github.com/watson-developer-cloud/discovery-components/commit/b9dc34242644828e5c785ac8adda60963d07e92f))
+
+
+
+
+
 # [1.5.0-beta.3](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.2...v1.5.0-beta.3) (2021-12-02)
 
 **Note:** Version bump only for package @ibm-watson/discovery-react-components
