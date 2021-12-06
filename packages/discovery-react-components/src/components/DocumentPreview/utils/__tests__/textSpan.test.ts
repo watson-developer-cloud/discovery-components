@@ -1,4 +1,3 @@
-import { TextSpan } from '../../../types';
 import {
   spanCompare,
   spanContains,
@@ -9,7 +8,8 @@ import {
   spanIntersection,
   spanIntersects,
   spanLen
-} from '../textSpanUtils';
+} from '../textSpan';
+import { TextSpan } from '../../types';
 
 describe('spanGetText', () => {
   it('should return valid span text', () => {

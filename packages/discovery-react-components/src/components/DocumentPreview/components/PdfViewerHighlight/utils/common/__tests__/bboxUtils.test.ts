@@ -1,21 +1,4 @@
-import { bboxGetSpanByRatio, bboxIntersects, isNextToEachOther } from '../bboxUtils';
-
-describe('bboxIntersects', () => {
-  it('should return true when boxes intersect', () => {
-    expect(bboxIntersects([10, 10, 20, 20], [15, 15, 25, 25])).toBeTruthy();
-  });
-
-  it("should return false when boxes don't intersect", () => {
-    expect(bboxIntersects([10, 10, 20, 20], [15, 25, 25, 35])).toBeFalsy();
-  });
-
-  it('should return false when one box is on another', () => {
-    expect(bboxIntersects([10, 10, 20, 20], [20, 10, 30, 20])).toBeFalsy();
-    expect(bboxIntersects([10, 10, 20, 20], [0, 10, 10, 20])).toBeFalsy();
-    expect(bboxIntersects([10, 10, 20, 20], [10, 20, 20, 30])).toBeFalsy();
-    expect(bboxIntersects([10, 10, 20, 20], [10, 0, 20, 10])).toBeFalsy();
-  });
-});
+import { bboxGetSpanByRatio, isNextToEachOther } from '../bboxUtils';
 
 describe('bboxGetSpanByRatio', () => {
   it('should return proper bbox for spans on text', () => {

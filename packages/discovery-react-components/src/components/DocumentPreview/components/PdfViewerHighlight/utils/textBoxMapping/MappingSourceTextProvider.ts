@@ -1,9 +1,9 @@
-import { TextSpan } from '../../types';
-import { TextProvider } from './TextProvider';
-import { TextNormalizer } from '../common/TextNormalizer';
 import minBy from 'lodash/minBy';
-import { spanGetText, spanLen, START } from '../common/textSpanUtils';
+import { spanGetText, spanLen, START } from '../../../../utils/textSpan';
+import { TextSpan } from '../../types';
+import { TextNormalizer } from '../common/TextNormalizer';
 import { TextLayoutCell } from '../textLayout/types';
+import { TextProvider } from './TextProvider';
 
 const debugOut = require('debug')?.('pdf:mapping:MappingSourceTextProvider');
 function debug(...args: any) {

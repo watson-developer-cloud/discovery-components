@@ -1,16 +1,16 @@
-import { TextSpan } from '../../types';
-import { TextBoxMapping, TextBoxMappingEntry, TextBoxMappingResult } from './types';
 import { Dictionary } from 'lodash';
 import groupBy from 'lodash/groupBy';
+import { TextSpan } from '../../types';
 import {
   spanCompare,
   spanFromSubSpan,
   spanGetSubSpan,
   spanIntersection,
   spanIntersects
-} from '../common/textSpanUtils';
+} from '../../../../utils/textSpan';
 import { TextLayoutCell, TextLayoutCellBase } from '../textLayout/types';
 import { TextNormalizer } from '../common/TextNormalizer';
+import { TextBoxMapping, TextBoxMappingEntry, TextBoxMappingResult } from './types';
 
 const debugOut = require('debug')?.('pdf:mapping:TextBoxMapping');
 function debug(...args: any) {

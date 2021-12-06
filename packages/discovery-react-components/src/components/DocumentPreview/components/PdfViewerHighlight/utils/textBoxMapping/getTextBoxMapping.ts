@@ -1,8 +1,8 @@
 import minBy from 'lodash/minBy';
 import { TextSpan } from '../../types';
-import { bboxIntersects } from '../common/bboxUtils';
 import { nonEmpty } from '../common/nonEmpty';
-import { spanLen, spanMerge } from '../common/textSpanUtils';
+import { bboxesIntersect } from '../../../../utils/box';
+import { spanLen, spanMerge } from '../../../../utils/textSpan';
 import { TextLayout, TextLayoutCell, TextLayoutCellBase } from '../textLayout/types';
 import { MappingSourceTextProvider } from './MappingSourceTextProvider';
 import { MappingTargetBoxProvider } from './MappingTargetCellProvider';
@@ -116,7 +116,7 @@ class Source<SourceCell extends TextLayoutCell, TargetCell extends TextLayoutCel
     this.targetIndexToSources = targetLayout.cells.map(targetCell => {
       const cells = sourceLayout.cells
         .map((sourceCell, index) => {
-          if (!bboxIntersects(sourceCell.bbox, targetCell.bbox)) {
+          if (!bboxesIntersect(sourceCell.bbox, targetCell.bbox)) {
             return null;
           }
           return { cell: sourceCell, provider: this.sourceProviders[index] };

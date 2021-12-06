@@ -1,4 +1,4 @@
-import { TextSpan } from '../../types';
+import { TextSpan } from '../types';
 
 export const START = 0;
 export const END = 1;

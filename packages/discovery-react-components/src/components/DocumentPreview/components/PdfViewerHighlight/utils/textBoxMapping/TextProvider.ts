@@ -6,7 +6,7 @@ import {
   spanIncludesIndex,
   spanGetText,
   spanIntersection
-} from '../common/textSpanUtils';
+} from '../../../../utils/textSpan';
 import { findLargestIndex } from '../common/findLargestIndex';
 
 const MAX_HISTORY = 3;

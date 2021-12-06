@@ -1,7 +1,7 @@
 import { forEachRectInRange, getTextNodeAndOffset } from 'utils/document/documentUtils';
 import { Bbox, TextSpan } from '../../types';
-import { BOTTOM, LEFT, RIGHT, TOP } from '../common/bboxUtils';
-import { END, START } from '../common/textSpanUtils';
+import { BOTTOM, LEFT, RIGHT, TOP } from '../../../../utils/box';
+import { END, START } from '../../../../utils/textSpan';
 import { TextLayoutCell } from './types';
 
 const debugOut = require('debug')?.('pdf:textLayout:dom');

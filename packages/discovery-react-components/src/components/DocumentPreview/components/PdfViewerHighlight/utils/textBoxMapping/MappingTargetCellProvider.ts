@@ -1,7 +1,7 @@
+import { END } from '../../../../utils/textSpan';
 import { TextLayoutCellBase } from '../textLayout/types';
 import { TextNormalizer } from '../common/TextNormalizer';
 import { CellProvider } from './CellProvider';
-import { END } from '../common/textSpanUtils';
 
 /**
  * Cell provider with normalization

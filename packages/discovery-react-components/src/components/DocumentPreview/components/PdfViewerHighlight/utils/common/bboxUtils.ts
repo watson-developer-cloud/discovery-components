@@ -1,21 +1,6 @@
-import { intersects } from 'components/DocumentPreview/utils/box';
 import { Bbox, TextSpan } from '../../types';
-import { spanIntersection, spanLen } from './textSpanUtils';
-
-export const LEFT = 0;
-export const TOP = 1;
-export const RIGHT = 2;
-export const BOTTOM = 3;
-
-/**
- * Check whether two bbox intersect
- * @param boxA one bbox
- * @param boxB another bbox
- * @returns true iff boxA and boxB are overlapped
- */
-export function bboxIntersects(boxA: Bbox, boxB: Bbox): boolean {
-  return intersects(boxA, boxB);
-}
+import { bboxesIntersect } from '../../../../utils/box';
+import { spanIntersection, spanLen } from '../../../../utils/textSpan';
 
 /**
  * Get bbox for a text span assuming each character takes horizontal spaces evenly
@@ -43,7 +28,7 @@ export function bboxGetSpanByRatio(bbox: Bbox, origLength: number, span: TextSpa
  * This is used to get a text of a line from a list of small text cells.
  */
 export function isNextToEachOther(boxA: Bbox, boxB: Bbox): boolean {
-  if (bboxIntersects(boxA, boxB)) {
+  if (bboxesIntersect(boxA, boxB)) {
     return false;
   }
 

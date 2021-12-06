@@ -1,13 +1,13 @@
-import { Cell, CellField } from 'components/DocumentPreview/types';
-import { DocumentFields, DocumentFieldHighlight, TextSpan } from '../../types';
-import { getDocFieldValue } from '../common/documentUtils';
-import { TextBoxMappingResult } from '../textBoxMapping/types';
+import { Cell, CellField } from '../../../../types';
 import {
   spanGetSubSpan,
   spanContains,
   spanIntersection,
   spanIntersects
-} from '../common/textSpanUtils';
+} from '../../../../utils/textSpan';
+import { DocumentFields, DocumentFieldHighlight, TextSpan } from '../../types';
+import { getDocFieldValue } from '../common/documentUtils';
+import { TextBoxMappingResult } from '../textBoxMapping/types';
 import { BaseTextLayoutCell } from './BaseTextLayout';
 import { TextLayout, TextMappingInfo } from './types';
 

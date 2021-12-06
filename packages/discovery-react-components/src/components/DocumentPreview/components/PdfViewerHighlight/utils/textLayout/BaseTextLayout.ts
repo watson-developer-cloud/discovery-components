@@ -1,7 +1,7 @@
+import { spanGetText, spanIntersection, spanOffset, START } from '../../../../utils/textSpan';
 import { Bbox, TextSpan } from '../../types';
-import { TextLayout, TextLayoutCell, TextLayoutCellBase } from './types';
-import { spanGetText, spanIntersection, spanOffset, START } from '../common/textSpanUtils';
 import { bboxGetSpanByRatio } from '../common/bboxUtils';
+import { TextLayout, TextLayoutCell, TextLayoutCellBase } from './types';
 
 /**
  * Base implementation of text layout cell

@@ -1,6 +1,6 @@
+import { bboxesIntersect } from 'components/DocumentPreview/utils/box';
 import { PDFPageViewport, PDFPageViewportOptions, TextContentItem } from 'pdfjs-dist';
 import { Bbox, TextSpan } from '../../types';
-import { bboxIntersects } from '../common/bboxUtils';
 import { BaseTextLayoutCell } from './BaseTextLayout';
 import { getAdjustedCellByOffsetByDom } from './dom';
 import { HtmlBboxInfo, PdfTextContentInfo, TextLayout } from './types';
@@ -23,7 +23,7 @@ export class PdfTextContentTextLayout implements TextLayout<PdfTextContentTextLa
       let isInHtmlBbox = false;
       if (htmlBboxInfo?.bboxes?.length) {
         isInHtmlBbox = htmlBboxInfo.bboxes.some(bbox => {
-          return bboxIntersects(cellBbox, [bbox.left, bbox.top, bbox.right, bbox.bottom]);
+          return bboxesIntersect(cellBbox, [bbox.left, bbox.top, bbox.right, bbox.bottom]);
         });
       }
       return new PdfTextContentTextLayoutCell(this, index, item, pageNum, cellBbox, isInHtmlBbox);

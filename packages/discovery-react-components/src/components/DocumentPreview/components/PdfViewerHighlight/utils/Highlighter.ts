@@ -7,11 +7,11 @@ import {
   HighlightShape,
   HighlightShapeBox
 } from '../types';
+import { spanOffset, START } from '../../../utils/textSpan';
 import { getTextBoxMappings } from './textBoxMapping';
 import { TextBoxMapping, TextBoxMappingResult } from './textBoxMapping/types';
 import { HtmlBboxTextLayout, PdfTextContentTextLayout, TextMappingsTextLayout } from './textLayout';
 import { HtmlBboxInfo, TextLayout, TextLayoutCell } from './textLayout/types';
-import { spanOffset, START } from './common/textSpanUtils';
 import { nonEmpty } from './common/nonEmpty';
 
 const debugOut = require('debug')?.('pdf:Highlighter');

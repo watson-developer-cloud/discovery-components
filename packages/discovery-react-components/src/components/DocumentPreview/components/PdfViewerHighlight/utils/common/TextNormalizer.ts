@@ -1,5 +1,5 @@
 import { TextSpan } from '../../types';
-import { END, spanLen, START } from './textSpanUtils';
+import { END, spanLen, START } from '../../../../utils/textSpan';
 
 type SpanMapping = { rawSpan: TextSpan; normalizedSpan: TextSpan };
 

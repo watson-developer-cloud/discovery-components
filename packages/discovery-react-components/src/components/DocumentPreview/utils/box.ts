@@ -1,13 +1,18 @@
 import { CellPage } from '../types';
 import { ProcessedBbox } from '../../../utils/document/processDoc';
 
+export const LEFT = 0;
+export const TOP = 1;
+export const RIGHT = 2;
+export const BOTTOM = 3;
+
 /**
  * Check whether two bbox intersect
  * @param boxA first bbox
  * @param boxB second bbox
  * @returns bool
  */
-export function intersects(boxA: number[], boxB: number[]): boolean {
+export function bboxesIntersect(boxA: number[], boxB: number[]): boolean {
   const [leftA, topA, rightA, bottomA, pageA] = boxA;
   const [leftB, topB, rightB, bottomB, pageB] = boxB;
   return !(
@@ -28,7 +33,7 @@ export const findMatchingBbox = (docBox: CellPage, htmlBox: ProcessedBbox[]) => 
   return htmlBox.filter(pBbox => {
     const { left, top, right, bottom, page } = pBbox;
     const [left2, top2, right2, bottom2] = docBox.bbox;
-    return intersects(
+    return bboxesIntersect(
       [left2, top2, right2, bottom2, docBox.page_number],
       [left, top, right, bottom, page]
     );
