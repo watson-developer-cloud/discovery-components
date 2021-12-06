@@ -14,16 +14,16 @@ const { ZOOM_IN, ZOOM_OUT } = PreviewToolbar;
 
 interface Props extends WithErrorBoundaryProps {
   /**
-   * Document data, as that returned by a query. Overrides result from SearchContext
+   * Document data, as that returned by a query. Overrides result from SearchContext.
    */
   document?: QueryResult;
   /**
-   * PDF file data as base64-encoded string
+   * PDF file data as base64-encoded string. Overrides result from SearchContext.documentProvider.
    */
   file?: string;
   /**
    * Passage or table to highlight in document. Reference to item with
-   * `document.document_passages` or `document.table_results`
+   * `document.document_passages` or `document.table_results`.
    */
   highlight?: QueryResultPassage | QueryTableResult;
   /**
