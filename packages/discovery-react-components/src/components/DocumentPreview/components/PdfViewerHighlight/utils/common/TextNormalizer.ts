@@ -15,7 +15,7 @@ type CharNormalizer = {
 };
 
 const SPACES: CharNormalizer = {
-  normal: () => ' ',
+  normal: (_: string) => ' ',
   regexString: '\\s+'
 };
 
@@ -39,7 +39,7 @@ const DOUBLE_QUOTE: CharNormalizer = {
 };
 
 const QUOTE: CharNormalizer = {
-  normal: () => "'",
+  normal: (_: string) => "'",
   regexString: `[${[
     '‹', // U+2039
     '›', // U+203A
@@ -67,7 +67,7 @@ const SURROGATE_PAIR: CharNormalizer = {
 // NOTE: we may have to do this after conversion again
 // str.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
 const DIACRITICAL_MARK: CharNormalizer = {
-  normal: () => '',
+  normal: (_: string) => '',
   regexString: '[\u0300-\u036f]'
 };
 const DIACRITICAL_MARK_REGEX = new RegExp(DIACRITICAL_MARK.regexString, 'g');

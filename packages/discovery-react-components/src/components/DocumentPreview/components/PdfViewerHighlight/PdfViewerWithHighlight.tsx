@@ -1,10 +1,11 @@
-import React, { FC, useState, useEffect } from 'react';
-import { DocumentFieldHighlight } from './types';
-import PdfViewer, { PdfViewerProps } from '../PdfViewer/PdfViewer';
-import PdfViewerHighlight from './PdfViewerHighlight';
-import { extractDocumentInfo, ExtractedDocumentInfo } from './utils/common/documentUtils';
+import React, { FC, useState, useCallback } from 'react';
 import { QueryResult } from 'ibm-watson/discovery/v2';
+import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
+import PdfViewer, { PdfViewerProps } from '../PdfViewer/PdfViewer';
 import { PdfRenderedText } from '../PdfViewer/PdfViewerTextLayer';
+import { DocumentFieldHighlight } from './types';
+import PdfViewerHighlight from './PdfViewerHighlight';
+import { extractDocumentInfo } from './utils/common/documentUtils';
 
 interface Props extends PdfViewerProps {
   /**
@@ -42,30 +43,19 @@ const PdfViewerWithHighlight: FC<Props> = ({
   const { page, scale } = rest;
   const [renderedText, setRenderedText] = useState<PdfRenderedText | null>(null);
 
-  const [documentInfo, setDocumentInfo] = useState<ExtractedDocumentInfo | null>(null);
-  useEffect(() => {
-    let cancelled = false;
-    const extractDocInfo = async () => {
-      const info = await extractDocumentInfo(document);
-      if (!cancelled) {
-        setDocumentInfo(info);
-      }
-    };
-    extractDocInfo();
-    return () => {
-      cancelled = true;
-    };
-  }, [document]);
+  const documentInfo = useAsyncFunctionCall(
+    useCallback(async () => await extractDocumentInfo(document), [document])
+  );
 
   const highlightReady = !!documentInfo && !!renderedText;
   return (
-    <PdfViewer {...rest} setRenderedText={setRenderedText} showTextLayer>
+    <PdfViewer {...rest} setRenderedText={setRenderedText}>
       <PdfViewerHighlight
         highlightClassName={highlightClassName}
         document={document}
         parsedDocument={highlightReady ? documentInfo : null}
         pdfRenderedText={highlightReady ? renderedText : null}
-        pageNum={page}
+        page={page}
         highlights={highlights}
         scale={scale}
         useHtmlBbox={useHtmlBbox}

@@ -1,15 +1,16 @@
 import React, { FC, useMemo, useEffect } from 'react';
 import cx from 'classnames';
-import { DocumentFieldHighlight } from './types';
-import { QueryResult } from 'ibm-watson/discovery/v2';
-import { PdfRenderedText } from '../PdfViewer/PdfViewerTextLayer';
-import { Highlighter } from './utils/Highlighter';
-import { ExtractedDocumentInfo } from './utils/common/documentUtils';
 import { settings } from 'carbon-components';
-import { TextMappings } from 'components/DocumentPreview/types';
+import { QueryResult } from 'ibm-watson/discovery/v2';
 import { ProcessedDoc } from 'utils/document';
+import { TextMappings } from '../../types';
+import { PdfDisplayProps } from '../PdfViewer/types';
+import { PdfRenderedText } from '../PdfViewer/PdfViewerTextLayer';
+import { DocumentFieldHighlight } from './types';
+import { ExtractedDocumentInfo } from './utils/common/documentUtils';
+import { Highlighter } from './utils/Highlighter';
 
-interface Props {
+type Props = PdfDisplayProps & {
   /**
    * Class name to style highlight layer
    */
@@ -31,11 +32,6 @@ interface Props {
   parsedDocument: ExtractedDocumentInfo | null;
 
   /**
-   * Current page, starting at index 1
-   */
-  pageNum: number;
-
-  /**
    * Highlight spans on fields in document
    */
   highlights: DocumentFieldHighlight[];
@@ -44,11 +40,6 @@ interface Props {
    * PDF text content information in a page from parsed PDF
    */
   pdfRenderedText: PdfRenderedText | null;
-
-  /**
-   * Zoom factor, where `1` is equal to 100%
-   */
-  scale?: number;
 
   /**
    * Flag to whether or not to use bbox information from html field in the document.
@@ -61,7 +52,7 @@ interface Props {
    * True by default. This is for testing and debugging purpose.
    */
   usePdfTextItem?: boolean;
-}
+};
 
 /**
  * Text highlight layer for PdfViewer
@@ -71,10 +62,10 @@ const PdfViewerHighlight: FC<Props> = ({
   highlightClassName,
   document,
   parsedDocument,
-  pageNum,
+  page,
   highlights,
   pdfRenderedText,
-  scale = 1.0,
+  scale,
   useHtmlBbox = true,
   usePdfTextItem = true
 }) => {
@@ -83,7 +74,7 @@ const PdfViewerHighlight: FC<Props> = ({
     textMappings: parsedDocument?.textMappings,
     processedDoc: useHtmlBbox ? parsedDocument?.processedDoc : undefined,
     pdfRenderedText: (usePdfTextItem && pdfRenderedText) || undefined,
-    pageNum
+    pageNum: page
   });
 
   const { textDivs } = pdfRenderedText || {};

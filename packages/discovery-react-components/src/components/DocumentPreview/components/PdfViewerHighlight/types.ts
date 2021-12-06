@@ -1,7 +1,4 @@
-import {
-  Bbox as DocPreviewBbox,
-  TextSpan as DocPreviewTextSpan
-} from '../../../DocumentPreview/types';
+import { Bbox as DocPreviewBbox, TextSpan as DocPreviewTextSpan } from '../../types';
 import { Location } from 'utils/document/processDoc';
 
 // (re-)export useful types
