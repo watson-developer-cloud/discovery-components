@@ -61,6 +61,7 @@
     "@ibm-watson/discovery-styles": "1.x.x",
     "carbon-components": ">= 10.6.0 < 11",
     "carbon-components-react": ">= 7.6.0 < 8",
+    "core-js": "^2.6.12",
     "ibm-watson": "^6.0.2",
     "react": ">= 16.8.0 < 17",
     "react-dom": ">= 16.8.0 < 17"
