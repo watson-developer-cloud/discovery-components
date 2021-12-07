@@ -20,7 +20,7 @@ interface Props extends WithErrorBoundaryProps {
    */
   document?: QueryResult;
   /**
-   * PDF file data as base64-encoded string. Overrides result from SearchContext.documentProvider.
+   * PDF file data as "binary" string. Overrides result from SearchContext.documentProvider.
    */
   file?: string;
   /**
@@ -43,16 +43,19 @@ const DocumentPreview: FC<Props> = ({
   messages = defaultMessages,
   didCatch
 }) => {
-  const { selectedResult } = useContext(SearchContext);
-  // document prop takes precedence over that in context
-  const doc = document || selectedResult.document;
-  highlight = highlight || selectedResult.element || undefined;
+  const { selectedResult, documentProvider } = useContext(SearchContext);
 
   const [scale, setScale] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [hideToolbarControls, setHideToolbarControls] = useState(false);
+  const [providedFile, setProvidedFile] = useState<string | undefined>();
 
+  // document prop takes precedence over that in context
+  const doc = document || selectedResult.document;
+  highlight = highlight || selectedResult.element || undefined;
+
+  // reset state if document changes
   useEffect(() => {
     // reset state if document changes
     setCurrentPage(1);
@@ -61,6 +64,25 @@ const DocumentPreview: FC<Props> = ({
     // TODO disable for now, until we can properly fix https://github.ibm.com/Watson-Discovery/docviz-squad-issue-tracker/issues/143
     // setLoading(true);
   }, [doc]);
+
+  // fetch PDF (if necessary)
+  useEffect(() => {
+    async function fetchFile() {
+      const hasFile = await documentProvider!.provides(document!);
+      if (hasFile) {
+        setProvidedFile(await documentProvider?.get(document!));
+      }
+    }
+
+    // `file` takes precedence over a file provided by `documentProvider`
+    if (file) {
+      setProvidedFile(file);
+    } else if (document && documentProvider) {
+      fetchFile();
+    } else {
+      setProvidedFile(undefined);
+    }
+  }, [document, documentProvider, file]);
 
   // TODO Seems like these 2 useEffects should just be part of PdfViewer
   const [textMappings, setTextMappings] = useState<TextMappings | null>(null);
@@ -76,20 +98,23 @@ const DocumentPreview: FC<Props> = ({
   const [pageCount, setPageCount] = useState(0);
   const [pdfPageCount, setPdfPageCount] = useState(pageCount);
   useEffect(() => {
-    if (file && pdfPageCount > 0) {
+    if (providedFile && pdfPageCount > 0) {
       setPageCount(pdfPageCount);
     } else if (textMappings) {
       const last = textMappings.text_mappings.length - 1;
       setPageCount(textMappings?.text_mappings[last].page.page_number ?? 1);
     }
-  }, [textMappings, file, pdfPageCount]);
+  }, [textMappings, providedFile, pdfPageCount]);
 
   const base = `${settings.prefix}--document-preview`;
 
   return (
     <div className={`${base}`}>
-      {(doc || file) && !didCatch ? (
+      {(doc || providedFile) && !didCatch ? (
         <>
+          {/* TODO This is only used when showing PDFs (currently). Should be moved into `PdfViewer` or
+                    elsewhere that makes more sense.
+          */}
           <PreviewToolbar
             loading={loading}
             hideControls={hideToolbarControls}
@@ -106,7 +131,7 @@ const DocumentPreview: FC<Props> = ({
           />
           <div className={`${base}__document`}>
             <PreviewDocument
-              file={file}
+              file={providedFile}
               currentPage={currentPage}
               scale={scale}
               document={doc}
