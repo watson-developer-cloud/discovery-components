@@ -1,5 +1,6 @@
 import { Bbox as DocPreviewBbox, TextSpan as DocPreviewTextSpan } from '../../types';
 import { Location } from 'utils/document/processDoc';
+import { QueryResult } from 'ibm-watson/discovery/v2';
 
 // (re-)export useful types
 export type Bbox = DocPreviewBbox;
@@ -36,4 +37,33 @@ export interface HighlightShapeBox {
   dir?: string; // e.g. ltr, rtl. ltr by default
   isStart?: boolean;
   isEnd?: boolean;
+}
+
+export interface HighlightProps {
+  /**
+   * Class name to style each highlight
+   */
+  highlightClassName?: string;
+
+  /**
+   * Document data returned by query
+   */
+  document: QueryResult;
+
+  /**
+   * Highlight spans on fields in document
+   */
+  highlights: DocumentFieldHighlight[];
+
+  /**
+   * Consider bboxes in HTML field to highlight.
+   * True by default. This is for testing purpose.
+   */
+  _useHtmlBbox?: boolean;
+
+  /**
+   * Flag to whether to use PDF text items for finding bbox for highlighting.
+   * True by default. This is for testing and debugging purpose.
+   */
+  _usePdfTextItem?: boolean;
 }

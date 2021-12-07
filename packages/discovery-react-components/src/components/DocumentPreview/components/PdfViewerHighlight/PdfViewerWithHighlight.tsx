@@ -1,34 +1,12 @@
 import React, { FC, useState, useCallback } from 'react';
-import { QueryResult } from 'ibm-watson/discovery/v2';
 import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
 import PdfViewer, { PdfViewerProps } from '../PdfViewer/PdfViewer';
 import { PdfRenderedText } from '../PdfViewer/PdfViewerTextLayer';
-import { DocumentFieldHighlight } from './types';
 import PdfViewerHighlight from './PdfViewerHighlight';
 import { extractDocumentInfo } from './utils/common/documentUtils';
+import { HighlightProps } from './types';
 
-interface Props extends PdfViewerProps {
-  /**
-   * Class name to style each highlight
-   */
-  highlightClassName?: string;
-
-  /**
-   * Document data returned by query
-   */
-  document: QueryResult;
-
-  /**
-   * Highlight spans on fields in document
-   */
-  highlights: DocumentFieldHighlight[];
-
-  /**
-   * Consider bboxes in HTML field to highlight.
-   * True by default. This is for testing purpose.
-   */
-  _useHtmlBbox?: boolean;
-}
+type Props = PdfViewerProps & HighlightProps;
 
 /**
  * PDF viewer component with text highlighting capability
@@ -38,6 +16,7 @@ const PdfViewerWithHighlight: FC<Props> = ({
   document,
   highlights,
   _useHtmlBbox,
+  _usePdfTextItem,
   ...rest
 }) => {
   const { page, scale } = rest;
@@ -59,7 +38,7 @@ const PdfViewerWithHighlight: FC<Props> = ({
         highlights={highlights}
         scale={scale}
         _useHtmlBbox={_useHtmlBbox}
-        _usePdfTextItem={true}
+        _usePdfTextItem={_usePdfTextItem}
       />
     </PdfViewer>
   );

@@ -6,53 +6,27 @@ import { ProcessedDoc } from 'utils/document';
 import { TextMappings } from '../../types';
 import { PdfDisplayProps } from '../PdfViewer/types';
 import { PdfRenderedText } from '../PdfViewer/PdfViewerTextLayer';
-import { DocumentFieldHighlight } from './types';
 import { ExtractedDocumentInfo } from './utils/common/documentUtils';
 import { Highlighter } from './utils/Highlighter';
+import { HighlightProps } from './types';
 
-type Props = PdfDisplayProps & {
-  /**
-   * Class name to style highlight layer
-   */
-  className?: string;
+type Props = PdfDisplayProps &
+  HighlightProps & {
+    /**
+     * Class name to style highlight layer
+     */
+    className?: string;
 
-  /**
-   * Class name to style each highlight
-   */
-  highlightClassName?: string;
+    /**
+     * Parsed document information
+     */
+    parsedDocument: ExtractedDocumentInfo | null;
 
-  /**
-   * Document data returned by query
-   */
-  document: QueryResult;
-
-  /**
-   * Parsed document information
-   */
-  parsedDocument: ExtractedDocumentInfo | null;
-
-  /**
-   * Highlight spans on fields in document
-   */
-  highlights: DocumentFieldHighlight[];
-
-  /**
-   * PDF text content information in a page from parsed PDF
-   */
-  pdfRenderedText: PdfRenderedText | null;
-
-  /**
-   * Flag to whether or not to use bbox information from html field in the document.
-   * True by default. This is for testing and debugging purpose.
-   */
-  _useHtmlBbox?: boolean;
-
-  /**
-   * Flag to whether to use PDF text items for finding bbox for highlighting.
-   * True by default. This is for testing and debugging purpose.
-   */
-  _usePdfTextItem?: boolean;
-};
+    /**
+     * PDF text content information in a page from parsed PDF
+     */
+    pdfRenderedText: PdfRenderedText | null;
+  };
 
 /**
  * Text highlight layer for PdfViewer
