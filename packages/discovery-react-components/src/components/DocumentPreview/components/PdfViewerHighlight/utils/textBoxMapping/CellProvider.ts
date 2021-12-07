@@ -21,7 +21,9 @@ export class CellProvider {
     return this.cursor < this.cells.length;
   }
 
-  /** get cells on a line */
+  /**
+   * get cells on a line
+   */
   private getNextCells(): TextLayoutCellBase[] {
     const {
       cells: lastCells,
@@ -60,7 +62,9 @@ export class CellProvider {
     result: TextLayoutCellBase[];
   } | null = null;
 
-  /** get text from cells on a line */
+  /**
+   * get text from cells on a line
+   */
   getNextText(): { texts: string[]; nextCellIndex: number } {
     const nextCells = this.getNextCells();
     const texts = nextCells.map(cell => cell.text);
@@ -99,7 +103,9 @@ export class CellProvider {
     return result;
   }
 
-  /** skip the current cell */
+  /**
+   * skip the current cell
+   */
   skip() {
     this.skippedCells.push(this.cells[this.cursor]);
     this.cursor += 1;

@@ -19,7 +19,9 @@ export class MappingTargetBoxProvider {
     this.cellProvider = new CellProvider(cells);
   }
 
-  /** check whether this provider has another item to visit or not */
+  /**
+   * check whether this provider has another item to visit or not
+   */
   hasNext(): boolean {
     while (this.cellProvider.hasNext()) {
       const { texts, nextCellIndex } = this.cellProvider.getNextText();
@@ -41,7 +43,9 @@ export class MappingTargetBoxProvider {
     return false;
   }
 
-  /** get the next value */
+  /**
+   * get the next value
+   */
   getNextInfo(): { text: string; index: number } {
     return {
       text: this.current!.normalizer.normalizedText,
@@ -60,7 +64,9 @@ export class MappingTargetBoxProvider {
     return this.cellProvider.consume(rawLength);
   }
 
-  /** mark the current cell skipped (when no match found in source) */
+  /**
+   * mark the current cell skipped (when no match found in source)
+   */
   skip() {
     this.current = null;
     this.cellProvider.skip();

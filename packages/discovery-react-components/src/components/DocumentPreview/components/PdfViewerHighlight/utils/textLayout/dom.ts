@@ -1,6 +1,5 @@
 import { forEachRectInRange, getTextNodeAndOffset } from 'utils/document/documentUtils';
 import { Bbox, TextSpan } from '../../types';
-import { BOTTOM, LEFT, RIGHT, TOP } from '../../../../utils/box';
 import { END, START } from '../../../../utils/textSpan';
 import { TextLayoutCell } from './types';
 
@@ -48,10 +47,7 @@ export function getAdjustedCellByOffsetByDom(
     debug('    endOffset: ', endTextOffset);
 
     // create highlight rect(s) inside of a field
-    let left = cell.bbox[LEFT];
-    let right = cell.bbox[RIGHT];
-    const top = cell.bbox[TOP];
-    const bottom = cell.bbox[BOTTOM];
+    let [left, top, right, bottom] = cell.bbox;
 
     const parentRect = spanElement.parentElement?.getBoundingClientRect();
     forEachRectInRange(beginTextNode, beginTextOffset, endTextNode, endTextOffset, rect => {

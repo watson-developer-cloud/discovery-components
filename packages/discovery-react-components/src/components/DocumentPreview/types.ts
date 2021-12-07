@@ -6,7 +6,7 @@ export interface TextMappings {
 // [ left, top, right, bottom ]
 export type Bbox = [number, number, number, number];
 
-/** [ start (inclusive), end (exclusive) ] */
+// [ start (inclusive), end (exclusive) ]
 export type TextSpan = [number, number];
 
 export type Origin = 'TopLeft' | 'BottomLeft';

@@ -1,6 +1,7 @@
 import { TextMappings } from 'components/DocumentPreview/types';
 import flatMap from 'lodash/flatMap';
 import { PDFPageViewport, TextContent } from 'pdfjs-dist';
+import { nonEmpty } from 'utils/nonEmpty';
 import {
   DocumentFields,
   DocumentFieldHighlight,
@@ -12,7 +13,6 @@ import { getTextBoxMappings } from './textBoxMapping';
 import { TextBoxMapping, TextBoxMappingResult } from './textBoxMapping/types';
 import { HtmlBboxTextLayout, PdfTextContentTextLayout, TextMappingsTextLayout } from './textLayout';
 import { HtmlBboxInfo, TextLayout, TextLayoutCell } from './textLayout/types';
-import { nonEmpty } from './common/nonEmpty';
 
 const debugOut = require('debug')?.('pdf:Highlighter');
 function debug(...args: any) {

@@ -7,9 +7,14 @@ import { Bbox, DocumentFields, TextSpan } from '../../types';
  * Text layout information
  */
 export interface TextLayout<CellType extends TextLayoutCell = TextLayoutCell> {
-  /** cells, paris of bbox and text, of this text layout */
+  /**
+   * cells, paris of bbox and text, of this text layout
+   */
   readonly cells: CellType[];
-  /** get cell by ID */
+
+  /**
+   * get cell by ID
+   */
   cellAt(id: CellType['id']): CellType;
 }
 
@@ -18,10 +23,17 @@ export interface TextLayout<CellType extends TextLayoutCell = TextLayoutCell> {
  */
 export interface TextLayoutCell<IDType = number> extends TextLayoutCellBase {
   readonly parent: TextLayout<TextLayoutCell>;
-  /** ID to identify this cell in  */
+
+  /**
+   * ID to identify this cell in
+   */
   readonly id: IDType;
-  /** text of this cell */
+
+  /**
+   * text of this cell
+   */
   readonly text: string;
+
   readonly pageNum: number;
   readonly bbox: Bbox;
 
@@ -31,7 +43,9 @@ export interface TextLayoutCell<IDType = number> extends TextLayoutCellBase {
    */
   getBboxForTextSpan(span: TextSpan, options?: { useRatio?: boolean }): Bbox | null;
 
-  /** a special property for PDF text content item cell. True when this cell overlaps HTML cell */
+  /**
+   * a special property for PDF text content item cell. True when this cell overlaps HTML cell
+   */
   readonly isInHtmlBbox?: boolean;
 }
 
@@ -40,13 +54,24 @@ export interface TextLayoutCell<IDType = number> extends TextLayoutCellBase {
  * Mainly for sub-string of a text layout cell.
  */
 export interface TextLayoutCellBase {
-  /** text of this cell */
+  /**
+   * text of this cell
+   */
   readonly text: string;
-  /** get sub-span of this text layout */
+
+  /**
+   * get sub-span of this text layout
+   */
   getPartial(span: TextSpan): TextLayoutCellBase;
-  /** get normalized form, the base text layout cell and a span on it */
+
+  /**
+   * get normalized form, the base text layout cell and a span on it
+   */
   getNormalized(): { cell: TextLayoutCell; span?: TextSpan };
-  /** get cell for the trimmed text */
+
+  /**
+   * get cell for the trimmed text
+   */
   trim(): TextLayoutCellBase;
 }
 

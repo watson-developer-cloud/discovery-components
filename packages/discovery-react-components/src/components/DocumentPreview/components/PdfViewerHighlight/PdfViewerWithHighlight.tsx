@@ -27,7 +27,7 @@ interface Props extends PdfViewerProps {
    * Consider bboxes in HTML field to highlight.
    * True by default. This is for testing purpose.
    */
-  useHtmlBbox?: boolean;
+  _useHtmlBbox?: boolean;
 }
 
 /**
@@ -37,7 +37,7 @@ const PdfViewerWithHighlight: FC<Props> = ({
   highlightClassName,
   document,
   highlights,
-  useHtmlBbox,
+  _useHtmlBbox,
   ...rest
 }) => {
   const { page, scale } = rest;
@@ -58,8 +58,8 @@ const PdfViewerWithHighlight: FC<Props> = ({
         page={page}
         highlights={highlights}
         scale={scale}
-        useHtmlBbox={useHtmlBbox}
-        usePdfTextItem={true}
+        _useHtmlBbox={_useHtmlBbox}
+        _usePdfTextItem={true}
       />
     </PdfViewer>
   );

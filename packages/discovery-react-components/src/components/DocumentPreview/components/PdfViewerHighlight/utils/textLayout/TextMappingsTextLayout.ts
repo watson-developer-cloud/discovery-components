@@ -27,7 +27,9 @@ export class TextMappingsTextLayout implements TextLayout<TextMappingsTextLayout
       });
   }
 
-  /** @inheritdoc */
+  /**
+   * @inheritdoc
+   */
   cellAt(id: number) {
     return this.cells[id];
   }

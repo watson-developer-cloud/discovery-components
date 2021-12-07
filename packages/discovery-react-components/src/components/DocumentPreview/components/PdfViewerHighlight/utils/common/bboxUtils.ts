@@ -28,6 +28,13 @@ export function bboxGetSpanByRatio(bbox: Bbox, origLength: number, span: TextSpa
  * This is used to get a text of a line from a list of small text cells.
  */
 export function isNextToEachOther(boxA: Bbox, boxB: Bbox): boolean {
+  //
+  // The ratio of height used to check whether two bboxes are on the same line or not.
+  // With the value 0.8, when more than 80% of range of height of each bbox overlaps
+  // one of another, they are considered on the same line.
+  //
+  const OVERLAP_RATIO = 0.8;
+
   if (bboxesIntersect(boxA, boxB)) {
     return false;
   }
@@ -38,7 +45,6 @@ export function isNextToEachOther(boxA: Bbox, boxB: Bbox): boolean {
   const heightB = bottomB - topB;
 
   // compare height ratio
-  const OVERLAP_RATIO = 0.8;
   if (!(heightA * OVERLAP_RATIO < heightB || heightB * OVERLAP_RATIO < heightA)) {
     return false;
   }

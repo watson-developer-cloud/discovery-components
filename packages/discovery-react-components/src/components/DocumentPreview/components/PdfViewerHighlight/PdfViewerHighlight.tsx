@@ -45,13 +45,13 @@ type Props = PdfDisplayProps & {
    * Flag to whether or not to use bbox information from html field in the document.
    * True by default. This is for testing and debugging purpose.
    */
-  useHtmlBbox?: boolean;
+  _useHtmlBbox?: boolean;
 
   /**
    * Flag to whether to use PDF text items for finding bbox for highlighting.
    * True by default. This is for testing and debugging purpose.
    */
-  usePdfTextItem?: boolean;
+  _usePdfTextItem?: boolean;
 };
 
 /**
@@ -66,14 +66,14 @@ const PdfViewerHighlight: FC<Props> = ({
   highlights,
   pdfRenderedText,
   scale,
-  useHtmlBbox = true,
-  usePdfTextItem = true
+  _useHtmlBbox = true,
+  _usePdfTextItem = true
 }) => {
   const highlighter = useHighlighter({
     document,
     textMappings: parsedDocument?.textMappings,
-    processedDoc: useHtmlBbox ? parsedDocument?.processedDoc : undefined,
-    pdfRenderedText: (usePdfTextItem && pdfRenderedText) || undefined,
+    processedDoc: _useHtmlBbox ? parsedDocument?.processedDoc : undefined,
+    pdfRenderedText: (_usePdfTextItem && pdfRenderedText) || undefined,
     pageNum: page
   });
 

@@ -1,11 +1,6 @@
 import { CellPage } from '../types';
 import { ProcessedBbox } from '../../../utils/document/processDoc';
 
-export const LEFT = 0;
-export const TOP = 1;
-export const RIGHT = 2;
-export const BOTTOM = 3;
-
 /**
  * Check whether two bbox intersect
  * @param boxA first bbox

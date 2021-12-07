@@ -1,6 +1,6 @@
 import minBy from 'lodash/minBy';
+import { nonEmpty } from 'utils/nonEmpty';
 import { TextSpan } from '../../types';
-import { nonEmpty } from '../common/nonEmpty';
 import { bboxesIntersect } from '../../../../utils/box';
 import { spanLen, spanMerge } from '../../../../utils/textSpan';
 import { TextLayout, TextLayoutCell, TextLayoutCellBase } from '../textLayout/types';

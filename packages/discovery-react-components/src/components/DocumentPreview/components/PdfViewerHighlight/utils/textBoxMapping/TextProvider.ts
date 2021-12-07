@@ -12,13 +12,24 @@ import { findLargestIndex } from '../common/findLargestIndex';
 const MAX_HISTORY = 3;
 
 export type TextMatch = {
-  /** matched text span */
+  /**
+   * matched text span
+   */
   span: TextSpan;
-  /** text before the matched text. i.e. text that will be skipped by using this match */
+
+  /**
+   * text before the matched text. i.e. text that will be skipped by using this match
+   */
   skipText: string;
-  /** distance from the nearest cursors */
+
+  /**
+   * distance from the nearest cursors
+   */
   minHistoryDistance: number;
-  /** text after the matched text */
+
+  /**
+   * text after the matched text
+   */
   textAfterEnd: string;
 };
 

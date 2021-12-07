@@ -21,7 +21,9 @@ export class HtmlBboxTextLayout implements TextLayout<HtmlBboxTextLayoutCell> {
         }) ?? [];
   }
 
-  /** @inheritdoc */
+  /**
+   * @inheritdoc
+   */
   cellAt(id: number) {
     return this.cells[id];
   }
@@ -57,7 +59,9 @@ class HtmlBboxTextLayoutCell extends BaseTextLayoutCell<HtmlBboxTextLayout> {
     this.processedBbox = processedBbox; // keep this for later improvement
   }
 
-  /** @inheritdoc */
+  /**
+   * @inheritdoc
+   */
   getBboxForTextSpan(span: TextSpan, options: { useRatio?: boolean }): Bbox | null {
     if (this.processedBbox != null) {
       // TODO: implement this. calculate bbox for text span using text on browser

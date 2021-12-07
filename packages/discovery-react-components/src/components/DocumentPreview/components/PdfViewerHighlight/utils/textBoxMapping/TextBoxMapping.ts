@@ -18,7 +18,8 @@ function debug(...args: any) {
 }
 
 /**
- * Text box mapping
+ * Text box mapping. Mapping between cells (i.e. text box) in a TextLayout
+ * to ones in another TextLayout.
  */
 class TextBoxMappingImpl implements TextBoxMapping {
   private readonly mappingEntryMap: Dictionary<TextBoxMappingEntry[]>;
@@ -34,7 +35,9 @@ class TextBoxMappingImpl implements TextBoxMapping {
     debug(this);
   }
 
-  /** get text mapping entries for a given span `spanInSourceCell` on a given `sourceCell` */
+  /**
+   * get text mapping entries for a given span `spanInSourceCell` on a given `sourceCell`
+   */
   private getEntries(
     sourceCell: TextLayoutCell,
     spanOnSourceCell: TextSpan
@@ -44,7 +47,9 @@ class TextBoxMappingImpl implements TextBoxMapping {
     );
   }
 
-  /** @inheritdoc */
+  /**
+   * @inheritdoc
+   */
   apply(source: TextLayoutCellBase, aSpan?: TextSpan): TextBoxMappingResult {
     const span: TextSpan = aSpan || [0, source.text.length];
 
@@ -84,18 +89,19 @@ class TextBoxMappingImpl implements TextBoxMapping {
 }
 
 /**
- * Text mapping builder
+ * Builder for the TextMapping
  */
 export class TextBoxMappingBuilder {
   mappingEntries: TextBoxMappingEntry[] = [];
 
-  /** add new mapping data */
+  /**
+   * add new mapping data
+   */
   addMapping(text: TextBoxMappingEntry['text'], box: TextBoxMappingEntry['box']) {
     this.mappingEntries.push({ text, box });
     debug('>> added a new mapping entry (%o) => (cell: %o)', text, text, box?.cell);
   }
 
-  /** get TextBoxMapping */
   toTextBoxMapping() {
     return new TextBoxMappingImpl(this.mappingEntries);
   }

@@ -30,22 +30,30 @@ export class PdfTextContentTextLayout implements TextLayout<PdfTextContentTextLa
     });
   }
 
-  /** get viewport of the current page */
+  /**
+   * get viewport of the current page
+   */
   get viewport(): PDFPageViewport {
     return this.textContentInfo.viewport;
   }
 
-  /** @inheritdoc */
+  /**
+   * @inheritdoc
+   */
   cellAt(id: number) {
     return this.cells[id];
   }
 
-  /** set text content element divs */
+  /**
+   * set PDF text content item divs
+   */
   setDivs(divs: HTMLElement[] | undefined) {
     this.divs = divs;
   }
 
-  /** get HTML element for a given cell id  */
+  /**
+   * get HTML element for a given cell id
+   */
   divAt(id: number): HTMLElement | undefined {
     return this.divs?.[id];
   }
@@ -55,7 +63,9 @@ export class PdfTextContentTextLayout implements TextLayout<PdfTextContentTextLa
  * Text layout cell based on PDF text objects
  */
 class PdfTextContentTextLayoutCell extends BaseTextLayoutCell<PdfTextContentTextLayout> {
-  /** @inheritdoc */
+  /**
+   * @inheritdoc
+   */
   readonly isInHtmlBbox?: boolean;
 
   constructor(
@@ -72,7 +82,9 @@ class PdfTextContentTextLayoutCell extends BaseTextLayoutCell<PdfTextContentText
     this.isInHtmlBbox = isInHtmlBbox;
   }
 
-  /** @inheritdoc */
+  /**
+   * @inheritdoc
+   */
   getBboxForTextSpan(span: TextSpan, options: { useRatio?: boolean }): Bbox | null {
     const spanElement = this.parent.divAt(this.id);
     if (spanElement && spanElement.parentNode) {
