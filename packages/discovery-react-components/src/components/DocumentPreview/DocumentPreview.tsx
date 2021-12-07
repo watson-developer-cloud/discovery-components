@@ -4,11 +4,13 @@ import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import { PreviewToolbar } from './components/PreviewToolbar/PreviewToolbar';
+import PdfViewer from './components/PdfViewer/PdfViewer';
 import SimpleDocument from './components/SimpleDocument/SimpleDocument';
 import withErrorBoundary, { WithErrorBoundaryProps } from 'utils/hoc/withErrorBoundary';
 import { defaultMessages, Messages } from './messages';
 import HtmlView from './components/HtmlView/HtmlView';
-import { isCsvFile, isJsonFile } from './utils/documentData';
+import { getTextMappings, isCsvFile, isJsonFile } from './utils/documentData';
+import { TextMappings } from './types';
 
 const { ZOOM_IN, ZOOM_OUT } = PreviewToolbar;
 
@@ -60,6 +62,28 @@ const DocumentPreview: FC<Props> = ({
     // setLoading(true);
   }, [doc]);
 
+  // TODO Seems like these 2 useEffects should just be part of PdfViewer
+  const [textMappings, setTextMappings] = useState<TextMappings | null>(null);
+  useEffect(() => {
+    const mappings = getTextMappings(doc);
+    if (mappings) {
+      setTextMappings(mappings);
+    }
+  }, [doc]);
+
+  // Pull total page count from either the PDF file or the structural
+  // data list
+  const [pageCount, setPageCount] = useState(0);
+  const [pdfPageCount, setPdfPageCount] = useState(pageCount);
+  useEffect(() => {
+    if (file && pdfPageCount > 0) {
+      setPageCount(pdfPageCount);
+    } else if (textMappings) {
+      const last = textMappings.text_mappings.length - 1;
+      setPageCount(textMappings?.text_mappings[last].page.page_number ?? 1);
+    }
+  }, [textMappings, file, pdfPageCount]);
+
   const base = `${settings.prefix}--document-preview`;
 
   return (
@@ -70,7 +94,7 @@ const DocumentPreview: FC<Props> = ({
             loading={loading}
             hideControls={hideToolbarControls}
             current={currentPage}
-            total={0}
+            total={loading ? 0 : pageCount}
             onChange={setCurrentPage}
             onZoom={(zoom: any): void => {
               if (zoom === ZOOM_IN || zoom === ZOOM_OUT) {
@@ -82,8 +106,12 @@ const DocumentPreview: FC<Props> = ({
           />
           <div className={`${base}__document`}>
             <PreviewDocument
+              file={file}
+              currentPage={currentPage}
+              scale={scale}
               document={doc}
               highlight={highlight}
+              setPdfPageCount={setPdfPageCount}
               setLoading={setLoading}
               setHideToolbarControls={setHideToolbarControls}
               loading={loading}
@@ -107,7 +135,11 @@ const DocumentPreview: FC<Props> = ({
 
 interface PreviewDocumentProps {
   document?: QueryResult | null;
+  file?: string;
   highlight?: any;
+  currentPage: number;
+  scale: number;
+  setPdfPageCount?: (count: number) => void;
   setLoading: (loading: boolean) => void;
   setHideToolbarControls?: (disabled: boolean) => void;
   loading: boolean;
@@ -115,13 +147,32 @@ interface PreviewDocumentProps {
 }
 
 function PreviewDocument({
+  file,
+  currentPage,
+  scale,
   document,
   loading,
+  setPdfPageCount,
   setLoading,
   hideToolbarControls,
   setHideToolbarControls,
   highlight
 }: PreviewDocumentProps): ReactElement | null {
+  // if we have PDF data, render that
+  // otherwise, render fallback document view
+  if (file) {
+    return (
+      <PdfViewer
+        file={file}
+        page={currentPage}
+        scale={scale}
+        setPageCount={setPdfPageCount}
+        setLoading={setLoading}
+        setHideToolbarControls={setHideToolbarControls}
+      />
+    );
+  }
+
   if (document) {
     const isJsonType = isJsonFile(document);
     const isCsvType = isCsvFile(document);
