@@ -1,11 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
+import cx from 'classnames';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { NoAuthAuthenticator } from 'ibm-watson/auth';
-import './app.scss';
 import { settings } from 'carbon-components';
 import { Button, Tabs, Tab, Loading } from 'carbon-components-react';
 import Close from '@carbon/icons-react/lib/close/16';
-import cx from 'classnames';
+import './app.scss';
+import { ExampleDocumentProvider } from './ExampleDocumentProvider';
 
 import {
   DiscoverySearch,
@@ -84,16 +85,6 @@ const App = () => {
     </DiscoverySearch>
   );
 };
-
-class ExampleDocumentProvider implements DocumentProvider {
-  async provides(document: DocumentProviderProps) {
-    return false;
-  }
-
-  async get(document: DocumentProviderProps) {
-    return null;
-  }
-}
 
 function AppView() {
   const {

@@ -19,7 +19,8 @@ type Props = PdfDisplayProps & {
   className?: string;
 
   /**
-   * PDF file data as base64-encoded string
+   * PDF file data as a "binary" string
+   * TODO Update to take `PDFSource` type (from pdfjs-dist) instead? Would allow binary data as well as URL.
    */
   file: string;
 
