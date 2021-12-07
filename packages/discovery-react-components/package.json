@@ -59,8 +59,8 @@
   "peerDependencies": {
     "@carbon/icons": ">= 10.5.0 < 11",
     "@ibm-watson/discovery-styles": "1.x.x",
-    "carbon-components": ">= 10.6.0 < 11",
-    "carbon-components-react": ">= 7.6.0 < 8",
+    "carbon-components": ">= 10.46.0 < 11",
+    "carbon-components-react": ">= 7.46.0 < 8",
     "ibm-watson": "^6.0.2",
     "react": ">= 16.8.0 < 17",
     "react-dom": ">= 16.8.0 < 17"
