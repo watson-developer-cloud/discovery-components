@@ -22,7 +22,7 @@ export interface DocumentProvider {
    */
   provides: (document: DocumentProviderProps) => Promise<boolean>;
   /**
-   * Return document data for given document, as a base64-encoded string
+   * Return document data for given document, as a "binary" string (array buffer)
    */
   get: (document: DocumentProviderProps) => Promise<string>;
 }

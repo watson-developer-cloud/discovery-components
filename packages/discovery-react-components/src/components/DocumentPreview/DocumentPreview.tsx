@@ -20,7 +20,7 @@ interface Props extends WithErrorBoundaryProps {
    */
   document?: QueryResult;
   /**
-   * PDF file data as "binary" string. Overrides result from SearchContext.documentProvider.
+   * PDF file data as "binary" string (array buffer). Overrides result from SearchContext.documentProvider.
    */
   file?: string;
   /**
