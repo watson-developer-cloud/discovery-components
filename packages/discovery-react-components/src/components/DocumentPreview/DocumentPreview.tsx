@@ -8,6 +8,7 @@ import SimpleDocument from './components/SimpleDocument/SimpleDocument';
 import withErrorBoundary, { WithErrorBoundaryProps } from 'utils/hoc/withErrorBoundary';
 import { defaultMessages, Messages } from './messages';
 import HtmlView from './components/HtmlView/HtmlView';
+import PdfViewerWithHighlight from './components/PdfViewerHighlight/PdfViewerWithHighlight';
 import { isCsvFile, isJsonFile } from './utils/documentData';
 
 const { ZOOM_IN, ZOOM_OUT } = PreviewToolbar;
@@ -154,6 +155,7 @@ function PreviewDocument({
 const ErrorBoundDocumentPreview: any = withErrorBoundary(DocumentPreview);
 ErrorBoundDocumentPreview.PreviewToolbar = PreviewToolbar;
 ErrorBoundDocumentPreview.PreviewDocument = PreviewDocument;
+ErrorBoundDocumentPreview.PdfViewerWithHighlight = PdfViewerWithHighlight;
 
 export default ErrorBoundDocumentPreview;
 export { ErrorBoundDocumentPreview as DocumentPreview };

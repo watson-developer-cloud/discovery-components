@@ -32,7 +32,7 @@ const PdfViewerWithHighlight: FC<Props> = ({
       <PdfViewerHighlight
         highlightClassName={highlightClassName}
         document={document}
-        parsedDocument={highlightReady ? documentInfo : null}
+        parsedDocument={highlightReady ? documentInfo ?? null : null}
         pdfRenderedText={highlightReady ? renderedText : null}
         page={page}
         highlights={highlights}
