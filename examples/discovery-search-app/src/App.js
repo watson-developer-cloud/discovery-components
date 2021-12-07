@@ -86,9 +86,13 @@ const App = () => {
 };
 
 class ExampleDocumentProvider implements DocumentProvider {
-  provides: (document: DocumentProviderProps) => false;
+  async provides(document: DocumentProviderProps) {
+    return false;
+  }
 
-  get: (document: DocumentProviderProps) => null;
+  async get(document: DocumentProviderProps) {
+    return null;
+  }
 }
 
 function AppView() {

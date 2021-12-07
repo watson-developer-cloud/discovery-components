@@ -20,9 +20,9 @@ export interface DocumentProvider {
   /**
    * Return `true` if service can provide the given document
    */
-  provides: (document: DocumentProviderProps) => boolean;
+  provides: (document: DocumentProviderProps) => Promise<boolean>;
   /**
    * Return document data for given document, as a base64-encoded string
    */
-  get: (document: DocumentProviderProps) => {};
+  get: (document: DocumentProviderProps) => Promise<string>;
 }
