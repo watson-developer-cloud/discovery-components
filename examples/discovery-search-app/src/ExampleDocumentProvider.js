@@ -1,5 +1,3 @@
-import { DocumentProvider } from '@ibm-watson/discovery-react-components';
-
 /**
  * This is an example implementation of the `DocumentProvider` interface. This will return the PDF
  * contents for the "Art Effects" doc.
@@ -10,7 +8,7 @@ import { DocumentProvider } from '@ibm-watson/discovery-react-components';
  * "View passage in document" (or similar) to open the document view, you will see the PDF
  * itself rendered, instead of HTML or text.
  */
-export class ExampleDocumentProvider implements DocumentProvider {
+export class ExampleDocumentProvider {
   async provides(document: DocumentProviderProps) {
     return document.extracted_metadata.filename === 'Art Effects.pdf';
   }
