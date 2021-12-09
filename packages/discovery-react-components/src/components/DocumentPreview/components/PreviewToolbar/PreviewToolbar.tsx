@@ -1,4 +1,5 @@
-import React, { SFC, useRef, useEffect, ReactElement } from 'react';
+import React, { FC, useRef, useEffect, ReactElement } from 'react';
+import cx from 'classnames';
 import { Button, FormLabel, Form, TextInput } from 'carbon-components-react';
 import { settings } from 'carbon-components';
 
@@ -14,12 +15,31 @@ export const ZOOM_IN = 'zoom-in';
 export const ZOOM_OUT = 'zoom-out';
 export const ZOOM_RESET = 'reset-zoom';
 
+/**
+ * User-defined action on the toolbar
+ */
 export type ToolbarAction = {
   id?: string;
-  icon: React.Component;
-  description: string;
+
+  /**
+   * Toolbar icon
+   */
+  renderIcon: React.Component;
+
+  /**
+   * Toolbar icon button description
+   */
+  iconDescription: string;
+
+  /**
+   * True to disable toolbar icon button
+   */
+  disabled?: boolean;
+
+  /**
+   * Action handler
+   */
   onClick: () => void;
-  disabled: boolean;
 };
 
 interface Props {
@@ -72,7 +92,7 @@ interface Props {
 
 const base = `${settings.prefix}--preview-toolbar`;
 
-const PreviewToolbar: SFC<Props> = ({
+const PreviewToolbar: FC<Props> = ({
   loading = false,
   hideControls = false,
   showPager = true,
@@ -101,8 +121,8 @@ const PreviewToolbar: SFC<Props> = ({
             {showPager && (
               <div className={`${base}__nav`}>
                 {renderButton({
-                  icon: CaretLeft24,
-                  description: msgs.previousPageLabel,
+                  renderIcon: CaretLeft24,
+                  iconDescription: msgs.previousPageLabel,
                   onClick: () => nextPrevButtonClicked(current, total, onChange, -1),
                   disabled: loading || current === 1
                 })}
@@ -126,8 +146,8 @@ const PreviewToolbar: SFC<Props> = ({
                 </Form>
                 <FormLabel className={`${base}__pageLabel`}>/ {total}</FormLabel>
                 {renderButton({
-                  icon: CaretRight24,
-                  description: msgs.nextPageLabel,
+                  renderIcon: CaretRight24,
+                  iconDescription: msgs.nextPageLabel,
                   onClick: () => nextPrevButtonClicked(current, total, onChange, 1),
                   disabled: loading || current === total
                 })}
@@ -139,20 +159,20 @@ const PreviewToolbar: SFC<Props> = ({
             {showZoom && (
               <>
                 {renderButton({
-                  icon: ZoomIn24,
-                  description: msgs.zoomInLabel,
+                  renderIcon: ZoomIn24,
+                  iconDescription: msgs.zoomInLabel,
                   onClick: () => onZoom(ZOOM_IN),
                   disabled: loading
                 })}
                 {renderButton({
-                  icon: ZoomOut24,
-                  description: msgs.zoomOutLabel,
+                  renderIcon: ZoomOut24,
+                  iconDescription: msgs.zoomOutLabel,
                   onClick: () => onZoom(ZOOM_OUT),
                   disabled: loading
                 })}
                 {renderButton({
-                  icon: Reset24,
-                  description: msgs.resetZoomLabel,
+                  renderIcon: Reset24,
+                  iconDescription: msgs.resetZoomLabel,
                   onClick: () => onZoom(ZOOM_RESET),
                   disabled: loading
                 })}
@@ -173,25 +193,24 @@ const PreviewToolbar: SFC<Props> = ({
 
 function renderButton(obj: {
   key?: string;
-  icon: React.Component;
-  description: string;
+  className?: string;
+  renderIcon: React.Component;
+  iconDescription: string;
   onClick: () => void;
-  disabled: boolean;
+  disabled?: boolean;
 }): ReactElement {
+  const { key, className, ...buttonProps } = obj;
   return (
     <Button
-      key={obj.key}
-      data-testid={obj.key}
-      className={`${base}__button`}
-      disabled={obj.disabled}
+      key={key}
+      data-testid={key}
+      className={cx(`${base}__button`, className)}
       size="small"
       kind="ghost"
-      renderIcon={obj.icon}
-      iconDescription={obj.description}
       tooltipPosition="bottom"
       tooltipAlignment="center"
-      onClick={obj.onClick}
       hasIconOnly
+      {...buttonProps}
     />
   );
 }
