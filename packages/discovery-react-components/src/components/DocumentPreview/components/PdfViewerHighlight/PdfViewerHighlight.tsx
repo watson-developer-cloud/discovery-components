@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useEffect } from 'react';
+import React, { FC, useMemo } from 'react';
 import cx from 'classnames';
 import { settings } from 'carbon-components';
 import { QueryResult } from 'ibm-watson/discovery/v2';
