@@ -48,21 +48,18 @@ const PdfViewerHighlight: FC<Props> = ({
     textMappings: parsedDocument?.textMappings,
     processedDoc: _useHtmlBbox ? parsedDocument?.processedDoc : undefined,
     pdfRenderedText: (_usePdfTextItem && pdfRenderedText) || undefined,
-    pageNum: page
+    pageNum: page,
+    isReady: !!(parsedDocument && (!_usePdfTextItem || pdfRenderedText?.page === page))
   });
 
   const { textDivs } = pdfRenderedText || {};
-  useEffect(() => {
-    if (highlighter) {
-      highlighter.setTextContentDivs(textDivs);
-    }
-  }, [highlighter, textDivs]);
 
   const highlightBoxes = useMemo(() => {
+    highlighter?.setTextContentDivs(textDivs);
     return highlights.map(highlight => {
       return highlighter?.getHighlight(highlight);
     });
-  }, [highlighter, highlights]);
+  }, [highlighter, highlights, textDivs]);
 
   return (
     <div className={cx(`${settings.prefix}--document-preview-pdf-viewer-highlight`, className)}>
@@ -102,16 +99,18 @@ const useHighlighter = ({
   textMappings,
   processedDoc,
   pdfRenderedText,
-  pageNum
+  pageNum,
+  isReady
 }: {
   document: QueryResult;
   textMappings?: TextMappings;
   processedDoc?: ProcessedDoc;
   pdfRenderedText?: PdfRenderedText;
   pageNum: number;
+  isReady: boolean;
 }) => {
   return useMemo(() => {
-    if (textMappings) {
+    if (isReady && textMappings) {
       return new Highlighter({
         document,
         textMappings,
@@ -125,7 +124,7 @@ const useHighlighter = ({
       });
     }
     return null;
-  }, [document, pageNum, pdfRenderedText, processedDoc, textMappings]);
+  }, [document, isReady, pageNum, pdfRenderedText, processedDoc, textMappings]);
 };
 
 export default PdfViewerHighlight;
