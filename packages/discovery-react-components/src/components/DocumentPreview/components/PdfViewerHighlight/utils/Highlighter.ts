@@ -13,6 +13,7 @@ import { getTextBoxMappings } from './textBoxMapping';
 import { TextBoxMapping, TextBoxMappingResult } from './textBoxMapping/types';
 import { HtmlBboxTextLayout, PdfTextContentTextLayout, TextMappingsTextLayout } from './textLayout';
 import { HtmlBboxInfo, TextLayout, TextLayoutCell } from './textLayout/types';
+import { isNextToEachOther } from './common/bboxUtils';
 
 const debugOut = require('debug')?.('pdf:Highlighter');
 function debug(...args: any) {
@@ -140,7 +141,7 @@ export class Highlighter {
       })
       .filter(nonEmpty);
     return {
-      boxes: boxShapes,
+      boxes: Highlighter.optimizeHighlightBoxShapes(boxShapes),
       className,
       ...rest
     };
@@ -184,5 +185,35 @@ export class Highlighter {
       items = doMapping(items, textToHtmlBboxMappings, this.textMappingsLayout);
     }
     return items;
+  }
+
+  /**
+   * Optimize highlight box shapes by merging box shapes next to each other
+   */
+  private static optimizeHighlightBoxShapes(boxShapes: HighlightShapeBox[]) {
+    if (boxShapes.length === 0) {
+      return boxShapes;
+    }
+
+    const [first, ...rest] = boxShapes;
+    return rest.reduce(
+      (result, shape) => {
+        const lastItem = result[result.length - 1];
+        if (isNextToEachOther(lastItem.bbox, shape.bbox)) {
+          const [lastLeft, lastTop, lastRight, lastBottom] = lastItem.bbox;
+          const [thisLeft, thisTop, thisRight, thisBottom] = shape.bbox;
+          lastItem.bbox = [
+            Math.min(lastLeft, thisLeft),
+            Math.min(lastTop, thisTop),
+            Math.max(lastRight, thisRight),
+            Math.max(lastBottom, thisBottom)
+          ];
+        } else {
+          result.push(shape);
+        }
+        return result;
+      },
+      [first]
+    );
   }
 }
