@@ -141,7 +141,7 @@ export class Highlighter {
       })
       .filter(nonEmpty);
     return {
-      boxes: Highlighter.optimizeHighlightBoxShapes(boxShapes),
+      boxes: Highlighter.optimizeHighlightBoxes(boxShapes),
       className,
       ...rest
     };
@@ -188,32 +188,25 @@ export class Highlighter {
   }
 
   /**
-   * Optimize highlight box shapes by merging box shapes next to each other
+   * Optimize highlight boxes by merging boxes next to each other
    */
-  private static optimizeHighlightBoxShapes(boxShapes: HighlightShapeBox[]) {
-    if (boxShapes.length === 0) {
-      return boxShapes;
-    }
-
-    const [first, ...rest] = boxShapes;
-    return rest.reduce(
-      (result, shape) => {
-        const lastItem = result[result.length - 1];
-        if (isNextToEachOther(lastItem.bbox, shape.bbox)) {
-          const [lastLeft, lastTop, lastRight, lastBottom] = lastItem.bbox;
-          const [thisLeft, thisTop, thisRight, thisBottom] = shape.bbox;
-          lastItem.bbox = [
-            Math.min(lastLeft, thisLeft),
-            Math.min(lastTop, thisTop),
-            Math.max(lastRight, thisRight),
-            Math.max(lastBottom, thisBottom)
-          ];
-        } else {
-          result.push(shape);
-        }
-        return result;
-      },
-      [first]
-    );
+  private static optimizeHighlightBoxes(boxes: HighlightShapeBox[]) {
+    return boxes.reduce((optimized, box) => {
+      const lastBox = optimized.length === 0 ? null : optimized[optimized.length - 1];
+      if (lastBox && isNextToEachOther(lastBox.bbox, box.bbox)) {
+        // when the last box is next to the `box`, merge and update the last box
+        const [lastLeft, lastTop, lastRight, lastBottom] = lastBox.bbox;
+        const [thisLeft, thisTop, thisRight, thisBottom] = box.bbox;
+        lastBox.bbox = [
+          Math.min(lastLeft, thisLeft),
+          Math.min(lastTop, thisTop),
+          Math.max(lastRight, thisRight),
+          Math.max(lastBottom, thisBottom)
+        ];
+      } else {
+        optimized.push(box);
+      }
+      return optimized;
+    }, [] as HighlightShapeBox[]);
   }
 }
