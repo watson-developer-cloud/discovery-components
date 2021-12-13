@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0-beta.7](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.6...v1.5.0-beta.7) (2021-12-13)
+
+
+### Bug Fixes
+
+* fix PDF highlight misalignment issue ([#253](https://github.com/watson-developer-cloud/discovery-components/issues/253)) ([1dc939b](https://github.com/watson-developer-cloud/discovery-components/commit/1dc939bc9d9dd56cb8005333e1ae073f379af9d9))
+
+
+
+
+
 # [1.5.0-beta.6](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.5...v1.5.0-beta.6) (2021-12-10)
 
 **Note:** Version bump only for package @ibm-watson/discovery-react-components
