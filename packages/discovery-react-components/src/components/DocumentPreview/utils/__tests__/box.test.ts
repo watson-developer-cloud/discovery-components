@@ -1,4 +1,4 @@
-import { findMatchingBbox } from '../box';
+import { findMatchingBbox, bboxesIntersect } from '../box';
 import { CellPage } from '../../types';
 const originalDocBbox = [
   {
@@ -328,5 +328,22 @@ describe('box', () => {
       }
     ];
     expect(findMatchingBbox(originalDocBbox[1] as CellPage, processedDocBbox)).toEqual(result);
+  });
+
+  describe('bboxesIntersect', () => {
+    it('should return true when boxes intersect', () => {
+      expect(bboxesIntersect([10, 10, 20, 20], [15, 15, 25, 25])).toBeTruthy();
+    });
+
+    it("should return false when boxes don't intersect", () => {
+      expect(bboxesIntersect([10, 10, 20, 20], [15, 25, 25, 35])).toBeFalsy();
+    });
+
+    it('should return false when one box is on another', () => {
+      expect(bboxesIntersect([10, 10, 20, 20], [20, 10, 30, 20])).toBeFalsy();
+      expect(bboxesIntersect([10, 10, 20, 20], [0, 10, 10, 20])).toBeFalsy();
+      expect(bboxesIntersect([10, 10, 20, 20], [10, 20, 20, 30])).toBeFalsy();
+      expect(bboxesIntersect([10, 10, 20, 20], [10, 0, 20, 10])).toBeFalsy();
+    });
   });
 });
