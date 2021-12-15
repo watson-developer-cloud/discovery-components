@@ -3,6 +3,11 @@
 @import './mixins';
 
 .#{$prefix}--document-preview-pdf-viewer {
+  display: flex;
+  justify-content: center;
+}
+
+.#{$prefix}--document-preview-pdf-viewer__wrapper {
   position: relative;
   @include pdfjsTextLayer;
 }

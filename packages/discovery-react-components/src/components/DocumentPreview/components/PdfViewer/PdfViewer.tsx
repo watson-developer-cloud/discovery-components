@@ -107,20 +107,22 @@ const PdfViewer: FC<Props> = ({
   const base = `${settings.prefix}--document-preview-pdf-viewer`;
   return (
     <div className={cx(base, className)}>
-      <canvas
-        ref={canvasRef}
-        className={`${base}__canvas`}
-        style={{ width: `${canvasInfo?.width ?? 0}px`, height: `${canvasInfo?.height ?? 0}px` }}
-        width={canvasInfo?.canvasWidth}
-        height={canvasInfo?.canvasHeight}
-      />
-      <PdfViewerTextLayer
-        className={cx(`${base}__text`, textLayerClassName)}
-        loadedPage={loadedPage}
-        scale={scale}
-        setRenderedText={setRenderedText}
-      />
-      {children}
+      <div className={`${base}__wrapper`}>
+        <canvas
+          ref={canvasRef}
+          className={`${base}__canvas`}
+          style={{ width: `${canvasInfo?.width ?? 0}px`, height: `${canvasInfo?.height ?? 0}px` }}
+          width={canvasInfo?.canvasWidth}
+          height={canvasInfo?.canvasHeight}
+        />
+        <PdfViewerTextLayer
+          className={cx(`${base}__text`, textLayerClassName)}
+          loadedPage={loadedPage}
+          scale={scale}
+          setRenderedText={setRenderedText}
+        />
+        {children}
+      </div>
     </div>
   );
 };
