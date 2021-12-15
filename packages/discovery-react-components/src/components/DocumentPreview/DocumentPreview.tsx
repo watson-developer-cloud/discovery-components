@@ -92,9 +92,6 @@ const DocumentPreview: FC<Props> = ({
     <div className={`${base}`}>
       {(doc || providedFile) && !didCatch ? (
         <>
-          {/* TODO This is only used when showing PDFs (currently). Should be moved into `PdfViewer` or
-                    elsewhere that makes more sense.
-          */}
           <PreviewToolbar
             loading={loading}
             hideControls={hideToolbarControls}
