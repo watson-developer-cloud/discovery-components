@@ -61,8 +61,9 @@ const PdfViewerHighlight: FC<Props> = ({
     });
   }, [highlighter, highlights, textDivs]);
 
+  const base = `${settings.prefix}--document-preview-pdf-viewer-highlight`;
   return (
-    <div className={cx(`${settings.prefix}--document-preview-pdf-viewer-highlight`, className)}>
+    <div className={cx(base, className)}>
       {highlightBoxes.map((hl, hlIndex) => {
         return (
           <React.Fragment key={`k-${hlIndex}`}>
@@ -72,11 +73,7 @@ const PdfViewerHighlight: FC<Props> = ({
               return (
                 <div
                   key={`${left}${top}${right}${bottom}_${index}`}
-                  className={cx(
-                    `${settings.prefix}--document-preview-pdf-viewer-highlight--item`,
-                    highlightClassName,
-                    hl.className
-                  )}
+                  className={cx(`${base}__item`, highlightClassName, hl.className)}
                   style={{
                     left: `${(left - padding) * scale}px`,
                     top: `${(top - padding) * scale}px`,

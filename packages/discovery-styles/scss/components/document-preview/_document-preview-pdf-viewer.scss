@@ -7,11 +7,11 @@
   @include pdfjsTextLayer;
 }
 
-.#{$prefix}--document-preview-pdf-viewer--canvas {
+.#{$prefix}--document-preview-pdf-viewer__canvas {
   transform-origin: left top 0px;
 }
 
-.#{$prefix}--document-preview-pdf-viewer--text {
+.#{$prefix}--document-preview-pdf-viewer__text {
   transform-origin: left top 0px;
 }
 
@@ -22,7 +22,7 @@
   left: 0;
 }
 
-.#{$prefix}--document-preview-pdf-viewer-highlight--item {
+.#{$prefix}--document-preview-pdf-viewer-highlight__item {
   position: absolute;
   opacity: 0.3;
   background: darken($highlight, 30%);
