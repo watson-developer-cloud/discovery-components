@@ -10,8 +10,7 @@ import withErrorBoundary, { WithErrorBoundaryProps } from 'utils/hoc/withErrorBo
 import { defaultMessages, Messages } from './messages';
 import HtmlView from './components/HtmlView/HtmlView';
 import PdfViewerWithHighlight from './components/PdfViewerHighlight/PdfViewerWithHighlight';
-import { getTextMappings, isCsvFile, isJsonFile } from './utils/documentData';
-import { TextMappings } from './types';
+import { isCsvFile, isJsonFile } from './utils/documentData';
 
 const { ZOOM_IN, ZOOM_OUT } = PreviewToolbar;
 
@@ -85,27 +84,7 @@ const DocumentPreview: FC<Props> = ({
     }
   }, [document, documentProvider, file]);
 
-  // TODO Seems like these 2 useEffects should just be part of PdfViewer
-  const [textMappings, setTextMappings] = useState<TextMappings | null>(null);
-  useEffect(() => {
-    const mappings = getTextMappings(doc);
-    if (mappings) {
-      setTextMappings(mappings);
-    }
-  }, [doc]);
-
-  // Pull total page count from either the PDF file or the structural
-  // data list
-  const [pageCount, setPageCount] = useState(0);
-  const [pdfPageCount, setPdfPageCount] = useState(pageCount);
-  useEffect(() => {
-    if (providedFile && pdfPageCount > 0) {
-      setPageCount(pdfPageCount);
-    } else if (textMappings) {
-      const last = textMappings.text_mappings.length - 1;
-      setPageCount(textMappings?.text_mappings[last].page.page_number ?? 1);
-    }
-  }, [textMappings, providedFile, pdfPageCount]);
+  const [pdfPageCount, setPdfPageCount] = useState(0);
 
   const base = `${settings.prefix}--document-preview`;
 
@@ -120,7 +99,7 @@ const DocumentPreview: FC<Props> = ({
             loading={loading}
             hideControls={hideToolbarControls}
             current={currentPage}
-            total={loading ? 0 : pageCount}
+            total={loading ? 0 : pdfPageCount}
             onChange={setCurrentPage}
             onZoom={(zoom: any): void => {
               if (zoom === ZOOM_IN || zoom === ZOOM_OUT) {
@@ -190,6 +169,7 @@ function PreviewDocument({
     return (
       <PdfViewer
         file={file}
+        document={document}
         page={currentPage}
         scale={scale}
         setPageCount={setPdfPageCount}

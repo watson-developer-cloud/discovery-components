@@ -10,6 +10,8 @@ import PdfjsLib, {
 import PdfjsWorkerAsText from 'pdfjs-dist/build/pdf.worker.min.js';
 import { settings } from 'carbon-components';
 import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
+import { QueryResult } from 'ibm-watson/discovery/v2';
+import { getTextMappings } from '../../utils/documentData';
 import PdfViewerTextLayer, { PdfRenderedText } from './PdfViewerTextLayer';
 import { PdfDisplayProps } from './types';
 
@@ -23,6 +25,11 @@ type Props = PdfDisplayProps & {
    * TODO Update to take `PDFSource` type (from pdfjs-dist) instead? Would allow binary data as well as URL.
    */
   file: string;
+
+  /**
+   * Optionally takes a query result document for page count calculation
+   */
+  document?: QueryResult | null;
 
   /**
    * Text layer class name
@@ -52,6 +59,7 @@ const PdfViewer: FC<Props> = ({
   file,
   page,
   scale,
+  document,
   textLayerClassName,
   setPageCount,
   setLoading,
@@ -93,11 +101,12 @@ const PdfViewer: FC<Props> = ({
     )
   );
 
+  const pageCount = usePageCount({ loadedFile, document });
   useEffect(() => {
-    if (setPageCount && loadedFile) {
-      setPageCount(loadedFile.numPages);
+    if (setPageCount && pageCount !== null) {
+      setPageCount(pageCount);
     }
-  }, [loadedFile, setPageCount]);
+  }, [pageCount, setPageCount]);
 
   useEffect(() => {
     if (setHideToolbarControls) {
@@ -130,6 +139,37 @@ PdfViewer.defaultProps = {
   page: 1,
   scale: 1
 };
+
+function usePageCount({
+  loadedFile,
+  document
+}: {
+  loadedFile?: PDFDocumentProxy | null;
+  document?: QueryResult | null;
+}): number | null {
+  // page count from the structural data list
+  const pageCountFromTextMappings = useMemo(() => {
+    const mappings = getTextMappings(document);
+    if (mappings) {
+      const last = mappings.text_mappings.length - 1;
+      return mappings?.text_mappings[last].page.page_number ?? 1;
+    }
+    return 0;
+  }, [document]);
+
+  // Pull total page count from either the PDF file or the structural
+  // data list
+  const pageCount = useMemo(() => {
+    if (loadedFile && loadedFile.numPages > 0) {
+      return loadedFile.numPages;
+    } else if (pageCountFromTextMappings > 0) {
+      return pageCountFromTextMappings;
+    }
+    return null;
+  }, [loadedFile, pageCountFromTextMappings]);
+
+  return pageCount;
+}
 
 function _loadPdf(data: string): PDFPromise<PDFDocumentProxy> {
   return PdfjsLib.getDocument({ data }).promise;
