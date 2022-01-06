@@ -1,11 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
+import cx from 'classnames';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { NoAuthAuthenticator } from 'ibm-watson/auth';
-import './app.scss';
 import { settings } from 'carbon-components';
 import { Button, Tabs, Tab, Loading } from 'carbon-components-react';
 import Close from '@carbon/icons-react/lib/close/16';
-import cx from 'classnames';
+import './app.scss';
+import { ExampleDocumentProvider } from './ExampleDocumentProvider';
 
 import {
   DiscoverySearch,
@@ -75,7 +76,11 @@ const App = () => {
   ) : isError ? (
     <div>Unable to load Discovery projects. Please check your console for more details.</div>
   ) : (
-    <DiscoverySearch searchClient={searchClient} projectId={projectId}>
+    <DiscoverySearch
+      searchClient={searchClient}
+      projectId={projectId}
+      documentProvider={new ExampleDocumentProvider()}
+    >
       <AppView />
     </DiscoverySearch>
   );
