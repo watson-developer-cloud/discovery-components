@@ -181,7 +181,7 @@ function useScrollIntoActiveHighlight(
         if (!highlightDiv) return;
 
         const highlightElm = highlightDiv?.querySelector(
-          `[data-highlightId=${activeShape.highlightId}]`
+          `[data-highlight-id=${activeShape.highlightId}]`
         );
         highlightElm?.firstElementChild?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
       }, 50);
