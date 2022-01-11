@@ -1,6 +1,6 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, radios, number, select, boolean } from '@storybook/addon-knobs';
+import { withKnobs, radios, number, select } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import PdfViewerWithHighlight from './PdfViewerWithHighlight';
 import { flatten } from 'lodash';
@@ -70,11 +70,6 @@ const highlightKnob = {
     companies: HIGHLIGHT_COMPANIES,
     customerGroups: HIGHLIGHT_CUSTOMER_GROUPS
   }
-};
-
-const scrollIntoKnob = {
-  label: 'Scroll into highlight',
-  defaultValue: true
 };
 
 const WithTextSelection: typeof PdfViewerWithHighlight = props => {
@@ -156,12 +151,7 @@ const WithTextSelection: typeof PdfViewerWithHighlight = props => {
     setHighlights([highlight]);
   };
 
-  const activeIds = useMemo(() => {
-    if (props.scrollIntoActiveHighlight) {
-      return highlights.map(hl => hl.id).filter(nonEmpty);
-    }
-    return [];
-  }, [highlights, props.scrollIntoActiveHighlight]);
+  const activeIds = useMemo(() => highlights.map(hl => hl.id).filter(nonEmpty), [highlights]);
 
   return (
     <div className="withTextSelection">
@@ -214,9 +204,15 @@ storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
       highlightKnob.defaultValue
     );
     const activeId = number('Active highlight index', 0);
-    const scrollIntoActiveHighlight = boolean(scrollIntoKnob.label, scrollIntoKnob.defaultValue);
     const setLoadingAction = action('setLoading');
     const setCurrentPage = action('setCurrentPage');
+
+    const [activeIds, setActiveIds] = useState<string[]>([]);
+    useEffect(() => {
+      const items = highlightKnob.data[highlights];
+      const item = items[activeId];
+      setActiveIds(item ? [item.id] : []);
+    }, [activeId]);
 
     return (
       <PdfViewerWithHighlight
@@ -226,8 +222,7 @@ storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
         setLoading={setLoadingAction}
         document={document}
         highlights={highlightKnob.data[highlights]}
-        activeIds={activeId >= 0 ? [`highlight${activeId}`] : []}
-        scrollIntoActiveHighlight={scrollIntoActiveHighlight}
+        activeIds={activeIds}
         setCurrentPage={setCurrentPage}
       />
     );
@@ -236,7 +231,6 @@ storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
     const page = number(pageKnob.label, pageKnob.defaultValue, pageKnob.options);
     const zoom = radios(zoomKnob.label, zoomKnob.options, zoomKnob.defaultValue);
     const scale = parseFloat(zoom);
-    const scrollIntoActiveHighlight = boolean(scrollIntoKnob.label, scrollIntoKnob.defaultValue);
     const setLoadingAction = action('setLoading');
     const setCurrentPage = action('setCurrentPage');
 
@@ -248,7 +242,6 @@ storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
         setLoading={setLoadingAction}
         document={document}
         highlights={EMPTY}
-        scrollIntoActiveHighlight={scrollIntoActiveHighlight}
         setCurrentPage={setCurrentPage}
       />
     );
@@ -257,7 +250,6 @@ storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
     const page = number(pageKnob.label, pageKnob.defaultValue, pageKnob.options);
     const zoom = radios(zoomKnob.label, zoomKnob.options, zoomKnob.defaultValue);
     const scale = parseFloat(zoom);
-    const scrollIntoActiveHighlight = boolean(scrollIntoKnob.label, scrollIntoKnob.defaultValue);
     const setLoadingAction = action('setLoading');
     const setCurrentPage = action('setCurrentPage');
 
@@ -269,7 +261,6 @@ storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
         setLoading={setLoadingAction}
         document={documentJa}
         highlights={EMPTY}
-        scrollIntoActiveHighlight={scrollIntoActiveHighlight}
         setCurrentPage={setCurrentPage}
       />
     );

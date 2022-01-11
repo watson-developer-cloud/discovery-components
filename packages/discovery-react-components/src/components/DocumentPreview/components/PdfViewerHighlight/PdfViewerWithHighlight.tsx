@@ -23,7 +23,6 @@ const PdfViewerWithHighlight: FC<Props> = ({
   page,
   highlights,
   activeIds,
-  scrollIntoActiveHighlight,
   _useHtmlBbox,
   _usePdfTextItem,
   setCurrentPage,
@@ -36,7 +35,6 @@ const PdfViewerWithHighlight: FC<Props> = ({
     document,
     highlights,
     activeIds,
-    scrollIntoActiveHighlight,
     _useHtmlBbox,
     _usePdfTextItem
   };
@@ -47,12 +45,7 @@ const PdfViewerWithHighlight: FC<Props> = ({
   );
 
   const activeHighlightPages = useActiveHighlightPages(document, highlights, activeIds);
-  const currentPage = useMovePageToActiveHighlight(
-    scrollIntoActiveHighlight,
-    page,
-    activeHighlightPages,
-    setCurrentPage
-  );
+  const currentPage = useMovePageToActiveHighlight(page, activeHighlightPages, setCurrentPage);
 
   const highlightReady = !!documentInfo && !!renderedText;
   return (
@@ -72,10 +65,9 @@ const PdfViewerWithHighlight: FC<Props> = ({
  * Hook to move PDF page depending on active highlight
  */
 function useMovePageToActiveHighlight(
-  enabled: boolean | undefined,
   page: number,
   activeHighlightPages: (number | null)[],
-  callback: ((page: number) => any) | undefined
+  setPage: ((page: number) => any) | undefined
 ) {
   const lastPageRef = useRef(page);
   const [currentPage, setCurrentPage] = useState(0);
@@ -86,9 +78,6 @@ function useMovePageToActiveHighlight(
   }, [page, setCurrentPage]);
 
   useEffect(() => {
-    if (!enabled) {
-      return;
-    }
     const pages = activeHighlightPages.filter(nonEmpty);
     if (pages.length === 0 || pages.includes(lastPageRef.current)) {
       return;
@@ -96,10 +85,13 @@ function useMovePageToActiveHighlight(
     const newPage = pages[0];
     lastPageRef.current = newPage;
     setCurrentPage(newPage);
-    if (callback) {
-      callback(newPage);
+  }, [activeHighlightPages, setCurrentPage]);
+
+  useEffect(() => {
+    if (page !== currentPage && setPage) {
+      setPage(currentPage);
     }
-  }, [activeHighlightPages, enabled, setCurrentPage, callback]);
+  }, [page, currentPage, setPage]);
 
   return currentPage;
 }

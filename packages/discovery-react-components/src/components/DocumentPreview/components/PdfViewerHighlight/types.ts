@@ -68,11 +68,6 @@ export interface HighlightProps {
   activeIds?: string[];
 
   /**
-   * `true` to scroll into activeId's highlight automatically
-   */
-  scrollIntoActiveHighlight?: boolean;
-
-  /**
    * callback to be notified page change by scrollIntoActiveId
    */
   setCurrentPage?: (page: number) => any;

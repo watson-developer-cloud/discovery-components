@@ -40,7 +40,6 @@ const PdfViewerHighlight: FC<Props> = ({
   page,
   highlights,
   activeIds,
-  scrollIntoActiveHighlight,
   pdfRenderedText,
   scale,
   _useHtmlBbox = true,
@@ -65,12 +64,7 @@ const PdfViewerHighlight: FC<Props> = ({
   }, [highlighter, highlights, textDivs]);
 
   const highlightDivRef = useRef<HTMLDivElement | null>(null);
-  useScrollIntoActiveHighlight(
-    highlightDivRef,
-    highlightShapes,
-    activeIds,
-    scrollIntoActiveHighlight
-  );
+  useScrollIntoActiveHighlight(highlightDivRef, highlightShapes, activeIds);
 
   return (
     <div
@@ -170,11 +164,10 @@ const useHighlighter = ({
 function useScrollIntoActiveHighlight(
   highlightDivRef: React.MutableRefObject<HTMLDivElement | null>,
   shapes: (HighlightShape | undefined)[],
-  activeIds: string[] | undefined,
-  scrollIntoActiveId: boolean | undefined
+  activeIds: string[] | undefined
 ) {
   useEffect(() => {
-    if (!scrollIntoActiveId || !highlightDivRef.current) {
+    if (!highlightDivRef.current) {
       return;
     }
 
@@ -194,7 +187,7 @@ function useScrollIntoActiveHighlight(
       return () => clearTimeout(timer);
     }
     return;
-  }, [activeIds, highlightDivRef, shapes, scrollIntoActiveId]);
+  }, [activeIds, highlightDivRef, shapes]);
 }
 
 export default PdfViewerHighlight;
