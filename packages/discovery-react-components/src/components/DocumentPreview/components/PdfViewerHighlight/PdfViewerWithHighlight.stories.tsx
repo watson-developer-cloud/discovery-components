@@ -167,13 +167,14 @@ const WithTextSelection: typeof PdfViewerWithHighlight = props => {
         </h6>
         <p>
           {/* eslint-disable-next-line jsx-a11y/no-onchange*/}
-          <select name="field_select" id="field_select" onChange={handleOnChangeField}>
+          <select
+            name="field_select"
+            id="field_select"
+            value={selectedField || ''}
+            onChange={handleOnChangeField}
+          >
             {fieldOptions.map(option => (
-              <option
-                key={option.value}
-                value={option.value}
-                selected={option.value === selectedField}
-              >
+              <option key={option.value} value={option.value}>
                 {option.label}
               </option>
             ))}

@@ -75,6 +75,7 @@ const PdfViewerHighlight: FC<Props> = ({
         const active = shape?.highlightId ? activeIds?.includes(shape.highlightId) : false;
         return (
           <Highlight
+            key={shape?.highlightId || `highlight_${hlIndex}`}
             className={highlightClassName}
             activeClassName={activeHighlightClassName}
             shape={shape}
@@ -108,7 +109,7 @@ const Highlight: FC<{
 
   const highlightId = shape?.highlightId ?? `hl-${index}`;
   return (
-    <div key={highlightId} data-highlightId={highlightId}>
+    <div key={highlightId} data-highlight-id={highlightId}>
       {shape?.boxes.map((item, index) => {
         return (
           <div
