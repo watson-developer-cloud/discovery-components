@@ -1,14 +1,14 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC, useMemo, useEffect, useRef } from 'react';
 import cx from 'classnames';
 import { settings } from 'carbon-components';
 import { QueryResult } from 'ibm-watson/discovery/v2';
 import { ProcessedDoc } from 'utils/document';
-import { TextMappings } from '../../types';
+import { Bbox, TextMappings } from '../../types';
 import { PdfDisplayProps } from '../PdfViewer/types';
 import { PdfRenderedText } from '../PdfViewer/PdfViewerTextLayer';
 import { ExtractedDocumentInfo } from './utils/common/documentUtils';
 import { Highlighter } from './utils/Highlighter';
-import { HighlightProps } from './types';
+import { HighlightProps, HighlightShape } from './types';
 
 type Props = PdfDisplayProps &
   HighlightProps & {
@@ -34,10 +34,13 @@ type Props = PdfDisplayProps &
 const PdfViewerHighlight: FC<Props> = ({
   className,
   highlightClassName,
+  activeHighlightClassName,
   document,
   parsedDocument,
   page,
   highlights,
+  activeIds,
+  scrollIntoActiveHighlight,
   pdfRenderedText,
   scale,
   _useHtmlBbox = true,
@@ -54,40 +57,77 @@ const PdfViewerHighlight: FC<Props> = ({
 
   const { textDivs } = pdfRenderedText || {};
 
-  const highlightBoxes = useMemo(() => {
+  const highlightShapes = useMemo(() => {
     highlighter?.setTextContentDivs(textDivs);
     return highlights.map(highlight => {
       return highlighter?.getHighlight(highlight);
     });
   }, [highlighter, highlights, textDivs]);
 
+  const highlightDivRef = useRef<HTMLDivElement | null>(null);
+  useScrollIntoActiveHighlight(
+    highlightDivRef,
+    highlightShapes,
+    activeIds,
+    scrollIntoActiveHighlight
+  );
+
   return (
-    <div className={cx(`${settings.prefix}--document-preview-pdf-viewer-highlight`, className)}>
-      {highlightBoxes.map((hl, hlIndex) => {
+    <div
+      ref={highlightDivRef}
+      className={cx(`${settings.prefix}--document-preview-pdf-viewer-highlight`, className)}
+    >
+      {highlightShapes.map((shape, hlIndex) => {
+        const active = shape?.highlightId ? activeIds?.includes(shape.highlightId) : false;
         return (
-          <React.Fragment key={`k-${hlIndex}`}>
-            {hl?.boxes.map((item, index) => {
-              const padding = 0;
-              const [left, top, right, bottom] = item.bbox;
-              return (
-                <div
-                  key={`${left}${top}${right}${bottom}_${index}`}
-                  className={cx(
-                    `${settings.prefix}--document-preview-pdf-viewer-highlight--item`,
-                    highlightClassName,
-                    hl.className
-                  )}
-                  style={{
-                    left: `${(left - padding) * scale}px`,
-                    top: `${(top - padding) * scale}px`,
-                    width: `${(right - left + padding) * scale}px`,
-                    height: `${(bottom - top + padding) * scale}px`
-                  }}
-                  data-testid="highlight"
-                />
-              );
-            })}
-          </React.Fragment>
+          <Highlight
+            className={highlightClassName}
+            activeClassName={activeHighlightClassName}
+            shape={shape}
+            index={hlIndex}
+            scale={scale}
+            active={active}
+          />
+        );
+      })}
+    </div>
+  );
+};
+
+const Highlight: FC<{
+  className?: string;
+  activeClassName?: string;
+  shape?: HighlightShape;
+  index: number;
+  scale: number;
+  active?: boolean;
+}> = ({ className, activeClassName, shape, index, scale, active }) => {
+  function getPositionStyle(bbox: Bbox, scale: number, padding: number = 0) {
+    const [left, top, right, bottom] = bbox;
+    return {
+      left: `${(left - padding) * scale}px`,
+      top: `${(top - padding) * scale}px`,
+      width: `${(right - left + padding) * scale}px`,
+      height: `${(bottom - top + padding) * scale}px`
+    };
+  }
+
+  const highlightId = shape?.highlightId ?? `hl-${index}`;
+  return (
+    <div key={highlightId} data-highlightId={highlightId}>
+      {shape?.boxes.map((item, index) => {
+        return (
+          <div
+            key={`hlId_${index}`}
+            className={cx(
+              `${settings.prefix}--document-preview-pdf-viewer-highlight--item`,
+              className,
+              shape.className,
+              active && `${settings.prefix}--document-preview-pdf-viewer-highlight--item--active`,
+              active && activeClassName
+            )}
+            style={{ ...getPositionStyle(item.bbox, scale) }}
+          />
         );
       })}
     </div>
@@ -126,5 +166,35 @@ const useHighlighter = ({
     return null;
   }, [document, isReady, pageNum, pdfRenderedText, processedDoc, textMappings]);
 };
+
+function useScrollIntoActiveHighlight(
+  highlightDivRef: React.MutableRefObject<HTMLDivElement | null>,
+  shapes: (HighlightShape | undefined)[],
+  activeIds: string[] | undefined,
+  scrollIntoActiveId: boolean | undefined
+) {
+  useEffect(() => {
+    if (!scrollIntoActiveId || !highlightDivRef.current) {
+      return;
+    }
+
+    const activeShape = shapes.find(
+      shape => shape?.highlightId && activeIds?.includes(shape.highlightId)
+    );
+    if (activeShape) {
+      const timer = setTimeout(() => {
+        const highlightDiv = highlightDivRef.current;
+        if (!highlightDiv) return;
+
+        const highlightElm = highlightDiv?.querySelector(
+          `[data-highlightId=${activeShape.highlightId}]`
+        );
+        highlightElm?.firstElementChild?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+    return;
+  }, [activeIds, highlightDivRef, shapes, scrollIntoActiveId]);
+}
 
 export default PdfViewerHighlight;

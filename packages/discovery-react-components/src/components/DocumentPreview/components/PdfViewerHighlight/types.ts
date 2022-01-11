@@ -15,6 +15,7 @@ export type DocumentFields = { [fieldName: string]: string[] | undefined };
  * Highlight on a document field
  */
 export type DocumentFieldHighlight = {
+  id?: string;
   field: string;
   fieldIndex: number;
   location: Location;
@@ -25,6 +26,7 @@ export type DocumentFieldHighlight = {
  * Highlight shape on a page, which consists of boundary boxes
  */
 export interface HighlightShape {
+  highlightId?: string;
   boxes: HighlightShapeBox[];
   className?: string;
 }
@@ -46,6 +48,11 @@ export interface HighlightProps {
   highlightClassName?: string;
 
   /**
+   * Class name to style each active highlight
+   */
+  activeHighlightClassName?: string;
+
+  /**
    * Document data returned by query
    */
   document: QueryResult;
@@ -54,6 +61,21 @@ export interface HighlightProps {
    * Highlight spans on fields in document
    */
   highlights: DocumentFieldHighlight[];
+
+  /**
+   * Active highlight IDs
+   */
+  activeIds?: string[];
+
+  /**
+   * `true` to scroll into activeId's highlight automatically
+   */
+  scrollIntoActiveHighlight?: boolean;
+
+  /**
+   * callback to be notified page change by scrollIntoActiveId
+   */
+  setCurrentPage?: (page: number) => any;
 
   /**
    * Consider bboxes in HTML field to highlight.

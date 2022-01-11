@@ -27,3 +27,9 @@
   opacity: 0.3;
   background: darken($highlight, 30%);
 }
+
+.#{$prefix}--document-preview-pdf-viewer-highlight--item--active {
+  position: absolute;
+  opacity: 0.5;
+  background: darken($highlight, 40%);
+}
