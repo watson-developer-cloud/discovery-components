@@ -69,29 +69,39 @@ function useMovePageToActiveHighlight(
   activeHighlightPages: (number | null)[],
   setPage: ((page: number) => any) | undefined
 ) {
-  const lastPageRef = useRef(page);
-  const [currentPage, setCurrentPage] = useState(0);
-
-  useEffect(() => {
-    lastPageRef.current = page;
-    setCurrentPage(page);
-  }, [page, setCurrentPage]);
+  const [highlightPage, setHighlightPage] = useState<number | undefined>();
 
   useEffect(() => {
     const pages = activeHighlightPages.filter(nonEmpty);
-    if (pages.length === 0 || pages.includes(lastPageRef.current)) {
+    if (pages.length === 0 || pages.includes(page)) {
       return;
     }
     const newPage = pages[0];
-    lastPageRef.current = newPage;
-    setCurrentPage(newPage);
-  }, [activeHighlightPages, setCurrentPage]);
+    setHighlightPage(newPage);
+  }, [page, activeHighlightPages]);
 
+  const [currentPage, setCurrentPage] = useState(page);
+
+  const previousPageRef = useRef(page);
   useEffect(() => {
-    if (page !== currentPage && setPage) {
-      setPage(currentPage);
+    if (previousPageRef.current !== page) {
+      previousPageRef.current = page;
+      setCurrentPage(page);
     }
-  }, [page, currentPage, setPage]);
+  }, [page]);
+
+  const previousHighlightPageRef = useRef(highlightPage);
+  useEffect(() => {
+    if (previousHighlightPageRef.current !== highlightPage) {
+      previousHighlightPageRef.current = highlightPage;
+      if (highlightPage != null) {
+        setCurrentPage(highlightPage);
+        if (setPage) {
+          setPage(highlightPage);
+        }
+      }
+    }
+  }, [highlightPage, setPage]);
 
   return currentPage;
 }
