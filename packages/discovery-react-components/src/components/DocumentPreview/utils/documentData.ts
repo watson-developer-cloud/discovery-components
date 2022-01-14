@@ -39,25 +39,21 @@ export function isJsonFile(doc: QueryResult | null | undefined): boolean {
   return get(doc, 'extracted_metadata.file_type') === 'json';
 }
 
+/**
+ * Returns the preview type for document
+ */
 export function detectPreviewType(document: DiscoveryDocument, file?: string): PreviewType {
   const fileType = document.extracted_metadata?.file_type;
   const hasPassage = !!document.document_passages?.[0]?.passage_text;
 
   // if we have PDF data, render that
   // otherwise, render fallback document view
-  if (fileType === 'pdf') {
-    if (document.extracted_metadata.text_mappings) {
-      // when using custom SDU model or OOB (CI) model
-      if (file) {
-        return 'PDF';
-      }
-    } else {
-      // when using fast path
-      if (!hasPassage && file) {
-        return 'PDF';
-      } else {
-        return 'SIMPLE';
-      }
+  if (fileType === 'pdf' && file) {
+    const hasTextMappings = !!document.extracted_metadata?.text_mappings;
+    // when hasTextMappings is true, that means the custom SDU model or OOB (CI) model is enabled
+    // otherwise, that means the fast path
+    if (hasTextMappings || !hasPassage) {
+      return 'PDF';
     }
   }
 

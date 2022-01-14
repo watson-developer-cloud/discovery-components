@@ -49,8 +49,8 @@ export interface StyledCell extends CellPage {
 export type PreviewType = 'PDF' | 'HTML' | 'SIMPLE';
 
 export interface DiscoveryDocument extends QueryResult {
-  extracted_metadata: {
-    file_type: string;
+  extracted_metadata?: {
+    file_type?: 'pdf' | 'html' | 'json' | 'csv' | 'text';
     text_mappings?: string; // exists when custom SDU model or OOB (CI) model enabled
   };
 }
