@@ -12,7 +12,8 @@
     "build:apps": "yarn workspaces foreach -v --parallel run build:app",
     "test": "yarn workspaces foreach -v --parallel run test",
     "g:analyze": "cd $INIT_CWD && source-map-explorer",
-    "g:eslint": "cd $INIT_CWD && eslint"
+    "g:eslint": "cd $INIT_CWD && eslint",
+    "g:rollup": "cd $INIT_CWD && rollup"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
