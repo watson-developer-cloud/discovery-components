@@ -10,7 +10,8 @@ import withErrorBoundary, { WithErrorBoundaryProps } from 'utils/hoc/withErrorBo
 import { defaultMessages, Messages } from './messages';
 import HtmlView from './components/HtmlView/HtmlView';
 import PdfViewerWithHighlight from './components/PdfViewerHighlight/PdfViewerWithHighlight';
-import { isCsvFile, isJsonFile } from './utils/documentData';
+import { detectPreviewType } from './utils/documentData';
+import { DiscoveryDocument } from './types';
 
 const { ZOOM_IN, ZOOM_OUT } = PreviewToolbar;
 
@@ -111,7 +112,7 @@ const DocumentPreview: FC<Props> = ({
               file={providedFile}
               currentPage={currentPage}
               scale={scale}
-              document={doc}
+              document={doc as DiscoveryDocument}
               highlight={highlight}
               setPdfPageCount={setPdfPageCount}
               setLoading={setLoading}
@@ -136,7 +137,7 @@ const DocumentPreview: FC<Props> = ({
 };
 
 interface PreviewDocumentProps {
-  document?: QueryResult | null;
+  document?: DiscoveryDocument | null;
   file?: string;
   highlight?: any;
   currentPage: number;
@@ -160,26 +161,25 @@ function PreviewDocument({
   setHideToolbarControls,
   highlight
 }: PreviewDocumentProps): ReactElement | null {
-  // if we have PDF data, render that
-  // otherwise, render fallback document view
-  if (file) {
-    return (
-      <PdfViewer
-        file={file}
-        document={document}
-        page={currentPage}
-        scale={scale}
-        setPageCount={setPdfPageCount}
-        setLoading={setLoading}
-        setHideToolbarControls={setHideToolbarControls}
-      />
-    );
+  if (!document) {
+    return null;
   }
 
-  if (document) {
-    const isJsonType = isJsonFile(document);
-    const isCsvType = isCsvFile(document);
-    if (document.html && !isJsonType && !isCsvType) {
+  const previewType = detectPreviewType(document, file);
+  switch (previewType) {
+    case 'PDF':
+      return (
+        <PdfViewer
+          file={file as string}
+          document={document}
+          page={currentPage}
+          scale={scale}
+          setPageCount={setPdfPageCount}
+          setLoading={setLoading}
+          setHideToolbarControls={setHideToolbarControls}
+        />
+      );
+    case 'HTML':
       return (
         <HtmlView
           document={document}
@@ -188,20 +188,18 @@ function PreviewDocument({
           setLoading={setLoading}
         />
       );
-    }
-    return (
-      <SimpleDocument
-        document={document}
-        highlight={highlight}
-        hideToolbarControls={hideToolbarControls}
-        setHideToolbarControls={setHideToolbarControls}
-        loading={loading}
-        setLoading={setLoading}
-      />
-    );
+    case 'SIMPLE':
+      return (
+        <SimpleDocument
+          document={document}
+          highlight={highlight}
+          hideToolbarControls={hideToolbarControls}
+          setHideToolbarControls={setHideToolbarControls}
+          loading={loading}
+          setLoading={setLoading}
+        />
+      );
   }
-
-  return null;
 }
 
 //Replace any with a proper TS check
