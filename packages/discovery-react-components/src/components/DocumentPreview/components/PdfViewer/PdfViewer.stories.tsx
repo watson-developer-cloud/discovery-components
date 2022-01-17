@@ -4,6 +4,7 @@ import { withKnobs, radios, number } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import PdfViewer from './PdfViewer';
 import { document as doc } from 'components/DocumentPreview/__fixtures__/Art Effects.pdf';
+import './PdfViewer.stories.scss';
 
 const pageKnob = {
   label: 'Page',
@@ -38,12 +39,14 @@ storiesOf('DocumentPreview/components/PdfViewer', module)
     const setRenderedTextAction = action('setRenderedText');
 
     return (
-      <PdfViewer
-        file={atob(doc)}
-        page={page}
-        scale={scale}
-        setLoading={setLoadingAction}
-        setRenderedText={setRenderedTextAction}
-      />
+      <div className="pdf-viewer-stories__gray-background">
+        <PdfViewer
+          file={atob(doc)}
+          page={page}
+          scale={scale}
+          setLoading={setLoadingAction}
+          setRenderedText={setRenderedTextAction}
+        />
+      </div>
     );
   });
