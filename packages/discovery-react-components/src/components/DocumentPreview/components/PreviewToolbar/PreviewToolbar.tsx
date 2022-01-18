@@ -56,7 +56,7 @@ interface Props {
   /**
    * User actions displayed on the end of the toolbar
    */
-  actions?: ToolbarAction[];
+  userActions?: ToolbarAction[];
 
   /**
    * Current page number, starting at 1
@@ -85,7 +85,7 @@ const base = `${settings.prefix}--preview-toolbar`;
 const PreviewToolbar: FC<Props> = ({
   loading = false,
   hideControls = false,
-  actions = [],
+  userActions = [],
   current,
   total,
   onZoom,
@@ -101,8 +101,9 @@ const PreviewToolbar: FC<Props> = ({
   }, [current]);
 
   const msgs = { ...defaultMessages, messages };
+  const hide = hideControls && userActions.length === 0;
   return (
-    <div className={`${base}`}>
+    <div className={cx(base, { [`${base}__hidden`]: hide })}>
       <div className={`${base}__left`}>
         {!hideControls && (
           <div className={`${base}__nav`}>
@@ -164,7 +165,7 @@ const PreviewToolbar: FC<Props> = ({
             })}
           </>
         )}
-        {actions.map((action, index) =>
+        {userActions.map((action, index) =>
           renderButton({
             ...action,
             key: `toolbar-action-${action.id || index}`

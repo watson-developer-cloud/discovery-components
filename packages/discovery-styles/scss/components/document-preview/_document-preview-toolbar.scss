@@ -6,6 +6,10 @@
   height: $spacing-08;
 }
 
+.#{$prefix}--preview-toolbar__hidden {
+  display: none;
+}
+
 .#{$prefix}--preview-toolbar__nav {
   display: flex;
   justify-content: flex-start;

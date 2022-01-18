@@ -2267,16 +2267,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ibm-watson/discovery-react-components@^1.5.0-beta.5, @ibm-watson/discovery-react-components@workspace:packages/discovery-react-components":
+"@ibm-watson/discovery-react-components@^1.5.0-beta.8, @ibm-watson/discovery-react-components@workspace:packages/discovery-react-components":
   version: 0.0.0-use.local
   resolution: "@ibm-watson/discovery-react-components@workspace:packages/discovery-react-components"
   dependencies:
+    "@rollup/plugin-alias": ^3.1.5
+    "@rollup/plugin-commonjs": ^20.0.0
+    "@rollup/plugin-json": ^4.1.0
+    "@rollup/plugin-node-resolve": ^13.0.5
+    "@rollup/plugin-url": ^6.1.0
     "@storybook/addon-actions": ^5.3.21
     "@storybook/addon-docs": ^5.3.21
     "@storybook/addon-knobs": ^5.3.21
     "@storybook/core": ^5.3.21
     "@storybook/react": ^5.3.21
     "@storybook/source-loader": ^5.3.21
+    "@svgr/rollup": ^5.5.0
     "@types/pdfjs-dist": 2.1.7
     classnames: ^2.2.6
     cross-env: ^7.0.3
@@ -2292,20 +2298,25 @@ __metadata:
     react-error-boundary: ^1.2.5
     react-resize-detector: ^4.2.1
     react-scripts: ^3.4.4
-    react-virtualized: 9.21.1
+    react-virtualized: 9.21.2
+    rollup: ^2.57.0
+    rollup-plugin-string: ^3.0.0
+    rollup-plugin-terser: ^7.0.2
+    rollup-plugin-typescript2: ^0.30.0
     sass-loader: ^8.0.2
   peerDependencies:
     "@carbon/icons": ">= 10.5.0 < 11"
     "@ibm-watson/discovery-styles": 1.x.x
-    carbon-components: ">= 10.6.0 < 11"
-    carbon-components-react: ">= 7.6.0 < 8"
+    carbon-components: ">= 10.46.0 < 11"
+    carbon-components-react: ">= 7.46.0 < 8"
+    core-js: ^2.6.12
     ibm-watson: ^6.0.2
     react: ">= 16.8.0 < 17"
     react-dom: ">= 16.8.0 < 17"
   languageName: unknown
   linkType: soft
 
-"@ibm-watson/discovery-styles@^1.5.0-beta.5, @ibm-watson/discovery-styles@workspace:packages/discovery-styles":
+"@ibm-watson/discovery-styles@^1.5.0-beta.8, @ibm-watson/discovery-styles@workspace:packages/discovery-styles":
   version: 0.0.0-use.local
   resolution: "@ibm-watson/discovery-styles@workspace:packages/discovery-styles"
   dependencies:
@@ -10260,8 +10271,8 @@ __metadata:
   resolution: "discovery-search-app@workspace:examples/discovery-search-app"
   dependencies:
     "@carbon/icons": ^10.5.0
-    "@ibm-watson/discovery-react-components": ^1.5.0-beta.5
-    "@ibm-watson/discovery-styles": ^1.5.0-beta.5
+    "@ibm-watson/discovery-react-components": ^1.5.0-beta.8
+    "@ibm-watson/discovery-styles": ^1.5.0-beta.8
     body-parser: ^1.19.0
     carbon-components: ^10.6.0
     carbon-components-react: ^7.7.0
@@ -10363,16 +10374,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dom-helpers@npm:^2.4.0 || ^3.0.0":
-  version: 3.4.0
-  resolution: "dom-helpers@npm:3.4.0"
-  dependencies:
-    "@babel/runtime": ^7.1.2
-  checksum: 58d9f1c4a96daf77eddc63ae1236b826e1cddd6db66bbf39b18d7e21896d99365b376593352d52a60969d67fa4a8dbef26adc1439fa2c1b355efa37cacbaf637
-  languageName: node
-  linkType: hard
-
-"dom-helpers@npm:^5.0.1":
+"dom-helpers@npm:^5.0.0, dom-helpers@npm:^5.0.1":
   version: 5.2.1
   resolution: "dom-helpers@npm:5.2.1"
   dependencies:
@@ -16503,13 +16505,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"linear-layout-vector@npm:0.0.1":
-  version: 0.0.1
-  resolution: "linear-layout-vector@npm:0.0.1"
-  checksum: 33630203afd3dbde121213c0b3465189de84afb2b6f772e80e7f907ad5b6320d311fa7193859d87e318934dcdad083d16d46fa2af5be09dfe514f62a74a9e012
-  languageName: node
-  linkType: hard
-
 "lines-and-columns@npm:^1.1.6":
   version: 1.1.6
   resolution: "lines-and-columns@npm:1.1.6"
@@ -21840,21 +21835,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-virtualized@npm:9.21.1":
-  version: 9.21.1
-  resolution: "react-virtualized@npm:9.21.1"
+"react-virtualized@npm:9.21.2":
+  version: 9.21.2
+  resolution: "react-virtualized@npm:9.21.2"
   dependencies:
     babel-runtime: ^6.26.0
     clsx: ^1.0.1
-    dom-helpers: ^2.4.0 || ^3.0.0
-    linear-layout-vector: 0.0.1
+    dom-helpers: ^5.0.0
     loose-envify: ^1.3.0
     prop-types: ^15.6.0
     react-lifecycles-compat: ^3.0.4
   peerDependencies:
     react: ^15.3.0 || ^16.0.0-alpha
     react-dom: ^15.3.0 || ^16.0.0-alpha
-  checksum: 49c728a1fa5dfd3251529d7cb62408dbca5842d927272f047bbf0bf2583862da58fca353e686ba75fd6395357547d9ed9aa0c20c4a312a52af75d1c128aa5ea7
+  checksum: cd6b37168946721e10a603e7dc232b43a8bccb47b4d3dfca440802f09702a80151df41222b6354dc648a065c0867375fcb239c9a8a4a7c7bcb325a814193d46f
   languageName: node
   linkType: hard
 
@@ -22899,12 +22893,6 @@ __metadata:
     "@commitlint/cli": ^11.0.0
     "@commitlint/config-conventional": ^11.0.0
     "@cypress/webpack-preprocessor": ^5.5.0
-    "@rollup/plugin-alias": ^3.1.5
-    "@rollup/plugin-commonjs": ^20.0.0
-    "@rollup/plugin-json": ^4.1.0
-    "@rollup/plugin-node-resolve": ^13.0.5
-    "@rollup/plugin-url": ^6.1.0
-    "@svgr/rollup": ^5.5.0
     "@testing-library/cypress": ^7.0.6
     "@testing-library/jest-dom": ^4.2.4
     "@testing-library/react": ^9.5.0
@@ -22966,10 +22954,6 @@ __metadata:
     react-is: ^16.12.0
     react-test-renderer: ^16.12.0
     regenerator-runtime: ^0.13.3
-    rollup: ^2.57.0
-    rollup-plugin-string: ^3.0.0
-    rollup-plugin-terser: ^7.0.2
-    rollup-plugin-typescript2: ^0.30.0
     seedrandom: ^3.0.5
     source-map-explorer: 2.0.1
     start-server-and-test: ^1.11.7

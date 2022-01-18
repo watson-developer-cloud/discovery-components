@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0-beta.9](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.8...v1.5.0-beta.9) (2022-01-14)
+
+**Note:** Version bump only for package discovery-search-app
+
+
+
+
+
+# [1.5.0-beta.8](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.7...v1.5.0-beta.8) (2022-01-06)
+
+
+### Features
+
+* document provider interface ([#249](https://github.com/watson-developer-cloud/discovery-components/issues/249)) ([d24cade](https://github.com/watson-developer-cloud/discovery-components/commit/d24cade2711854832eba3b5b41f0a6192a60b415))
+
+
+
+
+
+# [1.5.0-beta.7](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.6...v1.5.0-beta.7) (2021-12-13)
+
+**Note:** Version bump only for package discovery-search-app
+
+
+
+
+
+# [1.5.0-beta.6](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.5...v1.5.0-beta.6) (2021-12-10)
+
+**Note:** Version bump only for package discovery-search-app
+
+
+
+
+
 # [1.5.0-beta.5](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.4...v1.5.0-beta.5) (2021-12-09)
 
 

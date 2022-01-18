@@ -17,7 +17,7 @@ import {
   useGlobalAggregationsApi,
   GlobalAggregationsResponseStore
 } from 'utils/useDataApi';
-import { SearchClient, SearchParams } from './types';
+import { DocumentProvider, SearchClient, SearchParams } from './types';
 import { withErrorBoundary } from 'react-error-boundary';
 import { FallbackComponent } from 'utils/FallbackComponent';
 import onErrorCallback from 'utils/onErrorCallback';
@@ -37,6 +37,12 @@ export interface DiscoverySearchProps {
    * Project ID
    */
   projectId: string;
+  /**
+   * Provide original document (e.g. PDF) to render when previewing. If not
+   * specified, or a document isn't provided, preview will fall back to HTML
+   * or text.
+   */
+  documentProvider?: DocumentProvider;
   /**
    * Aggregation results used to override internal aggregation search results state
    */
@@ -109,6 +115,7 @@ export interface SearchContextIFC {
   isResultsPaginationComponentHidden?: boolean;
   fieldsStore: FieldsStore;
   globalAggregationsResponseStore: GlobalAggregationsResponseStore;
+  documentProvider?: DocumentProvider;
 }
 
 export interface SearchApiIFC {
@@ -229,6 +236,7 @@ export const SearchContext = createContext<SearchContextIFC>(searchContextDefaul
 const DiscoverySearch: FC<DiscoverySearchProps> = ({
   searchClient,
   projectId,
+  documentProvider,
   overrideAggregationResults,
   overrideSearchResults,
   overrideQueryParameters,
@@ -518,7 +526,8 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
       collectionsResults,
       componentSettings,
       isResultsPaginationComponentHidden,
-      fieldsStore
+      fieldsStore,
+      documentProvider
     };
   }, [
     aggregationResults,
@@ -530,7 +539,8 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
     collectionsResults,
     componentSettings,
     isResultsPaginationComponentHidden,
-    fieldsStore
+    fieldsStore,
+    documentProvider
   ]);
 
   return (
