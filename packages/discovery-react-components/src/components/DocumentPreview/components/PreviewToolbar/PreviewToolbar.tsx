@@ -100,10 +100,9 @@ const PreviewToolbar: FC<Props> = ({
     }
   }, [current]);
 
-  const msgs = { ...defaultMessages, messages };
-  const hide = hideControls && userActions.length === 0;
+  const msgs = { ...defaultMessages, ...messages };
   return (
-    <div className={cx(base, { [`${base}__hidden`]: hide })}>
+    <div className={cx(base, { [`${base}__hidden`]: hideControls && userActions.length === 0 })}>
       <div className={`${base}__left`}>
         {!hideControls && (
           <div className={`${base}__nav`}>
