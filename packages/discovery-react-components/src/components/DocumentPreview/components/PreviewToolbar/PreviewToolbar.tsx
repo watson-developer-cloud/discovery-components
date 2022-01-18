@@ -49,19 +49,9 @@ interface Props {
   loading?: boolean;
 
   /**
-   * Hide toolbar controls
+   * Hide pager and zoom toolbar controls
    */
   hideControls?: boolean;
-
-  /**
-   * Show pager (true by default)
-   */
-  showPager?: boolean;
-
-  /**
-   * Show zoom (true by default)
-   */
-  showZoom?: boolean;
 
   /**
    * User actions displayed on the end of the toolbar
@@ -95,8 +85,6 @@ const base = `${settings.prefix}--preview-toolbar`;
 const PreviewToolbar: FC<Props> = ({
   loading = false,
   hideControls = false,
-  showPager = true,
-  showZoom = true,
   actions = [],
   current,
   total,
@@ -115,78 +103,74 @@ const PreviewToolbar: FC<Props> = ({
   const msgs = { ...defaultMessages, messages };
   return (
     <div className={`${base}`}>
-      {!hideControls ? (
-        <>
-          <div className={`${base}__left`}>
-            {showPager && (
-              <div className={`${base}__nav`}>
-                {renderButton({
-                  renderIcon: CaretLeft24,
-                  iconDescription: msgs.previousPageLabel,
-                  onClick: () => nextPrevButtonClicked(current, total, onChange, -1),
-                  disabled: loading || current === 1
-                })}
-                <Form
-                  onSubmit={(e: Event): void => currentPageChanged(e, onChange, inputRef)}
-                  autoComplete="off"
-                >
-                  <TextInput
-                    id="pageInput"
-                    defaultValue={current}
-                    type="number"
-                    ref={inputRef}
-                    min={1}
-                    max={total}
-                    className={`${base}__input`}
-                    onBlur={(e: Event): void => currentPageChanged(e, onChange, inputRef)}
-                    labelText="labelText"
-                    hideLabel={true}
-                    disabled={loading}
-                  />
-                </Form>
-                <FormLabel className={`${base}__pageLabel`}>/ {total}</FormLabel>
-                {renderButton({
-                  renderIcon: CaretRight24,
-                  iconDescription: msgs.nextPageLabel,
-                  onClick: () => nextPrevButtonClicked(current, total, onChange, 1),
-                  disabled: loading || current === total
-                })}
-              </div>
-            )}
+      <div className={`${base}__left`}>
+        {!hideControls && (
+          <div className={`${base}__nav`}>
+            {renderButton({
+              renderIcon: CaretLeft24,
+              iconDescription: msgs.previousPageLabel,
+              onClick: () => nextPrevButtonClicked(current, total, onChange, -1),
+              disabled: loading || current === 1
+            })}
+            <Form
+              onSubmit={(e: Event): void => currentPageChanged(e, onChange, inputRef)}
+              autoComplete="off"
+            >
+              <TextInput
+                id="pageInput"
+                defaultValue={current}
+                type="number"
+                ref={inputRef}
+                min={1}
+                max={total}
+                className={`${base}__input`}
+                onBlur={(e: Event): void => currentPageChanged(e, onChange, inputRef)}
+                labelText="labelText"
+                hideLabel={true}
+                disabled={loading}
+              />
+            </Form>
+            <FormLabel className={`${base}__pageLabel`}>/ {total}</FormLabel>
+            {renderButton({
+              renderIcon: CaretRight24,
+              iconDescription: msgs.nextPageLabel,
+              onClick: () => nextPrevButtonClicked(current, total, onChange, 1),
+              disabled: loading || current === total
+            })}
           </div>
-          <div className={`${base}__center ${base}__nav`}></div>
-          <div className={`${base}__right`}>
-            {showZoom && (
-              <>
-                {renderButton({
-                  renderIcon: ZoomIn24,
-                  iconDescription: msgs.zoomInLabel,
-                  onClick: () => onZoom(ZOOM_IN),
-                  disabled: loading
-                })}
-                {renderButton({
-                  renderIcon: ZoomOut24,
-                  iconDescription: msgs.zoomOutLabel,
-                  onClick: () => onZoom(ZOOM_OUT),
-                  disabled: loading
-                })}
-                {renderButton({
-                  renderIcon: Reset24,
-                  iconDescription: msgs.resetZoomLabel,
-                  onClick: () => onZoom(ZOOM_RESET),
-                  disabled: loading
-                })}
-              </>
-            )}
-            {actions.map((action, index) =>
-              renderButton({
-                ...action,
-                key: `toolbar-action-${action.id || index}`
-              })
-            )}
-          </div>
-        </>
-      ) : null}
+        )}
+      </div>
+      <div className={`${base}__center ${base}__nav`}></div>
+      <div className={`${base}__right`}>
+        {!hideControls && (
+          <>
+            {renderButton({
+              renderIcon: ZoomIn24,
+              iconDescription: msgs.zoomInLabel,
+              onClick: () => onZoom(ZOOM_IN),
+              disabled: loading
+            })}
+            {renderButton({
+              renderIcon: ZoomOut24,
+              iconDescription: msgs.zoomOutLabel,
+              onClick: () => onZoom(ZOOM_OUT),
+              disabled: loading
+            })}
+            {renderButton({
+              renderIcon: Reset24,
+              iconDescription: msgs.resetZoomLabel,
+              onClick: () => onZoom(ZOOM_RESET),
+              disabled: loading
+            })}
+          </>
+        )}
+        {actions.map((action, index) =>
+          renderButton({
+            ...action,
+            key: `toolbar-action-${action.id || index}`
+          })
+        )}
+      </div>
     </div>
   );
 };
