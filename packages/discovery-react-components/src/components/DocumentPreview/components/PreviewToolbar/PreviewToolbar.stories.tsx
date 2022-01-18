@@ -56,7 +56,7 @@ storiesOf('DocumentPreview/components/PreviewToolbar', module)
           current={currentPage}
           total={totalPage}
           hideControls={hideControls}
-          actions={showUserActions ? userActions : undefined}
+          userActions={showUserActions ? userActions : undefined}
           onZoom={action('zoom')}
           onChange={action('page change')}
         />
