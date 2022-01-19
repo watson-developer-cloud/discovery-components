@@ -217,6 +217,12 @@ const SearchInput: FC<SearchInputProps> = ({
     }
   };
 
+  useEffect(() => {
+    return function cleanup() {
+      clearTimeout(focusTimeout);
+    };
+  });
+
   // onFocus for the carbon search component and the autocomplete dropdown
   const handleOnFocus = (): void => {
     // cancel the timeout set in handleOnBlur
