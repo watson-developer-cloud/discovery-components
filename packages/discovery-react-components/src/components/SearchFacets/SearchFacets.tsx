@@ -18,7 +18,7 @@ import {
   SelectedCollectionItems
 } from './utils/searchFacetInterfaces';
 import get from 'lodash/get';
-import uuid from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { CollectionFacets } from './components/CollectionFacets';
 import { FieldFacets } from './components/FieldFacets';
 import { DynamicFacets } from './components/DynamicFacets';
@@ -81,7 +81,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
   serverErrorMessage,
   onChange
 }) => {
-  const facetsId = id || `search-facets__${uuid.v4()}`;
+  const facetsId = id || `search-facets__${uuidv4()}`;
 
   const {
     searchResponseStore: {

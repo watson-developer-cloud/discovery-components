@@ -28,6 +28,8 @@
   },
   "devDependencies": {
     "@types/prettier": "^2",
+    "node-sass": "^6.0.1",
+    "node-sass-tilde-importer": "^1.0.2",
     "prettier": "^2.4.1"
   }
 }

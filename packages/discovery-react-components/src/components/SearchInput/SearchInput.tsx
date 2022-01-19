@@ -10,7 +10,7 @@ import { Search as CarbonSearchInput } from 'carbon-components-react';
 import ListBox from 'carbon-components-react/es/components/ListBox';
 import { SearchApi, SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import useDebounce from 'utils/useDebounce';
-import uuid from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { Search16 } from '@carbon/icons-react';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { useDeepCompareCallback } from 'utils/useDeepCompareMemoize';
@@ -85,7 +85,7 @@ const SearchInput: FC<SearchInputProps> = ({
 }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
 
-  const inputId = id || `search-input__${uuid.v4()}`;
+  const inputId = id || `search-input__${uuidv4()}`;
   const autocompletionClassName = `${settings.prefix}--search-autocompletion`;
   const searchInputClassNames = [className, `${settings.prefix}--search-input--discovery`];
   const {
