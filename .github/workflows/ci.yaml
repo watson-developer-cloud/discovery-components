@@ -20,10 +20,10 @@ jobs:
       # https://github.com/actions/checkout/issues/217 pulls all tags (needed for lerna to correctly version)
       - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
       # https://github.com/actions/setup-node
-      - name: Setup Node 12
+      - name: Setup Node 16
         uses: actions/setup-node@v2
         with:
-          node-version: 12
+          node-version: 16
       - name: Install
         run: yarn install --immutable
       - name: Lint

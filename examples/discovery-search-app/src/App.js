@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useMemo } from 'react';
 import cx from 'classnames';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { NoAuthAuthenticator } from 'ibm-watson/auth';
@@ -23,12 +23,16 @@ import {
 
 const App = () => {
   // TODO: this is a dummy client to route requests to the server since CP4D doesn't support CORS
-  const authenticator = new NoAuthAuthenticator();
-  const searchClient = new DiscoveryV2({
-    url: `${window.location.href}api`,
-    version: '2019-01-01',
-    authenticator
-  });
+  const authenticator = useMemo(() => new NoAuthAuthenticator(), []);
+  const searchClient = useMemo(
+    () =>
+      new DiscoveryV2({
+        url: `${window.location.href}api`,
+        version: '2019-01-01',
+        authenticator
+      }),
+    [authenticator]
+  );
   const [projectId, setProjectId] = useState(process.env.REACT_APP_PROJECT_ID);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
