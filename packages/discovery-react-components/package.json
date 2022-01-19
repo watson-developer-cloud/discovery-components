@@ -90,6 +90,8 @@
     "access": "public"
   },
   "jest": {
+    "resetMocks": false,
+    "displayName": "Disco React Components (Unit)",
     "transformIgnorePatterns": [
       "/!node_modules\\/react-virtualized/"
     ],
