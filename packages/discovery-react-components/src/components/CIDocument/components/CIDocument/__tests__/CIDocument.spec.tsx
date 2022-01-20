@@ -169,7 +169,7 @@ describe('<CIDocument />', () => {
 
     beforeEach(async () => {
       ({ getByTestId, getByText, findByText, findByTestId, queryByTestId } = render(
-        <CIDocument document={shortContract} overrideDocWidth={400} overrideDocHeight={600} />
+        <CIDocument document={shortContract} overrideDocWidth={400} overrideDocHeight={1200} />
       ));
       await wait(); // wait for component to finish rendering (prevent "act" warning)
     });

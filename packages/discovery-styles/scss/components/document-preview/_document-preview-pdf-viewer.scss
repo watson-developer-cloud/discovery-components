@@ -1,4 +1,6 @@
 @import './pdfjs_web_mixins';
+@import '../../vars';
+@import './mixins';
 
 .#{$prefix}--document-preview-pdf-viewer {
   position: relative;
@@ -11,4 +13,17 @@
 
 .#{$prefix}--document-preview-pdf-viewer--text {
   transform-origin: left top 0px;
+}
+
+.#{$prefix}--document-preview-pdf-viewer-highlight {
+  position: absolute;
+  transform-origin: left top 0px;
+  top: 0;
+  left: 0;
+}
+
+.#{$prefix}--document-preview-pdf-viewer-highlight--item {
+  position: absolute;
+  opacity: 0.3;
+  background: darken($highlight, 30%);
 }

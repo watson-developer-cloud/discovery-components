@@ -1,6 +1,6 @@
 {
   "name": "@ibm-watson/discovery-styles",
-  "version": "1.5.0-beta.4",
+  "version": "1.5.0-beta.10",
   "description": "Discovery components SASS/CSS styles used with discovery components",
   "license": "Apache-2.0",
   "author": "IBM Corp.",
@@ -28,6 +28,8 @@
   },
   "devDependencies": {
     "@types/prettier": "^2",
+    "node-sass": "^6.0.1",
+    "node-sass-tilde-importer": "^1.0.2",
     "prettier": "^2.4.1"
   }
 }

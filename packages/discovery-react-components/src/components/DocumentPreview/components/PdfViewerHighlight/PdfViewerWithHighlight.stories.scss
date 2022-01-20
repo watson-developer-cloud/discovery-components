@@ -1,0 +1,28 @@
+// Carbon highlight color for white theme
+// https://www.carbondesignsystem.com/guidelines/color/usage/
+$highlight: #d0e2ff;
+
+.withTextSelection {
+  display: flex;
+
+  .rightPane {
+    flex: 1 1 30%;
+    height: 100vh;
+    overflow-y: scroll;
+
+    p {
+      margin-bottom: 0.5rem;
+    }
+  }
+  .text {
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    font-size: 10pt;
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+  .highlight {
+    opacity: 0.3;
+    background: darken($highlight, 30%);
+  }
+}

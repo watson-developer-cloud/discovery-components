@@ -219,3 +219,32 @@ describe('processDoc', () => {
     expect(doc.tables![2].bboxes[0]).toEqual(bboxData);
   });
 });
+
+describe('processDoc', () => {
+  let doc: ProcessedDoc;
+
+  beforeAll(async () => {
+    // parse doc for use in tests
+    doc = await processDoc(contractData.results[0], { bbox: true, bboxInnerText: true });
+  });
+
+  it('successfully picks up bboxes', () => {
+    expect(doc.bboxes).toHaveLength(1584);
+  });
+
+  it('successfully picks up bbox text source', () => {
+    expect(doc.bboxes).toHaveLength(1584);
+
+    // <bbox height="19.872972011566162" page="1" width="506.5294189453125" x="54.0" y="89.32704162597656">
+    // On 22 December 2008 ART EFFECTS LIMITED and Customer entered into an Information Technology Procurement Framework Agreement ("the
+    // </bbox>
+    expect(doc.bboxes[0].innerTextSource).toEqual(
+      'On 22 December 2008 ART EFFECTS LIMITED and Customer entered into an Information Technology Procurement Framework Agreement ("the '
+    );
+    expect(doc.bboxes[0].innerTextLocation).toEqual({ begin: 2530, end: 2660 });
+
+    // <bbox height="6.672959804534912" page="51" width="110.71336364746094" x="54.0" y="298.3670349121094">&lt;Enter Amendment Text> </bbox>
+    expect(doc.bboxes[1490].innerTextSource).toEqual('&lt;Enter Amendment Text> ');
+    expect(doc.bboxes[1490].innerTextLocation).toEqual({ begin: 442990, end: 443016 });
+  });
+});

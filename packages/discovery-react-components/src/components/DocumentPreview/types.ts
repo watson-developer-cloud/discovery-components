@@ -6,6 +6,9 @@ export interface TextMappings {
 // [ left, top, right, bottom ]
 export type Bbox = [number, number, number, number];
 
+// [ start (inclusive), end (exclusive) ]
+export type TextSpan = [number, number];
+
 export type Origin = 'TopLeft' | 'BottomLeft';
 
 export interface Page {
@@ -32,8 +35,7 @@ export interface CellPage {
 export interface CellField {
   name: string;
   index: number;
-  // [ START, END ]
-  span: [number, number];
+  span: TextSpan;
 }
 
 export interface StyledCell extends CellPage {

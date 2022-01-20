@@ -1,11 +1,12 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useMemo } from 'react';
+import cx from 'classnames';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { NoAuthAuthenticator } from 'ibm-watson/auth';
-import './app.scss';
 import { settings } from 'carbon-components';
 import { Button, Tabs, Tab, Loading } from 'carbon-components-react';
 import Close from '@carbon/icons-react/lib/close/16';
-import cx from 'classnames';
+import './app.scss';
+import { ExampleDocumentProvider } from './ExampleDocumentProvider';
 
 import {
   DiscoverySearch,
@@ -22,12 +23,16 @@ import {
 
 const App = () => {
   // TODO: this is a dummy client to route requests to the server since CP4D doesn't support CORS
-  const authenticator = new NoAuthAuthenticator();
-  const searchClient = new DiscoveryV2({
-    url: `${window.location.href}api`,
-    version: '2019-01-01',
-    authenticator
-  });
+  const authenticator = useMemo(() => new NoAuthAuthenticator(), []);
+  const searchClient = useMemo(
+    () =>
+      new DiscoveryV2({
+        url: `${window.location.href}api`,
+        version: '2019-01-01',
+        authenticator
+      }),
+    [authenticator]
+  );
   const [projectId, setProjectId] = useState(process.env.REACT_APP_PROJECT_ID);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -75,7 +80,11 @@ const App = () => {
   ) : isError ? (
     <div>Unable to load Discovery projects. Please check your console for more details.</div>
   ) : (
-    <DiscoverySearch searchClient={searchClient} projectId={projectId}>
+    <DiscoverySearch
+      searchClient={searchClient}
+      projectId={projectId}
+      documentProvider={new ExampleDocumentProvider()}
+    >
       <AppView />
     </DiscoverySearch>
   );

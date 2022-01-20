@@ -18,8 +18,6 @@ declare module 'carbon-components-react';
 declare module 'carbon-components';
 declare module '@carbon/icons-react';
 declare module '*.md';
-declare module 'marked';
-declare module 'uuid';
 declare module 'carbon-components-react/es/components/ListBox';
 
 // Required for storybook build

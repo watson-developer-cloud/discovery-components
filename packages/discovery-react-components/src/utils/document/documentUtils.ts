@@ -144,11 +144,6 @@ export function createFieldRects({
   endTextNode,
   endOffset
 }: CreateFieldRectsProps): void {
-  // create a Range for each field
-  const range = document.createRange();
-  range.setStart(beginTextNode, Math.min(beginOffset, beginTextNode.length));
-  range.setEnd(endTextNode, Math.min(endOffset, endTextNode.length));
-
   // create a field container
   const fieldNode = document.createElement('div');
   fieldNode.className = 'field';
@@ -158,19 +153,43 @@ export function createFieldRects({
   fragment.appendChild(fieldNode);
 
   // create highlight rect(s) inside of a field
-  Array.prototype.forEach.call(uniqRects(range.getClientRects() as DOMRectList), rect => {
+  forEachRectInRange(beginTextNode, beginOffset, endTextNode, endOffset, rect => {
     const div = document.createElement('div');
     div.className = 'field--rect';
     div.setAttribute('data-testid', 'field-rect');
     div.setAttribute(
       'style',
       `top: ${rect.top - parentRect.top}px;
-          left: ${rect.left - parentRect.left}px;
-          width: ${rect.width}px;
-          height: ${rect.height}px;`
+            left: ${rect.left - parentRect.left}px;
+            width: ${rect.width}px;
+            height: ${rect.height}px;`
     );
     fieldNode.appendChild(div);
   });
+}
+
+/**
+ * Iterate over all the DOMRects for a range
+ * @param beginTextNode
+ * @param beginOffset
+ * @param endTextNode
+ * @param endOffset
+ * @param callback a callback invoked with each DOMRect in a range
+ */
+export function forEachRectInRange(
+  beginTextNode: Text,
+  beginOffset: number,
+  endTextNode: Text,
+  endOffset: number,
+  callback: (rect: DOMRect) => any
+) {
+  // create a Range
+  const range = document.createRange();
+  range.setStart(beginTextNode, Math.min(beginOffset, beginTextNode.length));
+  range.setEnd(endTextNode, Math.min(endOffset, endTextNode.length));
+
+  // visit rects in the range
+  Array.prototype.forEach.call(uniqRects(range.getClientRects() as DOMRectList), callback);
 }
 
 // Some browsers (Chrome, Safari) return duplicate rects
