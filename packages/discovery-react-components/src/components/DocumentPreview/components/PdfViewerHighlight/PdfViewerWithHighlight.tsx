@@ -91,10 +91,8 @@ function useMovePageToActiveHighlight(
 
     if (previousHighlightPageRef.current !== highlightPage) {
       previousHighlightPageRef.current = highlightPage;
-      if (highlightPage != null) {
-        setCurrentPage(highlightPage);
-        setPage?.(highlightPage);
-      }
+      setCurrentPage(highlightPage);
+      setPage?.(highlightPage);
     }
   }, [activeHighlightPages, currentPage, setPage]);
 
