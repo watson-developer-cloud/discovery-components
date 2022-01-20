@@ -24,12 +24,12 @@
 
 .#{$prefix}--document-preview-pdf-viewer-highlight--item {
   position: absolute;
-  opacity: 0.3;
-  background: darken($highlight, 30%);
+  opacity: 20%;
+  background: darken(saturate($highlight, 50%), 40%);
 }
 
 .#{$prefix}--document-preview-pdf-viewer-highlight--item--active {
   position: absolute;
-  opacity: 0.5;
-  background: darken($highlight, 40%);
+  opacity: 35%;
+  background: darken(saturate($highlight, 50%), 50%);
 }
