@@ -66,42 +66,37 @@ const PdfViewerWithHighlight: FC<Props> = ({
  */
 function useMovePageToActiveHighlight(
   page: number,
-  activeHighlightPages: (number | null)[],
+  activeHighlightPages: number[],
   setPage: ((page: number) => any) | undefined
 ) {
-  const [highlightPage, setHighlightPage] = useState<number | undefined>();
-
-  useEffect(() => {
-    const pages = activeHighlightPages.filter(nonEmpty);
-    if (pages.length === 0 || pages.includes(page)) {
-      return;
-    }
-    const newPage = pages[0];
-    setHighlightPage(newPage);
-  }, [page, activeHighlightPages]);
-
   const [currentPage, setCurrentPage] = useState(page);
 
+  // update current page when the 'page' is changed (i.e. user changes the page)
   const previousPageRef = useRef(page);
   useEffect(() => {
-    if (previousPageRef.current !== page) {
-      previousPageRef.current = page;
+    if (previousPageRef.current !== page && currentPage !== page) {
       setCurrentPage(page);
     }
+    previousPageRef.current = page;
   }, [page]);
 
-  const previousHighlightPageRef = useRef(highlightPage);
+  // update the current page and invoke setPage when the page is changed by activating a highlight
+  const previousHighlightPageRef = useRef<number | undefined>();
   useEffect(() => {
+    const highlightPage = activeHighlightPages[0];
+    if (highlightPage == null || activeHighlightPages.includes(currentPage)) {
+      // do nothing when no highlight or the active highlight is on the current page
+      return;
+    }
+
     if (previousHighlightPageRef.current !== highlightPage) {
       previousHighlightPageRef.current = highlightPage;
       if (highlightPage != null) {
         setCurrentPage(highlightPage);
-        if (setPage) {
-          setPage(highlightPage);
-        }
+        setPage?.(highlightPage);
       }
     }
-  }, [highlightPage, setPage]);
+  }, [activeHighlightPages, currentPage, setPage]);
 
   return currentPage;
 }
@@ -113,7 +108,7 @@ function useActiveHighlightPages(
   document: QueryResult,
   highlights: DocumentFieldHighlight[],
   activeIds?: string[]
-): (number | null)[] {
+): number[] {
   const textMappings = useMemo(() => {
     return getTextMappings(document) ?? undefined;
   }, [document]);
@@ -123,7 +118,7 @@ function useActiveHighlightPages(
       const hl = highlights.find(hl => hl.id === activeId);
       return hl && textMappings ? getPageFromHighlight(textMappings, hl) : null;
     });
-    return activePages;
+    return activePages.filter(nonEmpty);
   }, [textMappings, highlights, activeIds]);
 
   return activePages;

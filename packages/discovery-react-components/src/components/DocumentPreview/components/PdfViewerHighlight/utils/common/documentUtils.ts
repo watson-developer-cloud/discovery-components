@@ -28,14 +28,17 @@ export function getDocFieldValue(
   } else {
     fieldText = documentFieldArray?.[index ?? 0];
   }
-  if (typeof fieldText?.['table_text'] === 'string') {
-    return fieldText;
-  }
-  if (!span || typeof fieldText !== 'string') {
-    return fieldText?.toString();
+
+  // to handle 'table' field's text mappings specially
+  if (field === 'table' && typeof fieldText?.['table_text'] === 'string') {
+    return fieldText['table_text'];
   }
 
-  if (Array.isArray(span)) {
+  if (typeof fieldText !== 'string') {
+    return undefined;
+  } else if (!span) {
+    return fieldText;
+  } else if (Array.isArray(span)) {
     return fieldText.substring(span[0], span[1]);
   } else {
     return fieldText.substring(span.begin, span.end);

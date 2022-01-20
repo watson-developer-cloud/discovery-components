@@ -141,7 +141,7 @@ export class Highlighter {
       })
       .filter(nonEmpty);
     return {
-      highlightId: id,
+      highlightId: Highlighter.getId(highlight),
       boxes: Highlighter.optimizeHighlightBoxes(boxShapes),
       className,
       ...rest
@@ -209,5 +209,15 @@ export class Highlighter {
       }
       return optimized;
     }, [] as HighlightShapeBox[]);
+  }
+
+  /**
+   * Generate highlight id
+   */
+  private static getId(highlight: DocumentFieldHighlight): string {
+    if (highlight.id) {
+      return highlight.id;
+    }
+    return `${highlight.field}[${highlight.fieldIndex}]___${highlight.location.begin}_${highlight.location.end}`;
   }
 }

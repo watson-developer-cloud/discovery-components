@@ -26,7 +26,7 @@ export type DocumentFieldHighlight = {
  * Highlight shape on a page, which consists of boundary boxes
  */
 export interface HighlightShape {
-  highlightId?: string;
+  highlightId: string;
   boxes: HighlightShapeBox[];
   className?: string;
 }

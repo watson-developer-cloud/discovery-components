@@ -58,9 +58,11 @@ const PdfViewerHighlight: FC<Props> = ({
 
   const highlightShapes = useMemo(() => {
     highlighter?.setTextContentDivs(textDivs);
-    return highlights.map(highlight => {
-      return highlighter?.getHighlight(highlight);
-    });
+    return highlighter
+      ? highlights.map(highlight => {
+          return highlighter.getHighlight(highlight);
+        })
+      : [];
   }, [highlighter, highlights, textDivs]);
 
   const highlightDivRef = useRef<HTMLDivElement | null>(null);
@@ -71,15 +73,14 @@ const PdfViewerHighlight: FC<Props> = ({
       ref={highlightDivRef}
       className={cx(`${settings.prefix}--document-preview-pdf-viewer-highlight`, className)}
     >
-      {highlightShapes.map((shape, hlIndex) => {
-        const active = shape?.highlightId ? activeIds?.includes(shape.highlightId) : false;
+      {highlightShapes.map(shape => {
+        const active = activeIds?.includes(shape.highlightId);
         return (
           <Highlight
-            key={shape?.highlightId || `highlight_${hlIndex}`}
+            key={shape.highlightId}
             className={highlightClassName}
             activeClassName={activeHighlightClassName}
             shape={shape}
-            index={hlIndex}
             scale={scale}
             active={active}
           />
@@ -92,28 +93,16 @@ const PdfViewerHighlight: FC<Props> = ({
 const Highlight: FC<{
   className?: string;
   activeClassName?: string;
-  shape?: HighlightShape;
-  index: number;
+  shape: HighlightShape;
   scale: number;
   active?: boolean;
-}> = ({ className, activeClassName, shape, index, scale, active }) => {
-  function getPositionStyle(bbox: Bbox, scale: number, padding: number = 0) {
-    const [left, top, right, bottom] = bbox;
-    return {
-      left: `${(left - padding) * scale}px`,
-      top: `${(top - padding) * scale}px`,
-      width: `${(right - left + padding) * scale}px`,
-      height: `${(bottom - top + padding) * scale}px`
-    };
-  }
-
-  const highlightId = shape?.highlightId ?? `hl-${index}`;
+}> = ({ className, activeClassName, shape, scale, active }) => {
   return (
-    <div key={highlightId} data-highlight-id={highlightId}>
-      {shape?.boxes.map((item, index) => {
+    <div data-highlight-id={shape.highlightId}>
+      {shape?.boxes.map(item => {
         return (
           <div
-            key={`hlId_${index}`}
+            key={`${item.bbox[0].toFixed(2)}_${item.bbox[1].toFixed(2)}`}
             className={cx(
               `${settings.prefix}--document-preview-pdf-viewer-highlight--item`,
               className,
@@ -128,6 +117,16 @@ const Highlight: FC<{
     </div>
   );
 };
+
+function getPositionStyle(bbox: Bbox, scale: number, padding: number = 0) {
+  const [left, top, right, bottom] = bbox;
+  return {
+    left: `${(left - padding) * scale}px`,
+    top: `${(top - padding) * scale}px`,
+    width: `${(right - left + padding) * scale}px`,
+    height: `${(bottom - top + padding) * scale}px`
+  };
+}
 
 const useHighlighter = ({
   document,
@@ -164,7 +163,7 @@ const useHighlighter = ({
 
 function useScrollIntoActiveHighlight(
   highlightDivRef: React.MutableRefObject<HTMLDivElement | null>,
-  shapes: (HighlightShape | undefined)[],
+  shapes: HighlightShape[],
   activeIds: string[] | undefined
 ) {
   useEffect(() => {
@@ -176,7 +175,9 @@ function useScrollIntoActiveHighlight(
       shape => shape?.highlightId && activeIds?.includes(shape.highlightId)
     );
     if (activeShape) {
-      const timer = setTimeout(() => {
+      let timer: NodeJS.Timeout | null = setTimeout(() => {
+        timer = null;
+
         const highlightDiv = highlightDivRef.current;
         if (!highlightDiv) return;
 
@@ -184,8 +185,14 @@ function useScrollIntoActiveHighlight(
           `[data-highlight-id=${activeShape.highlightId}]`
         );
         highlightElm?.firstElementChild?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
-      }, 50);
-      return () => clearTimeout(timer);
+      }, 0);
+
+      // cleanup timeout
+      return () => {
+        if (timer) {
+          clearTimeout(timer);
+        }
+      };
     }
     return;
   }, [activeIds, highlightDivRef, shapes]);
