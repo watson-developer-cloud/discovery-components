@@ -206,25 +206,34 @@ storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
     );
     const activeId = number('Active highlight index', 0);
     const setLoadingAction = action('setLoading');
-    const setCurrentPage = action('setCurrentPage');
+    const setCurrentPageAction = action('setCurrentPage');
+
+    const [currentPage, setCurrentPage] = useState(0);
+    useEffect(() => {
+      setCurrentPage(page);
+    }, [page]);
+    const handleSetCurrentPage = useCallback((p: number) => {
+      setCurrentPageAction(p);
+      setCurrentPage(p);
+    }, []);
 
     const [activeIds, setActiveIds] = useState<string[]>([]);
     useEffect(() => {
       const items = highlightKnob.data[highlights];
       const item = items[activeId];
       setActiveIds(item ? [item.id] : []);
-    }, [activeId]);
+    }, [activeId, highlights]);
 
     return (
       <PdfViewerWithHighlight
         file={atob(doc)}
-        page={page}
+        page={currentPage}
         scale={scale}
         setLoading={setLoadingAction}
         document={document}
         highlights={highlightKnob.data[highlights]}
         activeIds={activeIds}
-        setCurrentPage={setCurrentPage}
+        setCurrentPage={handleSetCurrentPage}
       />
     );
   })
