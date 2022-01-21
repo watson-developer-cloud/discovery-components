@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0-beta.15](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.14...v1.5.0-beta.15) (2022-01-21)
+
+
+### Bug Fixes
+
+* fix PDFViewer rendering issue ([#267](https://github.com/watson-developer-cloud/discovery-components/issues/267)) ([c86cb92](https://github.com/watson-developer-cloud/discovery-components/commit/c86cb929437c5aaab6555ed2baa1674dad49c374))
+
+
+
+
+
 # [1.5.0-beta.14](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.13...v1.5.0-beta.14) (2022-01-21)
 
 
