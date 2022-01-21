@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0-beta.13](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.12...v1.5.0-beta.13) (2022-01-21)
+
+
+### Bug Fixes
+
+* Fix PdfView alignment in DocumentPreview ([#256](https://github.com/watson-developer-cloud/discovery-components/issues/256)) ([4e3631b](https://github.com/watson-developer-cloud/discovery-components/commit/4e3631b47d16805a4d24ea04b0e6a9173318ecf7))
+
+
+
+
+
 # [1.5.0-beta.11](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.10...v1.5.0-beta.11) (2022-01-21)
 
 
