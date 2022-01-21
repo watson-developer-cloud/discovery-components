@@ -1,4 +1,5 @@
 import React, { SFC, useRef, useEffect, ReactElement } from 'react';
+import cx from 'classnames';
 import { Button, FormLabel, Form, TextInput } from 'carbon-components-react';
 import { settings } from 'carbon-components';
 
@@ -60,7 +61,7 @@ const PreviewToolbar: SFC<Props> = ({
   }, [current]);
 
   return (
-    <div className={`${base}`}>
+    <div className={cx(base, { [`${base}__hidden`]: hideControls })}>
       {!hideControls ? (
         <>
           <div className={`${base}__spacer`} />

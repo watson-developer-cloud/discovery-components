@@ -5,7 +5,7 @@ import { StoryWrapper, DummySearchClient } from 'utils/storybookUtils';
 import DiscoverySearch, { DiscoverySearchProps } from 'components/DiscoverySearch/DiscoverySearch';
 import StructuredQuery from '../StructuredQuery';
 import { defaultMessages } from '../messages';
-import marked from 'marked';
+import { marked } from 'marked';
 import defaultReadme from './default.md';
 import { createDummyResponsePromise } from 'utils/testingUtils';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
@@ -51,7 +51,7 @@ storiesOf('StructuredQuery', module)
     },
     {
       info: {
-        text: marked(defaultReadme)
+        text: marked.parse(defaultReadme)
       }
     }
   );

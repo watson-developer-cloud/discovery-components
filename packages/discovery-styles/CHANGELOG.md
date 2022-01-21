@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0-beta.11](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.10...v1.5.0-beta.11) (2022-01-21)
+
+
+### Features
+
+* add "active" state to highlight on PdfViewer ([#259](https://github.com/watson-developer-cloud/discovery-components/issues/259)) ([35c473a](https://github.com/watson-developer-cloud/discovery-components/commit/35c473a0fdef68f928239095fe761e9ac29f2831))
+
+
+
+
+
+# [1.5.0-beta.10](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.9...v1.5.0-beta.10) (2022-01-19)
+
+**Note:** Version bump only for package @ibm-watson/discovery-styles
+
+
+
+
+
+# [1.5.0-beta.8](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.7...v1.5.0-beta.8) (2022-01-06)
+
+
+### Features
+
+* document provider interface ([#249](https://github.com/watson-developer-cloud/discovery-components/issues/249)) ([d24cade](https://github.com/watson-developer-cloud/discovery-components/commit/d24cade2711854832eba3b5b41f0a6192a60b415))
+
+
+
+
+
 # [1.5.0-beta.5](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.4...v1.5.0-beta.5) (2021-12-09)
 
 
