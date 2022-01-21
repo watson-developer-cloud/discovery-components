@@ -33,7 +33,7 @@
   background: darken(saturate($highlight, 50%), 40%);
 }
 
-.#{$prefix}--document-preview-pdf-viewer-highlight--item--active {
+.#{$prefix}--document-preview-pdf-viewer-highlight__item--active {
   position: absolute;
   opacity: 35%;
   background: darken(saturate($highlight, 50%), 50%);
