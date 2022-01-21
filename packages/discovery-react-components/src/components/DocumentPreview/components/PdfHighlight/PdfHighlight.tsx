@@ -28,6 +28,8 @@ type Props = PdfDisplayProps &
     pdfRenderedText: PdfRenderedText | null;
   };
 
+const base = `${settings.prefix}--document-preview-pdf-viewer-highlight`;
+
 /**
  * Text highlight layer for PdfViewer
  */
@@ -69,10 +71,7 @@ const PdfHighlight: FC<Props> = ({
   useScrollIntoActiveHighlight(highlightDivRef, highlightShapes, activeIds);
 
   return (
-    <div
-      ref={highlightDivRef}
-      className={cx(`${settings.prefix}--document-preview-pdf-viewer-highlight`, className)}
-    >
+    <div ref={highlightDivRef} className={cx(base, className)}>
       {highlightShapes.map(shape => {
         const active = activeIds?.includes(shape.highlightId);
         return (
@@ -104,10 +103,10 @@ const Highlight: FC<{
           <div
             key={`${item.bbox[0].toFixed(2)}_${item.bbox[1].toFixed(2)}`}
             className={cx(
-              `${settings.prefix}--document-preview-pdf-viewer-highlight--item`,
+              `${base}__item`,
               className,
               shape.className,
-              active && `${settings.prefix}--document-preview-pdf-viewer-highlight--item--active`,
+              active && `${base}__item--active`,
               active && activeClassName
             )}
             style={{ ...getPositionStyle(item.bbox, scale) }}
