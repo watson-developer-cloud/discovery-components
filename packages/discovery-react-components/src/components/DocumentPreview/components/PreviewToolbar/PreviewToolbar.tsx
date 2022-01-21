@@ -1,4 +1,4 @@
-import React, { SFC, useRef, useEffect, ReactElement } from 'react';
+import React, { FC, useRef, useEffect, ReactElement } from 'react';
 import cx from 'classnames';
 import { Button, FormLabel, Form, TextInput } from 'carbon-components-react';
 import { settings } from 'carbon-components';
@@ -9,9 +9,38 @@ import { CaretLeft24 } from '@carbon/icons-react';
 import { CaretRight24 } from '@carbon/icons-react';
 import { Reset24 } from '@carbon/icons-react';
 
+import { defaultMessages, Messages } from '../../messages';
+
 export const ZOOM_IN = 'zoom-in';
 export const ZOOM_OUT = 'zoom-out';
 export const ZOOM_RESET = 'reset-zoom';
+
+/**
+ * User-defined action on the toolbar
+ */
+export type ToolbarAction = {
+  id?: string;
+
+  /**
+   * Toolbar icon
+   */
+  renderIcon: React.Component;
+
+  /**
+   * Toolbar icon button description
+   */
+  iconDescription: string;
+
+  /**
+   * True to disable toolbar icon button
+   */
+  disabled?: boolean;
+
+  /**
+   * Action handler
+   */
+  onClick: () => void;
+};
 
 interface Props {
   /**
@@ -20,9 +49,14 @@ interface Props {
   loading?: boolean;
 
   /**
-   * Hide toolbar controls
+   * Hide pager and zoom toolbar controls
    */
   hideControls?: boolean;
+
+  /**
+   * User actions displayed on the end of the toolbar
+   */
+  userActions?: ToolbarAction[];
 
   /**
    * Current page number, starting at 1
@@ -40,17 +74,23 @@ interface Props {
    * Callback for changing the current page
    */
   onChange: (newPage: number) => void;
+  /**
+   * Messages
+   */
+  messages?: Messages;
 }
 
 const base = `${settings.prefix}--preview-toolbar`;
 
-const PreviewToolbar: SFC<Props> = ({
+const PreviewToolbar: FC<Props> = ({
   loading = false,
   hideControls = false,
+  userActions = [],
   current,
   total,
   onZoom,
-  onChange
+  onChange,
+  messages
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -60,15 +100,15 @@ const PreviewToolbar: SFC<Props> = ({
     }
   }, [current]);
 
+  const msgs = { ...defaultMessages, ...messages };
   return (
-    <div className={cx(base, { [`${base}__hidden`]: hideControls })}>
-      {!hideControls ? (
-        <>
-          <div className={`${base}__spacer`} />
+    <div className={cx(base, { [`${base}__hidden`]: hideControls && userActions.length === 0 })}>
+      <div className={`${base}__left`}>
+        {!hideControls && (
           <div className={`${base}__nav`}>
             {renderButton({
-              icon: CaretLeft24,
-              description: 'Previous Page',
+              renderIcon: CaretLeft24,
+              iconDescription: msgs.previousPageLabel,
               onClick: () => nextPrevButtonClicked(current, total, onChange, -1),
               disabled: loading || current === 1
             })}
@@ -92,56 +132,69 @@ const PreviewToolbar: SFC<Props> = ({
             </Form>
             <FormLabel className={`${base}__pageLabel`}>/ {total}</FormLabel>
             {renderButton({
-              icon: CaretRight24,
-              description: 'Next Page',
+              renderIcon: CaretRight24,
+              iconDescription: msgs.nextPageLabel,
               onClick: () => nextPrevButtonClicked(current, total, onChange, 1),
               disabled: loading || current === total
             })}
           </div>
-          <div className={`${base}__zoom`}>
+        )}
+      </div>
+      <div className={`${base}__center ${base}__nav`}></div>
+      <div className={`${base}__right`}>
+        {!hideControls && (
+          <>
             {renderButton({
-              icon: ZoomIn24,
-              description: 'Zoom In',
+              renderIcon: ZoomIn24,
+              iconDescription: msgs.zoomInLabel,
               onClick: () => onZoom(ZOOM_IN),
               disabled: loading
             })}
             {renderButton({
-              icon: ZoomOut24,
-              description: 'Zoom Out',
+              renderIcon: ZoomOut24,
+              iconDescription: msgs.zoomOutLabel,
               onClick: () => onZoom(ZOOM_OUT),
               disabled: loading
             })}
             {renderButton({
-              icon: Reset24,
-              description: 'Reset Zoom',
+              renderIcon: Reset24,
+              iconDescription: msgs.resetZoomLabel,
               onClick: () => onZoom(ZOOM_RESET),
               disabled: loading
             })}
-          </div>
-        </>
-      ) : null}
+          </>
+        )}
+        {userActions.map((action, index) =>
+          renderButton({
+            ...action,
+            key: `toolbar-action-${action.id || index}`
+          })
+        )}
+      </div>
     </div>
   );
 };
 
 function renderButton(obj: {
-  icon: React.Component;
-  description: string;
+  key?: string;
+  className?: string;
+  renderIcon: React.Component;
+  iconDescription: string;
   onClick: () => void;
-  disabled: boolean;
+  disabled?: boolean;
 }): ReactElement {
+  const { key, className, ...buttonProps } = obj;
   return (
     <Button
-      className={`${base}__button`}
-      disabled={obj.disabled}
+      key={key}
+      data-testid={key}
+      className={cx(`${base}__button`, className)}
       size="small"
       kind="ghost"
-      renderIcon={obj.icon}
-      iconDescription={obj.description}
       tooltipPosition="bottom"
       tooltipAlignment="center"
-      onClick={obj.onClick}
       hasIconOnly
+      {...buttonProps}
     />
   );
 }

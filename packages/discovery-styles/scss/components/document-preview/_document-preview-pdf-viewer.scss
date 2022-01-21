@@ -3,15 +3,20 @@
 @import './mixins';
 
 .#{$prefix}--document-preview-pdf-viewer {
+  display: flex;
+  justify-content: center;
+}
+
+.#{$prefix}--document-preview-pdf-viewer__wrapper {
   position: relative;
   @include pdfjsTextLayer;
 }
 
-.#{$prefix}--document-preview-pdf-viewer--canvas {
+.#{$prefix}--document-preview-pdf-viewer__canvas {
   transform-origin: left top 0px;
 }
 
-.#{$prefix}--document-preview-pdf-viewer--text {
+.#{$prefix}--document-preview-pdf-viewer__text {
   transform-origin: left top 0px;
 }
 
@@ -22,8 +27,14 @@
   left: 0;
 }
 
-.#{$prefix}--document-preview-pdf-viewer-highlight--item {
+.#{$prefix}--document-preview-pdf-viewer-highlight__item {
   position: absolute;
-  opacity: 0.3;
-  background: darken($highlight, 30%);
+  opacity: 20%;
+  background: darken(saturate($highlight, 50%), 40%);
+}
+
+.#{$prefix}--document-preview-pdf-viewer-highlight__item--active {
+  position: absolute;
+  opacity: 35%;
+  background: darken(saturate($highlight, 50%), 50%);
 }
