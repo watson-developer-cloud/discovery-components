@@ -7,9 +7,9 @@ import { getTextMappings } from '../../utils/documentData';
 import { spanIntersects } from '../../utils/textSpan';
 import PdfViewer, { PdfViewerProps } from '../PdfViewer/PdfViewer';
 import { PdfRenderedText } from '../PdfViewer/PdfViewerTextLayer';
-import PdfViewerHighlight from './PdfViewerHighlight';
-import { extractDocumentInfo } from './utils/common/documentUtils';
-import { DocumentFieldHighlight, HighlightProps } from './types';
+import PdfViewerHighlight from '../PdfHighlight/PdfHighlight';
+import { extractDocumentInfo } from '../PdfHighlight/utils/common/documentUtils';
+import { DocumentFieldHighlight, HighlightProps } from '../PdfHighlight/types';
 
 type Props = PdfViewerProps & HighlightProps;
 

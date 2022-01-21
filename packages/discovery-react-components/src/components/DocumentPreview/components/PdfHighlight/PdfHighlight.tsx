@@ -31,7 +31,7 @@ type Props = PdfDisplayProps &
 /**
  * Text highlight layer for PdfViewer
  */
-const PdfViewerHighlight: FC<Props> = ({
+const PdfHighlight: FC<Props> = ({
   className,
   highlightClassName,
   activeHighlightClassName,
@@ -198,4 +198,4 @@ function useScrollIntoActiveHighlight(
   }, [activeIds, highlightDivRef, shapes]);
 }
 
-export default PdfViewerHighlight;
+export default PdfHighlight;

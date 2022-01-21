@@ -4,10 +4,10 @@ import { withKnobs, radios, number, select } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import PdfViewerWithHighlight from './PdfViewerWithHighlight';
 import { flatten } from 'lodash';
-import { DocumentFieldHighlight } from './types';
+import { DocumentFieldHighlight } from '../PdfHighlight/types';
 import './PdfViewerWithHighlight.stories.scss';
 import { nonEmpty } from 'utils/nonEmpty';
-import { getDocFieldValue } from './utils/common/documentUtils';
+import { getDocFieldValue } from '../PdfHighlight/utils/common/documentUtils';
 
 import { document as doc } from 'components/DocumentPreview/__fixtures__/Art Effects.pdf';
 import document from 'components/DocumentPreview/__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
