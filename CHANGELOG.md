@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0-beta.14](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.13...v1.5.0-beta.14) (2022-01-21)
+
+
+### Features
+
+* update preview toolbar design for PDF viewer ([#251](https://github.com/watson-developer-cloud/discovery-components/issues/251)) ([8f8af90](https://github.com/watson-developer-cloud/discovery-components/commit/8f8af9084eb811366a5faa1337f4566d7a6fad9d))
+
+
+
+
+
 # [1.5.0-beta.13](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.12...v1.5.0-beta.13) (2022-01-21)
 
 
