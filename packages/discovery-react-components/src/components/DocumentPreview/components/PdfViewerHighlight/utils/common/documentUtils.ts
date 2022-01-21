@@ -20,7 +20,7 @@ export function getDocFieldValue(
   index?: number,
   span?: Location | TextSpan
 ): string | undefined {
-  let fieldText: string | undefined;
+  let fieldText: string | object | undefined;
 
   const documentFieldArray = document[field];
   if (!Array.isArray(documentFieldArray) && !index) {
@@ -28,11 +28,17 @@ export function getDocFieldValue(
   } else {
     fieldText = documentFieldArray?.[index ?? 0];
   }
-  if (!fieldText || !span) {
-    return fieldText;
+
+  // to handle 'table' field's text mappings specially
+  if (field === 'table' && typeof fieldText?.['table_text'] === 'string') {
+    return fieldText['table_text'];
   }
 
-  if (Array.isArray(span)) {
+  if (typeof fieldText !== 'string') {
+    return undefined;
+  } else if (!span) {
+    return fieldText;
+  } else if (Array.isArray(span)) {
     return fieldText.substring(span[0], span[1]);
   } else {
     return fieldText.substring(span.begin, span.end);
