@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0-beta.11](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.10...v1.5.0-beta.11) (2022-01-21)
+
+
+### Features
+
+* add "active" state to highlight on PdfViewer ([#259](https://github.com/watson-developer-cloud/discovery-components/issues/259)) ([35c473a](https://github.com/watson-developer-cloud/discovery-components/commit/35c473a0fdef68f928239095fe761e9ac29f2831))
+
+
+
+
+
 # [1.5.0-beta.10](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.9...v1.5.0-beta.10) (2022-01-19)
 
 **Note:** Version bump only for package @ibm-watson/discovery-react-components
