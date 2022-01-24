@@ -282,7 +282,7 @@ const SearchInput: FC<SearchInputProps> = ({
           value={value}
           id={`${inputId}_input_field`}
           labelText={inputProps.labelText || mergedMessages.placeholderText} //required prop, but it doesn't get rendered
-          placeHolderText={mergedMessages.placeholderText}
+          placeholder={mergedMessages.placeholderText}
           closeButtonLabelText={mergedMessages.closeButtonLabelText}
           {...inputProps}
         />
