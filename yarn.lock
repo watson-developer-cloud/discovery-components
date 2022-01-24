@@ -1526,7 +1526,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.16.7, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.4.4, @babel/runtime@npm:^7.5.0, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.6.3, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.1, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.4.4, @babel/runtime@npm:^7.5.0, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.6.3, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.1, @babel/runtime@npm:^7.9.2":
   version: 7.16.7
   resolution: "@babel/runtime@npm:7.16.7"
   dependencies:
@@ -1588,10 +1588,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@carbon/feature-flags@npm:^0.7.0":
-  version: 0.7.0
-  resolution: "@carbon/feature-flags@npm:0.7.0"
-  checksum: f16348fa78939e160efcbae3c4ec4ca8511593a9354457c0ed55c586c76cffd4a71c9b4d98cd5b372701a3ef965f1b6741e02939b3d0454490786ce26d8a9137
+"@carbon/feature-flags@npm:^0.6.0":
+  version: 0.6.0
+  resolution: "@carbon/feature-flags@npm:0.6.0"
+  checksum: 51cb90e557027c64fd7eeb9b0a7f86b58b8ca68364f6cc17750e589f84ffe6271d2a6aca2771d6ed7b4f9a01b69338a9a249d46705083dfca250c32215574993
   languageName: node
   linkType: hard
 
@@ -1602,7 +1602,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@carbon/icons-react@npm:^10.45.0":
+"@carbon/icons-react@npm:^10.41.0":
   version: 10.45.0
   resolution: "@carbon/icons-react@npm:10.45.0"
   dependencies:
@@ -1619,13 +1619,6 @@ __metadata:
   version: 10.22.0
   resolution: "@carbon/icons@npm:10.22.0"
   checksum: f0eb3398fcadbfc2cc86a98f221211315cd86f3145ae6954efbed7ff99d892cfea39bcf932fcf73bb348397e0326d26931f70e78473ead07cebb57c12e1d3bc4
-  languageName: node
-  linkType: hard
-
-"@carbon/layout@npm:^10.35.0":
-  version: 10.35.0
-  resolution: "@carbon/layout@npm:10.35.0"
-  checksum: bbe12a7784f047adb9242e68e3a1ad03b3661c5ac9ee84d8522be009fe26135bc71fd186aa6a21cf3a163e7442d5e96fb54397114754dd9c5b87526797081ead
   languageName: node
   linkType: hard
 
@@ -2234,7 +2227,7 @@ __metadata:
     node-sass-tilde-importer: ^1.0.2
     prettier: ^2.4.1
   peerDependencies:
-    carbon-components: ">= 10.6.0 < 11"
+    carbon-components: ">= 10.46.0 < 11"
   languageName: unknown
   linkType: soft
 
@@ -8355,14 +8348,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"carbon-components-react@npm:^7.51.0, carbon-components-react@npm:^7.7.0":
-  version: 7.51.0
-  resolution: "carbon-components-react@npm:7.51.0"
+"carbon-components-react@npm:~7.46.0":
+  version: 7.46.0
+  resolution: "carbon-components-react@npm:7.46.0"
   dependencies:
-    "@babel/runtime": ^7.16.7
-    "@carbon/feature-flags": ^0.7.0
-    "@carbon/icons-react": ^10.45.0
-    "@carbon/layout": ^10.35.0
+    "@carbon/feature-flags": ^0.6.0
+    "@carbon/icons-react": ^10.41.0
     "@carbon/telemetry": 0.0.0-alpha.6
     classnames: 2.3.1
     copy-to-clipboard: ^3.3.1
@@ -8374,8 +8365,7 @@ __metadata:
     lodash.isequal: ^4.5.0
     lodash.omit: ^4.5.0
     lodash.throttle: ^4.1.1
-    prop-types: ^15.7.2
-    react-is: ^17.0.2
+    react-is: ^16.8.6
     use-resize-observer: ^6.0.0
     wicg-inert: ^3.1.1
     window-or-global: ^1.0.1
@@ -8384,19 +8374,19 @@ __metadata:
     carbon-icons: ^7.0.7
     react: ^16.8.6 || ^17.0.1
     react-dom: ^16.8.6 || ^17.0.1
-  checksum: e801edd0115cc33c0b1e311717d45715baea011705a51eb87e65e77d74394952e49c127219a18a5cdce08b313f18baa9de8df2824507df38a0ee61a9b291320a
+  checksum: a42b9a2de8c1d9494c1ff12fd7736c993b8c3e53e58f1c7b893166508818ad7b477157e342ca9229e6b6150c6fb7fda798eca8551a5bda62a723f4c3e9a57785
   languageName: node
   linkType: hard
 
-"carbon-components@npm:^10.51.0, carbon-components@npm:^10.6.0":
-  version: 10.51.0
-  resolution: "carbon-components@npm:10.51.0"
+"carbon-components@npm:~10.46.0":
+  version: 10.46.0
+  resolution: "carbon-components@npm:10.46.0"
   dependencies:
     "@carbon/telemetry": 0.0.0-alpha.6
     flatpickr: 4.6.1
     lodash.debounce: ^4.0.8
     warning: ^3.0.0
-  checksum: 5060e1e52528a28a6856888a8a941406b906810e036e6efef1ed56474796a02f272a41a5e45cda41ff451df486d9c5f73e4e3cbeefe000d4f11c553922fcad66
+  checksum: 421f07f9239a8efaa9225659190a52990265260b2c6b0148d18504d27507d16abffeddb2a154b70c8abb9270393d6d3ec660c555dd1f1d12a09bb5101a4b6194
   languageName: node
   linkType: hard
 
@@ -10658,8 +10648,8 @@ __metadata:
     "@ibm-watson/discovery-react-components": ^1.5.0-beta.15
     "@ibm-watson/discovery-styles": ^1.5.0-beta.14
     body-parser: ^1.19.0
-    carbon-components: ^10.51.0
-    carbon-components-react: ^7.51.0
+    carbon-components: ~10.46.0
+    carbon-components-react: ~7.46.0
     carbon-icons: ^7.0.7
     classnames: ^2.2.6
     core-js: ^2.6.12
@@ -21937,7 +21927,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-is@npm:^16.13.1, react-is@npm:^16.7.0, react-is@npm:^16.8.1, react-is@npm:^16.8.4":
+"react-is@npm:^16.13.1, react-is@npm:^16.7.0, react-is@npm:^16.8.1, react-is@npm:^16.8.4, react-is@npm:^16.8.6":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: f7a19ac3496de32ca9ae12aa030f00f14a3d45374f1ceca0af707c831b2a6098ef0d6bdae51bd437b0a306d7f01d4677fcc8de7c0d331eb47ad0f46130e53c5f
@@ -23262,7 +23252,6 @@ __metadata:
   dependencies:
     "@babel/core": ^7.16.12
     "@babel/preset-env": ^7.16.11
-    "@carbon/icons": ^10.5.0
     "@commitlint/cli": ^11.0.0
     "@commitlint/config-conventional": ^11.0.0
     "@cypress/webpack-preprocessor": ^5.5.0
@@ -23291,9 +23280,6 @@ __metadata:
     axios: ^0.21.4
     babel-eslint: ^10.1.0
     babel-loader: ^8.2.3
-    carbon-components: ^10.6.0
-    carbon-components-react: ^7.7.0
-    carbon-icons: ^7.0.7
     cypress: ^6.3.0
     eslint: ^7.32.0
     eslint-config-prettier: ^8.3.0

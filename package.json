@@ -17,7 +17,6 @@
   "devDependencies": {
     "@babel/core": "^7.16.12",
     "@babel/preset-env": "^7.16.11",
-    "@carbon/icons": "^10.5.0",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@cypress/webpack-preprocessor": "^5.5.0",
@@ -46,9 +45,6 @@
     "axios": "^0.21.4",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.3",
-    "carbon-components": "^10.6.0",
-    "carbon-components-react": "^7.7.0",
-    "carbon-icons": "^7.0.7",
     "cypress": "^6.3.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
