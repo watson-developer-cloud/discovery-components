@@ -2,7 +2,15 @@
  * @class SearchInput
  */
 
-import React, { FC, useContext, useEffect, useState, SyntheticEvent, KeyboardEvent } from 'react';
+import React, {
+  FC,
+  useContext,
+  useEffect,
+  useState,
+  SyntheticEvent,
+  KeyboardEvent,
+  useMemo
+} from 'react';
 import { settings } from 'carbon-components';
 import { Search as CarbonSearchInput } from 'carbon-components-react';
 import ListBox from 'carbon-components-react/es/components/ListBox';
@@ -83,7 +91,7 @@ const SearchInput: FC<SearchInputProps> = ({
 }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
 
-  const inputId = id || `search-input__${uuidv4()}`;
+  const inputId = useMemo(() => id || `search-input__${uuidv4()}`, [id]);
   const autocompletionClassName = `${settings.prefix}--search-autocompletion`;
   const searchInputClassNames = [className, `${settings.prefix}--search-input--discovery`];
   const {

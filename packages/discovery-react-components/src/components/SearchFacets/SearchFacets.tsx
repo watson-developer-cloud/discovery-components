@@ -1,4 +1,4 @@
-import React, { FC, useContext, useState, SyntheticEvent } from 'react';
+import React, { FC, useContext, useState, SyntheticEvent, useMemo } from 'react';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { Button } from 'carbon-components-react';
 import { settings } from 'carbon-components';
@@ -81,7 +81,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
   serverErrorMessage,
   onChange
 }) => {
-  const facetsId = id || `search-facets__${uuidv4()}`;
+  const facetsId = useMemo(() => id || `search-facets__${uuidv4()}`, [id]);
 
   const {
     searchResponseStore: {
