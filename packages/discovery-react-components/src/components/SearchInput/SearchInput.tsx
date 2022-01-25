@@ -1,5 +1,3 @@
-import get from 'lodash/get';
-
 /**
  * @class SearchInput
  */
@@ -72,7 +70,7 @@ const SearchInput: FC<SearchInputProps> = ({
   id,
   splitSearchQuerySelector = ' ' as string,
   completionsCount = 5,
-  showAutocomplete = true,
+  showAutocomplete,
   minCharsToAutocomplete = 0,
   spellingSuggestions,
   messages = defaultMessages,
@@ -94,10 +92,7 @@ const SearchInput: FC<SearchInputProps> = ({
     componentSettings
   } = useContext(SearchContext);
   const displaySettings = {
-    showAutocomplete:
-      showAutocomplete === undefined
-        ? get(componentSettings, 'autocomplete', true)
-        : showAutocomplete
+    showAutocomplete: showAutocomplete ?? componentSettings?.autocomplete ?? true
   };
 
   const { performSearch, fetchAutocompletions, setAutocompletionOptions, setSearchParameters } =
@@ -107,7 +102,7 @@ const SearchInput: FC<SearchInputProps> = ({
   const lastWordOfValue = value.split(splitSearchQuerySelector).pop();
   const [skipFetchAutoCompletions, setSkipFetchAutoCompletions] = useState(false);
   const [focused, setFocused] = useState(false);
-  let focusTimeout: ReturnType<typeof setTimeout>;
+  let focusTimeout: ReturnType<typeof setTimeout> | null = null;
 
   useEffect(() => {
     setValue(searchParameters.naturalLanguageQuery || '');
@@ -219,14 +214,18 @@ const SearchInput: FC<SearchInputProps> = ({
 
   useEffect(() => {
     return function cleanup() {
-      clearTimeout(focusTimeout);
+      if (focusTimeout) {
+        clearTimeout(focusTimeout);
+      }
     };
-  });
+  }, [focusTimeout]);
 
   // onFocus for the carbon search component and the autocomplete dropdown
   const handleOnFocus = (): void => {
     // cancel the timeout set in handleOnBlur
-    clearTimeout(focusTimeout);
+    if (focusTimeout) {
+      clearTimeout(focusTimeout);
+    }
     setFocused(true);
   };
 
