@@ -13,15 +13,15 @@ interface Setup extends RenderResult {
   performSearchMock: jest.Mock<any, any>;
   setSearchParametersMock: jest.Mock<any>;
   onChangeMock: jest.Mock;
-  pageSizeSelect: Promise<HTMLElement>;
-  nextButton: Promise<HTMLElement>;
+  pageSizeSelect: HTMLElement;
+  nextButton: HTMLElement;
   fullTree: React.ReactElement;
 }
 
-const setup = (
+const setup = async (
   propUpdates: Partial<ResultsPaginationProps> = {},
   contextOverrides?: Partial<SearchContextIFC>
-): Setup => {
+): Promise<Setup> => {
   const context: Partial<SearchContextIFC> = {
     // Pagination component won't render until it receives the componentSettings response
     componentSettings: {},
@@ -49,8 +49,8 @@ const setup = (
   );
   const paginationComponent = render(fullTree);
 
-  const pageSizeSelect = paginationComponent.findByLabelText('Items per page:');
-  const nextButton = paginationComponent.findByLabelText('Next page');
+  const pageSizeSelect = await paginationComponent.findByLabelText('Items per page:');
+  const nextButton = await paginationComponent.findByLabelText('Next page');
 
   return {
     performSearchMock,
@@ -64,8 +64,10 @@ const setup = (
 };
 
 describe('ResultsPaginationComponent', () => {
-  test('uses count from search parameter', () => {
-    const { performSearchMock, nextButton, onChangeMock } = setup(
+  beforeEach(jest.resetAllMocks);
+
+  test('uses count from search parameter', async () => {
+    const { performSearchMock, nextButton, onChangeMock } = await setup(
       {},
       {
         searchResponseStore: {
@@ -78,52 +80,45 @@ describe('ResultsPaginationComponent', () => {
       }
     );
 
-    // Have to return here or else failed expectations aren't reported
-    return nextButton.then(nextButton => {
-      fireEvent.click(nextButton);
-      expect(performSearchMock).toBeCalledTimes(1);
-      expect(performSearchMock).toBeCalledWith(
-        expect.objectContaining({
-          count: 22,
-          offset: 22
-        }),
-        false
-      );
-      // test exposed onChange function
-      expect(onChangeMock).toBeCalledWith({
-        page: 2,
-        pageSize: 22
-      });
+    fireEvent.click(nextButton);
+    expect(performSearchMock).toBeCalledTimes(1);
+    expect(performSearchMock).toBeCalledWith(
+      expect.objectContaining({
+        count: 22,
+        offset: 22
+      }),
+      false
+    );
+    // test exposed onChange function
+    expect(onChangeMock).toBeCalledWith({
+      page: 2,
+      pageSize: 22
     });
   });
 
   describe('page size select', () => {
-    test('calls onUpdateResultsPagination from first page', () => {
-      const { performSearchMock, pageSizeSelect, nextButton, onChangeMock } = setup();
+    test('calls onUpdateResultsPagination from first page', async () => {
+      const { performSearchMock, pageSizeSelect, nextButton, onChangeMock } = await setup();
 
-      // Have to return here or else failed expectations aren't reported
-      return Promise.all([pageSizeSelect, nextButton]).then(([sizeSelect, nextButton]) => {
-        fireEvent.change(sizeSelect, { target: { value: 20 } });
-        fireEvent.click(nextButton);
-
-        expect(performSearchMock).toBeCalledTimes(2);
-        expect(performSearchMock).toBeCalledWith(
-          expect.objectContaining({
-            count: 20,
-            offset: 20
-          }),
-          false
-        );
-        // tests exposed onChange function
-        expect(onChangeMock).toBeCalledWith({
-          page: 2,
-          pageSize: 20
-        });
+      fireEvent.change(pageSizeSelect, { target: { value: 20 } });
+      fireEvent.click(nextButton);
+      expect(performSearchMock).toBeCalledTimes(1);
+      expect(performSearchMock).toBeCalledWith(
+        expect.objectContaining({
+          count: 20,
+          offset: 20
+        }),
+        false
+      );
+      // tests exposed onChange function
+      expect(onChangeMock).toBeCalledWith({
+        page: 2,
+        pageSize: 20
       });
     });
 
-    test('will add pageSize as a pageSize selection if it is not already included', () => {
-      const { pageSizeSelect, getByText } = setup(
+    test('will add pageSize as a pageSize selection if it is not already included', async () => {
+      const { getByText } = await setup(
         { pageSize: 25, pageSizes: [10, 20, 30, 40, 50] },
         {
           searchResponseStore: {
@@ -133,58 +128,48 @@ describe('ResultsPaginationComponent', () => {
         }
       );
 
-      // Have to return here or else failed expectations aren't reported
-      return pageSizeSelect.then(() => {
-        expect(getByText('25')).toBeInTheDocument();
-      });
+      expect(getByText('25')).toBeInTheDocument();
     });
   });
 
   describe('when there are component settings available', () => {
     describe('and there are no display parameters passed on ResultsPagination', () => {
-      test('will update the count search param', () => {
-        const { setSearchParametersMock, pageSizeSelect, rerender, fullTree } = setup(
+      test('will update the count search param', async () => {
+        const { setSearchParametersMock, rerender, fullTree } = await setup(
           {},
           { componentSettings: { results_per_page: 30 } }
         );
 
-        // Have to return here or else failed expectations aren't reported
-        return pageSizeSelect.then(() => {
-          rerender(fullTree);
-          expect(setSearchParametersMock).toBeCalledTimes(1);
-          expect(setSearchParametersMock).toBeCalledWith(expect.any(Function));
-          const returnFunc = setSearchParametersMock.mock.calls[0][0];
-          const returnValue = returnFunc();
-          expect(returnValue).toEqual(
-            expect.objectContaining({
-              count: 30
-            })
-          );
-        });
+        rerender(fullTree);
+        expect(setSearchParametersMock).toBeCalledTimes(1);
+        expect(setSearchParametersMock).toBeCalledWith(expect.any(Function));
+        const returnFunc = setSearchParametersMock.mock.calls[0][0];
+        const returnValue = returnFunc();
+        expect(returnValue).toEqual(
+          expect.objectContaining({
+            count: 30
+          })
+        );
       });
     });
 
     describe('and there are some display parameters passed on ResultsPagination', () => {
-      test('will update the count search param', () => {
-        const { setSearchParametersMock, pageSizeSelect, rerender, fullTree } = setup(
+      test('will update the count search param', async () => {
+        const { setSearchParametersMock, rerender, fullTree } = await setup(
           { pageSize: 18 },
           { componentSettings: { results_per_page: 30 } }
         );
 
-        // Have to return here or else failed expectations aren't reported
-        return pageSizeSelect.then(() => {
-          rerender(fullTree);
-          expect(setSearchParametersMock).toBeCalledTimes(1);
-          expect(setSearchParametersMock).toBeCalledWith(expect.any(Function));
-          const returnFunc = setSearchParametersMock.mock.calls[0][0];
-          const returnValue = returnFunc();
-
-          expect(returnValue).toEqual(
-            expect.objectContaining({
-              count: 18
-            })
-          );
-        });
+        rerender(fullTree);
+        expect(setSearchParametersMock).toBeCalledTimes(1);
+        expect(setSearchParametersMock).toBeCalledWith(expect.any(Function));
+        const returnFunc = setSearchParametersMock.mock.calls[0][0];
+        const returnValue = returnFunc();
+        expect(returnValue).toEqual(
+          expect.objectContaining({
+            count: 18
+          })
+        );
       });
     });
   });
@@ -192,8 +177,8 @@ describe('ResultsPaginationComponent', () => {
   describe('i18n messages', () => {
     describe('when default messages are used and not overridden', () => {
       describe('itemRangeText', () => {
-        test('itemRangeText uses the word results instead of the word items', () => {
-          const { getByText } = setup(
+        test('itemRangeText uses the word results instead of the word items', async () => {
+          const { getByText } = await setup(
             {},
             {
               searchResponseStore: {
@@ -214,8 +199,8 @@ describe('ResultsPaginationComponent', () => {
 
     describe('when default messages are overridden', () => {
       describe('when itemRangeText and pageRangeText are overridden', () => {
-        test('it uses and correctly formats overridden messages and default messages', () => {
-          const { getByText } = setup(
+        test('it uses and correctly formats overridden messages and default messages', async () => {
+          const { getByText } = await setup(
             {
               messages: {
                 itemRangeText: 'of {total} results {min} to {max}',
