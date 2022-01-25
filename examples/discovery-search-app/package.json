@@ -39,7 +39,11 @@
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
+    "@cypress/webpack-preprocessor": "^5.11.0",
+    "@testing-library/cypress": "^7.0.7",
     "cross-env": "^7.0.3",
-    "react-scripts": "^4.0.3"
+    "cypress": "^6.9.1",
+    "react-scripts": "^4.0.3",
+    "start-server-and-test": "^1.14.0"
   }
 }

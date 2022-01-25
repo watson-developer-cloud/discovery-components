@@ -1878,19 +1878,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cypress/webpack-preprocessor@npm:^5.5.0":
-  version: 5.5.0
-  resolution: "@cypress/webpack-preprocessor@npm:5.5.0"
+"@cypress/webpack-preprocessor@npm:^5.11.0":
+  version: 5.11.0
+  resolution: "@cypress/webpack-preprocessor@npm:5.11.0"
   dependencies:
-    bluebird: ^3.7.1
-    debug: ^4.1.1
+    bluebird: 3.7.1
+    debug: ^4.3.2
     lodash: ^4.17.20
   peerDependencies:
     "@babel/core": ^7.0.1
     "@babel/preset-env": ^7.0.0
     babel-loader: ^8.0.2
-    webpack: ^4.18.1
-  checksum: b04fc7440f54aa480b551056ff5ba973fe92e4898f291bd901894c2e84e93a1a9164f74ff5ef71e8da110fadfd33967fe0fc8e5a56270f6ba0937780d34b6242
+    webpack: ^4 || ^5
+  checksum: c040d7b71f51a0009c5c9bdafd84ce223cc901fa521a648deacf32a8882b2ba91cfe88f269ad2aebe3753215f558bbbe7affa2575efe12624dcca7a0cde980d6
   languageName: node
   linkType: hard
 
@@ -3826,12 +3826,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sideway/address@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "@sideway/address@npm:4.1.0"
+"@sideway/address@npm:^4.1.3":
+  version: 4.1.3
+  resolution: "@sideway/address@npm:4.1.3"
   dependencies:
     "@hapi/hoek": ^9.0.0
-  checksum: d4262ccbeabf6d5e23560fccca382360deec1f05d3e9f6a6319e50013d9c4805851a590041db220388abbb6874f17dc1f0bb323f94a419085eae815ad307b97d
+  checksum: 3c1faf6ef37a0b59b62ce42b59c012c00ef1fc4194ad6776c65c2f9a6dd6c1710c6f6362b3ca3fa582fdb93984f0cb64ca44f9f5e02940634805f5e561279c22
   languageName: node
   linkType: hard
 
@@ -5085,6 +5085,13 @@ __metadata:
   version: 15.0.2
   resolution: "@types/node@npm:15.0.2"
   checksum: 273565e1da341b248e08bec105667f0ab8ef89e347a47bbd6e18e35c0946788a53d581e0e3d8b8e3b3b5809db3237fcbf1bbb2251cf1506e5f81622739cb9ff1
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:12.12.50":
+  version: 12.12.50
+  resolution: "@types/node@npm:12.12.50"
+  checksum: ae3b6ae1bf14024fe6a9fa49760199c14b22ae6e5df59ebf31c70cc21d8eed2cc639381c48abbf1a259bf8520d6519264175685b53a3a796585358759c2f3930
   languageName: node
   linkType: hard
 
@@ -7704,7 +7711,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bluebird@npm:3.7.2, bluebird@npm:^3.3.5, bluebird@npm:^3.5.5, bluebird@npm:^3.7.1, bluebird@npm:^3.7.2":
+"bluebird@npm:3.7.1":
+  version: 3.7.1
+  resolution: "bluebird@npm:3.7.1"
+  checksum: 58c295399e109925149977ebcb40e42fd109d3e458899e71441bc7e5e0867bbd796fdd20278b425fa29f13377fe335fbfc2a6e68e5ca1da03b1c3afdc439d097
+  languageName: node
+  linkType: hard
+
+"bluebird@npm:3.7.2, bluebird@npm:^3.3.5, bluebird@npm:^3.5.5, bluebird@npm:^3.7.2":
   version: 3.7.2
   resolution: "bluebird@npm:3.7.2"
   checksum: 869417503c722e7dc54ca46715f70e15f4d9c602a423a02c825570862d12935be59ed9c7ba34a9b31f186c017c23cac6b54e35446f8353059c101da73eac22ef
@@ -9979,13 +9993,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress@npm:*, cypress@npm:^6.3.0":
-  version: 6.3.0
-  resolution: "cypress@npm:6.3.0"
+"cypress@npm:*, cypress@npm:^6.9.1":
+  version: 6.9.1
+  resolution: "cypress@npm:6.9.1"
   dependencies:
     "@cypress/listr-verbose-renderer": ^0.4.1
     "@cypress/request": ^2.88.5
     "@cypress/xvfb": ^1.2.4
+    "@types/node": 12.12.50
     "@types/sinonjs__fake-timers": ^6.0.1
     "@types/sizzle": ^2.3.2
     arch: ^2.1.2
@@ -9997,7 +10012,8 @@ __metadata:
     cli-table3: ~0.6.0
     commander: ^5.1.0
     common-tags: ^1.8.0
-    debug: ^4.1.1
+    dayjs: ^1.9.3
+    debug: 4.3.2
     eventemitter2: ^6.4.2
     execa: ^4.0.2
     executable: ^4.1.1
@@ -10011,10 +10027,10 @@ __metadata:
     lodash: ^4.17.19
     log-symbols: ^4.0.0
     minimist: ^1.2.5
-    moment: ^2.27.0
+    moment: ^2.29.1
     ospath: ^1.2.2
     pretty-bytes: ^5.4.1
-    ramda: ~0.26.1
+    ramda: ~0.27.1
     request-progress: ^3.0.0
     supports-color: ^7.2.0
     tmp: ~0.2.1
@@ -10023,7 +10039,7 @@ __metadata:
     yauzl: ^2.10.0
   bin:
     cypress: bin/cypress
-  checksum: beaf86d7b88828569105e9458e23d7e52821424fcf231d4155a10ac5ed26568239157b24465f7cb8d6a66e708f4cc81b511689d05c5a4377f694b3c3e82676dd
+  checksum: 6006cd67f037bb9f53fd7cd45de5961324d5b378e5cc92db02fc6eef8fa153d0681be0e353faf7c8a856c85eeb52f2bf2d0664fde0b7efe18f05b816ce64090b
   languageName: node
   linkType: hard
 
@@ -10085,6 +10101,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dayjs@npm:^1.9.3":
+  version: 1.10.7
+  resolution: "dayjs@npm:1.10.7"
+  checksum: a0a4ca95abaa03d0702161dc2c35d16121188e342f5052b9c61cdf784dab68af766f477c04f87f71c6af666fd4d13db9b9853b87265850d6093b7b04e1bb1cd7
+  languageName: node
+  linkType: hard
+
 "debounce@npm:^1.2.0":
   version: 1.2.1
   resolution: "debounce@npm:1.2.1"
@@ -10101,7 +10124,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:4, debug@npm:^4.0.0, debug@npm:^4.0.1, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.1":
+"debug@npm:4, debug@npm:^4.0.0, debug@npm:^4.0.1, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.1, debug@npm:^4.3.2":
   version: 4.3.3
   resolution: "debug@npm:4.3.3"
   dependencies:
@@ -10113,15 +10136,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:4.3.1":
-  version: 4.3.1
-  resolution: "debug@npm:4.3.1"
+"debug@npm:4.3.2":
+  version: 4.3.2
+  resolution: "debug@npm:4.3.2"
   dependencies:
     ms: 2.1.2
   peerDependenciesMeta:
     supports-color:
       optional: true
-  checksum: 2c3352e37d5c46b0d203317cd45ea0e26b2c99f2d9dfec8b128e6ceba90dfb65425f5331bf3020fe9929d7da8c16758e737f4f3bfc0fce6b8b3d503bae03298b
+  checksum: 820ea160e267e23c953c9ed87e7ad93494d8cda2f7349af5e7e3bb236d23707ee3022f477d5a7d2ee86ef2bf7d60aa9ab22d1f58080d7deb9dccd073585e1e43
   languageName: node
   linkType: hard
 
@@ -10645,8 +10668,10 @@ __metadata:
   resolution: "discovery-search-app@workspace:examples/discovery-search-app"
   dependencies:
     "@carbon/icons": ^10.5.0
+    "@cypress/webpack-preprocessor": ^5.11.0
     "@ibm-watson/discovery-react-components": ^1.5.0-beta.15
     "@ibm-watson/discovery-styles": ^1.5.0-beta.14
+    "@testing-library/cypress": ^7.0.7
     body-parser: ^1.19.0
     carbon-components: ~10.46.0
     carbon-components-react: ~7.46.0
@@ -10655,6 +10680,7 @@ __metadata:
     core-js: ^2.6.12
     cors: ^2.8.5
     cross-env: ^7.0.3
+    cypress: ^6.9.1
     dotenv: ^8.1.0
     express: ^4.17.1
     http-proxy-middleware: ^0.20.0
@@ -10662,6 +10688,7 @@ __metadata:
     react: ^17.0.2
     react-dom: ^17.0.2
     react-scripts: ^4.0.3
+    start-server-and-test: ^1.14.0
   languageName: unknown
   linkType: soft
 
@@ -11910,21 +11937,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"execa@npm:3.4.0":
-  version: 3.4.0
-  resolution: "execa@npm:3.4.0"
+"execa@npm:5.1.1, execa@npm:^5.0.0":
+  version: 5.1.1
+  resolution: "execa@npm:5.1.1"
   dependencies:
-    cross-spawn: ^7.0.0
-    get-stream: ^5.0.0
-    human-signals: ^1.1.1
+    cross-spawn: ^7.0.3
+    get-stream: ^6.0.0
+    human-signals: ^2.1.0
     is-stream: ^2.0.0
     merge-stream: ^2.0.0
-    npm-run-path: ^4.0.0
-    onetime: ^5.1.0
-    p-finally: ^2.0.0
-    signal-exit: ^3.0.2
+    npm-run-path: ^4.0.1
+    onetime: ^5.1.2
+    signal-exit: ^3.0.3
     strip-final-newline: ^2.0.0
-  checksum: 72832ff72f79f9082dc3567775cbb52f4682452f7d8015714d924e476a37c36a98183fd669317327ed2e7800ffe7ec2a7be4bfe704a2173ef22ae00109fe9123
+  checksum: fba9022c8c8c15ed862847e94c252b3d946036d7547af310e344a527e59021fd8b6bb0723883ea87044dc4f0201f949046993124a42ccb0855cae5bf8c786343
   languageName: node
   linkType: hard
 
@@ -11974,23 +12000,6 @@ __metadata:
     signal-exit: ^3.0.2
     strip-final-newline: ^2.0.0
   checksum: e30d298934d9c52f90f3847704fd8224e849a081ab2b517bbc02f5f7732c24e56a21f14cb96a08256deffeb2d12b2b7cb7e2b014a12fb36f8d3357e06417ed55
-  languageName: node
-  linkType: hard
-
-"execa@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "execa@npm:5.0.0"
-  dependencies:
-    cross-spawn: ^7.0.3
-    get-stream: ^6.0.0
-    human-signals: ^2.1.0
-    is-stream: ^2.0.0
-    merge-stream: ^2.0.0
-    npm-run-path: ^4.0.1
-    onetime: ^5.1.2
-    signal-exit: ^3.0.3
-    strip-final-newline: ^2.0.0
-  checksum: a044367ebdcc68ca019810cb134510fc77bbc55c799122258ee0e00e289c132941ab48c2a331a036699c42bc8d479d451ae67c105fce5ce5cc813e7dd92d642b
   languageName: node
   linkType: hard
 
@@ -16245,16 +16254,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"joi@npm:^17.3.0":
-  version: 17.3.0
-  resolution: "joi@npm:17.3.0"
+"joi@npm:^17.4.0":
+  version: 17.5.0
+  resolution: "joi@npm:17.5.0"
   dependencies:
     "@hapi/hoek": ^9.0.0
     "@hapi/topo": ^5.0.0
-    "@sideway/address": ^4.1.0
+    "@sideway/address": ^4.1.3
     "@sideway/formula": ^3.0.0
     "@sideway/pinpoint": ^2.0.0
-  checksum: 9f1490156fb8712b090f228bc0e7663e02a6bf15f9ee39ee4cd37bbdcb51ab720c703076b7b1067b9c53f5b31dc8717b1dbf497f3a25527841d2838bb8f06077
+  checksum: 6a20d009d2fa8a72dbfd9bc739d240f678b09d3a16c05b4bfb4e2d0503e60f7d7914250f0bfc52fb79a537490739ba36a1ace00a05b8ddecaaacfcedafc5c8b9
   languageName: node
   linkType: hard
 
@@ -18323,7 +18332,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"moment@npm:^2.27.0":
+"moment@npm:^2.29.1":
   version: 2.29.1
   resolution: "moment@npm:2.29.1"
   checksum: 1e14d5f422a2687996be11dd2d50c8de3bd577c4a4ca79ba5d02c397242a933e5b941655de6c8cb90ac18f01cc4127e55b4a12ae3c527a6c0a274e455979345e
@@ -21561,10 +21570,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ramda@npm:~0.26.1":
-  version: 0.26.1
-  resolution: "ramda@npm:0.26.1"
-  checksum: 19c2730e44c129538151ae034c89be9b2c6a4ccc7c65cff57497418bc532ce09282f98cd927c39b0b03c6bc3f1d1a12d822b7b07f96a1634f4958a6c05b7b384
+"ramda@npm:~0.27.1":
+  version: 0.27.2
+  resolution: "ramda@npm:0.27.2"
+  checksum: 28d6735dd1eea1a796c56cf6111f3673c6105bbd736e521cdd7826c46a18eeff337c2dba4668f6eed990d539b9961fd6db19aa46ccc1530ba67a396c0a9f580d
   languageName: node
   linkType: hard
 
@@ -23254,8 +23263,6 @@ __metadata:
     "@babel/preset-env": ^7.16.11
     "@commitlint/cli": ^11.0.0
     "@commitlint/config-conventional": ^11.0.0
-    "@cypress/webpack-preprocessor": ^5.5.0
-    "@testing-library/cypress": ^7.0.7
     "@testing-library/jest-dom": ^5.16.1
     "@testing-library/react": ^11.2.7
     "@testing-library/react-hooks": ^7.0.2
@@ -23280,7 +23287,6 @@ __metadata:
     axios: ^0.21.4
     babel-eslint: ^10.1.0
     babel-loader: ^8.2.3
-    cypress: ^6.3.0
     eslint: ^7.32.0
     eslint-config-prettier: ^8.3.0
     eslint-config-react-app: ^6.0.0
@@ -23311,7 +23317,6 @@ __metadata:
     regenerator-runtime: ^0.13.3
     seedrandom: ^3.0.5
     source-map-explorer: 2.0.1
-    start-server-and-test: ^1.11.7
     ts-loader: ^6.2.1
     tsconfig-paths-webpack-plugin: ^3.2.0
     typescript: ^3.8.2
@@ -23359,12 +23364,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^6.3.3, rxjs@npm:^6.6.0, rxjs@npm:^6.6.2, rxjs@npm:^6.6.3":
+"rxjs@npm:^6.3.3, rxjs@npm:^6.6.0, rxjs@npm:^6.6.2":
   version: 6.6.7
   resolution: "rxjs@npm:6.6.7"
   dependencies:
     tslib: ^1.9.0
   checksum: bc334edef1bb8bbf56590b0b25734ba0deaf8825b703256a93714308ea36dff8a11d25533671adf8e104e5e8f256aa6fdfe39b2e248cdbd7a5f90c260acbbd1b
+  languageName: node
+  linkType: hard
+
+"rxjs@npm:^7.1.0":
+  version: 7.5.2
+  resolution: "rxjs@npm:7.5.2"
+  dependencies:
+    tslib: ^2.1.0
+  checksum: daf1fe7289de500b25d822fd96cde3c138c7902e8bf0e6aa12a3e70847a5cabeeb4d677f10e19387e1db44b12c5b1be0ff5c79b8cd63ed6ce891d765e566cf4d
   languageName: node
   linkType: hard
 
@@ -24421,22 +24435,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"start-server-and-test@npm:^1.11.7":
-  version: 1.11.7
-  resolution: "start-server-and-test@npm:1.11.7"
+"start-server-and-test@npm:^1.14.0":
+  version: 1.14.0
+  resolution: "start-server-and-test@npm:1.14.0"
   dependencies:
     bluebird: 3.7.2
     check-more-types: 2.24.0
-    debug: 4.3.1
-    execa: 3.4.0
+    debug: 4.3.2
+    execa: 5.1.1
     lazy-ass: 1.6.0
     ps-tree: 1.2.0
-    wait-on: 5.2.1
+    wait-on: 6.0.0
   bin:
     server-test: src/bin/start.js
     start-server-and-test: src/bin/start.js
     start-test: src/bin/start.js
-  checksum: d2736efda8945b34a9c178a1b2422847f4cd5adefb014f8fbad5184a773ebce8fae029f9d07bd12c99e05276841b5aabe00cbf295259a5f5a7e1965cbf5c4459
+  checksum: 8437f5fc39bb47dd684b94023bab654703abc4890d08f005c3d86df620b2cdaac03f6e3bb21792a93209f1a70c8bb500d82fe4025a356da45fc060f2a80374e1
   languageName: node
   linkType: hard
 
@@ -25672,7 +25686,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:2.1.0, tslib@npm:^2.0.1, tslib@npm:^2.0.3":
+"tslib@npm:2.1.0":
   version: 2.1.0
   resolution: "tslib@npm:2.1.0"
   checksum: aa189c8179de0427b0906da30926fd53c59d96ec239dff87d6e6bc831f608df0cbd6f77c61dabc074408bd0aa0b9ae4ec35cb2c15f729e32f37274db5730cb78
@@ -25683,6 +25697,13 @@ __metadata:
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
   checksum: dbe628ef87f66691d5d2959b3e41b9ca0045c3ee3c7c7b906cc1e328b39f199bb1ad9e671c39025bd56122ac57dfbf7385a94843b1cc07c60a4db74795829acd
+  languageName: node
+  linkType: hard
+
+"tslib@npm:^2.0.1, tslib@npm:^2.0.3, tslib@npm:^2.1.0":
+  version: 2.3.1
+  resolution: "tslib@npm:2.3.1"
+  checksum: de17a98d4614481f7fcb5cd53ffc1aaf8654313be0291e1bfaee4b4bb31a20494b7d218ff2e15017883e8ea9626599b3b0e0229c18383ba9dce89da2adf15cb9
   languageName: node
   linkType: hard
 
@@ -26572,18 +26593,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wait-on@npm:5.2.1":
-  version: 5.2.1
-  resolution: "wait-on@npm:5.2.1"
+"wait-on@npm:6.0.0":
+  version: 6.0.0
+  resolution: "wait-on@npm:6.0.0"
   dependencies:
     axios: ^0.21.1
-    joi: ^17.3.0
-    lodash: ^4.17.20
+    joi: ^17.4.0
+    lodash: ^4.17.21
     minimist: ^1.2.5
-    rxjs: ^6.6.3
+    rxjs: ^7.1.0
   bin:
     wait-on: bin/wait-on
-  checksum: afc189718bf6a9dbaecac33f6cfc7315d4d1991f227c1ad6b5f870d227f89f94e9e1b6274acd3ada302bf7926a9d6056f598cc3ca65042765eac44165ce59e28
+  checksum: 6ae7bd2a933715c3b2f1c49f033d97c576b2c6a0257420d4c83964d2846c3967bfce33bc9af9a1a631ef38dfa6185be03cef57d2867c8c30c523278f964ac9e3
   languageName: node
   linkType: hard
 
