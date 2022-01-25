@@ -131,13 +131,16 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
             totalItems={matchingResults}
             pageSize={actualPageSize}
             pageSizes={pageSizes}
+            // NOTE: See PageSelector below for details about `onChange`
             onChange={handleOnChange}
             itemRangeText={handleItemRangeText}
             itemsPerPageText={mergedMessages.itemsPerPageText}
             pageRangeText={handlePageRangeText}
             pageText={handlePageText}
             {...inputProps}
-          />
+          >
+            {(props: PageSelectorProps) => <PageSelector {...props} onChange={handleOnChange} />}
+          </CarbonPagination>
         )}
       </>
     );
@@ -145,6 +148,39 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
 
   return null;
 };
+
+// XXX Slight hack. unstable_Pagination's `onChange` only fires when clicking next/prev buttons,
+//     but _not_ when changing the page size. For that reason, we use a custom PageSelector to track
+//     this state and call `handlOnChange` when necessary.
+type PageSelectorProps = {
+  currentPage: number;
+  currentPageSize: number;
+  onSetPage: Function;
+  onChange: Function;
+};
+
+function PageSelector({ currentPage, currentPageSize, onSetPage, onChange }: PageSelectorProps) {
+  const [pageSize, setPageSize] = useState(currentPageSize);
+
+  useEffect(() => {
+    if (currentPageSize !== pageSize) {
+      setPageSize(currentPageSize);
+
+      onChange({
+        page: 1,
+        pageSize: currentPageSize
+      });
+      // update unstable_Pagination state
+      onSetPage(1);
+    }
+  }, [currentPageSize, onChange, onSetPage, pageSize]);
+
+  return (
+    <span className={`${settings.prefix}--unstable-pagination__text`} data-testid="current-page">
+      {currentPage}
+    </span>
+  );
+}
 
 export default withErrorBoundary(
   ResultsPagination,
