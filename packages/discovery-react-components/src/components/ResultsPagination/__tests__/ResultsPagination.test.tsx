@@ -102,7 +102,7 @@ describe('ResultsPaginationComponent', () => {
 
       fireEvent.change(pageSizeSelect, { target: { value: 20 } });
       fireEvent.click(nextButton);
-      expect(performSearchMock).toBeCalledTimes(1);
+      expect(performSearchMock).toBeCalledTimes(2);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
           count: 20,
