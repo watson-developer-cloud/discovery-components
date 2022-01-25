@@ -131,15 +131,13 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
             totalItems={matchingResults}
             pageSize={actualPageSize}
             pageSizes={pageSizes}
-            // onChange={handleOnChange} // see PageSelector for why this is commented out
+            onChange={handleOnChange}
             itemRangeText={handleItemRangeText}
             itemsPerPageText={mergedMessages.itemsPerPageText}
             pageRangeText={handlePageRangeText}
             pageText={handlePageText}
             {...inputProps}
-          >
-            {(props: PageSelectorProps) => <PageSelector {...props} onChange={handleOnChange} />}
-          </CarbonPagination>
+          />
         )}
       </>
     );
@@ -147,48 +145,6 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
 
   return null;
 };
-
-// XXX Slight hack. unstabled_Pagination doesn't currently emit an `onChange`
-// event, so we create a fake "page selector" child which gets the updates we
-// need. We can then call the original `handleOnChange` with the updated values.
-type PageSelectorProps = {
-  currentPage: number;
-  currentPageSize: number;
-  onSetPage: Function;
-  onChange: Function;
-};
-
-function PageSelector({ currentPage, currentPageSize, onSetPage, onChange }: PageSelectorProps) {
-  const [page, setPage] = useState(currentPage);
-  const [pageSize, setPageSize] = useState(currentPageSize);
-
-  useEffect(() => {
-    if (currentPageSize !== pageSize) {
-      setPageSize(currentPageSize);
-      setPage(1);
-
-      onChange({
-        page: 1,
-        pageSize: currentPageSize
-      });
-      // update unstable_Pagination state
-      onSetPage(1);
-    } else if (currentPage !== page) {
-      setPage(currentPage);
-
-      onChange({
-        page: currentPage,
-        pageSize: pageSize
-      });
-    }
-  }, [currentPage, currentPageSize, onChange, onSetPage, page, pageSize]);
-
-  return (
-    <span className={`${settings.prefix}--unstable-pagination__text`} data-testid="current-page">
-      {currentPage}
-    </span>
-  );
-}
 
 export default withErrorBoundary(
   ResultsPagination,
