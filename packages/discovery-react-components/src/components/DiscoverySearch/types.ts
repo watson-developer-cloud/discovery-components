@@ -12,7 +12,8 @@ export type SearchParams = Omit<DiscoveryV2.QueryParams, 'projectId' | 'headers'
   returnFields?: string[];
 };
 
-export interface DocumentProviderProps extends Pick<QueryResult, 'document_id' | 'metadata'> {
+export interface DocumentProviderProps
+  extends Pick<QueryResult, 'document_id' | 'metadata' | 'result_metadata'> {
   extracted_metadata?: JsonObject;
 }
 
