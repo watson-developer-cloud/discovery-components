@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0-beta.16](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.15...v1.5.0-beta.16) (2022-01-31)
+
+
+### Bug Fixes
+
+* add missing prop to doc provider interface ([#283](https://github.com/watson-developer-cloud/discovery-components/issues/283)) ([e6d6480](https://github.com/watson-developer-cloud/discovery-components/commit/e6d6480dd16f701ca0cd009ecc5c1101f8fdcab4))
+
+
+
+
+
 # [1.5.0-beta.15](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.14...v1.5.0-beta.15) (2022-01-21)
 
 
