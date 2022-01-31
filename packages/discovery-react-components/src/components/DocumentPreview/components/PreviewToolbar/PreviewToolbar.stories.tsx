@@ -1,8 +1,10 @@
 import React, { useState, ReactElement } from 'react';
 import { storiesOf } from '@storybook/react';
+import { withKnobs, number, boolean } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
+import { Json24, Document24 } from '@carbon/icons-react';
 
-import { PreviewToolbar } from './PreviewToolbar';
+import { PreviewToolbar, ToolbarAction } from './PreviewToolbar';
 
 const PreviewToolbarWrapper = (): ReactElement => {
   const [current, setCurrent] = useState(1);
@@ -25,13 +27,36 @@ const divStyle = {
   marginTop: '2rem'
 };
 
+const userActions: ToolbarAction[] = [
+  {
+    id: 'annotation',
+    renderIcon: Document24,
+    iconDescription: 'Annotation view',
+    onClick: action('annotation')
+  },
+  {
+    id: 'json',
+    renderIcon: Json24,
+    iconDescription: 'Json view',
+    onClick: action('json')
+  }
+];
+
 storiesOf('DocumentPreview/components/PreviewToolbar', module)
+  .addDecorator(withKnobs)
   .add('default', () => {
+    const currentPage = number('Current page', 1);
+    const totalPage = number('Total pages', 100);
+    const hideControls = boolean('Hide controls', false);
+    const showUserActions = boolean('Show user-defined actions', false);
+
     return (
       <div style={divStyle}>
         <PreviewToolbar
-          current={1}
-          total={100}
+          current={currentPage}
+          total={totalPage}
+          hideControls={hideControls}
+          userActions={showUserActions ? userActions : undefined}
           onZoom={action('zoom')}
           onChange={action('page change')}
         />

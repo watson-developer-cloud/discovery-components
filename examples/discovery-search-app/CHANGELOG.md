@@ -3,6 +3,46 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0-beta.15](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.14...v1.5.0-beta.15) (2022-01-21)
+
+**Note:** Version bump only for package discovery-search-app
+
+
+
+
+
+# [1.5.0-beta.14](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.13...v1.5.0-beta.14) (2022-01-21)
+
+**Note:** Version bump only for package discovery-search-app
+
+
+
+
+
+# [1.5.0-beta.13](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.12...v1.5.0-beta.13) (2022-01-21)
+
+**Note:** Version bump only for package discovery-search-app
+
+
+
+
+
+# [1.5.0-beta.12](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.11...v1.5.0-beta.12) (2022-01-21)
+
+**Note:** Version bump only for package discovery-search-app
+
+
+
+
+
+# [1.5.0-beta.11](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.10...v1.5.0-beta.11) (2022-01-21)
+
+**Note:** Version bump only for package discovery-search-app
+
+
+
+
+
 # [1.5.0-beta.10](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.9...v1.5.0-beta.10) (2022-01-19)
 
 **Note:** Version bump only for package discovery-search-app

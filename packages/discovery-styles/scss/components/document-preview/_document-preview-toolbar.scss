@@ -12,9 +12,9 @@
 
 .#{$prefix}--preview-toolbar__nav {
   display: flex;
-  flex: 0 0 auto;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  width: fit-content;
   user-select: none;
 }
 
@@ -47,12 +47,18 @@ input[type='number'] {
   padding-right: $spacing-03;
 }
 
-.#{$prefix}--preview-toolbar__spacer,
-.#{$prefix}--preview-toolbar__zoom {
+.#{$prefix}--preview-toolbar__left,
+.#{$prefix}--preview-toolbar__right {
   flex: 1 1 50%;
+  align-self: center;
 }
 
-.#{$prefix}--preview-toolbar__zoom {
+.#{$prefix}--preview-toolbar__center {
+  flex: 0 0 auto;
+  align-self: center;
+}
+
+.#{$prefix}--preview-toolbar__right {
   display: flex;
   justify-content: flex-end;
   align-items: center;

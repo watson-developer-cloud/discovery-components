@@ -3,6 +3,58 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0-beta.15](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.14...v1.5.0-beta.15) (2022-01-21)
+
+
+### Bug Fixes
+
+* fix PDFViewer rendering issue ([#267](https://github.com/watson-developer-cloud/discovery-components/issues/267)) ([c86cb92](https://github.com/watson-developer-cloud/discovery-components/commit/c86cb929437c5aaab6555ed2baa1674dad49c374))
+
+
+
+
+
+# [1.5.0-beta.14](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.13...v1.5.0-beta.14) (2022-01-21)
+
+
+### Features
+
+* update preview toolbar design for PDF viewer ([#251](https://github.com/watson-developer-cloud/discovery-components/issues/251)) ([8f8af90](https://github.com/watson-developer-cloud/discovery-components/commit/8f8af9084eb811366a5faa1337f4566d7a6fad9d))
+
+
+
+
+
+# [1.5.0-beta.13](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.12...v1.5.0-beta.13) (2022-01-21)
+
+
+### Bug Fixes
+
+* Fix PdfView alignment in DocumentPreview ([#256](https://github.com/watson-developer-cloud/discovery-components/issues/256)) ([4e3631b](https://github.com/watson-developer-cloud/discovery-components/commit/4e3631b47d16805a4d24ea04b0e6a9173318ecf7))
+
+
+
+
+
+# [1.5.0-beta.12](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.11...v1.5.0-beta.12) (2022-01-21)
+
+**Note:** Version bump only for package root
+
+
+
+
+
+# [1.5.0-beta.11](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.10...v1.5.0-beta.11) (2022-01-21)
+
+
+### Features
+
+* add "active" state to highlight on PdfViewer ([#259](https://github.com/watson-developer-cloud/discovery-components/issues/259)) ([35c473a](https://github.com/watson-developer-cloud/discovery-components/commit/35c473a0fdef68f928239095fe761e9ac29f2831))
+
+
+
+
+
 # [1.5.0-beta.10](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.9...v1.5.0-beta.10) (2022-01-19)
 
 **Note:** Version bump only for package root
