@@ -4,7 +4,6 @@ import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import { PreviewToolbar } from './components/PreviewToolbar/PreviewToolbar';
-import PdfViewer from './components/PdfViewer/PdfViewer';
 import SimpleDocument from './components/SimpleDocument/SimpleDocument';
 import withErrorBoundary, { WithErrorBoundaryProps } from 'utils/hoc/withErrorBoundary';
 import { defaultMessages, Messages } from './messages';
@@ -118,6 +117,7 @@ const DocumentPreview: FC<Props> = ({
               setHideToolbarControls={setHideToolbarControls}
               loading={loading}
               hideToolbarControls={hideToolbarControls}
+              setCurrentPage={setCurrentPage}
             />
           </div>
           {loading && (
@@ -146,6 +146,7 @@ interface PreviewDocumentProps {
   setHideToolbarControls?: (disabled: boolean) => void;
   loading: boolean;
   hideToolbarControls: boolean;
+  setCurrentPage?: (page: number) => void;
 }
 
 function PreviewDocument({
@@ -158,20 +159,23 @@ function PreviewDocument({
   setLoading,
   hideToolbarControls,
   setHideToolbarControls,
-  highlight
+  highlight,
+  setCurrentPage
 }: PreviewDocumentProps): ReactElement | null {
   // if we have PDF data, render that
   // otherwise, render fallback document view
   if (file) {
     return (
-      <PdfViewer
+      <PdfViewerWithHighlight
         file={file}
-        document={document}
+        document={document ?? undefined}
         page={currentPage}
         scale={scale}
         setPageCount={setPdfPageCount}
         setLoading={setLoading}
         setHideToolbarControls={setHideToolbarControls}
+        highlight={highlight}
+        setCurrentPage={setCurrentPage}
       />
     );
   }
