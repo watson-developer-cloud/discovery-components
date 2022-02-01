@@ -8,7 +8,13 @@ import { PdfDisplayProps } from '../PdfViewer/types';
 import { PdfRenderedText } from '../PdfViewer/PdfViewerTextLayer';
 import { ExtractedDocumentInfo } from './utils/common/documentUtils';
 import { Highlighter } from './utils/Highlighter';
-import { HighlightProps, HighlightShape } from './types';
+import { getShapeFromBboxHighlight } from './utils/common/highlightUtils';
+import {
+  DocumentBboxHighlight,
+  DocumentFieldHighlight,
+  HighlightProps,
+  HighlightShape
+} from './types';
 
 type Props = PdfDisplayProps &
   HighlightProps & {
@@ -26,6 +32,16 @@ type Props = PdfDisplayProps &
      * PDF text content information in a page from parsed PDF
      */
     pdfRenderedText: PdfRenderedText | null;
+
+    /**
+     * Highlight spans on fields in document
+     */
+    highlights?: DocumentFieldHighlight[];
+
+    /**
+     * Highlight bboxes. This overrides `highlights` props
+     */
+    boxHighlights?: DocumentBboxHighlight[];
   };
 
 const base = `${settings.prefix}--document-preview-pdf-viewer-highlight`;
@@ -41,6 +57,7 @@ const PdfHighlight: FC<Props> = ({
   parsedDocument,
   page,
   highlights,
+  boxHighlights,
   activeIds,
   pdfRenderedText,
   scale,
@@ -53,19 +70,24 @@ const PdfHighlight: FC<Props> = ({
     processedDoc: _useHtmlBbox ? parsedDocument?.processedDoc : undefined,
     pdfRenderedText: (_usePdfTextItem && pdfRenderedText) || undefined,
     pageNum: page,
-    isReady: !!(parsedDocument && (!_usePdfTextItem || pdfRenderedText?.page === page))
+    isReady:
+      !!parsedDocument && !!highlights && (!_usePdfTextItem || pdfRenderedText?.page === page)
   });
 
   const { textDivs } = pdfRenderedText || {};
 
   const highlightShapes = useMemo(() => {
-    highlighter?.setTextContentDivs(textDivs);
-    return highlighter
-      ? highlights.map(highlight => {
-          return highlighter.getHighlight(highlight);
-        })
-      : [];
-  }, [highlighter, highlights, textDivs]);
+    if (boxHighlights) {
+      return getShapeFromBboxHighlight(boxHighlights, page);
+    } else {
+      highlighter?.setTextContentDivs(textDivs);
+      return highlighter
+        ? (highlights || []).map(highlight => {
+            return highlighter.getHighlight(highlight);
+          })
+        : [];
+    }
+  }, [boxHighlights, highlighter, highlights, page, textDivs]);
 
   const highlightDivRef = useRef<HTMLDivElement | null>(null);
   useScrollIntoActiveHighlight(highlightDivRef, highlightShapes, activeIds);
@@ -135,7 +157,7 @@ const useHighlighter = ({
   pageNum,
   isReady
 }: {
-  document: QueryResult;
+  document?: QueryResult;
   textMappings?: TextMappings;
   processedDoc?: ProcessedDoc;
   pdfRenderedText?: PdfRenderedText;
@@ -143,7 +165,7 @@ const useHighlighter = ({
   isReady: boolean;
 }) => {
   return useMemo(() => {
-    if (isReady && textMappings) {
+    if (isReady && document && textMappings) {
       return new Highlighter({
         document,
         textMappings,

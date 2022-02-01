@@ -23,6 +23,18 @@ export type DocumentFieldHighlight = {
 };
 
 /**
+ * Highlight based on bbox
+ */
+export type DocumentBboxHighlight = {
+  id?: string;
+  bboxes: {
+    page: number;
+    bbox: Bbox;
+  }[];
+  className?: string;
+};
+
+/**
  * Highlight shape on a page, which consists of boundary boxes
  */
 export interface HighlightShape {
@@ -55,12 +67,7 @@ export interface HighlightProps {
   /**
    * Document data returned by query
    */
-  document: QueryResult;
-
-  /**
-   * Highlight spans on fields in document
-   */
-  highlights: DocumentFieldHighlight[];
+  document?: QueryResult;
 
   /**
    * Active highlight IDs
