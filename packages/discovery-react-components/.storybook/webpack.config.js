@@ -32,6 +32,12 @@ module.exports = ({ config }) => {
     test: /\.worker\.min\.js$/,
     use: 'raw-loader'
   });
+  config.module.rules.unshift({
+    test: /\.svg$/,
+    use: [{
+      loader: '@svgr/webpack'
+    }]
+  });
   config.resolve.extensions.push('.ts', '.tsx');
   config.resolve.plugins = config.resolve.plugins || [];
   config.resolve.plugins.push(
