@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useContext, useEffect, useState } from 'react';
+import React, { ComponentProps, FC, ReactElement, useContext, useEffect, useState } from 'react';
 import { SkeletonText } from 'carbon-components-react';
 import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
@@ -32,6 +32,10 @@ interface Props extends WithErrorBoundaryProps {
    * i18n messages for the component
    */
   messages?: Messages;
+  /**
+   * React component rendered as a fallback when no preview is available
+   */
+  fallbackComponent?: ComponentProps<typeof SimpleDocument>['fallbackComponent'];
 }
 
 const SCALE_FACTOR = 1.2;
@@ -41,7 +45,8 @@ const DocumentPreview: FC<Props> = ({
   file,
   highlight,
   messages = defaultMessages,
-  didCatch
+  didCatch,
+  fallbackComponent
 }) => {
   const { selectedResult, documentProvider } = useContext(SearchContext);
 
@@ -118,6 +123,7 @@ const DocumentPreview: FC<Props> = ({
               setHideToolbarControls={setHideToolbarControls}
               loading={loading}
               hideToolbarControls={hideToolbarControls}
+              fallbackComponent={fallbackComponent}
             />
           </div>
           {loading && (
@@ -135,10 +141,8 @@ const DocumentPreview: FC<Props> = ({
   );
 };
 
-interface PreviewDocumentProps {
+interface PreviewDocumentProps extends Pick<Props, 'file' | 'highlight' | 'fallbackComponent'> {
   document?: QueryResult | null;
-  file?: string;
-  highlight?: any;
   currentPage: number;
   scale: number;
   setPdfPageCount?: (count: number) => void;
@@ -158,7 +162,8 @@ function PreviewDocument({
   setLoading,
   hideToolbarControls,
   setHideToolbarControls,
-  highlight
+  highlight,
+  fallbackComponent
 }: PreviewDocumentProps): ReactElement | null {
   // if we have PDF data, render that
   // otherwise, render fallback document view
@@ -197,6 +202,7 @@ function PreviewDocument({
         setHideToolbarControls={setHideToolbarControls}
         loading={loading}
         setLoading={setLoading}
+        fallbackComponent={fallbackComponent}
       />
     );
   }

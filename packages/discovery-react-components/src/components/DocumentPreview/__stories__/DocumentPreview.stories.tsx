@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import React, { ComponentType, FC } from 'react';
 import { storiesOf } from '@storybook/react';
-import { radios } from '@storybook/addon-knobs';
+import { radios, boolean } from '@storybook/addon-knobs';
 import { QueryResult, QueryResultPassage } from 'ibm-watson/discovery/v2';
 import DocumentPreview from '../DocumentPreview';
 import { document as docPDF } from '../__fixtures__/Art Effects.pdf';
@@ -48,6 +48,25 @@ storiesOf('DocumentPreview', module)
     return (
       <Wrapper>
         <DocumentPreview file={file} document={docWithTable} highlight={highlight} />
+      </Wrapper>
+    );
+  })
+  .add('fallback component', () => {
+    const doc = {
+      document_id: '1234567890',
+      extracted_metadata: {
+        filename: 'i_am_a_file',
+        file_type: 'json'
+      },
+      result_metadata: {
+        collection_id: '1234'
+      }
+    };
+    const fallback = fallbackComponent();
+
+    return (
+      <Wrapper>
+        <DocumentPreview document={doc} fallbackComponent={fallback} />
       </Wrapper>
     );
   });
@@ -120,4 +139,15 @@ function tableSelection(doc: QueryResult): QueryResult {
       }
     ]
   };
+}
+
+function fallbackComponent(): ComponentType | undefined {
+  const enabled = boolean('Render JSON as a fallback (fallbackComponent)', false);
+  if (enabled) {
+    const Fallback: React.FC<{ document?: QueryResult }> = ({ document }) => (
+      <pre>{JSON.stringify(document, undefined, 2)}</pre>
+    );
+    return Fallback;
+  }
+  return undefined;
 }
