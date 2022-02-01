@@ -70,6 +70,11 @@ export interface HighlightProps {
   document?: QueryResult;
 
   /**
+   * Highlight spans on fields in document
+   */
+  highlights?: DocumentFieldHighlight[];
+
+  /**
    * Active highlight IDs
    */
   activeIds?: string[];

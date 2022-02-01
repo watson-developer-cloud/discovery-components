@@ -9,12 +9,7 @@ import { PdfRenderedText } from '../PdfViewer/PdfViewerTextLayer';
 import { ExtractedDocumentInfo } from './utils/common/documentUtils';
 import { Highlighter } from './utils/Highlighter';
 import { getShapeFromBboxHighlight } from './utils/common/highlightUtils';
-import {
-  DocumentBboxHighlight,
-  DocumentFieldHighlight,
-  HighlightProps,
-  HighlightShape
-} from './types';
+import { DocumentBboxHighlight, HighlightProps, HighlightShape } from './types';
 
 type Props = PdfDisplayProps &
   HighlightProps & {
@@ -32,11 +27,6 @@ type Props = PdfDisplayProps &
      * PDF text content information in a page from parsed PDF
      */
     pdfRenderedText: PdfRenderedText | null;
-
-    /**
-     * Highlight spans on fields in document
-     */
-    highlights?: DocumentFieldHighlight[];
 
     /**
      * Highlight bboxes. This overrides `highlights` props

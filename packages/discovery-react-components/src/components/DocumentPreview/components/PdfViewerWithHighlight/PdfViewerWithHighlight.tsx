@@ -33,10 +33,6 @@ type Props = PdfViewerProps &
      * This property overrides `highlights` property if specified
      */
     highlight?: QueryResultPassage | QueryTableResult;
-    /**
-     * Highlight spans on fields in document
-     */
-    highlights?: DocumentFieldHighlight[];
   };
 
 /**
@@ -56,7 +52,7 @@ const PdfViewerWithHighlight: FC<Props> = ({
   ...rest
 }) => {
   const { scale } = rest;
-  const highlightProps: HighlightProps = {
+  const highlightProps: Omit<HighlightProps, 'highlights'> = {
     highlightClassName,
     activeHighlightClassName,
     document,
