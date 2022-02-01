@@ -1,17 +1,43 @@
-import React, { FC, useMemo, useState, useCallback, useEffect, useRef } from 'react';
-import { QueryResult } from 'ibm-watson/discovery/v2';
+import React, { FC, useState, useCallback, useEffect, useRef } from 'react';
+import { QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
 import { nonEmpty } from 'utils/nonEmpty';
 import { TextMappings } from '../../types';
-import { getTextMappings } from '../../utils/documentData';
 import { spanIntersects } from '../../utils/textSpan';
+import { isPassage } from '../Highlight/passages';
+import { getHighlightTable, isTable } from '../Highlight/tables';
 import PdfViewer, { PdfViewerProps } from '../PdfViewer/PdfViewer';
 import { PdfRenderedText } from '../PdfViewer/PdfViewerTextLayer';
-import PdfViewerHighlight from '../PdfHighlight/PdfHighlight';
-import { extractDocumentInfo } from '../PdfHighlight/utils/common/documentUtils';
-import { DocumentFieldHighlight, HighlightProps } from '../PdfHighlight/types';
+import PdfHighlight from '../PdfHighlight/PdfHighlight';
+import {
+  DocumentBboxHighlight,
+  DocumentFieldHighlight,
+  HighlightProps
+} from '../PdfHighlight/types';
+import {
+  extractDocumentInfo,
+  ExtractedDocumentInfo
+} from '../PdfHighlight/utils/common/documentUtils';
+import {
+  convertToDocumentFieldHighlights,
+  convertToDocumentBboxHighlights,
+  DEFAULT_HIGHLIGHT_ID
+} from '../PdfHighlight/utils/common/highlightUtils';
+import flatMap from 'lodash/flatMap';
+import uniq from 'lodash/uniq';
 
-type Props = PdfViewerProps & HighlightProps;
+type Props = PdfViewerProps &
+  HighlightProps & {
+    /**
+     * Passage or table to highlight in document.
+     * This property overrides `highlights` property if specified
+     */
+    highlight?: QueryResultPassage | QueryTableResult;
+    /**
+     * Highlight spans on fields in document
+     */
+    highlights?: DocumentFieldHighlight[];
+  };
 
 /**
  * PDF viewer component with text highlighting capability
@@ -21,6 +47,7 @@ const PdfViewerWithHighlight: FC<Props> = ({
   activeHighlightClassName,
   document,
   page,
+  highlight,
   highlights,
   activeIds,
   _useHtmlBbox,
@@ -33,33 +60,101 @@ const PdfViewerWithHighlight: FC<Props> = ({
     highlightClassName,
     activeHighlightClassName,
     document,
-    highlights,
-    activeIds,
     _useHtmlBbox,
     _usePdfTextItem
   };
 
   const [renderedText, setRenderedText] = useState<PdfRenderedText | null>(null);
+  const isTableHighlight = isTable(highlight);
   const documentInfo = useAsyncFunctionCall(
-    useCallback(async () => await extractDocumentInfo(document), [document])
+    useCallback(
+      async () =>
+        document ? await extractDocumentInfo(document, { table: isTableHighlight }) : undefined,
+      [document, isTableHighlight]
+    )
   );
 
-  const activeHighlightPages = useActiveHighlightPages(document, highlights, activeIds);
-  const currentPage = useMovePageToActiveHighlight(page, activeHighlightPages, setCurrentPage);
+  const hlState = useHighlightState({ highlight, highlights, activeIds, documentInfo });
+  const currentPage = useMovePageToActiveHighlight(page, hlState.activePages, setCurrentPage);
 
   const highlightReady = !!documentInfo && !!renderedText;
   return (
     <PdfViewer {...rest} page={currentPage} setRenderedText={setRenderedText}>
-      <PdfViewerHighlight
-        parsedDocument={highlightReady ? documentInfo ?? null : null}
-        pdfRenderedText={highlightReady ? renderedText : null}
-        page={currentPage}
-        scale={scale}
-        {...highlightProps}
-      />
+      {(hlState.fields || hlState.bboxes) && (
+        <PdfHighlight
+          parsedDocument={highlightReady ? documentInfo ?? null : null}
+          pdfRenderedText={highlightReady ? renderedText : null}
+          page={currentPage}
+          scale={scale}
+          highlights={hlState.fields}
+          boxHighlights={hlState.bboxes}
+          activeIds={hlState.activeIds}
+          {...highlightProps}
+        />
+      )}
     </PdfViewer>
   );
 };
+
+type HighlightState = {
+  activePages: number[];
+  activeIds?: string[];
+  fields?: DocumentFieldHighlight[];
+  bboxes?: DocumentBboxHighlight[];
+};
+
+/**
+ * Hook to calculate highlights passed to <PdfHighlight>
+ * from given highlight-related properties (highlight, highlights, activeIds)
+ */
+function useHighlightState({
+  highlight: queryHighlight,
+  highlights,
+  activeIds,
+  documentInfo
+}: Pick<Props, 'highlight' | 'highlights' | 'activeIds'> & {
+  documentInfo?: ExtractedDocumentInfo;
+}): HighlightState {
+  const [state, setState] = useState<HighlightState>({ activePages: [] });
+
+  useEffect(() => {
+    if (isTable(queryHighlight)) {
+      const table = getHighlightTable(queryHighlight, documentInfo?.processedDoc);
+      const bboxHighlights = table ? convertToDocumentBboxHighlights(table) : null;
+      if (bboxHighlights?.length) {
+        setState({
+          activePages: uniq(flatMap(bboxHighlights, hl => hl.bboxes.map(bbox => bbox.page))),
+          activeIds: [DEFAULT_HIGHLIGHT_ID],
+          bboxes: bboxHighlights
+        });
+        return;
+      }
+    } else if (isPassage(queryHighlight)) {
+      const fields = queryHighlight ? convertToDocumentFieldHighlights(queryHighlight) : null;
+      if (fields?.length) {
+        setState({
+          activePages: getPagesFromHighlights(documentInfo?.textMappings, fields),
+          activeIds: [DEFAULT_HIGHLIGHT_ID],
+          fields
+        });
+        return;
+      }
+    } else if (highlights) {
+      setState({
+        activePages: getPagesFromHighlights(documentInfo?.textMappings, highlights, activeIds),
+        activeIds,
+        fields: highlights
+      });
+      return;
+    }
+
+    setState({
+      activePages: []
+    });
+  }, [activeIds, documentInfo, highlights, queryHighlight]);
+
+  return state;
+}
 
 /**
  * Hook to move PDF page depending on active highlight
@@ -78,7 +173,7 @@ function useMovePageToActiveHighlight(
       setCurrentPage(page);
     }
     previousPageRef.current = page;
-  }, [page]);
+  }, [currentPage, page]);
 
   // update the current page and invoke setPage when the page is changed by activating a highlight
   const previousHighlightPageRef = useRef<number | undefined>();
@@ -99,26 +194,19 @@ function useMovePageToActiveHighlight(
   return currentPage;
 }
 
-/**
- * Hook to calculate pages of active highlights
- */
-function useActiveHighlightPages(
-  document: QueryResult,
+function getPagesFromHighlights(
+  textMappings: TextMappings | null | undefined,
   highlights: DocumentFieldHighlight[],
   activeIds?: string[]
-): number[] {
-  const textMappings = useMemo(() => {
-    return getTextMappings(document) ?? undefined;
-  }, [document]);
-
-  const activePages = useMemo(() => {
-    const activePages = (activeIds || []).map(activeId => {
-      const hl = highlights.find(hl => hl.id === activeId);
-      return hl && textMappings ? getPageFromHighlight(textMappings, hl) : null;
-    });
-    return activePages.filter(nonEmpty);
-  }, [textMappings, highlights, activeIds]);
-
+) {
+  const activePages = (highlights || [])
+    .map(highlight => {
+      if (!activeIds || (highlight.id && activeIds.includes(highlight.id))) {
+        return textMappings ? getPageFromHighlight(textMappings, highlight) : null;
+      }
+      return null;
+    })
+    .filter(nonEmpty);
   return activePages;
 }
 
