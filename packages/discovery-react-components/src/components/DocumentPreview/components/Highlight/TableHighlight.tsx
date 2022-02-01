@@ -5,7 +5,7 @@ import { processDoc, ProcessedDoc, Table } from 'utils/document';
 import { getTextMappings } from 'components/DocumentPreview/utils/documentData';
 import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from './constants';
 import { Page } from 'components/DocumentPreview/types';
-import { spansIntersect } from 'utils/document/documentUtils';
+import { getHighlightTable } from './tables';
 
 interface Props {
   /**
@@ -54,18 +54,7 @@ export const TableHighlight: FC<Props> = ({
 
   const [matchedTable, setMatchedTable] = useState<Table | null>(null);
   useEffect(() => {
-    if (!processedDoc || !processedDoc.tables) {
-      return;
-    }
-    const loc = get(highlight, 'table.location');
-    if (!loc) {
-      return;
-    }
-
-    const { begin, end } = loc;
-    const table = processedDoc.tables.find(({ location }) =>
-      spansIntersect(location, { begin, end })
-    );
+    const table = getHighlightTable(highlight, processedDoc);
     if (table) {
       setMatchedTable(table);
       if (setHighlightFirstPage) {
