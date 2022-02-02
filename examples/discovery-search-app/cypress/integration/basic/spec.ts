@@ -17,7 +17,7 @@ describe('Basic search', () => {
     it('should be able to query and show expected results', () => {
       // SearchInput should appear with magnifying glass icon
       cy.get('@searchInput').should('be.visible');
-      cy.get('svg.bx--search-magnifier').should('be.visible');
+      cy.get('svg.bx--search-magnifier-icon').should('be.visible');
 
       // Querying with results
       cy.get('@searchInput').type('abil{enter}');

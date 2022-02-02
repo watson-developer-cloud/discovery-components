@@ -30,7 +30,6 @@ export function usePassage(
 const START = 0;
 const END = 1;
 
-/* eslint-disable @typescript-eslint/camelcase */
 export function getPassagePageInfo(
   textMappings: TextMappings,
   passage: QueryResultPassage
@@ -56,7 +55,6 @@ export function getPassagePageInfo(
     })
     .map(cell => cell.page);
 }
-/* eslint-enable @typescript-eslint/camelcase */
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isPassage(obj: any): boolean {

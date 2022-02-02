@@ -40,7 +40,7 @@ describe('Dynamic Facets', () => {
     cy.wait('@postQueryFacetsSingle').its('requestBody.filter').should('eq', '"regression"');
 
     // shows the bubble next to dynamic facets saying 1
-    cy.get('.bx--list-box__selection').contains('1').should('exist');
+    cy.get('.bx--tag--filter').contains('1').should('exist');
 
     // and a different filter is selected from dynamic facets
     cy.route('POST', '**/query?version=2019-01-01', '@facetsQueryMultiRefinementJSON').as(
@@ -54,7 +54,7 @@ describe('Dynamic Facets', () => {
       .should('eq', '"regression","classification"');
 
     // shows the bubble next to dynamic facets saying 2
-    cy.get('.bx--list-box__selection').contains('2').should('exist');
+    cy.get('.bx--tag--filter').contains('2').should('exist');
 
     // and the "Clear all" button is clicked
     cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQueryFacets');
