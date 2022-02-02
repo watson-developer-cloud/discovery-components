@@ -1,7 +1,13 @@
 import { QueryResultPassage } from 'ibm-watson/discovery/v2';
 import { Table } from 'utils/document';
 import { nonEmpty } from 'utils/nonEmpty';
-import { Bbox, DocumentBboxHighlight, DocumentFieldHighlight } from '../../types';
+import {
+  Bbox,
+  DocumentBboxHighlight,
+  DocumentFieldHighlight,
+  HighlightShape,
+  HighlightShapeBox
+} from '../../types';
 
 export const DEFAULT_HIGHLIGHT_ID = 'highlight';
 
@@ -39,10 +45,13 @@ export function convertToDocumentBboxHighlights(
   ];
 }
 
-export function getShapeFromBboxHighlight(highlights: DocumentBboxHighlight[], page: number) {
+export function getShapeFromBboxHighlight(
+  highlights: DocumentBboxHighlight[],
+  page: number
+): HighlightShape[] {
   return highlights
     .map(hl => {
-      const boxes = hl.bboxes
+      const boxes: HighlightShapeBox[] = hl.bboxes
         .filter(b => b.page === page)
         .map((b, index, arr) => ({
           bbox: b.bbox,
