@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { settings } from 'carbon-components';
-import { ToggleSmall } from 'carbon-components-react';
+import { Toggle } from 'carbon-components-react';
 import { SearchApi } from 'components/DiscoverySearch/DiscoverySearch';
 import { Messages } from 'components/SearchResults/messages';
 
@@ -42,7 +42,8 @@ export const TablesOnlyToggle: React.FunctionComponent<TablesOnlyToggleProps> = 
   return (
     <>
       {showTablesOnlyToggle && (
-        <ToggleSmall
+        <Toggle
+          size="sm"
           aria-label={messages.tablesOnlyToggleLabelText}
           className={toggleClassName}
           id={`${settings.prefix}--tables-only-toggle`}

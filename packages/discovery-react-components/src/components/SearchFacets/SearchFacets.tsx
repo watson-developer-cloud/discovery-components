@@ -1,4 +1,4 @@
-import React, { FC, useContext, useState, SyntheticEvent } from 'react';
+import React, { FC, useContext, useState, SyntheticEvent, useMemo } from 'react';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { Button } from 'carbon-components-react';
 import { settings } from 'carbon-components';
@@ -81,7 +81,7 @@ const SearchFacets: FC<SearchFacetsProps> = ({
   serverErrorMessage,
   onChange
 }) => {
-  const facetsId = id || `search-facets__${uuidv4()}`;
+  const facetsId = useMemo(() => id || `search-facets__${uuidv4()}`, [id]);
 
   const {
     searchResponseStore: {
@@ -209,15 +209,18 @@ const SearchFacets: FC<SearchFacetsProps> = ({
     if (onChange) {
       onChange(event);
     }
+
     setFacetSelectionState({ filterFields: [], filterDynamic: [] });
     setCollectionSelectionState([]);
-    // We should update to not select with a click
+
+    // TODO We should update to not select with a click
     // when Carbon MultiSelect selection can be controlled and Downshift's action props are exposed
     (
       document.querySelectorAll(
-        `.${settings.prefix}--list-box__selection--multi`
+        `#${facetsId} .${settings.prefix}--tag--filter [role="button"]`
       ) as NodeListOf<HTMLElement>
     ).forEach(element => element.click());
+
     performSearch({ ...searchParameters, collectionIds: [], offset: 0, filter: '' }, false);
   };
 

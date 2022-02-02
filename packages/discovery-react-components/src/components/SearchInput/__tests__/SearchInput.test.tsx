@@ -188,11 +188,7 @@ describe('<SearchInput />', () => {
           });
 
           test('no autocompletions are displayed', () => {
-            waitForElementToBeRemoved(() =>
-              queryByTestId(container, 'completions-dropdown-test-id')
-            ).then(() => {
-              expectNoCompletionsDropdown(container);
-            });
+            expectNoCompletionsDropdown(container);
           });
         });
       });
@@ -324,12 +320,11 @@ describe('<SearchInput />', () => {
             fireEvent.blur(getByTestId(container, 'search-input-test-id'));
           });
 
-          test('the completions dropdown disappears', () => {
-            waitForElementToBeRemoved(() =>
+          test('the completions dropdown disappears', async () => {
+            await waitForElementToBeRemoved(
               queryByTestId(container, 'completions-dropdown-test-id')
-            ).then(() => {
-              expectNoCompletionsDropdown(container);
-            });
+            );
+            expectNoCompletionsDropdown(container);
           });
         });
       });

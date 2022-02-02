@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render, getNodeText, fireEvent, RenderResult, wait } from '@testing-library/react';
+import { render, fireEvent, RenderResult, wait } from '@testing-library/react';
 import { wrapWithContext } from 'utils/testingUtils';
 import { SearchContextIFC, SearchApiIFC } from 'components/DiscoverySearch/DiscoverySearch';
 import SearchFacets from 'components/SearchFacets/SearchFacets';
@@ -26,7 +26,8 @@ const setup = (collectionIds?: string[]): Setup => {
       },
       data: null,
       isLoading: false,
-      isError: false
+      isError: false,
+      error: null
     }
   };
   const collectionFacetsComponent = render(wrapWithContext(<SearchFacets />, api, context));
@@ -57,7 +58,7 @@ describe('CollectionFacetsComponent', () => {
     test('shows pre-selected count', async () => {
       const { collectionFacetsComponent } = setup(['machine-learning']);
       const selectedCount = await collectionFacetsComponent.findByTitle('Clear all selected items');
-      expect(getNodeText(selectedCount)).toEqual('1');
+      expect(selectedCount.parentElement?.textContent).toEqual('1');
     });
 
     test('pre-selects collections set in query params', async () => {
@@ -100,7 +101,7 @@ describe('CollectionFacetsComponent', () => {
           collectionIds: ['machine-learning']
         })
       );
-      const aiStrategyCollection = collectionFacetsComponent.getByTitle('AI Strategy');
+      const aiStrategyCollection = collectionFacetsComponent.getByLabelText('AI Strategy');
       fireEvent.click(aiStrategyCollection);
       expect(performSearchMock).toBeCalledTimes(2);
       expect(performSearchMock).toBeCalledWith(

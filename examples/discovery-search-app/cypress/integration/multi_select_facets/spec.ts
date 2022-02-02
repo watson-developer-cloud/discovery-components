@@ -49,7 +49,7 @@ describe('Multi-Select Facets', () => {
         cy.get('@amesFilterQueryObject')
           .its('requestBody.filter')
           .should('eq', 'location:"Ames, IA"');
-        cy.get('.bx--list-box__selection').contains('1').should('exist');
+        cy.get('.bx--tag--filter').contains('1').should('exist');
       });
 
       describe('and a different filter is selected from the same facet', () => {
@@ -65,7 +65,7 @@ describe('Multi-Select Facets', () => {
           cy.get('@multiFilterQueryObject')
             .its('requestBody.filter')
             .should('eq', 'location:"Pittsburgh, PA"|location:"Ames, IA"');
-          cy.get('.bx--list-box__selection').contains('2').should('exist');
+          cy.get('.bx--tag--filter').contains('2').should('exist');
         });
       });
 
@@ -74,7 +74,7 @@ describe('Multi-Select Facets', () => {
           cy.findAllByTestId('search-result-element-preview-button').first().click();
           cy.get('.bx--btn__icon').click();
           cy.get("input[id='checkbox-location-Ames,_IA']").should('have.attr', 'checked');
-          cy.get('.bx--list-box__selection').contains('1').should('exist');
+          cy.get('.bx--tag--filter').contains('1').should('exist');
         });
       });
 
@@ -123,7 +123,7 @@ describe('Multi-Select Facets', () => {
             cy.route('POST', '**/query?version=2019-01-01', '@facetsQueryAmesJSON').as(
               'postQueryFacetsAmes'
             );
-            cy.get('@priceFacet').find('.bx--list-box__selection').click();
+            cy.get('@priceFacet').find('.bx--tag--filter').click();
             cy.wait('@postQueryFacetsAmes').as('amesFilterQueryObject');
           });
 
