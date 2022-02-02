@@ -145,7 +145,7 @@ function fallbackComponent(): ComponentType | undefined {
   const enabled = boolean('Custom fallback (fallbackComponent)', false);
   if (enabled) {
     const Fallback: React.FC<{ document?: QueryResult }> = ({ document }) => (
-      <div>
+      <div style={{ width: '100%' }}>
         <h4>Document JSON</h4>
         <pre>{JSON.stringify(document, undefined, 2)}</pre>
       </div>

@@ -44,7 +44,7 @@ interface Props {
 }
 
 interface ErrorComponentProps {
-  document?: QueryResult;
+  document: QueryResult;
 }
 
 export const SimpleDocument: FC<Props> = ({
@@ -54,7 +54,7 @@ export const SimpleDocument: FC<Props> = ({
   setLoading,
   hideToolbarControls,
   setHideToolbarControls,
-  fallbackComponent,
+  fallbackComponent: FallbackComponent,
   cannotPreviewMessage = "Can't preview document",
   cannotPreviewMessage2 = "Try the JSON tab for a different view of this document's data."
 }) => {
@@ -162,12 +162,6 @@ export const SimpleDocument: FC<Props> = ({
     }
   }, [passage]);
 
-  // render fallback component if specified
-  if (!html && fallbackComponent) {
-    const Fallback = fallbackComponent;
-    return <Fallback document={document} />;
-  }
-
   const baseClass = `${settings.prefix}--simple-document`;
   return (
     <div className={baseClass}>
@@ -180,6 +174,8 @@ export const SimpleDocument: FC<Props> = ({
             ref={contentRef}
           />
         </div>
+      ) : FallbackComponent ? (
+        <FallbackComponent document={document} />
       ) : (
         <ErrorView header={cannotPreviewMessage} message={cannotPreviewMessage2} />
       )}

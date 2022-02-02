@@ -148,19 +148,17 @@ describe('SimpleDocument', () => {
       }
     };
 
-    let getByText: BoundFunction<GetByText> = noop;
-    act(() => {
-      ({ getByText } = render(
-        <SimpleDocument
-          document={jsonDoc}
-          setHideToolbarControls={(): void => {}}
-          setLoading={(): void => {}}
-          fallbackComponent={({ document }) => <div>JSON: {JSON.stringify(document)}</div>}
-          hideToolbarControls
-          loading
-        />
-      ));
-    });
+    const { getByText } = render(
+      <SimpleDocument
+        document={jsonDoc}
+        setHideToolbarControls={(): void => {}}
+        setLoading={(): void => {}}
+        fallbackComponent={({ document }) => <div>JSON: {JSON.stringify(document)}</div>}
+        hideToolbarControls
+        loading
+      />
+    );
+
     const errorText = `JSON: ${JSON.stringify(jsonDoc)}`;
     getByText(errorText);
   });
