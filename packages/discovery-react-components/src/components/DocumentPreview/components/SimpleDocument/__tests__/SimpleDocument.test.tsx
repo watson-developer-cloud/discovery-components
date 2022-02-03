@@ -135,4 +135,31 @@ describe('SimpleDocument', () => {
 
     getByText(passageText);
   });
+
+  it('renders a fallback component when nothing to display in document', () => {
+    const jsonDoc = {
+      document_id: '1234567890',
+      extracted_metadata: {
+        filename: 'i_am_a_file',
+        file_type: 'json'
+      },
+      result_metadata: {
+        collection_id: '1234'
+      }
+    };
+
+    const { getByText } = render(
+      <SimpleDocument
+        document={jsonDoc}
+        setHideToolbarControls={(): void => {}}
+        setLoading={(): void => {}}
+        fallbackComponent={({ document }) => <div>JSON: {JSON.stringify(document)}</div>}
+        hideToolbarControls
+        loading
+      />
+    );
+
+    const errorText = `JSON: ${JSON.stringify(jsonDoc)}`;
+    getByText(errorText);
+  });
 });
