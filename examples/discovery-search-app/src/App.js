@@ -111,12 +111,8 @@ function SearchPage() {
         <div className={`${settings.prefix}--search-app__top-container ${settings.prefix}--grid`}>
           <div className={`${settings.prefix}--row`}>
             <div className={`${settings.prefix}--col-md-8`}>
-              <SearchInput
-                light={true}
-                small={false}
-                completionsCount={7}
-                spellingSuggestions={true}
-              />
+              {/* Carbon v11: change size value to "md" */}
+              <SearchInput light={true} size="lg" completionsCount={7} spellingSuggestions={true} />
             </div>
           </div>
           <div

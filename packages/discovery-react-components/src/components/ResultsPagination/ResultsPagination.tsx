@@ -131,7 +131,8 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
             totalItems={matchingResults}
             pageSize={actualPageSize}
             pageSizes={pageSizes}
-            // onChange={handleOnChange} // see PageSelector for why this is commented out
+            // NOTE: See PageSelector below for details about `onChange`
+            onChange={handleOnChange}
             itemRangeText={handleItemRangeText}
             itemsPerPageText={mergedMessages.itemsPerPageText}
             pageRangeText={handlePageRangeText}
@@ -148,9 +149,9 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
   return null;
 };
 
-// XXX Slight hack. unstabled_Pagination doesn't currently emit an `onChange`
-// event, so we create a fake "page selector" child which gets the updates we
-// need. We can then call the original `handleOnChange` with the updated values.
+// XXX Slight hack. unstable_Pagination's `onChange` only fires when clicking next/prev buttons,
+//     but _not_ when changing the page size. For that reason, we use a custom PageSelector to track
+//     this state and call `handlOnChange` when necessary.
 type PageSelectorProps = {
   currentPage: number;
   currentPageSize: number;
@@ -159,13 +160,11 @@ type PageSelectorProps = {
 };
 
 function PageSelector({ currentPage, currentPageSize, onSetPage, onChange }: PageSelectorProps) {
-  const [page, setPage] = useState(currentPage);
   const [pageSize, setPageSize] = useState(currentPageSize);
 
   useEffect(() => {
     if (currentPageSize !== pageSize) {
       setPageSize(currentPageSize);
-      setPage(1);
 
       onChange({
         page: 1,
@@ -173,15 +172,8 @@ function PageSelector({ currentPage, currentPageSize, onSetPage, onChange }: Pag
       });
       // update unstable_Pagination state
       onSetPage(1);
-    } else if (currentPage !== page) {
-      setPage(currentPage);
-
-      onChange({
-        page: currentPage,
-        pageSize: pageSize
-      });
     }
-  }, [currentPage, currentPageSize, onChange, onSetPage, page, pageSize]);
+  }, [currentPageSize, onChange, onSetPage, pageSize]);
 
   return (
     <span className={`${settings.prefix}--unstable-pagination__text`} data-testid="current-page">

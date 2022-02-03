@@ -1,6 +1,6 @@
 {
   "name": "@ibm-watson/discovery-react-components",
-  "version": "1.5.0-beta.16",
+  "version": "1.5.0-beta.17",
   "description": "Discovery components built with the React framework and IBM Carbon components",
   "license": "Apache-2.0",
   "author": "IBM Corp.",
@@ -79,8 +79,8 @@
     "carbon-components-react": ">= 7.46.0 < 8",
     "core-js": "^2.6.12",
     "ibm-watson": "^6.0.2",
-    "react": ">= 16.8.0 < 17",
-    "react-dom": ">= 16.8.0 < 17"
+    "react": ">= 16.8.0 < 18",
+    "react-dom": ">= 16.8.0 < 18"
   },
   "engines": {
     "node": ">=12"
