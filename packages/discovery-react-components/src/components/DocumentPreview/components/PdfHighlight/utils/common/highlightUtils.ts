@@ -12,18 +12,18 @@ import {
 export const DEFAULT_HIGHLIGHT_ID = 'highlight';
 
 export function convertToDocumentFieldHighlights(
-  highlight: QueryResultPassage,
+  passage: QueryResultPassage,
   { id = DEFAULT_HIGHLIGHT_ID, className }: { id?: string; className?: string } = {}
 ): DocumentFieldHighlight[] {
   return [
     {
       id,
       className,
-      field: highlight.field || '',
+      field: passage.field || '',
       fieldIndex: 0,
       location: {
-        begin: highlight.start_offset || 0,
-        end: highlight.end_offset || 0
+        begin: passage.start_offset || 0,
+        end: passage.end_offset || 0
       }
     }
   ];
@@ -56,7 +56,7 @@ export function getShapeFromBboxHighlight(
         .map((b, index, arr) => ({
           bbox: b.bbox,
           isStart: index === 0,
-          isEnd: index === arr.length
+          isEnd: index === arr.length - 1
         }));
       return boxes.length > 0
         ? {
