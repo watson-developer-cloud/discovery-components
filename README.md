@@ -13,27 +13,27 @@
 - [Using Discovery Components](#using-discovery-components)
 - [Prerequisites](#prerequisites)
 - [Running the example app](#running-the-example-app)
-  * [Setup script](#setup-script)
-  * [Manual setup](#manual-setup)
-    + [Windows Only](#windows-only)
+  - [Setup script](#setup-script)
+  - [Manual setup](#manual-setup)
+    - [Windows Only](#windows-only)
 - [Using Discovery Components in a React application](#using-discovery-components-in-a-react-application)
-  * [Interacting with Discovery data in custom components](#interacting-with-discovery-data-in-custom-components)
-  * [Optimize CSS](#optimize-css)
+  - [Interacting with Discovery data in custom components](#interacting-with-discovery-data-in-custom-components)
+  - [Optimize CSS](#optimize-css)
 - [Development](#development)
-  * [Project structure](#project-structure)
-  * [Install](#install)
-  * [Available commands](#available-commands)
-    + [Root directory](#root-directory)
-    + [Example app (examples/discovery-search-app)](#example-app-examplesdiscovery-search-app)
-    + [React components (packages/discovery-react-components)](#react-components-packagesdiscovery-react-components)
-    + [Styles (packages/discovery-styles)](#styles-packagesdiscovery-styles)
-  * [Running the project](#running-the-project)
-  * [Running Storybook](#running-storybook)
-  * [Testing](#testing)
-    + [Unit/Integration testing](#unitintegration-testing)
-    + [Feature tests](#feature-tests)
-    + [Continuous integration](#continuous-integration)
-  * [Branching and Releasing](#branching-and-releasing)
+  - [Project structure](#project-structure)
+  - [Install](#install)
+  - [Available commands](#available-commands)
+    - [Root directory](#root-directory)
+    - [Example app (examples/discovery-search-app)](#example-app-examplesdiscovery-search-app)
+    - [React components (packages/discovery-react-components)](#react-components-packagesdiscovery-react-components)
+    - [Styles (packages/discovery-styles)](#styles-packagesdiscovery-styles)
+  - [Running the project](#running-the-project)
+  - [Running Storybook](#running-storybook)
+  - [Testing](#testing)
+    - [Unit/Integration testing](#unitintegration-testing)
+    - [Feature tests](#feature-tests)
+    - [Continuous integration](#continuous-integration)
+  - [Branching and Releasing](#branching-and-releasing)
 - [Helpful links](#helpful-links)
 - [Contributors](#contributors)
 
@@ -47,7 +47,7 @@ First, you will need to customize and improve your document retrieval project on
 
 - [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [nvm](https://github.com/nvm-sh/nvm#installation-and-update)
-- [yarn](https://yarnpkg.com/en/docs/install) or [npm](https://www.npmjs.com/get-npm)
+- [yarn](https://yarnpkg.com/getting-started/install) or [npm](https://www.npmjs.com/get-npm)
 
 ## Running the example app
 
@@ -77,7 +77,7 @@ yarn workspace discovery-search-app run start
 
 ### Manual setup
 
-1. Install [Yarn](https://yarnpkg.com/lang/en/docs/install), as it is required to build the components locally.
+1. Install [Yarn](https://yarnpkg.com/getting-started/install), as it is required to build the components locally.
 
 2. Clone the repository
 
@@ -367,7 +367,7 @@ Create React Library was used to generate the library of React components, `disc
 
 ### Install
 
-1. Install [Yarn](https://yarnpkg.com/lang/en/docs/install), as it is required build the components locally.
+1. Install [Yarn](https://yarnpkg.com/getting-started/install), as it is required build the components locally.
 
 2. Download the git repository
 
