@@ -54,7 +54,7 @@ describe('Collection Filter', () => {
         });
 
         it('the clear all selected collections button appears', () => {
-          cy.findByLabelText('Clear Selection').should('exist');
+          cy.findByLabelText('Clear all selected items').should('exist');
         });
 
         describe('and we click the clear selected collections button', () => {
@@ -62,7 +62,7 @@ describe('Collection Filter', () => {
             cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as(
               'postQueryClearedSelections'
             );
-            cy.get('div[aria-label="Clear Selection"]').click();
+            cy.get('div[aria-label="Clear all selected items"]').click();
             cy.wait('@postQueryClearedSelections').as('clearedCollectionsQueryObject');
           });
 
@@ -94,7 +94,7 @@ describe('Collection Filter', () => {
               cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as(
                 'postQueryClearedSelections'
               );
-              cy.get('div[aria-label="Clear Selection"]').click();
+              cy.get('div[aria-label="Clear all selected items"]').click();
               cy.wait('@postQueryClearedSelections').as('originalQueryObject');
             });
 

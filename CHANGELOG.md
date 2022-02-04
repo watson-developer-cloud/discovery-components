@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0-beta.18](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.17...v1.5.0-beta.18) (2022-02-03)
+
+
+### Features
+
+* allow fallbackComponent props to DocumentPreview component ([#286](https://github.com/watson-developer-cloud/discovery-components/issues/286)) ([0082600](https://github.com/watson-developer-cloud/discovery-components/commit/008260090201c8376eae8e19f7246e1a76cf0b82))
+
+
+
+
+
+# [1.5.0-beta.17](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.16...v1.5.0-beta.17) (2022-02-02)
+
+
+### Features
+
+* support react 17 ([#282](https://github.com/watson-developer-cloud/discovery-components/issues/282)) ([6052f1b](https://github.com/watson-developer-cloud/discovery-components/commit/6052f1bbbbcdfc09a14d8d9d7960ee46401a76e0))
+
+
+
+
+
 # [1.5.0-beta.16](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.15...v1.5.0-beta.16) (2022-01-31)
 
 

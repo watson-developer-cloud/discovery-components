@@ -88,11 +88,7 @@ export interface Table {
  * @param {Boolean} options.itemMap return item mapping into 'sections'
  * @throws {ParsingError}
  */
-export async function processDoc(
-  // eslint-disable-next-line @typescript-eslint/camelcase
-  queryData: QueryResult,
-  options?: Options
-): Promise<ProcessedDoc> {
+export async function processDoc(queryData: QueryResult, options?: Options): Promise<ProcessedDoc> {
   const { html, enriched_html: enrichedHtml } = cloneDeep(queryData);
   const documentTitle = getDocumentTitle(queryData, 'title');
   options = {

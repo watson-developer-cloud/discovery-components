@@ -70,7 +70,7 @@ export const ModalSearchInput: FC<ModalSearchInputProps> = ({
     <CarbonSearchInput
       value={value}
       labelText={messages.modalSearchBarPrompt}
-      placeHolderText={messages.modalSearchBarPrompt}
+      placeholder={messages.modalSearchBarPrompt}
       onChange={handleOnChange}
       data-testid={`search-facet-modal-search-bar-${facetsLabel}`}
     />

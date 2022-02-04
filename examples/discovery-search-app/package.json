@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "discovery-search-app",
-  "version": "1.5.0-beta.16",
+  "version": "1.5.0-beta.18",
   "description": "Discovery components example application used to showcase components in a full application",
   "license": "Apache-2.0",
   "author": "IBM Corp.",
@@ -22,11 +22,12 @@
   },
   "dependencies": {
     "@carbon/icons": "^10.5.0",
-    "@ibm-watson/discovery-react-components": "^1.5.0-beta.16",
-    "@ibm-watson/discovery-styles": "^1.5.0-beta.14",
+    "@ibm-watson/discovery-react-components": "^1.5.0-beta.18",
+    "@ibm-watson/discovery-styles": "^1.5.0-beta.17",
     "body-parser": "^1.19.0",
-    "carbon-components": "^10.6.0",
-    "carbon-components-react": "^7.7.0",
+    "carbon-components": "~10.46.0",
+    "carbon-components-react": "~7.46.0",
+    "carbon-icons": "^7.0.7",
     "classnames": "^2.2.6",
     "core-js": "^2.6.12",
     "cors": "^2.8.5",
@@ -34,23 +35,15 @@
     "express": "^4.17.1",
     "http-proxy-middleware": "^0.20.0",
     "ibm-watson": "^6.2.1",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   },
   "devDependencies": {
+    "@cypress/webpack-preprocessor": "^5.11.0",
+    "@testing-library/cypress": "^7.0.7",
     "cross-env": "^7.0.3",
-    "react-scripts": "^4.0.3"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "cypress": "^6.9.1",
+    "react-scripts": "^4.0.3",
+    "start-server-and-test": "^1.14.0"
   }
 }
