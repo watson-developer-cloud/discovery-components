@@ -29,7 +29,7 @@ import uniq from 'lodash/uniq';
 type Props = PdfViewerProps &
   HighlightProps & {
     /**
-     * Passage or table to highlight in document.
+     * Passage or table highlight from query result.
      * This property overrides `highlights` property if specified
      */
     highlight?: QueryResultPassage | QueryTableResult;
@@ -43,8 +43,8 @@ const PdfViewerWithHighlight: FC<Props> = ({
   activeHighlightClassName,
   document,
   page,
-  highlight,
-  highlights,
+  highlight: queryHighlight,
+  highlights: fieldHighlights,
   activeIds,
   _useHtmlBbox,
   _usePdfTextItem,
@@ -61,7 +61,7 @@ const PdfViewerWithHighlight: FC<Props> = ({
   };
 
   const [renderedText, setRenderedText] = useState<PdfRenderedText | null>(null);
-  const isTableHighlight = isTable(highlight);
+  const isTableHighlight = isTable(queryHighlight);
   const documentInfo = useAsyncFunctionCall(
     useCallback(
       async () =>
@@ -70,21 +70,26 @@ const PdfViewerWithHighlight: FC<Props> = ({
     )
   );
 
-  const hlState = useHighlightState({ highlight, highlights, activeIds, documentInfo });
-  const currentPage = useMovePageToActiveHighlight(page, hlState.activePages, setCurrentPage);
+  const state = useHighlightState({
+    queryHighlight,
+    fieldHighlights,
+    activeIds,
+    documentInfo
+  });
+  const currentPage = useMovePageToActiveHighlight(page, state.activePages, setCurrentPage);
 
   const highlightReady = !!documentInfo && !!renderedText;
   return (
     <PdfViewer {...rest} page={currentPage} setRenderedText={setRenderedText}>
-      {(hlState.fields || hlState.bboxes) && (
+      {(state.fields || state.bboxes) && (
         <PdfHighlight
           parsedDocument={highlightReady ? documentInfo ?? null : null}
           pdfRenderedText={highlightReady ? renderedText : null}
           page={currentPage}
           scale={scale}
-          highlights={hlState.fields}
-          boxHighlights={hlState.bboxes}
-          activeIds={hlState.activeIds}
+          highlights={state.fields}
+          boxHighlights={state.bboxes}
+          activeIds={state.activeIds}
           {...highlightProps}
         />
       )}
@@ -100,46 +105,51 @@ type HighlightState = {
 };
 
 /**
- * Hook to calculate highlights passed to <PdfHighlight>
+ * Hook to get highlights to show in <PdfHighlight>
  * from given highlight-related properties (highlight, highlights, activeIds)
  */
 function useHighlightState({
-  highlight: queryHighlight,
-  highlights,
+  queryHighlight,
+  fieldHighlights,
   activeIds,
   documentInfo
-}: Pick<Props, 'highlight' | 'highlights' | 'activeIds'> & {
+}: {
+  queryHighlight: Props['highlight'];
+  fieldHighlights: Props['highlights'];
+  activeIds: Props['activeIds'];
   documentInfo?: ExtractedDocumentInfo;
 }): HighlightState {
   const [state, setState] = useState<HighlightState>({ activePages: [] });
 
   useEffect(() => {
-    if (isTable(queryHighlight)) {
-      const table = getHighlightTable(queryHighlight, documentInfo?.processedDoc);
-      const bboxHighlights = table ? convertToDocumentBboxHighlights(table) : null;
-      if (bboxHighlights?.length) {
-        setState({
-          activePages: uniq(flatMap(bboxHighlights, hl => hl.bboxes.map(bbox => bbox.page))),
-          activeIds: [DEFAULT_HIGHLIGHT_ID],
-          bboxes: bboxHighlights
-        });
-        return;
+    if (queryHighlight) {
+      if (isTable(queryHighlight)) {
+        const table = getHighlightTable(queryHighlight, documentInfo?.processedDoc);
+        const bboxHighlights = table ? convertToDocumentBboxHighlights(table) : null;
+        if (bboxHighlights?.length) {
+          setState({
+            activePages: uniq(flatMap(bboxHighlights, hl => hl.bboxes.map(bbox => bbox.page))),
+            activeIds: [DEFAULT_HIGHLIGHT_ID],
+            bboxes: bboxHighlights
+          });
+          return;
+        }
+      } else if (isPassage(queryHighlight)) {
+        const fields = queryHighlight ? convertToDocumentFieldHighlights(queryHighlight) : null;
+        if (fields?.length) {
+          setState({
+            activePages: getPagesFromHighlights(documentInfo?.textMappings, fields),
+            activeIds: [DEFAULT_HIGHLIGHT_ID],
+            fields
+          });
+          return;
+        }
       }
-    } else if (isPassage(queryHighlight)) {
-      const fields = queryHighlight ? convertToDocumentFieldHighlights(queryHighlight) : null;
-      if (fields?.length) {
-        setState({
-          activePages: getPagesFromHighlights(documentInfo?.textMappings, fields),
-          activeIds: [DEFAULT_HIGHLIGHT_ID],
-          fields
-        });
-        return;
-      }
-    } else if (highlights) {
+    } else if (fieldHighlights) {
       setState({
-        activePages: getPagesFromHighlights(documentInfo?.textMappings, highlights, activeIds),
+        activePages: getPagesFromHighlights(documentInfo?.textMappings, fieldHighlights, activeIds),
         activeIds,
-        fields: highlights
+        fields: fieldHighlights
       });
       return;
     }
@@ -147,7 +157,7 @@ function useHighlightState({
     setState({
       activePages: []
     });
-  }, [activeIds, documentInfo, highlights, queryHighlight]);
+  }, [activeIds, documentInfo, fieldHighlights, queryHighlight]);
 
   return state;
 }
