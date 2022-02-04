@@ -135,8 +135,8 @@ function useHighlightState({
           return;
         }
       } else if (isPassage(queryHighlight)) {
-        const fields = queryHighlight ? convertToDocumentFieldHighlights(queryHighlight) : null;
-        if (fields?.length) {
+        const fields = convertToDocumentFieldHighlights(queryHighlight);
+        if (fields.length) {
           setState({
             activePages: getPagesFromHighlights(documentInfo?.textMappings, fields),
             activeIds: [DEFAULT_HIGHLIGHT_ID],
