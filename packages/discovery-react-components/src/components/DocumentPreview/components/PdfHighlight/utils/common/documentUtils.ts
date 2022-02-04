@@ -55,7 +55,7 @@ export type ExtractedDocumentInfo = {
  */
 export async function extractDocumentInfo(
   document: QueryResult,
-  options: { table?: boolean } = {}
+  options: { tables?: boolean } = {}
 ): Promise<ExtractedDocumentInfo> {
   const docHtml = document.html;
   const textMappings = getTextMappings(document) ?? undefined;
