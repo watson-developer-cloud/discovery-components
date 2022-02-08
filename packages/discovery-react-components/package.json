@@ -54,7 +54,7 @@
     "@storybook/addon-knobs": "^5.3.21",
     "@storybook/core": "^5.3.21",
     "@storybook/react": "^5.3.21",
-    "@storybook/source-loader": "^5.3.21",
+    "@storybook/source-loader": "^6.4.18",
     "@svgr/rollup": "^5.5.0",
     "@types/marked": "^4",
     "@types/pdfjs-dist": "2.1.7",
