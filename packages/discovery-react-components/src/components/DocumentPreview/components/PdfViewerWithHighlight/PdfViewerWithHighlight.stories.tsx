@@ -84,13 +84,15 @@ const WithTextSelection: typeof PdfViewerWithHighlight = props => {
     return [n, Number(i)];
   }, [selectedField]);
   const fieldOptions = useMemo(() => {
-    const fields = Object.keys(document).filter(field => {
-      return !field.match(/^(document_id|extracted_|enriched_)/) && document[field]?.length > 0;
+    const fields = Object.keys(document || {}).filter(field => {
+      return !field.match(/^(document_id|extracted_|enriched_)/) && document?.[field]?.length > 0;
     });
 
     return flatten(
       fields.map(field => {
-        const documentFields = Array.isArray(document[field]) ? document[field] : [document[field]];
+        const documentFields = Array.isArray(document?.[field])
+          ? document?.[field]
+          : [document?.[field]];
         return documentFields
           .map((content: any, index: number) => {
             if (typeof content === 'string') {
@@ -139,7 +141,7 @@ const WithTextSelection: typeof PdfViewerWithHighlight = props => {
     }
 
     const { begin, end } = textSelection;
-    const fieldText = getDocFieldValue(document, selectedFieldName, selectedFieldIndex);
+    const fieldText = getDocFieldValue(document || {}, selectedFieldName, selectedFieldIndex);
 
     const highlight: DocumentFieldHighlight = {
       id: 'highlight',
@@ -184,7 +186,7 @@ const WithTextSelection: typeof PdfViewerWithHighlight = props => {
         {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
         <p className="text" onMouseUp={handleOnMouseUp as any} ref={fieldTextNodeRef}>
           {selectedField &&
-            getDocFieldValue(document, selectedFieldName, selectedFieldIndex)!
+            getDocFieldValue(document || {}, selectedFieldName, selectedFieldIndex)!
               .replace(/ /g, '\u00a0') // NBSP
               .replace(/\n/g, '\\n')}
         </p>
@@ -212,10 +214,13 @@ storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
     useEffect(() => {
       setCurrentPage(page);
     }, [page]);
-    const handleSetCurrentPage = useCallback((p: number) => {
-      setCurrentPageAction(p);
-      setCurrentPage(p);
-    }, []);
+    const handleSetCurrentPage = useCallback(
+      (p: number) => {
+        setCurrentPageAction(p);
+        setCurrentPage(p);
+      },
+      [setCurrentPageAction]
+    );
 
     const [activeIds, setActiveIds] = useState<string[]>([]);
     useEffect(() => {

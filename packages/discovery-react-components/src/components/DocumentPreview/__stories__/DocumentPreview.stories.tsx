@@ -132,8 +132,8 @@ function tableSelection(doc: QueryResult): QueryResult {
         table_html_offset: 42500,
         table: {
           location: {
-            begin: 346183,
-            end: 349624
+            begin: 274502,
+            end: 279920
           }
         }
       }
