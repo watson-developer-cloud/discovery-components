@@ -6,7 +6,7 @@ export function isTable(highlight: any): highlight is QueryTableResult {
   return !!highlight?.table?.location;
 }
 
-export function getHighlightTable(
+export function getHighlightedTable(
   highlight: QueryTableResult | null | undefined,
   processedDoc: ProcessedDoc | null | undefined
 ) {

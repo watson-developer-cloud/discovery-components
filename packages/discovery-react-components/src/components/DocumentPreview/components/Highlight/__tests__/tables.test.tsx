@@ -1,7 +1,7 @@
 import { QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { ProcessedDoc } from 'utils/document';
 import { Location } from 'utils/document/processDoc';
-import { getHighlightTable, isTable } from '../tables';
+import { getHighlightedTable, isTable } from '../tables';
 
 describe('Table', () => {
   const tableLocation: Location = { begin: 100, end: 200 };
@@ -46,9 +46,9 @@ describe('Table', () => {
       }
     };
 
-    expect(getHighlightTable(tableHighlight1, processedDoc)).toBe(processedDoc?.tables?.[1]);
-    expect(getHighlightTable(tableHighlight2, processedDoc)).toBe(processedDoc?.tables?.[2]);
-    expect(getHighlightTable(null, processedDoc)).toBeNull();
+    expect(getHighlightedTable(tableHighlight1, processedDoc)).toBe(processedDoc?.tables?.[1]);
+    expect(getHighlightedTable(tableHighlight2, processedDoc)).toBe(processedDoc?.tables?.[2]);
+    expect(getHighlightedTable(null, processedDoc)).toBeNull();
   });
 
   it('checks the validity of a table highlight', () => {

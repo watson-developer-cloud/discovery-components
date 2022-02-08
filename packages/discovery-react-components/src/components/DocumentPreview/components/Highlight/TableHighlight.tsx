@@ -5,7 +5,7 @@ import { processDoc, ProcessedDoc, Table } from 'utils/document';
 import { getTextMappings } from 'components/DocumentPreview/utils/documentData';
 import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from './constants';
 import { Page } from 'components/DocumentPreview/types';
-import { getHighlightTable } from './tables';
+import { getHighlightedTable } from './tables';
 
 interface Props {
   /**
@@ -54,7 +54,7 @@ export const TableHighlight: FC<Props> = ({
 
   const [matchedTable, setMatchedTable] = useState<Table | null>(null);
   useEffect(() => {
-    const table = getHighlightTable(highlight, processedDoc);
+    const table = getHighlightedTable(highlight, processedDoc);
     if (table) {
       setMatchedTable(table);
       if (setHighlightFirstPage) {

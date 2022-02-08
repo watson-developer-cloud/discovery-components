@@ -5,7 +5,7 @@ import { nonEmpty } from 'utils/nonEmpty';
 import { TextMappings } from '../../types';
 import { spanIntersects } from '../../utils/textSpan';
 import { isPassage } from '../Highlight/passages';
-import { getHighlightTable, isTable } from '../Highlight/tables';
+import { getHighlightedTable, isTable } from '../Highlight/tables';
 import PdfViewer, { PdfViewerProps } from '../PdfViewer/PdfViewer';
 import { PdfRenderedText } from '../PdfViewer/PdfViewerTextLayer';
 import PdfHighlight from '../PdfHighlight/PdfHighlight';
@@ -124,7 +124,7 @@ function useHighlightState({
   useEffect(() => {
     if (queryHighlight) {
       if (isTable(queryHighlight)) {
-        const table = getHighlightTable(queryHighlight, documentInfo?.processedDoc);
+        const table = getHighlightedTable(queryHighlight, documentInfo?.processedDoc);
         const bboxHighlights = table ? convertToDocumentBboxHighlights(table) : null;
         if (bboxHighlights?.length) {
           setState({
