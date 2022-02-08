@@ -56,7 +56,7 @@ const DocumentPreview: FC<Props> = ({
   const [providedFile, setProvidedFile] = useState<string | undefined>();
 
   // document prop takes precedence over that in context
-  const doc = document || selectedResult.document;
+  const doc = document || selectedResult.document || undefined;
   highlight = highlight || selectedResult.element || undefined;
 
   // reset state if document changes
@@ -141,8 +141,8 @@ const DocumentPreview: FC<Props> = ({
   );
 };
 
-interface PreviewDocumentProps extends Pick<Props, 'file' | 'highlight' | 'fallbackComponent'> {
-  document?: QueryResult | null;
+interface PreviewDocumentProps
+  extends Pick<Props, 'document' | 'file' | 'highlight' | 'fallbackComponent'> {
   currentPage: number;
   scale: number;
   setPdfPageCount?: (count: number) => void;
@@ -173,7 +173,7 @@ function PreviewDocument({
     return (
       <PdfViewerWithHighlight
         file={file}
-        document={document ?? undefined}
+        document={document}
         page={currentPage}
         scale={scale}
         setPageCount={setPdfPageCount}
