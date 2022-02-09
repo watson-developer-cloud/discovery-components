@@ -8,6 +8,7 @@ import docArtEffects from '../__fixtures__/Art Effects Koya Creative Base TSA 20
 import passages from '../__fixtures__/passages';
 import jsonPassages from '../__fixtures__/jsonPassages';
 import omit from 'lodash/omit';
+import pickBy from 'lodash/pickBy';
 
 interface WrapperProps {
   style?: any;
@@ -29,7 +30,7 @@ storiesOf('DocumentPreview', module)
     );
   })
   .add('passage highlighting', () => {
-    const [file, doc] = docSelection();
+    const [file, doc] = docSelection(['pdf', 'pdf-no-mapping', 'html', 'text']);
     const usedPassage = doc.extracted_metadata.file_type === 'json' ? jsonPassages : passages;
     const docWithPassage = passageSelection(doc, usedPassage);
     const highlight = (docWithPassage.document_passages as unknown as QueryResultPassage[])[0];
@@ -41,7 +42,7 @@ storiesOf('DocumentPreview', module)
     );
   })
   .add('table highlight', () => {
-    const [file, doc] = docSelection();
+    const [file, doc] = docSelection(['pdf', 'html', 'text']);
     const docWithTable = tableSelection(doc);
     const highlight = docWithTable.table_results[0];
 
@@ -71,13 +72,17 @@ storiesOf('DocumentPreview', module)
     );
   });
 
-function docSelection(): [string | undefined, QueryResult] {
+function docSelection(items = ['pdf', 'html', 'text']): [string | undefined, QueryResult] {
   const label = 'Document Type';
-  const options = {
-    PDF: 'pdf',
-    'Document with `html` property and structure data': 'html',
-    'Document with only text': 'text'
-  };
+  const options = pickBy(
+    {
+      PDF: 'pdf',
+      'PDF without text location data': 'pdf-no-mapping',
+      'Document with `html` property and structure data': 'html',
+      'Document with only text': 'text'
+    },
+    key => items.includes(key)
+  );
   const defaultValue = 'pdf';
   const groupId = 'GROUP-ID1';
   const docname = radios(label, options, defaultValue, groupId);
@@ -87,6 +92,10 @@ function docSelection(): [string | undefined, QueryResult] {
     case 'pdf':
       file = atob(docPDF);
       doc = docArtEffects;
+      break;
+    case 'pdf-no-mapping':
+      file = atob(docPDF);
+      doc = omit(docArtEffects, 'extracted_metadata.text_mappings');
       break;
     case 'html':
       doc = docArtEffects;
