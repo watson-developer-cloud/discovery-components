@@ -1,4 +1,4 @@
-import { getTextMappings, isCsvFile, isJsonFile } from '../documentData';
+import { detectPreviewType, getTextMappings, isCsvFile, isJsonFile } from '../documentData';
 import jsonDoc from '../../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
 
 describe('documentData', () => {
@@ -102,5 +102,106 @@ describe('documentData', () => {
   it('returns false if there is no file type provided', () => {
     const falseDocType = isCsvFile(noMetadata);
     expect(falseDocType).toEqual(false);
+  });
+
+  describe('detectPreviewType', () => {
+    const commonData = { document_id: 'doc-1', result_metadata: { collection_id: 'col-1' } };
+
+    describe('pdf', () => {
+      it('return PDF when document has text_mappings', () => {
+        const previewType = detectPreviewType(
+          {
+            ...commonData,
+            extracted_metadata: { file_type: 'pdf', text_mappings: '{}' },
+            document_passages: [{ passage_text: 'passage' }],
+            html: '<html></html>'
+          },
+          'file'
+        );
+        expect(previewType).toEqual('PDF');
+      });
+
+      it('return PDF when no text_mappings and passage_text', () => {
+        const previewType = detectPreviewType(
+          {
+            ...commonData,
+            extracted_metadata: { file_type: 'pdf' },
+            html: '<html></html>'
+          },
+          'file'
+        );
+        expect(previewType).toEqual('PDF');
+      });
+
+      it('return TEXT when document does not have text_mappings but have passage_text', () => {
+        const previewType = detectPreviewType(
+          {
+            ...commonData,
+            extracted_metadata: { file_type: 'pdf' },
+            document_passages: [{ passage_text: 'passage' }]
+          },
+          'file'
+        );
+        expect(previewType).toEqual('TEXT');
+      });
+
+      it('return TEXT when no file', () => {
+        const previewType = detectPreviewType(
+          {
+            ...commonData,
+            extracted_metadata: { file_type: 'pdf', text_mappings: '{}' }
+          },
+          undefined
+        );
+        expect(previewType).toEqual('TEXT');
+      });
+    });
+
+    describe('html', () => {
+      it('return HTML when document has html', () => {
+        const previewType = detectPreviewType({
+          ...commonData,
+          extracted_metadata: { file_type: 'html' },
+          html: '<html></html>'
+        });
+        expect(previewType).toEqual('HTML');
+      });
+
+      it('return TEXT when no html', () => {
+        const previewType = detectPreviewType({
+          ...commonData,
+          extracted_metadata: { file_type: 'html' }
+        });
+        expect(previewType).toEqual('TEXT');
+      });
+    });
+
+    describe('other types', () => {
+      it('return TEXT when json type', () => {
+        const previewType = detectPreviewType({
+          ...commonData,
+          extracted_metadata: { file_type: 'json' },
+          html: '<html></html>'
+        });
+        expect(previewType).toEqual('TEXT');
+      });
+
+      it('return TEXT when csv type', () => {
+        const previewType = detectPreviewType({
+          ...commonData,
+          extracted_metadata: { file_type: 'csv' },
+          html: '<html></html>'
+        });
+        expect(previewType).toEqual('TEXT');
+      });
+
+      it('return TEXT when text type', () => {
+        const previewType = detectPreviewType({
+          ...commonData,
+          extracted_metadata: { file_type: 'text' }
+        });
+        expect(previewType).toEqual('TEXT');
+      });
+    });
   });
 });
