@@ -133,7 +133,7 @@ describe('documentData', () => {
         expect(previewType).toEqual('PDF');
       });
 
-      it('return SIMPLE when document does not have text_mappings but have passage_text', () => {
+      it('return TEXT when document does not have text_mappings but have passage_text', () => {
         const previewType = detectPreviewType(
           {
             ...commonData,
@@ -142,10 +142,10 @@ describe('documentData', () => {
           },
           'file'
         );
-        expect(previewType).toEqual('SIMPLE');
+        expect(previewType).toEqual('TEXT');
       });
 
-      it('return SIMPLE when no file', () => {
+      it('return TEXT when no file', () => {
         const previewType = detectPreviewType(
           {
             ...commonData,
@@ -153,7 +153,7 @@ describe('documentData', () => {
           },
           undefined
         );
-        expect(previewType).toEqual('SIMPLE');
+        expect(previewType).toEqual('TEXT');
       });
     });
 
@@ -167,40 +167,40 @@ describe('documentData', () => {
         expect(previewType).toEqual('HTML');
       });
 
-      it('return SIMPLE when no html', () => {
+      it('return TEXT when no html', () => {
         const previewType = detectPreviewType({
           ...commonData,
           extracted_metadata: { file_type: 'html' }
         });
-        expect(previewType).toEqual('SIMPLE');
+        expect(previewType).toEqual('TEXT');
       });
     });
 
     describe('other types', () => {
-      it('return SIMPLE when json type', () => {
+      it('return TEXT when json type', () => {
         const previewType = detectPreviewType({
           ...commonData,
           extracted_metadata: { file_type: 'json' },
           html: '<html></html>'
         });
-        expect(previewType).toEqual('SIMPLE');
+        expect(previewType).toEqual('TEXT');
       });
 
-      it('return SIMPLE when csv type', () => {
+      it('return TEXT when csv type', () => {
         const previewType = detectPreviewType({
           ...commonData,
           extracted_metadata: { file_type: 'csv' },
           html: '<html></html>'
         });
-        expect(previewType).toEqual('SIMPLE');
+        expect(previewType).toEqual('TEXT');
       });
 
-      it('return SIMPLE when text type', () => {
+      it('return TEXT when text type', () => {
         const previewType = detectPreviewType({
           ...commonData,
           extracted_metadata: { file_type: 'text' }
         });
-        expect(previewType).toEqual('SIMPLE');
+        expect(previewType).toEqual('TEXT');
       });
     });
   });

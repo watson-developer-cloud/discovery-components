@@ -46,7 +46,7 @@ export interface StyledCell extends CellPage {
   content: string;
 }
 
-export type PreviewType = 'PDF' | 'HTML' | 'SIMPLE' | 'NONE';
+export type PreviewType = 'PDF' | 'HTML' | 'TEXT';
 
 export interface DiscoveryDocument extends QueryResult {
   extracted_metadata?: {

@@ -1,4 +1,12 @@
-import React, { ComponentProps, FC, ReactElement, useContext, useEffect, useState } from 'react';
+import React, {
+  ComponentProps,
+  FC,
+  ReactElement,
+  useContext,
+  useEffect,
+  useMemo,
+  useState
+} from 'react';
 import { SkeletonText } from 'carbon-components-react';
 import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
@@ -167,11 +175,15 @@ function PreviewDocument({
   setCurrentPage,
   fallbackComponent
 }: PreviewDocumentProps): ReactElement | null {
+  const previewType = useMemo(
+    () => (document ? detectPreviewType(document, file) : null),
+    [document, file]
+  );
+
   if (!document) {
     return null;
   }
 
-  const previewType = detectPreviewType(document, file);
   switch (previewType) {
     case 'PDF':
       return (
@@ -196,7 +208,7 @@ function PreviewDocument({
           setLoading={setLoading}
         />
       );
-    case 'SIMPLE':
+    case 'TEXT':
       return (
         <SimpleDocument
           document={document}

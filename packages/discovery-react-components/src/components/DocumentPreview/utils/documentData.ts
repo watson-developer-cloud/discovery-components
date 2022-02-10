@@ -63,5 +63,5 @@ export function detectPreviewType(document: DiscoveryDocument, file?: string): P
     return 'HTML';
   }
 
-  return 'SIMPLE';
+  return 'TEXT';
 }
