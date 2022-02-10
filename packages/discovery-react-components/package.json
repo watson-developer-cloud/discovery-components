@@ -63,7 +63,7 @@
     "css-loader": "^3.4.2",
     "madge": "^5.0.1",
     "marked": "^4.0.10",
-    "node-sass": "^6.0.1",
+    "node-sass": "^7.0.0",
     "react-scripts": "^4.0.3",
     "rollup": "^2.57.0",
     "rollup-plugin-string": "^3.0.0",
