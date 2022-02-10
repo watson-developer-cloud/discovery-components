@@ -46,8 +46,7 @@ export function detectPreviewType(document: DiscoveryDocument, file?: string): P
   const fileType = document.extracted_metadata?.file_type;
   const hasPassage = !!document.document_passages?.[0]?.passage_text;
 
-  // if we have PDF data, render that
-  // otherwise, render fallback document view
+  // only render PDF if we have text mappings data
   if (fileType === 'pdf' && file) {
     const hasTextMappings = !!document.extracted_metadata?.text_mappings;
     // when hasTextMappings is true, that means the custom SDU model or OOB (CI) model is enabled
