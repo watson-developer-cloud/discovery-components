@@ -2,7 +2,6 @@
 
 [![ci](https://github.com/watson-developer-cloud/discovery-components/workflows/ci/badge.svg)](https://github.com/watson-developer-cloud/discovery-components/actions?query=branch%3Amaster)
 [![Apache-2.0 license](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/watson-developer-cloud/discovery-components/blob/master/LICENSE)
-[![Lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/watson-developer-cloud/discovery-components/blob/master/.github/CONTRIBUTING.md)
 [![CLA assistant](https://cla-assistant.io/readme/badge/watson-developer-cloud/discovery-components)](https://cla-assistant.io/watson-developer-cloud/discovery-components)
 
@@ -117,7 +116,7 @@ yarn workspace discovery-search-app run start
    SASS_PATH="./node_modules;./src"
    ```
 
-5. After [retrieving your credentials](https://github.com/watson-developer-cloud/node-sdk#getting-credentials), Either create a `examples/discovery-search-app/ibm-credentials.env` file or populate your environment with the following values:
+5. After [retrieving your credentials](https://github.com/watson-developer-cloud/node-sdk#getting-credentials), either create a `examples/discovery-search-app/ibm-credentials.env` file or populate your environment with the following values:
 
    - CP4D:
      ```
@@ -164,7 +163,7 @@ For more information on how each component can be customized and configured, che
 
 ## Using Discovery Components in a React application
 
-If you don't have a React application already, start with [create react app](https://github.com/facebook/create-react-app) then modify the following in your `src/App.js`. Otherwise, you may use Discovery Components inside of any existing React component.
+If you don't have a React application already, start with [create-react-app](https://github.com/facebook/create-react-app), then modify the following in your `src/App.js`. Otherwise, you may use Discovery Components inside of any existing React component.
 
 1. Add the component, style, and client library to your application:
 
@@ -192,68 +191,89 @@ If you don't have a React application already, start with [create react app](htt
 
 3. Add the `DiscoverySearch` component with corresponding `searchClient` and optionally any components you would like to use to display Discovery Search Results.
 
-```jsx
-// src/App.js
-import React from 'react';
-import {
-  DiscoverySearch,
-  SearchInput,
-  SearchResults,
-  SearchFacets,
-  ResultsPagination,
-  DocumentPreview
-} from '@ibm-watson/discovery-react-components';
-import DiscoveryV2 from 'ibm-watson/discovery/v2';
-import '@ibm-watson/discovery-styles/scss/index.scss';
-// the DiscoveryV2 class reads credentials from your environment variables for authentication
-// Make sure to setup your ibm-credentials.env file first
-// see https://github.com/IBM/node-sdk-core/blob/master/Authentication.md for low-level details
-// see https://github.com/watson-developer-cloud/node-sdk#authentication for high-level usage
-// Then replace these variables:
-const version = '{REPLACE_ME}'; // YYYY-MM-DD date format
-const projectId = '{REPLACE_ME}'; // retrieved from Discovery Tooling UI, ex.
-const App = () => {
-  let searchClient, success;
-  try {
-    searchClient = new DiscoveryV2({ version });
-    success = true;
-  } catch (err) {
-    console.error(err);
-  }
-  return success ? (
-    <DiscoverySearch searchClient={searchClient} projectId={projectId}>
-      <SearchInput />
-      <SearchResults />
-      <SearchFacets />
-      <ResultsPagination />
-      <DocumentPreview />
-    </DiscoverySearch>
-  ) : (
-    setupMessage()
-  );
-};
-function setupMessage() {
-  return (
-    <div
-      style={{
-        textAlign: 'center',
-        margin: '20%',
-        fontSize: '1.5rem'
-      }}
-    >
-      Please replace the constants in App.js along with setting up your credentials file in order to
-      see the Discovery sample application.
-      <br />
-      <br />
-      Check the console log for more information if you have replaced these constants and are still seeing
-      this message.
-    </div>
-  );
-}
-export default App;
-```
+   ```jsx
+   // src/App.js
+   import React from 'react';
+   import DiscoveryV2 from 'ibm-watson/discovery/v2';
+   import { NoAuthAuthenticator } from 'ibm-watson/auth';
+   import {
+     DiscoverySearch,
+     SearchInput,
+     SearchResults,
+     SearchFacets,
+     ResultsPagination,
+     DocumentPreview
+   } from '@ibm-watson/discovery-react-components';
+   import '@ibm-watson/discovery-styles/scss/index.scss';
 
-For more information on how each component can be customized and configured, check out our hosted [storybook](https://watson-developer-cloud.github.io/discovery-components/storybook/)
+   // replace these variables:
+   const version = '{REPLACE_ME}'; // YYYY-MM-DD date format
+   const projectId = '{REPLACE_ME}'; // retrieved from Discovery Tooling UI, ex.
+
+   // authentication must be handled on the server
+   // @see https://github.com/watson-developer-cloud/node-sdk#client-side-usage
+   const authenticator = NoAuthAuthenticator();
+   // tell SDK to send requests to our server's `/api` endpoint, where auth header is added
+   const serviceUrl = `${window.location.href}api`;
+
+   const App = () => {
+     let searchClient, success;
+     try {
+       searchClient = new DiscoveryV2({ serviceUrl, version, authenticator });
+       success = true;
+     } catch (err) {
+       console.error(err);
+     }
+     return success ? (
+       <DiscoverySearch searchClient={searchClient} projectId={projectId}>
+         <SearchInput />
+         <SearchResults />
+         <SearchFacets />
+         <ResultsPagination />
+         <DocumentPreview />
+       </DiscoverySearch>
+     ) : (
+       setupMessage()
+     );
+   };
+
+   function setupMessage() {
+     return (
+       <div
+         style={{
+           textAlign: 'center',
+           margin: '20%',
+           fontSize: '1.5rem'
+         }}
+       >
+         Please replace the constants in App.js along with setting up your credentials file in order
+         to see the Discovery sample application.
+         <br />
+         <br />
+         Check the console log for more information if you have replaced these constants and are still
+         seeing this message.
+       </div>
+     );
+   }
+
+   export default App;
+   ```
+
+   For more information on how each component can be customized and configured, check out our hosted [storybook](https://watson-developer-cloud.github.io/discovery-components/storybook/)
+
+4. If you are using `webpack`, you may need to [update your `webpack.config.js`](https://github.com/watson-developer-cloud/node-sdk/tree/master/examples/webpack#webpack-configuration) to allow the `ibm-watson` dependency to be used client-side.
+
+   If you are using `webpack` v5 or greater (or `create-react-app` v5.0.0), you will need to do additional configuration and add missing packages. See [these 2 comment](https://github.com/watson-developer-cloud/discovery-components/issues/292#issuecomment-1034082638) for details.
+
+5. Set up authentication on the server.
+
+   a. Set up the credentials. See step (5) above in [Manual setup](#manual-setup).
+
+   b. The client code above will send Discovery API requests to your server, to the `/api` endpoint. Set your server to proxy those requests to the URL defined by the `DISCOVERY_URL` environment variable.
+
+   c. Add [proper authentication](https://cloud.ibm.com/apidocs/discovery-data#authentication), setting the authorization header when proxying to the Discovery API.
+
+   To see an example of this in a Node Express server, see `examples/discovery-search-app/src/setupProxy.js`.
 
 ### Interacting with Discovery data in custom components
 
