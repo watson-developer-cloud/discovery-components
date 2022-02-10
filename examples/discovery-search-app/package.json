@@ -35,12 +35,14 @@
     "express": "^4.17.1",
     "http-proxy-middleware": "^0.20.0",
     "ibm-watson": "^6.2.1",
+    "proper-url-join": "^2.1.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^5.11.0",
     "@testing-library/cypress": "^7.0.7",
+    "@types/proper-url-join": "^2",
     "cross-env": "^7.0.3",
     "cypress": "^6.9.1",
     "react-scripts": "^4.0.3",

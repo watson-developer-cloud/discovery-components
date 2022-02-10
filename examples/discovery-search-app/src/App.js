@@ -1,12 +1,13 @@
 import React, { useContext, useState, useEffect, useMemo } from 'react';
 import cx from 'classnames';
+import urljoin from 'proper-url-join';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { NoAuthAuthenticator } from 'ibm-watson/auth';
 import { settings } from 'carbon-components';
 import { Button, Tabs, Tab, Loading } from 'carbon-components-react';
 import Close from '@carbon/icons-react/lib/close/16';
-import './app.scss';
 import { ExampleDocumentProvider } from './ExampleDocumentProvider';
+import './app.scss';
 
 import {
   DiscoverySearch,
@@ -22,17 +23,20 @@ import {
 } from '@ibm-watson/discovery-react-components';
 
 const App = () => {
-  // TODO: this is a dummy client to route requests to the server since CP4D doesn't support CORS
-  const authenticator = useMemo(() => new NoAuthAuthenticator(), []);
-  const searchClient = useMemo(
-    () =>
-      new DiscoveryV2({
-        url: `${window.location.href}api`,
-        version: '2019-01-01',
-        authenticator
-      }),
-    [authenticator]
-  );
+  const searchClient = useMemo(() => {
+    // Tell SDK to send requests to our server's `/api` endpoint, where
+    // we will add authentication header.
+    const serviceUrl = urljoin(window.location.href, 'api');
+    // Client-side authentication is not supported. See `setupProxy.js` for
+    // the server-side code to add authentication header.
+    const authenticator = new NoAuthAuthenticator();
+
+    return new DiscoveryV2({
+      serviceUrl,
+      version: '2019-01-01',
+      authenticator
+    });
+  }, []);
   const [projectId, setProjectId] = useState(process.env.REACT_APP_PROJECT_ID);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
