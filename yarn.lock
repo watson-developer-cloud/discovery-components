@@ -2163,7 +2163,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ibm-watson/discovery-react-components@^1.5.0-beta.19, @ibm-watson/discovery-react-components@workspace:packages/discovery-react-components":
+"@ibm-watson/discovery-react-components@^1.5.0-beta.20, @ibm-watson/discovery-react-components@workspace:packages/discovery-react-components":
   version: 0.0.0-use.local
   resolution: "@ibm-watson/discovery-react-components@workspace:packages/discovery-react-components"
   dependencies:
@@ -10678,7 +10678,7 @@ __metadata:
   dependencies:
     "@carbon/icons": ^10.5.0
     "@cypress/webpack-preprocessor": ^5.11.0
-    "@ibm-watson/discovery-react-components": ^1.5.0-beta.19
+    "@ibm-watson/discovery-react-components": ^1.5.0-beta.20
     "@ibm-watson/discovery-styles": ^1.5.0-beta.17
     "@testing-library/cypress": ^7.0.7
     "@types/proper-url-join": ^2
@@ -11997,7 +11997,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"execa@npm:^4.0.0, execa@npm:^4.0.2":
+"execa@npm:^4.0.0, execa@npm:^4.0.2, execa@npm:^4.0.3":
   version: 4.1.0
   resolution: "execa@npm:4.1.0"
   dependencies:
@@ -13115,13 +13115,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"get-stdin@npm:^7.0.0":
-  version: 7.0.0
-  resolution: "get-stdin@npm:7.0.0"
-  checksum: a24ab2cf8ee35bf5d3460c0d8145f2624715d864485789b7101a7cf1b6c1ce0a57319e25304872074121fa60e7104f1af3583a7014e9974c84c61d0702beae24
-  languageName: node
-  linkType: hard
-
 "get-stream@npm:^4.0.0":
   version: 4.1.0
   resolution: "get-stream@npm:4.1.0"
@@ -14233,25 +14226,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"husky@npm:^3.0.5":
-  version: 3.1.0
-  resolution: "husky@npm:3.1.0"
-  dependencies:
-    chalk: ^2.4.2
-    ci-info: ^2.0.0
-    cosmiconfig: ^5.2.1
-    execa: ^1.0.0
-    get-stdin: ^7.0.0
-    opencollective-postinstall: ^2.0.2
-    pkg-dir: ^4.2.0
-    please-upgrade-node: ^3.2.0
-    read-pkg: ^5.2.0
-    run-node: ^1.0.0
-    slash: ^3.0.0
+"husky@npm:^7.0.4":
+  version: 7.0.4
+  resolution: "husky@npm:7.0.4"
   bin:
-    husky-run: ./run.js
-    husky-upgrade: ./lib/upgrader/bin.js
-  checksum: 15a8eeb5ca8286f4e1f64cbc55ffb2295c407ba9da84a88128471a886e6fb6cf7a2b5ea0db5f0715e185d7251fc09700baf3bc95f63cb80accc5d253d69c141f
+    husky: lib/bin.js
+  checksum: c6ec4af63da2c9522da8674a20ad9b48362cc92704896cc8a58c6a2a39d797feb2b806f93fbd83a6d653fbdceb2c3b6e0b602c6b2e8565206ffc2882ef7db9e9
   languageName: node
   linkType: hard
 
@@ -19250,15 +19230,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"opencollective-postinstall@npm:^2.0.2":
-  version: 2.0.3
-  resolution: "opencollective-postinstall@npm:2.0.3"
-  bin:
-    opencollective-postinstall: index.js
-  checksum: 0a68c5cef135e46d11e665d5077398285d1ce5311c948e8327b435791c409744d4a6bb9c55bd6507fb5f2ef34b0ad920565adcdaf974cbdae701aead6f32b396
-  languageName: node
-  linkType: hard
-
 "opn@npm:^5.5.0":
   version: 5.5.0
   resolution: "opn@npm:5.5.0"
@@ -20015,7 +19986,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"please-upgrade-node@npm:^3.1.1, please-upgrade-node@npm:^3.2.0":
+"please-upgrade-node@npm:^3.1.1":
   version: 3.2.0
   resolution: "please-upgrade-node@npm:3.2.0"
   dependencies:
@@ -23310,7 +23281,7 @@ __metadata:
     eslint-plugin-react-hooks: ^4.3.0
     fast-xml-parser: ^3.14.0
     gh-pages: ^2.1.1
-    husky: ^3.0.5
+    husky: ^7.0.4
     ibm-watson: ^6.2.1
     lerna: ^4.0.0
     lerna-update-wizard: ^0.17.8
@@ -23333,6 +23304,7 @@ __metadata:
     typescript: ^3.8.2
     vue: ^2.6.11
     webpack: 4.41.2
+    yarnhook: 0.5.2-0
   languageName: unknown
   linkType: soft
 
@@ -23347,15 +23319,6 @@ __metadata:
   version: 2.4.1
   resolution: "run-async@npm:2.4.1"
   checksum: a2c88aa15df176f091a2878eb840e68d0bdee319d8d97bbb89112223259cebecb94bc0defd735662b83c2f7a30bed8cddb7d1674eb48ae7322dc602b22d03797
-  languageName: node
-  linkType: hard
-
-"run-node@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "run-node@npm:1.0.0"
-  bin:
-    run-node: run-node
-  checksum: 99a0846de16d64c81e7cce487b8d7a77907d7ff69e229ad154cc7ee33ded6f82f71309f47de33cc4c206de6c7b7c37f641d7b6488bb85cc0bfe4da6d8b029242
   languageName: node
   linkType: hard
 
@@ -27637,6 +27600,18 @@ __metadata:
     y18n: ^5.0.5
     yargs-parser: ^20.2.2
   checksum: b14afbb51e3251a204d81937c86a7e9d4bdbf9a2bcee38226c900d00f522969ab675703bee2a6f99f8e20103f608382936034e64d921b74df82b63c07c5e8f59
+  languageName: node
+  linkType: hard
+
+"yarnhook@npm:0.5.2-0":
+  version: 0.5.2-0
+  resolution: "yarnhook@npm:0.5.2-0"
+  dependencies:
+    execa: ^4.0.3
+    find-parent-dir: ^0.3.0
+  bin:
+    yarnhook: index.js
+  checksum: ef07fb52eb774fc24c4d51ab0ab1a93a7258ef67065b83f53fc5a40b3e206286b3c3fa249e4a4d989c0dee2a2ed1f8e8cb3f47a615b2e95ef437ba2c38895d18
   languageName: node
   linkType: hard
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0-beta.20](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.19...v1.5.0-beta.20) (2022-02-10)
+
+
+### Bug Fixes
+
+* fix preview type displayed in DocumentPreview ([#294](https://github.com/watson-developer-cloud/discovery-components/issues/294)) ([5ffda28](https://github.com/watson-developer-cloud/discovery-components/commit/5ffda28b8de1261dd7516437f11be11a96849deb))
+
+
+
+
+
 # [1.5.0-beta.19](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.18...v1.5.0-beta.19) (2022-02-08)
 
 
