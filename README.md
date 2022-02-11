@@ -47,7 +47,7 @@ First, you will need to customize and improve your document retrieval project on
 
 - [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [nvm](https://github.com/nvm-sh/nvm#installation-and-update)
-- [yarn](https://yarnpkg.com/en/docs/install) or [npm](https://www.npmjs.com/get-npm)
+- [yarn](https://yarnpkg.com/getting-started/install) or [npm](https://www.npmjs.com/get-npm)
 
 ## Running the example app
 
@@ -77,7 +77,7 @@ yarn workspace discovery-search-app run start
 
 ### Manual setup
 
-1. Install [Yarn](https://yarnpkg.com/lang/en/docs/install), as it is required to build the components locally.
+1. Install [Yarn](https://yarnpkg.com/getting-started/install), as it is required to build the components locally.
 
 2. Clone the repository
 
@@ -367,7 +367,7 @@ Create React Library was used to generate the library of React components, `disc
 
 ### Install
 
-1. Install [Yarn](https://yarnpkg.com/lang/en/docs/install), as it is required build the components locally.
+1. Install [Yarn](https://yarnpkg.com/getting-started/install), as it is required build the components locally.
 
 2. Download the git repository
 

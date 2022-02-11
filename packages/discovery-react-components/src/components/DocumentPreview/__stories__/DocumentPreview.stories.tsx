@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import React, { ComponentType, FC } from 'react';
 import { storiesOf } from '@storybook/react';
-import { radios } from '@storybook/addon-knobs';
+import { radios, boolean } from '@storybook/addon-knobs';
 import { QueryResult, QueryResultPassage } from 'ibm-watson/discovery/v2';
 import DocumentPreview from '../DocumentPreview';
 import { document as docPDF } from '../__fixtures__/Art Effects.pdf';
@@ -8,6 +8,7 @@ import docArtEffects from '../__fixtures__/Art Effects Koya Creative Base TSA 20
 import passages from '../__fixtures__/passages';
 import jsonPassages from '../__fixtures__/jsonPassages';
 import omit from 'lodash/omit';
+import pickBy from 'lodash/pickBy';
 
 interface WrapperProps {
   style?: any;
@@ -29,7 +30,7 @@ storiesOf('DocumentPreview', module)
     );
   })
   .add('passage highlighting', () => {
-    const [file, doc] = docSelection();
+    const [file, doc] = docSelection(['pdf', 'pdf-fast-path', 'html', 'text']);
     const usedPassage = doc.extracted_metadata.file_type === 'json' ? jsonPassages : passages;
     const docWithPassage = passageSelection(doc, usedPassage);
     const highlight = (docWithPassage.document_passages as unknown as QueryResultPassage[])[0];
@@ -41,7 +42,7 @@ storiesOf('DocumentPreview', module)
     );
   })
   .add('table highlight', () => {
-    const [file, doc] = docSelection();
+    const [file, doc] = docSelection(['pdf', 'html', 'text']);
     const docWithTable = tableSelection(doc);
     const highlight = docWithTable.table_results[0];
 
@@ -50,15 +51,38 @@ storiesOf('DocumentPreview', module)
         <DocumentPreview file={file} document={docWithTable} highlight={highlight} />
       </Wrapper>
     );
+  })
+  .add('fallback component', () => {
+    const doc = {
+      document_id: '1234567890',
+      extracted_metadata: {
+        filename: 'i_am_a_file',
+        file_type: 'json'
+      },
+      result_metadata: {
+        collection_id: '1234'
+      }
+    };
+    const fallback = fallbackComponent();
+
+    return (
+      <Wrapper>
+        <DocumentPreview document={doc} fallbackComponent={fallback} />
+      </Wrapper>
+    );
   });
 
-function docSelection(): [string | undefined, QueryResult] {
+function docSelection(items = ['pdf', 'html', 'text']): [string | undefined, QueryResult] {
   const label = 'Document Type';
-  const options = {
-    PDF: 'pdf',
-    'Document with `html` property and structure data': 'html',
-    'Document with only text': 'text'
-  };
+  const options = pickBy(
+    {
+      PDF: 'pdf',
+      'PDF without text location data': 'pdf-fast-path',
+      'Document with `html` property and structure data': 'html',
+      'Document with only text': 'text'
+    },
+    key => items.includes(key)
+  );
   const defaultValue = 'pdf';
   const groupId = 'GROUP-ID1';
   const docname = radios(label, options, defaultValue, groupId);
@@ -68,6 +92,10 @@ function docSelection(): [string | undefined, QueryResult] {
     case 'pdf':
       file = atob(docPDF);
       doc = docArtEffects;
+      break;
+    case 'pdf-fast-path':
+      file = atob(docPDF);
+      doc = omit(docArtEffects, 'html', 'extracted_metadata.text_mappings');
       break;
     case 'html':
       doc = docArtEffects;
@@ -113,11 +141,25 @@ function tableSelection(doc: QueryResult): QueryResult {
         table_html_offset: 42500,
         table: {
           location: {
-            begin: 346183,
-            end: 349624
+            begin: 274502,
+            end: 279920
           }
         }
       }
     ]
   };
+}
+
+function fallbackComponent(): ComponentType | undefined {
+  const enabled = boolean('Custom fallback (fallbackComponent)', false);
+  if (enabled) {
+    const Fallback: React.FC<{ document?: QueryResult }> = ({ document }) => (
+      <div style={{ width: '100%' }}>
+        <h4>Document JSON</h4>
+        <pre>{JSON.stringify(document, undefined, 2)}</pre>
+      </div>
+    );
+    return Fallback;
+  }
+  return undefined;
 }

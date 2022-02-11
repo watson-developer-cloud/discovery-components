@@ -53,13 +53,16 @@ export type ExtractedDocumentInfo = {
 /**
  * Extract bboxes and text_mappings from a search result document
  */
-export async function extractDocumentInfo(document: QueryResult): Promise<ExtractedDocumentInfo> {
+export async function extractDocumentInfo(
+  document: QueryResult,
+  options: { tables?: boolean } = {}
+): Promise<ExtractedDocumentInfo> {
   const docHtml = document.html;
   const textMappings = getTextMappings(document) ?? undefined;
 
   const processedDoc = await processDoc(
     { ...document, docHtml },
-    { sections: true, bbox: true, bboxInnerText: true }
+    { sections: true, bbox: true, bboxInnerText: true, ...options }
   );
 
   if (!processedDoc.bboxes) {

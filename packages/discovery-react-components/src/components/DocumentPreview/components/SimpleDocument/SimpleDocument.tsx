@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useRef } from 'react';
+import React, { ComponentType, FC, useContext, useEffect, useRef } from 'react';
 import { encodeHTML } from 'entities';
 import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
@@ -23,11 +23,28 @@ interface Props {
    * Callback which is invoked with whether to enable/disable toolbar controls
    */
   setHideToolbarControls?: (disabled: boolean) => void;
-
+  /**
+   * React component rendered as a fallback when no preview is available.
+   * When specified, the default error component which displays `cannotPreviewMessage`
+   * won't be displayed.
+   */
+  fallbackComponent?: ComponentType<ErrorComponentProps>;
+  /**
+   * Error title displayed when no preview can be displayed by this component.
+   * Unused when `fallbackComponent` is provided
+   */
   cannotPreviewMessage?: string;
+  /**
+   * Error message displayed when no preview can be displayed by this component.
+   * Unused when `fallbackComponent` is provided
+   */
   cannotPreviewMessage2?: string;
   loading: boolean;
   hideToolbarControls: boolean;
+}
+
+interface ErrorComponentProps {
+  document: QueryResult;
 }
 
 export const SimpleDocument: FC<Props> = ({
@@ -37,6 +54,7 @@ export const SimpleDocument: FC<Props> = ({
   setLoading,
   hideToolbarControls,
   setHideToolbarControls,
+  fallbackComponent: FallbackComponent,
   cannotPreviewMessage = "Can't preview document",
   cannotPreviewMessage2 = "Try the JSON tab for a different view of this document's data."
 }) => {
@@ -57,7 +75,7 @@ export const SimpleDocument: FC<Props> = ({
     } else {
       // if there is a passage highlight, use text values from field specified in passage
       if (highlight && isPassage(highlight)) {
-        passage = highlight as QueryResultPassage;
+        passage = highlight;
         field = passage.field;
         if (!field) {
           // if passage has no defined field, choose a default and unset `highlight`
@@ -156,6 +174,8 @@ export const SimpleDocument: FC<Props> = ({
             ref={contentRef}
           />
         </div>
+      ) : FallbackComponent ? (
+        <FallbackComponent document={document} />
       ) : (
         <ErrorView header={cannotPreviewMessage} message={cannotPreviewMessage2} />
       )}

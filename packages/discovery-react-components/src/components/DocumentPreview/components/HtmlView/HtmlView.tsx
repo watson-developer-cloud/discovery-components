@@ -109,7 +109,7 @@ export const HtmlView: FC<Props> = ({
     if (highlight) {
       const textMappings = getTextMappings(document);
       if (isPassage(highlight) && textMappings) {
-        const textMappingBbox = getPassagePageInfo(textMappings, highlight as QueryResultPassage);
+        const textMappingBbox = getPassagePageInfo(textMappings, highlight);
         if (processedDoc && processedDoc.bboxes && textMappingBbox) {
           const passageLocs: Location[] = flatMap(textMappingBbox, bbox => {
             return findMatchingBbox(bbox, processedDoc.bboxes as ProcessedBbox[]);

@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0-beta.20](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.19...v1.5.0-beta.20) (2022-02-10)
+
+
+### Bug Fixes
+
+* fix preview type displayed in DocumentPreview ([#294](https://github.com/watson-developer-cloud/discovery-components/issues/294)) ([5ffda28](https://github.com/watson-developer-cloud/discovery-components/commit/5ffda28b8de1261dd7516437f11be11a96849deb))
+
+
+
+
+
+# [1.5.0-beta.19](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.18...v1.5.0-beta.19) (2022-02-08)
+
+
+### Features
+
+* highlight passages and tables on PDF in DocumentPreview ([#287](https://github.com/watson-developer-cloud/discovery-components/issues/287)) ([60becca](https://github.com/watson-developer-cloud/discovery-components/commit/60becca54001b74a4f878f82f18c93991be66e14))
+
+
+
+
+
+# [1.5.0-beta.18](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.17...v1.5.0-beta.18) (2022-02-03)
+
+
+### Features
+
+* allow fallbackComponent props to DocumentPreview component ([#286](https://github.com/watson-developer-cloud/discovery-components/issues/286)) ([0082600](https://github.com/watson-developer-cloud/discovery-components/commit/008260090201c8376eae8e19f7246e1a76cf0b82))
+
+
+
+
+
 # [1.5.0-beta.17](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.16...v1.5.0-beta.17) (2022-02-02)
 
 
