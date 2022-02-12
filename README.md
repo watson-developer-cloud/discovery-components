@@ -488,9 +488,9 @@ To start the example app server and run all Cypress tests, use `yarn workspace d
 
 #### Continuous integration
 
-[Github Actions](https://github.com/watson-developer-cloud/discovery-components/actions) is used to continuously run integration tests against this repository, and any PRs that are made against it.
+[GitHub Actions](https://github.com/watson-developer-cloud/discovery-components/actions) is used to continuously run integration tests against this repository, and any PRs that are made against it.
 
-When triggered, Github Actions will build the project, then run the test scripts, and output the pass/fail to whichever branch/PR triggered the build.
+When triggered, GitHub Actions will build the project, then run the test scripts, and output the pass/fail to whichever branch/PR triggered the build.
 
 Steps in the automation can be set in `.github/workflows/ci.yml`, located in the root directory.
 
