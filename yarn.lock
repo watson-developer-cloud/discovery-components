@@ -5165,6 +5165,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/proper-url-join@npm:^2":
+  version: 2.1.1
+  resolution: "@types/proper-url-join@npm:2.1.1"
+  dependencies:
+    query-string: ^6.3.0
+  checksum: a3efe6003d1b94b990a00e3a8cd2dcbd7b8f87a6c872f4b8f0e8c8f6a9df1fd3f104cef3f05a08fdd58e90d60f0e2c1fcc6619a8dc6c59396d2cea0ba99f2887
+  languageName: node
+  linkType: hard
+
 "@types/q@npm:^1.5.1":
   version: 1.5.4
   resolution: "@types/q@npm:1.5.4"
@@ -10672,6 +10681,7 @@ __metadata:
     "@ibm-watson/discovery-react-components": ^1.5.0-beta.20
     "@ibm-watson/discovery-styles": ^1.5.0-beta.17
     "@testing-library/cypress": ^7.0.7
+    "@types/proper-url-join": ^2
     body-parser: ^1.19.0
     carbon-components: ~10.46.0
     carbon-components-react: ~7.46.0
@@ -10685,6 +10695,7 @@ __metadata:
     express: ^4.17.1
     http-proxy-middleware: ^0.20.0
     ibm-watson: ^6.2.1
+    proper-url-join: ^2.1.1
     react: ^17.0.2
     react-dom: ^17.0.2
     react-scripts: ^4.0.3
