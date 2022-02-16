@@ -20,6 +20,7 @@ if (process.env.REACT_APP_CYPRESS_MODE) {
   }
 
   const addAuthorization = async (req, _res, next) => {
+    // look for authentication config from environment variables or `ibm-credentials.env` file
     const authenticator = getAuthenticatorFromEnvironment('discovery');
     try {
       const accessToken = await authenticator.tokenManager.getToken();

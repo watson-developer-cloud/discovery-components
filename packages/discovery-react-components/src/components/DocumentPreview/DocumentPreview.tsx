@@ -1,16 +1,23 @@
-import React, { ComponentProps, FC, ReactElement, useContext, useEffect, useState } from 'react';
+import React, {
+  ComponentProps,
+  FC,
+  ReactElement,
+  useContext,
+  useEffect,
+  useMemo,
+  useState
+} from 'react';
 import { SkeletonText } from 'carbon-components-react';
 import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import { PreviewToolbar } from './components/PreviewToolbar/PreviewToolbar';
-import PdfViewer from './components/PdfViewer/PdfViewer';
 import SimpleDocument from './components/SimpleDocument/SimpleDocument';
 import withErrorBoundary, { WithErrorBoundaryProps } from 'utils/hoc/withErrorBoundary';
 import { defaultMessages, Messages } from './messages';
 import HtmlView from './components/HtmlView/HtmlView';
 import PdfViewerWithHighlight from './components/PdfViewerWithHighlight/PdfViewerWithHighlight';
-import { isCsvFile, isJsonFile } from './utils/documentData';
+import { detectPreviewType } from './utils/documentData';
 
 const { ZOOM_IN, ZOOM_OUT } = PreviewToolbar;
 
@@ -57,7 +64,7 @@ const DocumentPreview: FC<Props> = ({
   const [providedFile, setProvidedFile] = useState<string | undefined>();
 
   // document prop takes precedence over that in context
-  const doc = document || selectedResult.document;
+  const doc = document || selectedResult.document || undefined;
   highlight = highlight || selectedResult.element || undefined;
 
   // reset state if document changes
@@ -123,6 +130,7 @@ const DocumentPreview: FC<Props> = ({
               setHideToolbarControls={setHideToolbarControls}
               loading={loading}
               hideToolbarControls={hideToolbarControls}
+              setCurrentPage={setCurrentPage}
               fallbackComponent={fallbackComponent}
             />
           </div>
@@ -141,8 +149,8 @@ const DocumentPreview: FC<Props> = ({
   );
 };
 
-interface PreviewDocumentProps extends Pick<Props, 'file' | 'highlight' | 'fallbackComponent'> {
-  document?: QueryResult | null;
+interface PreviewDocumentProps
+  extends Pick<Props, 'document' | 'file' | 'highlight' | 'fallbackComponent'> {
   currentPage: number;
   scale: number;
   setPdfPageCount?: (count: number) => void;
@@ -150,6 +158,7 @@ interface PreviewDocumentProps extends Pick<Props, 'file' | 'highlight' | 'fallb
   setHideToolbarControls?: (disabled: boolean) => void;
   loading: boolean;
   hideToolbarControls: boolean;
+  setCurrentPage?: (page: number) => void;
 }
 
 function PreviewDocument({
@@ -163,28 +172,34 @@ function PreviewDocument({
   hideToolbarControls,
   setHideToolbarControls,
   highlight,
+  setCurrentPage,
   fallbackComponent
 }: PreviewDocumentProps): ReactElement | null {
-  // if we have PDF data, render that
-  // otherwise, render fallback document view
-  if (file) {
-    return (
-      <PdfViewer
-        file={file}
-        document={document}
-        page={currentPage}
-        scale={scale}
-        setPageCount={setPdfPageCount}
-        setLoading={setLoading}
-        setHideToolbarControls={setHideToolbarControls}
-      />
-    );
+  const previewType = useMemo(
+    () => (document ? detectPreviewType(document, file) : null),
+    [document, file]
+  );
+
+  if (!document) {
+    return null;
   }
 
-  if (document) {
-    const isJsonType = isJsonFile(document);
-    const isCsvType = isCsvFile(document);
-    if (document.html && !isJsonType && !isCsvType) {
+  switch (previewType) {
+    case 'PDF':
+      return (
+        <PdfViewerWithHighlight
+          file={file!} // PDF preview type ensures that file is not null
+          document={document}
+          page={currentPage}
+          scale={scale}
+          setPageCount={setPdfPageCount}
+          setLoading={setLoading}
+          setHideToolbarControls={setHideToolbarControls}
+          highlight={highlight}
+          setCurrentPage={setCurrentPage}
+        />
+      );
+    case 'HTML':
       return (
         <HtmlView
           document={document}
@@ -193,21 +208,21 @@ function PreviewDocument({
           setLoading={setLoading}
         />
       );
-    }
-    return (
-      <SimpleDocument
-        document={document}
-        highlight={highlight}
-        hideToolbarControls={hideToolbarControls}
-        setHideToolbarControls={setHideToolbarControls}
-        loading={loading}
-        setLoading={setLoading}
-        fallbackComponent={fallbackComponent}
-      />
-    );
+    case 'TEXT':
+      return (
+        <SimpleDocument
+          document={document}
+          highlight={highlight}
+          hideToolbarControls={hideToolbarControls}
+          setHideToolbarControls={setHideToolbarControls}
+          loading={loading}
+          setLoading={setLoading}
+          fallbackComponent={fallbackComponent}
+        />
+      );
+    default:
+      return null;
   }
-
-  return null;
 }
 
 //Replace any with a proper TS check

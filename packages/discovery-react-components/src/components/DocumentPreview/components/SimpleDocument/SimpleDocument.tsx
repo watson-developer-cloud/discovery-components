@@ -75,7 +75,7 @@ export const SimpleDocument: FC<Props> = ({
     } else {
       // if there is a passage highlight, use text values from field specified in passage
       if (highlight && isPassage(highlight)) {
-        passage = highlight as QueryResultPassage;
+        passage = highlight;
         field = passage.field;
         if (!field) {
           // if passage has no defined field, choose a default and unset `highlight`
