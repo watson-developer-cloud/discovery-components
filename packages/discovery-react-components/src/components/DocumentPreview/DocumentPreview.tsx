@@ -7,7 +7,7 @@ import React, {
   useMemo,
   useState
 } from 'react';
-import { SkeletonText } from 'carbon-components-react';
+import { SkeletonText, Loading } from 'carbon-components-react';
 import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
@@ -18,6 +18,7 @@ import { defaultMessages, Messages } from './messages';
 import HtmlView from './components/HtmlView/HtmlView';
 import PdfViewerWithHighlight from './components/PdfViewerWithHighlight/PdfViewerWithHighlight';
 import { detectPreviewType } from './utils/documentData';
+import { useFileFetcher } from './utils/useFileFetcher';
 
 const { ZOOM_IN, ZOOM_OUT } = PreviewToolbar;
 
@@ -30,6 +31,11 @@ interface Props extends WithErrorBoundaryProps {
    * PDF file data as "binary" string (array buffer). Overrides result from SearchContext.documentProvider.
    */
   file?: string;
+  /**
+   * Timeout milliseconds for loading PDF document.
+   * If the timeout is exceeded, give up to show the PDF view although fetching PDF is not be stopped.
+   */
+  loadFileTimeout?: number;
   /**
    * Passage or table to highlight in document. Reference to item with
    * `document.document_passages` or `document.table_results`.
@@ -50,6 +56,7 @@ const SCALE_FACTOR = 1.2;
 const DocumentPreview: FC<Props> = ({
   document,
   file,
+  loadFileTimeout = 0,
   highlight,
   messages = defaultMessages,
   didCatch,
@@ -62,6 +69,7 @@ const DocumentPreview: FC<Props> = ({
   const [loading, setLoading] = useState(true);
   const [hideToolbarControls, setHideToolbarControls] = useState(false);
   const [providedFile, setProvidedFile] = useState<string | undefined>();
+  const { fetching, fetchFile } = useFileFetcher(loadFileTimeout, setProvidedFile);
 
   // document prop takes precedence over that in context
   const doc = document || selectedResult.document || undefined;
@@ -79,26 +87,23 @@ const DocumentPreview: FC<Props> = ({
 
   // fetch PDF (if necessary)
   useEffect(() => {
-    async function fetchFile() {
-      const hasFile = await documentProvider!.provides(document!);
-      if (hasFile) {
-        setProvidedFile(await documentProvider?.get(document!));
-      }
-    }
-
     // `file` takes precedence over a file provided by `documentProvider`
     if (file) {
       setProvidedFile(file);
     } else if (document && documentProvider) {
-      fetchFile();
+      fetchFile(document, documentProvider);
     } else {
       setProvidedFile(undefined);
     }
-  }, [document, documentProvider, file]);
+  }, [document, documentProvider, file, fetchFile]);
 
   const [pdfPageCount, setPdfPageCount] = useState(0);
 
   const base = `${settings.prefix}--document-preview`;
+
+  if (fetching) {
+    return <Loading withOverlay={false} />;
+  }
 
   return (
     <div className={`${base}`}>
