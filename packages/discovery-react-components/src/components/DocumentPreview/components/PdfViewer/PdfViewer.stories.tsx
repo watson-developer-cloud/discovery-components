@@ -6,6 +6,15 @@ import PdfViewer from './PdfViewer';
 import { document as doc } from 'components/DocumentPreview/__fixtures__/Art Effects.pdf';
 import './PdfViewer.stories.scss';
 
+const sourceKnob = {
+  label: 'Source',
+  options: {
+    'PDF file content': 'file',
+    'PDF source type': 'source'
+  },
+  defaultValue: 'file'
+};
+
 const pageKnob = {
   label: 'Page',
   options: {
@@ -35,13 +44,19 @@ storiesOf('DocumentPreview/components/PdfViewer', module)
     const zoom = radios(zoomKnob.label, zoomKnob.options, zoomKnob.defaultValue);
     const scale = parseFloat(zoom);
 
+    const sourceType = radios(sourceKnob.label, sourceKnob.options, sourceKnob.defaultValue);
+    const source =
+      sourceType === 'file'
+        ? atob(doc)
+        : { data: Uint8Array.from(atob(doc), c => c.charCodeAt(0)) };
+
     const setLoadingAction = action('setLoading');
     const setRenderedTextAction = action('setRenderedText');
 
     return (
       <div className="pdf-viewer-stories__gray-background">
         <PdfViewer
-          file={atob(doc)}
+          file={source}
           page={page}
           scale={scale}
           setLoading={setLoadingAction}

@@ -10,7 +10,9 @@ import React, {
 import { SkeletonText } from 'carbon-components-react';
 import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
+import { PDFSource } from 'pdfjs-dist';
 import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
+import { PDFSourceDocument } from 'components/DiscoverySearch/types';
 import { PreviewToolbar } from './components/PreviewToolbar/PreviewToolbar';
 import SimpleDocument from './components/SimpleDocument/SimpleDocument';
 import withErrorBoundary, { WithErrorBoundaryProps } from 'utils/hoc/withErrorBoundary';
@@ -61,7 +63,7 @@ const DocumentPreview: FC<Props> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [hideToolbarControls, setHideToolbarControls] = useState(false);
-  const [providedFile, setProvidedFile] = useState<string | undefined>();
+  const [providedFile, setProvidedFile] = useState<string | PDFSource | undefined>();
 
   // document prop takes precedence over that in context
   const doc = document || selectedResult.document || undefined;
@@ -82,12 +84,17 @@ const DocumentPreview: FC<Props> = ({
     async function fetchFile() {
       const hasFile = await documentProvider!.provides(document!);
       if (hasFile) {
-        setProvidedFile(await documentProvider?.get(document!));
+        const file = await documentProvider?.get(document!);
+        if (file?.['__type'] === 'pdf') {
+          setProvidedFile((file as PDFSourceDocument).source);
+        } else {
+          setProvidedFile(undefined);
+        }
       }
     }
 
     // `file` takes precedence over a file provided by `documentProvider`
-    if (file) {
+    if (typeof file === 'string') {
       setProvidedFile(file);
     } else if (document && documentProvider) {
       fetchFile();
@@ -149,8 +156,8 @@ const DocumentPreview: FC<Props> = ({
   );
 };
 
-interface PreviewDocumentProps
-  extends Pick<Props, 'document' | 'file' | 'highlight' | 'fallbackComponent'> {
+interface PreviewDocumentProps extends Pick<Props, 'document' | 'highlight' | 'fallbackComponent'> {
+  file?: string | PDFSource;
   currentPage: number;
   scale: number;
   setPdfPageCount?: (count: number) => void;

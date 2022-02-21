@@ -1,4 +1,5 @@
 import DiscoveryV2, { JsonObject, QueryResult } from 'ibm-watson/discovery/v2';
+import { PDFSource } from 'pdfjs-dist';
 
 export type SearchClient = Pick<
   DiscoveryV2,
@@ -17,6 +18,14 @@ export interface DocumentProviderProps
   extracted_metadata?: JsonObject;
 }
 
+/**
+ * Document data for PDFSource
+ */
+export type PDFSourceDocument = {
+  __type: 'pdf';
+  source: PDFSource;
+};
+
 export interface DocumentProvider {
   /**
    * Return `true` if service can provide the given document
@@ -25,5 +34,5 @@ export interface DocumentProvider {
   /**
    * Return document data for given document, as a "binary" string (array buffer)
    */
-  get: (document: DocumentProviderProps) => Promise<string>;
+  get: (document: DocumentProviderProps) => Promise<string | PDFSourceDocument>;
 }
