@@ -3,6 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { withKnobs, number, boolean } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import { Json24, Document24 } from '@carbon/icons-react';
+import { OverflowMenu, OverflowMenuItem } from 'carbon-components-react';
 
 import { PreviewToolbar, ToolbarAction } from './PreviewToolbar';
 
@@ -39,6 +40,17 @@ const userActions: ToolbarAction[] = [
     renderIcon: Json24,
     iconDescription: 'Json view',
     onClick: action('json')
+  },
+  {
+    id: 'menu',
+    render: () => {
+      return (
+        <OverflowMenu size="sm" flipped>
+          <OverflowMenuItem itemText="Menu item 1" />
+          <OverflowMenuItem itemText="Menu item 2" />
+        </OverflowMenu>
+      );
+    }
   }
 ];
 

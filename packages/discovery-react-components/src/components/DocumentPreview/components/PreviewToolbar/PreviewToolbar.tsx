@@ -1,12 +1,12 @@
-import React, { FC, useRef, useEffect, ReactElement } from 'react';
+import React, { FC, useRef, useEffect, ReactElement, ComponentType } from 'react';
 import cx from 'classnames';
 import { Button, FormLabel, Form, TextInput } from 'carbon-components-react';
 import { settings } from 'carbon-components';
 
 import { ZoomIn24 } from '@carbon/icons-react';
 import { ZoomOut24 } from '@carbon/icons-react';
-import { CaretLeft24 } from '@carbon/icons-react';
-import { CaretRight24 } from '@carbon/icons-react';
+import { ChevronUp24 } from '@carbon/icons-react';
+import { ChevronDown24 } from '@carbon/icons-react';
 import { Reset24 } from '@carbon/icons-react';
 
 import { defaultMessages, Messages } from '../../messages';
@@ -18,7 +18,12 @@ export const ZOOM_RESET = 'reset-zoom';
 /**
  * User-defined action on the toolbar
  */
-export type ToolbarAction = {
+export type ToolbarAction = ToolbarButton | ToolbarItem;
+
+/**
+ * User-defined icon button action on the toolbar
+ */
+type ToolbarButton = {
   id?: string;
 
   /**
@@ -40,6 +45,18 @@ export type ToolbarAction = {
    * Action handler
    */
   onClick: () => void;
+};
+
+/**
+ * User defined widget on the toolbar
+ */
+type ToolbarItem = {
+  id?: string;
+
+  /**
+   * Render function to render toolbar item
+   */
+  render: ComponentType;
 };
 
 interface Props {
@@ -107,10 +124,16 @@ const PreviewToolbar: FC<Props> = ({
         {!hideControls && (
           <div className={`${base}__nav`}>
             {renderButton({
-              renderIcon: CaretLeft24,
+              renderIcon: ChevronUp24,
               iconDescription: msgs.previousPageLabel,
               onClick: () => nextPrevButtonClicked(current, total, onChange, -1),
               disabled: loading || current === 1
+            })}
+            {renderButton({
+              renderIcon: ChevronDown24,
+              iconDescription: msgs.nextPageLabel,
+              onClick: () => nextPrevButtonClicked(current, total, onChange, 1),
+              disabled: loading || current === total
             })}
             <Form
               onSubmit={(e: Event): void => currentPageChanged(e, onChange, inputRef)}
@@ -130,13 +153,7 @@ const PreviewToolbar: FC<Props> = ({
                 disabled={loading}
               />
             </Form>
-            <FormLabel className={`${base}__pageLabel`}>/ {total}</FormLabel>
-            {renderButton({
-              renderIcon: CaretRight24,
-              iconDescription: msgs.nextPageLabel,
-              onClick: () => nextPrevButtonClicked(current, total, onChange, 1),
-              disabled: loading || current === total
-            })}
+            <FormLabel className={`${base}__pageLabel`}>/ {msgs.formatTotalPages(total)}</FormLabel>
           </div>
         )}
       </div>
@@ -165,7 +182,7 @@ const PreviewToolbar: FC<Props> = ({
           </>
         )}
         {userActions.map((action, index) =>
-          renderButton({
+          renderUserAction({
             ...action,
             key: `toolbar-action-${action.id || index}`
           })
@@ -174,6 +191,17 @@ const PreviewToolbar: FC<Props> = ({
     </div>
   );
 };
+
+function renderUserAction(action: ToolbarAction & { key: string }) {
+  if (action['renderIcon']) {
+    return renderButton(action as ToolbarButton & { key: string });
+  } else if (action['render']) {
+    const { key, ...item } = action as ToolbarItem & { key: string };
+    const Component = item.render;
+    return <Component key={action.key} />;
+  }
+  return null;
+}
 
 function renderButton(obj: {
   key?: string;
