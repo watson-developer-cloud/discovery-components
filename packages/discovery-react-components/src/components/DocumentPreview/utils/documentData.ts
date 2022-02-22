@@ -1,7 +1,6 @@
 import get from 'lodash/get';
 import { QueryResult } from 'ibm-watson/discovery/v2';
-import { DiscoveryDocument, PreviewType, TextMappings } from '../types';
-import { PDFSource } from 'pdfjs-dist';
+import { DiscoveryDocument, DocumentFile, PreviewType, TextMappings } from '../types';
 
 /**
  * Get `text_mappings` document property as an object. Usually, this
@@ -43,10 +42,7 @@ export function isJsonFile(doc: QueryResult | null | undefined): boolean {
 /**
  * Returns the preview type for document
  */
-export function detectPreviewType(
-  document: DiscoveryDocument,
-  file?: string | PDFSource
-): PreviewType {
+export function detectPreviewType(document: DiscoveryDocument, file?: DocumentFile): PreviewType {
   const fileType = document.extracted_metadata?.file_type;
   const hasPassage = !!document.document_passages?.[0]?.passage_text;
 

@@ -21,10 +21,11 @@ export interface DocumentProviderProps
 /**
  * Document data for PDFSource
  */
-export type PDFSourceDocument = {
-  __type: 'pdf';
+export type TypedPdfDocumentFile = {
+  type: 'pdf';
   source: PDFSource;
 };
+export type TypedDocumentFile = TypedPdfDocumentFile;
 
 export interface DocumentProvider {
   /**
@@ -32,7 +33,8 @@ export interface DocumentProvider {
    */
   provides: (document: DocumentProviderProps) => Promise<boolean>;
   /**
-   * Return document data for given document, as a "binary" string (array buffer)
+   * Return document data for given document, as a "binary" string or an object
+   * wrapping PDFSource `{ type: 'pdf', source: PDFSource }`.
    */
-  get: (document: DocumentProviderProps) => Promise<string | PDFSourceDocument>;
+  get: (document: DocumentProviderProps) => Promise<string | TypedDocumentFile>;
 }

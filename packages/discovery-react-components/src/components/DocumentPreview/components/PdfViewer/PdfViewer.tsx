@@ -1,16 +1,11 @@
 import React, { FC, useEffect, useRef, useMemo, useCallback } from 'react';
 import cx from 'classnames';
-import PdfjsLib, {
-  PDFDocumentProxy,
-  PDFPageProxy,
-  PDFPromise,
-  PDFRenderTask,
-  PDFSource
-} from 'pdfjs-dist';
+import PdfjsLib, { PDFDocumentProxy, PDFPageProxy, PDFPromise, PDFRenderTask } from 'pdfjs-dist';
 import PdfjsWorkerAsText from 'pdfjs-dist/build/pdf.worker.min.js';
 import { settings } from 'carbon-components';
 import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
 import { QueryResult } from 'ibm-watson/discovery/v2';
+import { DocumentFile } from '../../types';
 import { getTextMappings } from '../../utils/documentData';
 import PdfViewerTextLayer, { PdfRenderedText } from './PdfViewerTextLayer';
 import { toPDFSource } from './utils';
@@ -24,7 +19,7 @@ type Props = PdfDisplayProps & {
   /**
    * PDF file data as a "binary" string (array buffer) or PDFSource
    */
-  file: string | PDFSource;
+  file: DocumentFile;
 
   /**
    * Optionally takes a query result document for page count calculation
@@ -169,7 +164,7 @@ function usePageCount({
   return pageCount;
 }
 
-function _loadPdf(data: string | PDFSource): PDFPromise<PDFDocumentProxy> {
+function _loadPdf(data: DocumentFile): PDFPromise<PDFDocumentProxy> {
   const source = toPDFSource(data);
   return PdfjsLib.getDocument(source).promise;
 }

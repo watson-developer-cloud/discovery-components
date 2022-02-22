@@ -10,9 +10,8 @@ import React, {
 import { SkeletonText } from 'carbon-components-react';
 import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
-import { PDFSource } from 'pdfjs-dist';
 import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
-import { PDFSourceDocument } from 'components/DiscoverySearch/types';
+import { TypedDocumentFile } from 'components/DiscoverySearch/types';
 import { PreviewToolbar } from './components/PreviewToolbar/PreviewToolbar';
 import SimpleDocument from './components/SimpleDocument/SimpleDocument';
 import withErrorBoundary, { WithErrorBoundaryProps } from 'utils/hoc/withErrorBoundary';
@@ -20,6 +19,7 @@ import { defaultMessages, Messages } from './messages';
 import HtmlView from './components/HtmlView/HtmlView';
 import PdfViewerWithHighlight from './components/PdfViewerWithHighlight/PdfViewerWithHighlight';
 import { detectPreviewType } from './utils/documentData';
+import { DocumentFile } from './types';
 
 const { ZOOM_IN, ZOOM_OUT } = PreviewToolbar;
 
@@ -31,7 +31,7 @@ interface Props extends WithErrorBoundaryProps {
   /**
    * PDF file data as "binary" string (array buffer). Overrides result from SearchContext.documentProvider.
    */
-  file?: string;
+  file?: DocumentFile;
   /**
    * Passage or table to highlight in document. Reference to item with
    * `document.document_passages` or `document.table_results`.
@@ -63,7 +63,7 @@ const DocumentPreview: FC<Props> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [hideToolbarControls, setHideToolbarControls] = useState(false);
-  const [providedFile, setProvidedFile] = useState<string | PDFSource | undefined>();
+  const [providedFile, setProvidedFile] = useState<DocumentFile>();
 
   // document prop takes precedence over that in context
   const doc = document || selectedResult.document || undefined;
@@ -85,8 +85,10 @@ const DocumentPreview: FC<Props> = ({
       const hasFile = await documentProvider!.provides(document!);
       if (hasFile) {
         const file = await documentProvider?.get(document!);
-        if (file?.['__type'] === 'pdf') {
-          setProvidedFile((file as PDFSourceDocument).source);
+        if (typeof file === 'string') {
+          setProvidedFile(file);
+        } else if (file?.type === 'pdf') {
+          setProvidedFile((file as TypedDocumentFile).source);
         } else {
           setProvidedFile(undefined);
         }
@@ -94,7 +96,7 @@ const DocumentPreview: FC<Props> = ({
     }
 
     // `file` takes precedence over a file provided by `documentProvider`
-    if (typeof file === 'string') {
+    if (file) {
       setProvidedFile(file);
     } else if (document && documentProvider) {
       fetchFile();
@@ -156,8 +158,8 @@ const DocumentPreview: FC<Props> = ({
   );
 };
 
-interface PreviewDocumentProps extends Pick<Props, 'document' | 'highlight' | 'fallbackComponent'> {
-  file?: string | PDFSource;
+interface PreviewDocumentProps
+  extends Pick<Props, 'document' | 'file' | 'highlight' | 'fallbackComponent'> {
   currentPage: number;
   scale: number;
   setPdfPageCount?: (count: number) => void;

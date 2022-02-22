@@ -1,4 +1,5 @@
 import { QueryResult } from 'ibm-watson/discovery/v2';
+import { PDFSource } from 'pdfjs-dist';
 
 export interface TextMappings {
   pages: Page[];
@@ -54,3 +55,5 @@ export interface DiscoveryDocument extends QueryResult {
     text_mappings?: string; // exists when custom SDU model or OOB (CI) model enabled
   };
 }
+
+export type DocumentFile = string | PDFSource;
