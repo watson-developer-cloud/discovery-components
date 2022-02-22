@@ -5,8 +5,10 @@ import PdfjsWorkerAsText from 'pdfjs-dist/build/pdf.worker.min.js';
 import { settings } from 'carbon-components';
 import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
 import { QueryResult } from 'ibm-watson/discovery/v2';
+import { DocumentFile } from '../../types';
 import { getTextMappings } from '../../utils/documentData';
 import PdfViewerTextLayer, { PdfRenderedText } from './PdfViewerTextLayer';
+import { toPDFSource } from './utils';
 import { PdfDisplayProps } from './types';
 
 setupPdfjs();
@@ -15,10 +17,9 @@ type Props = PdfDisplayProps & {
   className?: string;
 
   /**
-   * PDF file data as a "binary" string (array buffer)
-   * TODO Update to take `PDFSource` type (from pdfjs-dist) instead? Would allow binary data as well as URL.
+   * PDF file data as a "binary" string (array buffer) or PDFSource
    */
-  file: string;
+  file: DocumentFile;
 
   /**
    * Optionally takes a query result document for page count calculation
@@ -163,8 +164,9 @@ function usePageCount({
   return pageCount;
 }
 
-function _loadPdf(data: string): PDFPromise<PDFDocumentProxy> {
-  return PdfjsLib.getDocument({ data }).promise;
+function _loadPdf(data: DocumentFile): PDFPromise<PDFDocumentProxy> {
+  const source = toPDFSource(data);
+  return PdfjsLib.getDocument(source).promise;
 }
 
 function _loadPage(file: PDFDocumentProxy, page: number) {

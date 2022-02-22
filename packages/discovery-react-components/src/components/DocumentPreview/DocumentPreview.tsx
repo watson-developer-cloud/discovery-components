@@ -18,6 +18,7 @@ import { defaultMessages, Messages } from './messages';
 import HtmlView from './components/HtmlView/HtmlView';
 import PdfViewerWithHighlight from './components/PdfViewerWithHighlight/PdfViewerWithHighlight';
 import { detectPreviewType } from './utils/documentData';
+import { DocumentFile } from './types';
 
 const { ZOOM_IN, ZOOM_OUT } = PreviewToolbar;
 
@@ -29,7 +30,7 @@ interface Props extends WithErrorBoundaryProps {
   /**
    * PDF file data as "binary" string (array buffer). Overrides result from SearchContext.documentProvider.
    */
-  file?: string;
+  file?: DocumentFile;
   /**
    * Passage or table to highlight in document. Reference to item with
    * `document.document_passages` or `document.table_results`.
@@ -61,7 +62,7 @@ const DocumentPreview: FC<Props> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [hideToolbarControls, setHideToolbarControls] = useState(false);
-  const [providedFile, setProvidedFile] = useState<string | undefined>();
+  const [providedFile, setProvidedFile] = useState<DocumentFile>();
 
   // document prop takes precedence over that in context
   const doc = document || selectedResult.document || undefined;
@@ -82,7 +83,14 @@ const DocumentPreview: FC<Props> = ({
     async function fetchFile() {
       const hasFile = await documentProvider!.provides(document!);
       if (hasFile) {
-        setProvidedFile(await documentProvider?.get(document!));
+        const file = await documentProvider?.get(document!);
+        if (typeof file === 'string' || file instanceof ArrayBuffer) {
+          setProvidedFile(file);
+        } else if (file?.type === 'pdf') {
+          setProvidedFile(file.source);
+        } else {
+          setProvidedFile(undefined);
+        }
       }
     }
 
