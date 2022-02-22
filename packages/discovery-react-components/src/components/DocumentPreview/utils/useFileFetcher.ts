@@ -2,6 +2,7 @@ import { useContext, useEffect, useCallback, useState, useRef } from 'react';
 import { QueryResult } from 'ibm-watson/discovery/v2';
 import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
+import { DocumentFile } from '../types';
 
 export function useFileFetcher({
   document,
@@ -10,9 +11,9 @@ export function useFileFetcher({
   setFile
 }: {
   document?: QueryResult;
-  file?: string;
+  file?: DocumentFile;
   timeout: number;
-  setFile: (file?: string) => void;
+  setFile: (file?: DocumentFile) => void;
 }) {
   const { documentProvider } = useContext(SearchContext);
   const [fetching, setFetching] = useState(false);
@@ -27,7 +28,7 @@ export function useFileFetcher({
       } else if (document && documentProvider) {
         const hasFile = await documentProvider.provides(document!);
         if (hasFile) {
-          return await documentProvider.get(document!);
+          return (await documentProvider.get(document!)) as DocumentFile;
         }
       }
       return undefined;
