@@ -62,7 +62,7 @@ const PdfViewerWithHighlight: FC<Props> = ({
 
   const [renderedText, setRenderedText] = useState<PdfRenderedText | null>(null);
   const isTableHighlight = isTable(queryHighlight);
-  const documentInfo = useAsyncFunctionCall(
+  const [documentInfo] = useAsyncFunctionCall(
     useCallback(
       async () =>
         document ? await extractDocumentInfo(document, { tables: isTableHighlight }) : undefined,

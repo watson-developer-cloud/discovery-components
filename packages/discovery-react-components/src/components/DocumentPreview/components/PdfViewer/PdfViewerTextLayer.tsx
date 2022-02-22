@@ -54,7 +54,7 @@ const PdfViewerTextLayer: FC<Props> = ({
   const textLayerDiv = textLayerRef.current;
 
   // load text content from the page
-  const loadedText = useAsyncFunctionCall(
+  const [loadedText] = useAsyncFunctionCall(
     useCallback(async () => {
       if (loadedPage) {
         const viewport = loadedPage.getViewport({ scale });
@@ -66,7 +66,7 @@ const PdfViewerTextLayer: FC<Props> = ({
   );
 
   // render text content
-  const renderedText = useAsyncFunctionCall(
+  const [renderedText] = useAsyncFunctionCall(
     useCallback(
       async (signal: AbortSignal) => {
         if (textLayerDiv && loadedText) {
