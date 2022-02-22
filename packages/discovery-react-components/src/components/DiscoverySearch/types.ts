@@ -21,7 +21,7 @@ export interface DocumentProviderProps
 /**
  * Document data for PDFSource
  */
-export type TypedPdfDocumentFile = {
+type TypedPdfDocumentFile = {
   type: 'pdf';
   source: PDFSource;
 };

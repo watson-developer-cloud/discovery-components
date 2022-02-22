@@ -56,4 +56,4 @@ export interface DiscoveryDocument extends QueryResult {
   };
 }
 
-export type DocumentFile = string | PDFSource;
+export type DocumentFile = string | ArrayBuffer | PDFSource;

@@ -11,7 +11,6 @@ import { SkeletonText } from 'carbon-components-react';
 import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
-import { TypedDocumentFile } from 'components/DiscoverySearch/types';
 import { PreviewToolbar } from './components/PreviewToolbar/PreviewToolbar';
 import SimpleDocument from './components/SimpleDocument/SimpleDocument';
 import withErrorBoundary, { WithErrorBoundaryProps } from 'utils/hoc/withErrorBoundary';
@@ -85,10 +84,10 @@ const DocumentPreview: FC<Props> = ({
       const hasFile = await documentProvider!.provides(document!);
       if (hasFile) {
         const file = await documentProvider?.get(document!);
-        if (typeof file === 'string') {
+        if (typeof file === 'string' || file instanceof ArrayBuffer) {
           setProvidedFile(file);
         } else if (file?.type === 'pdf') {
-          setProvidedFile((file as TypedDocumentFile).source);
+          setProvidedFile(file.source);
         } else {
           setProvidedFile(undefined);
         }
