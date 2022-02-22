@@ -19,6 +19,7 @@ import HtmlView from './components/HtmlView/HtmlView';
 import PdfViewerWithHighlight from './components/PdfViewerWithHighlight/PdfViewerWithHighlight';
 import { detectPreviewType } from './utils/documentData';
 import { useFileFetcher } from './utils/useFileFetcher';
+import { DocumentFile } from './types';
 
 const { ZOOM_IN, ZOOM_OUT } = PreviewToolbar;
 
@@ -30,7 +31,7 @@ interface Props extends WithErrorBoundaryProps {
   /**
    * PDF file data as "binary" string (array buffer). Overrides result from SearchContext.documentProvider.
    */
-  file?: string;
+  file?: DocumentFile;
   /**
    * Timeout milliseconds for loading PDF document.
    * If the timeout is exceeded, give up to show the PDF view although fetching PDF is not be stopped.
@@ -68,7 +69,7 @@ const DocumentPreview: FC<Props> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [hideToolbarControls, setHideToolbarControls] = useState(false);
-  const [providedFile, setProvidedFile] = useState<string | undefined>();
+  const [providedFile, setProvidedFile] = useState<DocumentFile>();
   const isFileFetching = useFileFetcher({
     document,
     file,
