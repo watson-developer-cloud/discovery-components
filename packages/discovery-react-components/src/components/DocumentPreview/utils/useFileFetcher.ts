@@ -1,23 +1,42 @@
-import { useEffect, useCallback, useState, useRef } from 'react';
+import { useContext, useEffect, useCallback, useState, useRef } from 'react';
 import { QueryResult } from 'ibm-watson/discovery/v2';
-import { DocumentProvider } from 'components/DiscoverySearch/types';
+import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
+import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
 
-export function useFileFetcher(timeout: number, setFile: (file: string) => void) {
+export function useFileFetcher({
+  document,
+  file,
+  timeout,
+  setFile
+}: {
+  document?: QueryResult;
+  file?: string;
+  timeout: number;
+  setFile: (file?: string) => void;
+}) {
+  const { documentProvider } = useContext(SearchContext);
   const [fetching, setFetching] = useState(false);
-  const [fetchedFile, setFetchedFile] = useState<string | undefined>();
   const [isTimedOut, setIsTimedOut] = useState(false);
   const timeoutTimer = useRef<NodeJS.Timeout | null>(null);
 
-  const fetchFile = useCallback(
-    async (document: QueryResult, documentProvider: DocumentProvider) => {
-      setFetching(true);
-      const hasFile = await documentProvider.provides(document!);
-      if (hasFile) {
-        setFetchedFile(await documentProvider.get(document!));
+  const [fetchedFile, _, isFetched] = useAsyncFunctionCall(
+    useCallback(async () => {
+      // `file` takes precedence over a file provided by `documentProvider`
+      if (file) {
+        return file;
+      } else if (document && documentProvider) {
+        const hasFile = await documentProvider.provides(document!);
+        if (hasFile) {
+          return await documentProvider.get(document!);
+        }
       }
-    },
-    [timeout]
+      return undefined;
+    }, [file, document, documentProvider])
   );
+
+  useEffect(() => {
+    setFetching(!isFetched);
+  }, [isFetched]);
 
   useEffect(() => {
     if (fetchedFile && !isTimedOut) {
@@ -26,7 +45,6 @@ export function useFileFetcher(timeout: number, setFile: (file: string) => void)
         clearTimeout(timeoutTimer.current);
       }
     }
-    setFetching(false);
   }, [fetchedFile]);
 
   useEffect(() => {
@@ -43,8 +61,5 @@ export function useFileFetcher(timeout: number, setFile: (file: string) => void)
     };
   }, [timeout]);
 
-  return {
-    fetching,
-    fetchFile
-  };
+  return fetching;
 }

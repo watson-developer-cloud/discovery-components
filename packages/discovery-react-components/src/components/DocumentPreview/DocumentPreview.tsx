@@ -62,14 +62,19 @@ const DocumentPreview: FC<Props> = ({
   didCatch,
   fallbackComponent
 }) => {
-  const { selectedResult, documentProvider } = useContext(SearchContext);
+  const { selectedResult } = useContext(SearchContext);
 
   const [scale, setScale] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [hideToolbarControls, setHideToolbarControls] = useState(false);
   const [providedFile, setProvidedFile] = useState<string | undefined>();
-  const { fetching, fetchFile } = useFileFetcher(loadFileTimeout, setProvidedFile);
+  const isFileFetching = useFileFetcher({
+    document,
+    file,
+    timeout: loadFileTimeout,
+    setFile: setProvidedFile
+  });
 
   // document prop takes precedence over that in context
   const doc = document || selectedResult.document || undefined;
@@ -85,23 +90,11 @@ const DocumentPreview: FC<Props> = ({
     // setLoading(true);
   }, [doc]);
 
-  // fetch PDF (if necessary)
-  useEffect(() => {
-    // `file` takes precedence over a file provided by `documentProvider`
-    if (file) {
-      setProvidedFile(file);
-    } else if (document && documentProvider) {
-      fetchFile(document, documentProvider);
-    } else {
-      setProvidedFile(undefined);
-    }
-  }, [document, documentProvider, file, fetchFile]);
-
   const [pdfPageCount, setPdfPageCount] = useState(0);
 
   const base = `${settings.prefix}--document-preview`;
 
-  if (fetching) {
+  if (isFileFetching) {
     return <Loading withOverlay={false} />;
   }
 
