@@ -27,6 +27,8 @@
   text-align: center;
   max-width: $layout-lg;
   height: $spacing-07;
+  padding: 0 $spacing-02;
+  margin-left: $spacing-02;
 }
 
 // removes number wheel buttons from input (chrome and safari)
