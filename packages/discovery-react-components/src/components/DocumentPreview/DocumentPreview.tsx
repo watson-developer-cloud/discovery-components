@@ -18,7 +18,7 @@ import { defaultMessages, Messages } from './messages';
 import HtmlView from './components/HtmlView/HtmlView';
 import PdfViewerWithHighlight from './components/PdfViewerWithHighlight/PdfViewerWithHighlight';
 import { detectPreviewType } from './utils/documentData';
-import { useFileFetcher } from './utils/useFileFetcher';
+import { useProvidedFile } from './utils/useProvidedFile';
 import { DocumentFile } from './types';
 
 const { ZOOM_IN, ZOOM_OUT } = PreviewToolbar;
@@ -36,7 +36,7 @@ interface Props extends WithErrorBoundaryProps {
    * Timeout milliseconds for loading PDF document.
    * If the timeout is exceeded, give up to show the PDF view although fetching PDF is not be stopped.
    */
-  loadFileTimeout?: number;
+  fetchFileTimeout?: number;
   /**
    * Passage or table to highlight in document. Reference to item with
    * `document.document_passages` or `document.table_results`.
@@ -57,7 +57,7 @@ const SCALE_FACTOR = 1.2;
 const DocumentPreview: FC<Props> = ({
   document,
   file,
-  loadFileTimeout = 0,
+  fetchFileTimeout,
   highlight,
   messages = defaultMessages,
   didCatch,
@@ -69,12 +69,10 @@ const DocumentPreview: FC<Props> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [hideToolbarControls, setHideToolbarControls] = useState(false);
-  const [providedFile, setProvidedFile] = useState<DocumentFile>();
-  const isFileFetching = useFileFetcher({
+  const { providedFile, fetching } = useProvidedFile({
     document,
     file,
-    timeout: loadFileTimeout,
-    setFile: setProvidedFile
+    fetchTimeout: fetchFileTimeout
   });
 
   // document prop takes precedence over that in context
@@ -95,7 +93,7 @@ const DocumentPreview: FC<Props> = ({
 
   const base = `${settings.prefix}--document-preview`;
 
-  if (isFileFetching) {
+  if (fetching) {
     return <Loading withOverlay={false} />;
   }
 
