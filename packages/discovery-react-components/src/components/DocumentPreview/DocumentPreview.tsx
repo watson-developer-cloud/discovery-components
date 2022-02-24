@@ -33,10 +33,10 @@ interface Props extends WithErrorBoundaryProps {
    */
   file?: DocumentFile;
   /**
-   * Timeout milliseconds for loading PDF document.
-   * If the timeout is exceeded, give up to show the PDF view although fetching PDF is not be stopped.
+   * Timeout milliseconds for fetching PDF document.
+   * If the timeout is exceeded, give up to show the PDF view although the fetching is not be stopped.
    */
-  fetchFileTimeout?: number;
+  fileFetchTimeout?: number;
   /**
    * Passage or table to highlight in document. Reference to item with
    * `document.document_passages` or `document.table_results`.
@@ -57,7 +57,7 @@ const SCALE_FACTOR = 1.2;
 const DocumentPreview: FC<Props> = ({
   document,
   file,
-  fetchFileTimeout,
+  fileFetchTimeout,
   highlight,
   messages = defaultMessages,
   didCatch,
@@ -70,9 +70,9 @@ const DocumentPreview: FC<Props> = ({
   const [loading, setLoading] = useState(true);
   const [hideToolbarControls, setHideToolbarControls] = useState(false);
   const { providedFile, fetching } = useProvidedFile({
-    document,
     file,
-    fetchTimeout: fetchFileTimeout
+    document,
+    fetchTimeout: fileFetchTimeout
   });
 
   // document prop takes precedence over that in context

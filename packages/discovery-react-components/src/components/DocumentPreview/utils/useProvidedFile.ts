@@ -4,13 +4,18 @@ import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
 import { DocumentFile } from '../types';
 
+/**
+ * When the "file" prop is provided, just return it.
+ * Otherwise, fetch the file with the documentProvider.
+ * If the fetching time exceeds "fetchTimeout", nothing will be returned.
+ */
 export function useProvidedFile({
-  document,
   file,
+  document,
   fetchTimeout
 }: {
-  document?: QueryResult;
   file?: DocumentFile;
+  document?: QueryResult;
   fetchTimeout?: number;
 }) {
   const { documentProvider } = useContext(SearchContext);
@@ -28,16 +33,14 @@ export function useProvidedFile({
             new Promise(async resolve => {
               const hasFile = await documentProvider.provides(document!);
               if (hasFile) {
-                const fetchedData = await (documentProvider.get(document!) as DocumentFile);
+                const fetchedData = await documentProvider.get(document!);
                 return resolve(fetchedData);
               }
               return resolve(undefined);
             }),
-            new Promise(resolve => {
-              if (fetchTimeout) {
-                setTimeout(() => resolve(null), fetchTimeout);
-              }
-            })
+            ...(fetchTimeout
+              ? [new Promise(resolve => setTimeout(() => resolve(undefined), fetchTimeout))]
+              : [])
           ]);
 
           if (!signal.aborted) {
