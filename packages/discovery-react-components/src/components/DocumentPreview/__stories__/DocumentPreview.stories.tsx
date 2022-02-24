@@ -1,7 +1,8 @@
 import React, { ComponentType, FC } from 'react';
 import { storiesOf } from '@storybook/react';
-import { radios, boolean } from '@storybook/addon-knobs';
+import { radios, boolean, number } from '@storybook/addon-knobs';
 import { QueryResult, QueryResultPassage } from 'ibm-watson/discovery/v2';
+import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import DocumentPreview from '../DocumentPreview';
 import { document as docPDF } from '../__fixtures__/Art Effects.pdf';
 import docArtEffects from '../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
@@ -68,6 +69,31 @@ storiesOf('DocumentPreview', module)
     return (
       <Wrapper>
         <DocumentPreview document={doc} fallbackComponent={fallback} />
+      </Wrapper>
+    );
+  })
+  .add('loading file with timeout', () => {
+    const file = atob(docPDF);
+    const fetchTime = number('Milliseconds for loading file', 1000);
+    const fileFetchTimeout = number(
+      'Timeout milliseconds for loading file (fileFetchTimeout)',
+      3000
+    );
+    return (
+      <Wrapper>
+        <SearchContext.Provider
+          value={
+            {
+              selectedResult: {},
+              documentProvider: {
+                get: async () => new Promise(resolve => setTimeout(() => resolve(file), fetchTime)),
+                provides: () => true
+              }
+            } as any
+          }
+        >
+          <DocumentPreview document={docArtEffects} fileFetchTimeout={fileFetchTimeout} />
+        </SearchContext.Provider>
       </Wrapper>
     );
   });
