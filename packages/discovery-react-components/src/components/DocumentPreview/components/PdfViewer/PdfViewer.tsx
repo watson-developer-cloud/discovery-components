@@ -64,10 +64,10 @@ const PdfViewer: FC<Props> = ({
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const [loadedFile] = useAsyncFunctionCall(
+  const loadedFile = useAsyncFunctionCall(
     useCallback(async () => (file ? await _loadPdf(file) : null), [file])
   );
-  const [loadedPage] = useAsyncFunctionCall(
+  const loadedPage = useAsyncFunctionCall(
     useCallback(
       async () => (loadedFile && page > 0 ? await _loadPage(loadedFile, page) : null),
       [loadedFile, page]

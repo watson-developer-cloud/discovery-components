@@ -12,30 +12,25 @@ type AsyncFuncReturnType<T> = T extends AsyncFunc<infer U> ? U : never;
  */
 function useAsyncFunctionCall<Func extends AsyncFunc<any>, ReturnType = AsyncFuncReturnType<Func>>(
   asyncFunction: Func
-): [ReturnType | undefined, Error | undefined, boolean] {
+): ReturnType | undefined {
   const [result, setResult] = useState<ReturnType | undefined>();
-  const [error, setError] = useState<Error | undefined>();
-  const [resolved, setResolved] = useState(false);
 
   useEffect(() => {
     let resolved = false;
     const abortController = new AbortController();
-    setResolved(false);
 
     asyncFunction(abortController.signal)
       .then((promiseResult: ReturnType) => {
+        resolved = true;
         if (!abortController.signal.aborted && promiseResult !== undefined) {
           setResult(promiseResult);
         }
       })
       .catch(err => {
-        if (!abortController.signal.aborted) {
-          setError(err);
-        }
-      })
-      .finally(() => {
         resolved = true;
-        setResolved(true);
+        if (!abortController.signal.aborted) {
+          throw err;
+        }
       });
 
     return (): void => {
@@ -45,7 +40,7 @@ function useAsyncFunctionCall<Func extends AsyncFunc<any>, ReturnType = AsyncFun
     };
   }, [asyncFunction]);
 
-  return [result, error, resolved];
+  return result;
 }
 
 export default useAsyncFunctionCall;
