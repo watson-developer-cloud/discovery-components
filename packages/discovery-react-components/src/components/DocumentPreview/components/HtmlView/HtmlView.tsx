@@ -52,9 +52,11 @@ export const HtmlView: FC<Props> = ({
   const contentRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
 
-  if (setHideToolbarControls) {
-    setHideToolbarControls(true);
-  }
+  useEffect(() => {
+    if (setHideToolbarControls) {
+      setHideToolbarControls(true);
+    }
+  }, [setHideToolbarControls]);
 
   const [html, setHtml] = useState<string | null>(null);
   const [processedDoc, setProcessedDoc] = useState<ProcessedDoc | null>(null);
