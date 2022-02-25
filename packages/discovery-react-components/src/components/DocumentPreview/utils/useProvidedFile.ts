@@ -29,21 +29,21 @@ export function useProvidedFile({
           setFetching(true);
           setFetchedFile(undefined);
 
-          const fetchData = new Promise(async resolve => {
+          const fetchData = async () => {
             const hasFile = await documentProvider.provides(document);
             if (hasFile) {
               const fetchedData = await documentProvider.get(document);
               if (typeof fetchedData === 'string' || fetchedData instanceof ArrayBuffer) {
-                return resolve(fetchedData);
+                return fetchedData;
               } else if (fetchedData?.type === 'pdf') {
-                return resolve(fetchedData.source);
+                return fetchedData.source;
               }
             }
-            return resolve(undefined);
-          });
+            return undefined;
+          };
 
           const fetchedData = await Promise.race([
-            fetchData,
+            fetchData(),
             ...(fetchTimeout
               ? [new Promise(resolve => setTimeout(() => resolve(undefined), fetchTimeout))]
               : [])

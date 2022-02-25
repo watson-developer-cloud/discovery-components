@@ -38,6 +38,10 @@ interface Props extends WithErrorBoundaryProps {
    */
   fileFetchTimeout?: number;
   /**
+   * Class name for the loading indicator which is shown when fetching file.
+   */
+  loadingClassName?: string;
+  /**
    * Passage or table to highlight in document. Reference to item with
    * `document.document_passages` or `document.table_results`.
    */
@@ -58,6 +62,7 @@ const DocumentPreview: FC<Props> = ({
   document,
   file,
   fileFetchTimeout,
+  loadingClassName,
   highlight,
   messages = defaultMessages,
   didCatch,
@@ -94,7 +99,7 @@ const DocumentPreview: FC<Props> = ({
   const base = `${settings.prefix}--document-preview`;
 
   if (fetching) {
-    return <Loading withOverlay={false} />;
+    return <Loading className={loadingClassName} withOverlay={false} />;
   }
 
   return (
