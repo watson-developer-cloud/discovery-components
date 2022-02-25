@@ -34,7 +34,7 @@ interface Props extends WithErrorBoundaryProps {
   file?: DocumentFile;
   /**
    * Timeout milliseconds for fetching PDF document.
-   * If the timeout is exceeded, give up to show the PDF view although the fetching is not be stopped.
+   * If the timeout is exceeded, give up to show the PDF view although the fetching is not stopped.
    */
   fileFetchTimeout?: number;
   /**

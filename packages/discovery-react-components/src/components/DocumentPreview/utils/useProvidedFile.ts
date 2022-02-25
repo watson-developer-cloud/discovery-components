@@ -33,8 +33,12 @@ export function useProvidedFile({
             new Promise(async resolve => {
               const hasFile = await documentProvider.provides(document!);
               if (hasFile) {
-                const fetchedData = await documentProvider.get(document!);
-                return resolve(fetchedData);
+                const fetchedData = await documentProvider?.get(document!);
+                if (typeof fetchedData === 'string' || fetchedData instanceof ArrayBuffer) {
+                  resolve(fetchedData);
+                } else if (fetchedData?.type === 'pdf') {
+                  resolve(fetchedData.source);
+                }
               }
               return resolve(undefined);
             }),
