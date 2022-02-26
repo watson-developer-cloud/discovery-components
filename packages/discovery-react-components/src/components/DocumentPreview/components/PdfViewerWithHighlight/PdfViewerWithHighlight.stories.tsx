@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, radios, number, select } from '@storybook/addon-knobs';
+import { withKnobs, radios, number, select, files } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import PdfViewerWithHighlight from './PdfViewerWithHighlight';
 import { flatten } from 'lodash';
@@ -14,10 +14,6 @@ import document from 'components/DocumentPreview/__fixtures__/Art Effects Koya C
 
 import { document as docJa } from 'components/DocumentPreview/__fixtures__/DiscoComponent-ja.pdf';
 import documentJa from 'components/DocumentPreview/__fixtures__/DiscoComponents-ja_document.json';
-
-import PDFJS from 'pdfjs-dist';
-(PDFJS as any).cMapUrl = './node_modules/pdfjs-dist/cmaps/';
-(PDFJS as any).cMapPacked = true;
 
 const pageKnob = {
   label: 'Page',
@@ -38,6 +34,16 @@ const zoomKnob = {
     'Zoom in (150%)': '1.5'
   },
   defaultValue: '1'
+};
+
+const pdfFileKnob = {
+  label: 'PDF file',
+  accept: '.pdf'
+};
+
+const documentFileKnob = {
+  label: 'Document JSON file',
+  accept: '.json'
 };
 
 const EMPTY: DocumentFieldHighlight[] = [];
@@ -275,6 +281,38 @@ storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
         scale={scale}
         setLoading={setLoadingAction}
         document={documentJa}
+        highlights={EMPTY}
+        setCurrentPage={setCurrentPage}
+      />
+    );
+  })
+  .add("with user's PDF and JSON", () => {
+    const pdfFile = files(pdfFileKnob.label, pdfFileKnob.accept);
+    const documentFile = files(documentFileKnob.label, documentFileKnob.accept);
+    const page = number(pageKnob.label, pageKnob.defaultValue, pageKnob.options);
+    const zoom = radios(zoomKnob.label, zoomKnob.options, zoomKnob.defaultValue);
+    const scale = parseFloat(zoom);
+    const setLoadingAction = action('setLoading');
+    const setCurrentPage = action('setCurrentPage');
+
+    if (pdfFile.length === 0 || documentFile.length === 0) {
+      return <div>Select PDF file and Document JSON file</div>;
+    }
+
+    const document = JSON.parse(
+      Buffer.from(
+        documentFile[0].substring('data:application/json;base64,'.length),
+        'base64'
+      ).toString('utf-8')
+    );
+    const file = atob(pdfFile[0].substring('data:application/pdf;base64,'.length));
+    return (
+      <WithTextSelection
+        file={{ data: file, cMapPacked: true, cMapUrl: '/cmaps/' }}
+        page={page}
+        scale={scale}
+        setLoading={setLoadingAction}
+        document={document}
         highlights={EMPTY}
         setCurrentPage={setCurrentPage}
       />
