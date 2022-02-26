@@ -15,6 +15,9 @@ describe('isSideBySideOnLine', () => {
   it('should return true for side-by-side boxes', () => {
     expect(isNextToEachOther([0, 0, 5, 2], [5, 0, 10, 2])).toBeTruthy();
   });
+  it('should return true for horizontally overlapped boxes', () => {
+    expect(isNextToEachOther([0, 0, 5, 3], [4, 0, 10, 3])).toBeTruthy();
+  });
   it('should return false when boxes are not vertically aligned', () => {
     expect(isNextToEachOther([0, 0, 5, 2], [5, 1, 10, 3])).toBeFalsy();
   });
