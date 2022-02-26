@@ -154,7 +154,7 @@ export class Highlighter {
    * @returns TextLayoutCells representing the given highlight
    */
   private getHighlightTextMappingResult(highlight: DocumentFieldHighlight): TextBoxMappingResult {
-    let items = this.textMappingsLayout.getHighlight(highlight);
+    const items = this.textMappingsLayout.getHighlight(highlight);
 
     const doMapping = (
       items: TextBoxMappingResult,
@@ -180,10 +180,16 @@ export class Highlighter {
 
     const { textToPdfTextItemMappings, textToHtmlBboxMappings } = this;
     if (textToPdfTextItemMappings) {
-      items = doMapping(items, textToPdfTextItemMappings, this.textMappingsLayout);
+      const mappedItems = doMapping(items, textToPdfTextItemMappings, this.textMappingsLayout);
+      if (mappedItems.length > 0) {
+        return mappedItems;
+      }
     }
     if (textToHtmlBboxMappings) {
-      items = doMapping(items, textToHtmlBboxMappings, this.textMappingsLayout);
+      const mappedItems = doMapping(items, textToHtmlBboxMappings, this.textMappingsLayout);
+      if (mappedItems.length > 0) {
+        return mappedItems;
+      }
     }
     return items;
   }
