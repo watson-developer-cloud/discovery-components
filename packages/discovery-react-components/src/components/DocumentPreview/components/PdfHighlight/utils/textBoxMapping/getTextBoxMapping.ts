@@ -30,28 +30,30 @@ export function getTextBoxMappings<
   const source = new Source(sourceLayout, targetLayout);
   const builder = new TextBoxMappingBuilder();
 
-  target.processText((targetCellId, targetText, markTargetAsMapped) => {
-    const matchInSource = source.findMatch(targetCellId, targetText);
-    if (matchInSource) {
-      const mappedTargetCells = markTargetAsMapped(matchInSource.matchLength);
+  for (const minMatchLength of [27, 9, 3, 1]) {
+    debug('getTextBoxMapping: processText with minMatchLength: %d', minMatchLength);
+    target.processText((targetCellId, targetText, markTargetAsMapped) => {
+      const matchInSource = source.findMatch(targetCellId, targetText, minMatchLength);
+      if (matchInSource) {
+        const mappedTargetCells = markTargetAsMapped(matchInSource.matchLength);
 
-      let mappedSourceFullSpan: TextSpan = [0, 0];
-      mappedTargetCells.forEach(targetCell => {
-        const mappedSourceSpan = matchInSource.markSourceAsMapped(targetCell.text);
-        if (mappedSourceSpan) {
-          builder.addMapping(
-            { cell: matchInSource.cell, span: mappedSourceSpan },
-            { cell: targetCell }
-          );
-          mappedSourceFullSpan = spanMerge(mappedSourceFullSpan, mappedSourceSpan);
+        let mappedSourceFullSpan: TextSpan = [0, 0];
+        mappedTargetCells.forEach(targetCell => {
+          const mappedSourceSpan = matchInSource.markSourceAsMapped(targetCell.text);
+          if (mappedSourceSpan) {
+            builder.addMapping(
+              { cell: matchInSource.cell, span: mappedSourceSpan },
+              { cell: targetCell }
+            );
+            mappedSourceFullSpan = spanMerge(mappedSourceFullSpan, mappedSourceSpan);
+          }
+        });
+        if (spanLen(mappedSourceFullSpan) > 0) {
+          matchInSource.markSourceMappedBySpan(mappedSourceFullSpan);
         }
-      });
-      if (spanLen(mappedSourceFullSpan) > 0) {
-        matchInSource.markSourceMappedBySpan(mappedSourceFullSpan);
       }
-    }
-  });
-
+    });
+  }
   return builder.toTextBoxMapping();
 }
 
@@ -98,6 +100,7 @@ class Target<TargetCell extends TextLayoutCell> {
         this.targetProvider.skip();
       }
     }
+    this.targetProvider.rewind();
   }
 }
 
@@ -137,12 +140,12 @@ class Source<SourceCell extends TextLayoutCell, TargetCell extends TextLayoutCel
    * @param text
    * @return matched source information and functions to mark the matched span as mapped
    */
-  findMatch(targetCellId: TargetCell['id'], text: string) {
+  findMatch(targetCellId: TargetCell['id'], text: string, minLength = 1) {
     const candidateSources = this.targetIndexToSources[targetCellId];
-    const bestMatch = Source.findBestMatch(candidateSources, text);
+    const bestMatch = Source.findBestMatch(candidateSources, text, minLength);
     debug('> source cell(s) matched: %o', bestMatch);
 
-    if (!bestMatch?.match || spanLen(bestMatch.match.span) === 0) {
+    if (!bestMatch?.match || spanLen(bestMatch.match.span) < minLength) {
       return null;
     }
 
@@ -155,6 +158,9 @@ class Source<SourceCell extends TextLayoutCell, TargetCell extends TextLayoutCel
       matchLength: spanLen(matchedSourceSpan),
       markSourceAsMapped: (text: string) => {
         const mappedSource = matchedSourceProvider.getMatch(text);
+        if (mappedSource?.span) {
+          matchedSourceProvider.consume(mappedSource.span);
+        }
         debug('>> target cell %o to source %o', text, mappedSource);
         return mappedSource?.span;
       },
@@ -177,11 +183,12 @@ class Source<SourceCell extends TextLayoutCell, TargetCell extends TextLayoutCel
       cell: TextLayoutCell;
       provider: MappingSourceTextProvider;
     }[],
-    textToMatch: string
+    textToMatch: string,
+    minLength: number
   ) {
     // find matches
     const matches = sources.map(source => {
-      const match = source.provider.getMatch(textToMatch);
+      const match = source.provider.getMatch(textToMatch, minLength);
       return { ...source, match };
     });
 
