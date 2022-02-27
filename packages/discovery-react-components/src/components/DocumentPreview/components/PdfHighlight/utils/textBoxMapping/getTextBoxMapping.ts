@@ -1,8 +1,7 @@
 import minBy from 'lodash/minBy';
 import { nonEmpty } from 'utils/nonEmpty';
-import { TextSpan } from '../../types';
 import { bboxesIntersect } from '../../../../utils/box';
-import { spanLen, spanMerge } from '../../../../utils/textSpan';
+import { spanLen } from '../../../../utils/textSpan';
 import { TextLayout, TextLayoutCell, TextLayoutCellBase } from '../textLayout/types';
 import { MappingSourceTextProvider } from './MappingSourceTextProvider';
 import { MappingTargetBoxProvider } from './MappingTargetCellProvider';
@@ -33,11 +32,13 @@ export function getTextBoxMappings<
   for (const minMatchLength of [27, 9, 3, 1]) {
     debug('getTextBoxMapping: processText with minMatchLength: %d', minMatchLength);
     target.processText((targetCellId, targetText, markTargetAsMapped) => {
+      if (targetText.length < minMatchLength) {
+        return;
+      }
       const matchInSource = source.findMatch(targetCellId, targetText, minMatchLength);
       if (matchInSource) {
         const mappedTargetCells = markTargetAsMapped(matchInSource.matchLength);
 
-        let mappedSourceFullSpan: TextSpan = [0, 0];
         mappedTargetCells.forEach(targetCell => {
           const mappedSourceSpan = matchInSource.markSourceAsMapped(targetCell.text);
           if (mappedSourceSpan) {
@@ -45,12 +46,9 @@ export function getTextBoxMappings<
               { cell: matchInSource.cell, span: mappedSourceSpan },
               { cell: targetCell }
             );
-            mappedSourceFullSpan = spanMerge(mappedSourceFullSpan, mappedSourceSpan);
           }
         });
-        if (spanLen(mappedSourceFullSpan) > 0) {
-          matchInSource.markSourceMappedBySpan(mappedSourceFullSpan);
-        }
+        matchInSource.markAsMapped();
       }
     });
   }
@@ -164,10 +162,8 @@ class Source<SourceCell extends TextLayoutCell, TargetCell extends TextLayoutCel
         debug('>> target cell %o to source %o', text, mappedSource);
         return mappedSource?.span;
       },
-      markSourceMappedBySpan: (span: TextSpan) => {
-        if (spanLen(span) > 0) {
-          matchedSourceProvider.consume(span);
-        }
+      markAsMapped: () => {
+        matchedSourceProvider.consume(matchedSourceSpan);
       }
     };
   }
