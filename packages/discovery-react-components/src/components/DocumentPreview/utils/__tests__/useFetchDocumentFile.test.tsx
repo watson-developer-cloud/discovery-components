@@ -2,7 +2,7 @@ import * as React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import document from 'components/DocumentPreview/__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
-import { useProvidedFile } from '../useProvidedFile';
+import { useFetchDocumentFile } from '../useFetchDocumentFile';
 import { DocumentFile } from '../../types';
 
 type Props = {
@@ -10,9 +10,9 @@ type Props = {
   fetchTimeout?: number;
 };
 
-describe('useProvidedFile', () => {
+describe('useFetchDocumentFile', () => {
   const DummyChild = ({ file, fetchTimeout }: Props) => {
-    const { providedFile, isFetching } = useProvidedFile({
+    const { providedFile, isFetching } = useFetchDocumentFile({
       file,
       document,
       fetchTimeout

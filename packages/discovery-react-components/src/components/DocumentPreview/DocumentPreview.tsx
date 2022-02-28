@@ -18,7 +18,7 @@ import { defaultMessages, Messages } from './messages';
 import HtmlView from './components/HtmlView/HtmlView';
 import PdfViewerWithHighlight from './components/PdfViewerWithHighlight/PdfViewerWithHighlight';
 import { detectPreviewType } from './utils/documentData';
-import { useProvidedFile } from './utils/useProvidedFile';
+import { useFetchDocumentFile } from './utils/useFetchDocumentFile';
 import { DocumentFile } from './types';
 
 const { ZOOM_IN, ZOOM_OUT } = PreviewToolbar;
@@ -74,7 +74,7 @@ const DocumentPreview: FC<Props> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [hideToolbarControls, setHideToolbarControls] = useState(false);
-  const { providedFile, isFetching } = useProvidedFile({
+  const { providedFile, isFetching } = useFetchDocumentFile({
     file,
     document,
     fetchTimeout: fileFetchTimeout

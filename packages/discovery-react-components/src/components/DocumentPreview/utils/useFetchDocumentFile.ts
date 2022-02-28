@@ -9,7 +9,7 @@ import { DocumentFile } from '../types';
  * Otherwise, fetch the file with the documentProvider.
  * If the fetching time exceeds "fetchTimeout", nothing will be returned.
  */
-export function useProvidedFile({
+export function useFetchDocumentFile({
   file,
   document,
   fetchTimeout
