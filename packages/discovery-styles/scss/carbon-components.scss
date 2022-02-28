@@ -32,6 +32,9 @@ $css--use-layer: true !default;
 // ci-document-filter, document-preview
 @import '~carbon-components/scss/components/skeleton/skeleton';
 
+// document-preview
+@import '~carbon-components/scss/components/loading/loading';
+
 // ci-document
 @import '~carbon-components/scss/components/tabs/tabs';
 
