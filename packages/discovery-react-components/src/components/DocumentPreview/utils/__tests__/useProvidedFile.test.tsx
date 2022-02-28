@@ -12,7 +12,7 @@ type Props = {
 
 describe('useProvidedFile', () => {
   const DummyChild = ({ file, fetchTimeout }: Props) => {
-    const { providedFile, fetching } = useProvidedFile({
+    const { providedFile, isFetching } = useProvidedFile({
       file,
       document,
       fetchTimeout
@@ -20,7 +20,7 @@ describe('useProvidedFile', () => {
     return (
       <>
         <div data-testid="provided_file">{`${providedFile}`}</div>
-        <div data-testid="fetching">{`${fetching}`}</div>
+        <div data-testid="fetching">{`${isFetching}`}</div>
       </>
     );
   };

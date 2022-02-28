@@ -20,13 +20,13 @@ export function useProvidedFile({
 }) {
   const { documentProvider } = useContext(SearchContext);
   const [fetchedFile, setFetchedFile] = useState<DocumentFile>();
-  const [fetching, setFetching] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
 
   useAsyncFunctionCall(
     useCallback(
       async (signal: AbortSignal) => {
         if (!file && document && documentProvider) {
-          setFetching(true);
+          setIsFetching(true);
           setFetchedFile(undefined);
 
           const fetchData = async () => {
@@ -50,7 +50,7 @@ export function useProvidedFile({
           ]);
 
           if (!signal.aborted) {
-            setFetching(false);
+            setIsFetching(false);
             setFetchedFile(fetchedData as DocumentFile);
           }
         }
@@ -61,6 +61,6 @@ export function useProvidedFile({
 
   return {
     providedFile: file || fetchedFile,
-    fetching
+    isFetching
   };
 }

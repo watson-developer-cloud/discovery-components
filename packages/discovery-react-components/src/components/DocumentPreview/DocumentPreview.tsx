@@ -33,8 +33,8 @@ interface Props extends WithErrorBoundaryProps {
    */
   file?: DocumentFile;
   /**
-   * Timeout milliseconds for fetching PDF document.
-   * If the timeout is exceeded, give up to show the PDF view although the fetching is not stopped.
+   * Timeout for fetching PDF document, in milliseconds.
+   * If the timeout is exceeded, display HTML or text view.
    */
   fileFetchTimeout?: number;
   /**
@@ -74,7 +74,7 @@ const DocumentPreview: FC<Props> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [hideToolbarControls, setHideToolbarControls] = useState(false);
-  const { providedFile, fetching } = useProvidedFile({
+  const { providedFile, isFetching } = useProvidedFile({
     file,
     document,
     fetchTimeout: fileFetchTimeout
@@ -98,7 +98,7 @@ const DocumentPreview: FC<Props> = ({
 
   const base = `${settings.prefix}--document-preview`;
 
-  if (fetching) {
+  if (isFetching) {
     return <Loading className={loadingClassName} withOverlay={false} />;
   }
 
