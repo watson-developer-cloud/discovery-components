@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0-beta.23](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.22...v1.5.0-beta.23) (2022-02-25)
+
+
+### Bug Fixes
+
+* fix console error on showing DocumentPreview component ([#312](https://github.com/watson-developer-cloud/discovery-components/issues/312)) ([b39c011](https://github.com/watson-developer-cloud/discovery-components/commit/b39c011ada5dda5de1536a1688a18cba2c3074b8))
+
+
+
+
+
 # [1.5.0-beta.22](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.21...v1.5.0-beta.22) (2022-02-22)
 
 
