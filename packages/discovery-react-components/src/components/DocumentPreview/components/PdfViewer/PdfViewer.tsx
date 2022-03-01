@@ -180,6 +180,7 @@ function _renderPage(
 ): PDFRenderTask | null {
   const canvasContext = canvas.getContext('2d');
   if (canvasContext) {
+    canvasContext.resetTransform();
     return pdfPage.render({ canvasContext, viewport: canvasInfo.viewport });
   }
   return null;

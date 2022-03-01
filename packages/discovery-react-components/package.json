@@ -18,7 +18,7 @@
     "eslint": "yarn run g:eslint --quiet '{src,.storybook}/**/*.{js,jsx,ts,tsx}'",
     "lint": "yarn run circular && yarn run eslint",
     "start": "rollup -c -w",
-    "storybook": "start-storybook --ci --port=9002",
+    "storybook": "start-storybook --ci --port=9002 -s ../../node_modules/pdfjs-dist",
     "storybook:build": "build-storybook",
     "storybook:build:release": "cross-env STORYBOOK_BUILD_MODE=production build-storybook -o ../../docs/storybook",
     "analyze": "yarn run g:analyze 'dist/index.js'",
