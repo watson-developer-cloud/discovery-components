@@ -295,16 +295,25 @@ storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
     const setLoadingAction = action('setLoading');
     const setCurrentPage = action('setCurrentPage');
 
-    if (pdfFile.length === 0 || documentFile.length === 0) {
-      return <div>Select PDF file and Document JSON file</div>;
+    if (pdfFile.length === 0) {
+      return <div>Select PDF file</div>;
     }
 
-    const document = JSON.parse(
-      Buffer.from(
-        documentFile[0].substring('data:application/json;base64,'.length),
-        'base64'
-      ).toString('utf-8')
-    );
+    const document = documentFile[0]
+      ? JSON.parse(
+          Buffer.from(
+            documentFile[0].substring('data:application/json;base64,'.length),
+            'base64'
+          ).toString('utf-8')
+        )
+      : {
+          document_id: 'test-document-id',
+          result_metadata: {
+            collection_id: 'test-collection-id'
+          },
+          text: ''
+        };
+
     const file = atob(pdfFile[0].substring('data:application/pdf;base64,'.length));
     return (
       <WithTextSelection
