@@ -24,5 +24,7 @@ $highlight: #d0e2ff;
   .highlight {
     opacity: 0.3;
     background: darken($highlight, 30%);
+    border: 2px solid #000000;
+    box-sizing: content-box;
   }
 }
