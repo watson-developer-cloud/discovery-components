@@ -1,8 +1,7 @@
 import minBy from 'lodash/minBy';
 import { nonEmpty } from 'utils/nonEmpty';
-import { TextSpan } from '../../types';
 import { bboxesIntersect } from '../../../../utils/box';
-import { spanLen, spanMerge } from '../../../../utils/textSpan';
+import { spanLen } from '../../../../utils/textSpan';
 import { TextLayout, TextLayoutCell, TextLayoutCellBase } from '../textLayout/types';
 import { MappingSourceTextProvider } from './MappingSourceTextProvider';
 import { MappingTargetBoxProvider } from './MappingTargetCellProvider';
@@ -30,28 +29,29 @@ export function getTextBoxMappings<
   const source = new Source(sourceLayout, targetLayout);
   const builder = new TextBoxMappingBuilder();
 
-  target.processText((targetCellId, targetText, markTargetAsMapped) => {
-    const matchInSource = source.findMatch(targetCellId, targetText);
-    if (matchInSource) {
-      const mappedTargetCells = markTargetAsMapped(matchInSource.matchLength);
-
-      let mappedSourceFullSpan: TextSpan = [0, 0];
-      mappedTargetCells.forEach(targetCell => {
-        const mappedSourceSpan = matchInSource.markSourceAsMapped(targetCell.text);
-        if (mappedSourceSpan) {
-          builder.addMapping(
-            { cell: matchInSource.cell, span: mappedSourceSpan },
-            { cell: targetCell }
-          );
-          mappedSourceFullSpan = spanMerge(mappedSourceFullSpan, mappedSourceSpan);
-        }
-      });
-      if (spanLen(mappedSourceFullSpan) > 0) {
-        matchInSource.markSourceMappedBySpan(mappedSourceFullSpan);
+  for (const minMatchLength of [27, 9, 3, 1]) {
+    debug('getTextBoxMapping: processText with minMatchLength: %d', minMatchLength);
+    target.processText((targetCellId, targetText, markTargetAsMapped) => {
+      if (targetText.length < minMatchLength) {
+        return;
       }
-    }
-  });
+      const matchInSource = source.findMatch(targetCellId, targetText, minMatchLength);
+      if (matchInSource) {
+        const mappedTargetCells = markTargetAsMapped(matchInSource.matchLength);
 
+        mappedTargetCells.forEach(targetCell => {
+          const mappedSourceSpan = matchInSource.markSourceAsMapped(targetCell.text);
+          if (mappedSourceSpan) {
+            builder.addMapping(
+              { cell: matchInSource.cell, span: mappedSourceSpan },
+              { cell: targetCell }
+            );
+          }
+        });
+        matchInSource.markAsMapped();
+      }
+    });
+  }
   return builder.toTextBoxMapping();
 }
 
@@ -98,6 +98,7 @@ class Target<TargetCell extends TextLayoutCell> {
         this.targetProvider.skip();
       }
     }
+    this.targetProvider.rewind();
   }
 }
 
@@ -135,14 +136,17 @@ class Source<SourceCell extends TextLayoutCell, TargetCell extends TextLayoutCel
    * with the target cell of given `targetCellId`
    * @param targetCellId
    * @param text
+   * @param minLength the minimal length of matched text. this function returns the result
+   *                  only when a match longer than `minLength` is found. Otherwise `null`.
+   *                  In case the `text` is shorter than `minLength`, this always return `null`.
    * @return matched source information and functions to mark the matched span as mapped
    */
-  findMatch(targetCellId: TargetCell['id'], text: string) {
+  findMatch(targetCellId: TargetCell['id'], text: string, minLength = 1) {
     const candidateSources = this.targetIndexToSources[targetCellId];
-    const bestMatch = Source.findBestMatch(candidateSources, text);
+    const bestMatch = Source.findBestMatch(candidateSources, text, minLength);
     debug('> source cell(s) matched: %o', bestMatch);
 
-    if (!bestMatch?.match || spanLen(bestMatch.match.span) === 0) {
+    if (!bestMatch?.match || spanLen(bestMatch.match.span) < minLength) {
       return null;
     }
 
@@ -155,13 +159,19 @@ class Source<SourceCell extends TextLayoutCell, TargetCell extends TextLayoutCel
       matchLength: spanLen(matchedSourceSpan),
       markSourceAsMapped: (text: string) => {
         const mappedSource = matchedSourceProvider.getMatch(text);
+        if (mappedSource?.span) {
+          // mark the span in the source provider as 'used' so that other texts from target
+          // are not mapped to the same source span
+          matchedSourceProvider.consume(mappedSource.span);
+        }
         debug('>> target cell %o to source %o', text, mappedSource);
         return mappedSource?.span;
       },
-      markSourceMappedBySpan: (span: TextSpan) => {
-        if (spanLen(span) > 0) {
-          matchedSourceProvider.consume(span);
-        }
+      markAsMapped: () => {
+        // mark entire the match in the source provider as 'used'.
+        // this need to called after mapping to target text are built using `markSourceAsMapped`.
+        // the matched span in the source is mapped to target.
+        matchedSourceProvider.consume(matchedSourceSpan);
       }
     };
   }
@@ -177,11 +187,12 @@ class Source<SourceCell extends TextLayoutCell, TargetCell extends TextLayoutCel
       cell: TextLayoutCell;
       provider: MappingSourceTextProvider;
     }[],
-    textToMatch: string
+    textToMatch: string,
+    minLength: number
   ) {
     // find matches
     const matches = sources.map(source => {
-      const match = source.provider.getMatch(textToMatch);
+      const match = source.provider.getMatch(textToMatch, minLength);
       return { ...source, match };
     });
 

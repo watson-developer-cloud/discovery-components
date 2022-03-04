@@ -15,10 +15,6 @@ import document from 'components/DocumentPreview/__fixtures__/Art Effects Koya C
 import { document as docJa } from 'components/DocumentPreview/__fixtures__/DiscoComponent-ja.pdf';
 import documentJa from 'components/DocumentPreview/__fixtures__/DiscoComponents-ja_document.json';
 
-import PDFJS from 'pdfjs-dist';
-(PDFJS as any).cMapUrl = './node_modules/pdfjs-dist/cmaps/';
-(PDFJS as any).cMapPacked = true;
-
 const pageKnob = {
   label: 'Page',
   options: {

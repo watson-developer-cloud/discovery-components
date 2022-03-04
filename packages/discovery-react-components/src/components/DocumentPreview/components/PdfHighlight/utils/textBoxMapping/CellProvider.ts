@@ -2,7 +2,6 @@ import { isNextToEachOther } from '../common/bboxUtils';
 import { TextLayoutCell, TextLayoutCellBase } from '../textLayout/types';
 
 export class CellProvider {
-  private readonly skippedCells: TextLayoutCellBase[] = [];
   private cells: readonly TextLayoutCellBase[];
   private cursor: number = 0;
 
@@ -77,9 +76,13 @@ export class CellProvider {
    */
   consume(length: number): TextLayoutCellBase[] {
     const result: TextLayoutCellBase[] = [];
+    if (length <= 0) {
+      return result;
+    }
 
     let lengthToConsume = length;
-    while (lengthToConsume > 0) {
+    const newCells = [...this.cells];
+    while (lengthToConsume > 0 && this.cursor < this.cells.length) {
       const current = this.cells[this.cursor];
       const bboxTextLength = current.text.length;
 
@@ -90,16 +93,17 @@ export class CellProvider {
         result.push(consumed);
 
         const remaining = current.getPartial([lengthToConsume, bboxTextLength]);
-        const newCells = [...this.cells];
         newCells[this.cursor] = remaining;
-        this.cells = Object.freeze(newCells);
         break;
       }
 
       result.push(current);
+      newCells[this.cursor] = current.getPartial([0, 0]);
       lengthToConsume -= bboxTextLength;
       this.cursor += 1;
     }
+
+    this.cells = Object.freeze(newCells);
     return result;
   }
 
@@ -107,7 +111,14 @@ export class CellProvider {
    * skip the current cell
    */
   skip() {
-    this.skippedCells.push(this.cells[this.cursor]);
     this.cursor += 1;
+  }
+
+  /**
+   * move the cursor to the top to reprocess remaining cells
+   */
+  rewind() {
+    this.cursor = 0;
+    this.getNextCellsCache = null;
   }
 }

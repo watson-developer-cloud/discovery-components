@@ -1,5 +1,4 @@
 import { Bbox, TextSpan } from '../../types';
-import { bboxesIntersect } from '../../../../utils/box';
 import { spanIntersection, spanLen } from '../../../../utils/textSpan';
 
 /**
@@ -35,10 +34,6 @@ export function isNextToEachOther(boxA: Bbox, boxB: Bbox): boolean {
   //
   const OVERLAP_RATIO = 0.8;
 
-  if (bboxesIntersect(boxA, boxB)) {
-    return false;
-  }
-
   const [leftA, topA, rightA, bottomA] = boxA;
   const [leftB, topB, rightB, bottomB] = boxB;
   const heightA = bottomA - topA;
@@ -56,6 +51,14 @@ export function isNextToEachOther(boxA: Bbox, boxB: Bbox): boolean {
   }
 
   // see if boxes can be neighborhoods
-  const verticalGap = Math.max(0, leftB - rightA, leftA - rightB);
-  return verticalGap < avgHeight;
+  const horizontalGap = Math.max(leftB - rightA, leftA - rightB);
+  if (horizontalGap < 0) {
+    // gap < 0 means that the boxes are overlapped
+    const overlap = -horizontalGap;
+    // consider two horizontally aligned overlapped boxes are next to each other when
+    // the overlap is smaller than half of the box height.
+    return overlap < avgHeight / 2;
+  }
+
+  return horizontalGap < avgHeight;
 }

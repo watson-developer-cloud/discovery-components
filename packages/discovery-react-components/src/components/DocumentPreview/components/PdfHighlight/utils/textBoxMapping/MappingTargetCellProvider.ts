@@ -71,4 +71,12 @@ export class MappingTargetBoxProvider {
     this.current = null;
     this.cellProvider.skip();
   }
+
+  /**
+   * move the cursor to the top to reprocess remaining target cells
+   */
+  rewind() {
+    this.current = null;
+    this.cellProvider.rewind();
+  }
 }

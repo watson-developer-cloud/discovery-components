@@ -108,6 +108,10 @@ const Highlight: FC<{
   scale: number;
   active?: boolean;
 }> = ({ className, activeClassName, shape, scale, active }) => {
+  if (shape?.boxes.length === 0) {
+    return null;
+  }
+
   return (
     <div data-highlight-id={shape.highlightId}>
       {shape?.boxes.map(item => {
