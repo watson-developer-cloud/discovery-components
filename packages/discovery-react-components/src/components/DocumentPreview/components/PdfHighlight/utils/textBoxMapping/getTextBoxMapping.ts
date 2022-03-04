@@ -136,6 +136,9 @@ class Source<SourceCell extends TextLayoutCell, TargetCell extends TextLayoutCel
    * with the target cell of given `targetCellId`
    * @param targetCellId
    * @param text
+   * @param minLength the minimal length of matched text. this function returns the result
+   *                  only when a match longer than `minLength` is found. Otherwise `null`.
+   *                  In case the `text` is shorter than `minLength`, this always return `null`.
    * @return matched source information and functions to mark the matched span as mapped
    */
   findMatch(targetCellId: TargetCell['id'], text: string, minLength = 1) {
@@ -157,12 +160,17 @@ class Source<SourceCell extends TextLayoutCell, TargetCell extends TextLayoutCel
       markSourceAsMapped: (text: string) => {
         const mappedSource = matchedSourceProvider.getMatch(text);
         if (mappedSource?.span) {
+          // mark the span in the source provider as 'used' so that other texts from target
+          // are not mapped to the same source span
           matchedSourceProvider.consume(mappedSource.span);
         }
         debug('>> target cell %o to source %o', text, mappedSource);
         return mappedSource?.span;
       },
       markAsMapped: () => {
+        // mark entire the match in the source provider as 'used'.
+        // this need to called after mapping to target text are built using `markSourceAsMapped`.
+        // the matched span in the source is mapped to target.
         matchedSourceProvider.consume(matchedSourceSpan);
       }
     };

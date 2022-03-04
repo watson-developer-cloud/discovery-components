@@ -159,13 +159,17 @@ export class Highlighter {
     const doMapping = (
       items: TextBoxMappingResult,
       textBoxMapping: TextBoxMapping,
-      parent: TextLayout<TextLayoutCell>
+      parent: TextLayout<TextLayoutCell>,
+      options?: { retainUnmapped: boolean }
     ) =>
       flatMap(items, item => {
         if (item.cell) {
           const { cell: baseCell } = item.cell.getNormalized();
           if (baseCell.parent === parent) {
             const newItems = textBoxMapping.apply(item.cell);
+            if (newItems.length === 0 && options?.retainUnmapped) {
+              return [item];
+            }
             return newItems.map(({ cell, sourceSpan }) => {
               return {
                 cell,
@@ -180,10 +184,11 @@ export class Highlighter {
 
     const { textToPdfTextItemMappings, textToHtmlBboxMappings } = this;
     if (textToPdfTextItemMappings) {
-      const mappedItems = doMapping(items, textToPdfTextItemMappings, this.textMappingsLayout);
-      if (mappedItems.length > 0) {
-        items = mappedItems;
-      }
+      items = doMapping(items, textToPdfTextItemMappings, this.textMappingsLayout, {
+        // keep the highlight items which are not mapped to PDF text content.
+        // Those items can be handled by the following HTML bbox mapping as a fallback
+        retainUnmapped: true
+      });
     }
     if (textToHtmlBboxMappings) {
       items = doMapping(items, textToHtmlBboxMappings, this.textMappingsLayout);
