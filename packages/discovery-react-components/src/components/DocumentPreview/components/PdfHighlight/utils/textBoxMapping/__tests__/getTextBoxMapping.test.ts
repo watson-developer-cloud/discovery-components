@@ -1,23 +1,49 @@
 import { Bbox } from '../../../types';
+import { BaseTextLayoutCell } from '../../textLayout/BaseTextLayout';
+import { TextLayout } from '../../textLayout/types';
 import { getTextBoxMappings } from '../getTextBoxMapping';
-import { SimpleTextLayout } from './SimpleTextLayout';
 
-function genBbox(x: number, y: number, w = 1, h = 1): Bbox {
+type LayoutItem = {
+  bbox: Bbox;
+  text: string;
+};
+
+class SimpleTextLayout implements TextLayout<SimpleTextLayoutCell> {
+  readonly cells: SimpleTextLayoutCell[];
+
+  constructor(items: LayoutItem[]) {
+    this.cells = items.map(
+      (item, index) => new SimpleTextLayoutCell(this, index, item.bbox, item.text)
+    );
+  }
+
+  cellAt(id: number) {
+    return this.cells[id];
+  }
+}
+
+class SimpleTextLayoutCell extends BaseTextLayoutCell<SimpleTextLayout> {
+  constructor(parent: SimpleTextLayout, id: number, bbox: Bbox, text: string) {
+    super({ parent, id, pageNum: 1, bbox, text });
+  }
+}
+
+function bbox(x: number, y: number, w = 1, h = 1): Bbox {
   return [x, y, x + w, y + h];
 }
 
 describe('getTextBoxMapping', () => {
-  it('should map longer text first', () => {
+  it('should map longer line first', () => {
     const source = new SimpleTextLayout([
       // text_mappings box
-      { text: 'abc def abc def ghi', bbox: genBbox(0, 0, 2, 2) }
+      { text: 'abc def abc def ghi', bbox: bbox(0, 0, 2, 2) }
     ]);
     const target = new SimpleTextLayout([
       // 1st line (abc def)
-      { bbox: genBbox(0, 0), text: 'abc def' },
+      { bbox: bbox(0, 0), text: 'abc def' },
       // 2nd line (abc def ghi)
-      { bbox: genBbox(0, 1), text: 'abc ' },
-      { bbox: genBbox(1, 1), text: 'def ghi' }
+      { bbox: bbox(0, 1), text: 'abc ' },
+      { bbox: bbox(1, 1), text: 'def ghi' }
     ]);
     const mapping = getTextBoxMappings(source, target);
 
