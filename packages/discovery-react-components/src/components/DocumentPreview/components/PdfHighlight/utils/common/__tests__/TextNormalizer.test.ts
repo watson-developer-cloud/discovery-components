@@ -122,6 +122,16 @@ describe('TextNormalizer', () => {
     expect(matcher2.normalizedText).toEqual(expectedNormalizedText);
   });
 
+  it('should normalize null characters', () => {
+    const fieldText = '\x00This contains \x00null\x00 characters.';
+    const expectedNormalizedText = 'This contains null characters.';
+
+    const matcher = new TextNormalizer(fieldText);
+    expect(matcher.normalizedText).toEqual(expectedNormalizedText);
+    expect(matcher.toNormalized([0, 21])).toEqual([0, 18]); // 3 null chars are removed from the span
+    expect(matcher.toRaw([10, 18])).toEqual([11, 21]);
+  });
+
   describe('range conversion', () => {
     it('should return mapped indices for negative indices and greater indices than text length', () => {
       const matcher = new TextNormalizer('1234567890');
