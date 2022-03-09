@@ -28,10 +28,8 @@ export class MappingSourceTextProvider {
   /**
    * Find the best span where the give text matches to the rest of the text
    */
-  getMatch(
-    text: string,
-    { minLength = 1, searchSpan }: { minLength?: number; searchSpan?: TextSpan } = {}
-  ) {
+  getMatch(text: string, options: { minLength?: number; searchSpan?: TextSpan } = {}) {
+    const { minLength = 1, searchSpan } = options;
     const normalizedText = this.normalizer.normalize(text);
     const normalizedSearchSpan = searchSpan ? this.normalizer.toNormalized(searchSpan) : searchSpan;
     debug('getMatch "%s", normalized "%s", minLength = %d', text, normalizedText, minLength);

@@ -58,12 +58,9 @@ export class TextProvider {
    */
   getMatches(
     text: string,
-    {
-      minLength = 1,
-      maxLength = text.length,
-      searchSpan
-    }: { minLength?: number; maxLength?: number; searchSpan?: TextSpan } = {}
+    options: { minLength?: number; maxLength?: number; searchSpan?: TextSpan } = {}
   ): TextMatch[] {
+    const { minLength = 1, maxLength = text.length, searchSpan } = options;
     const match = findLargestIndex(minLength, maxLength + 1, index => {
       const lengthToMatch = index;
       const textToMatch = text.substring(0, lengthToMatch);
