@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0-beta.27](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.26...v1.5.0-beta.27) (2022-03-10)
+
+
+### Bug Fixes
+
+* fix PDF highlighting ([#319](https://github.com/watson-developer-cloud/discovery-components/issues/319)) ([e3279b7](https://github.com/watson-developer-cloud/discovery-components/commit/e3279b745653e3521cee84e7181883cb564c7f82))
+
+
+
+
+
 # [1.5.0-beta.26](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.25...v1.5.0-beta.26) (2022-03-04)
 
 
