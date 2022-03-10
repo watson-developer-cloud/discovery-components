@@ -5,7 +5,8 @@ import {
   spanIntersects,
   spanIncludesIndex,
   spanGetText,
-  spanIntersection
+  spanIntersection,
+  spanLen
 } from '../../../../utils/textSpan';
 import { findLargestIndex } from '../common/findLargestIndex';
 
@@ -50,14 +51,27 @@ export class TextProvider {
 
   /**
    * Get how the given `text` matches to the currently available text
+   * @param text text to search
+   * @param { minLength, maxLength, searchSpan } options match options
+   *   minLength, maxLength: specify min/max length of the match.
+   *   searchSpan: the span where the `text` is searched
    */
-  getMatches(text: string, minLength = 1, maxLength = text.length): TextMatch[] {
+  getMatches(
+    text: string,
+    options: { minLength?: number; maxLength?: number; searchSpan?: TextSpan } = {}
+  ): TextMatch[] {
+    const { minLength = 1, maxLength = text.length, searchSpan } = options;
     const match = findLargestIndex(minLength, maxLength + 1, index => {
       const lengthToMatch = index;
       const textToMatch = text.substring(0, lengthToMatch);
 
       const result: TextMatch[] = [];
-      for (const aSpan of this.remainingSpans) {
+      for (const remainingSpan of this.remainingSpans) {
+        const aSpan = searchSpan ? spanIntersection(searchSpan, remainingSpan) : remainingSpan;
+        if (spanLen(aSpan) <= 0) {
+          continue;
+        }
+
         const [spanBegin, spanEnd] = aSpan;
         const spanText = this.fieldText.slice(spanBegin, spanEnd);
 
@@ -69,9 +83,13 @@ export class TextProvider {
             const v = foundSpanBegin - i;
             return v >= 0 ? v : Number.MAX_SAFE_INTEGER;
           });
+
+          const textSkippedBySearchSpan =
+            remainingSpan[0] < spanBegin ? this.fieldText.slice(remainingSpan[0], spanBegin) : '';
+
           result.push({
             span: [foundSpanBegin, foundSpanEnd],
-            skipText: spanText.substring(0, foundIndex),
+            skipText: textSkippedBySearchSpan + spanText.substring(0, foundIndex),
             minHistoryDistance: Math.min(...historyDistances, this.fieldText.length),
             textAfterEnd: this.remainingSpans
               .map(span => {

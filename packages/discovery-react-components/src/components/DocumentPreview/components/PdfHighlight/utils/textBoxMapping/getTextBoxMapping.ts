@@ -158,7 +158,9 @@ class Source<SourceCell extends TextLayoutCell, TargetCell extends TextLayoutCel
       cell: matchedCell,
       matchLength: spanLen(matchedSourceSpan),
       markSourceAsMapped: (text: string) => {
-        const mappedSource = matchedSourceProvider.getMatch(text);
+        const mappedSource = matchedSourceProvider.getMatch(text, {
+          searchSpan: matchedSourceSpan
+        });
         if (mappedSource?.span) {
           // mark the span in the source provider as 'used' so that other texts from target
           // are not mapped to the same source span
@@ -192,7 +194,7 @@ class Source<SourceCell extends TextLayoutCell, TargetCell extends TextLayoutCel
   ) {
     // find matches
     const matches = sources.map(source => {
-      const match = source.provider.getMatch(textToMatch, minLength);
+      const match = source.provider.getMatch(textToMatch, { minLength });
       return { ...source, match };
     });
 

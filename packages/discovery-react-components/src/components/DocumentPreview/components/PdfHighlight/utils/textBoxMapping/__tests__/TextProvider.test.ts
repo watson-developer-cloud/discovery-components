@@ -12,6 +12,17 @@ describe('TextProvider', () => {
     expect(r?.textAfterEnd).toBe(' sample text content.');
   });
 
+  it('should find correct span for a text when search range is specified', () => {
+    const fieldText = 'This is a sample sample text content.';
+    const provider = new TextProvider(fieldText);
+
+    const r = provider.getMatches('sample', { searchSpan: [14, 25] })[0];
+    expect(r?.skipText).toBe('This is a sample ');
+    expect(r?.span).toEqual([17, 23]);
+    expect(r?.minHistoryDistance).toBe(17);
+    expect(r?.textAfterEnd).toBe(' text content.');
+  });
+
   it('should find correct spans for a text after consuming a span', () => {
     const fieldText = 'This is a sample sample text content.';
     const matcher = new TextProvider(fieldText);

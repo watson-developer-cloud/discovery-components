@@ -14,6 +14,11 @@ type CharNormalizer = {
   regexString: string;
 };
 
+const NULL_CHAR: CharNormalizer = {
+  normal: () => '',
+  regexString: '\x00'
+};
+
 const SPACES: CharNormalizer = {
   normal: (_: string) => ' ',
   regexString: '\\s+'
@@ -87,7 +92,14 @@ function normalizeDiacriticalMarks(text: string, keepLength = false): string {
   return r;
 }
 
-const NORMALIZATIONS = [SPACES, DOUBLE_QUOTE, QUOTE, SURROGATE_PAIR, DIACRITICAL_MARK].map(n => ({
+const NORMALIZATIONS = [
+  NULL_CHAR,
+  SPACES,
+  DOUBLE_QUOTE,
+  QUOTE,
+  SURROGATE_PAIR,
+  DIACRITICAL_MARK
+].map(n => ({
   ...n,
   regex: new RegExp(n.regexString, 'g')
 }));
