@@ -58,8 +58,10 @@ export function detectPreviewType(document: DiscoveryDocument, file?: DocumentFi
 
   const isJsonType = isJsonFile(document);
   const isCsvType = isCsvFile(document);
-  if (document.html && hasTextMappings && !isJsonType && !isCsvType) {
-    return 'HTML';
+  if (document.html && !isJsonType && !isCsvType) {
+    if (hasTextMappings || !hasPassage) {
+      return 'HTML';
+    }
   }
 
   return 'TEXT';

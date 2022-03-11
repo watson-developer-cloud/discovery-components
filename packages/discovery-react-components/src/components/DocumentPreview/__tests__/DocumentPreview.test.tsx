@@ -71,23 +71,10 @@ describe('DocumentPreview', () => {
 
   describe('with PDF / HTML / Text files', () => {
     it('should render html field if available', () => {
-      const pdfDocWithTextMappings = {
-        ...pdfDoc,
-        extracted_metadata: {
-          ...pdfDoc.extracted_metadata,
-          text_mappings: '{}'
-        }
-      };
-      render(<DocumentPreview document={pdfDocWithTextMappings} />);
+      render(<DocumentPreview document={pdfDoc} />);
 
       screen.getByText('This is a string.');
       screen.getByText('HTML');
-    });
-
-    it('should render text field if there is no text_mappings', () => {
-      render(<DocumentPreview document={pdfDoc} />);
-
-      screen.getByText('This is simple text.');
     });
 
     it('should render html field with single-line passage highlighting', async () => {
