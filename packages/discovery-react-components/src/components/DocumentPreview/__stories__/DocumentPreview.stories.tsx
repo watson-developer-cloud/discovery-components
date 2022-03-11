@@ -27,11 +27,7 @@ storiesOf('DocumentPreview', module)
     const [file, doc] = docSelection();
     return (
       <Wrapper>
-        <DocumentPreview
-          document={doc}
-          file={file}
-          onPreviewStateChange={action('preview-state-change')}
-        />
+        <DocumentPreview document={doc} file={file} onChange={action('change')} />
       </Wrapper>
     );
   })
@@ -47,7 +43,7 @@ storiesOf('DocumentPreview', module)
           document={docWithPassage}
           highlight={highlight}
           file={file}
-          onPreviewStateChange={action('preview-state-change')}
+          onChange={action('change')}
         />
       </Wrapper>
     );
@@ -63,7 +59,7 @@ storiesOf('DocumentPreview', module)
           file={file}
           document={docWithTable}
           highlight={highlight}
-          onPreviewStateChange={action('preview-state-change')}
+          onChange={action('change')}
         />
       </Wrapper>
     );
@@ -110,7 +106,7 @@ storiesOf('DocumentPreview', module)
           <DocumentPreview
             document={docArtEffects}
             fileFetchTimeout={fileFetchTimeout}
-            onPreviewStateChange={action('preview-state-change')}
+            onChange={action('change')}
           />
         </SearchContext.Provider>
       </Wrapper>

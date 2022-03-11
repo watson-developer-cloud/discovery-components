@@ -57,7 +57,7 @@ interface Props extends WithErrorBoundaryProps {
   /**
    * Callback to receive changes in document preview state
    */
-  onPreviewStateChange?: (state: { currentPage?: number }) => void;
+  onChange?: (state: { currentPage?: number }) => void;
 }
 
 const SCALE_FACTOR = 1.2;
@@ -71,7 +71,7 @@ const DocumentPreview: FC<Props> = ({
   messages = defaultMessages,
   didCatch,
   fallbackComponent,
-  onPreviewStateChange
+  onChange
 }) => {
   const { selectedResult } = useContext(SearchContext);
 
@@ -103,8 +103,8 @@ const DocumentPreview: FC<Props> = ({
 
   // notify state change
   useEffect(() => {
-    onPreviewStateChange?.({ currentPage });
-  }, [currentPage, onPreviewStateChange]);
+    onChange?.({ currentPage });
+  }, [currentPage, onChange]);
 
   const base = `${settings.prefix}--document-preview`;
 
