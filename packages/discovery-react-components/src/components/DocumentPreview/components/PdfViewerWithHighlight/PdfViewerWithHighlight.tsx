@@ -171,7 +171,7 @@ function useHighlightState({
 /**
  * Hook to move PDF page depending on active highlight
  */
-function useMovePageToActiveHighlight(
+export function useMovePageToActiveHighlight(
   page: number,
   activeHighlightPages: number[],
   activeIds: string[] | undefined,
