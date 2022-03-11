@@ -54,6 +54,10 @@ interface Props extends WithErrorBoundaryProps {
    * React component rendered as a fallback when no preview is available
    */
   fallbackComponent?: ComponentProps<typeof SimpleDocument>['fallbackComponent'];
+  /**
+   * Callback to receive changes in document preview state
+   */
+  onChange?: (state: { currentPage?: number }) => void;
 }
 
 const SCALE_FACTOR = 1.2;
@@ -66,7 +70,8 @@ const DocumentPreview: FC<Props> = ({
   highlight,
   messages = defaultMessages,
   didCatch,
-  fallbackComponent
+  fallbackComponent,
+  onChange
 }) => {
   const { selectedResult } = useContext(SearchContext);
 
@@ -95,6 +100,11 @@ const DocumentPreview: FC<Props> = ({
   }, [doc]);
 
   const [pdfPageCount, setPdfPageCount] = useState(0);
+
+  // notify state change
+  useEffect(() => {
+    onChange?.({ currentPage });
+  }, [currentPage, onChange]);
 
   const base = `${settings.prefix}--document-preview`;
 
