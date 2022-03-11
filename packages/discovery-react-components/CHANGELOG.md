@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0-beta.28](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.27...v1.5.0-beta.28) (2022-03-11)
+
+
+### Features
+
+* add state change event to DocumentPreview component ([#320](https://github.com/watson-developer-cloud/discovery-components/issues/320)) ([08b2c1a](https://github.com/watson-developer-cloud/discovery-components/commit/08b2c1a3a4b5733bc42397f73320ee7a1dbaf096))
+
+
+
+
+
 # [1.5.0-beta.27](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.26...v1.5.0-beta.27) (2022-03-10)
 
 

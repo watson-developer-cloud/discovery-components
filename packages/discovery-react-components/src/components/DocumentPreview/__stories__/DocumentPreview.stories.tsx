@@ -1,6 +1,7 @@
 import React, { ComponentType, FC } from 'react';
 import { storiesOf } from '@storybook/react';
 import { radios, boolean, number } from '@storybook/addon-knobs';
+import { action } from '@storybook/addon-actions';
 import { QueryResult, QueryResultPassage } from 'ibm-watson/discovery/v2';
 import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import DocumentPreview from '../DocumentPreview';
@@ -26,7 +27,7 @@ storiesOf('DocumentPreview', module)
     const [file, doc] = docSelection();
     return (
       <Wrapper>
-        <DocumentPreview document={doc} file={file} />
+        <DocumentPreview document={doc} file={file} onChange={action('change')} />
       </Wrapper>
     );
   })
@@ -38,7 +39,12 @@ storiesOf('DocumentPreview', module)
 
     return (
       <Wrapper>
-        <DocumentPreview document={docWithPassage} highlight={highlight} file={file} />
+        <DocumentPreview
+          document={docWithPassage}
+          highlight={highlight}
+          file={file}
+          onChange={action('change')}
+        />
       </Wrapper>
     );
   })
@@ -49,7 +55,12 @@ storiesOf('DocumentPreview', module)
 
     return (
       <Wrapper>
-        <DocumentPreview file={file} document={docWithTable} highlight={highlight} />
+        <DocumentPreview
+          file={file}
+          document={docWithTable}
+          highlight={highlight}
+          onChange={action('change')}
+        />
       </Wrapper>
     );
   })
@@ -92,7 +103,11 @@ storiesOf('DocumentPreview', module)
             } as any
           }
         >
-          <DocumentPreview document={docArtEffects} fileFetchTimeout={fileFetchTimeout} />
+          <DocumentPreview
+            document={docArtEffects}
+            fileFetchTimeout={fileFetchTimeout}
+            onChange={action('change')}
+          />
         </SearchContext.Provider>
       </Wrapper>
     );
