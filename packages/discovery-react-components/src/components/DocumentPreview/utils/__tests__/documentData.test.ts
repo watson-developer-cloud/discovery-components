@@ -161,10 +161,19 @@ describe('documentData', () => {
       it('return HTML when document has html', () => {
         const previewType = detectPreviewType({
           ...commonData,
-          extracted_metadata: { file_type: 'html' },
+          extracted_metadata: { file_type: 'html', text_mappings: '{}' },
           html: '<html></html>'
         });
         expect(previewType).toEqual('HTML');
+      });
+
+      it('return TEXT when document has html but no text_mappings', () => {
+        const previewType = detectPreviewType({
+          ...commonData,
+          extracted_metadata: { file_type: 'html' },
+          html: '<html></html>'
+        });
+        expect(previewType).toEqual('TEXT');
       });
 
       it('return TEXT when no html', () => {
