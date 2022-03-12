@@ -174,8 +174,8 @@ function useHighlightState({
 export function useMovePageToActiveHighlight(
   page: number,
   activeHighlightPages: number[],
-  activeIds: string[] | undefined,
-  setPage: ((page: number) => any) | undefined
+  activeIds?: string[],
+  setPage?: (page: number) => any
 ) {
   const [currentPage, setCurrentPage] = useState(page);
 
