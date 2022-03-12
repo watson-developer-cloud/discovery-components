@@ -54,6 +54,11 @@ describe('useMovePageToActiveHighlight', () => {
       expect(rendered.result.current).toBe(8);
       expect(setPage).toBeCalledTimes(1); // setPage should is called to to notify page change
       expect(setPage).toBeCalledWith(8);
+
+      setPage.mockReset();
+      rendered.rerender({ page: 8, highlightPages: [8] }); // page updated by the setPage
+      expect(rendered.result.current).toBe(8);
+      expect(setPage).toBeCalledTimes(0);
     });
   });
 
@@ -63,6 +68,11 @@ describe('useMovePageToActiveHighlight', () => {
       expect(rendered.result.current).toBe(5); // page to render
       expect(setPage).toBeCalledTimes(1); // setPage should is called to to notify page change
       expect(setPage).toBeCalledWith(5);
+
+      setPage.mockReset();
+      rendered.rerender({ page: 5, highlightPages: [5] }); // page updated by the setPage
+      expect(rendered.result.current).toBe(5);
+      expect(setPage).toBeCalledTimes(0);
     });
 
     it('returns the page after page is changed', () => {
@@ -83,6 +93,11 @@ describe('useMovePageToActiveHighlight', () => {
       expect(rendered.result.current).toBe(8);
       expect(setPage).toBeCalledTimes(1);
       expect(setPage).toBeCalledWith(8);
+
+      setPage.mockReset();
+      rendered.rerender({ page: 8, highlightPages: [8] }); // page updated by the setPage
+      expect(rendered.result.current).toBe(8);
+      expect(setPage).toBeCalledTimes(0);
     });
 
     it('invokes setPage when active highlight id is updated and page change is necessary', () => {
