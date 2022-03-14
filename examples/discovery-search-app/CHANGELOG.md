@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0-beta.30](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.29...v1.5.0-beta.30) (2022-03-14)
+
+**Note:** Version bump only for package discovery-search-app
+
+
+
+
+
 # [1.5.0-beta.29](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.28...v1.5.0-beta.29) (2022-03-12)
 
 **Note:** Version bump only for package discovery-search-app

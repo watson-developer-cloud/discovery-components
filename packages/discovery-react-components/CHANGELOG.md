@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0-beta.30](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.29...v1.5.0-beta.30) (2022-03-14)
+
+
+### Bug Fixes
+
+* show text view if there is no text_mappings ([#322](https://github.com/watson-developer-cloud/discovery-components/issues/322)) ([c579cfd](https://github.com/watson-developer-cloud/discovery-components/commit/c579cfdef0823c700a4261e0c682b493b5c55e6e))
+
+
+
+
+
 # [1.5.0-beta.29](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.28...v1.5.0-beta.29) (2022-03-12)
 
 
