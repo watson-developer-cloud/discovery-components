@@ -158,13 +158,33 @@ describe('documentData', () => {
     });
 
     describe('html', () => {
-      it('return HTML when document has html', () => {
+      it('return HTML when no text_mappings and passage_text', () => {
         const previewType = detectPreviewType({
           ...commonData,
           extracted_metadata: { file_type: 'html' },
           html: '<html></html>'
         });
         expect(previewType).toEqual('HTML');
+      });
+
+      it('return HTML when document has text_mappings', () => {
+        const previewType = detectPreviewType({
+          ...commonData,
+          extracted_metadata: { file_type: 'html', text_mappings: '{}' },
+          document_passages: [{ passage_text: 'passage' }],
+          html: '<html></html>'
+        });
+        expect(previewType).toEqual('HTML');
+      });
+
+      it('return TEXT when document does not have text_mappings but have passage_text', () => {
+        const previewType = detectPreviewType({
+          ...commonData,
+          extracted_metadata: { file_type: 'html' },
+          document_passages: [{ passage_text: 'passage' }],
+          html: '<html></html>'
+        });
+        expect(previewType).toEqual('TEXT');
       });
 
       it('return TEXT when no html', () => {

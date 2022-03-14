@@ -45,10 +45,10 @@ export function isJsonFile(doc: QueryResult | null | undefined): boolean {
 export function detectPreviewType(document: DiscoveryDocument, file?: DocumentFile): PreviewType {
   const fileType = document.extracted_metadata?.file_type;
   const hasPassage = !!document.document_passages?.[0]?.passage_text;
+  const hasTextMappings = !!document.extracted_metadata?.text_mappings;
 
   // only render PDF if we have text mappings data
   if (fileType === 'pdf' && file) {
-    const hasTextMappings = !!document.extracted_metadata?.text_mappings;
     // when hasTextMappings is true, that means the custom SDU model or OOB (CI) model is enabled
     // otherwise, that means the fast path
     if (hasTextMappings || !hasPassage) {
@@ -59,7 +59,11 @@ export function detectPreviewType(document: DiscoveryDocument, file?: DocumentFi
   const isJsonType = isJsonFile(document);
   const isCsvType = isCsvFile(document);
   if (document.html && !isJsonType && !isCsvType) {
-    return 'HTML';
+    // HTML view cannot display a passage highlight unless the document have text_mappings.
+    // So, do not show as HTML when the document have a passage but does not have text_mappings.
+    if (hasTextMappings || !hasPassage) {
+      return 'HTML';
+    }
   }
 
   return 'TEXT';
