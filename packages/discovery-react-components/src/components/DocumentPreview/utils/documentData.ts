@@ -59,6 +59,8 @@ export function detectPreviewType(document: DiscoveryDocument, file?: DocumentFi
   const isJsonType = isJsonFile(document);
   const isCsvType = isCsvFile(document);
   if (document.html && !isJsonType && !isCsvType) {
+    // HTML view cannot display a passage highlight unless the document have text_mappings.
+    // So, do not show as HTML when the document have a passage but does not have text_mappings.
     if (hasTextMappings || !hasPassage) {
       return 'HTML';
     }
