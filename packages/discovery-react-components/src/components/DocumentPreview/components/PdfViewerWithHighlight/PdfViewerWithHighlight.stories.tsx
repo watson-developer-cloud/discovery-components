@@ -1,7 +1,18 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  ComponentProps,
+  FC,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, radios, number, select, files } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
+import { ChevronUp24 } from '@carbon/icons-react';
+import { ChevronDown24 } from '@carbon/icons-react';
+import { PreviewToolbar, ZOOM_IN, ZOOM_OUT } from '../PreviewToolbar/PreviewToolbar';
 import PdfViewerWithHighlight from './PdfViewerWithHighlight';
 import { flatten } from 'lodash';
 import { DocumentFieldHighlight } from '../PdfHighlight/types';
@@ -201,6 +212,77 @@ const WithTextSelection: typeof PdfViewerWithHighlight = props => {
   );
 };
 
+const WithToolbar: FC<
+  Pick<
+    ComponentProps<typeof PdfViewerWithHighlight>,
+    'file' | 'document' | 'highlights' | 'setLoading' | 'setCurrentPage'
+  >
+> = props => {
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(0);
+  const [zoom, setZoom] = useState(1.0);
+  const onZoom = useCallback(
+    (action: string) => {
+      switch (action) {
+        case ZOOM_IN:
+          setZoom(zoom * 1.2);
+          break;
+        case ZOOM_OUT:
+          setZoom(zoom / 1.2);
+          break;
+        default:
+          setZoom(1.0);
+          break;
+      }
+    },
+    [zoom]
+  );
+
+  const highlights = props.highlights;
+  const highlightLength = highlights?.length ?? 0;
+  const [activeIdIndex, setActiveIdIndex] = useState(0);
+  const highlightActions = useMemo(
+    () => [
+      {
+        renderIcon: ChevronUp24,
+        iconDescription: 'previous',
+        onClick: () => setActiveIdIndex((activeIdIndex + highlightLength - 1) % highlightLength)
+      },
+      {
+        renderIcon: ChevronDown24,
+        iconDescription: 'next',
+        onClick: () => setActiveIdIndex((activeIdIndex + 1) % highlightLength)
+      }
+    ],
+    [activeIdIndex, highlightLength]
+  );
+  const activeIds = useMemo(() => {
+    const id = highlights?.[activeIdIndex]?.id;
+    return id ? [id] : [];
+  }, [highlights, activeIdIndex]);
+
+  return (
+    <div className="withNavigation">
+      <PreviewToolbar
+        current={page}
+        total={totalPage}
+        onChange={setPage}
+        onZoom={onZoom}
+        userActions={highlightActions}
+      />
+      <PdfViewerWithHighlight
+        {...props}
+        setPageCount={setTotalPage}
+        page={page}
+        setCurrentPage={setPage}
+        scale={zoom}
+        activeIds={activeIds}
+        highlightClassName="highlight"
+      />
+    </div>
+  );
+};
+
 storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
   .addDecorator(withKnobs)
   .add('default', () => {
@@ -324,6 +406,25 @@ storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
         document={document}
         highlights={EMPTY}
         setCurrentPage={setCurrentPage}
+      />
+    );
+  })
+  .add('with preview toolbar', () => {
+    const highlights = select(
+      highlightKnob.label,
+      highlightKnob.options,
+      highlightKnob.defaultValue
+    );
+    const setLoadingAction = action('setLoading');
+    const setCurrentPage = action('setCurrentPage');
+
+    return (
+      <WithToolbar
+        file={atob(doc)}
+        setLoading={setLoadingAction}
+        setCurrentPage={setCurrentPage}
+        document={document}
+        highlights={highlightKnob.data[highlights]}
       />
     );
   });

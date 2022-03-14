@@ -25,6 +25,7 @@ import {
 } from '../PdfHighlight/utils/common/highlightUtils';
 import flatMap from 'lodash/flatMap';
 import uniq from 'lodash/uniq';
+import isEqual from 'lodash/isEqual';
 
 type Props = PdfViewerProps &
   HighlightProps & {
@@ -76,7 +77,12 @@ const PdfViewerWithHighlight: FC<Props> = ({
     activeIds,
     documentInfo
   });
-  const currentPage = useMovePageToActiveHighlight(page, state.activePages, setCurrentPage);
+  const currentPage = useMovePageToActiveHighlight(
+    page,
+    state.activePages,
+    state.activeIds,
+    setCurrentPage
+  );
 
   const highlightReady = !!documentInfo && !!renderedText;
   return (
@@ -165,37 +171,41 @@ function useHighlightState({
 /**
  * Hook to move PDF page depending on active highlight
  */
-function useMovePageToActiveHighlight(
+export function useMovePageToActiveHighlight(
   page: number,
   activeHighlightPages: number[],
-  setPage: ((page: number) => any) | undefined
+  activeIds?: string[],
+  setPage?: (page: number) => any
 ) {
   const [currentPage, setCurrentPage] = useState(page);
 
   // update current page when the 'page' is changed (i.e. user changes the page)
   const previousPageRef = useRef(page);
   useEffect(() => {
-    if (previousPageRef.current !== page && currentPage !== page) {
+    if (
+      previousPageRef.current !== page && // `page` is changed by user
+      currentPage !== page // `currentPage` is not same to the new `page`
+    ) {
       setCurrentPage(page);
     }
     previousPageRef.current = page;
   }, [currentPage, page]);
 
   // update the current page and invoke setPage when the page is changed by activating a highlight
-  const previousHighlightPageRef = useRef<number | undefined>();
+  const prevHighlightRef = useRef<{ activeHighlightPages?: number[]; activeIds?: string[] }>({});
   useEffect(() => {
-    const highlightPage = activeHighlightPages[0];
-    if (highlightPage == null || activeHighlightPages.includes(currentPage)) {
-      // do nothing when no highlight or the active highlight is on the current page
-      return;
+    if (activeHighlightPages.length > 0) {
+      if (
+        !isEqual(prevHighlightRef.current, { activeHighlightPages, activeIds }) && // active highlight is changed
+        !activeHighlightPages.includes(currentPage) // `currentPage` doesn't show active highlight page
+      ) {
+        const highlightPage = activeHighlightPages[0];
+        setCurrentPage(highlightPage);
+        setPage?.(highlightPage);
+      }
     }
-
-    if (previousHighlightPageRef.current !== highlightPage) {
-      previousHighlightPageRef.current = highlightPage;
-      setCurrentPage(highlightPage);
-      setPage?.(highlightPage);
-    }
-  }, [activeHighlightPages, currentPage, setPage]);
+    prevHighlightRef.current = { activeHighlightPages, activeIds };
+  }, [activeIds, activeHighlightPages, currentPage, setPage]);
 
   return currentPage;
 }

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0-beta.29](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.28...v1.5.0-beta.29) (2022-03-12)
+
+
+### Bug Fixes
+
+* fix page switching issue with PdfViewerWithHighlight ([#323](https://github.com/watson-developer-cloud/discovery-components/issues/323)) ([bd3b7c7](https://github.com/watson-developer-cloud/discovery-components/commit/bd3b7c7a5e47415739799a2afccb476a4db5818e))
+
+
+
+
+
 # [1.5.0-beta.28](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.27...v1.5.0-beta.28) (2022-03-11)
 
 
