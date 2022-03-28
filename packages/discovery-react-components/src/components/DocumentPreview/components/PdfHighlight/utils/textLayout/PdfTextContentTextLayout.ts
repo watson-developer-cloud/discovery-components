@@ -1,5 +1,6 @@
 import { bboxesIntersect } from 'components/DocumentPreview/utils/box';
 import { PDFPageViewport, PDFPageViewportOptions, TextContentItem } from 'pdfjs-dist';
+import { sortBy } from 'lodash';
 import { Bbox, TextSpan } from '../../types';
 import { BaseTextLayoutCell } from './BaseTextLayout';
 import { getAdjustedCellByOffsetByDom } from './dom';
@@ -18,16 +19,29 @@ export class PdfTextContentTextLayout implements TextLayout<PdfTextContentTextLa
 
     const textContentItems = textContentInfo.textContent.items;
 
-    this.cells = textContentItems.map((item, index) => {
+    const htmlBboxIndicesByIndex = textContentItems.map(item => {
       const cellBbox = getBbox(item, this.viewport);
-      let isInHtmlBbox = false;
       if (htmlBboxInfo?.bboxes?.length) {
-        isInHtmlBbox = htmlBboxInfo.bboxes.some(bbox => {
+        return htmlBboxInfo.bboxes.findIndex(bbox => {
           return bboxesIntersect(cellBbox, [bbox.left, bbox.top, bbox.right, bbox.bottom]);
         });
       }
+      return -1;
+    });
+    const cells = textContentItems.map((item, index) => {
+      const cellBbox = getBbox(item, this.viewport);
+      const isInHtmlBbox = htmlBboxIndicesByIndex[index] >= 0;
       return new PdfTextContentTextLayoutCell(this, index, item, pageNum, cellBbox, isInHtmlBbox);
     });
+
+    const htmlBboxIndicesPatched = htmlBboxIndicesByIndex.reduce(
+      (acc, value, index) => {
+        acc[index] = value >= 0 ? value : index > 0 ? acc[index - 1] : -1;
+        return acc;
+      },
+      [...htmlBboxIndicesByIndex]
+    );
+    this.cells = sortBy(cells, cell => htmlBboxIndicesPatched[cell.id]);
   }
 
   /**
