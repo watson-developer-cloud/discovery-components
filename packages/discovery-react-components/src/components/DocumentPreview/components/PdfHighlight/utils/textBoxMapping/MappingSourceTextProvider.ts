@@ -76,4 +76,11 @@ export class MappingSourceTextProvider {
   isBlank(text: string): boolean {
     return this.normalizer.isBlank(text);
   }
+
+  /**
+   * Cleanup the consumed text position history
+   */
+  resetHistory() {
+    this.provider.resetHistory();
+  }
 }
