@@ -27,6 +27,7 @@ export function useDeepCompareCallback<T extends (...args: any[]) => any>(
 ): T {
   return useCallback(callback, useDeepCompareMemoize(dependencies));
 }
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function useDeepCompareEffect(callback: EffectCallback, dependencies: readonly any[]): void {
   useEffect(callback, useDeepCompareMemoize(dependencies));

@@ -353,7 +353,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
 
   useDeepCompareEffect(() => {
     setSearchResponse(overrideSearchResults);
-  }, [overrideSearchResults]);
+  }, [overrideSearchResults, setSearchResponse]);
 
   useDeepCompareEffect(() => {
     setSearchParameters(currentSearchParameters => {
@@ -363,11 +363,11 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
         ...deprecateReturnFields(overrideQueryParameters)
       };
     });
-  }, [projectId, overrideQueryParameters]);
+  }, [projectId, overrideQueryParameters, setSearchParameters]);
 
   useDeepCompareEffect(() => {
     setGlobalAggregationsResponse(overrideAggregationResults);
-  }, [overrideAggregationResults]);
+  }, [overrideAggregationResults, setGlobalAggregationsResponse]);
 
   useDeepCompareEffect(() => {
     setCollectionsResults(overrideCollectionsResults);
@@ -379,7 +379,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
 
   useDeepCompareEffect(() => {
     setAutocompletions(overrideAutocompletionResults);
-  }, [overrideAutocompletionResults]);
+  }, [overrideAutocompletionResults, setAutocompletions]);
 
   useDeepCompareEffect(() => {
     setComponentSettings(overrideComponentSettings);
@@ -440,7 +440,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
         setAutocompletions(undefined);
       }
     },
-    [autocompletionOptions, projectId]
+    [autocompletionOptions, fetchAutocompletions, projectId, setAutocompletions]
   );
 
   const handleFetchAggregations = useCallback(
