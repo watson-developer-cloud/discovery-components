@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
+import compact from 'lodash/compact';
 import get from 'lodash/get';
+import uniq from 'lodash/uniq';
 import { SkeletonText } from 'carbon-components-react';
 import { SearchApi, SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
@@ -19,6 +21,7 @@ import { defaultMessages, Messages } from './messages';
 import { withErrorBoundary } from 'react-error-boundary';
 import { FallbackComponent } from 'utils/FallbackComponent';
 import onErrorCallback from '../../utils/onErrorCallback';
+import { DisplaySettingsParams } from './utils/getDisplaySettings';
 
 const DEFAULT_LOADING_COUNT = 3;
 
@@ -83,6 +86,17 @@ export interface SearchResultsProps {
   onChange?: (searchValue: string) => void;
 }
 
+// Minimal set of document fields we need to render this component. Will be combined
+// with "variable" fields set by user: bodyField, resultTitleField, resultLinkField
+const BASE_QUERY_RETURN_FIELDS = [
+  'document_id',
+  'document_passages',
+  'extracted_metadata.filename',
+  'extracted_metadata.title',
+  'highlight',
+  'result_metadata'
+];
+
 const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   resultLinkField,
   resultLinkTemplate,
@@ -124,6 +138,8 @@ const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   const [showTablesOnlyToggleState, setShowTablesOnlyToggleState] = useState(
     typeof showTablesOnlyToggle === 'undefined' ? hasTables : showTablesOnlyToggle
   );
+
+  useUpdateQueryReturnParam({ displaySettings, resultLinkField });
 
   useEffect(() => {
     if (passageLength) {
@@ -255,6 +271,45 @@ const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
     </div>
   );
 };
+
+/**
+ * Hook to update search parameters' `return` param with the minimal necessary fields
+ * that are necessary to render this component.
+ *
+ * NOTE: This hook must be specified before any other use of `setSearchParameters`.
+ */
+function useUpdateQueryReturnParam({
+  displaySettings,
+  resultLinkField
+}: {
+  displaySettings: DisplaySettingsParams;
+  resultLinkField?: string;
+}) {
+  const {
+    searchResponseStore: { parameters }
+  } = useContext(SearchContext);
+  const { setSearchParameters } = useContext(SearchApi);
+
+  const userReturnParam = parameters._return;
+
+  useDeepCompareEffect(() => {
+    const { bodyField, resultTitleField } = displaySettings;
+    setSearchParameters((currentSearchParameters: DiscoveryV2.QueryParams) => {
+      return {
+        ...currentSearchParameters,
+        _return: uniq(
+          compact([
+            ...(userReturnParam || []),
+            ...BASE_QUERY_RETURN_FIELDS,
+            bodyField,
+            resultTitleField,
+            resultLinkField
+          ])
+        )
+      };
+    });
+  }, [displaySettings, parameters, resultLinkField, setSearchParameters, userReturnParam]);
+}
 
 export default withErrorBoundary(
   SearchResults,
