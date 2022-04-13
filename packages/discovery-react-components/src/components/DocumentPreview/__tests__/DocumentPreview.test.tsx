@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, BoundFunction, GetByText, FindAllBy } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import omit from 'lodash/omit';
 import { NoAuthAuthenticator } from 'ibm-watson/auth';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';

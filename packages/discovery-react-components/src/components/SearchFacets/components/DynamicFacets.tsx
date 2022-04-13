@@ -45,7 +45,7 @@ export const DynamicFacets: FC<DynamicFacetsProps> = ({
 }) => {
   const handleOnCollapsibleFacetsGroupChange = (selectedFacets: SelectedFacet[]): void => {
     let updatedFacets = cloneDeep(dynamicFacets);
-    selectedFacets.map(({ selectedFacetKey, checked }) => {
+    selectedFacets.forEach(({ selectedFacetKey, checked }) => {
       const facetKeyIndex = dynamicFacets.findIndex(facet => facet.text === selectedFacetKey);
       if (facetKeyIndex > -1) {
         updatedFacets[facetKeyIndex].selected = checked;

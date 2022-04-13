@@ -101,7 +101,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
   if (hasCategories) {
     facetsByCategory[`${facetsLabel}`] = { categories: {} };
     if (isSelectableQueryTermAggregationResult(facets)) {
-      facets.map(result => {
+      facets.forEach(result => {
         const resultType = result!.aggregations![0].results![0].key;
         if (resultType in facetsByCategory[`${facetsLabel}`].categories) {
           facetsByCategory[`${facetsLabel}`].categories[`${resultType}`].facets.push({

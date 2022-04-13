@@ -118,7 +118,9 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
           tempSelectedFacets.find(({ selectedFacetKey, checked }) => {
             if (selectedFacetKey === facetText) {
               facetSelected = !!checked;
+              return true;
             }
+            return false;
           });
         }
 
