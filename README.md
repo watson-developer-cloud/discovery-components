@@ -17,6 +17,8 @@
     + [Windows Only](#windows-only)
 - [Using Discovery Components in a React application](#using-discovery-components-in-a-react-application)
   * [Interacting with Discovery data in custom components](#interacting-with-discovery-data-in-custom-components)
+  * [Network performance](#network-performance)
+    + [Query 'return' parameter](#query-return-parameter)
   * [Optimize CSS](#optimize-css)
 - [Development](#development)
   * [Project structure](#project-structure)
@@ -336,6 +338,16 @@ const MyCustomComponent = () => {
 
 export default MyCustomComponent;
 ```
+
+### Network performance
+
+#### Query 'return' parameter
+
+By default, when querying a project (e.g. using `performSearch`), all of the document data for any matching documents is returned. Depending on the type of documents in your collection and how many are returned, the size of the reponse data can be quite large.
+
+To cut down on the size of the response, the [Discovery Query API](https://test.cloud.ibm.com/apidocs/discovery-data#query-request) allows you to set a list of fields in the `return` request body parameter. The documents returned will only contain those fields.
+
+If you use the `SearchResults` component, it updates the default search parameters to only request the document fields it needs to render results.
 
 ### Optimize CSS
 
