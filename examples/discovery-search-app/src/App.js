@@ -107,38 +107,36 @@ function SearchPage() {
   } = useContext(SearchContext);
 
   return (
-    <main>
-      <div className="root">
-        <div className={`${settings.prefix}--search-app__nav-toolbar`}>
-          <p>Discovery React Components Example Search App</p>
+    <main className="root">
+      <div className={`${settings.prefix}--search-app__nav-toolbar`}>
+        <p>Discovery React Components Example Search App</p>
+      </div>
+      <div className={`${settings.prefix}--search-app__top-container ${settings.prefix}--grid`}>
+        <div className={`${settings.prefix}--row`}>
+          <div className={`${settings.prefix}--col-md-8`}>
+            {/* Carbon v11: change size value to "md" */}
+            <SearchInput light={true} size="lg" completionsCount={7} spellingSuggestions={true} />
+          </div>
         </div>
-        <div className={`${settings.prefix}--search-app__top-container ${settings.prefix}--grid`}>
-          <div className={`${settings.prefix}--row`}>
-            <div className={`${settings.prefix}--col-md-8`}>
-              {/* Carbon v11: change size value to "md" */}
-              <SearchInput light={true} size="lg" completionsCount={7} spellingSuggestions={true} />
-            </div>
+        <div
+          className={`${settings.prefix}--row ${settings.prefix}--search-app__facets-and-results`}
+        >
+          <div
+            className={`${settings.prefix}--col-md-2 ${settings.prefix}--search-app__facets-and-results__facets`}
+          >
+            <SearchFacets />
           </div>
           <div
-            className={`${settings.prefix}--row ${settings.prefix}--search-app__facets-and-results`}
+            className={`${settings.prefix}--col-md-6 ${settings.prefix}--search-app__facets-and-results__results`}
           >
-            <div
-              className={`${settings.prefix}--col-md-2 ${settings.prefix}--search-app__facets-and-results__facets`}
-            >
-              <SearchFacets />
-            </div>
-            <div
-              className={`${settings.prefix}--col-md-6 ${settings.prefix}--search-app__facets-and-results__results`}
-            >
-              {!isError ? <SearchResults /> : <p>An error occurred during search.</p>}
-            </div>
+            {!isError ? <SearchResults /> : <p>An error occurred during search.</p>}
           </div>
         </div>
-        <div className={`${settings.prefix}-grid ${settings.prefix}--search-app__pagination`}>
-          <div className={`${settings.prefix}--row`}>
-            <div className={`${settings.prefix}--col-md-8`}>
-              <ResultsPagination />
-            </div>
+      </div>
+      <div className={`${settings.prefix}-grid ${settings.prefix}--search-app__pagination`}>
+        <div className={`${settings.prefix}--row`}>
+          <div className={`${settings.prefix}--col-md-8`}>
+            <ResultsPagination />
           </div>
         </div>
       </div>
