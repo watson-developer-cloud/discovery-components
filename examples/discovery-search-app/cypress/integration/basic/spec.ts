@@ -23,9 +23,22 @@ describe('Basic search', () => {
       cy.get('@searchInput').type('abil{enter}');
       cy.get('@postQuery').its('requestBody.natural_language_query').should('eq', 'abil');
 
+      // query should have values set for `return` param
+      cy.get('@postQuery')
+        .its('requestBody.return')
+        .should('include.members', [
+          'document_id',
+          'document_passages',
+          'extracted_metadata.filename',
+          'extracted_metadata.title',
+          'highlight',
+          'result_metadata',
+          'text',
+          'title'
+        ]);
+
       // SearchResults displays a list of results
       cy.get('.bx--search-result').should('have.length', 3);
-      // });
 
       // each result displays the file title and collection id of its source document
       cy.get('.bx--search-result').filter(':contains("COLLECTION_ID_0")').should('have.length', 2);
@@ -33,6 +46,31 @@ describe('Basic search', () => {
       cy.get('.bx--search-result').contains('file 1 title').should('exist');
       cy.get('.bx--search-result').contains('file 2 title').should('exist');
       cy.get('.bx--search-result').contains('file 3 title').should('exist');
+    });
+  });
+
+  describe('When clicking to view document', () => {
+    beforeEach(() => {
+      cy.fixture('query/correctedQuery.json').as('correctedQueryJSON');
+    });
+
+    it('should open document preview', () => {
+      cy.route('POST', '**/query?version=2019-01-01', '@correctedQueryJSON').as(
+        'postQueryCorrected'
+      );
+      cy.get('@searchInput').type('Watson{enter}');
+
+      cy.get('button[data-testid="search-result-element-preview-button"]')
+        .contains('View passage in document')
+        .click();
+
+      cy.get('.bx--search-app--preview-page').should('be.visible');
+
+      // When showing document preview, verify that another request is sent
+      cy.get('@postQueryCorrected')
+        .its('requestBody.filter')
+        .should('eq', 'document_id:e69fd25f-5cbf-4f53-bef3-67834ac1965b');
+      cy.get('@postQueryCorrected').its('requestBody.return').should('be.empty');
     });
   });
 
