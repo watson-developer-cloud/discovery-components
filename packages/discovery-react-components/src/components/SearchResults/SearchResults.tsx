@@ -277,7 +277,7 @@ const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
  * Hook to update search parameters' `return` param with the fields
  * that are necessary to render this component.
  */
-function useUpdateQueryReturnParam({
+export function useUpdateQueryReturnParam({
   displaySettings,
   resultLinkField
 }: {
@@ -289,11 +289,10 @@ function useUpdateQueryReturnParam({
   } = useContext(SearchContext);
   const { setSearchParameters } = useContext(SearchApi);
 
-  const userReturnParam = parameters._return;
-
   useDeepCompareEffect(() => {
     const { bodyField, resultTitleField } = displaySettings;
     setSearchParameters((currentSearchParameters: DiscoveryV2.QueryParams) => {
+      const userReturnParam = currentSearchParameters._return;
       return {
         ...currentSearchParameters,
         _return: uniq(
@@ -307,7 +306,7 @@ function useUpdateQueryReturnParam({
         )
       };
     });
-  }, [displaySettings, parameters, resultLinkField, setSearchParameters, userReturnParam]);
+  }, [displaySettings, parameters, resultLinkField, setSearchParameters]);
 }
 
 export default withErrorBoundary(
