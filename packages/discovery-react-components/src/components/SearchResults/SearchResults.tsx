@@ -177,7 +177,7 @@ const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
     if (!hasFetchedDocuments && tablesWithoutResults && tablesWithoutResults.length) {
       const filterString =
         'document_id::' + tablesWithoutResults.map(table => table.source_document_id).join('|');
-      const collections = compact(tablesWithoutResults.map(table => table.collection_id));
+      const collections = uniq(compact(tablesWithoutResults.map(table => table.collection_id)));
       fetchDocuments(filterString, collections, searchResponse || undefined);
       setHasFetchedDocuments(true);
     }

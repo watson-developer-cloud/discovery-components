@@ -196,7 +196,7 @@ describe('<SearchResults />', () => {
           ({ searchResults } = setup({ queryResults, suggestedQuery }, componentProps));
           expect(
             searchResults.getByText((_, element) => {
-              return element.textContent === 'suggested';
+              return element?.textContent === 'suggested';
             })
           ).toBeInTheDocument();
         });
@@ -312,9 +312,9 @@ describe('<SearchResults />', () => {
 
     test('onUpdatePassageLength is called with the expected character count', () => {
       ({ setSearchParametersMock } = setup({}, componentProps));
-      expect(setSearchParametersMock).toBeCalledTimes(1);
+      expect(setSearchParametersMock).toBeCalledTimes(2);
       expect(setSearchParametersMock).toBeCalledWith(expect.any(Function));
-      const returnFunc = setSearchParametersMock.mock.calls[0][0];
+      const returnFunc = setSearchParametersMock.mock.calls[1][0];
       const returnValue = returnFunc();
       expect(returnValue).toEqual(
         expect.objectContaining({
@@ -331,7 +331,7 @@ describe('<SearchResults />', () => {
 
     test('onUpdatePassageLength is not called', () => {
       ({ setSearchParametersMock } = setup({}, componentProps));
-      expect(setSearchParametersMock).toBeCalledTimes(0);
+      expect(setSearchParametersMock).toBeCalledTimes(1);
     });
   });
 
@@ -448,7 +448,11 @@ describe('<SearchResults />', () => {
         test('fetchDocuments should be fired with the correct params', () => {
           ({ fetchDocumentsMock } = setup({ queryResults, tableResults }, componentProps));
           expect(fetchDocumentsMock).toBeCalledTimes(1);
-          expect(fetchDocumentsMock).toBeCalledWith('document_id::123', expect.any(Object));
+          expect(fetchDocumentsMock).toBeCalledWith(
+            'document_id::123',
+            ['collection_id'],
+            expect.any(Object)
+          );
         });
 
         describe('and the naturalLanguageQuery changes', () => {
@@ -549,7 +553,11 @@ describe('<SearchResults />', () => {
       test('searchClient.query should be fired with the correct params', () => {
         ({ fetchDocumentsMock } = setup({ queryResults, tableResults }));
         expect(fetchDocumentsMock).toBeCalledTimes(1);
-        expect(fetchDocumentsMock).toBeCalledWith('document_id::123|456', expect.any(Object));
+        expect(fetchDocumentsMock).toBeCalledWith(
+          'document_id::123|456',
+          ['collection_id'],
+          expect.any(Object)
+        );
       });
     });
   });
