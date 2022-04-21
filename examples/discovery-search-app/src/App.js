@@ -151,24 +151,24 @@ function PreviewPage() {
     fetchDocumentsResponseStore: { data: fetchDocumentResponse, isLoading }
   } = useContext(SearchContext);
   const { fetchDocuments, setSelectedResult } = useContext(SearchApi);
-  const [hasFetchedDocument, setHasFetchedDocument] = useState(false);
 
   const {
     document_id,
     result_metadata: { collection_id }
   } = selectedDocument;
+  const fullDocument = fetchDocumentResponse?.results?.find(
+    result =>
+      result.document_id === document_id && result.result_metadata.collection_id === collection_id
+  );
 
   // Fetch full document
   useEffect(() => {
-    if (!hasFetchedDocument) {
+    if (!fullDocument && !isLoading && document_id && collection_id) {
       // Note: Document IDs are unique within each collection, but not within project. Therefore,
       // to avoid returning the wrong document, we must also pass the collection ID.
       fetchDocuments(`document_id:${document_id}`, [collection_id], searchResponse);
-      setHasFetchedDocument(true);
     }
-  }, [document_id, collection_id, searchResponse, fetchDocuments, hasFetchedDocument]);
-
-  const fullDocument = fetchDocumentResponse?.results?.[0];
+  }, [document_id, collection_id, searchResponse, fetchDocuments, fullDocument, isLoading]);
 
   const tabs = [
     {
