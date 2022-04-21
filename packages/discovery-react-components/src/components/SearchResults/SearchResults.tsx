@@ -274,10 +274,8 @@ const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
 };
 
 /**
- * Hook to update search parameters' `return` param with the minimal necessary fields
+ * Hook to update search parameters' `return` param with the fields
  * that are necessary to render this component.
- *
- * NOTE: This hook must be specified before any other use of `setSearchParameters`.
  */
 function useUpdateQueryReturnParam({
   displaySettings,
