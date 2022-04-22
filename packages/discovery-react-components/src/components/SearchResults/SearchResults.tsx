@@ -97,6 +97,15 @@ const BASE_QUERY_RETURN_FIELDS = [
   'result_metadata'
 ];
 
+/**
+ * Display search results as a column of tiles
+ *
+ * NOTE: This component will update the default search parameters in the current
+ * DiscoverySearch context (specifically the `return` param). This will make the
+ * response data smaller by only requesting the document fields which are necessary
+ * to render this component. If you need other document fields, you can do so by
+ * calling `setSearchParameters`.
+ */
 const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   resultLinkField,
   resultLinkTemplate,
