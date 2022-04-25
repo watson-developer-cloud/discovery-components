@@ -3,6 +3,49 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.0](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.30...v2.0.0-beta.0) (2022-04-25)
+
+
+### Features
+
+* limit response size ([#332](https://github.com/watson-developer-cloud/discovery-components/issues/332)) ([0e1f8c3](https://github.com/watson-developer-cloud/discovery-components/commit/0e1f8c351b4760e824596914fb98d7537c1179d6))
+
+
+### BREAKING CHANGES
+
+* `SearchResults` now updates search params to limit response size.
+
+* fix: revert hook dep changes
+
+* feat: update fetchDocuments to take collection ID param
+* `fetchDocuments` signature has changed. It can now take an array of collection IDs.
+
+* feat: update example app to fetch full document
+
+* feat: update styling of doc preview
+
+* fix: set white bkgrnd for CI doc
+
+* feat: clean up example app fetch doc code
+
+* docs: update code comment
+
+* test: update unit tests
+
+* test: add test for useUpdateQueryReturnParam hook
+
+* test: add test for `return` param
+
+* docs: add perf section in README
+
+* docs: add component comment
+
+* fix: find() -> every()
+
+
+
+
+
 # [1.5.0-beta.30](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.29...v1.5.0-beta.30) (2022-03-14)
 
 **Note:** Version bump only for package discovery-search-app
