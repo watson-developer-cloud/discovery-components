@@ -167,7 +167,9 @@ const CIDocument: FC<CIDocumentProps> = ({
 }) => {
   const [state, dispatch] = useReducer<Reducer<State, Action>>(docStateReducer, INITIAL_STATE);
 
+  console.log('document', document);
   const filename = get(document, 'extracted_metadata.filename', messages.defaultDocumentName);
+  const documentId = get(document, 'document_id', messages.defaultDocumentId);
   const enrichedHtml: EnrichedHtml = get(document, ['enriched_html', '0'], {});
   const enrichmentName = getEnrichmentName(enrichedHtml);
 
@@ -449,6 +451,7 @@ const CIDocument: FC<CIDocumentProps> = ({
               theme={theme}
               width={overrideDocWidth}
               height={overrideDocHeight}
+              documentId={documentId}
               {...nonContractProps}
             />
           )}

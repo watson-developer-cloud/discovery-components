@@ -9,13 +9,56 @@ import contract from './__fixtures__/contract.json';
 const label = 'Document';
 // values are `model_id`
 const options = {
-  Contract: 'contracts'
+  Contract: 'contracts',
+  ShortDocument: 'shortDocument',
+  LongDocument: 'longDocument'
 };
 const defaultValue = 'contracts';
 const groupId = 'GROUP-DOCUMENTS';
 
+const shortContent = 'short.';
+const longContent = (() => {
+  let content = '';
+  while (content.length < 4092) {
+    content += 'very ';
+  }
+  return `${content} long.`;
+})();
+
+const shortDocument = {
+  document_id: 'document1',
+  title: 'Document 1',
+  sections: [
+    {
+      html: '<p data-child-begin="0" data-child-end="10">Chapter 1\n</p>'
+    },
+    {
+      html: `<p data-child-begin="10" data-child-end="${
+        shortContent.length + 11
+      }">${shortContent}\n</p>`
+    }
+  ]
+};
+
+const longDocument = {
+  document_id: 'document2',
+  title: 'Document 2',
+  sections: [
+    {
+      html: '<p data-child-begin="0" data-child-end="10">Chapter 2\n</p>'
+    },
+    {
+      html: `<p data-child-begin="10" data-child-end="${
+        longContent.length + 11
+      }">${longContent}\n</p>`
+    }
+  ]
+};
+
 const docs = {
-  contracts: contract
+  contracts: contract,
+  shortDocument: shortDocument,
+  longDocument: longDocument
 };
 
 const storyStyle = `
@@ -42,6 +85,7 @@ storiesOf('CIDocument/components/CIDocumentContent', module)
             sections={docs[modelId].sections}
             onItemClick={action('item-click')}
             itemMap={{ byItem: {}, bySection: {} }}
+            documentId={docs[modelId].document_id}
           />
         </div>
       </>
@@ -63,6 +107,7 @@ storiesOf('CIDocument/components/CIDocumentContent', module)
             sections={[]}
             itemMap={{ byItem: {}, bySection: {} }}
             onItemClick={action('item-click')}
+            documentId={''}
           />
         </div>
       </>
