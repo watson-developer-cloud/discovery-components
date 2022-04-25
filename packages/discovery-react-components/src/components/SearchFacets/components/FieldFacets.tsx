@@ -58,7 +58,7 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
 
   const handleOnFieldFacetsChange = (selectedFacets: SelectedFacet[]): void => {
     let updatedFacets = cloneDeep(allFacets);
-    selectedFacets.map(({ selectedFacetName, selectedFacetKey, checked }) => {
+    selectedFacets.forEach(({ selectedFacetName, selectedFacetKey, checked }) => {
       const facetsForNameIndex = getFacetsForNameIndex(selectedFacetName);
       if (facetsForNameIndex > -1) {
         const facetsForName = updatedFacets[facetsForNameIndex];

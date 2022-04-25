@@ -200,7 +200,7 @@ export interface FieldsStoreActions {
 
 /**
  * Concrete usage of the useDataApi helper method for fetching project fields
- * @param searchParameters - initial search parameters to set
+ * @param fetchFieldsParams - initial search parameters to set
  * @param searchClient - search client used to perform requests
  * @return a 2-element array containing the fields store data and fields-specific store actions
  */
@@ -282,8 +282,8 @@ export const useSearchResultsApi = (
     searchClient,
     overrideSearchResults
   );
-  const setSearchParameters = useCallback(
-    (backwardsCompatibleSearchParameters: React.SetStateAction<DiscoveryV2.QueryParams>) => {
+  const setSearchParameters: SearchResponseStoreActions['setSearchParameters'] = useCallback(
+    backwardsCompatibleSearchParameters => {
       // if backwardsCompatibleSearchParameters is a function, we cannot modify the parameters, call it with previous state
       if (typeof backwardsCompatibleSearchParameters === 'function') {
         setSearchParametersBackwardsCompatible(prevState => {
@@ -303,8 +303,8 @@ export const useSearchResultsApi = (
 
   // callback can be passed in here to return back data to the invoker of the search
   // in the specific case here, we need to set our aggregation store after performing a search
-  const performSearch = useCallback(
-    (callback?: (result: any) => void): void => setFetchToken({ trigger: true, callback }),
+  const performSearch: SearchResponseStoreActions['performSearch'] = useCallback(
+    callback => setFetchToken({ trigger: true, callback }),
     [setFetchToken]
   );
 
@@ -376,29 +376,25 @@ export const useGlobalAggregationsApi = (
     (result: DiscoveryV2.QueryResponse) => result.aggregations || []
   );
 
-  const fetchGlobalAggregations = useCallback(
-    (
-      searchParameters: DiscoveryV2.QueryParams,
-      callback?: (result: DiscoveryV2.QueryAggregation[]) => void
-    ): void => {
-      setGlobalAggregationParameters(searchParameters);
-      setFetchToken({ trigger: true, callback });
-    },
-    [setFetchToken, setGlobalAggregationParameters]
-  );
+  const fetchGlobalAggregations: GlobalAggregationsStoreActions['fetchGlobalAggregations'] =
+    useCallback(
+      (searchParameters, callback) => {
+        setGlobalAggregationParameters(searchParameters);
+        setFetchToken({ trigger: true, callback });
+      },
+      [setFetchToken, setGlobalAggregationParameters]
+    );
 
   // allow us to chain the result without storing in our reducer state
   // used alongside the fetchTypeForTopEntitiesAggregation
-  const fetchGlobalAggregationsWithoutStoring = useCallback(
-    (
-      searchParameters: DiscoveryV2.QueryParams,
-      callback?: (result: DiscoveryV2.QueryAggregation[]) => void
-    ): void => {
-      setGlobalAggregationParameters(searchParameters);
-      setFetchToken({ trigger: true, callback, storeResult: false });
-    },
-    [setFetchToken, setGlobalAggregationParameters]
-  );
+  const fetchGlobalAggregationsWithoutStoring: GlobalAggregationsStoreActions['fetchGlobalAggregationsWithoutStoring'] =
+    useCallback(
+      (searchParameters, callback) => {
+        setGlobalAggregationParameters(searchParameters);
+        setFetchToken({ trigger: true, callback, storeResult: false });
+      },
+      [setFetchToken, setGlobalAggregationParameters]
+    );
 
   return [
     {
@@ -429,7 +425,11 @@ export interface FetchDocumentsActions {
   /**
    * method used to invoke the search request with a callback to return the response data
    */
-  fetchDocuments: (filter: string, callback: (result: DiscoveryV2.QueryResponse) => void) => void;
+  fetchDocuments: (
+    filter: string,
+    collections: string[],
+    callback: (result: DiscoveryV2.QueryResponse) => void
+  ) => void;
 }
 
 /**
@@ -452,10 +452,10 @@ export const useFetchDocumentsApi = (
     searchClient
   );
 
-  const fetchDocuments = useCallback(
-    (filter: string, callback: (result: DiscoveryV2.QueryResponse) => void): void => {
+  const fetchDocuments: FetchDocumentsActions['fetchDocuments'] = useCallback(
+    (filter, collections, callback) => {
       setSearchParameters((currentSearchParameters: DiscoveryV2.QueryParams) => {
-        return { ...currentSearchParameters, filter };
+        return { ...currentSearchParameters, filter, collection_ids: collections };
       });
       setFetchToken({ trigger: true, callback });
     },
@@ -514,8 +514,8 @@ export const useAutocompleteApi = (
     overrideAutocompletions
   );
 
-  const fetchAutocompletions = useCallback(
-    (autocompleteParameters: DiscoveryV2.GetAutocompletionParams): void => {
+  const fetchAutocompletions: AutocompleteActions['fetchAutocompletions'] = useCallback(
+    autocompleteParameters => {
       setAutocompleteParameters(autocompleteParameters);
       setFetchToken({ trigger: true });
     },

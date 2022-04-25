@@ -34,7 +34,6 @@ h1 {
 // Search Page styles
 .#{$prefix}--search-app__top-container {
   background-color: $search-app-background-color;
-  max-height: 1500px;
   max-width: 1200px;
   padding: $spacing-06 $spacing-06 0 $spacing-06;
 }
@@ -114,6 +113,10 @@ h1 {
 
 // Document Preview Page styles
 .#{$prefix}--search-app--preview-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
   .#{$prefix}--search-app__nav-toolbar,
   .#{$prefix}--preview-toolbar {
     height: $nav-toolbar-height;
@@ -129,6 +132,10 @@ h1 {
     top: $nav-toolbar-height;
   }
 
+  .#{$prefix}--loading-overlay {
+    background-color: unset;
+  }
+
   .#{$prefix}--search-app__tabs {
     flex: 0 0 auto;
   }
@@ -139,6 +146,5 @@ h1 {
 
   .#{$prefix}--search-app__content {
     min-height: 0;
-    overflow-y: auto;
   }
 }

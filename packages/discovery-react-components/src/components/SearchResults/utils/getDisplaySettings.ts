@@ -1,7 +1,7 @@
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import get from 'lodash/get';
 
-interface DisplaySettingsParams {
+export interface DisplaySettingsParams {
   resultTitleField?: string;
   bodyField?: string;
   usePassages?: boolean;

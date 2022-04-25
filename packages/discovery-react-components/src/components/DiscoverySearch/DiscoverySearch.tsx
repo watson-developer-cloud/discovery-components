@@ -122,7 +122,11 @@ export interface SearchApiIFC {
   performSearch: (searchParameters: DiscoveryV2.QueryParams, resetAggregations?: boolean) => void;
   fetchAutocompletions: (nlq: string) => Promise<void>;
   fetchAggregations: (searchParameters: DiscoveryV2.QueryParams) => Promise<void>;
-  fetchDocuments: (filterString: string, searchResponse: DiscoveryV2.QueryResponse | null) => void;
+  fetchDocuments: (
+    filterString: string,
+    collections?: string[],
+    searchResponse?: DiscoveryV2.QueryResponse
+  ) => void;
   setSelectedResult: (result: SelectedResult) => void;
   setAutocompletionOptions: (
     autoCompletionOptions: AutocompletionOptions | React.SetStateAction<AutocompletionOptions>
@@ -480,14 +484,46 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
   );
 
   const handleFetchDocuments = useCallback(
-    (filterString: string, searchResponse: DiscoveryV2.QueryResponse | null): void => {
-      fetchDocuments(filterString, filteredResponse => {
+    (
+      filterString: string,
+      collections?: string[],
+      searchResponse?: DiscoveryV2.QueryResponse
+    ): void => {
+      fetchDocuments(filterString, collections || [], filteredResponse => {
         if (searchResponse && searchResponse.results && filteredResponse.results) {
+          const results = [...searchResponse.results];
+          const filteredResults = [...filteredResponse.results];
+
+          // replace existing doc data in `searchResponse` with new filtered response data
+          while (filteredResults.length) {
+            const filteredResult = filteredResults.pop();
+            if (!filteredResult) {
+              continue;
+            }
+
+            const idx = results.findIndex(
+              res =>
+                res.document_id === filteredResult?.document_id &&
+                res.result_metadata.collection_id === filteredResult.result_metadata.collection_id
+            );
+
+            if (idx !== -1) {
+              // merge results, since filteredResult may not contain all fields from a previous
+              // query (like passages)
+              const mergedResult = {
+                ...results[idx],
+                ...filteredResult
+              };
+              results.splice(idx, 1, mergedResult);
+            } else {
+              results.push(filteredResult);
+            }
+          }
+
           setSearchResponse({
             ...searchResponse,
-            matching_results:
-              (searchResponse.matching_results as number) + filteredResponse.results.length,
-            results: [...searchResponse.results, ...filteredResponse.results]
+            matching_results: results.length,
+            results
           });
         } else if (!searchResponse) {
           setSearchResponse(filteredResponse);

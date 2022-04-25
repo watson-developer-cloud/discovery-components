@@ -98,7 +98,7 @@ function AppView() {
   const {
     selectedResult: { document }
   } = useContext(SearchContext);
-  return !document ? <SearchPage /> : <PreviewPage document={document} />;
+  return !document ? <SearchPage /> : <PreviewPage />;
 }
 
 function SearchPage() {
@@ -107,38 +107,36 @@ function SearchPage() {
   } = useContext(SearchContext);
 
   return (
-    <main>
-      <div className="root">
-        <div className={`${settings.prefix}--search-app__nav-toolbar`}>
-          <p>Discovery React Components Example Search App</p>
+    <main className="root">
+      <div className={`${settings.prefix}--search-app__nav-toolbar`}>
+        <p>Discovery React Components Example Search App</p>
+      </div>
+      <div className={`${settings.prefix}--search-app__top-container ${settings.prefix}--grid`}>
+        <div className={`${settings.prefix}--row`}>
+          <div className={`${settings.prefix}--col-md-8`}>
+            {/* Carbon v11: change size value to "md" */}
+            <SearchInput light={true} size="lg" completionsCount={7} spellingSuggestions={true} />
+          </div>
         </div>
-        <div className={`${settings.prefix}--search-app__top-container ${settings.prefix}--grid`}>
-          <div className={`${settings.prefix}--row`}>
-            <div className={`${settings.prefix}--col-md-8`}>
-              {/* Carbon v11: change size value to "md" */}
-              <SearchInput light={true} size="lg" completionsCount={7} spellingSuggestions={true} />
-            </div>
+        <div
+          className={`${settings.prefix}--row ${settings.prefix}--search-app__facets-and-results`}
+        >
+          <div
+            className={`${settings.prefix}--col-md-2 ${settings.prefix}--search-app__facets-and-results__facets`}
+          >
+            <SearchFacets />
           </div>
           <div
-            className={`${settings.prefix}--row ${settings.prefix}--search-app__facets-and-results`}
+            className={`${settings.prefix}--col-md-6 ${settings.prefix}--search-app__facets-and-results__results`}
           >
-            <div
-              className={`${settings.prefix}--col-md-2 ${settings.prefix}--search-app__facets-and-results__facets`}
-            >
-              <SearchFacets />
-            </div>
-            <div
-              className={`${settings.prefix}--col-md-6 ${settings.prefix}--search-app__facets-and-results__results`}
-            >
-              {!isError ? <SearchResults /> : <p>An error occurred during search.</p>}
-            </div>
+            {!isError ? <SearchResults /> : <p>An error occurred during search.</p>}
           </div>
         </div>
-        <div className={`${settings.prefix}-grid ${settings.prefix}--search-app__pagination`}>
-          <div className={`${settings.prefix}--row`}>
-            <div className={`${settings.prefix}--col-md-8`}>
-              <ResultsPagination />
-            </div>
+      </div>
+      <div className={`${settings.prefix}-grid ${settings.prefix}--search-app__pagination`}>
+        <div className={`${settings.prefix}--row`}>
+          <div className={`${settings.prefix}--col-md-8`}>
+            <ResultsPagination />
           </div>
         </div>
       </div>
@@ -146,8 +144,31 @@ function SearchPage() {
   );
 }
 
-function PreviewPage({ document }) {
-  const { setSelectedResult } = useContext(SearchApi);
+function PreviewPage() {
+  const {
+    selectedResult: { document: selectedDocument },
+    searchResponseStore: { data: searchResponse },
+    fetchDocumentsResponseStore: { data: fetchDocumentResponse, isLoading }
+  } = useContext(SearchContext);
+  const { fetchDocuments, setSelectedResult } = useContext(SearchApi);
+
+  const {
+    document_id,
+    result_metadata: { collection_id }
+  } = selectedDocument;
+  const fullDocument = fetchDocumentResponse?.results?.find(
+    result =>
+      result.document_id === document_id && result.result_metadata.collection_id === collection_id
+  );
+
+  // Fetch full document
+  useEffect(() => {
+    if (!fullDocument && !isLoading && document_id && collection_id) {
+      // Note: Document IDs are unique within each collection, but not within project. Therefore,
+      // to avoid returning the wrong document, we must also pass the collection ID.
+      fetchDocuments(`document_id:${document_id}`, [collection_id], searchResponse);
+    }
+  }, [document_id, collection_id, searchResponse, fetchDocuments, fullDocument, isLoading]);
 
   const tabs = [
     {
@@ -156,7 +177,7 @@ function PreviewPage({ document }) {
     }
   ];
 
-  if (canRenderCIDocument(document)) {
+  if (canRenderCIDocument(fullDocument)) {
     tabs.push({ name: 'Content Intelligence', Component: CIDocument });
   }
 
@@ -178,29 +199,33 @@ function PreviewPage({ document }) {
           tooltipAlignment="start"
         />
       </div>
-      <Tabs
-        className={`${settings.prefix}--search-app__tabs`}
-        selected={0}
-        aria-label="Document details tabs"
-      >
-        {tabs.map(({ name, Component, ...restProps }) => (
-          <Tab
-            key={name}
-            label={name}
-            {...restProps}
-            renderContent={({ selected }) => (
-              <div
-                className={cx({
-                  [`${settings.prefix}--search-app__tabs--hidden`]: !selected,
-                  [`${settings.prefix}--search-app__content`]: true
-                })}
-              >
-                <Component document={document} />
-              </div>
-            )}
-          />
-        ))}
-      </Tabs>
+      {isLoading ? (
+        <Loading className={`${settings.prefix}--search-app__loading`} />
+      ) : (
+        <Tabs
+          className={`${settings.prefix}--search-app__tabs`}
+          selected={0}
+          aria-label="Document details tabs"
+        >
+          {tabs.map(({ name, Component, ...restProps }) => (
+            <Tab
+              key={name}
+              label={name}
+              {...restProps}
+              renderContent={({ selected }) => (
+                <div
+                  className={cx({
+                    [`${settings.prefix}--search-app__tabs--hidden`]: !selected,
+                    [`${settings.prefix}--search-app__content`]: true
+                  })}
+                >
+                  <Component document={fullDocument} />
+                </div>
+              )}
+            />
+          ))}
+        </Tabs>
+      )}
     </div>
   );
 }
