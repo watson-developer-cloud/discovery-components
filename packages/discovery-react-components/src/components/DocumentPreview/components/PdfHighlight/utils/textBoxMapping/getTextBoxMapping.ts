@@ -51,6 +51,7 @@ export function getTextBoxMappings<
         matchInSource.markAsMapped();
       }
     });
+    source.resetHistory();
   }
   return builder.toTextBoxMapping();
 }
@@ -176,6 +177,13 @@ class Source<SourceCell extends TextLayoutCell, TargetCell extends TextLayoutCel
         matchedSourceProvider.consume(matchedSourceSpan);
       }
     };
+  }
+
+  /**
+   * Cleanup history in sources to process text from the start
+   */
+  resetHistory() {
+    this.sourceProviders.forEach(provider => provider.resetHistory());
   }
 
   /**

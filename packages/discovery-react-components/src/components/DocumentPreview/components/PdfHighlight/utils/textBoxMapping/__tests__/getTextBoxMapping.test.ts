@@ -61,4 +61,35 @@ describe('getTextBoxMapping', () => {
     expect(normalized2?.cell).toBe(target.cellAt(1)); // mapped to 2nd cell in target
     expect(normalized2?.span).toEqual([0, 3]); // mapped to the span [0, 3] in the 2nd cell
   });
+
+  it('should map text after long match properly', () => {
+    const source = new SimpleTextLayout([
+      // text_mappings box
+      {
+        text: '1 abc def ghi jkl 2 abc def ghi jkl 3 abc def ghi jkl 4 abc def ghi jkl',
+        bbox: bbox(0, 0, 2, 4)
+      }
+    ]);
+    const target = new SimpleTextLayout([
+      // 1st line
+      { bbox: bbox(0, 0), text: '1 abc def ghi' },
+      { bbox: bbox(1, 0), text: 'jkl' },
+      // 2nd line
+      { bbox: bbox(0, 1), text: '2 abc def ghi' },
+      { bbox: bbox(1, 1), text: 'jkl' },
+      // 3nd line
+      { bbox: bbox(0, 2), text: '3 abc def ghi' },
+      { bbox: bbox(1, 2), text: 'jkl' },
+      // 4th line
+      { bbox: bbox(0, 3), text: '4 abc def ghi' },
+      { bbox: bbox(1, 3), text: 'jkl' }
+    ]);
+    const mapping = getTextBoxMappings(source, target);
+
+    // verify the mapping result of the 1st 'jkl' in the source
+    const result1 = mapping.apply(source.cellAt(0).getPartial([14, 17]));
+    expect(result1).toHaveLength(1);
+    const normalized1 = result1[0].cell?.getNormalized();
+    expect(normalized1?.cell).toBe(target.cellAt(1)); // mapped to first cell in target
+  });
 });

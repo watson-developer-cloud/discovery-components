@@ -133,4 +133,11 @@ export class TextProvider {
     });
     this.history = validSpans.slice(0, MAX_HISTORY);
   }
+
+  /**
+   * Cleanup the consumed text position history
+   */
+  resetHistory() {
+    this.history = [];
+  }
 }
