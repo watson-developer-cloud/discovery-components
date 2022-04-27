@@ -5,7 +5,15 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.0.0](https://github.com/watson-developer-cloud/discovery-components/compare/v2.0.0-beta.0...v2.0.0) (2022-04-27)
 
-**Note:** Version bump only for package @ibm-watson/discovery-styles
+### Features
+
+* limit response size ([#332](https://github.com/watson-developer-cloud/discovery-components/issues/332)) ([0e1f8c3](https://github.com/watson-developer-cloud/discovery-components/commit/0e1f8c351b4760e824596914fb98d7537c1179d6))
+
+
+### BREAKING CHANGES
+
+* API: `fetchDocuments()` signature has changed. It can now take an array of collection IDs. When fetching a document or set of documents, specify collection ID(s), since document IDs are only unique within a collection, not a project.
+* COMPONENT: `SearchResults` now updates the default search parameters of the enclosing `DiscoverySearch` context. This limits the size of the response data; it only requests the document fields that are needed to render that component.
 
 
 
@@ -21,34 +29,8 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### BREAKING CHANGES
 
-* `SearchResults` now updates search params to limit response size.
-
-* fix: revert hook dep changes
-
-* feat: update fetchDocuments to take collection ID param
-* `fetchDocuments` signature has changed. It can now take an array of collection IDs.
-
-* feat: update example app to fetch full document
-
-* feat: update styling of doc preview
-
-* fix: set white bkgrnd for CI doc
-
-* feat: clean up example app fetch doc code
-
-* docs: update code comment
-
-* test: update unit tests
-
-* test: add test for useUpdateQueryReturnParam hook
-
-* test: add test for `return` param
-
-* docs: add perf section in README
-
-* docs: add component comment
-
-* fix: find() -> every()
+* API: `fetchDocuments()` signature has changed. It can now take an array of collection IDs. When fetching a document or set of documents, specify collection ID(s), since document IDs are only unique within a collection, not a project.
+* COMPONENT: `SearchResults` now updates the default search parameters of the enclosing `DiscoverySearch` context. This limits the size of the response data; it only requests the document fields that are needed to render that component.
 
 
 
