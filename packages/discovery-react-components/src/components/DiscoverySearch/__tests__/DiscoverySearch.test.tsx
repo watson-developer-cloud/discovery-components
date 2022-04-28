@@ -302,7 +302,13 @@ describe('DiscoverySearch', () => {
       const tree = (
         <SearchApi.Consumer>
           {({ fetchDocuments }) => (
-            <button onClick={() => fetchDocuments('document_id::bar', null)}>Action</button>
+            <button
+              onClick={() =>
+                fetchDocuments('document_id::bar', ['12345-12345-12345-12345'], undefined)
+              }
+            >
+              Action
+            </button>
           )}
         </SearchApi.Consumer>
       );
@@ -318,6 +324,7 @@ describe('DiscoverySearch', () => {
       expect(spy).toHaveBeenCalledWith({
         projectId: 'foo',
         filter: 'document_id::bar',
+        collection_ids: ['12345-12345-12345-12345'],
         aggregation: '',
         passages: {
           enabled: false

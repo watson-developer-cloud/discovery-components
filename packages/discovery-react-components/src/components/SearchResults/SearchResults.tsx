@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
+import compact from 'lodash/compact';
 import get from 'lodash/get';
+import uniq from 'lodash/uniq';
 import { SkeletonText } from 'carbon-components-react';
 import { SearchApi, SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
@@ -19,6 +21,7 @@ import { defaultMessages, Messages } from './messages';
 import { withErrorBoundary } from 'react-error-boundary';
 import { FallbackComponent } from 'utils/FallbackComponent';
 import onErrorCallback from '../../utils/onErrorCallback';
+import { DisplaySettingsParams } from './utils/getDisplaySettings';
 
 const DEFAULT_LOADING_COUNT = 3;
 
@@ -83,6 +86,26 @@ export interface SearchResultsProps {
   onChange?: (searchValue: string) => void;
 }
 
+// Minimal set of document fields we need to render this component. Will be combined
+// with "variable" fields set by user: bodyField, resultTitleField, resultLinkField
+const BASE_QUERY_RETURN_FIELDS = [
+  'document_id',
+  'document_passages',
+  'extracted_metadata.filename',
+  'extracted_metadata.title',
+  'highlight',
+  'result_metadata'
+];
+
+/**
+ * Display search results as a column of tiles
+ *
+ * NOTE: This component will update the default search parameters in the current
+ * DiscoverySearch context (specifically the `return` param). This will make the
+ * response data smaller by only requesting the document fields which are necessary
+ * to render this component. If you need other document fields, you can do so by
+ * calling `setSearchParameters`.
+ */
 const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   resultLinkField,
   resultLinkTemplate,
@@ -125,6 +148,8 @@ const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
     typeof showTablesOnlyToggle === 'undefined' ? hasTables : showTablesOnlyToggle
   );
 
+  useUpdateQueryReturnParam({ displaySettings, resultLinkField });
+
   useEffect(() => {
     if (passageLength) {
       setSearchParameters((currentSearchParameters: DiscoveryV2.QueryParams) => {
@@ -161,7 +186,8 @@ const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
     if (!hasFetchedDocuments && tablesWithoutResults && tablesWithoutResults.length) {
       const filterString =
         'document_id::' + tablesWithoutResults.map(table => table.source_document_id).join('|');
-      fetchDocuments(filterString, searchResponse);
+      const collections = uniq(compact(tablesWithoutResults.map(table => table.collection_id)));
+      fetchDocuments(filterString, collections, searchResponse || undefined);
       setHasFetchedDocuments(true);
     }
   }, [searchResponse, fetchDocuments, hasFetchedDocuments]);
@@ -255,6 +281,42 @@ const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
     </div>
   );
 };
+
+/**
+ * Hook to update search parameters' `return` param with the fields
+ * that are necessary to render this component.
+ */
+export function useUpdateQueryReturnParam({
+  displaySettings,
+  resultLinkField
+}: {
+  displaySettings: DisplaySettingsParams;
+  resultLinkField?: string;
+}) {
+  const {
+    searchResponseStore: { parameters }
+  } = useContext(SearchContext);
+  const { setSearchParameters } = useContext(SearchApi);
+
+  useDeepCompareEffect(() => {
+    const { bodyField, resultTitleField } = displaySettings;
+    setSearchParameters((currentSearchParameters: DiscoveryV2.QueryParams) => {
+      const userReturnParam = currentSearchParameters._return;
+      return {
+        ...currentSearchParameters,
+        _return: uniq(
+          compact([
+            ...(userReturnParam || []),
+            ...BASE_QUERY_RETURN_FIELDS,
+            bodyField,
+            resultTitleField,
+            resultLinkField
+          ])
+        )
+      };
+    });
+  }, [displaySettings, parameters, resultLinkField, setSearchParameters]);
+}
 
 export default withErrorBoundary(
   SearchResults,

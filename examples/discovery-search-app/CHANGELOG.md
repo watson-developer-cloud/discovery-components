@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/watson-developer-cloud/discovery-components/compare/v2.0.0-beta.0...v2.0.0) (2022-04-27)
+
+### Features
+
+* limit response size ([#332](https://github.com/watson-developer-cloud/discovery-components/issues/332)) ([0e1f8c3](https://github.com/watson-developer-cloud/discovery-components/commit/0e1f8c351b4760e824596914fb98d7537c1179d6))
+
+
+### BREAKING CHANGES
+
+* API: `fetchDocuments()` signature has changed. It can now take an array of collection IDs. When fetching a document or set of documents, specify collection ID(s), since document IDs are only unique within a collection, not a project.
+* COMPONENT: `SearchResults` now updates the default search parameters of the enclosing `DiscoverySearch` context. This limits the size of the response data; it only requests the document fields that are needed to render that component.
+
+
+
+
+
+# [2.0.0-beta.0](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.30...v2.0.0-beta.0) (2022-04-25)
+
+
+### Features
+
+* limit response size ([#332](https://github.com/watson-developer-cloud/discovery-components/issues/332)) ([0e1f8c3](https://github.com/watson-developer-cloud/discovery-components/commit/0e1f8c351b4760e824596914fb98d7537c1179d6))
+
+
+### BREAKING CHANGES
+
+* API: `fetchDocuments()` signature has changed. It can now take an array of collection IDs. When fetching a document or set of documents, specify collection ID(s), since document IDs are only unique within a collection, not a project.
+* COMPONENT: `SearchResults` now updates the default search parameters of the enclosing `DiscoverySearch` context. This limits the size of the response data; it only requests the document fields that are needed to render that component.
+
+
+
+
+
 # [1.5.0-beta.30](https://github.com/watson-developer-cloud/discovery-components/compare/v1.5.0-beta.29...v1.5.0-beta.30) (2022-03-14)
 
 **Note:** Version bump only for package discovery-search-app

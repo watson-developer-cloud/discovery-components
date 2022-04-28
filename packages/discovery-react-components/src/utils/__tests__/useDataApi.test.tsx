@@ -61,6 +61,7 @@ class ErrorSearchClient extends BaseSearchClient {
     const error = new Error();
     error.message =
       'You have exceeded the number of daily queries allowed for your plan. You can resume requests after the daily reset.';
+    // @ts-ignore - `body` isn't a field on `Error`
     error.body = {
       status_code: 400,
       errors: [
@@ -699,6 +700,7 @@ describe('useSearchResultsApi', () => {
 });
 
 describe('useFetchDocumentsApi', () => {
+  const collectionId = '12345-12345-12345-12345';
   interface TestFetchDocumentsStoreComponentProps {
     searchParameters?: DiscoveryV2.QueryParams;
     searchClient?: SearchClient;
@@ -721,7 +723,9 @@ describe('useFetchDocumentsApi', () => {
       <>
         <button
           data-testid="fetchDocuments"
-          onClick={e => fetchDocumentsApi.fetchDocuments(e.currentTarget.value || '', callback)}
+          onClick={e =>
+            fetchDocumentsApi.fetchDocuments(e.currentTarget.value || '', [collectionId], callback)
+          }
         />
         <div data-testid="fetchDocumentsStore">{JSON.stringify(fetchDocumentsStore)}</div>
       </>
@@ -795,6 +799,7 @@ describe('useFetchDocumentsApi', () => {
       fireEvent.click(fetchDocumentsButton, { target: { value: 'filter_string' } });
       expect(checkParametersMock).toHaveBeenCalledWith({
         projectId: 'foo',
+        collection_ids: ['12345-12345-12345-12345'],
         _return: [],
         aggregation: '',
         passages: {},

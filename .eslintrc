@@ -11,6 +11,12 @@
   },
   "rules": {
     "prettier/prettier": "error",
-    "no-only-tests/no-only-tests": "error"
+    "no-only-tests/no-only-tests": "error",
+    "react-hooks/exhaustive-deps": [
+      "warn",
+      {
+        "additionalHooks": "(useDeepCompareMemo|useDeepCompareCallback|useDeepCompareEffect)"
+      }
+    ]
   }
 }

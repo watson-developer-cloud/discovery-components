@@ -4,12 +4,20 @@ import { render, fireEvent, RenderResult } from '@testing-library/react';
 import {
   SearchContextIFC,
   searchResponseStoreDefaults,
-  fetchDocumentsResponseStoreDefaults
+  fetchDocumentsResponseStoreDefaults,
+  SearchApiIFC
 } from 'components/DiscoverySearch/DiscoverySearch';
 import { wrapWithContext } from 'utils/testingUtils';
-import SearchResults, { SearchResultsProps } from '../SearchResults';
+import SearchResults, { SearchResultsProps, useUpdateQueryReturnParam } from '../SearchResults';
 import { getByText as domGetByText } from '@testing-library/dom';
-import { QueryResult, QueryTableResult, ComponentSettingsResponse } from 'ibm-watson/discovery/v2';
+import {
+  QueryResult,
+  QueryTableResult,
+  ComponentSettingsResponse,
+  QueryParams
+} from 'ibm-watson/discovery/v2';
+import { renderHook } from '@testing-library/react-hooks';
+import { DisplaySettingsParams } from '../utils/getDisplaySettings';
 
 interface Setup {
   searchResults: RenderResult;
@@ -196,7 +204,7 @@ describe('<SearchResults />', () => {
           ({ searchResults } = setup({ queryResults, suggestedQuery }, componentProps));
           expect(
             searchResults.getByText((_, element) => {
-              return element.textContent === 'suggested';
+              return element?.textContent === 'suggested';
             })
           ).toBeInTheDocument();
         });
@@ -312,9 +320,9 @@ describe('<SearchResults />', () => {
 
     test('onUpdatePassageLength is called with the expected character count', () => {
       ({ setSearchParametersMock } = setup({}, componentProps));
-      expect(setSearchParametersMock).toBeCalledTimes(1);
+      expect(setSearchParametersMock).toBeCalledTimes(2);
       expect(setSearchParametersMock).toBeCalledWith(expect.any(Function));
-      const returnFunc = setSearchParametersMock.mock.calls[0][0];
+      const returnFunc = setSearchParametersMock.mock.calls[1][0];
       const returnValue = returnFunc();
       expect(returnValue).toEqual(
         expect.objectContaining({
@@ -331,7 +339,7 @@ describe('<SearchResults />', () => {
 
     test('onUpdatePassageLength is not called', () => {
       ({ setSearchParametersMock } = setup({}, componentProps));
-      expect(setSearchParametersMock).toBeCalledTimes(0);
+      expect(setSearchParametersMock).toBeCalledTimes(1);
     });
   });
 
@@ -448,7 +456,11 @@ describe('<SearchResults />', () => {
         test('fetchDocuments should be fired with the correct params', () => {
           ({ fetchDocumentsMock } = setup({ queryResults, tableResults }, componentProps));
           expect(fetchDocumentsMock).toBeCalledTimes(1);
-          expect(fetchDocumentsMock).toBeCalledWith('document_id::123', expect.any(Object));
+          expect(fetchDocumentsMock).toBeCalledWith(
+            'document_id::123',
+            ['collection_id'],
+            expect.any(Object)
+          );
         });
 
         describe('and the naturalLanguageQuery changes', () => {
@@ -549,7 +561,11 @@ describe('<SearchResults />', () => {
       test('searchClient.query should be fired with the correct params', () => {
         ({ fetchDocumentsMock } = setup({ queryResults, tableResults }));
         expect(fetchDocumentsMock).toBeCalledTimes(1);
-        expect(fetchDocumentsMock).toBeCalledWith('document_id::123|456', expect.any(Object));
+        expect(fetchDocumentsMock).toBeCalledWith(
+          'document_id::123|456',
+          ['collection_id'],
+          expect.any(Object)
+        );
       });
     });
   });
@@ -877,6 +893,75 @@ describe('<SearchResults />', () => {
           expect(searchResults.getByText('document passage text')).toBeInTheDocument();
         });
       });
+    });
+  });
+});
+
+describe('useUpdateQueryReturnParam', () => {
+  test('should update search parameters', async () => {
+    let searchParameters: QueryParams = {
+      ...searchResponseStoreDefaults.parameters,
+      _return: ['_extraReturnParam_']
+    };
+    const api: Partial<SearchApiIFC> = {
+      // @ts-ignore
+      setSearchParameters: (callback: (callback: QueryParams) => QueryParams) => {
+        searchParameters = callback(searchParameters);
+      }
+    };
+    const context: Partial<SearchContextIFC> = {
+      searchResponseStore: searchResponseStoreDefaults
+    };
+    let displaySettings: DisplaySettingsParams = {
+      resultTitleField: 'titleField',
+      bodyField: 'bodyField'
+    };
+
+    const wrapper = ({ children }: { children: any }) => wrapWithContext(children, api, context);
+
+    const { rerender } = renderHook(
+      () => useUpdateQueryReturnParam({ displaySettings, resultLinkField: 'linkField' }),
+      {
+        wrapper
+      }
+    );
+
+    expect(searchParameters).toEqual({
+      ...searchResponseStoreDefaults.parameters,
+      _return: expect.arrayContaining([
+        '_extraReturnParam_',
+        'document_id',
+        'document_passages',
+        'extracted_metadata.filename',
+        'extracted_metadata.title',
+        'highlight',
+        'result_metadata',
+        'bodyField',
+        'titleField',
+        'linkField'
+      ])
+    });
+
+    displaySettings = {
+      resultTitleField: 'filename',
+      bodyField: 'html'
+    };
+    rerender();
+
+    expect(searchParameters).toEqual({
+      ...searchResponseStoreDefaults.parameters,
+      _return: expect.arrayContaining([
+        '_extraReturnParam_',
+        'document_id',
+        'document_passages',
+        'extracted_metadata.filename',
+        'extracted_metadata.title',
+        'highlight',
+        'result_metadata',
+        'html',
+        'filename',
+        'linkField'
+      ])
     });
   });
 });
