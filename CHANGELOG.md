@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/watson-developer-cloud/discovery-components/compare/v2.0.0...v2.0.1) (2022-04-29)
+
+
+### Bug Fixes
+
+* add document id to virtual scroll key ([#341](https://github.com/watson-developer-cloud/discovery-components/issues/341)) ([a351d4e](https://github.com/watson-developer-cloud/discovery-components/commit/a351d4e018aaf11aa664bf1be9db1b19bff9e98f))
+
+
+
+
+
 # [2.0.0](https://github.com/watson-developer-cloud/discovery-components/compare/v2.0.0-beta.0...v2.0.0) (2022-04-27)
 
 ### Features
