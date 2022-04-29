@@ -27,6 +27,7 @@ export interface CIDocumentContentProps {
   width?: number;
   height?: number;
   theme?: Theme;
+  documentId?: string;
   onItemClick?: OnFieldClickFn;
 }
 
@@ -43,6 +44,7 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
   width,
   height,
   theme = defaultTheme,
+  documentId = '',
   onItemClick = (): void => {}
 }) => {
   const virtualScrollRef = useRef<any>();
@@ -106,7 +108,7 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
           )}
           {sections.length > 0 && (
             <VirtualScroll
-              key={`${sections.length}-${sections[0].html.length}`}
+              key={`${documentId}-${sections.length}-${sections[0].html.length}`}
               rowCount={sections.length}
               width={width}
               height={height}

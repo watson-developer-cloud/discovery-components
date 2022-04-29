@@ -1,5 +1,6 @@
 export interface Messages {
   defaultDocumentName?: string;
+  defaultDocumentId?: string;
   attributesTabLabel?: string;
   relationsTabLabel?: string;
   filtersTabLabel?: string;
@@ -16,6 +17,7 @@ export interface Messages {
 
 export const defaultMessages: Messages = {
   defaultDocumentName: 'Document',
+  defaultDocumentId: 'Document Id',
   attributesTabLabel: 'Attributes',
   relationsTabLabel: 'Relations',
   filtersTabLabel: 'Filters',
