@@ -1,6 +1,7 @@
 import get from 'lodash/get';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { DiscoveryDocument, DocumentFile, PreviewType, TextMappings } from '../types';
+import { isTable } from '../components/Highlight/tables';
 
 /**
  * Get `text_mappings` document property as an object. Usually, this
@@ -51,12 +52,13 @@ export function detectPreviewType(
   // passages contain location offsets against text-based strings (not HTML)
   const hasPassage = highlight && 'passage_text' in highlight;
   const hasTextMappings = !!document.extracted_metadata?.text_mappings;
+  const isHighlightTable = isTable(highlight);
 
   if (fileType === 'pdf' && file) {
     // If there is a passage to highlight, text_mappings are required to map
     // between passages' text-based offsets and the BBOX data need to highlight
     // on PDFs
-    if (hasTextMappings || !hasPassage) {
+    if (hasTextMappings || !hasPassage || isHighlightTable) {
       return 'PDF';
     }
   }
@@ -66,7 +68,7 @@ export function detectPreviewType(
   if (document.html && !isJsonType && !isCsvType) {
     // HTML view cannot display a passage highlight unless the document have text_mappings.
     // So, do not show as HTML when the document have a passage but does not have text_mappings.
-    if (hasTextMappings || !hasPassage) {
+    if (hasTextMappings || !hasPassage || isHighlightTable) {
       return 'HTML';
     }
   }

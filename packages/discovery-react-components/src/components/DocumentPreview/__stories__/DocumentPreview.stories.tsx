@@ -32,7 +32,7 @@ storiesOf('DocumentPreview', module)
     );
   })
   .add('passage highlighting', () => {
-    const [file, doc] = docSelection(['pdf', 'pdf-fast-path', 'html', 'text']);
+    const [file, doc] = docSelection(['pdf', 'pdf-fast-path', 'html', 'html-no-mappings', 'text']);
     const usedPassage = doc.extracted_metadata.file_type === 'json' ? jsonPassages : passages;
     const docWithPassage = passageSelection(doc, usedPassage);
     const highlight = (docWithPassage.document_passages as unknown as QueryResultPassage[])[0];
@@ -49,7 +49,7 @@ storiesOf('DocumentPreview', module)
     );
   })
   .add('table highlight', () => {
-    const [file, doc] = docSelection(['pdf', 'html', 'text']);
+    const [file, doc] = docSelection(['pdf', 'pdf-fast-path', 'html', 'html-no-mappings', 'text']);
     const docWithTable = tableSelection(doc);
     const highlight = docWithTable.table_results[0];
 
@@ -120,6 +120,7 @@ function docSelection(items = ['pdf', 'html', 'text']): [string | undefined, Que
       PDF: 'pdf',
       'PDF without text location data': 'pdf-fast-path',
       'Document with `html` property and structure data': 'html',
+      'Document with `html` property and no text mappings': 'html-no-mappings',
       'Document with only text': 'text'
     },
     key => items.includes(key)
@@ -140,6 +141,9 @@ function docSelection(items = ['pdf', 'html', 'text']): [string | undefined, Que
       break;
     case 'html':
       doc = docArtEffects;
+      break;
+    case 'html-no-mappings':
+      doc = omit(docArtEffects, 'extracted_metadata.text_mappings');
       break;
     case 'text':
       doc = omit(docArtEffects, 'html');

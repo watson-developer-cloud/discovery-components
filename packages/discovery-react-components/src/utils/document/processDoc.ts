@@ -238,7 +238,7 @@ function setupSectionParser(
             const ariaLabel = `Table generated from ${doc.title} (id: ${p.startIndex})`;
 
             sectionHtml.push(
-              `<article aria-label="${ariaLabel}" aria-describedby="${descriptionId}">`
+              `<article aria-label="${ariaLabel}" aria-describedby="${descriptionId}" data-child-begin="${p.startIndex}">`
             );
             sectionHtml.push(
               `<p id="${descriptionId}" style="display: none;">${tableDescription}</p>`
@@ -329,6 +329,10 @@ function setupSectionParser(
 
           if (tagName === TABLE_TAG) {
             sectionHtml.push('</article>');
+            sectionHtml[0] = sectionHtml[0].replace(
+              />$/,
+              ` data-child-end="${p.endIndex || p.startIndex}">`
+            );
           }
 
           // update opening tag with location of closing tag

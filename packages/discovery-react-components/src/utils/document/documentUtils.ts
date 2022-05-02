@@ -28,27 +28,38 @@ export function findOffsetInDOM(
 ): FindOffsetResults {
   const allNodes = Array.from(parentNode.querySelectorAll('[data-child-begin]')) as HTMLElement[];
 
-  let beginNode,
-    endNode,
-    idx = 0;
+  let beginNode = null,
+    endNode = null,
+    beginNodeSize = Number.MAX_VALUE,
+    endNodeSize = Number.MAX_VALUE;
+  allNodes.forEach((node: HTMLElement) => {
+    const nodeBegin = parseInt(node.dataset.childBegin || '0', 10);
+    const nodeEnd = parseInt(node.dataset.childEnd || Number.MAX_VALUE + '', 10);
 
-  do {
-    beginNode = allNodes[idx];
-  } while (
-    ++idx &&
-    idx < allNodes.length &&
-    begin >= parseInt(allNodes[idx].dataset.childBegin || '0', 10)
-  );
+    if (begin >= nodeBegin && begin <= nodeEnd) {
+      const nodeSize = nodeEnd - nodeBegin;
+      if (nodeSize < beginNodeSize) {
+        beginNode = node;
+        beginNodeSize = nodeSize;
+      }
+    }
 
-  idx--; // reset to index of `beginNode`
+    if (end >= nodeBegin && end <= nodeEnd) {
+      const nodeSize = nodeEnd - nodeBegin;
+      if (nodeSize < endNodeSize) {
+        endNode = node;
+        endNodeSize = nodeSize;
+      }
+    }
+  });
 
-  do {
-    endNode = allNodes[idx];
-  } while (
-    ++idx &&
-    idx < allNodes.length &&
-    end > parseInt(allNodes[idx].dataset.childBegin as string, 10)
-  );
+  if (beginNode === null) {
+    throw new Error(`Failed to find a node containing the start of the highlight: ${begin}`);
+  }
+
+  if (endNode === null) {
+    throw new Error(`Failed to find a node containing the end of the highlight: ${end}`);
+  }
 
   const { textNode: beginTextNode, textOffset: beginOffset } = getTextNodeAndOffset(
     beginNode,
@@ -95,20 +106,32 @@ export function getTextNodeAndOffset(node: Node, strOffset: number): NodeOffset 
     domOffset = Math.max(0, domOffset - adjustment);
   }
 
+  console.log(
+    `Look through text nodes- strOffset: ${strOffset}, beginStrOffset: ${beginStrOffset}, domOffset: ${domOffset}`
+  );
+
   // In certain cases (i.e. text length > 65536 chars), the DOM will break
   // up text into multiple TextNodes. Loop through TextNodes, finding which
   // contains the `domOffset`
   const iterator = document.createNodeIterator(node, NodeFilter.SHOW_TEXT);
-  let textNode: Text, len: number;
+  let textNode: Text | null = null,
+    len: number,
+    prevNode: Text | null;
   do {
+    // @ts-ignore
+    console.log(`Iterate through text nodes: len: ${len}, domOffset: ${domOffset}`);
+    prevNode = textNode;
     textNode = iterator.nextNode() as Text;
   } while (textNode && (len = textNode.data.length) && domOffset > len && (domOffset -= len));
 
-  if (textNode === null) {
+  // We didn't find any text nodes
+  if (textNode === null && prevNode === null) {
     throw new Error(`Failed to find text node. Node: ${node.textContent}, offset: ${strOffset}`);
+  } else if (textNode === null && prevNode !== null) {
+    return { textNode: prevNode, textOffset: prevNode.data.length };
+  } else {
+    return { textNode, textOffset: domOffset };
   }
-
-  return { textNode, textOffset: domOffset };
 }
 
 interface CreateFieldRectsProps {
