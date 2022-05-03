@@ -1,5 +1,5 @@
 import get from 'lodash/get';
-import { QueryResult } from 'ibm-watson/discovery/v2';
+import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { DiscoveryDocument, DocumentFile, PreviewType, TextMappings } from '../types';
 
 /**
@@ -42,15 +42,20 @@ export function isJsonFile(doc: QueryResult | null | undefined): boolean {
 /**
  * Returns the preview type for document
  */
-export function detectPreviewType(document: DiscoveryDocument, file?: DocumentFile): PreviewType {
+export function detectPreviewType(
+  document: DiscoveryDocument,
+  highlight?: QueryResultPassage | QueryTableResult,
+  file?: DocumentFile
+): PreviewType {
   const fileType = document.extracted_metadata?.file_type;
-  const hasPassage = !!document.document_passages?.[0]?.passage_text;
+  // passages contain location offsets against text-based strings (not HTML)
+  const hasPassage = highlight && 'passage_text' in highlight;
   const hasTextMappings = !!document.extracted_metadata?.text_mappings;
 
-  // only render PDF if we have text mappings data
   if (fileType === 'pdf' && file) {
-    // when hasTextMappings is true, that means the custom SDU model or OOB (CI) model is enabled
-    // otherwise, that means the fast path
+    // If there is a passage to highlight, text_mappings are required to map
+    // between passages' text-based offsets and the BBOX data need to highlight
+    // on PDFs
     if (hasTextMappings || !hasPassage) {
       return 'PDF';
     }
