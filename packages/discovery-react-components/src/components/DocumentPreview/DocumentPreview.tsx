@@ -188,7 +188,7 @@ function PreviewDocument({
   fallbackComponent
 }: PreviewDocumentProps): ReactElement | null {
   const previewType = useMemo(
-    () => (document ? detectPreviewType(document, highlight, file) : null),
+    () => (document ? detectPreviewType(document, file, highlight) : null),
     [document, file, highlight]
   );
 

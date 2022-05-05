@@ -44,8 +44,8 @@ export function isJsonFile(doc: QueryResult | null | undefined): boolean {
  */
 export function detectPreviewType(
   document: DiscoveryDocument,
-  highlight?: QueryResultPassage | QueryTableResult,
-  file?: DocumentFile
+  file?: DocumentFile,
+  highlight?: QueryResultPassage | QueryTableResult
 ): PreviewType {
   const fileType = document.extracted_metadata?.file_type;
   // passages contain location offsets against text-based strings (not HTML)

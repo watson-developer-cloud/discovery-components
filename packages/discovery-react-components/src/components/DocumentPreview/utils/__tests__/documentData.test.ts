@@ -137,10 +137,10 @@ describe('documentData', () => {
         const previewType = detectPreviewType(
           {
             ...commonData,
-            extracted_metadata: { file_type: 'pdf' },
-            document_passages: [{ passage_text: 'passage' }]
+            extracted_metadata: { file_type: 'pdf' }
           },
-          'file'
+          'file',
+          { passage_text: 'passage' }
         );
         expect(previewType).toEqual('TEXT');
       });
@@ -178,12 +178,15 @@ describe('documentData', () => {
       });
 
       it('return TEXT when document does not have text_mappings but have passage_text', () => {
-        const previewType = detectPreviewType({
-          ...commonData,
-          extracted_metadata: { file_type: 'html' },
-          document_passages: [{ passage_text: 'passage' }],
-          html: '<html></html>'
-        });
+        const previewType = detectPreviewType(
+          {
+            ...commonData,
+            extracted_metadata: { file_type: 'html' },
+            html: '<html></html>'
+          },
+          undefined,
+          { passage_text: 'passage' }
+        );
         expect(previewType).toEqual('TEXT');
       });
 
