@@ -137,7 +137,7 @@ export async function processDoc(queryData: QueryResult, options?: Options): Pro
   await parser.parse(htmlContent);
 
   sortFields(enrichment, doc);
-  if (options && options.sections && options.itemMap) {
+  if (options.sections && options.itemMap) {
     addItemMap(doc);
   }
 
@@ -240,6 +240,7 @@ function setupSectionParser(
             sectionHtml.push(
               `<article aria-label="${ariaLabel}" aria-describedby="${descriptionId}" data-child-begin="${p.startIndex}">`
             );
+            openTagIndices.push(sectionHtml.length - 1);
             sectionHtml.push(
               `<p id="${descriptionId}" style="display: none;">${tableDescription}</p>`
             );
@@ -329,9 +330,10 @@ function setupSectionParser(
 
           if (tagName === TABLE_TAG) {
             sectionHtml.push('</article>');
-            sectionHtml[0] = sectionHtml[0].replace(
+            const openTagIdx = openTagIndices.pop() as number;
+            sectionHtml[openTagIdx] = sectionHtml[openTagIdx].replace(
               />$/,
-              ` data-child-end="${p.endIndex || p.startIndex}">`
+              ` data-child-end="${getChildEndFromCloseTag(p)}">`
             );
           }
 

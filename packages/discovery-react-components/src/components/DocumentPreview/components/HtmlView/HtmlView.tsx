@@ -145,23 +145,27 @@ export const HtmlView: FC<Props> = ({
     }
 
     highlightLocations.forEach(location => {
-      const { begin, end } = location;
-      if (typeof begin === 'undefined' || typeof end === 'undefined') {
-        return;
+      try {
+        const { begin, end } = location;
+        if (typeof begin === 'undefined' || typeof end === 'undefined') {
+          return;
+        }
+
+        const offsets = findOffsetInDOM(contentNode, begin, end);
+
+        const fragment = window.document.createDocumentFragment();
+        const parentRect = contentNode.getBoundingClientRect() as DOMRect;
+        createFieldRects({
+          fragment,
+          parentRect,
+          fieldType: 'highlight',
+          fieldId: begin.toString(),
+          ...offsets
+        });
+        highlightNode.appendChild(fragment);
+      } catch (err) {
+        console.error('Error creating field rects', err);
       }
-
-      const offsets = findOffsetInDOM(contentNode, begin, end);
-
-      const fragment = window.document.createDocumentFragment();
-      const parentRect = contentNode.getBoundingClientRect() as DOMRect;
-      createFieldRects({
-        fragment,
-        parentRect,
-        fieldType: 'highlight',
-        fieldId: begin.toString(),
-        ...offsets
-      });
-      highlightNode.appendChild(fragment);
     });
 
     // scroll highlight into view

@@ -142,23 +142,27 @@ export const SimpleDocument: FC<Props> = ({
       return;
     }
 
-    const offsets = findOffsetInDOM(contentNode, begin, end);
+    try {
+      const offsets = findOffsetInDOM(contentNode, begin, end);
 
-    const fragment = window.document.createDocumentFragment();
-    const parentRect = contentNode.getBoundingClientRect() as DOMRect;
-    createFieldRects({
-      fragment,
-      parentRect,
-      fieldType: 'passage',
-      fieldId: begin.toString(),
-      ...offsets
-    });
-    highlightNode.appendChild(fragment);
+      const fragment = window.document.createDocumentFragment();
+      const parentRect = contentNode.getBoundingClientRect() as DOMRect;
+      createFieldRects({
+        fragment,
+        parentRect,
+        fieldType: 'passage',
+        fieldId: begin.toString(),
+        ...offsets
+      });
+      highlightNode.appendChild(fragment);
 
-    // scroll highlight into view
-    const firstFieldRect = highlightNode.querySelector('.field--rect');
-    if (firstFieldRect) {
-      firstFieldRect.scrollIntoView({ block: 'center' });
+      // scroll highlight into view
+      const firstFieldRect = highlightNode.querySelector('.field--rect');
+      if (firstFieldRect) {
+        firstFieldRect.scrollIntoView({ block: 'center' });
+      }
+    } catch (err) {
+      console.error('Error creating field rects', err);
     }
   }, [passage]);
 
