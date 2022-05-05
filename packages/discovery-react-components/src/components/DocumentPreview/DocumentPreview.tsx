@@ -43,7 +43,7 @@ interface Props extends WithErrorBoundaryProps {
   loadingClassName?: string;
   /**
    * Passage or table to highlight in document. Reference to item with
-   * `document.document_passages` or `document.table_results`.
+   * `document.document_passages` or `searchResults.table_results`.
    */
   highlight?: QueryResultPassage | QueryTableResult;
   /**
@@ -188,8 +188,8 @@ function PreviewDocument({
   fallbackComponent
 }: PreviewDocumentProps): ReactElement | null {
   const previewType = useMemo(
-    () => (document ? detectPreviewType(document, file) : null),
-    [document, file]
+    () => (document ? detectPreviewType(document, file, highlight) : null),
+    [document, file, highlight]
   );
 
   if (!document) {
