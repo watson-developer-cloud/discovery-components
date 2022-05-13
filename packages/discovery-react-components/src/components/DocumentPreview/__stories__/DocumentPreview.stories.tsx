@@ -32,7 +32,14 @@ storiesOf('DocumentPreview', module)
     );
   })
   .add('passage highlighting', () => {
-    const [file, doc] = docSelection(['pdf', 'pdf-fast-path', 'html', 'html-no-mappings', 'text']);
+    const [file, doc] = docSelection([
+      'pdf',
+      'pdf-fast-path',
+      'pdf-no-mappings',
+      'html',
+      'html-no-mappings',
+      'text'
+    ]);
     const usedPassage = doc.extracted_metadata.file_type === 'json' ? jsonPassages : passages;
     const docWithPassage = passageSelection(doc, usedPassage);
     const highlight = (docWithPassage.document_passages as unknown as QueryResultPassage[])[0];
@@ -49,7 +56,13 @@ storiesOf('DocumentPreview', module)
     );
   })
   .add('table highlight', () => {
-    const [file, doc] = docSelection(['pdf', 'pdf-fast-path', 'html', 'html-no-mappings', 'text']);
+    const [file, doc] = docSelection([
+      'pdf',
+      'pdf-no-mappings',
+      'html',
+      'html-no-mappings',
+      'text'
+    ]);
     const docWithTable = tableSelection(doc);
     const highlight = docWithTable.table_results[0];
 
@@ -118,7 +131,8 @@ function docSelection(items = ['pdf', 'html', 'text']): [string | undefined, Que
   const options = pickBy(
     {
       PDF: 'pdf',
-      'PDF without text location data': 'pdf-fast-path',
+      'PDF without text location data or html': 'pdf-fast-path',
+      'PDF without text location data': 'pdf-no-mappings',
       'Document with `html` property and structure data': 'html',
       'Document with `html` property and no text mappings': 'html-no-mappings',
       'Document with only text': 'text'
@@ -138,6 +152,10 @@ function docSelection(items = ['pdf', 'html', 'text']): [string | undefined, Que
     case 'pdf-fast-path':
       file = atob(docPDF);
       doc = omit(docArtEffects, 'html', 'extracted_metadata.text_mappings');
+      break;
+    case 'pdf-no-mappings':
+      file = atob(docPDF);
+      doc = omit(docArtEffects, 'extracted_metadata.text_mappings');
       break;
     case 'html':
       doc = docArtEffects;

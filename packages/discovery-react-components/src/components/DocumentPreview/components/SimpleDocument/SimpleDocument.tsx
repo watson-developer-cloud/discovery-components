@@ -4,7 +4,7 @@ import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { clearNodeChildren } from 'utils/dom';
 import { findOffsetInDOM, createFieldRects } from 'utils/document/documentUtils';
-import { isPassage } from '../Highlight/passages';
+import { isPassage } from '../Highlight/typeUtils';
 import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import { isJsonFile, isCsvFile } from '../../utils/documentData';
 import ErrorView from './ErrorView';

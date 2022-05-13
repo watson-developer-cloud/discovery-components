@@ -330,11 +330,6 @@ function setupSectionParser(
 
           if (tagName === TABLE_TAG) {
             sectionHtml.push('</article>');
-            const openTagIdx = openTagIndices.pop() as number;
-            sectionHtml[openTagIdx] = sectionHtml[openTagIdx].replace(
-              />$/,
-              ` data-child-end="${getChildEndFromCloseTag(p)}">`
-            );
           }
 
           // update opening tag with location of closing tag
@@ -343,6 +338,16 @@ function setupSectionParser(
             />$/,
             ` data-child-end="${getChildEndFromCloseTag(p)}">`
           );
+
+          if (tagName === TABLE_TAG) {
+            // update opening article tag with location of closing tag
+            // (needs to be done after content due to first-in, last-out data structure)
+            const openTagIdx = openTagIndices.pop() as number;
+            sectionHtml[openTagIdx] = sectionHtml[openTagIdx].replace(
+              />$/,
+              ` data-child-end="${p.endIndex || p.startIndex}">`
+            );
+          }
         }
 
         if (doc.tables && tagName === TABLE_TAG && currentTable) {

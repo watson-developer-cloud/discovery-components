@@ -203,7 +203,7 @@ function renderSectionFields(
         ...offsets
       });
     } catch (err) {
-      console.error('Error creating field rects', err);
+      // Don't log error, since some enrichments are not contained within their sections
     }
   }
 

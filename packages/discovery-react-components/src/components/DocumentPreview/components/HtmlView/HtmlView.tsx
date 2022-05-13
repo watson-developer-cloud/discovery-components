@@ -9,7 +9,8 @@ import { findMatchingBbox } from 'components/DocumentPreview/utils/box';
 import { findOffsetInDOM, createFieldRects } from 'utils/document/documentUtils';
 import { clearNodeChildren } from 'utils/dom';
 import { getTextMappings } from 'components/DocumentPreview/utils/documentData';
-import { isPassage, getPassagePageInfo } from '../Highlight/passages';
+import { getPassagePageInfo } from '../Highlight/passages';
+import { isPassage } from '../Highlight/typeUtils';
 
 interface Props {
   /**

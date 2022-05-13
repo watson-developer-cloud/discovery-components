@@ -1,7 +1,7 @@
 import get from 'lodash/get';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { DiscoveryDocument, DocumentFile, PreviewType, TextMappings } from '../types';
-import { isTable } from '../components/Highlight/tables';
+import { isPassage, isTable } from '../components/Highlight/typeUtils';
 
 /**
  * Get `text_mappings` document property as an object. Usually, this
@@ -50,16 +50,16 @@ export function detectPreviewType(
 ): PreviewType {
   const fileType = document.extracted_metadata?.file_type;
   // passages contain location offsets against text-based strings (not HTML)
-  const hasPassage = highlight && 'passage_text' in highlight;
   const hasTextMappings = !!document.extracted_metadata?.text_mappings;
+  const hasHighlight = !!highlight;
+  const isHighlightPassage = isPassage(highlight);
   const isHighlightTable = isTable(highlight);
 
   if (fileType === 'pdf' && file) {
-    // When trying to highlight a passage, text_mappings are required to map
+    // When trying to highlight a passage or table, text_mappings are required to map
     // between passages' text-based offsets and the BBOX data need to highlight
     // on PDFs
-    // When trying to highlight a table, text mappings aren't needed
-    if (hasTextMappings || !hasPassage || isHighlightTable) {
+    if (!hasHighlight || hasTextMappings) {
       return 'PDF';
     }
   }
@@ -70,7 +70,7 @@ export function detectPreviewType(
     // When trying to highlight a passage, only show as HTML when the document has text_mappings.
     // (since HTML view cannot display a passage highlight unless the document have text_mappings)
     // When trying to highlight a table, text mappings aren't needed, so display HTML
-    if (hasTextMappings || !hasPassage || isHighlightTable) {
+    if (!hasHighlight || (isHighlightPassage && hasTextMappings) || isHighlightTable) {
       return 'HTML';
     }
   }

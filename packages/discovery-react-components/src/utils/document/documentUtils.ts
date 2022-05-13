@@ -61,7 +61,7 @@ export function findOffsetInDOM(
 export function getTextNodeAndOffset(node: Node, strOffset: number): NodeOffset {
   const nodeElement = node as HTMLElement;
   // beginOffset - offset into HTML string for beginning of this node's content
-  const beginStrOffset = parseInt(nodeElement.dataset.childBegin || '0', 10);
+  const beginStrOffset = getChildBegin(nodeElement);
   // domOffset - offset within DOM node
   let domOffset = Math.max(0, strOffset - beginStrOffset);
 
@@ -219,24 +219,15 @@ function findContainingNodeWithin(parentNode: HTMLElement, offset: number) {
     // Get all children of the current node to search
     let nodes = Array.from(nodeToSearch.children) as HTMLElement[];
 
-    // We can assume that all top level nodes have begin and end set
-    // (This is a performance optimization-- can be removed if it causes issues.)
-    if (nodeToSearch === parentNode) {
-      // Make sure that all nodes have begin / end values
-      nodes = nodes.filter(
-        node => node.dataset.childBegin !== undefined && node.dataset.childEnd !== undefined
-      );
-    }
-
     // Perform binary search for the offset value on the array of nodes
     // (This array of nodes will always be sorted by both
     //  begin AND end, since sibling nodes are disjoint.)
-    const foundIndex = indexOfContainingNode(nodes, offset);
+    const currentFoundNode = getContainingNode(nodes, offset);
 
-    if (foundIndex >= 0) {
+    if (!!currentFoundNode) {
       // If we found a node, set it to the found node and then search its children
       // (in case there's a node lower in the DOM tree that contains the offset as well)
-      foundNode = nodes[foundIndex];
+      foundNode = currentFoundNode;
       nodeToSearch = foundNode;
     } else {
       // If we didn't find a containing node at this level, stop looping
@@ -255,7 +246,7 @@ function findContainingNodeWithin(parentNode: HTMLElement, offset: number) {
  * @param offset value to find within the nodes
  * @return index of the containing node, or -1 if none is found
  */
-function indexOfContainingNode(sortedArray: HTMLElement[], offset: number) {
+function getContainingNode(sortedArray: HTMLElement[], offset: number) {
   // Set the low and high markers to the outer edges of the array
   let lowIdx = 0,
     highIdx = sortedArray.length - 1,
@@ -265,23 +256,32 @@ function indexOfContainingNode(sortedArray: HTMLElement[], offset: number) {
   while (lowIdx <= highIdx) {
     // Set the pivot to the halfway point of the outer markers
     midIdx = Math.floor((highIdx + lowIdx) / 2);
-    if (parseInt(sortedArray[midIdx].dataset.childEnd || '0', 10) < offset) {
+    const currentNode = sortedArray[midIdx];
+    if (getChildEnd(currentNode) < offset) {
       // If the end of the current pivot node is below the offset we're looking for,
       // we should look above the pivot (i.e. move the low marker up).
       lowIdx = midIdx + 1;
-    } else if (parseInt(sortedArray[midIdx].dataset.childBegin || '0', 10) > offset) {
+    } else if (getChildBegin(currentNode) > offset) {
       // If the begin of the current pivot node is above the offset we're looking for,
       // we should look below the pivot (i.e. move the high marker down).
       highIdx = midIdx - 1;
     } else {
       // If neither of the above conditions above are true (i.e. begin <= offset <= end),
       // the offset is within the current pivot node, so return its index
-      return midIdx;
+      return currentNode;
     }
   }
 
   // If the low marker passes the high marker without finding a match, there is no match.
-  return -1;
+  return null;
+}
+
+function getChildBegin(node: HTMLElement) {
+  return parseInt(node.dataset.childBegin || '0', 10);
+}
+
+function getChildEnd(node: HTMLElement) {
+  return parseInt(node.dataset.childEnd || '0', 10);
 }
 
 type Span = {
