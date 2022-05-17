@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.3](https://github.com/watson-developer-cloud/discovery-components/compare/v2.0.2...v2.0.3) (2022-05-17)
+
+
+### Bug Fixes
+
+* display DocumentPreview properly for documents with tables ([#343](https://github.com/watson-developer-cloud/discovery-components/issues/343)) ([f8f01d7](https://github.com/watson-developer-cloud/discovery-components/commit/f8f01d756de0cab4722690d7fd60bf7cf9b20b47))
+
+
+
+
+
 ## [2.0.2](https://github.com/watson-developer-cloud/discovery-components/compare/v2.0.1...v2.0.2) (2022-05-05)
 
 
