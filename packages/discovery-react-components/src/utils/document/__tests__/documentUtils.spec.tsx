@@ -1,7 +1,15 @@
 import * as React from 'react';
 import { render } from '@testing-library/react';
-import { uniqRects, findOffsetInDOM, getTextNodeAndOffset, spansIntersect } from '../documentUtils';
+import {
+  uniqRects,
+  findOffsetInDOM,
+  getTextNodeAndOffset,
+  spansIntersect,
+  findContainingNodeWithin,
+  getContainingNode
+} from '../documentUtils';
 import { data as textNodesData, watsonIndex } from '../__fixtures__/textNodeData';
+import { nodes as fakeDOM } from '../__fixtures__/fakeDOM';
 
 describe('uniqRects', () => {
   it('removes duplicate rects', () => {
@@ -269,5 +277,63 @@ describe('spansIntersect', () => {
     );
 
     expect(result).toBeTruthy();
+  });
+});
+
+describe('findContainingNodeWithin', () => {
+  let parentNode: HTMLElement;
+
+  beforeEach(() => {
+    const { container } = render(fakeDOM);
+    parentNode = container.querySelector('.parent') as HTMLElement;
+  });
+
+  it('returns a leaf node if it contains the offset', () => {
+    expect(findContainingNodeWithin(parentNode, 204)?.classList.contains('leaf')).toBe(true);
+  });
+
+  it("returns a mid-level node if it's the lowest node that contains the offset", () => {
+    expect(findContainingNodeWithin(parentNode, 335)?.classList.contains('intermediate')).toBe(
+      true
+    );
+  });
+
+  it("returns a root node if it's the lowest node that contains the offset", () => {
+    expect(findContainingNodeWithin(parentNode, 384)?.classList.contains('root')).toBe(true);
+  });
+
+  it('returns null when no node contains the offset', () => {
+    expect(findContainingNodeWithin(parentNode, 780)).toBeNull();
+  });
+});
+
+describe('getContainingNode', () => {
+  let nodeList: HTMLElement[];
+
+  beforeEach(() => {
+    const { container } = render(fakeDOM);
+    nodeList = Array.from(container.querySelectorAll('.leaf')) as HTMLElement[];
+  });
+
+  it('returns the node that contains the offset', () => {
+    // works when the first node contains the offset
+    expect(getContainingNode(nodeList, 50)).toBe(nodeList[0]);
+
+    // works when the last node contains the offset
+    expect(getContainingNode(nodeList, 1650)).toBe(nodeList[nodeList.length - 1]);
+
+    // works when an arbitrary node contains the offset
+    expect(getContainingNode(nodeList, 1000)).toBe(nodeList[18]);
+  });
+
+  it('returns null when no node contains the offset', () => {
+    // returns null when offset is less than begin of first node
+    expect(getContainingNode(nodeList, -1)).toBeNull();
+
+    // returns null when offset is greater than end of last node
+    expect(getContainingNode(nodeList, 2000)).toBeNull();
+
+    // returns null when offset is between two nodes (not contained in any node)
+    expect(getContainingNode(nodeList, 499)).toBeNull();
   });
 });

@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 import { QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 
 export function isPassage(obj: any): obj is QueryResultPassage {

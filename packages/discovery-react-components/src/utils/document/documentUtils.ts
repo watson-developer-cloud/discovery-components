@@ -211,7 +211,7 @@ export function uniqRects(rects: DOMRectList): Partial<DOMRectList> {
  * @param offset value to find within the nodes
  * @return the descendant node, or null if none is found
  */
-function findContainingNodeWithin(parentNode: HTMLElement, offset: number) {
+export function findContainingNodeWithin(parentNode: HTMLElement, offset: number) {
   let foundNode = null,
     nodeToSearch: HTMLElement | null = parentNode;
 
@@ -246,7 +246,7 @@ function findContainingNodeWithin(parentNode: HTMLElement, offset: number) {
  * @param offset value to find within the nodes
  * @return index of the containing node, or -1 if none is found
  */
-function getContainingNode(sortedArray: HTMLElement[], offset: number) {
+export function getContainingNode(sortedArray: HTMLElement[], offset: number) {
   // Set the low and high markers to the outer edges of the array
   let lowIdx = 0,
     highIdx = sortedArray.length - 1,

@@ -52,8 +52,8 @@ export function detectPreviewType(
   // passages contain location offsets against text-based strings (not HTML)
   const hasTextMappings = !!document.extracted_metadata?.text_mappings;
   const hasHighlight = !!highlight;
-  const isHighlightPassage = isPassage(highlight);
-  const isHighlightTable = isTable(highlight);
+  const isPassageHighlight = isPassage(highlight);
+  const isTableHighlight = isTable(highlight);
 
   if (fileType === 'pdf' && file) {
     // When trying to highlight a passage or table, text_mappings are required to map
@@ -70,7 +70,7 @@ export function detectPreviewType(
     // When trying to highlight a passage, only show as HTML when the document has text_mappings.
     // (since HTML view cannot display a passage highlight unless the document have text_mappings)
     // When trying to highlight a table, text mappings aren't needed, so display HTML
-    if (!hasHighlight || (isHighlightPassage && hasTextMappings) || isHighlightTable) {
+    if (!hasHighlight || (isPassageHighlight && hasTextMappings) || isTableHighlight) {
       return 'HTML';
     }
   }
