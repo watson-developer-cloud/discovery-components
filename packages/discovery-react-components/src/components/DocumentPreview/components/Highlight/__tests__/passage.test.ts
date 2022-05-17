@@ -1,5 +1,6 @@
 import docJson from 'components/DocumentPreview/__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
-import { usePassage, isPassage } from '../passages';
+import { usePassage } from '../passages';
+import { isPassage } from '../typeUtils';
 import { QueryResultPassage } from 'ibm-watson/discovery/v2';
 import { renderHook } from '@testing-library/react-hooks';
 

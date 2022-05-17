@@ -1,6 +1,7 @@
 import get from 'lodash/get';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { DiscoveryDocument, DocumentFile, PreviewType, TextMappings } from '../types';
+import { isPassage, isTable } from '../components/Highlight/typeUtils';
 
 /**
  * Get `text_mappings` document property as an object. Usually, this
@@ -49,14 +50,16 @@ export function detectPreviewType(
 ): PreviewType {
   const fileType = document.extracted_metadata?.file_type;
   // passages contain location offsets against text-based strings (not HTML)
-  const hasPassage = highlight && 'passage_text' in highlight;
   const hasTextMappings = !!document.extracted_metadata?.text_mappings;
+  const hasHighlight = !!highlight;
+  const isPassageHighlight = isPassage(highlight);
+  const isTableHighlight = isTable(highlight);
 
   if (fileType === 'pdf' && file) {
-    // If there is a passage to highlight, text_mappings are required to map
+    // When trying to highlight a passage or table, text_mappings are required to map
     // between passages' text-based offsets and the BBOX data need to highlight
     // on PDFs
-    if (hasTextMappings || !hasPassage) {
+    if (!hasHighlight || hasTextMappings) {
       return 'PDF';
     }
   }
@@ -64,9 +67,10 @@ export function detectPreviewType(
   const isJsonType = isJsonFile(document);
   const isCsvType = isCsvFile(document);
   if (document.html && !isJsonType && !isCsvType) {
-    // HTML view cannot display a passage highlight unless the document have text_mappings.
-    // So, do not show as HTML when the document have a passage but does not have text_mappings.
-    if (hasTextMappings || !hasPassage) {
+    // When trying to highlight a passage, only show as HTML when the document has text_mappings.
+    // (since HTML view cannot display a passage highlight unless the document have text_mappings)
+    // When trying to highlight a table, text mappings aren't needed, so display HTML
+    if (!hasHighlight || (isPassageHighlight && hasTextMappings) || isTableHighlight) {
       return 'HTML';
     }
   }

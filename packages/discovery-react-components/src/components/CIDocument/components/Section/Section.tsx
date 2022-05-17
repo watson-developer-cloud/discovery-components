@@ -189,18 +189,22 @@ function renderSectionFields(
   const fragment = document.createDocumentFragment();
 
   for (const field of section.enrichments) {
-    const fieldType = field.__type;
-    const { begin, end } = field.location;
+    try {
+      const fieldType = field.__type;
+      const { begin, end } = field.location;
 
-    const offsets = findOffsetInDOM(contentNode, begin, end);
+      const offsets = findOffsetInDOM(contentNode, begin, end);
 
-    createFieldRects({
-      fragment,
-      parentRect: sectionRect as DOMRect,
-      fieldType,
-      fieldId: getId(field as unknown as Item),
-      ...offsets
-    });
+      createFieldRects({
+        fragment,
+        parentRect: sectionRect as DOMRect,
+        fieldType,
+        fieldId: getId(field as unknown as Item),
+        ...offsets
+      });
+    } catch (err) {
+      // Don't log error, since some enrichments are not contained within their sections
+    }
   }
 
   fieldsNode.appendChild(fragment);

@@ -55,8 +55,3 @@ export function getPassagePageInfo(
     })
     .map(cell => cell.page);
 }
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function isPassage(obj: any): obj is QueryResultPassage {
-  return obj && 'passage_text' in obj;
-}

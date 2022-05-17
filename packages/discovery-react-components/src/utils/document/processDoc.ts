@@ -137,7 +137,7 @@ export async function processDoc(queryData: QueryResult, options?: Options): Pro
   await parser.parse(htmlContent);
 
   sortFields(enrichment, doc);
-  if (options && options.sections && options.itemMap) {
+  if (options.sections && options.itemMap) {
     addItemMap(doc);
   }
 
@@ -238,8 +238,9 @@ function setupSectionParser(
             const ariaLabel = `Table generated from ${doc.title} (id: ${p.startIndex})`;
 
             sectionHtml.push(
-              `<article aria-label="${ariaLabel}" aria-describedby="${descriptionId}">`
+              `<article aria-label="${ariaLabel}" aria-describedby="${descriptionId}" data-child-begin="${p.startIndex}">`
             );
+            openTagIndices.push(sectionHtml.length - 1);
             sectionHtml.push(
               `<p id="${descriptionId}" style="display: none;">${tableDescription}</p>`
             );
@@ -337,6 +338,16 @@ function setupSectionParser(
             />$/,
             ` data-child-end="${getChildEndFromCloseTag(p)}">`
           );
+
+          if (tagName === TABLE_TAG) {
+            // update opening article tag with location of closing tag
+            // (needs to be done after content due to first-in, last-out data structure)
+            const openTagIdx = openTagIndices.pop() as number;
+            sectionHtml[openTagIdx] = sectionHtml[openTagIdx].replace(
+              />$/,
+              ` data-child-end="${p.endIndex || p.startIndex}">`
+            );
+          }
         }
 
         if (doc.tables && tagName === TABLE_TAG && currentTable) {

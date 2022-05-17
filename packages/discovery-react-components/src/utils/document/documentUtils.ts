@@ -26,29 +26,16 @@ export function findOffsetInDOM(
   begin: number,
   end: number
 ): FindOffsetResults {
-  const allNodes = Array.from(parentNode.querySelectorAll('[data-child-begin]')) as HTMLElement[];
+  // Find the lowest nodes within the DOM tree that contain begin and end offsets
+  let beginNode = findContainingNodeWithin(parentNode, begin);
+  let endNode = findContainingNodeWithin(parentNode, end);
 
-  let beginNode,
-    endNode,
-    idx = 0;
-
-  do {
-    beginNode = allNodes[idx];
-  } while (
-    ++idx &&
-    idx < allNodes.length &&
-    begin >= parseInt(allNodes[idx].dataset.childBegin || '0', 10)
-  );
-
-  idx--; // reset to index of `beginNode`
-
-  do {
-    endNode = allNodes[idx];
-  } while (
-    ++idx &&
-    idx < allNodes.length &&
-    end > parseInt(allNodes[idx].dataset.childBegin as string, 10)
-  );
+  if (beginNode === null) {
+    throw new Error(`Failed to find a node containing the start of the highlight: ${begin}`);
+  }
+  if (endNode === null) {
+    throw new Error(`Failed to find a node containing the end of the highlight: ${end}`);
+  }
 
   const { textNode: beginTextNode, textOffset: beginOffset } = getTextNodeAndOffset(
     beginNode,
@@ -74,7 +61,7 @@ export function findOffsetInDOM(
 export function getTextNodeAndOffset(node: Node, strOffset: number): NodeOffset {
   const nodeElement = node as HTMLElement;
   // beginOffset - offset into HTML string for beginning of this node's content
-  const beginStrOffset = parseInt(nodeElement.dataset.childBegin || '0', 10);
+  const beginStrOffset = getChildBegin(nodeElement);
   // domOffset - offset within DOM node
   let domOffset = Math.max(0, strOffset - beginStrOffset);
 
@@ -99,16 +86,25 @@ export function getTextNodeAndOffset(node: Node, strOffset: number): NodeOffset 
   // up text into multiple TextNodes. Loop through TextNodes, finding which
   // contains the `domOffset`
   const iterator = document.createNodeIterator(node, NodeFilter.SHOW_TEXT);
-  let textNode: Text, len: number;
+  let textNode: Text | null = null,
+    len: number,
+    prevNode: Text | null;
   do {
+    prevNode = textNode;
     textNode = iterator.nextNode() as Text;
   } while (textNode && (len = textNode.data.length) && domOffset > len && (domOffset -= len));
 
-  if (textNode === null) {
+  if (textNode === null && prevNode === null) {
+    // If no text nodes were found, throw an error.
     throw new Error(`Failed to find text node. Node: ${node.textContent}, offset: ${strOffset}`);
+  } else if (textNode === null && prevNode !== null) {
+    // If the offset was not found in the last text node,
+    // return the last node with an offset pointing to the end of that node.
+    return { textNode: prevNode, textOffset: prevNode.data.length };
+  } else {
+    // If the offset was within a node, return that node.
+    return { textNode, textOffset: domOffset };
   }
-
-  return { textNode, textOffset: domOffset };
 }
 
 interface CreateFieldRectsProps {
@@ -206,6 +202,86 @@ export function uniqRects(rects: DOMRectList): Partial<DOMRectList> {
       rectA.x === rectB.x &&
       rectA.y === rectB.y
   );
+}
+
+/**
+ * Finds the descendant node that contains the given offset.
+ * This is done efficiently via a binary search.
+ * @param parentNode node to search the descendants of
+ * @param offset value to find within the nodes
+ * @return the descendant node, or null if none is found
+ */
+export function findContainingNodeWithin(parentNode: HTMLElement, offset: number) {
+  let foundNode = null,
+    nodeToSearch: HTMLElement | null = parentNode;
+
+  while (!!nodeToSearch) {
+    // Get all children of the current node to search
+    let nodes = Array.from(nodeToSearch.children) as HTMLElement[];
+
+    // Perform binary search for the offset value on the array of nodes
+    // (This array of nodes will always be sorted by both
+    //  begin AND end, since sibling nodes are disjoint.)
+    const currentFoundNode = getContainingNode(nodes, offset);
+
+    if (!!currentFoundNode) {
+      // If we found a node, set it to the found node and then search its children
+      // (in case there's a node lower in the DOM tree that contains the offset as well)
+      foundNode = currentFoundNode;
+      nodeToSearch = foundNode;
+    } else {
+      // If we didn't find a containing node at this level, stop looping
+      nodeToSearch = null;
+    }
+  }
+
+  // return the lowest DOM element that contains the offset value
+  return foundNode;
+}
+
+/**
+ * Finds the index within an array of the node that contains the given offset.
+ * This is done efficiently via a binary search.
+ * @param sortedArray array of disjoint node sorted by both data-child-begin and data-child-end
+ * @param offset value to find within the nodes
+ * @return index of the containing node, or -1 if none is found
+ */
+export function getContainingNode(sortedArray: HTMLElement[], offset: number) {
+  // Set the low and high markers to the outer edges of the array
+  let lowIdx = 0,
+    highIdx = sortedArray.length - 1,
+    midIdx;
+
+  // Keep looping until the low marker passes the high marker
+  while (lowIdx <= highIdx) {
+    // Set the pivot to the halfway point of the outer markers
+    midIdx = Math.floor((highIdx + lowIdx) / 2);
+    const currentNode = sortedArray[midIdx];
+    if (getChildEnd(currentNode) < offset) {
+      // If the end of the current pivot node is below the offset we're looking for,
+      // we should look above the pivot (i.e. move the low marker up).
+      lowIdx = midIdx + 1;
+    } else if (getChildBegin(currentNode) > offset) {
+      // If the begin of the current pivot node is above the offset we're looking for,
+      // we should look below the pivot (i.e. move the high marker down).
+      highIdx = midIdx - 1;
+    } else {
+      // If neither of the above conditions above are true (i.e. begin <= offset <= end),
+      // the offset is within the current pivot node, so return its index
+      return currentNode;
+    }
+  }
+
+  // If the low marker passes the high marker without finding a match, there is no match.
+  return null;
+}
+
+function getChildBegin(node: HTMLElement) {
+  return parseInt(node.dataset.childBegin || '0', 10);
+}
+
+function getChildEnd(node: HTMLElement) {
+  return parseInt(node.dataset.childEnd || '0', 10);
 }
 
 type Span = {

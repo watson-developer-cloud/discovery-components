@@ -2,10 +2,6 @@ import { QueryTableResult } from 'ibm-watson/discovery/v2';
 import { ProcessedDoc } from 'utils/document';
 import { spansIntersect } from 'utils/document/documentUtils';
 
-export function isTable(highlight: any): highlight is QueryTableResult {
-  return !!highlight?.table?.location;
-}
-
 export function getHighlightedTable(
   highlight: QueryTableResult | null | undefined,
   processedDoc: ProcessedDoc | null | undefined

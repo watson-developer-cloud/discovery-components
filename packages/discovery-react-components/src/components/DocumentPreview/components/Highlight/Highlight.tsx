@@ -2,7 +2,7 @@ import React, { FC, ReactElement } from 'react';
 import { QueryResultPassage, QueryResult, QueryTableResult } from 'ibm-watson/discovery/v2';
 import TableHighlight from './TableHighlight';
 import PassageHighlight from './PassageHighlight';
-import { isPassage } from './passages';
+import { isPassage } from './typeUtils';
 import { Bbox, Origin } from 'components/DocumentPreview/types';
 import { PADDING } from './constants';
 

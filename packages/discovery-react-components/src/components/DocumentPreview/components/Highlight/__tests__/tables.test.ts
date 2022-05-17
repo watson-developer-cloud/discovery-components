@@ -1,7 +1,8 @@
 import { QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { ProcessedDoc } from 'utils/document';
 import { Location } from 'utils/document/processDoc';
-import { getHighlightedTable, isTable } from '../tables';
+import { getHighlightedTable } from '../tables';
+import { isTable } from '../typeUtils';
 
 describe('Table', () => {
   const tableLocation: Location = { begin: 100, end: 200 };
