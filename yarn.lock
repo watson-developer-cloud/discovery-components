@@ -2163,7 +2163,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ibm-watson/discovery-react-components@^2.0.2, @ibm-watson/discovery-react-components@workspace:packages/discovery-react-components":
+"@ibm-watson/discovery-react-components@^2.0.3, @ibm-watson/discovery-react-components@workspace:packages/discovery-react-components":
   version: 0.0.0-use.local
   resolution: "@ibm-watson/discovery-react-components@workspace:packages/discovery-react-components"
   dependencies:
@@ -10664,7 +10664,7 @@ __metadata:
   dependencies:
     "@carbon/icons": ^10.5.0
     "@cypress/webpack-preprocessor": ^5.11.0
-    "@ibm-watson/discovery-react-components": ^2.0.2
+    "@ibm-watson/discovery-react-components": ^2.0.3
     "@ibm-watson/discovery-styles": ^2.0.1
     "@testing-library/cypress": ^7.0.7
     "@types/proper-url-join": ^2
