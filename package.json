@@ -60,7 +60,7 @@
     "ibm-watson": "^6.2.1",
     "lerna": "^4.0.0",
     "lerna-update-wizard": "^0.17.8",
-    "lint-staged": "^9.2.5",
+    "lint-staged": "^12.4.3",
     "lorem-ipsum": "^2.0.3",
     "markdown-toc": "^1.2.0",
     "prettier": "^2.4.1",
