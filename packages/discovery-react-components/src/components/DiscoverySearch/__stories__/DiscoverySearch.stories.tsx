@@ -2,7 +2,7 @@ import React, { FC, useContext } from 'react';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { CloudPakForDataAuthenticator } from 'ibm-watson/auth';
 import { storiesOf } from '@storybook/react';
-import { text, object } from '@storybook/addon-knobs/react';
+import { text, object } from '@storybook/addon-knobs';
 import DiscoverySearch, {
   DiscoverySearchProps,
   SearchContext,
@@ -22,6 +22,7 @@ const MyComponent: FC<{}> = () => {
 const customSearchClientProps = (): DiscoverySearchProps => ({
   searchClient: new DummySearchClient(),
   projectId: text('Project ID', 'project-id'),
+  // @ts-ignore
   overrideSearchResults: object('Search results object', {
     matching_results: 1,
     results: [
