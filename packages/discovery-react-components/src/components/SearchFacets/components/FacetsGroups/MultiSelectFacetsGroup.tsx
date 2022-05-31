@@ -1,4 +1,5 @@
 import React, { FC, useContext, SyntheticEvent } from 'react';
+import { Buffer } from 'buffer';
 import { optionClass, optionLabelClass } from 'components/SearchFacets/cssClasses';
 import { Messages } from 'components/SearchFacets/messages';
 import { Checkbox as CarbonCheckbox } from 'carbon-components-react';
@@ -109,7 +110,7 @@ export const MultiSelectFacetsGroup: FC<MultiSelectFacetsGroupProps> = ({
         const count = facet.matching_results;
         const labelText = getFacetLabel(facetText, count, messages, showMatchingResults);
         const query = naturalLanguageQuery || '';
-        const buff = new Buffer(query + facetText);
+        const buff = Buffer.from(query + facetText);
         const base64data = buff.toString('base64');
 
         // If this is in the Show more modal, we need to check the facet value's temporary selection value
