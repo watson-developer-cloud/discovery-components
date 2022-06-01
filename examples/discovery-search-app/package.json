@@ -8,7 +8,7 @@
   "homepage": ".",
   "scripts": {
     "build:app": "yarn run build",
-    "build": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts build",
+    "build": "cross-env SKIP_PREFLIGHT_CHECK=true CI=false react-scripts build",
     "eject": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts eject",
     "start": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts start",
     "lint": "yarn run g:eslint --quiet '{src,cypress}/**/*.{js,jsx,ts,tsx}' './*.{js,jsx,ts,tsx}'",
