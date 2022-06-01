@@ -51,7 +51,7 @@ describe('Autocomplete', () => {
 
   describe('When typing " " into the search input', () => {
     beforeEach(() => {
-      cy.intercept('POST', '**/query?version=2019-01-01', { fixture: '@queryJSON' }).as(
+      cy.intercept('POST', '**/query?version=2019-01-01', { fixture: 'query/query.json' }).as(
         'postQuery'
       );
       cy.get('@searchInput').type(' ');

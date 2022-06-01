@@ -1,10 +1,12 @@
 import { mockHomePage } from '../../support/utils';
 
+const queryFixture = 'query/facetsQuery.json';
+
 describe('Dynamic Facets', () => {
   it('When a query is made, and dynamic facets are returned', () => {
     mockHomePage({
       component_settings: 'component_settings/multiSelectFacetsComponentSettings.json',
-      query: 'query/facetsQuery.json'
+      query: queryFixture
     });
 
     cy.findByPlaceholderText('Search').type('restaurants{enter}');
@@ -50,7 +52,7 @@ describe('Dynamic Facets', () => {
     cy.get('.bx--tag--filter').contains('2').should('exist');
 
     // and the "Clear all" button is clicked
-    cy.intercept('POST', '**/query?version=2019-01-01', { fixture: '@queryJSON' }).as(
+    cy.intercept('POST', '**/query?version=2019-01-01', { fixture: queryFixture }).as(
       'postQueryFacets'
     );
     cy.get('button').contains('Clear all').click();
@@ -63,7 +65,7 @@ describe('Dynamic Facets', () => {
     cy.get('button').contains('Clear all').should('not.exist');
 
     // and the same facet checkbox is clicked
-    cy.intercept('POST', '**/query?version=2019-01-01', { fixture: '@queryJSON' }).as(
+    cy.intercept('POST', '**/query?version=2019-01-01', { fixture: queryFixture }).as(
       'postQueryFacets'
     );
     cy.get('label').contains('regression').click();

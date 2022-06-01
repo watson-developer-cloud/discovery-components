@@ -55,7 +55,7 @@ describe('Collection Filter', () => {
 
         describe('and we click the clear selected collections button', () => {
           beforeEach(() => {
-            cy.intercept('POST', '**/query?version=2019-01-01', { fixture: '@queryJSON' }).as(
+            cy.intercept('POST', '**/query?version=2019-01-01', { fixture: 'query/query.json' }).as(
               'postQueryClearedSelections'
             );
             cy.get('div[aria-label="Clear all selected items"]').click();
@@ -87,9 +87,9 @@ describe('Collection Filter', () => {
 
           describe('and we clear the selected collections', () => {
             beforeEach(() => {
-              cy.intercept('POST', '**/query?version=2019-01-01', { fixture: '@queryJSON' }).as(
-                'postQueryClearedSelections'
-              );
+              cy.intercept('POST', '**/query?version=2019-01-01', {
+                fixture: 'query/query.json'
+              }).as('postQueryClearedSelections');
               cy.get('div[aria-label="Clear all selected items"]').click();
               cy.wait('@postQueryClearedSelections').as('originalQueryObject');
             });
