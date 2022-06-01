@@ -1,0 +1,34 @@
+diff --git a/.vscode/diff/vulsCount.txt b/.vscode/diff/vulsCount.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..c227083464fb9af8955c90d2924774ee50abb547
+--- /dev/null
++++ b/.vscode/diff/vulsCount.txt
+@@ -0,0 +1 @@
++0
+\ No newline at end of file
+diff --git a/config/webpack.config.js b/config/webpack.config.js
+index e465d8e7a00ec889e9c4c29ba7812019f8319a41..b934130ec835301dc818fb14b26901fc1d0c12bc 100644
+--- a/config/webpack.config.js
++++ b/config/webpack.config.js
+@@ -303,6 +303,21 @@ module.exports = function (webpackEnv) {
+       ],
+     },
+     resolve: {
++      fallback: {
++        // requested by ibm-watson
++        // @see https://github.com/watson-developer-cloud/node-sdk/tree/master/examples/webpack
++        crypto: require.resolve('crypto-browserify'),
++        fs: false,
++        http: require.resolve('stream-http'),
++        https: require.resolve('https-browserify'),
++        module: false,
++        net: false,
++        os: require.resolve('os-browserify/browser'),
++        path: require.resolve('path-browserify'),
++        stream: require.resolve('stream-browserify'),
++        tls: false,
++        zlib: require.resolve('browserify-zlib'),
++      },
+       // This allows you to set a fallback for where webpack should look for modules.
+       // We placed these paths second because we want `node_modules` to "win"
+       // if there are any conflicts. This matches Node resolution mechanism.
