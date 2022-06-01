@@ -15,7 +15,7 @@
     "test:e2e": "cross-env REACT_APP_CYPRESS_MODE=true BROWSER=none CYPRESS_baseUrl=http://localhost:3000 start-server-and-test start http://localhost:3000 'cypress run'",
     "test:unit": "cross-env SKIP_PREFLIGHT_CHECK=true CI=1 react-scripts test --env=jsdom",
     "test": "yarn test:unit && yarn test:e2e",
-    "cypress": "cross-env REACT_APP_CYPRESS_MODE=true cypress open",
+    "cypress": "cross-env REACT_APP_CYPRESS_MODE=true cypress open --e2e --browser chrome",
     "server": "yarn server:setup && yarn server:run",
     "server:run": "node ./server.js",
     "server:setup": "node ./scripts/setSdkUrl.js"
@@ -50,7 +50,7 @@
     "@testing-library/cypress": "^7.0.7",
     "@types/proper-url-join": "^2",
     "cross-env": "^7.0.3",
-    "cypress": "^8.7.0",
+    "cypress": "^10.0.0",
     "react-scripts": "^5.0.1",
     "start-server-and-test": "^1.14.0"
   }
