@@ -19,8 +19,18 @@ const DEFAULT_FIXTURE_PATHS = {
 export function mockHomePage(overrideFixturePaths: HomePageFixturePaths = {}): void {
   const fixturePaths = Object.assign({}, DEFAULT_FIXTURE_PATHS, overrideFixturePaths);
 
-  // start the cypress server
-  cy.server();
+  // Default to returning 404 error for any unhandle requests.
+  // Subsequent `cy.intercept` calls can override this catch-all.
+  cy.intercept(
+    {
+      headers: {
+        accept: 'application/json'
+      }
+    },
+    {
+      statusCode: 404
+    }
+  );
 
   // Sets up and handles the collections, component settings, and initial query requests that run on page-load
   cy.intercept('GET', '**/collections?version=2019-01-01', {

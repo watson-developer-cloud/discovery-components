@@ -84,9 +84,6 @@ describe('Basic search', () => {
 
 describe('Basic search errors', () => {
   beforeEach(() => {
-    // start the cypress server
-    cy.server();
-
     // Sets up and handles the collections, component settings, and initial query requests that run on page-load
     cy.intercept('GET', '**/collections?version=2019-01-01', {
       fixture: 'collections/collections'
