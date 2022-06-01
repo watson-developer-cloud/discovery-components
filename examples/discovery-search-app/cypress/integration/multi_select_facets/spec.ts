@@ -6,12 +6,6 @@ describe('Multi-Select Facets', () => {
       component_settings: 'component_settings/multiSelectFacetsComponentSettings.json',
       query: 'query/facetsQuery.json'
     });
-
-    // Set up/override routes & fixtures that are specific to this file
-    cy.fixture('query/facetsQuery.json').as('facetsQueryJSON');
-    cy.fixture('query/facetsQueryAmes.json').as('facetsQueryAmesJSON');
-    cy.fixture('query/facetsQueryAmesLowPrice.json').as('facetsQueryAmesLowPriceJSON');
-    cy.fixture('query/facetsQueryAmesOrPittsburgh.json').as('facetsQueryAmesOrPittsburghJSON');
   });
 
   describe('When a query is made, and facets are returned', () => {
@@ -38,32 +32,32 @@ describe('Multi-Select Facets', () => {
 
     describe('and a facet filter is selected', () => {
       beforeEach(() => {
-        cy.route('POST', '**/query?version=2019-01-01', '@facetsQueryAmesJSON').as(
-          'postQueryFacetsAmes'
-        );
+        cy.intercept('POST', '**/query?version=2019-01-01', {
+          fixture: 'query/facetsQueryAmes.json'
+        }).as('postQueryFacetsAmes');
         cy.get('label').contains('Ames, IA').click();
         cy.wait('@postQueryFacetsAmes').as('amesFilterQueryObject');
       });
 
       it('queries and selects the right facets', () => {
         cy.get('@amesFilterQueryObject')
-          .its('requestBody.filter')
+          .its('request.body.filter')
           .should('eq', 'location:"Ames, IA"');
         cy.get('.bx--tag--filter').contains('1').should('exist');
       });
 
       describe('and a different filter is selected from the same facet', () => {
         beforeEach(() => {
-          cy.route('POST', '**/query?version=2019-01-01', '@facetsQueryAmesOrPittsburghJSON').as(
-            'postQueryFacetsAmesOrPittsburgh'
-          );
+          cy.intercept('POST', '**/query?version=2019-01-01', {
+            fixture: 'query/facetsQueryAmesOrPittsburgh.json'
+          }).as('postQueryFacetsAmesOrPittsburgh');
           cy.get('label').contains('Pittsburgh, PA').click();
           cy.wait('@postQueryFacetsAmesOrPittsburgh').as('multiFilterQueryObject');
         });
 
         it('queries and selects the right facets', () => {
           cy.get('@multiFilterQueryObject')
-            .its('requestBody.filter')
+            .its('request.body.filter')
             .should('eq', 'location:"Pittsburgh, PA"|location:"Ames, IA"');
           cy.get('.bx--tag--filter').contains('2').should('exist');
         });
@@ -80,56 +74,60 @@ describe('Multi-Select Facets', () => {
 
       describe('and the "Clear all" button is clicked', () => {
         beforeEach(() => {
-          cy.route('POST', '**/query?version=2019-01-01', '@facetsQueryJSON').as('postQueryFacets');
+          cy.intercept('POST', '**/query?version=2019-01-01', {
+            fixture: 'query/facetsQuery.json'
+          }).as('postQueryFacets');
           cy.get('button').contains('Clear all').click();
           cy.wait('@postQueryFacets').as('clearedFacetsQueryObject');
         });
 
         it('makes a query without any selected facets and there is no "Clear all" button', () => {
-          cy.get('@clearedFacetsQueryObject').its('requestBody.filter').should('eq', '');
+          cy.get('@clearedFacetsQueryObject').its('request.body.filter').should('eq', '');
           cy.get('button').contains('Clear all').should('not.exist');
         });
       });
 
       describe('and the same facet checkbox is clicked', () => {
         beforeEach(() => {
-          cy.route('POST', '**/query?version=2019-01-01', '@facetsQueryJSON').as('postQueryFacets');
+          cy.intercept('POST', '**/query?version=2019-01-01', {
+            fixture: 'query/facetsQuery.json'
+          }).as('postQueryFacets');
           cy.get('label').contains('Ames, IA').click();
           cy.wait('@postQueryFacets').as('clearedFacetsQueryObject');
         });
 
         it('makes a query without any selected facets', () => {
-          cy.get('@clearedFacetsQueryObject').its('requestBody.filter').should('eq', '');
+          cy.get('@clearedFacetsQueryObject').its('request.body.filter').should('eq', '');
         });
       });
 
       describe('and a different filter is clicked from a different facet', () => {
         beforeEach(() => {
-          cy.route('POST', '**/query?version=2019-01-01', '@facetsQueryAmesLowPriceJSON').as(
-            'postQueryFacetsCombined'
-          );
+          cy.intercept('POST', '**/query?version=2019-01-01', {
+            fixture: 'query/facetsQueryAmesLowPrice.json'
+          }).as('postQueryFacetsCombined');
           cy.get('@priceFacet').contains('Low').click();
           cy.wait('@postQueryFacetsCombined').as('combinedFacetQueryObject');
         });
 
         it('makes a query with both filters', () => {
           cy.get('@combinedFacetQueryObject')
-            .its('requestBody.filter')
+            .its('request.body.filter')
             .should('eq', 'location:"Ames, IA",price:"Low"');
         });
 
         describe('and the selected filters bubble from only one of the facets is clicked', () => {
           beforeEach(() => {
-            cy.route('POST', '**/query?version=2019-01-01', '@facetsQueryAmesJSON').as(
-              'postQueryFacetsAmes'
-            );
+            cy.intercept('POST', '**/query?version=2019-01-01', {
+              fixture: 'query/facetsQueryAmes.json'
+            }).as('postQueryFacetsAmes');
             cy.get('@priceFacet').find('.bx--tag--filter').click();
             cy.wait('@postQueryFacetsAmes').as('amesFilterQueryObject');
           });
 
           it('has the filters from only that facet clear', () => {
             cy.get('@amesFilterQueryObject')
-              .its('requestBody.filter')
+              .its('request.body.filter')
               .should('eq', 'location:"Ames, IA"');
           });
         });

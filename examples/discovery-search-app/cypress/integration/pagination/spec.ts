@@ -5,10 +5,6 @@ const itemsPerPageOptions = ['10', '20', '30', '40', '50'];
 describe('Pagination', () => {
   beforeEach(() => {
     mockHomePage();
-
-    // Set up/override routes & fixtures that are specific to this file
-    cy.fixture('query/multiPageResults.json').as('multiPageResultsJSON');
-    cy.fixture('query/query.json').as('singlePageResultsJSON');
   });
 
   describe('When the application loads', () => {
@@ -35,9 +31,9 @@ describe('Pagination', () => {
 
   describe('When there are multiple pages of results', () => {
     beforeEach(() => {
-      cy.route('POST', '**/query?version=2019-01-01', '@multiPageResultsJSON').as(
-        'postQueryMultiPage'
-      );
+      cy.intercept('POST', '**/query?version=2019-01-01', {
+        fixture: 'query/multiPageResults.json'
+      }).as('postQueryMultiPage');
       cy.findByRole('searchbox').type('abil{enter}');
       cy.wait('@postQueryMultiPage');
     });
@@ -52,28 +48,28 @@ describe('Pagination', () => {
 
     describe('and the next page arrow is clicked', () => {
       beforeEach(() => {
-        cy.route('POST', '**/query?version=2019-01-01', '@multiPageResultsJSON').as(
-          'nextPageQueryObject'
-        );
+        cy.intercept('POST', '**/query?version=2019-01-01', {
+          fixture: 'query/multiPageResults.json'
+        }).as('nextPageQueryObject');
         cy.findByLabelText('Next page').click();
         cy.wait('@nextPageQueryObject');
       });
 
       it('correctly requests the next page', () => {
-        cy.get('@nextPageQueryObject').its('requestBody.offset').should('eq', 10);
+        cy.get('@nextPageQueryObject').its('request.body.offset').should('eq', 10);
       });
 
       describe('and the previous page arrow is clicked', () => {
         beforeEach(() => {
-          cy.route('POST', '**/query?version=2019-01-01', '@multiPageResultsJSON').as(
-            'prevPageQueryObject'
-          );
+          cy.intercept('POST', '**/query?version=2019-01-01', {
+            fixture: 'query/multiPageResults.json'
+          }).as('prevPageQueryObject');
           cy.findByLabelText('Previous page').click();
           cy.wait('@prevPageQueryObject');
         });
 
         it('correctly requests the previous page', () => {
-          cy.get('@prevPageQueryObject').its('requestBody.offset').should('eq', 0);
+          cy.get('@prevPageQueryObject').its('request.body.offset').should('eq', 0);
         });
       });
     });
@@ -91,16 +87,16 @@ describe('Pagination', () => {
 
       describe('and we increase the number of results per page to 50', () => {
         beforeEach(() => {
-          cy.route('POST', '**/query?version=2019-01-01', '@multiPageResultsJSON').as(
-            'largerpostQueryMultiPageObject'
-          );
+          cy.intercept('POST', '**/query?version=2019-01-01', {
+            fixture: 'query/multiPageResults.json'
+          }).as('largerpostQueryMultiPageObject');
           cy.findByLabelText(/^Items per page/).select('50');
           cy.wait('@largerpostQueryMultiPageObject');
         });
 
         it('returns to the first page, with the correct size', () => {
-          cy.get('@largerpostQueryMultiPageObject').its('requestBody.count').should('eq', 50);
-          cy.get('@largerpostQueryMultiPageObject').its('requestBody.offset').should('eq', 0);
+          cy.get('@largerpostQueryMultiPageObject').its('request.body.count').should('eq', 50);
+          cy.get('@largerpostQueryMultiPageObject').its('request.body.offset').should('eq', 0);
           cy.findByTestId('current-page').should('contain', '1');
         });
       });
@@ -108,15 +104,15 @@ describe('Pagination', () => {
 
     describe('and items per page is set to 20', () => {
       beforeEach(() => {
-        cy.route('POST', '**/query?version=2019-01-01', '@multiPageResultsJSON').as(
-          'twentyResultspostQueryMultiPageObject'
-        );
+        cy.intercept('POST', '**/query?version=2019-01-01', {
+          fixture: 'query/multiPageResults.json'
+        }).as('twentyResultspostQueryMultiPageObject');
         cy.findByLabelText(/^Items per page/).select('20');
         cy.wait('@twentyResultspostQueryMultiPageObject');
       });
 
       it('makes a request for 20 results', () => {
-        cy.get('@twentyResultspostQueryMultiPageObject').its('requestBody.count').should('eq', 20);
+        cy.get('@twentyResultspostQueryMultiPageObject').its('request.body.count').should('eq', 20);
       });
 
       it('only lists 3 pages of results', () => {
@@ -126,15 +122,15 @@ describe('Pagination', () => {
 
     describe('and items per page is set to 50', () => {
       beforeEach(() => {
-        cy.route('POST', '**/query?version=2019-01-01', '@multiPageResultsJSON').as(
-          'fiftyResultsPerPageQueryObject'
-        );
+        cy.intercept('POST', '**/query?version=2019-01-01', {
+          fixture: 'query/multiPageResults.json'
+        }).as('fiftyResultsPerPageQueryObject');
         cy.findByLabelText(/^Items per page/).select('50');
         cy.wait('@fiftyResultsPerPageQueryObject');
       });
 
       it('makes a request for 50 results', () => {
-        cy.get('@fiftyResultsPerPageQueryObject').its('requestBody.count').should('eq', 50);
+        cy.get('@fiftyResultsPerPageQueryObject').its('request.body.count').should('eq', 50);
       });
 
       it('only lists two pages of results', () => {
@@ -145,7 +141,7 @@ describe('Pagination', () => {
 
   describe('When there is only one page of results', () => {
     beforeEach(() => {
-      cy.route('POST', '**/query?version=2019-01-01', '@singlePageResultsJSON').as(
+      cy.intercept('POST', '**/query?version=2019-01-01', { fixture: 'query/query.json' }).as(
         'postQuerySinglePage'
       );
       cy.findByRole('searchbox').type('abil{enter}');

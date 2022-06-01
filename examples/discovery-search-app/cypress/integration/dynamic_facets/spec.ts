@@ -7,13 +7,6 @@ describe('Dynamic Facets', () => {
       query: 'query/facetsQuery.json'
     });
 
-    // Set up/override routes & fixtures that are specific to this file
-    cy.fixture('query/facetsQuerySingleRefinement.json').as('facetsQuerySingleRefinementJSON');
-    cy.fixture('query/facetsQueryMultiRefinement.json').as('facetsQueryMultiRefinementJSON');
-    cy.fixture('query/facetsQueryDynamicAndNonDynamic.json').as(
-      'facetsQueryDynamicAndNonDynamicJSON'
-    );
-
     cy.findByPlaceholderText('Search').type('restaurants{enter}');
     cy.wait('@postQuery');
     cy.get('.bx--search-facet').filter(':contains("Dynamic Facets")').as('dynamicFacets');
@@ -31,58 +24,62 @@ describe('Dynamic Facets', () => {
     cy.get('@dynamicFacets').find('.bx--checkbox').should('have.length', 3);
 
     // and a dynamic facet filter is selected
-    cy.route('POST', '**/query?version=2019-01-01', '@facetsQuerySingleRefinementJSON').as(
-      'postQueryFacetsSingle'
-    );
+    cy.intercept('POST', '**/query?version=2019-01-01', {
+      fixture: 'query/facetsQuerySingleRefinement.json'
+    }).as('postQueryFacetsSingle');
     cy.get('label').contains('regression').click();
 
     // makes a query for the right facets
-    cy.wait('@postQueryFacetsSingle').its('requestBody.filter').should('eq', '"regression"');
+    cy.wait('@postQueryFacetsSingle').its('request.body.filter').should('eq', '"regression"');
 
     // shows the bubble next to dynamic facets saying 1
     cy.get('.bx--tag--filter').contains('1').should('exist');
 
     // and a different filter is selected from dynamic facets
-    cy.route('POST', '**/query?version=2019-01-01', '@facetsQueryMultiRefinementJSON').as(
-      'postQueryMultiRefinement'
-    );
+    cy.intercept('POST', '**/query?version=2019-01-01', {
+      fixture: 'query/facetsQueryMultiRefinement.json'
+    }).as('postQueryMultiRefinement');
     cy.get('label').contains('classification').click();
 
     // makes a query for both filters
     cy.wait('@postQueryMultiRefinement')
-      .its('requestBody.filter')
+      .its('request.body.filter')
       .should('eq', '"regression","classification"');
 
     // shows the bubble next to dynamic facets saying 2
     cy.get('.bx--tag--filter').contains('2').should('exist');
 
     // and the "Clear all" button is clicked
-    cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQueryFacets');
+    cy.intercept('POST', '**/query?version=2019-01-01', { fixture: '@queryJSON' }).as(
+      'postQueryFacets'
+    );
     cy.get('button').contains('Clear all').click();
 
     // makes a query without any selected facets
-    cy.wait('@postQueryFacets').its('requestBody.filter').should('eq', '');
+    cy.wait('@postQueryFacets').its('request.body.filter').should('eq', '');
 
     // has the "Clear all" button disappear
     cy.findByText('Dynamic Facets').should('exist'); // make sure this test doesn't pass when the page is blank
     cy.get('button').contains('Clear all').should('not.exist');
 
     // and the same facet checkbox is clicked
-    cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQueryFacets');
+    cy.intercept('POST', '**/query?version=2019-01-01', { fixture: '@queryJSON' }).as(
+      'postQueryFacets'
+    );
     cy.get('label').contains('regression').click();
 
     // makes a query without any selected facets
-    cy.wait('@postQueryFacets').its('requestBody.filter').should('eq', '"regression"');
+    cy.wait('@postQueryFacets').its('request.body.filter').should('eq', '"regression"');
 
     // and a different filter is clicked from a different facet
-    cy.route('POST', '**/query?version=2019-01-01', '@facetsQueryDynamicAndNonDynamicJSON').as(
-      'postQueryDynamicAndNonDynamic'
-    );
+    cy.intercept('POST', '**/query?version=2019-01-01', {
+      fixture: 'query/facetsQueryDynamicAndNonDynamic.json'
+    }).as('postQueryDynamicAndNonDynamic');
     cy.get('label').contains('Hancock, MN').click();
 
     // makes a query with both filters', () => {
     cy.wait('@postQueryDynamicAndNonDynamic')
-      .its('requestBody.filter')
+      .its('request.body.filter')
       .should('eq', 'location:"Hancock, MN","regression"');
   });
 });

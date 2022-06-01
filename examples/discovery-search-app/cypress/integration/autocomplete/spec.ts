@@ -4,9 +4,6 @@ describe('Autocomplete', () => {
   beforeEach(() => {
     mockHomePage();
 
-    // Set up/override routes & fixtures that are specific to this file
-    cy.fixture('autocompletion/autocompletions.json').as('autocompletionsJSON');
-
     // Set an alias for the search input
     cy.findByPlaceholderText('Search').as('searchInput');
   });
@@ -16,11 +13,9 @@ describe('Autocomplete', () => {
     const expectedAutocompletions = ['have', 'helm', 'how', 'hadoop', 'hive', 'hostname', 'high'];
 
     beforeEach(() => {
-      cy.route(
-        'GET',
-        '**/autocompletion?version=2019-01-01&prefix=h&count=7',
-        '@autocompletionsJSON'
-      ).as('getAutocompletions');
+      cy.intercept('GET', '**/autocompletion?version=2019-01-01&prefix=h&count=7', {
+        fixture: 'autocompletion/autocompletions.json'
+      }).as('getAutocompletions');
       cy.get('@searchInput').type('h');
       cy.wait('@getAutocompletions');
     });
@@ -56,7 +51,9 @@ describe('Autocomplete', () => {
 
   describe('When typing " " into the search input', () => {
     beforeEach(() => {
-      cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQuery');
+      cy.intercept('POST', '**/query?version=2019-01-01', { fixture: '@queryJSON' }).as(
+        'postQuery'
+      );
       cy.get('@searchInput').type(' ');
     });
 
@@ -72,7 +69,7 @@ describe('Autocomplete', () => {
       });
 
       it('performs a query with the correct term', () => {
-        cy.get('@postQuery').its('requestBody.natural_language_query').should('be.eq', ' ');
+        cy.get('@postQuery').its('request.body.natural_language_query').should('be.eq', ' ');
       });
     });
   });
