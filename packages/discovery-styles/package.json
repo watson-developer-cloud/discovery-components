@@ -7,8 +7,9 @@
   "repository": "https://github.com/watson-developer-cloud/discovery-components",
   "main": "scss/index.scss",
   "scripts": {
-    "build": "sass --load-path=node_modules --load-path=../../node_modules scss/index.scss css/index.css",
+    "prepack": "yarn run build",
     "prepublish": "yarn run build",
+    "build": "sass --load-path=node_modules --load-path=../../node_modules scss/index.scss css/index.css",
     "start": "yarn run build --watch",
     "analyze": "yarn run g:analyze css/index.css",
     "update-styles-from-pdfjs": "scripts/update-styles-from-pdfjs.sh"
