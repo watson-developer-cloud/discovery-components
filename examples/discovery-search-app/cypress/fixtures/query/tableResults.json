@@ -124,18 +124,24 @@
     },
     {
       "table_id": "TABLE_1",
-      "source_document_id": "DOCUMENT_2",
+      "source_document_id": "DOCUMENT_1",
       "collection_id": "COLLECTION_ID_0",
       "table_html": "<table style='width:100%'><tr><th>Col A</th><th>Col B</th></tr><tr><td>Learning</td><td>You should be able to see this table</td></table>"
     },
     {
       "table_id": "TABLE_2",
-      "source_document_id": "DOCUMENT_2",
+      "source_document_id": "DOCUMENT_1",
       "collection_id": "COLLECTION_ID_0",
       "table_html": "<table style='width:100%'><tr><th>Col A</th><th>Col B</th></tr><tr><td>Learning</td><td>You should NOT be able to see this table</td></table>"
     },
     {
       "table_id": "TABLE_3",
+      "source_document_id": "DOCUMENT_2",
+      "collection_id": "COLLECTION_ID_0",
+      "table_html": "<table style='width:100%'><tr><th>Col A</th><th>Col B</th></tr><tr><td>Learning</td><td>You should ONLY see this table when tables-only results are shown.</td></table>"
+    },
+    {
+      "table_id": "TABLE_4",
       "source_document_id": "DOCUMENT_3",
       "collection_id": "COLLECTION_ID_0",
       "table_html": "<table style='width:100%'><tr><th>Col A</th><th>Col B</th></tr><tr><td>Learning</td><td>This table has an accompanying passage</td></table>"

@@ -734,9 +734,9 @@ describe('<SearchResults />', () => {
           componentProps.showTablesOnly = false;
         });
 
-        test('tableHtml and not empty state text should be displayed', () => {
+        test('no result should be displayed', () => {
           ({ searchResults } = setup({ queryResults, tableResults }, componentProps));
-          expect(searchResults.getByText('I am table.')).toBeInTheDocument();
+          expect(searchResults.queryByText('I am table.')).toBe(null);
           expect(searchResults.queryByText('Excerpt unavailable.')).toBe(null);
           expect(searchResults.queryByText('View document')).toBe(null);
         });

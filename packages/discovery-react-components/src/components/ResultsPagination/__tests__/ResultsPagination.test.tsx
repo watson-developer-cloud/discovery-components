@@ -116,20 +116,6 @@ describe('ResultsPaginationComponent', () => {
         pageSize: 20
       });
     });
-
-    test('will add pageSize as a pageSize selection if it is not already included', async () => {
-      const { getByText } = await setup(
-        { pageSize: 25, pageSizes: [10, 20, 30, 40, 50] },
-        {
-          searchResponseStore: {
-            ...searchResponseStoreDefaults,
-            parameters: { projectId: '', count: 25 }
-          }
-        }
-      );
-
-      expect(getByText('25')).toBeInTheDocument();
-    });
   });
 
   describe('when there are component settings available', () => {

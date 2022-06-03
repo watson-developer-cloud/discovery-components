@@ -1,5 +1,15 @@
-import React, { FC, useContext, useState, useEffect } from 'react';
+import React, {
+  FC,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  useImperativeHandle,
+  forwardRef,
+  ForwardedRef
+} from 'react';
 import { unstable_Pagination as CarbonPagination } from 'carbon-components-react';
+import cx from 'classnames';
 import { SearchApi, SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { settings } from 'carbon-components';
@@ -35,6 +45,10 @@ export interface ResultsPaginationProps {
    */
   onChange?: (e: ResultsPaginationEvent) => void;
   /**
+   * ref passed in by parent that can be used to reset Carbon's pagination component
+   */
+  resetRef?: ForwardedRef<any>;
+  /**
    * Additional props to be passed into Carbon's Pagination component
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -46,6 +60,10 @@ interface ResultsPaginationEvent {
   pageSize: number;
 }
 
+interface ResetOptions {
+  triggerOnChange?: boolean;
+}
+
 const ResultsPagination: FC<ResultsPaginationProps> = ({
   page = 1,
   pageSizes = [10, 20, 30, 40, 50],
@@ -53,6 +71,7 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
   showPageSizeSelector = true,
   messages = defaultMessages,
   onChange,
+  resetRef,
   ...inputProps
 }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
@@ -63,7 +82,47 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
     isResultsPaginationComponentHidden
   } = useContext(SearchContext);
   const [currentPage, setCurrentPage] = useState(page);
-  const resultsPerPage = componentSettings?.results_per_page ?? 10;
+  const [resetCounter, setResetCounter] = useState(0);
+  const resultsPerPage = pageSize || searchParameters.count || 10;
+
+  const handleOnChange = useCallback(
+    (evt: ResultsPaginationEvent): void => {
+      if (onChange) {
+        onChange(evt);
+      }
+      const { page, pageSize } = evt;
+      const offset = (page - 1) * pageSize;
+      setCurrentPage(page);
+      performSearch(
+        {
+          ...searchParameters,
+          count: pageSize,
+          offset
+        },
+        false
+      );
+    },
+    [onChange, performSearch, searchParameters]
+  );
+
+  // Since the Carbon pagination component controls the page number via its state
+  // without a way to influence it via props, we occasionally need to reset it back to "Page 1".
+  // This is done via a key on the CarbonPagination element, which is triggered via a counter
+  // that is incremented by this function.
+  const reset = useCallback(
+    ({ triggerOnChange }: ResetOptions) => {
+      setCurrentPage(1);
+      setResetCounter(resetCounter + 1);
+      if (triggerOnChange) {
+        handleOnChange({ page: 1, pageSize: resultsPerPage });
+      }
+    },
+    [handleOnChange, resetCounter, resultsPerPage]
+  );
+
+  // Externalize the reset function to a ref that the parent can send in,
+  // so that it can also reset the pagination as desired
+  useImperativeHandle(resetRef, () => ({ reset }));
 
   useEffect(() => {
     if (!!pageSize || !!resultsPerPage) {
@@ -79,39 +138,13 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
     const pageFromOffset = Math.floor(actualOffset / actualPageSize) + 1;
     if (currentPage !== pageFromOffset) {
       setCurrentPage(pageFromOffset);
+      if (pageFromOffset === 1) {
+        reset({});
+      }
     }
-  }, [currentPage, searchParameters.count, searchParameters.offset]);
+  }, [currentPage, searchParameters.count, searchParameters.offset, reset]);
 
   const matchingResults = (searchResponse && searchResponse.matching_results) || undefined;
-  const actualPageSize = searchParameters.count || 10;
-  // the default behavior of Carbon is to discard pageSize if it is not included in pageSizes,
-  // we instead choose to make it so that pageSize is appended to pageSizes if it is not already included.
-  if (!pageSizes.includes(actualPageSize)) {
-    pageSizes.push(actualPageSize);
-    pageSizes = pageSizes.sort((a, b) => a - b);
-  }
-
-  const classNames = [`${settings.prefix}--pagination`];
-  if (!showPageSizeSelector) {
-    classNames.push(`${settings.prefix}--pagination__page-size-selector--hidden`);
-  }
-
-  const handleOnChange = (evt: ResultsPaginationEvent): void => {
-    if (onChange) {
-      onChange(evt);
-    }
-    const { page, pageSize } = evt;
-    const offset = (page - 1) * pageSize;
-    setCurrentPage(page);
-    performSearch(
-      {
-        ...searchParameters,
-        count: pageSize,
-        offset
-      },
-      false
-    );
-  };
 
   const handleItemRangeText = (min: number, max: number, total: number) =>
     formatMessage(mergedMessages.itemRangeText, { min, max, total }, false);
@@ -126,10 +159,11 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
       <>
         {!isResultsPaginationComponentHidden && (
           <CarbonPagination
-            className={classNames.join(' ')}
-            initialPage={currentPage}
+            className={cx(`${settings.prefix}--pagination`, {
+              [`${settings.prefix}--pagination__page-size-selector--hidden`]: !showPageSizeSelector
+            })}
             totalItems={matchingResults}
-            pageSize={actualPageSize}
+            pageSize={resultsPerPage}
             pageSizes={pageSizes}
             // NOTE: See PageSelector below for details about `onChange`
             onChange={handleOnChange}
@@ -137,6 +171,7 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
             itemsPerPageText={mergedMessages.itemsPerPageText}
             pageRangeText={handlePageRangeText}
             pageText={handlePageText}
+            key={resetCounter}
             {...inputProps}
           >
             {(props: PageSelectorProps) => <PageSelector {...props} onChange={handleOnChange} />}
@@ -182,8 +217,11 @@ function PageSelector({ currentPage, currentPageSize, onSetPage, onChange }: Pag
   );
 }
 
-export default withErrorBoundary(
+const ResultsPaginationWithBoundary = withErrorBoundary<ResultsPaginationProps>(
   ResultsPagination,
   FallbackComponent('ResultsPagination'),
   onErrorCallback
 );
+export default forwardRef<any, ResultsPaginationProps>((props, ref) => {
+  return <ResultsPaginationWithBoundary {...props} resetRef={ref} />;
+});

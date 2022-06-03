@@ -46,8 +46,8 @@ describe('Table Results', () => {
       cy.get('label').contains('Show table results only').click();
 
       // only the results with tables are displayed and the toggle is marked on
-      cy.get('.bx--search-result').should('have.length', 4);
-      cy.get('.bx--search-result').filter(':contains(table)').should('have.length', 4);
+      cy.get('.bx--search-result').should('have.length', 5);
+      cy.get('.bx--search-result').filter(':contains(table)').should('have.length', 5);
       cy.get('.bx--search-result')
         .contains(
           'This result multiple passages, but you should only be able to see the first one.'
@@ -57,12 +57,15 @@ describe('Table Results', () => {
       cy.get('.bx--search-result')
         .contains('This result has passages and a table.')
         .should('not.exist');
+      cy.get('table')
+        .contains('You should ONLY see this table when tables-only results are shown.')
+        .should('exist');
       cy.get('.bx--toggle-input__label').contains('On').should('exist');
 
       // "show table results only" is toggled back off
       cy.get('label').contains('Show table results only').click();
 
-      // all of the results are displayed
+      // all of the passage results are displayed
       cy.get('.bx--search-result').should('have.length', 4);
       cy.get('.bx--search-result').filter(':contains(table)').should('have.length', 3);
       cy.get('.bx--search-result')
