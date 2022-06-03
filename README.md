@@ -179,16 +179,16 @@ If you don't have a React application already, start with [create-react-app](htt
    npm install --save @ibm-watson/discovery-react-components @ibm-watson/discovery-styles ibm-watson carbon-components carbon-components-react carbon-icons
    ```
 
-2. Add `node-sass` as a dev dependency
+2. Add `sass` (or `sass-embedded`) as a dev dependency
 
    ```
-   yarn add -D node-sass
+   yarn add -D sass
    ```
 
    or
 
    ```
-   npm install --save-dev node-sass
+   npm install --save-dev sass
    ```
 
 3. Add the `DiscoverySearch` component with corresponding `searchClient` and optionally any components you would like to use to display Discovery Search Results.
@@ -464,10 +464,10 @@ See the following for [more info about Lerna](https://github.com/lerna/lerna) or
 
 #### Styles (packages/discovery-styles)
 
-| Command      | Description                                       |
-| ------------ | ------------------------------------------------- |
-| `yarn start` | runs `node-sass` in `watch` mode                  |
-| `yarn build` | runs `node-sass` to compile `scss` files to `css` |
+| Command      | Description                                  |
+| ------------ | -------------------------------------------- |
+| `yarn start` | runs `sass` in `watch` mode                  |
+| `yarn build` | runs `sass` to compile `scss` files to `css` |
 
 ### Running the project
 
