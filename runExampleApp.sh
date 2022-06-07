@@ -4,8 +4,8 @@ set -e
 
 PREREQUISITES=("yarn" "node")
 SCRIPT_DIR=$(
-    cd "$(dirname "$0")"
-    pwd
+  cd "$(dirname "$0")"
+  pwd
 )
 USE_FORMAT=$(
   type tput >/dev/null 2>&1
@@ -54,11 +54,11 @@ function checkForDependencies() {
     fi
 
     if [ $exists -ne 0 ]; then
-      (( missing+=1 ))
+      ((missing += 1))
     fi
   done
 
-  if [[ $missing > 0 ]]; then
+  if [[ $missing -gt 0 ]]; then
     echo
     echo "Not all prerequistes are installed." >&2
     exit 1
@@ -94,20 +94,20 @@ function updateEnvFile() {
     colorMessage "  https://zen-25-cpd-zen-25.apps.my-cluster-name.com" 3
     echo
     while [[ "$url" == "" ]]; do
-        read -p "  url: " url
+      read -p "  url: " url
     done
     echo "  Provide the credentials used to log into the CP4D dashboard."
     while [[ "$username" == "" ]]; do
-        read -p "  username: " username
+      read -p "  username: " username
     done
 
     while [[ "$password" == "" ]]; do
-        read -s -p "  password: " password
+      read -s -p "  password: " password
     done
 
-    cat > "$CREDENTIALS_FILE" <<EOL
+    cat >"$CREDENTIALS_FILE" <<EOL
 DISCOVERY_AUTH_TYPE=${authType}
-DISCOVERY_AUTH_URL=${url}
+DISCOVERY_AUTH_URL="${url}/icp4d-api"
 DISCOVERY_AUTH_DISABLE_SSL=true
 DISCOVERY_USERNAME=${username}
 DISCOVERY_PASSWORD=${password}
@@ -119,12 +119,12 @@ EOL
     colorMessage "  https://api.us-south.discovery.cloud.ibm.com/instances/1234" 3
     echo
     while [[ "$url" == "" ]]; do
-        read -p "  url: " url
+      read -p "  url: " url
     done
     while [[ "$apikey" == "" ]]; do
-        read -s -p "  apikey: " apikey
+      read -s -p "  apikey: " apikey
     done
-      cat > "$CREDENTIALS_FILE" <<EOL
+    cat >"$CREDENTIALS_FILE" <<EOL
 DISCOVERY_AUTH_TYPE=${authType}
 DISCOVERY_URL=${url}
 DISCOVERY_APIKEY=${apikey}
@@ -141,12 +141,12 @@ EOL
     read -p "  project_id: " projectId
   done
 
-  cat > "$ENV_LOCAL_FILE" <<EOL
+  cat >"$ENV_LOCAL_FILE" <<EOL
 REACT_APP_PROJECT_ID=${projectId}
 EOL
 
   if [ $OSTYPE == 'msys' ]; then
-    echo "SASS_PATH=\"../../node_modules;src\"" >> "$ENV_LOCAL_FILE"
+    echo "SASS_PATH=\"../../node_modules;src\"" >>"$ENV_LOCAL_FILE"
   fi
   echo
 }
@@ -204,5 +204,5 @@ colorMessage "done" 2
 
 read -p "$(paddedMessage 'Start the example app now (y/n)? ')" startServer
 if [[ "${startServer}" =~ ^(Y|y)$ ]]; then
-    yarn workspace discovery-search-app run start
+  yarn workspace discovery-search-app run start
 fi
