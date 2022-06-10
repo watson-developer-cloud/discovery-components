@@ -19,6 +19,12 @@ import onErrorCallback from 'utils/onErrorCallback';
 import { defaultMessages, Messages } from './messages';
 import { formatMessage } from 'utils/formatMessage';
 
+/**
+ * A pagination component to allow users to navigate through multiple pages of results
+ *
+ * Returns a reset function via the `resetRef` prop that resets the component to page 1.
+ */
+
 export interface ResultsPaginationProps {
   /**
    * The current page
@@ -45,7 +51,7 @@ export interface ResultsPaginationProps {
    */
   onChange?: (e: ResultsPaginationEvent) => void;
   /**
-   * ref passed in by parent that can be used to reset Carbon's pagination component
+   * ref passed in by parent that can be used to reset the pagination component back to page 1
    */
   resetRef?: ForwardedRef<any>;
   /**
@@ -112,6 +118,8 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
   const reset = useCallback(
     ({ triggerOnChange }: ResetOptions) => {
       setCurrentPage(1);
+      // This is structured as a counter so that the `key` prop of the Carbon pagination component
+      // updates (triggering a full re-render) in a simple and performant manner
       setResetCounter(resetCounter + 1);
       if (triggerOnChange) {
         handleOnChange({ page: 1, pageSize: resultsPerPage });
