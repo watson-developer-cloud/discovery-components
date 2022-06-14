@@ -31,10 +31,16 @@ export function findOffsetInDOM(
   let endNode = findContainingNodeWithin(parentNode, end);
 
   if (beginNode === null) {
-    throw new Error(`Failed to find a node containing the start of the highlight: ${begin}`);
+    beginNode = parentNode;
+    console.warn(
+      `Failed to find a node containing the start of the highlight: ${begin}. Using root node instead.`
+    );
   }
   if (endNode === null) {
-    throw new Error(`Failed to find a node containing the end of the highlight: ${end}`);
+    endNode = parentNode;
+    console.warn(
+      `Failed to find a node containing the end of the highlight: ${end}. Using root node instead.`
+    );
   }
 
   const { textNode: beginTextNode, textOffset: beginOffset } = getTextNodeAndOffset(
