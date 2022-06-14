@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.4](https://github.com/watson-developer-cloud/discovery-components/compare/v2.0.3...v2.0.4) (2022-06-14)
+
+
+### Bug Fixes
+
+* add 'icp4d-api' path for auth url ([#351](https://github.com/watson-developer-cloud/discovery-components/issues/351)) ([0d2a22e](https://github.com/watson-developer-cloud/discovery-components/commit/0d2a22e98461d79b3fab7dee209a43057059c6e5))
+* when nodes aren't found, warn in console rather than erroring ([#365](https://github.com/watson-developer-cloud/discovery-components/issues/365)) ([6ae446c](https://github.com/watson-developer-cloud/discovery-components/commit/6ae446c6aa9ff2e74fc34b440f8dcc6a7fc1dd23))
+
+
+
+
+
 ## [2.0.3](https://github.com/watson-developer-cloud/discovery-components/compare/v2.0.2...v2.0.3) (2022-05-17)
 
 
