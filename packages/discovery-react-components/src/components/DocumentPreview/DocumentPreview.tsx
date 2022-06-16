@@ -47,7 +47,7 @@ interface Props extends WithErrorBoundaryProps {
    */
   highlight?: QueryResultPassage | QueryTableResult;
   /**
-   * disable textLayer if true
+   * Disable the text layer overlay when rendering PDF (defaults to `false`)
    */
   disableTextLayer?: boolean;
   /**

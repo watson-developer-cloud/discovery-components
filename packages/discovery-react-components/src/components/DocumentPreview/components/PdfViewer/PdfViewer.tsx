@@ -32,7 +32,7 @@ type Props = PdfDisplayProps & {
   textLayerClassName?: string;
 
   /**
-   * disable textLayer if true
+   * Disable the text layer overlay (defaults to `false`)
    */
   disableTextLayer?: boolean;
 
