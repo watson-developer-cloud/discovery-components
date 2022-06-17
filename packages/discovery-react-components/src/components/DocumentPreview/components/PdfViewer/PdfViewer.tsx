@@ -32,6 +32,11 @@ type Props = PdfDisplayProps & {
   textLayerClassName?: string;
 
   /**
+   * Disable the text layer overlay (defaults to `false`)
+   */
+  disableTextLayer?: boolean;
+
+  /**
    * Callback invoked with page count, once `file` has been parsed
    */
   setPageCount?: (count: number) => void;
@@ -56,6 +61,7 @@ const PdfViewer: FC<Props> = ({
   scale,
   document,
   textLayerClassName,
+  disableTextLayer = false,
   setPageCount,
   setLoading,
   setHideToolbarControls,
@@ -112,16 +118,22 @@ const PdfViewer: FC<Props> = ({
         <canvas
           ref={canvasRef}
           className={`${base}__canvas`}
-          style={{ width: `${canvasInfo?.width ?? 0}px`, height: `${canvasInfo?.height ?? 0}px` }}
+          style={{
+            width: `${canvasInfo?.width ?? 0}px`,
+            height: `${canvasInfo?.height ?? 0}px`,
+            transform: `scale(${scale})`
+          }}
           width={canvasInfo?.canvasWidth}
           height={canvasInfo?.canvasHeight}
         />
-        <PdfViewerTextLayer
-          className={cx(`${base}__text`, textLayerClassName)}
-          loadedPage={loadedPage}
-          scale={scale}
-          setRenderedText={setRenderedText}
-        />
+        {!disableTextLayer && (
+          <PdfViewerTextLayer
+            className={cx(`${base}__text`, textLayerClassName)}
+            loadedPage={loadedPage}
+            scale={scale}
+            setRenderedText={setRenderedText}
+          />
+        )}
         {children}
       </div>
     </div>
