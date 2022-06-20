@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/watson-developer-cloud/discovery-components/compare/v2.0.4...v2.1.0) (2022-06-20)
+
+**Note:** Version bump only for package discovery-search-app
+
+
+
+
+
 ## [2.0.4](https://github.com/watson-developer-cloud/discovery-components/compare/v2.0.3...v2.0.4) (2022-06-14)
 
 

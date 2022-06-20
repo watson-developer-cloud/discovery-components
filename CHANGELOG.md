@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/watson-developer-cloud/discovery-components/compare/v2.0.4...v2.1.0) (2022-06-20)
+
+
+### Features
+
+* render textLayer optionally ([#366](https://github.com/watson-developer-cloud/discovery-components/issues/366)) ([71d26c7](https://github.com/watson-developer-cloud/discovery-components/commit/71d26c71b32106a5a6706fbd6d1fa330c01f6ba2))
+
+
+
+
+
 ## [2.0.4](https://github.com/watson-developer-cloud/discovery-components/compare/v2.0.3...v2.0.4) (2022-06-14)
 
 
