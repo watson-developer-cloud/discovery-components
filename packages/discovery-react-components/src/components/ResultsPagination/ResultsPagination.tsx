@@ -22,7 +22,7 @@ import { formatMessage } from 'utils/formatMessage';
 /**
  * A pagination component to allow users to navigate through multiple pages of results
  *
- * Returns a reset function via the `resetRef` prop that resets the component to page 1.
+ * Externalizes a reset function through an imperative API (via the `ref` prop) that resets the component to page 1.
  */
 
 export interface ResultsPaginationProps {
@@ -51,9 +51,9 @@ export interface ResultsPaginationProps {
    */
   onChange?: (e: ResultsPaginationEvent) => void;
   /**
-   * ref passed in by parent that can be used to reset the pagination component back to page 1
+   * Reference to imperative API
    */
-  resetRef?: ForwardedRef<any>;
+  ref?: ForwardedRef<ResultsPaginationAPI>;
   /**
    * Additional props to be passed into Carbon's Pagination component
    */
@@ -64,6 +64,10 @@ export interface ResultsPaginationProps {
 interface ResultsPaginationEvent {
   page: number;
   pageSize: number;
+}
+
+export interface ResultsPaginationAPI {
+  reset: (options: ResetOptions) => void;
 }
 
 interface ResetOptions {
@@ -77,7 +81,7 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
   showPageSizeSelector = true,
   messages = defaultMessages,
   onChange,
-  resetRef,
+  ref,
   ...inputProps
 }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
@@ -130,7 +134,7 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
 
   // Externalize the reset function to a ref that the parent can send in,
   // so that it can also reset the pagination as desired
-  useImperativeHandle(resetRef, () => ({ reset }));
+  useImperativeHandle(ref, () => ({ reset }));
 
   useEffect(() => {
     if (!!pageSize || !!resultsPerPage) {
@@ -231,5 +235,5 @@ const ResultsPaginationWithBoundary = withErrorBoundary<ResultsPaginationProps>(
   onErrorCallback
 );
 export default forwardRef<any, ResultsPaginationProps>((props, ref) => {
-  return <ResultsPaginationWithBoundary {...props} resetRef={ref} />;
+  return <ResultsPaginationWithBoundary {...props} ref={ref} />;
 });
