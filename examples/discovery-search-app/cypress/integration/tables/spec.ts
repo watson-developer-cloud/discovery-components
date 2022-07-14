@@ -12,18 +12,20 @@ describe('Table Results', () => {
   describe('When entering a query whose results contain tables', () => {
     it('should show expected results and toggle tables on/off', () => {
       cy.get('.bx--search-input').type('learning{enter}');
+      cy.get('.bx--search-result').should('have.length', 3);
 
       // SearchResults displays ONLY the first table of the results that have tables
       cy.get('table').contains('You should be able to see this table').should('exist');
+      cy.get('table').contains('This table has an accompanying passage').should('exist');
       cy.get('.bx--search-result')
         .contains('You should NOT be able to see this table')
         .should('not.exist');
-      cy.get('.bx--search-result').contains('Supervised Learning').should('exist');
+      cy.get('.bx--search-result').contains('Supervised Learning').should('not.exist');
 
       // each result with a table has a link to view table in document
       cy.findAllByTestId('search-result-element-preview-button')
         .filter(':contains("View table in document")')
-        .should('have.length', 3);
+        .should('have.length', 2);
 
       // when clicking on "View table in document" for a result
       cy.findAllByTestId('search-result-element-preview-button')
@@ -33,14 +35,18 @@ describe('Table Results', () => {
       // navigates to Document Preview for that document
       cy.get('p').contains('Document').should('exist');
       cy.get('.bx--document-preview').should('exist');
-      cy.get('.bx--document-preview').contains('Supervised Learning').should('exist');
+      cy.get('.bx--document-preview')
+        .contains(
+          'This result multiple passages, but you should only be able to see the first one.'
+        )
+        .should('exist');
 
       // clicking on the close preview button
       cy.findByLabelText('Back to search').click();
 
       // closes the document preview
       cy.get('.bx--document-preview').should('not.exist');
-      cy.get('.bx--search-result').should('have.length', 4);
+      cy.get('.bx--search-result').should('have.length', 3);
 
       // "show table results only" is toggled on
       cy.get('label').contains('Show table results only').click();
@@ -66,8 +72,8 @@ describe('Table Results', () => {
       cy.get('label').contains('Show table results only').click();
 
       // all of the passage results are displayed
-      cy.get('.bx--search-result').should('have.length', 4);
-      cy.get('.bx--search-result').filter(':contains(table)').should('have.length', 3);
+      cy.get('.bx--search-result').should('have.length', 3);
+      cy.get('.bx--search-result').filter(':contains(table)').should('have.length', 2);
       cy.get('.bx--search-result')
         .contains(
           'This result multiple passages, but you should only be able to see the first one.'

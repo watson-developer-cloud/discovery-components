@@ -106,6 +106,33 @@
           "field": "text"
         }
       ]
+    },
+    {
+      "document_id": "DOCUMENT_4",
+      "result_metadata": {
+        "collection_id": "COLLECTION_ID_0",
+        "document_retrieval_source": "search",
+        "confidence": 0.05678
+      },
+      "text": ["This document is just basic text."],
+      "enriched_text": [],
+      "metadata": {
+        "parent_document_id": "PARENT_DOCUMENT_ID_0"
+      },
+      "extracted_metadata": {
+        "sha1": "C430CF959216D050CA8C077B6372F78B804E0E7D",
+        "numPages": "1",
+        "filename": "basic.pdf",
+        "file_type": "structure"
+      },
+      "document_passages": [
+        {
+          "passage_text": "This document is just basic text.",
+          "start_offset": 0,
+          "end_offset": 35,
+          "field": "text"
+        }
+      ]
     }
   ],
   "table_results": [
