@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/watson-developer-cloud/discovery-components/compare/v2.1.0...v3.0.0) (2022-07-16)
+
+
+### Bug Fixes
+
+* Mitigate some pagination issues in search results ([#340](https://github.com/watson-developer-cloud/discovery-components/issues/340)) ([2e5e00f](https://github.com/watson-developer-cloud/discovery-components/commit/2e5e00f0bc557c2e6b86d0d77f1effef4885aac8))
+
+
+### BREAKING CHANGES
+
+* - No longer display table-only results with passage results
+* - No longer add page size to pagination options (if it wasn't already included)
+* - Use count values exclusively (ignore results_per_page)
+- Only include each document once in filter string
+- Allow pagination to be reset externally
+- Test updates
+- Review fixes
+- Fix tests
+
+
+
+
+
 # [2.1.0](https://github.com/watson-developer-cloud/discovery-components/compare/v2.0.4...v2.1.0) (2022-06-20)
 
 
