@@ -106,6 +106,33 @@
           "field": "text"
         }
       ]
+    },
+    {
+      "document_id": "DOCUMENT_4",
+      "result_metadata": {
+        "collection_id": "COLLECTION_ID_0",
+        "document_retrieval_source": "search",
+        "confidence": 0.05678
+      },
+      "text": ["This document is just basic text."],
+      "enriched_text": [],
+      "metadata": {
+        "parent_document_id": "PARENT_DOCUMENT_ID_0"
+      },
+      "extracted_metadata": {
+        "sha1": "C430CF959216D050CA8C077B6372F78B804E0E7D",
+        "numPages": "1",
+        "filename": "basic.pdf",
+        "file_type": "structure"
+      },
+      "document_passages": [
+        {
+          "passage_text": "This document is just basic text.",
+          "start_offset": 0,
+          "end_offset": 35,
+          "field": "text"
+        }
+      ]
     }
   ],
   "table_results": [
@@ -124,18 +151,24 @@
     },
     {
       "table_id": "TABLE_1",
-      "source_document_id": "DOCUMENT_2",
+      "source_document_id": "DOCUMENT_1",
       "collection_id": "COLLECTION_ID_0",
       "table_html": "<table style='width:100%'><tr><th>Col A</th><th>Col B</th></tr><tr><td>Learning</td><td>You should be able to see this table</td></table>"
     },
     {
       "table_id": "TABLE_2",
-      "source_document_id": "DOCUMENT_2",
+      "source_document_id": "DOCUMENT_1",
       "collection_id": "COLLECTION_ID_0",
       "table_html": "<table style='width:100%'><tr><th>Col A</th><th>Col B</th></tr><tr><td>Learning</td><td>You should NOT be able to see this table</td></table>"
     },
     {
       "table_id": "TABLE_3",
+      "source_document_id": "DOCUMENT_2",
+      "collection_id": "COLLECTION_ID_0",
+      "table_html": "<table style='width:100%'><tr><th>Col A</th><th>Col B</th></tr><tr><td>Learning</td><td>You should ONLY see this table when tables-only results are shown.</td></table>"
+    },
+    {
+      "table_id": "TABLE_4",
       "source_document_id": "DOCUMENT_3",
       "collection_id": "COLLECTION_ID_0",
       "table_html": "<table style='width:100%'><tr><th>Col A</th><th>Col B</th></tr><tr><td>Learning</td><td>This table has an accompanying passage</td></table>"

@@ -122,7 +122,7 @@ describe('<SearchResults />', () => {
       describe('when no messages are provided', () => {
         describe('has the correct default placeholder text', () => {
           test('for search results with passages, tables, and empty results', () => {
-            ({ searchResults } = setup({ queryResults, tableResults }));
+            ({ searchResults } = setup({ queryResults, tableResults }, componentProps));
             const collectionLabel = searchResults.getByText('Collection:', { exact: false });
             const viewExcerptInDocumentButtonText = searchResults.getByText(
               'View passage in document'
@@ -139,7 +139,7 @@ describe('<SearchResults />', () => {
 
           test('for no search results found state', () => {
             queryResults = [];
-            ({ searchResults } = setup({ queryResults }));
+            ({ searchResults } = setup({ queryResults }, componentProps));
             expect(searchResults.getByText('There were no results found')).toBeDefined();
           });
         });
@@ -181,7 +181,7 @@ describe('<SearchResults />', () => {
       });
 
       test('renders the results', () => {
-        ({ searchResults } = setup({ queryResults }));
+        ({ searchResults } = setup({ queryResults }, componentProps));
         expect(searchResults.getByText('some document_id')).toBeInTheDocument();
       });
     });
@@ -191,7 +191,7 @@ describe('<SearchResults />', () => {
         queryResults = [];
       });
       test('renders the no results found message', () => {
-        ({ searchResults } = setup({ queryResults }));
+        ({ searchResults } = setup({ queryResults }, componentProps));
         expect(searchResults.getByText('There were no results found')).toBeInTheDocument();
       });
 
@@ -268,7 +268,7 @@ describe('<SearchResults />', () => {
       });
 
       test('renders the skeleton text', () => {
-        ({ searchResults } = setup({ searchResponseStoreOverrides }));
+        ({ searchResults } = setup({ searchResponseStoreOverrides }, componentProps));
         expect(searchResults.getAllByTestId('skeleton_text')).toHaveLength(3);
       });
 
@@ -281,7 +281,7 @@ describe('<SearchResults />', () => {
         });
 
         test('renders fewer skeleton text', () => {
-          ({ searchResults } = setup({ searchResponseStoreOverrides }));
+          ({ searchResults } = setup({ searchResponseStoreOverrides }, componentProps));
           expect(searchResults.getAllByTestId('skeleton_text')).toHaveLength(2);
         });
       });
@@ -295,7 +295,7 @@ describe('<SearchResults />', () => {
         });
 
         test('renders at most 3 skeleton text', () => {
-          ({ searchResults } = setup({ searchResponseStoreOverrides }));
+          ({ searchResults } = setup({ searchResponseStoreOverrides }, componentProps));
           expect(searchResults.getAllByTestId('skeleton_text')).toHaveLength(3);
         });
       });
@@ -307,7 +307,7 @@ describe('<SearchResults />', () => {
       });
 
       test('renders only the header', () => {
-        ({ searchResults } = setup({ searchResponseStoreOverrides }));
+        ({ searchResults } = setup({ searchResponseStoreOverrides }, componentProps));
         expect(searchResults.getAllByTestId('search_results_header')).toHaveLength(1);
       });
     });
@@ -559,7 +559,7 @@ describe('<SearchResults />', () => {
       });
 
       test('searchClient.query should be fired with the correct params', () => {
-        ({ fetchDocumentsMock } = setup({ queryResults, tableResults }));
+        ({ fetchDocumentsMock } = setup({ queryResults, tableResults }, componentProps));
         expect(fetchDocumentsMock).toBeCalledTimes(1);
         expect(fetchDocumentsMock).toBeCalledWith(
           'document_id::123|456',
@@ -734,9 +734,9 @@ describe('<SearchResults />', () => {
           componentProps.showTablesOnly = false;
         });
 
-        test('tableHtml and not empty state text should be displayed', () => {
+        test('no result should be displayed', () => {
           ({ searchResults } = setup({ queryResults, tableResults }, componentProps));
-          expect(searchResults.getByText('I am table.')).toBeInTheDocument();
+          expect(searchResults.queryByText('I am table.')).toBe(null);
           expect(searchResults.queryByText('Excerpt unavailable.')).toBe(null);
           expect(searchResults.queryByText('View document')).toBe(null);
         });
