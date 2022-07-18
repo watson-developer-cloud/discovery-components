@@ -53,7 +53,7 @@ export interface ResultsPaginationProps {
   /**
    * Reference to imperative API
    */
-  ref?: ForwardedRef<ResultsPaginationAPI>;
+  apiRef?: ForwardedRef<ResultsPaginationAPI>;
   /**
    * Additional props to be passed into Carbon's Pagination component
    */
@@ -81,7 +81,7 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
   showPageSizeSelector = true,
   messages = defaultMessages,
   onChange,
-  ref,
+  apiRef,
   ...inputProps
 }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
@@ -134,7 +134,7 @@ const ResultsPagination: FC<ResultsPaginationProps> = ({
 
   // Externalize the reset function to a ref that the parent can send in,
   // so that it can also reset the pagination as desired
-  useImperativeHandle(ref, () => ({ reset }));
+  useImperativeHandle(apiRef, () => ({ reset }));
 
   useEffect(() => {
     if (!!pageSize || !!resultsPerPage) {
@@ -235,5 +235,5 @@ const ResultsPaginationWithBoundary = withErrorBoundary<ResultsPaginationProps>(
   onErrorCallback
 );
 export default forwardRef<any, ResultsPaginationProps>((props, ref) => {
-  return <ResultsPaginationWithBoundary {...props} ref={ref} />;
+  return <ResultsPaginationWithBoundary {...props} apiRef={ref} />;
 });
