@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.1](https://github.com/watson-developer-cloud/discovery-components/compare/v3.0.0...v3.0.1) (2022-07-18)
+
+
+### Bug Fixes
+
+* revert to renaming ref prop with forwardRef and HOC ([#379](https://github.com/watson-developer-cloud/discovery-components/issues/379)) ([c118d65](https://github.com/watson-developer-cloud/discovery-components/commit/c118d65c11385287306cc7b3fda14ecc79609cca))
+
+
+
+
+
 # [3.0.0](https://github.com/watson-developer-cloud/discovery-components/compare/v2.1.0...v3.0.0) (2022-07-16)
 
 
