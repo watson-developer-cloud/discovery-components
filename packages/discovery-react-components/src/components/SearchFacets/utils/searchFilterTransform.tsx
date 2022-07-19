@@ -82,7 +82,7 @@ export class SearchFilterTransform {
       const results = get(facet, 'results', []);
       const keys = this.quoteSelectedFacets(results, 'key');
       if (keys.length) {
-        filterStrings.push(keys.map(key => `${escapeFieldName(field)}:${key}`).join('|'));
+        filterStrings.push(keys.map(key => `${escapeFieldName(field)}::${key}`).join('|'));
       }
     });
     return filterStrings.join(',');
@@ -96,7 +96,7 @@ export class SearchFilterTransform {
       .filter(result => result.selected)
       .map(result => {
         const text = get(result, key, '');
-        return `"${text.replace(/"/, '\\"')}"`;
+        return `${text.replace(/"/, '\\"')}`;
       });
   }
 }
