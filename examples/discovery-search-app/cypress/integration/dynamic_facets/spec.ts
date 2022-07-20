@@ -37,7 +37,7 @@ describe('Dynamic Facets', () => {
     cy.get('label').contains('regression').click();
 
     // makes a query for the right facets
-    cy.wait('@postQueryFacetsSingle').its('requestBody.filter').should('eq', '"regression"');
+    cy.wait('@postQueryFacetsSingle').its('requestBody.filter').should('eq', '(regression)');
 
     // shows the bubble next to dynamic facets saying 1
     cy.get('.bx--tag--filter').contains('1').should('exist');
@@ -51,7 +51,7 @@ describe('Dynamic Facets', () => {
     // makes a query for both filters
     cy.wait('@postQueryMultiRefinement')
       .its('requestBody.filter')
-      .should('eq', '"regression","classification"');
+      .should('eq', '(regression),(classification)');
 
     // shows the bubble next to dynamic facets saying 2
     cy.get('.bx--tag--filter').contains('2').should('exist');
@@ -72,7 +72,7 @@ describe('Dynamic Facets', () => {
     cy.get('label').contains('regression').click();
 
     // makes a query without any selected facets
-    cy.wait('@postQueryFacets').its('requestBody.filter').should('eq', '"regression"');
+    cy.wait('@postQueryFacets').its('requestBody.filter').should('eq', '(regression)');
 
     // and a different filter is clicked from a different facet
     cy.route('POST', '**/query?version=2019-01-01', '@facetsQueryDynamicAndNonDynamicJSON').as(
@@ -83,6 +83,6 @@ describe('Dynamic Facets', () => {
     // makes a query with both filters', () => {
     cy.wait('@postQueryDynamicAndNonDynamic')
       .its('requestBody.filter')
-      .should('eq', 'location:"Hancock, MN","regression"');
+      .should('eq', 'location:(Hancock\\, MN),(regression)');
   });
 });
