@@ -47,7 +47,7 @@ describe('Single-Select Facets', () => {
       it('makes a query for the right facets', () => {
         cy.get('@amesFilterQueryObject')
           .its('requestBody.filter')
-          .should('eq', 'location:"Ames, IA"');
+          .should('eq', 'location:(Ames\\, IA)');
       });
 
       describe('and a different filter is selected from the same facet', () => {
@@ -62,7 +62,7 @@ describe('Single-Select Facets', () => {
         it('makes a query for only the new facet', () => {
           cy.get('@hancockFilterQueryObject')
             .its('requestBody.filter')
-            .should('eq', 'location:"Hancock, MN"');
+            .should('eq', 'location:(Hancock\\, MN)');
         });
       });
 
@@ -103,7 +103,7 @@ describe('Single-Select Facets', () => {
         it('makes a query with both filters', () => {
           cy.get('@combinedFacetQueryObject')
             .its('requestBody.filter')
-            .should('eq', 'location:"Ames, IA",price:"Low"');
+            .should('eq', 'location:(Ames\\, IA),price:(Low)');
         });
       });
     });
