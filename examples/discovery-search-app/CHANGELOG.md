@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.2](https://github.com/watson-developer-cloud/discovery-components/compare/v3.0.1...v3.0.2) (2022-07-22)
+
+
+### Bug Fixes
+
+* update tests from phrase query removal ([#383](https://github.com/watson-developer-cloud/discovery-components/issues/383)) ([f6f2bee](https://github.com/watson-developer-cloud/discovery-components/commit/f6f2bee54f90d2b21f984ef6b840609eb7fa566e))
+
+
+
+
+
 ## [3.0.1](https://github.com/watson-developer-cloud/discovery-components/compare/v3.0.0...v3.0.1) (2022-07-18)
 
 **Note:** Version bump only for package discovery-search-app
