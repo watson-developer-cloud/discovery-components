@@ -206,7 +206,7 @@ describe('FieldFacetsComponent', () => {
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: 'subject:(Animals)'
+          filter: 'subject:"Animals"'
         }),
         false
       );
@@ -224,7 +224,7 @@ describe('FieldFacetsComponent', () => {
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: 'subject:(This \\| that)'
+          filter: 'subject:"This | that"'
         }),
         false
       );
@@ -241,7 +241,7 @@ describe('FieldFacetsComponent', () => {
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: 'subject:(hey\\, you)'
+          filter: 'subject:"hey, you"'
         }),
         false
       );
@@ -258,7 +258,7 @@ describe('FieldFacetsComponent', () => {
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: 'subject:(something\\: else)'
+          filter: 'subject:"something: else"'
         }),
         false
       );
@@ -275,7 +275,7 @@ describe('FieldFacetsComponent', () => {
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: 'subject:(Animals)|subject:(People)'
+          filter: 'subject:"Animals"|subject:"People"'
         }),
         false
       );
@@ -284,7 +284,7 @@ describe('FieldFacetsComponent', () => {
 
     test('it adds correct filter when checkboxes from multiple facets are checked', async () => {
       const { fieldFacetsComponent, performSearchMock, onChangeMock } = setup({
-        filter: 'subject:Animals'
+        filter: 'subject:"Animals"'
       });
       const newsStaffCheckbox = await fieldFacetsComponent.findByLabelText('News Staff (57158)');
       performSearchMock.mockReset();
@@ -292,7 +292,7 @@ describe('FieldFacetsComponent', () => {
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: 'author:(News Staff),subject:(Animals)'
+          filter: 'author:"News Staff",subject:"Animals"'
         }),
         false
       );
@@ -406,7 +406,7 @@ describe('FieldFacetsComponent', () => {
           ]
         }
       ];
-      const filter = 'foo:hi';
+      const filter = 'foo:"hi"';
       setupResult = setup({ componentSettingsAggregations, aggregationResults, filter });
       await wait(); // wait for component to finish rendering (prevent "act" warning)
     });
@@ -454,7 +454,7 @@ describe('FieldFacetsComponent', () => {
 
     describe('when 1 selection is made', () => {
       beforeEach(async () => {
-        setupData = setup({ filter: 'author:ABMN Staff' });
+        setupData = setup({ filter: 'author:"ABMN Staff"' });
         await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
 
@@ -485,7 +485,7 @@ describe('FieldFacetsComponent', () => {
 
     describe('when 2 selections are made in the same category', () => {
       beforeEach(async () => {
-        setupData = setup({ filter: 'author:ABMN Staff|author:News Staff' });
+        setupData = setup({ filter: 'author:"ABMN Staff"|author:"News Staff"' });
         await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
 
@@ -516,7 +516,7 @@ describe('FieldFacetsComponent', () => {
 
     describe('when 2 selections are made in different categories', () => {
       beforeEach(async () => {
-        setupData = setup({ filter: 'author:ABMN Staff,subject:Animals' });
+        setupData = setup({ filter: 'author:"ABMN Staff",subject:"Animals"' });
         await wait(); // wait for component to finish rendering (prevent "act" warning)
       });
 
@@ -536,7 +536,7 @@ describe('FieldFacetsComponent', () => {
           const { performSearchMock } = setupData;
           expect(performSearchMock).toHaveBeenCalledWith(
             expect.objectContaining({
-              filter: 'subject:(Animals)',
+              filter: 'subject:"Animals"',
               offset: 0
             }),
             false
@@ -569,7 +569,7 @@ describe('FieldFacetsComponent', () => {
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: 'subject:(People)',
+          filter: 'subject:"People"',
           offset: 0
         }),
         false
@@ -615,7 +615,7 @@ describe('FieldFacetsComponent', () => {
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: 'author:(ABMN Staff)|author:(News Staff),subject:(People)',
+          filter: 'author:"ABMN Staff"|author:"News Staff",subject:"People"',
           offset: 0
         }),
         false
@@ -642,7 +642,7 @@ describe('FieldFacetsComponent', () => {
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: 'author:(News Staff),subject:(People)',
+          filter: 'author:"News Staff",subject:"People"',
           offset: 0
         }),
         false
@@ -883,7 +883,7 @@ describe('FieldFacetsComponent', () => {
           expect(performSearchMock).toBeCalledTimes(1);
           expect(performSearchMock).toBeCalledWith(
             expect.objectContaining({
-              filter: 'enriched_text.entities.text:(pittsburgh)',
+              filter: 'enriched_text.entities.text:"pittsburgh"',
               offset: 0
             }),
             false
@@ -892,7 +892,7 @@ describe('FieldFacetsComponent', () => {
           expect(performSearchMock).toBeCalledTimes(2);
           expect(performSearchMock).toBeCalledWith(
             expect.objectContaining({
-              filter: 'enriched_text.entities.text:(us)|enriched_text.entities.text:(pittsburgh)',
+              filter: 'enriched_text.entities.text:"us"|enriched_text.entities.text:"pittsburgh"',
               offset: 0
             }),
             false
@@ -929,7 +929,7 @@ describe('FieldFacetsComponent', () => {
           expect(performSearchMock).toBeCalledTimes(1);
           expect(performSearchMock).toBeCalledWith(
             expect.objectContaining({
-              filter: 'enriched_text.entities.text:(pittsburgh)',
+              filter: 'enriched_text.entities.text:"pittsburgh"',
               offset: 0
             }),
             false
@@ -938,7 +938,7 @@ describe('FieldFacetsComponent', () => {
           expect(performSearchMock).toBeCalledTimes(2);
           expect(performSearchMock).toBeCalledWith(
             expect.objectContaining({
-              filter: 'enriched_text.entities.text:(ibm)|enriched_text.entities.text:(pittsburgh)',
+              filter: 'enriched_text.entities.text:"ibm"|enriched_text.entities.text:"pittsburgh"',
               offset: 0
             }),
             false

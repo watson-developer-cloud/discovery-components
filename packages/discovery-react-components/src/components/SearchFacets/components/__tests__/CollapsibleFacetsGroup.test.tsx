@@ -274,7 +274,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
           expect(performSearchMock).toBeCalledTimes(1);
           expect(performSearchMock).toBeCalledWith(
             expect.objectContaining({
-              filter: 'products:(assistant)'
+              filter: 'products:"assistant"'
             }),
             false
           );
