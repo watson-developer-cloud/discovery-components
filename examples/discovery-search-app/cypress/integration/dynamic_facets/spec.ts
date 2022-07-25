@@ -83,6 +83,6 @@ describe('Dynamic Facets', () => {
     // makes a query with both filters', () => {
     cy.wait('@postQueryDynamicAndNonDynamic')
       .its('requestBody.filter')
-      .should('eq', 'location:"Hancock, MN","regression"');
+      .should('eq', 'location::"Hancock, MN","regression"');
   });
 });

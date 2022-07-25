@@ -8,10 +8,18 @@ import {
   SelectableDynamicFacets
 } from './searchFacetInterfaces';
 
+/*
+ * Utility class for creating and parsing query strings for search filters
+ */
+
 export class SearchFilterTransform {
+  // Match any unescaped commas, colons, pipes
   static SPLIT_UNQUOTED_COMMAS = /,(?=(?:(?:[^"\\"]*["\\"]){2})*[^"\\"]*$)/;
   static SPLIT_UNQUOTED_COLONS = /::(?=(?:(?:[^"\\"]*["\\"]){2})*[^"\\"]*$)/;
   static SPLIT_UNQUOTED_PIPES = /\|(?=(?:(?:[^"\\"]*["\\"]){2})*[^"\\"]*$)/;
+  // Match if the string is surrounded by parens
+  // The substring inside of the parens will be in $1
+  static STRING_IN_QUOTES = /^"(.+)"$/;
 
   static fromString(filterString: string): SearchFilterFacets {
     if (filterString === '') {
@@ -65,6 +73,7 @@ export class SearchFilterTransform {
     };
   }
 
+  // Returns a query string by combining field and dynamic query strings
   static toString(facets: SearchFilterFacets): string {
     const fieldFilters = this.fieldsToString(facets.filterFields);
     const dynamicFilters = this.quoteSelectedFacets(facets.filterDynamic, 'text').join(',');
@@ -72,9 +81,14 @@ export class SearchFilterTransform {
   }
 
   private static unquoteString(quotedString: string): string {
-    return quotedString.replace(/^"(.+)"$/, '$1').replace(/\\"/, '"');
+    return quotedString
+      .replace(new RegExp(SearchFilterTransform.STRING_IN_QUOTES), '$1')
+      .replace(/\\"/, '"');
   }
 
+  // Returns a full filter query string from the set of filterFields
+  // Use the exact match query operator (::) for all fields
+  // @see https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-query-operators#match
   static fieldsToString(facets: InternalQueryTermAggregation[]): string {
     const filterStrings: string[] = [];
     facets.forEach(facet => {
@@ -96,6 +110,8 @@ export class SearchFilterTransform {
       .filter(result => result.selected)
       .map(result => {
         const text = get(result, key, '');
+        // Add double quotes to make the query a phrase query
+        // @see https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-query-operators#phrase
         return `"${text.replace(/"/, '\\"')}"`;
       });
   }
