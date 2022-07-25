@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.3](https://github.com/watson-developer-cloud/discovery-components/compare/v3.0.2...v3.0.3) (2022-07-25)
+
+
+### Bug Fixes
+
+* revert previous facet changes and make new changes ([#384](https://github.com/watson-developer-cloud/discovery-components/issues/384)) ([d95eb25](https://github.com/watson-developer-cloud/discovery-components/commit/d95eb2500e6b966de826462ec33d1406b81d2132)), closes [#383](https://github.com/watson-developer-cloud/discovery-components/issues/383)
+
+
+
+
+
 ## [3.0.2](https://github.com/watson-developer-cloud/discovery-components/compare/v3.0.1...v3.0.2) (2022-07-22)
 
 
