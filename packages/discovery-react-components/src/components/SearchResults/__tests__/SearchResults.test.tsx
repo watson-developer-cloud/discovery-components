@@ -548,7 +548,7 @@ describe('<SearchResults />', () => {
             table: {}
           },
           {
-            table_id: 'table id',
+            table_id: 'table id 2',
             source_document_id: '456',
             collection_id: 'collection_id',
             table_html: '<div>table html</div>',

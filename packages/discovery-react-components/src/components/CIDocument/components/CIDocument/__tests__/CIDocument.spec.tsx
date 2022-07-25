@@ -1,9 +1,8 @@
 import React from 'react';
 import {
+  screen,
   render,
   fireEvent,
-  wait,
-  waitForElement,
   getByText as globalGetByText,
   getByLabelText as globalGetByLabelText,
   BoundFunction,
@@ -30,7 +29,8 @@ describe('<CIDocument />', () => {
       ({ getByTestId, getByText, findByText, findByTestId, queryByTestId } = render(
         <CIDocument document={invoice} overrideDocWidth={400} overrideDocHeight={600} />
       ));
-      await wait(); // wait for component to finish rendering (prevent "act" warning)
+      // wait for component to finish rendering (prevent "act" warning)
+      await screen.findByText('invoice.pdf');
     });
 
     it('loads correct document', async () => {
@@ -92,7 +92,8 @@ describe('<CIDocument />', () => {
       ({ getAllByRole, getByTestId, getByText, findByText, findByTitle, queryByTitle } = render(
         <CIDocument document={purchaseOrder} overrideDocWidth={400} overrideDocHeight={600} />
       ));
-      await wait(); // wait for component to finish rendering (prevent "act" warning)
+      // wait for component to finish rendering (prevent "act" warning)
+      await screen.findByText('purchase_orders.pdf');
     });
 
     it('loads correct document', async () => {
@@ -106,10 +107,8 @@ describe('<CIDocument />', () => {
     });
 
     it('filters and navigates forward through the list of elements', async () => {
-      const filterCheckbox = await waitForElement(() => {
-        const filters = getByTestId('CIDocument_filterPanel');
-        return globalGetByLabelText(filters, 'Currency(2)');
-      });
+      const filters = await screen.findByTestId('CIDocument_filterPanel');
+      const filterCheckbox = globalGetByLabelText(filters, 'Currency(2)');
       fireEvent.click(filterCheckbox);
 
       const nextButton = await findByTitle('Next', { selector: 'button' });
@@ -125,10 +124,8 @@ describe('<CIDocument />', () => {
     });
 
     it('filters and navigates backward through the list of elements', async () => {
-      const filterCheckbox = await waitForElement(() => {
-        const filters = getByTestId('CIDocument_filterPanel');
-        return globalGetByLabelText(filters, 'Currency(2)');
-      });
+      const filters = await screen.findByTestId('CIDocument_filterPanel');
+      const filterCheckbox = globalGetByLabelText(filters, 'Currency(2)');
       fireEvent.click(filterCheckbox);
 
       const previousButton = await findByTitle('Previous', { selector: 'button' });
@@ -144,14 +141,12 @@ describe('<CIDocument />', () => {
     });
 
     it('selects a filter and then resets filters', async () => {
-      const filterCheckbox = await waitForElement(() => {
-        const filters = getByTestId('CIDocument_filterPanel');
-        return globalGetByLabelText(filters, 'Suppliers(1)');
-      });
+      const filters = await screen.findByTestId('CIDocument_filterPanel');
+      const filterCheckbox = globalGetByLabelText(filters, 'Suppliers(1)');
       fireEvent.click(filterCheckbox);
 
-      const filters = getByTestId('CIDocument_filterPanel');
-      const resetButton = globalGetByText(filters, 'Reset filters');
+      const filters2 = getByTestId('CIDocument_filterPanel');
+      const resetButton = globalGetByText(filters2, 'Reset filters');
       fireEvent.click(resetButton);
 
       // Navigation should be disabled now
@@ -171,7 +166,8 @@ describe('<CIDocument />', () => {
       ({ getByTestId, getByText, findByText, findByTestId, queryByTestId } = render(
         <CIDocument document={shortContract} overrideDocWidth={400} overrideDocHeight={1200} />
       ));
-      await wait(); // wait for component to finish rendering (prevent "act" warning)
+      // wait for component to finish rendering (prevent "act" warning)
+      await screen.findByText('Art Effects Koya Creative Base TSA 2008.pdf');
     });
 
     it('loads correct document', async () => {
@@ -240,7 +236,7 @@ describe('<CIDocument />', () => {
       // unselect filter
       fireEvent.click(categoryCheckbox);
       // other filter should reflect changes
-      globalGetByLabelText(filters, 'DefinedTerm(26)');
+      globalGetByLabelText(filters, 'DefinedTerm(22)');
     });
   });
 });

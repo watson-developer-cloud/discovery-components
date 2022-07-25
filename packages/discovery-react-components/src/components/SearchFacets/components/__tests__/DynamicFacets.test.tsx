@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render, fireEvent, RenderResult, wait } from '@testing-library/react';
+import { screen, render, fireEvent, RenderResult } from '@testing-library/react';
 import { wrapWithContext } from 'utils/testingUtils';
 import {
   SearchContextIFC,
@@ -99,7 +99,7 @@ describe('DynamicFacetsComponent', () => {
     });
 
     test('checkboxes are checked when set in filter query', async () => {
-      const { searchFacetsComponent } = setup({ filter: 'sam hinkie' });
+      const { searchFacetsComponent } = setup({ filter: '"sam hinkie"' });
       const saviorCheckbox = await searchFacetsComponent.findByLabelText('sam hinkie');
       expect(saviorCheckbox['checked']).toEqual(true);
     });
@@ -111,7 +111,7 @@ describe('DynamicFacetsComponent', () => {
     describe('when no selections are made', () => {
       beforeEach(async () => {
         setupData = setup();
-        await wait(); // wait for component to finish rendering (prevent "act" warning)
+        await screen.findAllByText('Show more'); // wait for component to finish rendering (prevent "act" warning)
       });
 
       test('the clear button does not appear', () => {
@@ -122,8 +122,8 @@ describe('DynamicFacetsComponent', () => {
 
     describe('when 1 selection is made', () => {
       beforeEach(async () => {
-        setupData = setup({ filter: 'trust the process' });
-        await wait(); // wait for component to finish rendering (prevent "act" warning)
+        setupData = setup({ filter: '"trust the process"' });
+        await screen.findAllByText('Show more'); // wait for component to finish rendering (prevent "act" warning)
       });
 
       test('the clear button appears once', () => {
@@ -152,8 +152,8 @@ describe('DynamicFacetsComponent', () => {
 
     describe('when 2 selections are made', () => {
       beforeEach(async () => {
-        setupData = setup({ filter: 'trust the process,just not the electrician' });
-        await wait(); // wait for component to finish rendering (prevent "act" warning)
+        setupData = setup({ filter: '"trust the process","just not the electrician"' });
+        await screen.findAllByText('Show more'); // wait for component to finish rendering (prevent "act" warning)
       });
 
       test('the clear button appears once', () => {
@@ -190,7 +190,7 @@ describe('DynamicFacetsComponent', () => {
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: '(trust the process)'
+          filter: '"trust the process"'
         }),
         false
       );
@@ -208,7 +208,7 @@ describe('DynamicFacetsComponent', () => {
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: '(maybe \\| not)'
+          filter: '"maybe | not"'
         }),
         false
       );
@@ -223,7 +223,7 @@ describe('DynamicFacetsComponent', () => {
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: '(bogus\\, strings)'
+          filter: '"bogus, strings"'
         }),
         false
       );
@@ -238,7 +238,7 @@ describe('DynamicFacetsComponent', () => {
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: '(this\\: is)'
+          filter: '"this: is"'
         }),
         false
       );
@@ -247,7 +247,7 @@ describe('DynamicFacetsComponent', () => {
 
     test('it adds correct filters when second checkbox is checked', async () => {
       const { searchFacetsComponent, performSearchMock, onChangeMock } = setup({
-        filter: 'sam hinkie'
+        filter: '"sam hinkie"'
       });
       const embiidCheckbox = await searchFacetsComponent.findByLabelText('trust the process');
       performSearchMock.mockReset();
@@ -255,7 +255,7 @@ describe('DynamicFacetsComponent', () => {
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: '(sam hinkie),(trust the process)'
+          filter: '"sam hinkie","trust the process"'
         }),
         false
       );
@@ -266,7 +266,7 @@ describe('DynamicFacetsComponent', () => {
   describe('checkboxes remove filters', () => {
     test('it removes correct filter when checkbox within single facet is unchecked', async () => {
       const { searchFacetsComponent, performSearchMock, onChangeMock } = setup({
-        filter: 'sam hinkie'
+        filter: '"sam hinkie"'
       });
       const saviorCheckbox = await searchFacetsComponent.findByLabelText('sam hinkie');
       performSearchMock.mockReset();

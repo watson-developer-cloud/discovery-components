@@ -37,18 +37,18 @@ describe('SimpleDocument', () => {
   it('renders with array wrapped text', () => {
     let getByText: BoundFunction<GetByText> = noop;
 
-    const spy = jest.spyOn(console, 'log');
-    expect(spy).not.toHaveBeenCalled();
+    const mock = jest.fn();
+    expect(mock).not.toHaveBeenCalled();
     act(() => {
       ({ getByText } = render(
         <SimpleDocument
           document={docArrayJson}
           setLoading={(): void => {}}
-          setHideToolbarControls={(): void => console.log('setHideToolbarControls called')}
+          setHideToolbarControls={(): void => mock('setHideToolbarControls called')}
         />
       ));
     });
-    expect(spy).toHaveBeenCalled();
+    expect(mock).toHaveBeenCalled();
     getByText(
       'services) for its business operations and to meet obligations in connection with transactions under the Prime-Contract. This',
       { exact: false }
