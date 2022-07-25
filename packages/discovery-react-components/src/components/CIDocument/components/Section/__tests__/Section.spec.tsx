@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, render, waitForElement } from '@testing-library/react';
+import { screen, act, render } from '@testing-library/react';
 import 'utils/test/createRange.mock';
 import Section from '../Section';
 import sectionData from '../__fixtures__/sectionData';
@@ -14,12 +14,11 @@ describe('<Section />', () => {
       }
     };
 
-    let getByText: NonNullable<Function>;
     act(() => {
-      ({ getByText } = render(<Section section={data} />));
+      render(<Section section={data} />);
     });
 
-    await waitForElement(() => getByText('Here I am!'));
+    await screen.findByText('Here I am!');
   });
 
   it('renders enrichment fields', async () => {

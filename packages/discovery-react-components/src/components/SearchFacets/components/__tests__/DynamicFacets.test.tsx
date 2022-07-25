@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render, fireEvent, RenderResult, wait } from '@testing-library/react';
+import { screen, render, fireEvent, RenderResult } from '@testing-library/react';
 import { wrapWithContext } from 'utils/testingUtils';
 import {
   SearchContextIFC,
@@ -111,7 +111,7 @@ describe('DynamicFacetsComponent', () => {
     describe('when no selections are made', () => {
       beforeEach(async () => {
         setupData = setup();
-        await wait(); // wait for component to finish rendering (prevent "act" warning)
+        await screen.findAllByText('Show more'); // wait for component to finish rendering (prevent "act" warning)
       });
 
       test('the clear button does not appear', () => {
@@ -123,7 +123,7 @@ describe('DynamicFacetsComponent', () => {
     describe('when 1 selection is made', () => {
       beforeEach(async () => {
         setupData = setup({ filter: '"trust the process"' });
-        await wait(); // wait for component to finish rendering (prevent "act" warning)
+        await screen.findAllByText('Show more'); // wait for component to finish rendering (prevent "act" warning)
       });
 
       test('the clear button appears once', () => {
@@ -153,7 +153,7 @@ describe('DynamicFacetsComponent', () => {
     describe('when 2 selections are made', () => {
       beforeEach(async () => {
         setupData = setup({ filter: '"trust the process","just not the electrician"' });
-        await wait(); // wait for component to finish rendering (prevent "act" warning)
+        await screen.findAllByText('Show more'); // wait for component to finish rendering (prevent "act" warning)
       });
 
       test('the clear button appears once', () => {

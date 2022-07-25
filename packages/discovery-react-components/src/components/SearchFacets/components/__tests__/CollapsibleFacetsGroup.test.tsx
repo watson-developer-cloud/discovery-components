@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render, RenderResult, fireEvent, wait, within } from '@testing-library/react';
+import { render, RenderResult, fireEvent, waitFor, within } from '@testing-library/react';
 import { wrapWithContext } from 'utils/testingUtils';
 import SearchFacets from 'components/SearchFacets/SearchFacets';
 import {
@@ -75,7 +75,10 @@ describe('CollapsibleFacetsGroupComponent', () => {
   describe('when aggregations should not be collapsed for any fields', () => {
     test('show more link is not shown', async () => {
       const { searchFacetsComponent } = setup({ collapsedFacetsCount: 20 });
-      await wait(); // wait for component to finish rendering (prevent "act" warning)
+      // wait for component to finish rendering (prevent "act" warning)
+      await waitFor(() => {
+        searchFacetsComponent.findByText('category');
+      });
       const showMoreButtons = searchFacetsComponent.queryAllByText('Show more');
       expect(showMoreButtons).toHaveLength(0);
     });
@@ -274,7 +277,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
           expect(performSearchMock).toBeCalledTimes(1);
           expect(performSearchMock).toBeCalledWith(
             expect.objectContaining({
-              filter: 'products:"assistant"'
+              filter: 'products::"assistant"'
             }),
             false
           );

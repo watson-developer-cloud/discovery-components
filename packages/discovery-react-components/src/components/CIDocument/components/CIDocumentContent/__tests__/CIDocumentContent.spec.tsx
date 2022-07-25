@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, render, waitForElement } from '@testing-library/react';
+import { screen, render } from '@testing-library/react';
 import CIDocumentContent from '../CIDocumentContent';
 
 describe('<CIDocumentContent />', () => {
@@ -17,19 +17,15 @@ describe('<CIDocumentContent />', () => {
       }
     ];
 
-    let getByTestId: NonNullable<Function>;
-    act(() => {
-      ({ getByTestId } = render(
-        <CIDocumentContent
-          styles={styles}
-          sections={sections}
-          itemMap={{ byItem: {}, bySection: {} }}
-        />
-      ));
-    });
+    render(
+      <CIDocumentContent
+        styles={styles}
+        sections={sections}
+        itemMap={{ byItem: {}, bySection: {} }}
+      />
+    );
 
-    const styleNode = await waitForElement(() => getByTestId('style'));
-
+    let styleNode = await screen.findByTestId('style');
     expect(styleNode.innerHTML.includes('super-large-foobar')).toBe(true);
     expect(styleNode.innerHTML.includes('offensive')).toBe(true);
   });

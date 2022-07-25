@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render, fireEvent, RenderResult, wait, within } from '@testing-library/react';
+import { render, fireEvent, RenderResult, waitFor, within } from '@testing-library/react';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { wrapWithContext } from 'utils/testingUtils';
 import {
@@ -145,7 +145,10 @@ describe('FieldFacetsComponent', () => {
             }
           ]
         });
-        await wait(); // wait for component to finish rendering (prevent "act" warning)
+        // wait for component to finish rendering (prevent "act" warning)
+        await waitFor(() => {
+          expect(setupResult.fieldFacetsComponent).toBeDefined();
+        });
       });
 
       test('should match labels by name', () => {
@@ -191,7 +194,7 @@ describe('FieldFacetsComponent', () => {
     });
 
     test('checkboxes are checked when set in filter query', async () => {
-      const { fieldFacetsComponent } = setup({ filter: 'subject:Animals' });
+      const { fieldFacetsComponent } = setup({ filter: 'subject::Animals' });
       const animalsCheckbox = await fieldFacetsComponent.findByLabelText('Animals (138993)');
       expect(animalsCheckbox['checked']).toEqual(true);
     });
@@ -206,7 +209,7 @@ describe('FieldFacetsComponent', () => {
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: 'subject:"Animals"'
+          filter: 'subject::"Animals"'
         }),
         false
       );
@@ -224,7 +227,7 @@ describe('FieldFacetsComponent', () => {
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: 'subject:"This | that"'
+          filter: 'subject::"This | that"'
         }),
         false
       );
@@ -241,7 +244,7 @@ describe('FieldFacetsComponent', () => {
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: 'subject:"hey, you"'
+          filter: 'subject::"hey, you"'
         }),
         false
       );
@@ -258,7 +261,7 @@ describe('FieldFacetsComponent', () => {
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: 'subject:"something: else"'
+          filter: 'subject::"something: else"'
         }),
         false
       );
@@ -267,7 +270,7 @@ describe('FieldFacetsComponent', () => {
 
     test('it adds correct filters when second checkbox within single facet is checked', async () => {
       const { fieldFacetsComponent, performSearchMock, onChangeMock } = setup({
-        filter: 'subject:Animals'
+        filter: 'subject::Animals'
       });
       const peopleCheckbox = await fieldFacetsComponent.findByLabelText('People (133760)');
       performSearchMock.mockReset();
@@ -275,7 +278,7 @@ describe('FieldFacetsComponent', () => {
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: 'subject:"Animals"|subject:"People"'
+          filter: 'subject::"Animals"|subject::"People"'
         }),
         false
       );
@@ -284,7 +287,7 @@ describe('FieldFacetsComponent', () => {
 
     test('it adds correct filter when checkboxes from multiple facets are checked', async () => {
       const { fieldFacetsComponent, performSearchMock, onChangeMock } = setup({
-        filter: 'subject:"Animals"'
+        filter: 'subject::"Animals"'
       });
       const newsStaffCheckbox = await fieldFacetsComponent.findByLabelText('News Staff (57158)');
       performSearchMock.mockReset();
@@ -292,7 +295,7 @@ describe('FieldFacetsComponent', () => {
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: 'author:"News Staff",subject:"Animals"'
+          filter: 'author::"News Staff",subject::"Animals"'
         }),
         false
       );
@@ -348,8 +351,11 @@ describe('FieldFacetsComponent', () => {
       const termAgg2 = { ...termAgg, name: 'second' };
 
       beforeEach(async () => {
-        setupResult = setup({ aggregationResults: [termAgg, termAgg2], filter: 'foo:two' });
-        await wait(); // wait for component to finish rendering (prevent "act" warning)
+        setupResult = setup({ aggregationResults: [termAgg, termAgg2], filter: 'foo::two' });
+        // wait for component to finish rendering (prevent "act" warning)
+        await waitFor(() => {
+          expect(setupResult.fieldFacetsComponent).toBeDefined();
+        });
       });
 
       test('should only deselect one of the two', () => {
@@ -406,9 +412,12 @@ describe('FieldFacetsComponent', () => {
           ]
         }
       ];
-      const filter = 'foo:"hi"';
+      const filter = 'foo::"hi"';
       setupResult = setup({ componentSettingsAggregations, aggregationResults, filter });
-      await wait(); // wait for component to finish rendering (prevent "act" warning)
+      // wait for component to finish rendering (prevent "act" warning)
+      await waitFor(() => {
+        expect(setupResult.fieldFacetsComponent).toBeDefined();
+      });
     });
 
     test('should only select one of the two', () => {
@@ -422,7 +431,7 @@ describe('FieldFacetsComponent', () => {
 
   describe('checkboxes remove filters', () => {
     test('it removes correct filter when checkbox within single facet is unchecked', async () => {
-      const { fieldFacetsComponent, performSearchMock } = setup({ filter: 'subject:Animals' });
+      const { fieldFacetsComponent, performSearchMock } = setup({ filter: 'subject::Animals' });
       const animalsCheckbox = await fieldFacetsComponent.findByLabelText('Animals (138993)');
       performSearchMock.mockReset();
       fireEvent.click(animalsCheckbox);
@@ -443,7 +452,10 @@ describe('FieldFacetsComponent', () => {
     describe('when no selections are made', () => {
       beforeEach(async () => {
         setupData = setup();
-        await wait(); // wait for component to finish rendering (prevent "act" warning)
+        // wait for component to finish rendering (prevent "act" warning)
+        await waitFor(() => {
+          expect(setupData.fieldFacetsComponent).toBeDefined();
+        });
       });
 
       test('the clear button does not appear', () => {
@@ -454,8 +466,11 @@ describe('FieldFacetsComponent', () => {
 
     describe('when 1 selection is made', () => {
       beforeEach(async () => {
-        setupData = setup({ filter: 'author:"ABMN Staff"' });
-        await wait(); // wait for component to finish rendering (prevent "act" warning)
+        setupData = setup({ filter: 'author::"ABMN Staff"' });
+        // wait for component to finish rendering (prevent "act" warning)
+        await waitFor(() => {
+          expect(setupData.fieldFacetsComponent).toBeDefined();
+        });
       });
 
       test('the clear button appears once', () => {
@@ -485,8 +500,11 @@ describe('FieldFacetsComponent', () => {
 
     describe('when 2 selections are made in the same category', () => {
       beforeEach(async () => {
-        setupData = setup({ filter: 'author:"ABMN Staff"|author:"News Staff"' });
-        await wait(); // wait for component to finish rendering (prevent "act" warning)
+        setupData = setup({ filter: 'author::"ABMN Staff"|author::"News Staff"' });
+        // wait for component to finish rendering (prevent "act" warning)
+        await waitFor(() => {
+          expect(setupData.fieldFacetsComponent).toBeDefined();
+        });
       });
 
       test('the clear button appears once', () => {
@@ -516,8 +534,11 @@ describe('FieldFacetsComponent', () => {
 
     describe('when 2 selections are made in different categories', () => {
       beforeEach(async () => {
-        setupData = setup({ filter: 'author:"ABMN Staff",subject:"Animals"' });
-        await wait(); // wait for component to finish rendering (prevent "act" warning)
+        setupData = setup({ filter: 'author::"ABMN Staff",subject::"Animals"' });
+        // wait for component to finish rendering (prevent "act" warning)
+        await waitFor(() => {
+          expect(setupData.fieldFacetsComponent).toBeDefined();
+        });
       });
 
       test('the clear button appears twice', () => {
@@ -536,7 +557,7 @@ describe('FieldFacetsComponent', () => {
           const { performSearchMock } = setupData;
           expect(performSearchMock).toHaveBeenCalledWith(
             expect.objectContaining({
-              filter: 'subject:"Animals"',
+              filter: 'subject::"Animals"',
               offset: 0
             }),
             false
@@ -549,7 +570,7 @@ describe('FieldFacetsComponent', () => {
   describe('when multiple_selections_allowed is false', () => {
     test('radiobuttons are selected when set in filter query', async () => {
       const { fieldFacetsComponent } = setup({
-        filter: 'subject:Animals',
+        filter: 'subject::Animals',
         componentSettingsAggregations: updateSelectionSettings(['subject_id'])
       });
       const animalRadioButton = await fieldFacetsComponent.findAllByLabelText('Animals (138993)');
@@ -569,7 +590,7 @@ describe('FieldFacetsComponent', () => {
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: 'subject:"People"',
+          filter: 'subject::"People"',
           offset: 0
         }),
         false
@@ -615,7 +636,7 @@ describe('FieldFacetsComponent', () => {
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: 'author:"ABMN Staff"|author:"News Staff",subject:"People"',
+          filter: 'author::"ABMN Staff"|author::"News Staff",subject::"People"',
           offset: 0
         }),
         false
@@ -642,7 +663,7 @@ describe('FieldFacetsComponent', () => {
       expect(performSearchMock).toBeCalledTimes(1);
       expect(performSearchMock).toBeCalledWith(
         expect.objectContaining({
-          filter: 'author:"News Staff",subject:"People"',
+          filter: 'author::"News Staff",subject::"People"',
           offset: 0
         }),
         false
@@ -678,7 +699,10 @@ describe('FieldFacetsComponent', () => {
           }
         ]
       });
-      await wait(); // wait for component to finish rendering (prevent "act" warning)
+      // wait for component to finish rendering (prevent "act" warning)
+      await waitFor(() => {
+        expect(setupResult.fieldFacetsComponent).toBeDefined();
+      });
     });
 
     describe('legend header elements', () => {
@@ -883,7 +907,7 @@ describe('FieldFacetsComponent', () => {
           expect(performSearchMock).toBeCalledTimes(1);
           expect(performSearchMock).toBeCalledWith(
             expect.objectContaining({
-              filter: 'enriched_text.entities.text:"pittsburgh"',
+              filter: 'enriched_text.entities.text::"pittsburgh"',
               offset: 0
             }),
             false
@@ -892,7 +916,7 @@ describe('FieldFacetsComponent', () => {
           expect(performSearchMock).toBeCalledTimes(2);
           expect(performSearchMock).toBeCalledWith(
             expect.objectContaining({
-              filter: 'enriched_text.entities.text:"us"|enriched_text.entities.text:"pittsburgh"',
+              filter: 'enriched_text.entities.text::"us"|enriched_text.entities.text::"pittsburgh"',
               offset: 0
             }),
             false
@@ -929,7 +953,7 @@ describe('FieldFacetsComponent', () => {
           expect(performSearchMock).toBeCalledTimes(1);
           expect(performSearchMock).toBeCalledWith(
             expect.objectContaining({
-              filter: 'enriched_text.entities.text:"pittsburgh"',
+              filter: 'enriched_text.entities.text::"pittsburgh"',
               offset: 0
             }),
             false
@@ -938,7 +962,8 @@ describe('FieldFacetsComponent', () => {
           expect(performSearchMock).toBeCalledTimes(2);
           expect(performSearchMock).toBeCalledWith(
             expect.objectContaining({
-              filter: 'enriched_text.entities.text:"ibm"|enriched_text.entities.text:"pittsburgh"',
+              filter:
+                'enriched_text.entities.text::"ibm"|enriched_text.entities.text::"pittsburgh"',
               offset: 0
             }),
             false

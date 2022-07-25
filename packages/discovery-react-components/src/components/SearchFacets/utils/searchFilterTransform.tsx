@@ -10,7 +10,7 @@ import {
 
 export class SearchFilterTransform {
   static SPLIT_UNQUOTED_COMMAS = /,(?=(?:(?:[^"\\"]*["\\"]){2})*[^"\\"]*$)/;
-  static SPLIT_UNQUOTED_COLONS = /:(?=(?:(?:[^"\\"]*["\\"]){2})*[^"\\"]*$)/;
+  static SPLIT_UNQUOTED_COLONS = /::(?=(?:(?:[^"\\"]*["\\"]){2})*[^"\\"]*$)/;
   static SPLIT_UNQUOTED_PIPES = /\|(?=(?:(?:[^"\\"]*["\\"]){2})*[^"\\"]*$)/;
 
   static fromString(filterString: string): SearchFilterFacets {
@@ -96,7 +96,7 @@ export class SearchFilterTransform {
       .filter(result => result.selected)
       .map(result => {
         const text = get(result, key, '');
-        return `${text.replace(/"/, '\\"')}`;
+        return `"${text.replace(/"/, '\\"')}"`;
       });
   }
 }

@@ -461,7 +461,7 @@ function sortFieldsBySection(field: any, sections: any[], fieldType: string): vo
   if (sectionIdx === -1) {
     // notify of error, but keep going
     // eslint-disable-next-line no-console
-    console.error('Failed to find doc section which contains given field');
+    console.error('Unable to find doc section which contains given field');
     return;
   }
 
