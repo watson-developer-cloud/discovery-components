@@ -1,8 +1,10 @@
-import React, { FC, useEffect, useRef, useMemo, useCallback } from 'react';
+import React, { FC, useEffect, useRef, useCallback, useMemo, useState, RefObject } from 'react';
 import cx from 'classnames';
 import PdfjsLib, { PDFDocumentProxy, PDFPageProxy, PDFPromise, PDFRenderTask } from 'pdfjs-dist';
 import PdfjsWorkerAsText from 'pdfjs-dist/build/pdf.worker.min.js';
 import { settings } from 'carbon-components';
+import debounce from 'lodash/debounce';
+import useResizeObserver from '@react-hook/resize-observer';
 import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
 import { QueryResult } from 'ibm-watson/discovery/v2';
 import { DocumentFile } from '../../types';
@@ -10,6 +12,8 @@ import { getTextMappings } from '../../utils/documentData';
 import PdfViewerTextLayer, { PdfRenderedText } from './PdfViewerTextLayer';
 import { toPDFSource } from './utils';
 import { PdfDisplayProps } from './types';
+
+const RESIZE_DEBOUNCE = 50;
 
 setupPdfjs();
 
@@ -69,6 +73,8 @@ const PdfViewer: FC<Props> = ({
   children
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [canvasInfo, setCanvasInfo] = useState<CanvasInfo | null>(null);
 
   const loadedFile = useAsyncFunctionCall(
     useCallback(async () => (file ? await _loadPdf(file) : null), [file])
@@ -80,7 +86,15 @@ const PdfViewer: FC<Props> = ({
     )
   );
 
-  const canvasInfo = useMemo(() => getCanvasInfo(loadedPage, scale), [loadedPage, scale]);
+  useEffect(
+    () => setCanvasInfo(getCanvasInfo(loadedPage, scale, rootRef)),
+    [loadedPage, scale, rootRef]
+  );
+
+  useResizeObserver(
+    rootRef.current,
+    debounce(() => setCanvasInfo(getCanvasInfo(loadedPage, scale, rootRef)), RESIZE_DEBOUNCE)
+  );
 
   // render page
   useAsyncFunctionCall(
@@ -111,17 +125,18 @@ const PdfViewer: FC<Props> = ({
     }
   }, [setHideToolbarControls]);
 
+  const proportion = canvasInfo?.proportion || 1;
+
   const base = `${settings.prefix}--document-preview-pdf-viewer`;
   return (
-    <div className={cx(base, className)}>
+    <div ref={rootRef} className={cx(base, className)}>
       <div className={`${base}__wrapper`}>
         <canvas
           ref={canvasRef}
           className={`${base}__canvas`}
           style={{
             width: `${canvasInfo?.width ?? 0}px`,
-            height: `${canvasInfo?.height ?? 0}px`,
-            transform: `scale(${scale})`
+            height: `${canvasInfo?.height ?? 0}px`
           }}
           width={canvasInfo?.canvasWidth}
           height={canvasInfo?.canvasHeight}
@@ -130,11 +145,11 @@ const PdfViewer: FC<Props> = ({
           <PdfViewerTextLayer
             className={cx(`${base}__text`, textLayerClassName)}
             loadedPage={loadedPage}
-            scale={scale}
+            scale={scale * proportion}
             setRenderedText={setRenderedText}
           />
         )}
-        {children}
+        {typeof children === 'function' ? children({ proportion }) : children}
       </div>
     </div>
   );
@@ -216,20 +231,24 @@ type CanvasInfo = {
   height: number;
   canvasWidth: number;
   canvasHeight: number;
+  proportion: number;
   viewport: PdfjsLib.PDFPageViewport;
 };
 
 function getCanvasInfo(
   loadedPage: PdfjsLib.PDFPageProxy | null | undefined,
-  scale: number
+  scale: number,
+  rootRef: RefObject<HTMLDivElement>
 ): CanvasInfo | null {
   const canvasScale = window.devicePixelRatio ?? 1;
   const viewport = loadedPage?.getViewport({ scale: scale * canvasScale });
-  if (viewport) {
+  const rootDimensions = rootRef?.current?.getBoundingClientRect();
+  if (viewport && rootDimensions) {
     const { width: canvasWidth, height: canvasHeight } = viewport;
-    const width = Math.ceil(canvasWidth / canvasScale);
-    const height = Math.ceil(canvasHeight / canvasScale);
-    return { width, height, canvasWidth, canvasHeight, viewport };
+    const width = rootDimensions.width * scale;
+    const height = (width * canvasHeight) / canvasWidth;
+    const proportion = (width / canvasWidth) * canvasScale;
+    return { width, height, canvasWidth, canvasHeight, proportion, viewport };
   }
   return null;
 }
