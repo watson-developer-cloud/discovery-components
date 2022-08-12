@@ -75,6 +75,7 @@ const PdfViewer: FC<Props> = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const [canvasInfo, setCanvasInfo] = useState<CanvasInfo | null>(null);
+  const [previousRootWidth, setPreviousRootWidth] = useState<number>(0);
 
   const loadedFile = useAsyncFunctionCall(
     useCallback(async () => (file ? await _loadPdf(file) : null), [file])
@@ -93,7 +94,13 @@ const PdfViewer: FC<Props> = ({
 
   useResizeObserver(
     rootRef.current,
-    debounce(() => setCanvasInfo(getCanvasInfo(loadedPage, scale, rootRef)), RESIZE_DEBOUNCE)
+    debounce(() => {
+      const currentRootWidth = rootRef?.current?.getBoundingClientRect().width;
+      if (!!currentRootWidth && currentRootWidth !== previousRootWidth) {
+        setCanvasInfo(getCanvasInfo(loadedPage, scale, rootRef));
+        setPreviousRootWidth(currentRootWidth);
+      }
+    }, RESIZE_DEBOUNCE)
   );
 
   // render page
@@ -240,14 +247,18 @@ function getCanvasInfo(
   scale: number,
   rootRef: RefObject<HTMLDivElement>
 ): CanvasInfo | null {
-  const canvasScale = window.devicePixelRatio ?? 1;
-  const viewport = loadedPage?.getViewport({ scale: scale * canvasScale });
   const rootDimensions = rootRef?.current?.getBoundingClientRect();
-  if (viewport && rootDimensions) {
-    const { width: canvasWidth, height: canvasHeight } = viewport;
+  if (loadedPage && rootDimensions) {
+    const canvasScale = window.devicePixelRatio ?? 1;
     const width = rootDimensions.width * scale;
+    const pageWidth = loadedPage.view[2];
+    const proportion = rootDimensions.width / pageWidth;
+
+    const viewport = loadedPage.getViewport({
+      scale: (scale * canvasScale * width) / pageWidth
+    });
+    const { width: canvasWidth, height: canvasHeight } = viewport;
     const height = (width * canvasHeight) / canvasWidth;
-    const proportion = (width / canvasWidth) * canvasScale;
     return { width, height, canvasWidth, canvasHeight, proportion, viewport };
   }
   return null;
