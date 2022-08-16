@@ -1,10 +1,9 @@
-import React, { FC, useEffect, useRef, useCallback, useMemo, useState, RefObject } from 'react';
+import React, { FC, useEffect, useRef, useCallback, useMemo, useState } from 'react';
 import cx from 'classnames';
 import PdfjsLib, { PDFDocumentProxy, PDFPageProxy, PDFPromise, PDFRenderTask } from 'pdfjs-dist';
 import PdfjsWorkerAsText from 'pdfjs-dist/build/pdf.worker.min.js';
 import { settings } from 'carbon-components';
-import debounce from 'lodash/debounce';
-import useResizeObserver from '@react-hook/resize-observer';
+import useSize from '@react-hook/size';
 import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
 import { QueryResult } from 'ibm-watson/discovery/v2';
 import { DocumentFile } from '../../types';
@@ -12,8 +11,6 @@ import { getTextMappings } from '../../utils/documentData';
 import PdfViewerTextLayer, { PdfRenderedText } from './PdfViewerTextLayer';
 import { toPDFSource } from './utils';
 import { PdfDisplayProps } from './types';
-
-const RESIZE_DEBOUNCE = 50;
 
 setupPdfjs();
 
@@ -75,7 +72,6 @@ const PdfViewer: FC<Props> = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const [canvasInfo, setCanvasInfo] = useState<CanvasInfo | null>(null);
-  const [previousRootWidth, setPreviousRootWidth] = useState<number>(0);
 
   const loadedFile = useAsyncFunctionCall(
     useCallback(async () => (file ? await _loadPdf(file) : null), [file])
@@ -87,21 +83,11 @@ const PdfViewer: FC<Props> = ({
     )
   );
 
-  useEffect(
-    () => setCanvasInfo(getCanvasInfo(loadedPage, scale, rootRef)),
-    [loadedPage, scale, rootRef]
-  );
-
-  useResizeObserver(
-    rootRef.current,
-    debounce(() => {
-      const currentRootWidth = rootRef?.current?.getBoundingClientRect().width;
-      if (!!currentRootWidth && currentRootWidth !== previousRootWidth) {
-        setCanvasInfo(getCanvasInfo(loadedPage, scale, rootRef));
-        setPreviousRootWidth(currentRootWidth);
-      }
-    }, RESIZE_DEBOUNCE)
-  );
+  const [width] = useSize(rootRef);
+  useEffect(() => {
+    // width has changed; update canvas info
+    setCanvasInfo(getCanvasInfo(loadedPage, scale, width));
+  }, [loadedPage, scale, width]);
 
   // render page
   useAsyncFunctionCall(
@@ -132,7 +118,9 @@ const PdfViewer: FC<Props> = ({
     }
   }, [setHideToolbarControls]);
 
-  const proportion = canvasInfo?.proportion || 1;
+  // Ratio of the available width for the viewer to the native width of the PDF
+  // This value will be used to scale the text layer and highlights
+  const fitToWidthRatio = canvasInfo?.fitToWidthRatio || 1;
 
   const base = `${settings.prefix}--document-preview-pdf-viewer`;
   return (
@@ -152,11 +140,11 @@ const PdfViewer: FC<Props> = ({
           <PdfViewerTextLayer
             className={cx(`${base}__text`, textLayerClassName)}
             loadedPage={loadedPage}
-            scale={scale * proportion}
+            scale={scale * fitToWidthRatio}
             setRenderedText={setRenderedText}
           />
         )}
-        {typeof children === 'function' ? children({ proportion }) : children}
+        {typeof children === 'function' ? children({ fitToWidthRatio }) : children}
       </div>
     </div>
   );
@@ -238,28 +226,47 @@ type CanvasInfo = {
   height: number;
   canvasWidth: number;
   canvasHeight: number;
-  proportion: number;
+  fitToWidthRatio: number;
   viewport: PdfjsLib.PDFPageViewport;
 };
 
 function getCanvasInfo(
   loadedPage: PdfjsLib.PDFPageProxy | null | undefined,
   scale: number,
-  rootRef: RefObject<HTMLDivElement>
+  rootWidth: number
 ): CanvasInfo | null {
-  const rootDimensions = rootRef?.current?.getBoundingClientRect();
-  if (loadedPage && rootDimensions) {
-    const canvasScale = window.devicePixelRatio ?? 1;
-    const width = rootDimensions.width * scale;
-    const pageWidth = loadedPage.view[2];
-    const proportion = rootDimensions.width / pageWidth;
+  if (loadedPage) {
+    // Set the displayed width of the canvas to fill the available width (from parent component)
+    // when scale = 1, and to scale up or down accordingly with the scale value
+    const width = rootWidth * scale;
 
+    // The native width of the PDF page can be found by subtracting the x2 and x1 values
+    // of the page view, which indicate the left and right edge of the page
+    // @see https://mozilla.github.io/pdf.js/api/draft/module-pdfjsLib-PDFPageProxy.html#view
+    const pageWidth = loadedPage.view[2] - loadedPage.view[0];
+
+    // Proportion of the display width to the native width of the PDF,
+    // which will be used to scale the text layer and highlights
+    const fitToWidthRatio = rootWidth / pageWidth;
+
+    // Use the device's pixel ratio to adjust the canvas scale
+    const devicePixelRatio = window.devicePixelRatio ?? 1;
+
+    // Get the viewport of the page, scaled based on the current scale, fit-to-width ratio, and pixel ratio
     const viewport = loadedPage.getViewport({
-      scale: (scale * canvasScale * width) / pageWidth
+      scale: scale * fitToWidthRatio * devicePixelRatio
     });
+
+    // Pull the width and height of the viewport to be used when rendering the canvas element
     const { width: canvasWidth, height: canvasHeight } = viewport;
-    const height = (width * canvasHeight) / canvasWidth;
-    return { width, height, canvasWidth, canvasHeight, proportion, viewport };
+
+    // Height-to-width ratio of the PDF in the canvas
+    const pageAspectRatio = canvasHeight / canvasWidth;
+
+    // Set the displayed height of the canvas element based on the width and page aspect ratio
+    const height = width * pageAspectRatio;
+
+    return { width, height, canvasWidth, canvasHeight, fitToWidthRatio, viewport };
   }
   return null;
 }
