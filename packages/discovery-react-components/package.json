@@ -50,7 +50,7 @@
     "@rollup/plugin-node-resolve": "^13.0.5",
     "@rollup/plugin-url": "^6.1.0",
     "@storybook/addon-actions": "^5.3.21",
-    "@storybook/addon-docs": "^5.3.21",
+    "@storybook/addon-docs": "^6.5.10",
     "@storybook/addon-knobs": "^5.3.21",
     "@storybook/core": "^5.3.21",
     "@storybook/react": "^5.3.21",
