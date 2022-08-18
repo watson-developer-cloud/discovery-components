@@ -4,11 +4,27 @@
 
 .#{$prefix}--document-preview-pdf-viewer {
   display: flex;
-  justify-content: center;
+
+  // Take up entire width, but do not expand beyond it
+  width: 100%;
+  max-width: 100%;
 }
 
 .#{$prefix}--document-preview-pdf-viewer__wrapper {
   position: relative;
+
+  // This combination should force all browsers to
+  // allow full scrolling of PDFs when zoomed in
+  justify-content: safe center;
+  min-width: min-content;
+
+  // Center when smaller than the window width
+  margin-left: auto;
+  margin-right: auto;
+
+  // Prevent bottom whitespace from displaying
+  line-height: 0;
+
   @include pdfjsTextLayer;
 }
 

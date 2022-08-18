@@ -20,7 +20,7 @@
 
 .#{$prefix}--document-preview__document {
   position: relative;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .#{$prefix}--document-preview__document > * {

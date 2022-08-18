@@ -30,6 +30,7 @@
     "dist"
   ],
   "dependencies": {
+    "@react-hook/size": "^2.1.2",
     "classnames": "^2.2.6",
     "debounce": "^1.2.0",
     "dompurify": "^2.0.17",
