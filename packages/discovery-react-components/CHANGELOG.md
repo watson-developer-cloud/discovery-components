@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.4](https://github.com/watson-developer-cloud/discovery-components/compare/v3.0.3...v3.0.4) (2022-08-18)
+
+
+### Bug Fixes
+
+* adjust how canvas dimensions are computed ([#385](https://github.com/watson-developer-cloud/discovery-components/issues/385)) ([3a86582](https://github.com/watson-developer-cloud/discovery-components/commit/3a865825b6bf23b1c8da0ccfc5ae0d660e394a76))
+
+
+
+
+
 ## [3.0.3](https://github.com/watson-developer-cloud/discovery-components/compare/v3.0.2...v3.0.3) (2022-07-25)
 
 
