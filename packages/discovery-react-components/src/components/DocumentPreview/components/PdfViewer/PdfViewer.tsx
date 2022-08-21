@@ -3,7 +3,7 @@ import cx from 'classnames';
 import PdfjsLib, { PDFDocumentProxy, PDFPageProxy, PDFPromise, PDFRenderTask } from 'pdfjs-dist';
 import PdfjsWorkerAsText from 'pdfjs-dist/build/pdf.worker.min.js';
 import { settings } from 'carbon-components';
-import useSize from '@react-hook/size';
+import useSize from 'utils/useSize';
 import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
 import { QueryResult } from 'ibm-watson/discovery/v2';
 import { DocumentFile } from '../../types';
@@ -83,7 +83,9 @@ const PdfViewer: FC<Props> = ({
     )
   );
 
-  const [width] = useSize(rootRef);
+  // Returns the width of the root ref in order to trigger resizing the canvas when this value changes
+  const { width } = useSize(rootRef);
+
   useEffect(() => {
     // width has changed; update canvas info
     setCanvasInfo(getCanvasInfo(loadedPage, scale, width));
