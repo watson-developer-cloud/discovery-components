@@ -1,4 +1,4 @@
-import { PDFSource } from 'pdfjs-dist';
+import { DocumentInitParameters, TypedArray } from 'pdfjs-dist/types/display/api';
 import { toPDFSource } from '../utils';
 
 describe('utils', () => {
@@ -15,16 +15,16 @@ describe('utils', () => {
 
     it('can create PDFSource from ArrayBuffer', () => {
       const arrayBufferData: ArrayBuffer = new ArrayBuffer(2);
-      expect(toPDFSource(arrayBufferData).data).toBe(arrayBufferData);
+      expect(toPDFSource(arrayBufferData as TypedArray).data).toBe(arrayBufferData);
     });
 
     it('can create PDFSource from ArrayBuffer view', () => {
       const arrayBufferViewData: ArrayBufferView = new DataView(new ArrayBuffer(2));
-      expect(toPDFSource(arrayBufferViewData).data).toBe(arrayBufferViewData);
+      expect(toPDFSource(arrayBufferViewData as TypedArray).data).toBe(arrayBufferViewData);
     });
 
     it('can create PDFSource from PDFSource', () => {
-      const pdfSourceData: PDFSource = { data: 'PDF file content' };
+      const pdfSourceData: DocumentInitParameters = { data: 'PDF file content' };
       expect(toPDFSource(pdfSourceData)).toBe(pdfSourceData);
     });
   });

@@ -1,5 +1,5 @@
 import DiscoveryV2, { JsonObject, QueryResult } from 'ibm-watson/discovery/v2';
-import { PDFSource } from 'pdfjs-dist';
+import { DocumentInitParameters } from 'pdfjs-dist/types/display/api';
 
 export type SearchClient = Pick<
   DiscoveryV2,
@@ -23,7 +23,7 @@ export interface DocumentProviderProps
  */
 type TypedPdfDocumentFile = {
   type: 'pdf';
-  source: PDFSource;
+  source: DocumentInitParameters;
 };
 export type TypedDocumentFile = TypedPdfDocumentFile;
 

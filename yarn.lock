@@ -2181,7 +2181,6 @@ __metadata:
     "@storybook/source-loader": ^5.3.21
     "@svgr/rollup": ^5.5.0
     "@types/marked": ^4
-    "@types/pdfjs-dist": 2.1.7
     "@types/uuid": ^8
     classnames: ^2.2.6
     cross-env: ^7.0.3
@@ -2195,7 +2194,7 @@ __metadata:
     marked: ^4.0.10
     mustache: ^3.1.0
     node-sass: ^6.0.1
-    pdfjs-dist: ^2.2.228
+    pdfjs-dist: 2.6.347
     react-error-boundary: ^1.2.5
     react-resize-detector: ^4.2.1
     react-scripts: ^4.0.3
@@ -5192,13 +5191,6 @@ __metadata:
   version: 5.0.3
   resolution: "@types/parse5@npm:5.0.3"
   checksum: d6b7495cb1850f9f2e9c5e103ede9f2d30a5320669707b105c403868adc9e4bf8d3a7ff314cc23f67826bbbbbc0e6147346ce9062ab429f099dba7a01f463919
-  languageName: node
-  linkType: hard
-
-"@types/pdfjs-dist@npm:2.1.7":
-  version: 2.1.7
-  resolution: "@types/pdfjs-dist@npm:2.1.7"
-  checksum: 14ca335658a85ab5cab908f3ef3ec104cb62487acc2465bb74b6d0430cd720dca30a8804440e152967b1dd7fb384c65ef05da1702a1ec87b905c0f5c73bbe653
   languageName: node
   linkType: hard
 
@@ -17034,7 +17026,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loader-utils@npm:^1.0.0, loader-utils@npm:^1.0.2, loader-utils@npm:^1.1.0, loader-utils@npm:^1.2.3, loader-utils@npm:^1.4.0":
+"loader-utils@npm:^1.0.2, loader-utils@npm:^1.1.0, loader-utils@npm:^1.2.3, loader-utils@npm:^1.4.0":
   version: 1.4.0
   resolution: "loader-utils@npm:1.4.0"
   dependencies:
@@ -18541,13 +18533,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-ensure@npm:^0.0.0":
-  version: 0.0.0
-  resolution: "node-ensure@npm:0.0.0"
-  checksum: 1124623beb1dec66889794286ec1761ac3bfac42ce93b8652903efa5af14227edce5bafa06c4e0675cdc850360931d7c9413e3b5406150f05b2c9bf5bb3ccce4
-  languageName: node
-  linkType: hard
-
 "node-fetch@npm:^2.6.0, node-fetch@npm:^2.6.1":
   version: 2.6.7
   resolution: "node-fetch@npm:2.6.7"
@@ -19887,15 +19872,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pdfjs-dist@npm:^2.2.228":
-  version: 2.2.228
-  resolution: "pdfjs-dist@npm:2.2.228"
-  dependencies:
-    node-ensure: ^0.0.0
-    worker-loader: ^2.0.0
-  peerDependencies:
-    webpack: ^3.0.0 || ^4.0.0-alpha.0 || ^4.0.0
-  checksum: 8856d80b1787ecdc88eb7773cadb071ad41e712156b586fd8f4b4ae546818f350521653504f798eab2eeea2ca0e9f910c62e4591a25e3f60567fbed1d727b457
+"pdfjs-dist@npm:2.6.347":
+  version: 2.6.347
+  resolution: "pdfjs-dist@npm:2.6.347"
+  checksum: 34a3ee1d63fe522000edcbc4c6be0cdbbdbe92544a2d97b1b003fc0e63d2fcfddaa882a418efb20aea22a2e67ff2cdd54be5543b15301971ed7f7a75ef9289cb
   languageName: node
   linkType: hard
 
@@ -23529,16 +23509,6 @@ __metadata:
     loose-envify: ^1.1.0
     object-assign: ^4.1.1
   checksum: c4b35cf967c8f0d3e65753252d0f260271f81a81e427241295c5a7b783abf4ea9e905f22f815ab66676f5313be0a25f47be582254db8f9241b259213e999b8fc
-  languageName: node
-  linkType: hard
-
-"schema-utils@npm:^0.4.0":
-  version: 0.4.7
-  resolution: "schema-utils@npm:0.4.7"
-  dependencies:
-    ajv: ^6.1.0
-    ajv-keywords: ^3.1.0
-  checksum: acee0b7aee127374099846114ee01e3e0eec057e27f8451b2dbdfa43f17ea42ed1e6af876f2a28f5212cb5adef263f99661d0475208417226e5c83c648235b0e
   languageName: node
   linkType: hard
 
@@ -27313,18 +27283,6 @@ __metadata:
   dependencies:
     errno: ~0.1.7
   checksum: eab917530e1feddf157ec749e9c91b73a886142daa7fdf3490bccbf7b548b2576c43ab8d0a98e72ac755cbc101ca8647a7b1ff2485fddb9e8f53c40c77f5a719
-  languageName: node
-  linkType: hard
-
-"worker-loader@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "worker-loader@npm:2.0.0"
-  dependencies:
-    loader-utils: ^1.0.0
-    schema-utils: ^0.4.0
-  peerDependencies:
-    webpack: ^3.0.0 || ^4.0.0-alpha.0 || ^4.0.0
-  checksum: 76fbb5a6ce1054c473d81b4f5f6cb482b3ec1d13d943786f0f6a29220d6f24e396b55f73b8e31659100a12e66e60ed237807bc42b9835da8bcb1bd283759e204
   languageName: node
   linkType: hard
 

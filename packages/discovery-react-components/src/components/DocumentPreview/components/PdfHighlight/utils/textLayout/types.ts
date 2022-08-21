@@ -1,5 +1,6 @@
 import { TextMappings } from 'components/DocumentPreview/types';
-import { PDFPageViewport, TextContent } from 'pdfjs-dist';
+import { TextContent } from 'pdfjs-dist/types/display/api';
+import { PageViewport } from 'pdfjs-dist/types/display/display_utils';
 import { ProcessedDoc } from 'utils/document';
 import { Bbox, DocumentFields, TextSpan } from '../../types';
 
@@ -85,7 +86,7 @@ export type HtmlBboxInfo = Pick<ProcessedDoc, 'bboxes' | 'styles'>;
  */
 export type PdfTextContentInfo = {
   textContent: TextContent;
-  viewport: PDFPageViewport;
+  viewport: PageViewport;
 };
 
 /**
