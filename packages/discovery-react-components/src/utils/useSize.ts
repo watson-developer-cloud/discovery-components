@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, RefObject } from 'react';
+import { useState, useLayoutEffect } from 'react';
 import useResizeObserver from '@react-hook/resize-observer';
 
 type Size = {
@@ -12,7 +12,7 @@ type Size = {
  *
  * @param target A React ref of the element to be measured
  */
-const useSize = <T extends HTMLElement>(target: RefObject<T>): Size => {
+const useSize = (target: HTMLElement | null): Size => {
   const [size, setSize] = useState<Size>(getCurrentSize(target));
 
   useLayoutEffect(() => {
@@ -26,8 +26,8 @@ const useSize = <T extends HTMLElement>(target: RefObject<T>): Size => {
   return size;
 };
 
-function getCurrentSize(target: RefObject<HTMLElement>) {
-  const size = target?.current?.getBoundingClientRect();
+function getCurrentSize(target: HTMLElement | null) {
+  const size = target?.getBoundingClientRect();
   return {
     width: size?.width || 0,
     height: size?.height || 0

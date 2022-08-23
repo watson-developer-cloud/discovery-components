@@ -70,7 +70,7 @@ const PdfViewer: FC<Props> = ({
   children
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const rootRef = useRef<HTMLDivElement>(null);
+  const [rootNode, setRootNode] = useState<HTMLElement | null>(null);
   const [canvasInfo, setCanvasInfo] = useState<CanvasInfo | null>(null);
 
   const loadedFile = useAsyncFunctionCall(
@@ -83,8 +83,13 @@ const PdfViewer: FC<Props> = ({
     )
   );
 
-  // Returns the width of the root ref in order to trigger resizing the canvas when this value changes
-  const { width } = useSize(rootRef);
+  // Avoid issues with useRef not notifying effects about changes
+  // @see https://reactjs.org/docs/hooks-faq.html#how-can-i-measure-a-dom-node
+  const rootRef = useCallback(node => {
+    setRootNode(node);
+  }, []);
+
+  const { width } = useSize(rootNode);
 
   useEffect(() => {
     // width has changed; update canvas info
