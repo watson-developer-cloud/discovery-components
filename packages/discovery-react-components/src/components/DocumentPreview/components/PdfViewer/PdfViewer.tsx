@@ -3,6 +3,7 @@ import cx from 'classnames';
 import PdfjsLib, { PDFDocumentProxy, PDFPageProxy, PDFPromise, PDFRenderTask } from 'pdfjs-dist';
 import PdfjsWorkerAsText from 'pdfjs-dist/build/pdf.worker.min.js';
 import { settings } from 'carbon-components';
+import useSafeRef from 'utils/useSafeRef';
 import useSize from 'utils/useSize';
 import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
 import { QueryResult } from 'ibm-watson/discovery/v2';
@@ -70,7 +71,7 @@ const PdfViewer: FC<Props> = ({
   children
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [rootNode, setRootNode] = useState<HTMLElement | null>(null);
+  const { node: rootNode, setRef: setRootRef } = useSafeRef();
   const [canvasInfo, setCanvasInfo] = useState<CanvasInfo | null>(null);
 
   const loadedFile = useAsyncFunctionCall(
@@ -82,12 +83,6 @@ const PdfViewer: FC<Props> = ({
       [loadedFile, page]
     )
   );
-
-  // Avoid issues with useRef not notifying effects about changes
-  // @see https://reactjs.org/docs/hooks-faq.html#how-can-i-measure-a-dom-node
-  const rootRef = useCallback(node => {
-    setRootNode(node);
-  }, []);
 
   const { width } = useSize(rootNode);
 
@@ -131,7 +126,7 @@ const PdfViewer: FC<Props> = ({
 
   const base = `${settings.prefix}--document-preview-pdf-viewer`;
   return (
-    <div ref={rootRef} className={cx(base, className)}>
+    <div ref={setRootRef} className={cx(base, className)}>
       <div className={`${base}__wrapper`}>
         <canvas
           ref={canvasRef}
