@@ -8,6 +8,8 @@
   // Take up entire width, but do not expand beyond it
   width: 100%;
   max-width: 100%;
+
+  overflow: auto;
 }
 
 .#{$prefix}--document-preview-pdf-viewer__wrapper {
