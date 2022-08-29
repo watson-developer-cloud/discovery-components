@@ -3,7 +3,8 @@ import cx from 'classnames';
 import PdfjsLib, { PDFDocumentProxy, PDFPageProxy, PDFPromise, PDFRenderTask } from 'pdfjs-dist';
 import PdfjsWorkerAsText from 'pdfjs-dist/build/pdf.worker.min.js';
 import { settings } from 'carbon-components';
-import useSize from '@react-hook/size';
+import useSafeRef from 'utils/useSafeRef';
+import useSize from 'utils/useSize';
 import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
 import { QueryResult } from 'ibm-watson/discovery/v2';
 import { DocumentFile } from '../../types';
@@ -70,7 +71,7 @@ const PdfViewer: FC<Props> = ({
   children
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const rootRef = useRef<HTMLDivElement>(null);
+  const { node: rootNode, setRef: setRootRef } = useSafeRef();
   const [canvasInfo, setCanvasInfo] = useState<CanvasInfo | null>(null);
 
   const loadedFile = useAsyncFunctionCall(
@@ -83,7 +84,8 @@ const PdfViewer: FC<Props> = ({
     )
   );
 
-  const [width] = useSize(rootRef);
+  const { width } = useSize(rootNode);
+
   useEffect(() => {
     // width has changed; update canvas info
     setCanvasInfo(getCanvasInfo(loadedPage, scale, width));
@@ -124,7 +126,7 @@ const PdfViewer: FC<Props> = ({
 
   const base = `${settings.prefix}--document-preview-pdf-viewer`;
   return (
-    <div ref={rootRef} className={cx(base, className)}>
+    <div ref={setRootRef} className={cx(base, className)}>
       <div className={`${base}__wrapper`}>
         <canvas
           ref={canvasRef}

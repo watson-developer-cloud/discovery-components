@@ -18,4 +18,6 @@ export { default as StructuredQuery } from './components/StructuredQuery/Structu
 
 // utility methods
 export { getDocumentTitle } from './utils/getDocumentTitle';
+export { default as useSafeRef } from './utils/useSafeRef';
+export { default as useSize } from './utils/useSize';
 export { escapeFieldName } from './components/SearchFacets/utils/escapeFieldName';
