@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.5](https://github.com/watson-developer-cloud/discovery-components/compare/v3.0.4...v3.0.5) (2022-08-29)
+
+
+### Bug Fixes
+
+* prevent unnecessary horizontal scrollbar ([#394](https://github.com/watson-developer-cloud/discovery-components/issues/394)) ([7fa44bc](https://github.com/watson-developer-cloud/discovery-components/commit/7fa44bc2cd4b215e7753e30bc2602ad5d04d8b0f))
+
+
+
+
+
 ## [3.0.4](https://github.com/watson-developer-cloud/discovery-components/compare/v3.0.3...v3.0.4) (2022-08-18)
 
 
