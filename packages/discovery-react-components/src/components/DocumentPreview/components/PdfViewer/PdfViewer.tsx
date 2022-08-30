@@ -1,6 +1,8 @@
 import React, { FC, useEffect, useRef, useCallback, useMemo, useState } from 'react';
 import cx from 'classnames';
-import PdfjsLib, { PDFDocumentProxy, PDFPageProxy, PDFPromise, PDFRenderTask } from 'pdfjs-dist';
+import * as PdfjsLib from 'pdfjs-dist';
+import { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist/types/display/api';
+import { PageViewport } from 'pdfjs-dist/types/display/display_utils';
 import PdfjsWorkerAsText from 'pdfjs-dist/build/pdf.worker.min.js';
 import { settings } from 'carbon-components';
 import useSafeRef from 'utils/useSafeRef';
@@ -12,10 +14,11 @@ import { getTextMappings } from '../../utils/documentData';
 import PdfViewerTextLayer, { PdfRenderedText } from './PdfViewerTextLayer';
 import { toPDFSource } from './utils';
 import { PdfDisplayProps } from './types';
+type RenderTask = ReturnType<PDFPageProxy['render']>;
 
 setupPdfjs();
 
-type Props = PdfDisplayProps & {
+export type PdfViewerProps = PdfDisplayProps & {
   className?: string;
 
   /**
@@ -56,7 +59,7 @@ type Props = PdfDisplayProps & {
   setRenderedText?: (info: PdfRenderedText | null) => any;
 };
 
-const PdfViewer: FC<Props> = ({
+const PdfViewer: FC<PdfViewerProps> = ({
   className,
   file,
   page,
@@ -188,7 +191,7 @@ function usePageCount({
   return pageCount;
 }
 
-function _loadPdf(data: DocumentFile): PDFPromise<PDFDocumentProxy> {
+function _loadPdf(data: DocumentFile): Promise<PDFDocumentProxy> {
   const source = toPDFSource(data);
   return PdfjsLib.getDocument(source).promise;
 }
@@ -201,7 +204,7 @@ function _renderPage(
   pdfPage: PDFPageProxy,
   canvas: HTMLCanvasElement,
   canvasInfo: CanvasInfo
-): PDFRenderTask | null {
+): RenderTask | null {
   const canvasContext = canvas.getContext('2d');
   if (canvasContext) {
     canvasContext.resetTransform();
@@ -216,7 +219,6 @@ function setupPdfjs(): void {
   if (typeof Worker !== 'undefined') {
     const blob = new Blob([PdfjsWorkerAsText], { type: 'text/javascript' });
     const pdfjsWorker = new Worker(URL.createObjectURL(blob)) as any;
-    // @ts-expect-error Upgrading pdfjs-dist and its typings would resolve the issue
     PdfjsLib.GlobalWorkerOptions.workerPort = pdfjsWorker;
   } else {
     PdfjsLib.GlobalWorkerOptions.workerSrc = PdfjsWorkerAsText;
@@ -229,11 +231,11 @@ type CanvasInfo = {
   canvasWidth: number;
   canvasHeight: number;
   fitToWidthRatio: number;
-  viewport: PdfjsLib.PDFPageViewport;
+  viewport: PageViewport;
 };
 
 function getCanvasInfo(
-  loadedPage: PdfjsLib.PDFPageProxy | null | undefined,
+  loadedPage: PDFPageProxy | null | undefined,
   scale: number,
   rootWidth: number
 ): CanvasInfo | null {
@@ -273,5 +275,4 @@ function getCanvasInfo(
   return null;
 }
 
-export type PdfViewerProps = Props;
 export default PdfViewer;

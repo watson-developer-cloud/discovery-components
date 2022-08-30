@@ -1,5 +1,6 @@
 import { bboxesIntersect } from 'components/DocumentPreview/utils/box';
-import { PDFPageViewport, PDFPageViewportOptions, TextContentItem } from 'pdfjs-dist';
+import { TextItem } from 'pdfjs-dist/types/display/api';
+import { PageViewport, PageViewportParameters } from 'pdfjs-dist/types/display/display_utils';
 import { Bbox, TextSpan } from '../../types';
 import { BaseTextLayoutCell } from './BaseTextLayout';
 import { getAdjustedCellByOffsetByDom } from './dom';
@@ -16,9 +17,9 @@ export class PdfTextContentTextLayout implements TextLayout<PdfTextContentTextLa
   constructor(textContentInfo: PdfTextContentInfo, pageNum: number, htmlBboxInfo?: HtmlBboxInfo) {
     this.textContentInfo = textContentInfo;
 
-    const textContentItems = textContentInfo.textContent.items;
+    const textContentItems = textContentInfo.textContent.items as TextItem[];
 
-    this.cells = textContentItems.map((item, index) => {
+    this.cells = textContentItems.map((item: TextItem, index: number) => {
       const cellBbox = getBbox(item, this.viewport);
       let isInHtmlBbox = false;
       if (htmlBboxInfo?.bboxes?.length) {
@@ -33,7 +34,7 @@ export class PdfTextContentTextLayout implements TextLayout<PdfTextContentTextLa
   /**
    * get viewport of the current page
    */
-  get viewport(): PDFPageViewport {
+  get viewport(): PageViewport {
     return this.textContentInfo.viewport;
   }
 
@@ -71,7 +72,7 @@ class PdfTextContentTextLayoutCell extends BaseTextLayoutCell<PdfTextContentText
   constructor(
     parent: PdfTextContentTextLayout,
     index: number,
-    textItem: TextContentItem,
+    textItem: TextItem,
     pageNum: number,
     bbox: Bbox,
     isInHtmlBbox: boolean
@@ -101,10 +102,10 @@ class PdfTextContentTextLayoutCell extends BaseTextLayoutCell<PdfTextContentText
 /**
  * Get bbox from a PDF text content item
  */
-function getBbox(textItem: TextContentItem, viewport: PDFPageViewport): Bbox {
+function getBbox(textItem: TextItem, viewport: PageViewport): Bbox {
   const { transform } = textItem;
 
-  const patchedViewport = viewport as PDFPageViewportOptions & PDFPageViewport;
+  const patchedViewport = viewport as PageViewportParameters & PageViewport;
   const defaultSideways = patchedViewport.rotation % 180 !== 0;
 
   const [fontHeightPx, , offsetX, offsetY, x, y] = transform;

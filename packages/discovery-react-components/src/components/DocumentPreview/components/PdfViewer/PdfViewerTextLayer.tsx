@@ -1,12 +1,13 @@
 import React, { FC, useEffect, useRef, useCallback } from 'react';
 import cx from 'classnames';
-import { PDFPageProxy, PDFPageViewport, TextContent, TextContentItem } from 'pdfjs-dist';
+import { TextContent, TextItem, PDFPageProxy } from 'pdfjs-dist/types/display/api';
+import { PageViewport } from 'pdfjs-dist/types/display/display_utils';
 import { EventBus } from 'pdfjs-dist/lib/web/ui_utils';
 import { TextLayerBuilder } from 'pdfjs-dist/lib/web/text_layer_builder';
 import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
 import { PdfDisplayProps } from './types';
 
-type Props = Pick<PdfDisplayProps, 'scale'> & {
+type PdfViewerTextLayerProps = Pick<PdfDisplayProps, 'scale'> & {
   className?: string;
 
   /**
@@ -24,9 +25,7 @@ export type PdfRenderedText = {
   /**
    * PDF text content
    */
-  textContent: TextContent & {
-    styles: { [styleName: string]: CSSStyleDeclaration };
-  };
+  textContent: TextContent;
 
   /**
    * Text span DOM elements rendered on the text layer
@@ -36,7 +35,7 @@ export type PdfRenderedText = {
   /**
    * Pdf page viewport used to render text items
    */
-  viewport: PDFPageViewport;
+  viewport: PageViewport;
 
   /**
    * Page number, starting at 1
@@ -44,7 +43,7 @@ export type PdfRenderedText = {
   page: number;
 };
 
-const PdfViewerTextLayer: FC<Props> = ({
+const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
   className,
   loadedPage,
   scale = 1,
@@ -121,7 +120,7 @@ async function _renderTextLayer(
 
   // render
   textLayerDiv.innerHTML = '';
-  const deferredRenderEndPromise = new Promise(resolve => {
+  const deferredRenderEndPromise = new Promise<void>(resolve => {
     const listener = () => {
       resolve();
       builder?.eventBus.off('textlayerrendered', listener);
@@ -132,7 +131,7 @@ async function _renderTextLayer(
   builder.render();
   await deferredRenderEndPromise;
 
-  _adjustTextDivs(builder.textDivs, textContent.items, scale);
+  _adjustTextDivs(builder.textDivs, textContent.items as TextItem[], scale);
 }
 
 /**
@@ -143,7 +142,7 @@ async function _renderTextLayer(
  */
 function _adjustTextDivs(
   textDivs: HTMLElement[],
-  textItems: TextContentItem[] | null,
+  textItems: TextItem[] | null,
   scale: number
 ): void {
   const scaleXPattern = /scaleX\(([\d.]+)\)/;

@@ -15,20 +15,21 @@ declare module 'pdfjs-dist/lib/web/ui_utils' {
 
 declare module 'pdfjs-dist/lib/web/text_layer_builder' {
   import { EventBus } from 'pdfjs-dist/lib/web/ui_utils';
-  import PdfjsLib from 'pdfjs-dist';
+  import { PageViewport } from 'pdfjs-dist/types/display/display_utils';
+  import { TextContent } from 'pdfjs-dist/types/display/api';
 
   export class TextLayerBuilder {
     constructor(options: TextLayerBuilder.Options);
 
     textLayerDiv: HTMLElement;
     eventBus: EventBus;
-    textContent: PdfjsLib.TextContent | null;
+    textContent: TextContent | null;
     // textContentItemsStr: any[];
     renderingDone: boolean;
     // pageIdx: number;
     pageNumber: number;
     // matches: any[];
-    // viewport: PdfjsLib.PDFPageViewport;
+    // viewport: PageViewport;
     textDivs: HTMLElement[];
     // findController: any;
     textLayerRenderTask: TextLayerRenderTask;
@@ -37,7 +38,7 @@ declare module 'pdfjs-dist/lib/web/text_layer_builder' {
     render(timeout?: number): void;
     cancel(): void;
     // setTextContentStream(readableStream: any): void;
-    setTextContent(textContent: PdfjsLib.TextContent): void;
+    setTextContent(textContent: TextContent): void;
   }
   export const DefaultTextLayerFactory;
 
@@ -46,7 +47,7 @@ declare module 'pdfjs-dist/lib/web/text_layer_builder' {
       textLayerDiv: HTMLElement;
       eventBus: EventBus;
       pageIndex: number;
-      viewport: PdfjsLib.PDFPageViewport;
+      viewport: PageViewport;
       // findController?: any;
       // enhanceTextSelection?: any;
     }

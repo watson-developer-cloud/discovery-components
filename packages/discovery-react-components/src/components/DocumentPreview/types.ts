@@ -1,5 +1,5 @@
 import { QueryResult } from 'ibm-watson/discovery/v2';
-import { PDFSource } from 'pdfjs-dist';
+import { DocumentInitParameters, TypedArray } from 'pdfjs-dist/types/display/api';
 
 export interface TextMappings {
   pages: Page[];
@@ -56,4 +56,4 @@ export interface DiscoveryDocument extends QueryResult {
   };
 }
 
-export type DocumentFile = string | ArrayBuffer | PDFSource;
+export type DocumentFile = string | TypedArray | DocumentInitParameters;
