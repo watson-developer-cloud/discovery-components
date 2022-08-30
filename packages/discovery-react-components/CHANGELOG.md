@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.6](https://github.com/watson-developer-cloud/discovery-components/compare/v3.0.5...v3.0.6) (2022-08-30)
+
+
+### Bug Fixes
+
+* upgrade pdfjs to 2.6.347 ([#393](https://github.com/watson-developer-cloud/discovery-components/issues/393)) ([db3d254](https://github.com/watson-developer-cloud/discovery-components/commit/db3d254cb66ff3c03784cf0ce6277128a29e4e7e))
+
+
+
+
+
 ## [3.0.5](https://github.com/watson-developer-cloud/discovery-components/compare/v3.0.4...v3.0.5) (2022-08-29)
 
 
