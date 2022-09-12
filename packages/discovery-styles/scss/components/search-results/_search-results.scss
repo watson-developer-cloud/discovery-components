@@ -23,9 +23,7 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
 .#{$prefix}--search-result {
   @include box-shadow;
   background-color: $result-background;
-  padding: $spacing-05;
   margin: $layout-01 0;
-  border-radius: rem(4px);
   font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
 
   &:first-of-type {
@@ -69,16 +67,26 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
 
 .#{$prefix}--search-result__content-wrapper {
   display: flex;
+  flex-direction: column;
   .#{$prefix}--tile {
     display: flex;
     flex-direction: column;
-    width: 100%;
-  }
-}
+    align-items: flex-start;
 
-.#{$prefix}--search-result__content-wrapper--half {
-  .#{$prefix}--tile {
-    width: 50%;
+    padding-top: $spacing-05;
+    padding-bottom: $spacing-05;
+    margin-right: $spacing-05;
+    margin-left: $spacing-05;
+    border-top: 1px solid $ui-03;
+
+    &:first-child {
+      padding-top: $spacing-05;
+      border-top: none;
+    }
+
+    &:last-child {
+      pading-bottom: $spacing-05;
+    }
   }
 }
 
@@ -106,7 +114,6 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
     background-color: $highlight;
     font-style: normal;
     padding: 0 $spacing-02;
-    border-radius: rem(2px);
   }
 }
 
@@ -147,7 +154,9 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   display: flex;
   flex-direction: row-reverse;
   font-size: 0.75rem;
+  min-height: 0;
   padding: 0;
+  margin-top: $spacing-04;
   span {
     flex-grow: 2;
     padding-left: $spacing-03;
@@ -164,11 +173,17 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
 
 .#{$prefix}--search-result__footer {
   border-top: 1px solid $ui-03;
-  padding-top: $spacing-05;
+  padding-left: $spacing-05;
+  padding-right: $spacing-05;
   color: $gray-60;
   font-size: $spacing-04;
   display: flex;
   justify-content: space-between;
+
+  > * {
+    padding-top: $spacing-05;
+    padding-bottom: $spacing-05;
+  }
 }
 
 .#{$prefix}--search-result__footer__title {

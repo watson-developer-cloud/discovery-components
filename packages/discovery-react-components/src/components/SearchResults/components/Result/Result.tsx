@@ -15,7 +15,6 @@ import {
   searchResultSelectedClass,
   searchResultCurationClass,
   searchResultContentWrapperClass,
-  searchResultContentWrapperHalfClass,
   searchResultFooterClass,
   searchResultFooterTitleClass,
   searchResultFooterCollectionNameClass
@@ -102,26 +101,32 @@ export const Result: React.FunctionComponent<ResultProps> = ({
     fetchDocumentsResponseStore: { isLoading }
   } = useContext(SearchContext);
 
-  const firstPassage: DiscoveryV2.QueryResultPassage | undefined = get(
+  const passages: DiscoveryV2.QueryResultPassage[] | undefined = get(
     result,
-    'document_passages[0]'
+    'document_passages'
+  )?.filter(passage => !!get(passage, 'passage_text'));
+  const passageTexts: (string | undefined)[] | undefined = passages?.map(passage =>
+    get(passage, 'passage_text')
   );
-  const firstPassageText = get(firstPassage, 'passage_text');
-  const hasPassage = usePassages && !!firstPassageText;
-  let displayedText: string | undefined = get(result, bodyField);
+  const hasPassage = usePassages && !!passageTexts && passageTexts.length > 0;
+  let displayedTexts: string[] | undefined = get(result, bodyField)
+    ? [get(result, bodyField)]
+    : undefined;
+  let displayedTextElements: SelectedResult['element'][] | null = null;
+  let displayedTextElementType: SelectedResult['elementType'] = null;
   if (hasPassage) {
-    displayedText = firstPassageText;
+    displayedTexts = passageTexts as string[];
+    displayedTextElements = passages as DiscoveryV2.QueryResultPassage[];
+    displayedTextElementType = 'passage';
   }
   const shouldDangerouslyRenderHtml = hasPassage || dangerouslyRenderHtml;
-  const displayedTextElement = hasPassage ? firstPassage : null;
-  const displayedTextElementType = hasPassage ? 'passage' : null;
   const tableHtml: string | undefined = get(table, 'table_html');
   // Need to check that showTablesOnlyResults isn't enabled to ensure text for a linked result isn't displayed in a tables only results view
-  const hasText = displayedText && !showTablesOnlyResults;
+  const hasText = displayedTexts && !showTablesOnlyResults;
   const emptyResultContent = !(hasText || tableHtml);
 
   // Don't display tables-only results when displaying passages
-  if (!showTablesOnlyResults && tableHtml && !displayedText) {
+  if (!showTablesOnlyResults && tableHtml && !displayedTexts) {
     return null;
   }
 
@@ -143,9 +148,6 @@ export const Result: React.FunctionComponent<ResultProps> = ({
     searchResultClasses.push(searchResultCurationClass);
   }
   const searchResultContentWrapperClasses = [searchResultContentWrapperClass];
-  if (displayedText && tableHtml && !showTablesOnlyResults) {
-    searchResultContentWrapperClasses.push(searchResultContentWrapperHalfClass);
-  }
 
   const handleSelectResult = (
     element: SelectedResult['element'],
@@ -178,18 +180,24 @@ export const Result: React.FunctionComponent<ResultProps> = ({
           />
         ) : (
           <>
-            {displayedText && !showTablesOnlyResults && (
-              <ResultElement
-                body={displayedText}
-                buttonText={hasPassage ? messages.viewExcerptInDocumentButtonText : undefined}
-                element={displayedTextElement}
-                elementType={displayedTextElementType}
-                handleSelectResult={handleSelectResult}
-                passageTextClassName={passageTextClassName}
-                hasResult={!!result}
-                dangerouslyRenderHtml={shouldDangerouslyRenderHtml}
-              />
-            )}
+            {displayedTexts &&
+              !showTablesOnlyResults &&
+              displayedTexts.map((displayedText, index) => {
+                const displayedTextElement = displayedTextElements?.[index];
+                return (
+                  <ResultElement
+                    key={displayedText}
+                    body={displayedText}
+                    buttonText={hasPassage ? messages.viewExcerptInDocumentButtonText : undefined}
+                    element={displayedTextElement}
+                    elementType={displayedTextElementType}
+                    handleSelectResult={handleSelectResult}
+                    passageTextClassName={passageTextClassName}
+                    hasResult={!!result}
+                    dangerouslyRenderHtml={shouldDangerouslyRenderHtml}
+                  />
+                );
+              })}
             {tableHtml && (
               <ResultElement
                 body={tableHtml}

@@ -49,15 +49,15 @@
       ],
       "document_passages": [
         {
-          "passage_text": "This result multiple passages, but you should only be able to see the first one. <em>LEARNING</em>",
+          "passage_text": "This result multiple passages, so we'll display them in the order that they're returned. <em>LEARNING</em>",
           "start_offset": 0,
-          "end_offset": 109,
+          "end_offset": 106,
           "field": "text"
         },
         {
-          "passage_text": "if you can see this passage, something probably borked",
-          "start_offset": 110,
-          "end_offset": 164,
+          "passage_text": "We now display all passages that are returned for each document.",
+          "start_offset": 107,
+          "end_offset": 171,
           "field": "text"
         }
       ]

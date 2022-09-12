@@ -14,7 +14,6 @@ export const searchResultContentWrapperClass = `${searchResultClass}__content-wr
 export const searchResultContentWrapperBodyClass = `${searchResultContentWrapperClass}__body`;
 export const searchResultContentWrapperBodyButtonClass = `${searchResultContentWrapperBodyClass}__button`;
 export const searchResultContentWrapperBodyPassageHighlightsClass = `${searchResultContentWrapperBodyClass}--passage__highlights`;
-export const searchResultContentWrapperHalfClass = `${searchResultContentWrapperClass}--half`;
 export const searchResultFooterClass = `${searchResultClass}__footer`;
 export const searchResultFooterTitleClass = `${searchResultFooterClass}__title`;
 export const searchResultFooterCollectionNameClass = `${searchResultFooterClass}__collection-name`;

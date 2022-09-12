@@ -14,9 +14,11 @@ describe('Passage Results', () => {
 
     // SearchResults displays ONLY the first passage text of the results that have passages
     cy.findByText(
-      'This result multiple passages, but you should only be able to see the first one.'
+      "This result multiple passages, so we'll display them in the order that they're returned."
     ).should('be.visible');
-    cy.findByText('if you can see this passage, something probably borked').should('not.exist');
+    cy.findByText('We now display all passages that are returned for each document.').should(
+      'be.visible'
+    );
     cy.findByText('This result only has one passage, and it should be visible').should(
       'be.visible'
     );
@@ -46,7 +48,7 @@ describe('Passage Results', () => {
     cy.get('.bx--document-preview').should('exist');
     cy.get('.bx--document-preview')
       .contains(
-        'This is a document. This result multiple passages, but you should only be able to see the first one. IBM if you can see this passage, something probably borked'
+        "This result multiple passages, so we'll display them in the order that they're returned. IBM We now display all passages that are returned for each document."
       )
       .should('exist');
 
