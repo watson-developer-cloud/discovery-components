@@ -8,6 +8,23 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   align-items: center;
 }
 
+.#{$prefix}--search-results__header__title__text {
+  @include type-style('body-short-01');
+}
+
+.#{$prefix}--search-results__header__title__query {
+  @include type-style('heading-01');
+  margin-left: $spacing-02;
+
+  &:before {
+    content: open-quote;
+  }
+
+  &:after {
+    content: close-quote;
+  }
+}
+
 .#{$prefix}--search-result--loading {
   padding: $spacing-06;
 
@@ -25,44 +42,37 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   background-color: $result-background;
   margin: $layout-01 0;
   font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
-
-  &:first-of-type {
-    margin-top: 0;
-  }
-
-  &:last-of-type {
-    margin-bottom: 0;
-  }
 }
 
 .#{$prefix}--spelling-suggestion__wrapper {
-  @include type-style('body-short-01');
+  @include type-style('label-01');
   align-items: center;
   display: flex;
   padding: 0;
+  color: $text-02;
 
-  .#{$prefix}--btn--ghost.#{$prefix}--btn--sm {
-    padding-left: $spacing-03;
+  .#{$prefix}--spelling-suggestion {
+    @include type-style('label-01');
+    color: $link-02;
+    min-height: 0;
+    padding: 0;
+    margin-left: $spacing-02;
   }
-}
-
-.#{$prefix}--spelling-suggestion {
-  @include type-style('body-short-01');
 }
 
 .#{$prefix}--search-result--toggle {
   flex-direction: row;
   justify-content: flex-end;
-}
 
-.#{$prefix}--toggle__switch {
-  margin: $spacing-03 $spacing-08 $spacing-03 $spacing-03;
-}
+  .#{$prefix}--toggle__switch {
+    margin: 0 $spacing-08 0 $spacing-03;
+  }
 
-.#{$prefix}--toggle-input__label {
-  align-items: center;
-  display: flex;
-  flex-direction: row;
+  .#{$prefix}--toggle-input__label {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+  }
 }
 
 .#{$prefix}--search-result__content-wrapper {
@@ -156,7 +166,7 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   font-size: 0.75rem;
   min-height: 0;
   padding: 0;
-  margin-top: $spacing-04;
+  margin-top: $spacing-03;
   span {
     flex-grow: 2;
     padding-left: $spacing-03;
@@ -198,4 +208,15 @@ $result-table-fade-offset: calc(#{$result-element-max-height} - #{$result-table-
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.#{$prefix}--search-results__empty-list {
+  @include type-style('body-short-02');
+  padding: $spacing-05;
+  color: $ui-05;
+
+  .#{$prefix}--search-results__empty-list__text {
+    @include type-style('caption-01');
+    margin-top: $spacing-03;
+  }
 }

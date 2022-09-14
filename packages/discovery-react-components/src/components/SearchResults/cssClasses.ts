@@ -4,6 +4,12 @@ import { settings } from 'carbon-components';
 export const baseClass = `${settings.prefix}--search-results`;
 export const searchResultsListClass = `${baseClass}__list`;
 export const searchResultsHeaderClass = `${baseClass}__header`;
+export const searchResultsTitleClass = `${searchResultsHeaderClass}__title`;
+export const searchResultsTitleTextClass = `${searchResultsTitleClass}__text`;
+export const searchResultsTitleQueryClass = `${searchResultsTitleClass}__query`;
+export const searchResultsEmptyListClass = `${baseClass}__empty-list`;
+export const searchResultsEmptyTitleClass = `${searchResultsEmptyListClass}__title`;
+export const searchResultsEmptyTextClass = `${searchResultsEmptyListClass}__text`;
 
 // Single search result
 export const searchResultClass = `${settings.prefix}--search-result`;

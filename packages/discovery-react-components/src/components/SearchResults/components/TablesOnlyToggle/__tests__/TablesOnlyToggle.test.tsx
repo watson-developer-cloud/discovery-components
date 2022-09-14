@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, RenderResult } from '@testing-library/react';
+import { render, fireEvent, within, RenderResult } from '@testing-library/react';
 import {
   SearchContextIFC,
   SearchApiIFC,
@@ -55,8 +55,26 @@ describe('<TablesOnlyToggle />', () => {
     });
     test('all regular search results are shown', () => {
       expect(searchResults.getAllByTestId('search-result-element-body-table').length).toBe(1);
-      expect(searchResults.getAllByTestId('search-result-element-body-passage').length).toBe(2);
+      const results = searchResults.getAllByTestId('bx--search-result__content-wrapper');
+      expect(results.length).toBe(4);
+      expect(searchResults.getAllByTestId('search-result-element-body-passage').length).toBe(3);
+      expect(within(results[0]).getAllByTestId('search-result-element-body-passage').length).toBe(
+        1
+      );
+      expect(within(results[1]).getAllByTestId('search-result-element-body-passage').length).toBe(
+        2
+      );
+      expect(within(results[2]).queryAllByTestId('search-result-element-body-passage').length).toBe(
+        0
+      );
+      expect(within(results[3]).queryAllByTestId('search-result-element-body-passage').length).toBe(
+        0
+      );
       expect(searchResults.getAllByTestId('search-result-element-body-null').length).toBe(2);
+      expect(within(results[0]).queryAllByTestId('search-result-element-body-null').length).toBe(0);
+      expect(within(results[1]).queryAllByTestId('search-result-element-body-null').length).toBe(0);
+      expect(within(results[2]).getAllByTestId('search-result-element-body-null').length).toBe(1);
+      expect(within(results[3]).queryAllByTestId('search-result-element-body-null').length).toBe(1);
     });
     test('it sets the ResultsPagination component to be not hidden', () => {
       expect(setIsResultsPaginationComponentHiddenMock.mock.calls.length).toBe(2);

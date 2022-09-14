@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import mustache from 'mustache';
+import md5 from 'md5';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import {
   SearchApi,
@@ -101,26 +102,22 @@ export const Result: React.FunctionComponent<ResultProps> = ({
     fetchDocumentsResponseStore: { isLoading }
   } = useContext(SearchContext);
 
-  const passages: DiscoveryV2.QueryResultPassage[] | undefined = get(
-    result,
-    'document_passages'
-  )?.filter(passage => !!get(passage, 'passage_text'));
-  const passageTexts: (string | undefined)[] | undefined = passages?.map(passage =>
-    get(passage, 'passage_text')
-  );
-  const hasPassage = usePassages && !!passageTexts && passageTexts.length > 0;
+  const passages: DiscoveryV2.QueryResultPassage[] =
+    result?.document_passages?.filter(passage => !!passage?.passage_text) || [];
+  const passageTexts: string[] = passages?.map(passage => passage.passage_text!) || [];
+  const hasPassages = usePassages && !!passageTexts && passageTexts.length > 0;
   let displayedTexts: string[] | undefined = get(result, bodyField)
     ? [get(result, bodyField)]
     : undefined;
   let displayedTextElements: SelectedResult['element'][] | null = null;
   let displayedTextElementType: SelectedResult['elementType'] = null;
-  if (hasPassage) {
-    displayedTexts = passageTexts as string[];
-    displayedTextElements = passages as DiscoveryV2.QueryResultPassage[];
+  if (hasPassages) {
+    displayedTexts = passageTexts;
+    displayedTextElements = passages;
     displayedTextElementType = 'passage';
   }
-  const shouldDangerouslyRenderHtml = hasPassage || dangerouslyRenderHtml;
-  const tableHtml: string | undefined = get(table, 'table_html');
+  const shouldDangerouslyRenderHtml = hasPassages || dangerouslyRenderHtml;
+  const tableHtml: string | undefined = table?.table_html;
   // Need to check that showTablesOnlyResults isn't enabled to ensure text for a linked result isn't displayed in a tables only results view
   const hasText = displayedTexts && !showTablesOnlyResults;
   const emptyResultContent = !(hasText || tableHtml);
@@ -140,10 +137,8 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   if (isEqual(result, selectedResult.document)) {
     searchResultClasses.push(searchResultSelectedClass);
   }
-  const documentRetrievalSource: string | undefined = get(
-    result,
-    'result_metadata.document_retrieval_source'
-  );
+  const documentRetrievalSource: string | undefined =
+    result?.result_metadata?.document_retrieval_source;
   if (documentRetrievalSource === 'curation') {
     searchResultClasses.push(searchResultCurationClass);
   }
@@ -171,7 +166,10 @@ export const Result: React.FunctionComponent<ResultProps> = ({
 
   return (
     <div className={searchResultClasses.join(' ')}>
-      <div className={searchResultContentWrapperClasses.join(' ')}>
+      <div
+        className={searchResultContentWrapperClasses.join(' ')}
+        data-testid={searchResultContentWrapperClass}
+      >
         {emptyResultContent ? (
           <ResultElement
             body={messages.emptyResultContentBodyText!}
@@ -186,9 +184,9 @@ export const Result: React.FunctionComponent<ResultProps> = ({
                 const displayedTextElement = displayedTextElements?.[index];
                 return (
                   <ResultElement
-                    key={displayedText}
+                    key={md5(displayedText)}
                     body={displayedText}
-                    buttonText={hasPassage ? messages.viewExcerptInDocumentButtonText : undefined}
+                    buttonText={hasPassages ? messages.viewExcerptInDocumentButtonText : undefined}
                     element={displayedTextElement}
                     elementType={displayedTextElementType}
                     handleSelectResult={handleSelectResult}

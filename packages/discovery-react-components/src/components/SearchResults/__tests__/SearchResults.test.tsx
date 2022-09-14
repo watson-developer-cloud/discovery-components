@@ -140,7 +140,7 @@ describe('<SearchResults />', () => {
           test('for no search results found state', () => {
             queryResults = [];
             ({ searchResults } = setup({ queryResults }, componentProps));
-            expect(searchResults.getByText('There were no results found')).toBeDefined();
+            expect(searchResults.getByText('No results found')).toBeDefined();
           });
         });
 
@@ -192,7 +192,7 @@ describe('<SearchResults />', () => {
       });
       test('renders the no results found message', () => {
         ({ searchResults } = setup({ queryResults }, componentProps));
-        expect(searchResults.getByText('There were no results found')).toBeInTheDocument();
+        expect(searchResults.getByText('No results found')).toBeInTheDocument();
       });
 
       describe('and we have a spelling suggestion', () => {
@@ -251,7 +251,7 @@ describe('<SearchResults />', () => {
 
         test('renders the no results found message', () => {
           ({ searchResults } = setup({ queryResults, tableResults }, componentProps));
-          expect(searchResults.getByText('There were no results found')).toBeInTheDocument();
+          expect(searchResults.getByText('No results found')).toBeInTheDocument();
         });
       });
     });
@@ -612,7 +612,7 @@ describe('<SearchResults />', () => {
           expect(searchResults.queryByText('View document')).toBe(null);
         });
         test('noResultsFound text is displayed instead of the empty state', () => {
-          expect(searchResults.getByText('There were no results found')).toBeInTheDocument();
+          expect(searchResults.getByText('No results found')).toBeInTheDocument();
         });
       });
     });
@@ -654,7 +654,7 @@ describe('<SearchResults />', () => {
           expect(searchResults.queryByText('I am text field.')).toBe(null);
           expect(searchResults.queryByText('Excerpt unavailable.')).toBe(null);
           expect(searchResults.queryByText('View document')).toBe(null);
-          expect(searchResults.getByText('There were no results found')).toBeInTheDocument();
+          expect(searchResults.getByText('No results found')).toBeInTheDocument();
         });
       });
     });
