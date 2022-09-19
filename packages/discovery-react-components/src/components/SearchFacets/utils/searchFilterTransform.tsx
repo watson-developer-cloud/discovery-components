@@ -83,7 +83,7 @@ export class SearchFilterTransform {
   private static unquoteString(quotedString: string): string {
     return quotedString
       .replace(new RegExp(SearchFilterTransform.STRING_IN_QUOTES), '$1')
-      .replace(/\\"/g, '"');
+      .replace(/\\"/, '"');
   }
 
   // Returns a full filter query string from the set of filterFields
@@ -112,7 +112,7 @@ export class SearchFilterTransform {
         const text = get(result, key, '');
         // Add double quotes to make the query a phrase query
         // @see https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-query-operators#phrase
-        return `"${text.replace(/(?!\\)"/g, '\\"')}"`;
+        return `"${text.replace(/"/, '\\"')}"`;
       });
   }
 }

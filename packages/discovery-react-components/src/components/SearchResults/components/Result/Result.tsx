@@ -184,7 +184,7 @@ export const Result: React.FunctionComponent<ResultProps> = ({
                 const displayedTextElement = displayedTextElements?.[index];
                 return (
                   <ResultElement
-                    key={md5(displayedText)}
+                    key={md5(displayedText + index)}
                     body={displayedText}
                     buttonText={hasPassages ? messages.viewExcerptInDocumentButtonText : undefined}
                     element={displayedTextElement}
