@@ -12,9 +12,10 @@ import { withKnobs, radios, number, select, files } from '@storybook/addon-knobs
 import { action } from '@storybook/addon-actions';
 import { ChevronUp24 } from '@carbon/icons-react';
 import { ChevronDown24 } from '@carbon/icons-react';
+import { Buffer } from 'buffer';
+import { flatten } from 'lodash';
 import { PreviewToolbar, ZOOM_IN, ZOOM_OUT } from '../PreviewToolbar/PreviewToolbar';
 import PdfViewerWithHighlight from './PdfViewerWithHighlight';
-import { flatten } from 'lodash';
 import { DocumentFieldHighlight } from '../PdfHighlight/types';
 import './PdfViewerWithHighlight.stories.scss';
 import { nonEmpty } from 'utils/nonEmpty';

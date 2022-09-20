@@ -3,10 +3,6 @@ import { mockHomePage } from '../../support/utils';
 describe('Collection Filter', () => {
   beforeEach(() => {
     mockHomePage();
-
-    // Set up/override routes & fixtures that are specific to this file
-    cy.fixture('query/singleCollectionQuery.json').as('singleCollectionQueryJSON');
-    cy.fixture('query/doubleCollectionQuery.json').as('doubleCollectionQueryJSON');
   });
 
   describe('when the example app loads', () => {
@@ -39,16 +35,16 @@ describe('Collection Filter', () => {
 
       describe('and we select a single collection', () => {
         beforeEach(() => {
-          cy.route('POST', '**/query?version=2019-01-01', '@singleCollectionQueryJSON').as(
-            'postQuerySingleCollection'
-          );
+          cy.intercept('POST', '**/query?version=2019-01-01', {
+            fixture: 'query/singleCollectionQuery.json'
+          }).as('postQuerySingleCollection');
           cy.get('.bx--list-box__menu-item').contains('finnegans wake').click();
           cy.wait('@postQuerySingleCollection').as('singleCollectionQueryObject');
         });
 
         it('should make a query against only the selected collection', () => {
           cy.get('@singleCollectionQueryObject')
-            .its('requestBody.collection_ids')
+            .its('request.body.collection_ids')
             .should('contain', 'paris19221939')
             .and('have.length', 1);
         });
@@ -59,7 +55,7 @@ describe('Collection Filter', () => {
 
         describe('and we click the clear selected collections button', () => {
           beforeEach(() => {
-            cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as(
+            cy.intercept('POST', '**/query?version=2019-01-01', { fixture: 'query/query.json' }).as(
               'postQueryClearedSelections'
             );
             cy.get('div[aria-label="Clear all selected items"]').click();
@@ -68,38 +64,38 @@ describe('Collection Filter', () => {
 
           it('makes a query against all available collections', () => {
             cy.get('@clearedCollectionsQueryObject')
-              .its('requestBody.collection_ids')
+              .its('request.body.collection_ids')
               .should('be.empty');
           });
         });
 
         describe('and we select another collection', () => {
           beforeEach(() => {
-            cy.route('POST', '**/query?version=2019-01-01', 'doubleCollectionQueryJSON').as(
-              'postQueryDoubleCollection'
-            );
+            cy.intercept('POST', '**/query?version=2019-01-01', {
+              fixture: 'query/doubleCollectionQuery.json'
+            }).as('postQueryDoubleCollection');
             cy.get('.bx--list-box__menu-item').contains('deadspin').click();
             cy.wait('@postQueryDoubleCollection').as('doubleCollectionQueryObject');
           });
 
           it('makes a query against both of the selected collections', () => {
             cy.get('@doubleCollectionQueryObject')
-              .its('requestBody.collection_ids')
+              .its('request.body.collection_ids')
               .should('contain', 'deadspin9876')
               .and('contain', 'paris19221939');
           });
 
           describe('and we clear the selected collections', () => {
             beforeEach(() => {
-              cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as(
-                'postQueryClearedSelections'
-              );
+              cy.intercept('POST', '**/query?version=2019-01-01', {
+                fixture: 'query/query.json'
+              }).as('postQueryClearedSelections');
               cy.get('div[aria-label="Clear all selected items"]').click();
               cy.wait('@postQueryClearedSelections').as('originalQueryObject');
             });
 
             it('makes a query against all available collections', () => {
-              cy.get('@originalQueryObject').its('requestBody.collection_ids').should('be.empty');
+              cy.get('@originalQueryObject').its('request.body.collection_ids').should('be.empty');
             });
           });
         });

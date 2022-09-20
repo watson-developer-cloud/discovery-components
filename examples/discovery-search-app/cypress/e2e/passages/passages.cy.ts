@@ -5,8 +5,9 @@ describe('Passage Results', () => {
     mockHomePage();
 
     // Set up/override routes & fixtures that are specific to this file
-    cy.fixture('query/passageResults.json').as('passageResultsJSON');
-    cy.route('POST', '**/query?version=2019-01-01', '@passageResultsJSON').as('postQueryPassages');
+    cy.intercept('POST', '**/query?version=2019-01-01', {
+      fixture: 'query/passageResults.json'
+    }).as('postQueryPassages');
 
     // When entering a query whose results contain passages
     cy.get('.bx--search-input').type('ibm{enter}');

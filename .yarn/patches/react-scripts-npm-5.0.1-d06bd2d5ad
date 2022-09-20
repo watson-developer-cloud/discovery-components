@@ -1,0 +1,45 @@
+diff --git a/.vscode/diff/vulsCount.txt b/.vscode/diff/vulsCount.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..c227083464fb9af8955c90d2924774ee50abb547
+--- /dev/null
++++ b/.vscode/diff/vulsCount.txt
+@@ -0,0 +1 @@
++0
+\ No newline at end of file
+diff --git a/config/webpack.config.js b/config/webpack.config.js
+index e465d8e7a00ec889e9c4c29ba7812019f8319a41..60e754e0923304b717e42f80b92eab57d1136430 100644
+--- a/config/webpack.config.js
++++ b/config/webpack.config.js
+@@ -37,6 +37,7 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
+ const getCacheIdentifier = require('react-dev-utils/getCacheIdentifier');
+ // @remove-on-eject-end
+ const createEnvironmentHash = require('./webpack/persistentCache/createEnvironmentHash');
++const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
+ 
+ // Source maps are resource heavy and can cause out of memory issue for large source files.
+ const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
+@@ -303,6 +304,14 @@ module.exports = function (webpackEnv) {
+       ],
+     },
+     resolve: {
++      fallback: {
++        // requested by ibm-watson
++        // @see https://github.com/watson-developer-cloud/node-sdk/tree/master/examples/webpack
++        fs: false,
++        module: false,
++        net: false,
++        tls: false,
++      },
+       // This allows you to set a fallback for where webpack should look for modules.
+       // We placed these paths second because we want `node_modules` to "win"
+       // if there are any conflicts. This matches Node resolution mechanism.
+@@ -604,6 +613,9 @@ module.exports = function (webpackEnv) {
+       ].filter(Boolean),
+     },
+     plugins: [
++      new NodePolyfillPlugin({
++        excludeAliases: ['console']
++      }),
+       // Generates an `index.html` file with the <script> injected.
+       new HtmlWebpackPlugin(
+         Object.assign(

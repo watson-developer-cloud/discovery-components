@@ -8,14 +8,14 @@
   "homepage": ".",
   "scripts": {
     "build:app": "yarn run build",
-    "build": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts build",
+    "build": "cross-env SKIP_PREFLIGHT_CHECK=true CI=false react-scripts build",
     "eject": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts eject",
     "start": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts start",
     "lint": "yarn run g:eslint --quiet '{src,cypress}/**/*.{js,jsx,ts,tsx}' './*.{js,jsx,ts,tsx}'",
     "test:e2e": "cross-env REACT_APP_CYPRESS_MODE=true BROWSER=none CYPRESS_baseUrl=http://localhost:3000 start-server-and-test start http://localhost:3000 'cypress run'",
     "test:unit": "cross-env SKIP_PREFLIGHT_CHECK=true CI=1 react-scripts test --env=jsdom",
     "test": "yarn test:unit && yarn test:e2e",
-    "cypress": "cross-env REACT_APP_CYPRESS_MODE=true cypress open",
+    "cypress": "cross-env REACT_APP_CYPRESS_MODE=true cypress open --e2e --browser chrome",
     "server": "yarn server:setup && yarn server:run",
     "server:run": "node ./server.js",
     "server:setup": "node ./scripts/setSdkUrl.js"
@@ -35,17 +35,17 @@
     "express": "^4.17.1",
     "http-proxy-middleware": "^0.20.0",
     "ibm-watson": "^6.2.1",
+    "node-polyfill-webpack-plugin": "^2.0.1",
     "proper-url-join": "^2.1.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
-    "@cypress/webpack-preprocessor": "^5.11.0",
     "@testing-library/cypress": "^7.0.7",
     "@types/proper-url-join": "^2",
     "cross-env": "^7.0.3",
-    "cypress": "^6.9.1",
-    "react-scripts": "^4.0.3",
+    "cypress": "^10.8.0",
+    "react-scripts": "^5.0.1",
     "start-server-and-test": "^1.14.0"
   }
 }

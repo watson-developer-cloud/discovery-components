@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { array, text, boolean, number, object } from '@storybook/addon-knobs/react';
+import { array, text, boolean, number, object } from '@storybook/addon-knobs';
 import DiscoverySearch, { DiscoverySearchProps } from 'components/DiscoverySearch/DiscoverySearch';
 import { DummySearchClient } from 'utils/storybookUtils';
 import overrideSearchResults from '../__fixtures__/searchResults';
@@ -13,7 +13,9 @@ import { defaultMessages } from '../messages';
 export const props = () => ({
   page: number('The current page (page)', 1),
   pageSize: number('Number of items per page (pageSize)', 10),
-  pageSizes: array('Page size choices (pageSizes)', [10, 20, 30, 40, 50]),
+  pageSizes: array('Page size choices (pageSizes)', ['10', '20', '30', '40', '50']).map(str =>
+    parseInt(str, 10)
+  ),
   showPageSizeSelector: boolean(
     'Show selector for dynamically changing `pageSize` (showPageSizeSelector)',
     true
