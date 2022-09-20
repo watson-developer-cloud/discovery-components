@@ -56,11 +56,14 @@ export interface DiscoveryDocument extends QueryResult {
   };
 }
 
+// a version of the QueryResultMetadata type from V2 Discovery, but where collection_id is an optional prop
 export interface QuerytResultMetadataWithOptionalCollectionId
   extends Omit<QueryResultMetadata, 'collection_id'>,
     Partial<Pick<QueryResultMetadata, 'collection_id'>> {
   collection_id?: string;
 }
+
+// a version of the QueryResult type from V2 Discovery, but where result_metadata is an optional prop
 export interface QueryResultWithOptionalMetadata extends Omit<QueryResult, 'result_metadata'> {
   result_metadata?: QuerytResultMetadataWithOptionalCollectionId;
 }
