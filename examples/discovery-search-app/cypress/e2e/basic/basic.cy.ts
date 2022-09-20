@@ -4,10 +4,6 @@ describe('Basic search', () => {
   beforeEach(() => {
     mockHomePage();
 
-    // Set up/override routes & fixtures that are specific to this file
-    cy.fixture('query/noResults.json').as('noResultsJSON');
-    cy.fixture('query/error500.json').as('error500JSON');
-
     // set an alias for the search input, since we're using that a lot
     cy.findByPlaceholderText('Search').as('searchInput');
   });
@@ -21,11 +17,11 @@ describe('Basic search', () => {
 
       // Querying with results
       cy.get('@searchInput').type('abil{enter}');
-      cy.get('@postQuery').its('requestBody.natural_language_query').should('eq', 'abil');
+      cy.get('@postQuery').its('request.body.natural_language_query').should('eq', 'abil');
 
       // query should have values set for `return` param
       cy.get('@postQuery')
-        .its('requestBody.return')
+        .its('request.body.return')
         .should('include.members', [
           'document_id',
           'document_passages',
@@ -50,14 +46,10 @@ describe('Basic search', () => {
   });
 
   describe('When clicking to view document', () => {
-    beforeEach(() => {
-      cy.fixture('query/correctedQuery.json').as('correctedQueryJSON');
-    });
-
     it('should open document preview', () => {
-      cy.route('POST', '**/query?version=2019-01-01', '@correctedQueryJSON').as(
-        'postQueryCorrected'
-      );
+      cy.intercept('POST', '**/query?version=2019-01-01', {
+        fixture: 'query/correctedQuery.json'
+      }).as('postQueryCorrected');
       cy.get('@searchInput').type('Watson{enter}');
 
       cy.get('button[data-testid="search-result-element-preview-button"]')
@@ -68,16 +60,18 @@ describe('Basic search', () => {
 
       // When showing document preview, verify that another request is sent
       cy.get('@postQueryCorrected')
-        .its('requestBody.filter')
+        .its('request.body.filter')
         .should('eq', 'document_id:e69fd25f-5cbf-4f53-bef3-67834ac1965b');
-      cy.get('@postQueryCorrected').its('requestBody.return').should('be.empty');
+      cy.get('@postQueryCorrected').its('request.body.return').should('be.empty');
     });
   });
 
   // Querying without results
   describe('When entering a query with no results', () => {
     beforeEach(() => {
-      cy.route('POST', '**/query?version=2019-01-01', '@noResultsJSON').as('postQueryNoResults');
+      cy.intercept('POST', '**/query?version=2019-01-01', { fixture: 'query/noResults.json' }).as(
+        'postQueryNoResults'
+      );
       cy.get('@searchInput').type('abil{enter}');
       cy.wait('@postQueryNoResults');
     });
@@ -90,38 +84,30 @@ describe('Basic search', () => {
 
 describe('Basic search errors', () => {
   beforeEach(() => {
-    // start the cypress server
-    cy.server();
-
     // Sets up and handles the collections, component settings, and initial query requests that run on page-load
-    cy.fixture('collections/collections').as('collectionsJSON');
-    cy.route('GET', '**/collections?version=2019-01-01', '@collectionsJSON').as('getCollections');
-    cy.fixture('component_settings/componentSettings').as('componentSettingsJSON');
-    cy.route('GET', '**/component_settings?version=2019-01-01', '@componentSettingsJSON').as(
-      'getComponentSettings'
-    );
-
-    // Set up/override routes & fixtures that are specific to this file
-    cy.fixture('query/query').as('queryJSON');
-    cy.fixture('query/error500.json').as('error500JSON');
+    cy.intercept('GET', '**/collections?version=2019-01-01', {
+      fixture: 'collections/collections'
+    }).as('getCollections');
+    cy.intercept('GET', '**/component_settings?version=2019-01-01', {
+      fixture: 'component_settings/componentSettings'
+    }).as('getComponentSettings');
   });
 
   describe('When a user search returns an error', () => {
     it('SearchResults displays error message', () => {
       // query req on initial load
-      cy.fixture('query/query').as('queryJSON');
-      cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQuery');
+      cy.intercept('POST', '**/query?version=2019-01-01', { fixture: 'query/query' }).as(
+        'postQuery'
+      );
 
       visitHomePage(['@getCollections', '@getComponentSettings']);
 
       cy.findByPlaceholderText('Search').as('searchInput');
 
       // user search request
-      cy.route({
-        method: 'POST',
-        url: '**/query?version=2019-01-01',
-        response: '@error500JSON',
-        status: 500
+      cy.intercept('POST', '**/query?version=2019-01-01', {
+        fixture: 'query/error500.json',
+        statusCode: 500
       }).as('postQueryError');
       cy.get('@searchInput').type('abil{enter}');
       cy.wait('@postQueryError');

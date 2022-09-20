@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { text, boolean, number, object } from '@storybook/addon-knobs/react';
+import { text, boolean, number, object } from '@storybook/addon-knobs';
 import SearchInput from '../SearchInput';
 import SearchResults from 'components/SearchResults/SearchResults';
 import DiscoverySearch, { DiscoverySearchProps } from 'components/DiscoverySearch/DiscoverySearch';

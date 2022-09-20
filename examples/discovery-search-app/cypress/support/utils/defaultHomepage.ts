@@ -19,18 +19,29 @@ const DEFAULT_FIXTURE_PATHS = {
 export function mockHomePage(overrideFixturePaths: HomePageFixturePaths = {}): void {
   const fixturePaths = Object.assign({}, DEFAULT_FIXTURE_PATHS, overrideFixturePaths);
 
-  // start the cypress server
-  cy.server();
+  // Default to returning 404 error for any unhandle requests.
+  // Subsequent `cy.intercept` calls can override this catch-all.
+  cy.intercept(
+    {
+      headers: {
+        accept: 'application/json'
+      }
+    },
+    {
+      statusCode: 404
+    }
+  );
 
   // Sets up and handles the collections, component settings, and initial query requests that run on page-load
-  cy.fixture(fixturePaths.collections).as('collectionsJSON');
-  cy.route('GET', '**/collections?version=2019-01-01', '@collectionsJSON').as('getCollections');
-  cy.fixture(fixturePaths.component_settings).as('componentSettingsJSON');
-  cy.route('GET', '**/component_settings?version=2019-01-01', '@componentSettingsJSON').as(
-    'getComponentSettings'
+  cy.intercept('GET', '**/collections?version=2019-01-01', {
+    fixture: fixturePaths.collections
+  }).as('getCollections');
+  cy.intercept('GET', '**/component_settings?version=2019-01-01', {
+    fixture: fixturePaths.component_settings
+  }).as('getComponentSettings');
+  cy.intercept('POST', '**/query?version=2019-01-01', { fixture: fixturePaths.query }).as(
+    'postQuery'
   );
-  cy.fixture(fixturePaths.query).as('queryJSON');
-  cy.route('POST', '**/query?version=2019-01-01', '@queryJSON').as('postQuery');
 
   // visit the home page and wait for page load requests
   visitHomePage(['@getCollections', '@getComponentSettings', '@postQuery']);

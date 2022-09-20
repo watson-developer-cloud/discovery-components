@@ -3,6 +3,7 @@ import {
   RadioButtonGroup as CarbonRadioButtonGroup,
   RadioButton as CarbonRadioButton
 } from 'carbon-components-react';
+import { Buffer } from 'buffer';
 import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import { Messages } from 'components/SearchFacets/messages';
 import { getFacetLabel } from 'components/SearchFacets/utils/getFacetLabel';
@@ -117,7 +118,7 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
     const count = facet.matching_results;
     const labelText = getFacetLabel(facetText, count, messages, showMatchingResults);
     const query = naturalLanguageQuery || '';
-    const buff = new Buffer(query + facetText);
+    const buff = Buffer.from(query + facetText);
     const base64data = buff.toString('base64');
 
     let facetValue = facetText;
