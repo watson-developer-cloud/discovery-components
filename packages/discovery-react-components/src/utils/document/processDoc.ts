@@ -1,7 +1,6 @@
 import findIndex from 'lodash/findIndex';
 import { SaxParser, Parser, ParsingError, Attributes } from './saxParser';
 import cloneDeep from 'lodash/cloneDeep';
-import { QueryResult } from 'ibm-watson/discovery/v2';
 import { isRelationObject } from './nonContractUtils';
 import { getId } from './idUtils';
 import transformEnrichment from './transformEnrichment';
@@ -9,6 +8,7 @@ import { getEnrichmentName } from 'components/CIDocument/utils/enrichmentUtils';
 import { spansIntersect } from './documentUtils';
 import { decodeHTML, encodeHTML } from 'entities';
 import { getDocumentTitle } from 'utils/getDocumentTitle';
+import { QueryResultWithOptionalMetadata } from 'components/DocumentPreview/types';
 
 // split HTML into "sections" based on these top level tag(s)
 const SECTION_NAMES = ['p', 'ul', 'table'];
@@ -88,7 +88,10 @@ export interface Table {
  * @param {Boolean} options.itemMap return item mapping into 'sections'
  * @throws {ParsingError}
  */
-export async function processDoc(queryData: QueryResult, options?: Options): Promise<ProcessedDoc> {
+export async function processDoc(
+  queryData: QueryResultWithOptionalMetadata,
+  options?: Options
+): Promise<ProcessedDoc> {
   const { html, enriched_html: enrichedHtml } = cloneDeep(queryData);
   const documentTitle = getDocumentTitle(queryData, 'title');
   options = {

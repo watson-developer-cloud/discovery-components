@@ -1,4 +1,4 @@
-import { QueryResult } from 'ibm-watson/discovery/v2';
+import { QueryResult, QueryResultMetadata } from 'ibm-watson/discovery/v2';
 import { DocumentInitParameters, TypedArray } from 'pdfjs-dist/types/display/api';
 
 export interface TextMappings {
@@ -54,6 +54,15 @@ export interface DiscoveryDocument extends QueryResult {
     file_type?: 'pdf' | 'html' | 'json' | 'csv' | 'text' | string;
     text_mappings?: string; // exists when custom SDU model or OOB (CI) model enabled
   };
+}
+
+export interface QuerytResultMetadataWithOptionalCollectionId
+  extends Omit<QueryResultMetadata, 'collection_id'>,
+    Partial<Pick<QueryResultMetadata, 'collection_id'>> {
+  collection_id?: string;
+}
+export interface QueryResultWithOptionalMetadata extends Omit<QueryResult, 'result_metadata'> {
+  result_metadata?: QuerytResultMetadataWithOptionalCollectionId;
 }
 
 export type DocumentFile = string | TypedArray | DocumentInitParameters;

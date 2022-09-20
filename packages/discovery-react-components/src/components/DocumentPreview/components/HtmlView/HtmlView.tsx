@@ -11,12 +11,13 @@ import { clearNodeChildren } from 'utils/dom';
 import { getTextMappings } from 'components/DocumentPreview/utils/documentData';
 import { getPassagePageInfo } from '../Highlight/passages';
 import { isPassage } from '../Highlight/typeUtils';
+import { QueryResultWithOptionalMetadata } from 'components/DocumentPreview/types';
 
 interface Props {
   /**
    * Document data returned by query
    */
-  document: QueryResult;
+  document: QueryResultWithOptionalMetadata;
   /**
    * table to highlight in document. Reference to item with `document.table_results`
    */
