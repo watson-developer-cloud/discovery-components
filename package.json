@@ -104,7 +104,7 @@
       "last 1 safari version"
     ]
   },
-  "packageManager": "yarn@3.1.0",
+  "packageManager": "yarn@3.2.3",
   "resolutions": {
     "react-scripts@^5.0.1": "patch:react-scripts@npm:5.0.1#.yarn/patches/react-scripts-npm-5.0.1-d06bd2d5ad"
   }
