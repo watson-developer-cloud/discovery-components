@@ -1,6 +1,7 @@
 import { TextMappings } from 'components/DocumentPreview/types';
 import flatMap from 'lodash/flatMap';
-import { PDFPageViewport, TextContent } from 'pdfjs-dist';
+import { TextContent } from 'pdfjs-dist/types/display/api';
+import { PageViewport } from 'pdfjs-dist/types/display/display_utils';
 import { nonEmpty } from 'utils/nonEmpty';
 import {
   DocumentFields,
@@ -43,7 +44,7 @@ export class Highlighter {
     htmlBboxInfo?: HtmlBboxInfo;
     pdfTextContentInfo?: {
       textContent: TextContent;
-      viewport: PDFPageViewport;
+      viewport: PageViewport;
       spans?: HTMLElement[];
     };
   }) {
@@ -80,7 +81,7 @@ export class Highlighter {
    */
   setTextContentItems(
     textContent: TextContent,
-    viewport: PDFPageViewport,
+    viewport: PageViewport,
     textContentDivs?: HTMLElement[],
     htmlBoxInfo?: HtmlBboxInfo
   ) {

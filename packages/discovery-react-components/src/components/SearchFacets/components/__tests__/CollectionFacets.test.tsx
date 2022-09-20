@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render, fireEvent, RenderResult, wait } from '@testing-library/react';
+import { screen, render, fireEvent, RenderResult } from '@testing-library/react';
 import { wrapWithContext } from 'utils/testingUtils';
 import { SearchContextIFC, SearchApiIFC } from 'components/DiscoverySearch/DiscoverySearch';
 import SearchFacets from 'components/SearchFacets/SearchFacets';
@@ -81,7 +81,8 @@ describe('CollectionFacetsComponent', () => {
   describe('collectionIds query param not set', () => {
     test('does not show pre-selected count', async () => {
       const { collectionFacetsComponent } = setup();
-      await wait(); // wait for component to finish rendering (prevent "act" warning)
+      // wait for component to finish rendering (prevent "act" warning)
+      await screen.findByText('Collections');
       const selectedCount = collectionFacetsComponent.queryByTitle('Clear all selected items');
       expect(selectedCount).toBeNull();
     });

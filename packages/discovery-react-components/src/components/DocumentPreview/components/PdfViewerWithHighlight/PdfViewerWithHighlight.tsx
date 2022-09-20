@@ -87,18 +87,22 @@ const PdfViewerWithHighlight: FC<Props> = ({
   const highlightReady = !!documentInfo && !!renderedText;
   return (
     <PdfViewer {...rest} page={currentPage} setRenderedText={setRenderedText}>
-      {(state.fields || state.bboxes) && (
-        <PdfHighlight
-          parsedDocument={highlightReady ? documentInfo ?? null : null}
-          pdfRenderedText={highlightReady ? renderedText : null}
-          page={currentPage}
-          scale={scale}
-          highlights={state.fields}
-          boxHighlights={state.bboxes}
-          activeIds={state.activeIds}
-          {...highlightProps}
-        />
-      )}
+      {({ fitToWidthRatio }: { fitToWidthRatio: number }) => {
+        return (
+          (state.fields || state.bboxes) && (
+            <PdfHighlight
+              parsedDocument={highlightReady ? documentInfo ?? null : null}
+              pdfRenderedText={highlightReady ? renderedText : null}
+              page={currentPage}
+              scale={scale * fitToWidthRatio}
+              highlights={state.fields}
+              boxHighlights={state.bboxes}
+              activeIds={state.activeIds}
+              {...highlightProps}
+            />
+          )
+        );
+      }}
     </PdfViewer>
   );
 };

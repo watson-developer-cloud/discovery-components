@@ -722,13 +722,7 @@
         {
           "location": { "begin": 13717, "end": 14171 },
           "text": "a) any Material provided by Buyer or its Affiliates, or for and/or on behalf of any member of the Customer Group and/or by the Consortium Members to the Supplier in connection with the performance or receipt of the Services, other than New Materials and Supplier Background Materials; and",
-          "attributes": [
-            {
-              "type": "DefinedTerm",
-              "text": "Buyer Background Material",
-              "location": { "begin": 13269, "end": 13294 }
-            }
-          ],
+          "attributes": [],
           "categories": [],
           "types": [
             {
@@ -740,23 +734,11 @@
             }
           ],
           "__type": "elements"
-        },
-        {
-          "type": "DefinedTerm",
-          "text": "Buyer Background Material",
-          "location": { "begin": 13269, "end": 13294 },
-          "__type": "attributes"
         },
         {
           "location": { "begin": 14383, "end": 14887 },
           "text": "b) any Material (including Modifications to Material) which is acquired or created by, for or on behalf of (other than from or by the Supplier Group) Buyer and/or any member of the Customer Group (including by the Consortium Members) in anticipation of, in connection with and/or in the course of the performance or receipt of the Services;",
-          "attributes": [
-            {
-              "type": "DefinedTerm",
-              "text": "Buyer Background Material",
-              "location": { "begin": 13269, "end": 13294 }
-            }
-          ],
+          "attributes": [],
           "categories": [],
           "types": [
             {
@@ -768,12 +750,6 @@
             }
           ],
           "__type": "elements"
-        },
-        {
-          "type": "DefinedTerm",
-          "text": "Buyer Background Material",
-          "location": { "begin": 13269, "end": 13294 },
-          "__type": "attributes"
         }
       ]
     },
@@ -849,13 +825,7 @@
         {
           "location": { "begin": 16064, "end": 16646 },
           "text": "b) (other than data referred to in (a) above) which is created, obtained, collected, stored, used or processed by or on behalf of the Supplier solely for Buyer (and not for the Supplier's own internal or administrative purposes) as part of the Services pursuant to the relevant SOW; but, for the avoidance of doubt, excludes any Supplier Background Materials and Type A Materials, Type B Materials and Type C Materials;",
-          "attributes": [
-            {
-              "type": "DefinedTerm",
-              "text": "Buyer Data",
-              "location": { "begin": 15089, "end": 15099 }
-            }
-          ],
+          "attributes": [],
           "categories": [],
           "types": [
             {
@@ -868,12 +838,6 @@
             }
           ],
           "__type": "elements"
-        },
-        {
-          "type": "DefinedTerm",
-          "text": "Buyer Data",
-          "location": { "begin": 15089, "end": 15099 },
-          "__type": "attributes"
         }
       ]
     },

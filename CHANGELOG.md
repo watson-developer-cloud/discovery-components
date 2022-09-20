@@ -3,6 +3,119 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.6](https://github.com/watson-developer-cloud/discovery-components/compare/v3.0.5...v3.0.6) (2022-08-30)
+
+
+### Bug Fixes
+
+* upgrade pdfjs to 2.6.347 ([#393](https://github.com/watson-developer-cloud/discovery-components/issues/393)) ([db3d254](https://github.com/watson-developer-cloud/discovery-components/commit/db3d254cb66ff3c03784cf0ce6277128a29e4e7e))
+
+
+
+
+
+## [3.0.5](https://github.com/watson-developer-cloud/discovery-components/compare/v3.0.4...v3.0.5) (2022-08-29)
+
+
+### Bug Fixes
+
+* prevent unnecessary horizontal scrollbar ([#394](https://github.com/watson-developer-cloud/discovery-components/issues/394)) ([7fa44bc](https://github.com/watson-developer-cloud/discovery-components/commit/7fa44bc2cd4b215e7753e30bc2602ad5d04d8b0f))
+
+
+
+
+
+## [3.0.4](https://github.com/watson-developer-cloud/discovery-components/compare/v3.0.3...v3.0.4) (2022-08-18)
+
+
+### Bug Fixes
+
+* adjust how canvas dimensions are computed ([#385](https://github.com/watson-developer-cloud/discovery-components/issues/385)) ([3a86582](https://github.com/watson-developer-cloud/discovery-components/commit/3a865825b6bf23b1c8da0ccfc5ae0d660e394a76))
+
+
+
+
+
+## [3.0.3](https://github.com/watson-developer-cloud/discovery-components/compare/v3.0.2...v3.0.3) (2022-07-25)
+
+
+### Bug Fixes
+
+* revert previous facet changes and make new changes ([#384](https://github.com/watson-developer-cloud/discovery-components/issues/384)) ([d95eb25](https://github.com/watson-developer-cloud/discovery-components/commit/d95eb2500e6b966de826462ec33d1406b81d2132)), closes [#383](https://github.com/watson-developer-cloud/discovery-components/issues/383)
+
+
+
+
+
+## [3.0.2](https://github.com/watson-developer-cloud/discovery-components/compare/v3.0.1...v3.0.2) (2022-07-22)
+
+
+### Bug Fixes
+
+* change facet query method to exact match ([#381](https://github.com/watson-developer-cloud/discovery-components/issues/381)) ([972d1b7](https://github.com/watson-developer-cloud/discovery-components/commit/972d1b76be4d05661599e5f7d22ec629ba8cc7ef))
+* update tests from phrase query removal ([#383](https://github.com/watson-developer-cloud/discovery-components/issues/383)) ([f6f2bee](https://github.com/watson-developer-cloud/discovery-components/commit/f6f2bee54f90d2b21f984ef6b840609eb7fa566e))
+
+
+
+
+
+## [3.0.1](https://github.com/watson-developer-cloud/discovery-components/compare/v3.0.0...v3.0.1) (2022-07-18)
+
+
+### Bug Fixes
+
+* revert to renaming ref prop with forwardRef and HOC ([#379](https://github.com/watson-developer-cloud/discovery-components/issues/379)) ([c118d65](https://github.com/watson-developer-cloud/discovery-components/commit/c118d65c11385287306cc7b3fda14ecc79609cca))
+
+
+
+
+
+# [3.0.0](https://github.com/watson-developer-cloud/discovery-components/compare/v2.1.0...v3.0.0) (2022-07-16)
+
+
+### Bug Fixes
+
+* Mitigate some pagination issues in search results ([#340](https://github.com/watson-developer-cloud/discovery-components/issues/340)) ([2e5e00f](https://github.com/watson-developer-cloud/discovery-components/commit/2e5e00f0bc557c2e6b86d0d77f1effef4885aac8))
+
+
+### BREAKING CHANGES
+
+* - No longer display table-only results with passage results
+* - No longer add page size to pagination options (if it wasn't already included)
+* - Use count values exclusively (ignore results_per_page)
+- Only include each document once in filter string
+- Allow pagination to be reset externally
+- Test updates
+- Review fixes
+- Fix tests
+
+
+
+
+
+# [2.1.0](https://github.com/watson-developer-cloud/discovery-components/compare/v2.0.4...v2.1.0) (2022-06-20)
+
+
+### Features
+
+* render textLayer optionally ([#366](https://github.com/watson-developer-cloud/discovery-components/issues/366)) ([71d26c7](https://github.com/watson-developer-cloud/discovery-components/commit/71d26c71b32106a5a6706fbd6d1fa330c01f6ba2))
+
+
+
+
+
+## [2.0.4](https://github.com/watson-developer-cloud/discovery-components/compare/v2.0.3...v2.0.4) (2022-06-14)
+
+
+### Bug Fixes
+
+* add 'icp4d-api' path for auth url ([#351](https://github.com/watson-developer-cloud/discovery-components/issues/351)) ([0d2a22e](https://github.com/watson-developer-cloud/discovery-components/commit/0d2a22e98461d79b3fab7dee209a43057059c6e5))
+* when nodes aren't found, warn in console rather than erroring ([#365](https://github.com/watson-developer-cloud/discovery-components/issues/365)) ([6ae446c](https://github.com/watson-developer-cloud/discovery-components/commit/6ae446c6aa9ff2e74fc34b440f8dcc6a7fc1dd23))
+
+
+
+
+
 ## [2.0.3](https://github.com/watson-developer-cloud/discovery-components/compare/v2.0.2...v2.0.3) (2022-05-17)
 
 

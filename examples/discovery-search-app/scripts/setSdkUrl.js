@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios').default;
-const https = require('https');
 const urlJoin = require('proper-url-join');
 const { validateSdkEnvVars } = require('./validateSdkEnvVars.js');
 const ibmCredentialsFilePath = path.join(__dirname, '../', 'ibm-credentials.env');
@@ -29,50 +28,60 @@ function writeEnvVarToFileAndReturn(key, value) {
   return value;
 }
 
-module.exports = async function() {
+module.exports = async function () {
   validateSdkEnvVars();
 
   if (process.env.DISCOVERY_AUTH_TYPE === 'cp4d' && !process.env.DISCOVERY_URL) {
     const authUrl = process.env.DISCOVERY_AUTH_URL;
     const rejectUnauthorized = process.env.DISCOVERY_AUTH_DISABLE_SSL !== 'true';
-    const httpsAgent = new https.Agent({
-      rejectUnauthorized
-    });
+
+    let baseUrl = authUrl;
+    if (authUrl.endsWith('/icp4d-api')) {
+      baseUrl = authUrl.substring(0, authUrl.length - '/icp4d-api'.length);
+    }
+
+    let globalRejectUnauthorized = process.env.NODE_TLS_REJECT_UNAUTHORIZED;
+    if (!rejectUnauthorized) {
+      process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+    }
+
     try {
       const {
-        data: { accessToken }
-      } = await axios.get(urlJoin(authUrl, '/v1/preauth/validateAuth'), {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        auth: {
+        data: { token }
+      } = await axios.post(
+        urlJoin(authUrl, '/v1/authorize'),
+        {
           username: process.env.DISCOVERY_USERNAME,
           password: process.env.DISCOVERY_PASSWORD
         },
-        httpsAgent
-      });
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
       const axiosOptions = {
         headers: {
-          Authorization: `Bearer ${accessToken}`
-        },
-        httpsAgent
+          Authorization: `Bearer ${token}`
+        }
       };
       const {
         data: { deployments }
-      } = await axios.get(urlJoin(authUrl, '/zen-data/v3/deployments/discovery'), axiosOptions);
+      } = await axios.get(urlJoin(baseUrl, '/zen-data/v3/deployments/discovery'), axiosOptions);
 
       if (deployments && deployments.length > 0) {
         const {
           data: { resources }
         } = await axios.get(
           urlJoin(
-            authUrl,
+            baseUrl,
             '/watson/common/discovery/api/ibmcloud/resource-controller/resource_instances?resource_id=discovery'
           ),
           axiosOptions
         );
         if (resources && resources.length > 0) {
-          const discoveryUrl = generateDiscoveryUrlForCp4d(authUrl, deployments[0], resources[0]);
+          const discoveryUrl = generateDiscoveryUrlForCp4d(baseUrl, deployments[0], resources[0]);
           process.env.DISCOVERY_URL = writeEnvVarToFileAndReturn('DISCOVERY_URL', discoveryUrl);
         } else {
           throw new Error('No discovery instances found');
@@ -83,6 +92,8 @@ module.exports = async function() {
     } catch (e) {
       console.error('Error setting up release path');
       throw e;
+    } finally {
+      process.env.NODE_TLS_REJECT_UNAUTHORIZED = globalRejectUnauthorized;
     }
   } else if (
     process.env.DISCOVERY_AUTH_TYPE === 'iam' &&

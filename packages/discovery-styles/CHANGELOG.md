@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.5](https://github.com/watson-developer-cloud/discovery-components/compare/v3.0.4...v3.0.5) (2022-08-29)
+
+
+### Bug Fixes
+
+* prevent unnecessary horizontal scrollbar ([#394](https://github.com/watson-developer-cloud/discovery-components/issues/394)) ([7fa44bc](https://github.com/watson-developer-cloud/discovery-components/commit/7fa44bc2cd4b215e7753e30bc2602ad5d04d8b0f))
+
+
+
+
+
+## [3.0.4](https://github.com/watson-developer-cloud/discovery-components/compare/v3.0.3...v3.0.4) (2022-08-18)
+
+
+### Bug Fixes
+
+* adjust how canvas dimensions are computed ([#385](https://github.com/watson-developer-cloud/discovery-components/issues/385)) ([3a86582](https://github.com/watson-developer-cloud/discovery-components/commit/3a865825b6bf23b1c8da0ccfc5ae0d660e394a76))
+
+
+
+
+
+# [3.0.0](https://github.com/watson-developer-cloud/discovery-components/compare/v2.1.0...v3.0.0) (2022-07-16)
+
+**Note:** Version bump only for package @ibm-watson/discovery-styles
+
+
+
+
+
 ## [2.0.1](https://github.com/watson-developer-cloud/discovery-components/compare/v2.0.0...v2.0.1) (2022-04-29)
 
 **Note:** Version bump only for package @ibm-watson/discovery-styles

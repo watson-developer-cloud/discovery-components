@@ -120,6 +120,11 @@ export const Result: React.FunctionComponent<ResultProps> = ({
   const hasText = displayedText && !showTablesOnlyResults;
   const emptyResultContent = !(hasText || tableHtml);
 
+  // Don't display tables-only results when displaying passages
+  if (!showTablesOnlyResults && tableHtml && !displayedText) {
+    return null;
+  }
+
   let title = getDocumentTitle(result, resultTitleField);
 
   if (Array.isArray(title)) {
@@ -213,11 +218,9 @@ export const Result: React.FunctionComponent<ResultProps> = ({
           {isLoading || !result ? (
             <SkeletonText width={'30%'} data-testid="result-title-skeleton" />
           ) : (
-            result && (
-              <div className={searchResultFooterTitleClass} title={title}>
-                {title}
-              </div>
-            )
+            <div className={searchResultFooterTitleClass} title={title}>
+              {title}
+            </div>
           )}
           {collectionName && (
             <div className={searchResultFooterCollectionNameClass} title={collectionName}>

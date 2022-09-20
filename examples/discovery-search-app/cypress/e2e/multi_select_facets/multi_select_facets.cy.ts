@@ -42,7 +42,7 @@ describe('Multi-Select Facets', () => {
       it('queries and selects the right facets', () => {
         cy.get('@amesFilterQueryObject')
           .its('request.body.filter')
-          .should('eq', 'location:"Ames, IA"');
+          .should('eq', 'location::"Ames, IA"');
         cy.get('.bx--tag--filter').contains('1').should('exist');
       });
 
@@ -58,7 +58,7 @@ describe('Multi-Select Facets', () => {
         it('queries and selects the right facets', () => {
           cy.get('@multiFilterQueryObject')
             .its('request.body.filter')
-            .should('eq', 'location:"Pittsburgh, PA"|location:"Ames, IA"');
+            .should('eq', 'location::"Pittsburgh, PA"|location::"Ames, IA"');
           cy.get('.bx--tag--filter').contains('2').should('exist');
         });
       });
@@ -113,7 +113,7 @@ describe('Multi-Select Facets', () => {
         it('makes a query with both filters', () => {
           cy.get('@combinedFacetQueryObject')
             .its('request.body.filter')
-            .should('eq', 'location:"Ames, IA",price:"Low"');
+            .should('eq', 'location::"Ames, IA",price::"Low"');
         });
 
         describe('and the selected filters bubble from only one of the facets is clicked', () => {
@@ -128,7 +128,7 @@ describe('Multi-Select Facets', () => {
           it('has the filters from only that facet clear', () => {
             cy.get('@amesFilterQueryObject')
               .its('request.body.filter')
-              .should('eq', 'location:"Ames, IA"');
+              .should('eq', 'location::"Ames, IA"');
           });
         });
       });

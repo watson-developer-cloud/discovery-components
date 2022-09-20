@@ -116,62 +116,6 @@ describe('ResultsPaginationComponent', () => {
         pageSize: 20
       });
     });
-
-    test('will add pageSize as a pageSize selection if it is not already included', async () => {
-      const { getByText } = await setup(
-        { pageSize: 25, pageSizes: [10, 20, 30, 40, 50] },
-        {
-          searchResponseStore: {
-            ...searchResponseStoreDefaults,
-            parameters: { projectId: '', count: 25 }
-          }
-        }
-      );
-
-      expect(getByText('25')).toBeInTheDocument();
-    });
-  });
-
-  describe('when there are component settings available', () => {
-    describe('and there are no display parameters passed on ResultsPagination', () => {
-      test('will update the count search param', async () => {
-        const { setSearchParametersMock, rerender, fullTree } = await setup(
-          {},
-          { componentSettings: { results_per_page: 30 } }
-        );
-
-        rerender(fullTree);
-        expect(setSearchParametersMock).toBeCalledTimes(1);
-        expect(setSearchParametersMock).toBeCalledWith(expect.any(Function));
-        const returnFunc = setSearchParametersMock.mock.calls[0][0];
-        const returnValue = returnFunc();
-        expect(returnValue).toEqual(
-          expect.objectContaining({
-            count: 30
-          })
-        );
-      });
-    });
-
-    describe('and there are some display parameters passed on ResultsPagination', () => {
-      test('will update the count search param', async () => {
-        const { setSearchParametersMock, rerender, fullTree } = await setup(
-          { pageSize: 18 },
-          { componentSettings: { results_per_page: 30 } }
-        );
-
-        rerender(fullTree);
-        expect(setSearchParametersMock).toBeCalledTimes(1);
-        expect(setSearchParametersMock).toBeCalledWith(expect.any(Function));
-        const returnFunc = setSearchParametersMock.mock.calls[0][0];
-        const returnValue = returnFunc();
-        expect(returnValue).toEqual(
-          expect.objectContaining({
-            count: 18
-          })
-        );
-      });
-    });
   });
 
   describe('i18n messages', () => {

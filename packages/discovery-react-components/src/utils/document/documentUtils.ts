@@ -31,10 +31,16 @@ export function findOffsetInDOM(
   let endNode = findContainingNodeWithin(parentNode, end);
 
   if (beginNode === null) {
-    throw new Error(`Failed to find a node containing the start of the highlight: ${begin}`);
+    beginNode = parentNode;
+    console.warn(
+      `Unable to find a node containing the start of the highlight: ${begin}. Using root node instead.`
+    );
   }
   if (endNode === null) {
-    throw new Error(`Failed to find a node containing the end of the highlight: ${end}`);
+    endNode = parentNode;
+    console.warn(
+      `Unable to find a node containing the end of the highlight: ${end}. Using root node instead.`
+    );
   }
 
   const { textNode: beginTextNode, textOffset: beginOffset } = getTextNodeAndOffset(
@@ -96,7 +102,7 @@ export function getTextNodeAndOffset(node: Node, strOffset: number): NodeOffset 
 
   if (textNode === null && prevNode === null) {
     // If no text nodes were found, throw an error.
-    throw new Error(`Failed to find text node. Node: ${node.textContent}, offset: ${strOffset}`);
+    throw new Error(`Unable to find text node. Node: ${node.textContent}, offset: ${strOffset}`);
   } else if (textNode === null && prevNode !== null) {
     // If the offset was not found in the last text node,
     // return the last node with an offset pointing to the end of that node.

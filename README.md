@@ -131,7 +131,7 @@ yarn workspace discovery-search-app run start
      DISCOVERY_DISABLE_SSL=true
      ```
      where:
-     - `DISCOVERY_AUTH_URL` is the URL to your base CP4D installation (ex. `https://zen-25-cpd-zen-25.apps.my-cluster-name.com`)
+     - `DISCOVERY_AUTH_URL` is the URL to your base CP4D installation (ex. `https://zen-25-cpd-zen-25.apps.my-cluster-name.com`) plus the path `/icp4d-api` (ex. `https://zen-25-cpd-zen-25.apps.my-cluster-name.com/icp4d-api`)
      - `DISCOVERY_URL` is the API URL to your Discovery installation (ex. `https://zen-25-cpd-zen-25.apps.my-cluster-name.com/discovery/wd/instances/1578610482214/api`)
      - `DISCOVERY_USERNAME` the username used to login to `DISCOVERY_AUTH_URL`
      - `DISCOVERY_PASSWORD` the password used to login to `DISCOVERY_AUTH_URL`

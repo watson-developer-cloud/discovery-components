@@ -47,6 +47,10 @@ interface Props extends WithErrorBoundaryProps {
    */
   highlight?: QueryResultPassage | QueryTableResult;
   /**
+   * Disable the text layer overlay when rendering PDF (defaults to `false`)
+   */
+  disableTextLayer?: boolean;
+  /**
    * i18n messages for the component
    */
   messages?: Messages;
@@ -162,7 +166,10 @@ const DocumentPreview: FC<Props> = ({
 };
 
 interface PreviewDocumentProps
-  extends Pick<Props, 'document' | 'file' | 'highlight' | 'fallbackComponent'> {
+  extends Pick<
+    Props,
+    'document' | 'file' | 'highlight' | 'fallbackComponent' | 'disableTextLayer'
+  > {
   currentPage: number;
   scale: number;
   setPdfPageCount?: (count: number) => void;
@@ -184,6 +191,7 @@ function PreviewDocument({
   hideToolbarControls,
   setHideToolbarControls,
   highlight,
+  disableTextLayer,
   setCurrentPage,
   fallbackComponent
 }: PreviewDocumentProps): ReactElement | null {
@@ -209,6 +217,7 @@ function PreviewDocument({
           setHideToolbarControls={setHideToolbarControls}
           highlight={highlight}
           setCurrentPage={setCurrentPage}
+          disableTextLayer={disableTextLayer}
         />
       );
     case 'HTML':

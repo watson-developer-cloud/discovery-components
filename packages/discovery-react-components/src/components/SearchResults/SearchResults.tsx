@@ -84,6 +84,10 @@ export interface SearchResultsProps {
    * custom handler invoked when any input element changes in the SearchResults component
    */
   onChange?: (searchValue: string) => void;
+  /**
+   * custom handler invoked when the tablesonly toggle is changed
+   */
+  onTablesOnlyToggle?: (value: boolean) => void;
 }
 
 // Minimal set of document fields we need to render this component. Will be combined
@@ -119,7 +123,8 @@ const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   showTablesOnly = false,
   messages = defaultMessages,
   onSelectResult,
-  onChange
+  onChange,
+  onTablesOnlyToggle
 }) => {
   const mergedMessages = { ...defaultMessages, ...messages };
 
@@ -169,6 +174,12 @@ const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   }, [showTablesOnly]);
 
   useEffect(() => {
+    if (onTablesOnlyToggle) {
+      onTablesOnlyToggle(showTablesOnlyResults);
+    }
+  }, [showTablesOnlyResults, onTablesOnlyToggle]);
+
+  useEffect(() => {
     setHasFetchedDocuments(false);
   }, [parameters.naturalLanguageQuery]);
 
@@ -183,14 +194,20 @@ const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
     const tableResults = (searchResponse && searchResponse.table_results) || [];
     const results = (searchResponse && searchResponse.results) || [];
     const tablesWithoutResults = findTablesWithoutResults(tableResults, results);
-    if (!hasFetchedDocuments && tablesWithoutResults && tablesWithoutResults.length) {
+    if (
+      !hasFetchedDocuments &&
+      showTablesOnlyResults &&
+      tablesWithoutResults &&
+      tablesWithoutResults.length
+    ) {
       const filterString =
-        'document_id::' + tablesWithoutResults.map(table => table.source_document_id).join('|');
+        'document_id::' +
+        uniq(tablesWithoutResults.map(table => table.source_document_id)).join('|');
       const collections = uniq(compact(tablesWithoutResults.map(table => table.collection_id)));
       fetchDocuments(filterString, collections, searchResponse || undefined);
       setHasFetchedDocuments(true);
     }
-  }, [searchResponse, fetchDocuments, hasFetchedDocuments]);
+  }, [searchResponse, fetchDocuments, hasFetchedDocuments, showTablesOnlyResults]);
 
   const skeletons = useMemo(() => {
     const searchResultLoadingClasses = [searchResultClass, searchResultLoadingClass];

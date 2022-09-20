@@ -2227,10 +2227,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ibm-watson/discovery-react-components@^2.0.3, @ibm-watson/discovery-react-components@workspace:packages/discovery-react-components":
+"@ibm-watson/discovery-react-components@^3.0.6, @ibm-watson/discovery-react-components@workspace:packages/discovery-react-components":
   version: 0.0.0-use.local
   resolution: "@ibm-watson/discovery-react-components@workspace:packages/discovery-react-components"
   dependencies:
+    "@react-hook/size": ^2.1.2
     "@rollup/plugin-alias": ^3.1.5
     "@rollup/plugin-commonjs": ^20.0.0
     "@rollup/plugin-json": ^4.1.0
@@ -2247,9 +2248,9 @@ __metadata:
     "@storybook/source-loader": ^6.5.6
     "@svgr/rollup": ^5.5.0
     "@types/marked": ^4
-    "@types/pdfjs-dist": 2.1.7
     "@types/uuid": ^8
     buffer: ^6.0.3
+    canvas: ^2.9.3
     classnames: ^2.2.6
     cross-env: ^7.0.3
     css-loader: ^3.4.2
@@ -2261,7 +2262,7 @@ __metadata:
     madge: ^5.0.1
     marked: ^4.0.10
     mustache: ^3.1.0
-    pdfjs-dist: ^2.2.228
+    pdfjs-dist: 2.6.347
     react-error-boundary: ^1.2.5
     react-resize-detector: ^4.2.1
     react-scripts: ^5.0.1
@@ -2274,6 +2275,7 @@ __metadata:
     sass-loader: ^12.3.0
     style-loader: ^1.3.0
     uuid: ^8.3.2
+    web-streams-polyfill: ^3.2.1
   peerDependencies:
     "@carbon/icons": ">= 10.5.0 < 11"
     "@ibm-watson/discovery-styles": 1.x.x
@@ -2286,7 +2288,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ibm-watson/discovery-styles@^2.0.1, @ibm-watson/discovery-styles@workspace:packages/discovery-styles":
+"@ibm-watson/discovery-styles@^3.0.5, @ibm-watson/discovery-styles@workspace:packages/discovery-styles":
   version: 0.0.0-use.local
   resolution: "@ibm-watson/discovery-styles@workspace:packages/discovery-styles"
   dependencies:
@@ -2674,6 +2676,13 @@ __metadata:
     "@jridgewell/resolve-uri": ^3.0.3
     "@jridgewell/sourcemap-codec": ^1.4.10
   checksum: e38254e830472248ca10a6ed1ae75af5e8514f0680245a5e7b53bc3c030fd8691d4d3115d80595b45d3badead68269769ed47ecbbdd67db1343a11f05700e75a
+  languageName: node
+  linkType: hard
+
+"@juggle/resize-observer@npm:^3.3.1":
+  version: 3.3.1
+  resolution: "@juggle/resize-observer@npm:3.3.1"
+  checksum: ddabc4044276a2cb57d469c4917206c7e39f2463aa8e3430e33e4eda554412afe29c22afa40e6708b49dad5d56768dc83acd68a704b1dcd49a0906bb96b991b2
   languageName: node
   linkType: hard
 
@@ -3473,6 +3482,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mapbox/node-pre-gyp@npm:^1.0.0":
+  version: 1.0.9
+  resolution: "@mapbox/node-pre-gyp@npm:1.0.9"
+  dependencies:
+    detect-libc: ^2.0.0
+    https-proxy-agent: ^5.0.0
+    make-dir: ^3.1.0
+    node-fetch: ^2.6.7
+    nopt: ^5.0.0
+    npmlog: ^5.0.1
+    rimraf: ^3.0.2
+    semver: ^7.3.5
+    tar: ^6.1.11
+  bin:
+    node-pre-gyp: bin/node-pre-gyp
+  checksum: 1b9c4c87a68d200daa13151d0fe033aa7aa8f7b26f3585255424dd8dfee2ec672c3e9bea4071c624469bc0aebbbcde08f8a300c8a958db52c50abadd5fb56920
+  languageName: node
+  linkType: hard
+
 "@mdx-js/mdx@npm:^1.6.22":
   version: 1.6.22
   resolution: "@mdx-js/mdx@npm:1.6.22"
@@ -3818,6 +3846,49 @@ __metadata:
     webpack-plugin-serve:
       optional: true
   checksum: 3490649181878cc8808fb91f3870ef095e5a1fb9647b3ac83740df07379c9d1cf540f24bf2b09d5f26a3a8c805b2c6b9c5be7192bdb9317d0ffffa67426e9f66
+  languageName: node
+  linkType: hard
+
+"@react-hook/latest@npm:^1.0.2":
+  version: 1.0.3
+  resolution: "@react-hook/latest@npm:1.0.3"
+  peerDependencies:
+    react: ">=16.8"
+  checksum: 2408c9cd35c5cfa7697b6da3bc5eebef254a932ade70955074c474f23be7dd3e2f81bbba12edcc9208bd0f89c6ed366d6b11d4f6d7b1052877a0bac8f74afad4
+  languageName: node
+  linkType: hard
+
+"@react-hook/passive-layout-effect@npm:^1.2.0":
+  version: 1.2.1
+  resolution: "@react-hook/passive-layout-effect@npm:1.2.1"
+  peerDependencies:
+    react: ">=16.8"
+  checksum: 217cb8aa90fb8e677672319a9a466d7752890cf4357c76df000b207696e9cc717cf2ee88080671cc9dae238a82f92093ab4f61ab2f6032d2a8db958fc7d99b5d
+  languageName: node
+  linkType: hard
+
+"@react-hook/resize-observer@npm:^1.2.1":
+  version: 1.2.6
+  resolution: "@react-hook/resize-observer@npm:1.2.6"
+  dependencies:
+    "@juggle/resize-observer": ^3.3.1
+    "@react-hook/latest": ^1.0.2
+    "@react-hook/passive-layout-effect": ^1.2.0
+  peerDependencies:
+    react: ">=16.8"
+  checksum: d2ff6c50e847514acad774f2a4010fb1e6782a231ae00c9507c1a98028b3a26399e35f094170918f11b1eeafc581d60da7641bc178d496abf00c56eee8a6b36b
+  languageName: node
+  linkType: hard
+
+"@react-hook/size@npm:^2.1.2":
+  version: 2.1.2
+  resolution: "@react-hook/size@npm:2.1.2"
+  dependencies:
+    "@react-hook/passive-layout-effect": ^1.2.0
+    "@react-hook/resize-observer": ^1.2.1
+  peerDependencies:
+    react: ">=16.8"
+  checksum: 89876e93957f420ba63518b60992b46ca82b0d12da0cf50ad487461e0b4230ec0e036ecf100840e2b2e93c9101895ad33e8bd6bc02a25641c28c904a09ab2563
   languageName: node
   linkType: hard
 
@@ -5796,13 +5867,6 @@ __metadata:
   version: 5.0.3
   resolution: "@types/parse5@npm:5.0.3"
   checksum: d6b7495cb1850f9f2e9c5e103ede9f2d30a5320669707b105c403868adc9e4bf8d3a7ff314cc23f67826bbbbbc0e6147346ce9062ab429f099dba7a01f463919
-  languageName: node
-  linkType: hard
-
-"@types/pdfjs-dist@npm:2.1.7":
-  version: 2.1.7
-  resolution: "@types/pdfjs-dist@npm:2.1.7"
-  checksum: 14ca335658a85ab5cab908f3ef3ec104cb62487acc2465bb74b6d0430cd720dca30a8804440e152967b1dd7fb384c65ef05da1702a1ec87b905c0f5c73bbe653
   languageName: node
   linkType: hard
 
@@ -8743,6 +8807,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"canvas@npm:^2.9.3":
+  version: 2.9.3
+  resolution: "canvas@npm:2.9.3"
+  dependencies:
+    "@mapbox/node-pre-gyp": ^1.0.0
+    nan: ^2.15.0
+    node-gyp: latest
+    simple-get: ^3.0.3
+  checksum: 368112ba4b16f54ce6dfac1ccbc45ddd1eb0b76dc09509c2601c2a26459bb4449d259a7aa8664fd94153aad13b48557535f3b9eb7fad9a97929b9eb962e50f09
+  languageName: node
+  linkType: hard
+
 "capture-exit@npm:^2.0.0":
   version: 2.0.0
   resolution: "capture-exit@npm:2.0.0"
@@ -10607,6 +10683,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"decompress-response@npm:^4.2.0":
+  version: 4.2.1
+  resolution: "decompress-response@npm:4.2.1"
+  dependencies:
+    mimic-response: ^2.0.0
+  checksum: 4e783ca4dfe9417354d61349750fe05236f565a4415a6ca20983a311be2371debaedd9104c0b0e7b36e5f167aeaae04f84f1a0b3f8be4162f1d7d15598b8fdba
+  languageName: node
+  linkType: hard
+
 "decompress-response@npm:^6.0.0":
   version: 6.0.0
   resolution: "decompress-response@npm:6.0.0"
@@ -10837,6 +10922,13 @@ __metadata:
   version: 6.0.0
   resolution: "detect-indent@npm:6.0.0"
   checksum: 0c38f362016e2d07af1c65b1ecd6ad8a91f06bfdd11383887c867a495ad286d04be2ab44027ac42444704d523982013115bd748c1541df7c9396ad76b22aaf5d
+  languageName: node
+  linkType: hard
+
+"detect-libc@npm:^2.0.0":
+  version: 2.0.1
+  resolution: "detect-libc@npm:2.0.1"
+  checksum: ccb05fcabbb555beb544d48080179c18523a343face9ee4e1a86605a8715b4169f94d663c21a03c310ac824592f2ba9a5270218819bb411ad7be578a527593d7
   languageName: node
   linkType: hard
 
@@ -11100,8 +11192,8 @@ __metadata:
   resolution: "discovery-search-app@workspace:examples/discovery-search-app"
   dependencies:
     "@carbon/icons": ^10.5.0
-    "@ibm-watson/discovery-react-components": ^2.0.3
-    "@ibm-watson/discovery-styles": ^2.0.1
+    "@ibm-watson/discovery-react-components": ^3.0.6
+    "@ibm-watson/discovery-styles": ^3.0.5
     "@testing-library/cypress": ^7.0.7
     "@types/proper-url-join": ^2
     body-parser: ^1.19.0
@@ -17380,7 +17472,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loader-utils@npm:^1.0.0, loader-utils@npm:^1.0.2, loader-utils@npm:^1.2.3":
+"loader-utils@npm:^1.0.2, loader-utils@npm:^1.2.3":
   version: 1.4.0
   resolution: "loader-utils@npm:1.4.0"
   dependencies:
@@ -18326,6 +18418,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mimic-response@npm:^2.0.0":
+  version: 2.1.0
+  resolution: "mimic-response@npm:2.1.0"
+  checksum: 014fad6ab936657e5f2f48bd87af62a8e928ebe84472aaf9e14fec4fcb31257a5edff77324d8ac13ddc6685ba5135cf16e381efac324e5f174fb4ddbf902bf07
+  languageName: node
+  linkType: hard
+
 "mimic-response@npm:^3.1.0":
   version: 3.1.0
   resolution: "mimic-response@npm:3.1.0"
@@ -18704,12 +18803,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nan@npm:^2.12.1":
-  version: 2.15.0
-  resolution: "nan@npm:2.15.0"
+"nan@npm:^2.12.1, nan@npm:^2.15.0":
+  version: 2.16.0
+  resolution: "nan@npm:2.16.0"
   dependencies:
     node-gyp: latest
-  checksum: 33e1bb4dfca447fe37d4bb5889be55de154828632c8d38646db67293a21afd61ed9909cdf1b886214a64707d935926c4e60e2b09de9edfc2ad58de31d6ce8f39
+  checksum: cb16937273ea55b01ea47df244094c12297ce6b29b36e845d349f1f7c268b8d7c5abd126a102c5678a1e1afd0d36bba35ea0cc959e364928ce60561c9306064a
   languageName: node
   linkType: hard
 
@@ -18799,13 +18898,6 @@ __metadata:
   dependencies:
     minimatch: ^3.0.2
   checksum: 29de9560e52cdac8d3f794d38d782f6799e13d4d11aaf96d3da8c28458e1c5e33bb5f8edfb42dc34172ec5516c50c5b8850c9e1526542616757a969267263328
-  languageName: node
-  linkType: hard
-
-"node-ensure@npm:^0.0.0":
-  version: 0.0.0
-  resolution: "node-ensure@npm:0.0.0"
-  checksum: 1124623beb1dec66889794286ec1761ac3bfac42ce93b8652903efa5af14227edce5bafa06c4e0675cdc850360931d7c9413e3b5406150f05b2c9bf5bb3ccce4
   languageName: node
   linkType: hard
 
@@ -20150,15 +20242,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pdfjs-dist@npm:^2.2.228":
-  version: 2.2.228
-  resolution: "pdfjs-dist@npm:2.2.228"
-  dependencies:
-    node-ensure: ^0.0.0
-    worker-loader: ^2.0.0
-  peerDependencies:
-    webpack: ^3.0.0 || ^4.0.0-alpha.0 || ^4.0.0
-  checksum: 8856d80b1787ecdc88eb7773cadb071ad41e712156b586fd8f4b4ae546818f350521653504f798eab2eeea2ca0e9f910c62e4591a25e3f60567fbed1d727b457
+"pdfjs-dist@npm:2.6.347":
+  version: 2.6.347
+  resolution: "pdfjs-dist@npm:2.6.347"
+  checksum: 34a3ee1d63fe522000edcbc4c6be0cdbbdbe92544a2d97b1b003fc0e63d2fcfddaa882a418efb20aea22a2e67ff2cdd54be5543b15301971ed7f7a75ef9289cb
   languageName: node
   linkType: hard
 
@@ -23510,16 +23597,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"schema-utils@npm:^0.4.0":
-  version: 0.4.7
-  resolution: "schema-utils@npm:0.4.7"
-  dependencies:
-    ajv: ^6.1.0
-    ajv-keywords: ^3.1.0
-  checksum: acee0b7aee127374099846114ee01e3e0eec057e27f8451b2dbdfa43f17ea42ed1e6af876f2a28f5212cb5adef263f99661d0475208417226e5c83c648235b0e
-  languageName: node
-  linkType: hard
-
 "schema-utils@npm:^1.0.0":
   version: 1.0.0
   resolution: "schema-utils@npm:1.0.0"
@@ -23867,6 +23944,24 @@ __metadata:
   version: 3.0.3
   resolution: "signal-exit@npm:3.0.3"
   checksum: f0169d3f1263d06df32ca072b0bf33b34c6f8f0341a7a1621558a2444dfbe8f5fec76b35537fcc6f0bc4944bdb5336fe0bdcf41a5422c4e45a1dba3f45475e6c
+  languageName: node
+  linkType: hard
+
+"simple-concat@npm:^1.0.0":
+  version: 1.0.1
+  resolution: "simple-concat@npm:1.0.1"
+  checksum: 4d211042cc3d73a718c21ac6c4e7d7a0363e184be6a5ad25c8a1502e49df6d0a0253979e3d50dbdd3f60ef6c6c58d756b5d66ac1e05cda9cacd2e9fc59e3876a
+  languageName: node
+  linkType: hard
+
+"simple-get@npm:^3.0.3":
+  version: 3.1.1
+  resolution: "simple-get@npm:3.1.1"
+  dependencies:
+    decompress-response: ^4.2.0
+    once: ^1.3.1
+    simple-concat: ^1.0.0
+  checksum: 80195e70bf171486e75c31e28e5485468195cc42f85940f8b45c4a68472160144d223eb4d07bc82ef80cb974b7c401db021a540deb2d34ac4b3b8883da2d6401
   languageName: node
   linkType: hard
 
@@ -25110,7 +25205,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tar@npm:^6.0.2, tar@npm:^6.0.5, tar@npm:^6.1.0, tar@npm:^6.1.2":
+"tar@npm:^6.0.2, tar@npm:^6.0.5, tar@npm:^6.1.0, tar@npm:^6.1.11, tar@npm:^6.1.2":
   version: 6.1.11
   resolution: "tar@npm:6.1.11"
   dependencies:
@@ -26531,6 +26626,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"web-streams-polyfill@npm:^3.2.1":
+  version: 3.2.1
+  resolution: "web-streams-polyfill@npm:3.2.1"
+  checksum: b119c78574b6d65935e35098c2afdcd752b84268e18746606af149e3c424e15621b6f1ff0b42b2676dc012fc4f0d313f964b41a4b5031e525faa03997457da02
+  languageName: node
+  linkType: hard
+
 "webidl-conversions@npm:^3.0.0":
   version: 3.0.1
   resolution: "webidl-conversions@npm:3.0.1"
@@ -27237,18 +27339,6 @@ __metadata:
   dependencies:
     errno: ~0.1.7
   checksum: eab917530e1feddf157ec749e9c91b73a886142daa7fdf3490bccbf7b548b2576c43ab8d0a98e72ac755cbc101ca8647a7b1ff2485fddb9e8f53c40c77f5a719
-  languageName: node
-  linkType: hard
-
-"worker-loader@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "worker-loader@npm:2.0.0"
-  dependencies:
-    loader-utils: ^1.0.0
-    schema-utils: ^0.4.0
-  peerDependencies:
-    webpack: ^3.0.0 || ^4.0.0-alpha.0 || ^4.0.0
-  checksum: 76fbb5a6ce1054c473d81b4f5f6cb482b3ec1d13d943786f0f6a29220d6f24e396b55f73b8e31659100a12e66e60ed237807bc42b9835da8bcb1bd283759e204
   languageName: node
   linkType: hard
 
