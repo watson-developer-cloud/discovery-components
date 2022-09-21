@@ -1,8 +1,8 @@
-import DiscoveryV2 from 'ibm-watson/discovery/v2';
+import { QueryResultWithOptionalMetadata } from 'components/DocumentPreview/types';
 import get from 'lodash/get';
 
 export const getDocumentTitle = (
-  document: DiscoveryV2.QueryResult | undefined,
+  document: QueryResultWithOptionalMetadata | undefined,
   titleField: string
 ): string => {
   if (document) {

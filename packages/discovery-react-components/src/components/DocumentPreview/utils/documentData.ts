@@ -1,6 +1,12 @@
 import get from 'lodash/get';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
-import { DiscoveryDocument, DocumentFile, PreviewType, TextMappings } from '../types';
+import {
+  DiscoveryDocument,
+  DocumentFile,
+  PreviewType,
+  QueryResultWithOptionalMetadata,
+  TextMappings
+} from '../types';
 import { isPassage, isTable } from '../components/Highlight/typeUtils';
 
 /**
@@ -8,7 +14,7 @@ import { isPassage, isTable } from '../components/Highlight/typeUtils';
  * prop is stored as a JSON string; if so, parse and return as object.
  */
 export function getTextMappings(
-  doc: QueryResult | null | undefined
+  doc: QueryResultWithOptionalMetadata | null | undefined
 ): TextMappings | null | undefined {
   let mappings = get(doc, 'extracted_metadata.text_mappings');
   if (mappings && typeof mappings === 'string') {

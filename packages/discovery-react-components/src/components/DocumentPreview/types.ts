@@ -1,4 +1,4 @@
-import { QueryResult } from 'ibm-watson/discovery/v2';
+import { QueryResult, QueryResultMetadata } from 'ibm-watson/discovery/v2';
 import { PDFSource } from 'pdfjs-dist';
 
 export interface TextMappings {
@@ -54,6 +54,18 @@ export interface DiscoveryDocument extends QueryResult {
     file_type?: 'pdf' | 'html' | 'json' | 'csv' | 'text' | string;
     text_mappings?: string; // exists when custom SDU model or OOB (CI) model enabled
   };
+}
+
+// a version of the QueryResultMetadata type from V2 Discovery, but where collection_id is an optional prop
+export interface QuerytResultMetadataWithOptionalCollectionId
+  extends Omit<QueryResultMetadata, 'collection_id'>,
+    Partial<Pick<QueryResultMetadata, 'collection_id'>> {
+  collection_id?: string;
+}
+
+// a version of the QueryResult type from V2 Discovery, but where result_metadata is an optional prop
+export interface QueryResultWithOptionalMetadata extends Omit<QueryResult, 'result_metadata'> {
+  result_metadata?: QuerytResultMetadataWithOptionalCollectionId;
 }
 
 export type DocumentFile = string | ArrayBuffer | PDFSource;
