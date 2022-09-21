@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { text, object, boolean, number } from '@storybook/addon-knobs/react';
+import { text, object, boolean, number } from '@storybook/addon-knobs';
 import SearchFacets from '../SearchFacets';
 import { facetsQueryResponse } from '../__fixtures__/facetsQueryResponse';
 import collectionsResponse from '../__fixtures__/collectionsResponse';

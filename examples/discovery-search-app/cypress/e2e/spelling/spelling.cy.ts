@@ -5,11 +5,9 @@ describe('Spelling', () => {
     mockHomePage();
 
     // Set up/override routes & fixtures that are specific to this file
-    cy.fixture('query/misspelledQuery.json').as('misspelledQueryJSON');
-    cy.fixture('query/correctedQuery.json').as('correctedQueryJSON');
-    cy.route('POST', '**/query?version=2019-01-01', '@misspelledQueryJSON').as(
-      'postQueryMisspelled'
-    );
+    cy.intercept('POST', '**/query?version=2019-01-01', {
+      fixture: 'query/misspelledQuery.json'
+    }).as('postQueryMisspelled');
   });
 
   describe('When entering a misspelled query', () => {
@@ -24,9 +22,9 @@ describe('Spelling', () => {
 
     describe('and clicking on the suggested query term', () => {
       beforeEach(() => {
-        cy.route('POST', '**/query?version=2019-01-01', '@correctedQueryJSON').as(
-          'postQueryCorrected'
-        );
+        cy.intercept('POST', '**/query?version=2019-01-01', {
+          fixture: 'query/correctedQuery.json'
+        }).as('postQueryCorrected');
         cy.contains('There were no results found').click(); // Makes this test less flakey, but there's a race condition in SearchInput we should solve at some point
         cy.get('button').contains('watson').click();
         cy.wait('@postQueryCorrected').as('correctedQueryObject');
@@ -38,7 +36,7 @@ describe('Spelling', () => {
 
       it('submits the correct query', () => {
         cy.get('@correctedQueryObject')
-          .its('requestBody.natural_language_query')
+          .its('request.body.natural_language_query')
           .should('eq', 'watson');
       });
     });

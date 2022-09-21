@@ -7,50 +7,50 @@ $css--plex: true !default;
 $css--use-layer: true !default;
 
 // Global styles
-@import '~carbon-components/scss/globals/scss/_css--font-face.scss';
-@import '~carbon-components/scss/globals/scss/_typography.scss';
-@import '~carbon-components/scss/globals/scss/_colors.scss';
-@import '~carbon-components/scss/globals/scss/_layout.scss';
+@import 'carbon-components/scss/globals/scss/_css--font-face.scss';
+@import 'carbon-components/scss/globals/scss/_typography.scss';
+@import 'carbon-components/scss/globals/scss/_colors.scss';
+@import 'carbon-components/scss/globals/scss/_layout.scss';
 
 // The following are base Carbon styles for each discovery component
 
 // ci-document-filter, search-facets
-@import '~carbon-components/scss/components/checkbox/checkbox';
-@import '~carbon-components/scss/components/multi-select/multi-select';
-@import '~carbon-components/scss/components/radio-button/radio-button';
-@import '~carbon-components/scss/components/tag/tag';
+@import 'carbon-components/scss/components/checkbox/checkbox';
+@import 'carbon-components/scss/components/multi-select/multi-select';
+@import 'carbon-components/scss/components/radio-button/radio-button';
+@import 'carbon-components/scss/components/tag/tag';
 
 // ci-document, ci-document-details
-@import '~carbon-components/scss/components/link/link';
+@import 'carbon-components/scss/components/link/link';
 
 // ci-document, document-preview-toolbar, search-reseults, structured-query
-@import '~carbon-components/scss/components/button/button';
+@import 'carbon-components/scss/components/button/button';
 
 // ci-document, document-preview-toolbar
-@import '~carbon-components/scss/components/tooltip/tooltip';
+@import 'carbon-components/scss/components/tooltip/tooltip';
 
 // ci-document-filter, document-preview
-@import '~carbon-components/scss/components/skeleton/skeleton';
+@import 'carbon-components/scss/components/skeleton/skeleton';
 
 // document-preview
-@import '~carbon-components/scss/components/loading/loading';
+@import 'carbon-components/scss/components/loading/loading';
 
 // ci-document
-@import '~carbon-components/scss/components/tabs/tabs';
+@import 'carbon-components/scss/components/tabs/tabs';
 
 // results-pagination
-@import '~carbon-components/scss/components/pagination/_unstable_pagination';
+@import 'carbon-components/scss/components/pagination/_unstable_pagination';
 
 // search-facets
-@import '~carbon-components/scss/components/modal/modal';
+@import 'carbon-components/scss/components/modal/modal';
 
 // search-input
-@import '~carbon-components/scss/components/search/search';
-@import '~carbon-components/scss/components/list-box/list-box';
+@import 'carbon-components/scss/components/search/search';
+@import 'carbon-components/scss/components/list-box/list-box';
 
 // search-results
-@import '~carbon-components/scss/components/toggle/toggle';
+@import 'carbon-components/scss/components/toggle/toggle';
 
 // structured-query
-@import '~carbon-components/scss/components/combo-box/combo-box';
-@import '~carbon-components/scss/components/dropdown/dropdown';
+@import 'carbon-components/scss/components/combo-box/combo-box';
+@import 'carbon-components/scss/components/dropdown/dropdown';

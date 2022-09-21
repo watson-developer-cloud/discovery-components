@@ -5,8 +5,9 @@ describe('Table Results', () => {
     mockHomePage();
 
     // Set up/override routes & fixtures that are specific to this file
-    cy.fixture('query/tableResults.json').as('tableResultsJSON');
-    cy.route('POST', '**/query?version=2019-01-01', '@tableResultsJSON').as('postQueryTables');
+    cy.intercept('POST', '**/query?version=2019-01-01', { fixture: 'query/tableResults.json' }).as(
+      'postQueryTables'
+    );
   });
 
   describe('When entering a query whose results contain tables', () => {
