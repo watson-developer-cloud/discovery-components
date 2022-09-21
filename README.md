@@ -7,38 +7,38 @@
 
 ## Table of contents
 
-<!-- toc -->
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 - [Using Discovery Components](#using-discovery-components)
 - [Prerequisites](#prerequisites)
 - [Running the example app](#running-the-example-app)
-  * [Setup script](#setup-script)
-  * [Manual setup](#manual-setup)
-    + [Windows Only](#windows-only)
+  - [Setup script](#setup-script)
+  - [Manual setup](#manual-setup)
 - [Using Discovery Components in a React application](#using-discovery-components-in-a-react-application)
-  * [Interacting with Discovery data in custom components](#interacting-with-discovery-data-in-custom-components)
-  * [Network performance](#network-performance)
-    + [Query 'return' parameter](#query-return-parameter)
-  * [Optimize CSS](#optimize-css)
+  - [Interacting with Discovery data in custom components](#interacting-with-discovery-data-in-custom-components)
+  - [Network performance](#network-performance)
+    - [Query 'return' parameter](#query-return-parameter)
+  - [Optimize CSS](#optimize-css)
 - [Development](#development)
-  * [Project structure](#project-structure)
-  * [Install](#install)
-  * [Available commands](#available-commands)
-    + [Root directory](#root-directory)
-    + [Example app (examples/discovery-search-app)](#example-app-examplesdiscovery-search-app)
-    + [React components (packages/discovery-react-components)](#react-components-packagesdiscovery-react-components)
-    + [Styles (packages/discovery-styles)](#styles-packagesdiscovery-styles)
-  * [Running the project](#running-the-project)
-  * [Running Storybook](#running-storybook)
-  * [Testing](#testing)
-    + [Unit/Integration testing](#unitintegration-testing)
-    + [Feature tests](#feature-tests)
-    + [Continuous integration](#continuous-integration)
-  * [Branching and Releasing](#branching-and-releasing)
+  - [Project structure](#project-structure)
+  - [Install](#install)
+  - [Available commands](#available-commands)
+    - [Root directory](#root-directory)
+    - [Example app (examples/discovery-search-app)](#example-app-examplesdiscovery-search-app)
+    - [React components (packages/discovery-react-components)](#react-components-packagesdiscovery-react-components)
+    - [Styles (packages/discovery-styles)](#styles-packagesdiscovery-styles)
+  - [Running the project](#running-the-project)
+  - [Running Storybook](#running-storybook)
+  - [Testing](#testing)
+    - [Unit/Integration testing](#unitintegration-testing)
+    - [Feature tests](#feature-tests)
+    - [Continuous integration](#continuous-integration)
+  - [Branching and Releasing](#branching-and-releasing)
 - [Helpful links](#helpful-links)
 - [Contributors](#contributors)
 
-<!-- tocstop -->
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Using Discovery Components
 

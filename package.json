@@ -43,6 +43,7 @@
     "axios": "^0.21.4",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.3",
+    "doctoc": "^2.2.0",
     "eslint": "^8.3.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-react-app": "^7.0.1",
@@ -61,7 +62,6 @@
     "lerna-update-wizard": "^0.17.8",
     "lint-staged": "^13.0.3",
     "lorem-ipsum": "^2.0.3",
-    "markdown-toc": "^1.2.0",
     "prettier": "^2.4.1",
     "proper-url-join": "^2.1.1",
     "raw-loader": "^4.0.2",
@@ -86,7 +86,7 @@
       "yarn lint --fix"
     ],
     "README.md": [
-      "markdown-toc -i"
+      "doctoc"
     ]
   },
   "browserslist": {
