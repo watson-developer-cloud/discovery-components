@@ -40,6 +40,9 @@ const SANITIZE_CONFIG = {
     // bbox
     'page'
   ],
+  FORBID_TAGS: ['input', 'form', 'a', 'button', 'script'],
+  FORBID_CONTENTS: ['script'],
+  KEEP_CONTENT: true,
   WHOLE_DOCUMENT: true
 };
 
