@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/watson-developer-cloud/discovery-components/compare/v3.0.7...v3.1.0) (2022-09-26)
+
+
+### Features
+
+* strip out inputs, forms, buttons, and scripts from HTML doc view ([#415](https://github.com/watson-developer-cloud/discovery-components/issues/415)) ([e7a6d0b](https://github.com/watson-developer-cloud/discovery-components/commit/e7a6d0b0251c5044ec1bbe7648f769ed00a17178))
+
+
+
+
+
 ## [3.0.7](https://github.com/watson-developer-cloud/discovery-components/compare/v3.0.6...v3.0.7) (2022-09-21)
 
 **Note:** Version bump only for package @ibm-watson/discovery-react-components
