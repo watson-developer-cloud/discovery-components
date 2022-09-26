@@ -55,6 +55,10 @@ interface Props extends WithErrorBoundaryProps {
    */
   messages?: Messages;
   /**
+   * URL of hosted PDF worker
+   */
+  pdfWorkerUrl?: string;
+  /**
    * React component rendered as a fallback when no preview is available
    */
   fallbackComponent?: ComponentProps<typeof SimpleDocument>['fallbackComponent'];
@@ -74,6 +78,7 @@ const DocumentPreview: FC<Props> = ({
   highlight,
   messages = defaultMessages,
   didCatch,
+  pdfWorkerUrl,
   fallbackComponent,
   onChange
 }) => {
@@ -147,6 +152,7 @@ const DocumentPreview: FC<Props> = ({
               loading={loading}
               hideToolbarControls={hideToolbarControls}
               setCurrentPage={setCurrentPage}
+              pdfWorkerUrl={pdfWorkerUrl}
               fallbackComponent={fallbackComponent}
             />
           </div>
@@ -178,6 +184,7 @@ interface PreviewDocumentProps
   loading: boolean;
   hideToolbarControls: boolean;
   setCurrentPage?: (page: number) => void;
+  pdfWorkerUrl?: string;
 }
 
 function PreviewDocument({
@@ -193,6 +200,7 @@ function PreviewDocument({
   highlight,
   disableTextLayer,
   setCurrentPage,
+  pdfWorkerUrl,
   fallbackComponent
 }: PreviewDocumentProps): ReactElement | null {
   const previewType = useMemo(
@@ -218,6 +226,7 @@ function PreviewDocument({
           highlight={highlight}
           setCurrentPage={setCurrentPage}
           disableTextLayer={disableTextLayer}
+          pdfWorkerUrl={pdfWorkerUrl}
         />
       );
     case 'HTML':

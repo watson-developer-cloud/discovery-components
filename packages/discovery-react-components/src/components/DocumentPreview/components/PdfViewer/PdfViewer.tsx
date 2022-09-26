@@ -3,7 +3,6 @@ import cx from 'classnames';
 import * as PdfjsLib from 'pdfjs-dist';
 import { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist/types/display/api';
 import { PageViewport } from 'pdfjs-dist/types/display/display_utils';
-import PdfjsWorkerAsText from 'pdfjs-dist/build/pdf.worker.min.js';
 import { settings } from 'carbon-components';
 import useSafeRef from 'utils/useSafeRef';
 import useSize from 'utils/useSize';
@@ -15,8 +14,6 @@ import PdfViewerTextLayer, { PdfRenderedText } from './PdfViewerTextLayer';
 import { toPDFSource } from './utils';
 import { PdfDisplayProps } from './types';
 type RenderTask = ReturnType<PDFPageProxy['render']>;
-
-setupPdfjs();
 
 export type PdfViewerProps = PdfDisplayProps & {
   className?: string;
@@ -57,6 +54,10 @@ export type PdfViewerProps = PdfDisplayProps & {
    * Callback for text layer info
    */
   setRenderedText?: (info: PdfRenderedText | null) => any;
+  /**
+   * URL of hosted PDF worker
+   */
+  pdfWorkerUrl?: string;
 };
 
 const PdfViewer: FC<PdfViewerProps> = ({
@@ -71,11 +72,19 @@ const PdfViewer: FC<PdfViewerProps> = ({
   setLoading,
   setHideToolbarControls,
   setRenderedText,
+  pdfWorkerUrl,
   children
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { node: rootNode, setRef: setRootRef } = useSafeRef();
   const [canvasInfo, setCanvasInfo] = useState<CanvasInfo | null>(null);
+
+  useEffect(() => {
+    // If we're given a url for a pdf.js worker, set up that worker
+    if (pdfWorkerUrl) {
+      setupPdfjs(pdfWorkerUrl);
+    }
+  }, [pdfWorkerUrl]);
 
   const loadedFile = useAsyncFunctionCall(
     useCallback(async () => (file ? await _loadPdf(file) : null), [file])
@@ -213,15 +222,14 @@ function _renderPage(
   return null;
 }
 
-// set up web worker for use by PDF.js library
-// @see https://stackoverflow.com/a/6454685/908343
-function setupPdfjs(): void {
-  if (typeof Worker !== 'undefined') {
-    const blob = new Blob([PdfjsWorkerAsText], { type: 'text/javascript' });
-    const pdfjsWorker = new Worker(URL.createObjectURL(blob)) as any;
+// Store the pdf.js worker url to prevent multiple loads of the worker
+let currentPdfWorkerUrl: string | null = null;
+function setupPdfjs(pdfWorkerUrl: string): void {
+  // Only load the worker the first time the worker url is sent in
+  if (pdfWorkerUrl !== currentPdfWorkerUrl) {
+    const pdfjsWorker = new Worker(pdfWorkerUrl);
     PdfjsLib.GlobalWorkerOptions.workerPort = pdfjsWorker;
-  } else {
-    PdfjsLib.GlobalWorkerOptions.workerSrc = PdfjsWorkerAsText;
+    currentPdfWorkerUrl = pdfWorkerUrl;
   }
 }
 

@@ -180,6 +180,8 @@ const WithTextSelection: typeof PdfViewerWithHighlight = props => {
         highlights={highlights}
         activeIds={activeIds}
         highlightClassName="highlight"
+        // pulled from pdfjs-dist (see main.js > staticDirs)
+        pdfWorkerUrl={'pdf.worker.min.js'}
       />
       <div className="rightPane">
         <h6>
@@ -279,6 +281,8 @@ const WithToolbar: FC<
         scale={zoom}
         activeIds={activeIds}
         highlightClassName="highlight"
+        // pulled from pdfjs-dist (see main.js > staticDirs)
+        pdfWorkerUrl={'pdf.worker.min.js'}
       />
     </div>
   );
@@ -328,6 +332,8 @@ storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
         highlights={highlightKnob.data[highlights]}
         activeIds={activeIds}
         setCurrentPage={handleSetCurrentPage}
+        // pulled from pdfjs-dist (see main.js > staticDirs)
+        pdfWorkerUrl={'pdf.worker.min.js'}
       />
     );
   })

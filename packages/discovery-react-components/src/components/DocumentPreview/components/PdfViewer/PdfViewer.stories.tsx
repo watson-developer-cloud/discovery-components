@@ -61,6 +61,8 @@ storiesOf('DocumentPreview/components/PdfViewer', module)
           scale={scale}
           setLoading={setLoadingAction}
           setRenderedText={setRenderedTextAction}
+          // pulled from pdfjs-dist (see main.js > staticDirs)
+          pdfWorkerUrl={'pdf.worker.min.js'}
         />
       </div>
     );
