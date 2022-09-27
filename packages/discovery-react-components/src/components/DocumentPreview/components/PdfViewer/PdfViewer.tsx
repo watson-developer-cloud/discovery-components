@@ -57,7 +57,7 @@ export type PdfViewerProps = PdfDisplayProps & {
   /**
    * URL of hosted PDF worker
    */
-  pdfWorkerUrl?: string;
+  pdfWorkerUrl: string;
 };
 
 const PdfViewer: FC<PdfViewerProps> = ({

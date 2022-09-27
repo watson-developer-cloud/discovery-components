@@ -27,6 +27,9 @@ import document from 'components/DocumentPreview/__fixtures__/Art Effects Koya C
 import { document as docJa } from 'components/DocumentPreview/__fixtures__/DiscoComponent-ja.pdf';
 import documentJa from 'components/DocumentPreview/__fixtures__/DiscoComponents-ja_document.json';
 
+// pulled from pdfjs-dist (see main.js > staticDirs)
+const PDF_WORKER_URL = 'pdf.worker.min.js';
+
 const pageKnob = {
   label: 'Page',
   options: {
@@ -180,8 +183,7 @@ const WithTextSelection: typeof PdfViewerWithHighlight = props => {
         highlights={highlights}
         activeIds={activeIds}
         highlightClassName="highlight"
-        // pulled from pdfjs-dist (see main.js > staticDirs)
-        pdfWorkerUrl={'pdf.worker.min.js'}
+        pdfWorkerUrl={PDF_WORKER_URL}
       />
       <div className="rightPane">
         <h6>
@@ -281,8 +283,7 @@ const WithToolbar: FC<
         scale={zoom}
         activeIds={activeIds}
         highlightClassName="highlight"
-        // pulled from pdfjs-dist (see main.js > staticDirs)
-        pdfWorkerUrl={'pdf.worker.min.js'}
+        pdfWorkerUrl={PDF_WORKER_URL}
       />
     </div>
   );
@@ -332,8 +333,7 @@ storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
         highlights={highlightKnob.data[highlights]}
         activeIds={activeIds}
         setCurrentPage={handleSetCurrentPage}
-        // pulled from pdfjs-dist (see main.js > staticDirs)
-        pdfWorkerUrl={'pdf.worker.min.js'}
+        pdfWorkerUrl={PDF_WORKER_URL}
       />
     );
   })
@@ -353,6 +353,7 @@ storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
         document={document}
         highlights={EMPTY}
         setCurrentPage={setCurrentPage}
+        pdfWorkerUrl={PDF_WORKER_URL}
       />
     );
   })
@@ -372,6 +373,7 @@ storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
         document={documentJa}
         highlights={EMPTY}
         setCurrentPage={setCurrentPage}
+        pdfWorkerUrl={PDF_WORKER_URL}
       />
     );
   })
@@ -413,6 +415,7 @@ storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
         document={document}
         highlights={EMPTY}
         setCurrentPage={setCurrentPage}
+        pdfWorkerUrl={PDF_WORKER_URL}
       />
     );
   })

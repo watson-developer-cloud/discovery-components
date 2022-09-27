@@ -7,6 +7,7 @@ import { document as doc } from 'components/DocumentPreview/__fixtures__/Art Eff
 
 describe('PdfViewer', () => {
   it('renders PDF document', async () => {
+    // @ts-ignore pdfWorkerUrl is required, but needs to be undefined for tests
     render(<PdfViewer file={atob(doc)} page={1} scale={1} setLoading={(): void => {}} />);
 
     // wait for component to finish rendering (prevent "act" warning)
