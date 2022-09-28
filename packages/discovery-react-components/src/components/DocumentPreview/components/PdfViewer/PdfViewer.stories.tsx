@@ -6,6 +6,9 @@ import PdfViewer from './PdfViewer';
 import { document as doc } from 'components/DocumentPreview/__fixtures__/Art Effects.pdf';
 import './PdfViewer.stories.scss';
 
+// pulled from pdfjs-dist (see main.js > staticDirs)
+const PDF_WORKER_URL = 'pdf.worker.min.js';
+
 const sourceKnob = {
   label: 'Source',
   options: {
@@ -61,6 +64,7 @@ storiesOf('DocumentPreview/components/PdfViewer', module)
           scale={scale}
           setLoading={setLoadingAction}
           setRenderedText={setRenderedTextAction}
+          pdfWorkerUrl={PDF_WORKER_URL}
         />
       </div>
     );

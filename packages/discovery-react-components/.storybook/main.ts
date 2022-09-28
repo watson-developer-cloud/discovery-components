@@ -14,7 +14,7 @@ module.exports = {
   core: {
     builder: 'webpack5',
   },
-  staticDirs: ['../../../node_modules/pdfjs-dist'],
+  staticDirs: ['../../../node_modules/pdfjs-dist/build/'],
   webpackFinal: (config) => {
     // ignore some Node.js packages
     config.resolve.fallback.crypto = false;
