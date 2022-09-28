@@ -226,7 +226,8 @@ function _renderPage(
 let currentPdfWorkerUrl: string | null = null;
 function setupPdfjs(pdfWorkerUrl: string): void {
   // Only load the worker the first time the worker url is sent in
-  if (pdfWorkerUrl !== currentPdfWorkerUrl) {
+  // and don't load the worker in unit tests (see setupTests.ts)
+  if (typeof Worker !== 'undefined' && pdfWorkerUrl !== currentPdfWorkerUrl) {
     const pdfjsWorker = new Worker(pdfWorkerUrl);
     PdfjsLib.GlobalWorkerOptions.workerPort = pdfjsWorker;
     currentPdfWorkerUrl = pdfWorkerUrl;
