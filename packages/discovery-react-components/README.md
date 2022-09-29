@@ -1,3 +1,13 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [@ibm-watson/discovery-react-components](#ibm-watsondiscovery-react-components)
+  - [Install](#install)
+  - [Usage](#usage)
+  - [Setting up PdfViewer](#setting-up-pdfviewer)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # @ibm-watson/discovery-react-components
 
 >
@@ -53,3 +63,10 @@ const App = () => {
   );
 };
 ```
+
+## Setting up PdfViewer
+
+To use the PdfViewer component (or the components that use it, e.g. PdfViewerWithHighlight, DocumentPreview) you will need to provide pdf.js with a PDF worker. This can be done in one of two ways:
+
+- Use the `pdfWorkerUrl` prop to send the URl of a pdf worker JS file (either self-hosted or externally hosted) to any of `PdfViewer`, `PdfViewerWithHighlight`, `DocumentPreview`, or `DocumentPreview.PreviewDocument`.
+- Set `GlobalWorkerOptions.workerSrc` globally (see `src/setupTests.ts` for an example).

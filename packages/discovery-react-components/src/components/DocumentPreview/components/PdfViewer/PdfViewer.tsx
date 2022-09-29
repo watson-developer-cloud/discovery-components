@@ -57,7 +57,7 @@ export type PdfViewerProps = PdfDisplayProps & {
   /**
    * URL of hosted PDF worker
    */
-  pdfWorkerUrl: string;
+  pdfWorkerUrl?: string;
 };
 
 const PdfViewer: FC<PdfViewerProps> = ({
@@ -227,7 +227,7 @@ let currentPdfWorkerUrl: string | null = null;
 function setupPdfjs(pdfWorkerUrl: string): void {
   // Only load the worker the first time the worker url is sent in
   // and don't load the worker in unit tests (see setupTests.ts)
-  if (typeof Worker !== 'undefined' && pdfWorkerUrl !== currentPdfWorkerUrl) {
+  if (!!pdfWorkerUrl && pdfWorkerUrl !== currentPdfWorkerUrl) {
     const pdfjsWorker = new Worker(pdfWorkerUrl);
     PdfjsLib.GlobalWorkerOptions.workerPort = pdfjsWorker;
     currentPdfWorkerUrl = pdfWorkerUrl;
