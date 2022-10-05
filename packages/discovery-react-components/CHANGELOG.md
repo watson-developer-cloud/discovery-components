@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0](https://github.com/watson-developer-cloud/discovery-components/compare/v3.1.1...v4.0.0) (2022-10-05)
+
+
+### Bug Fixes
+
+* finish updating pdfjs ([#420](https://github.com/watson-developer-cloud/discovery-components/issues/420)) ([4222710](https://github.com/watson-developer-cloud/discovery-components/commit/42227103654f77e46d555d9f5d3f8acad9e84c0a))
+
+
+### BREAKING CHANGES
+
+* - PDF worker now required to be set up in order to use PdfViewer component
+- Make pdfWorkerUrl prop optional (can use GlobalWorkerOptions.workerSrc instead)
+- Make suggested README changes
+- Update example app to use hosted worker
+- Fix DocumentPreview story
+
+
+
+
+
 # [3.1.0](https://github.com/watson-developer-cloud/discovery-components/compare/v3.0.7...v3.1.0) (2022-09-26)
 
 
