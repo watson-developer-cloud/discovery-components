@@ -1,3 +1,13 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [@ibm-watson/discovery-react-components](#ibm-watsondiscovery-react-components)
+  - [Install](#install)
+  - [Usage](#usage)
+  - [Rendering PDFs](#rendering-pdfs)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # @ibm-watson/discovery-react-components
 
 >
@@ -53,3 +63,10 @@ const App = () => {
   );
 };
 ```
+
+## Rendering PDFs
+
+If you want to use the Discovery Components (`DocumentPreview` or `PdfViewer`) to render PDF documents, you will need to set up the pdf.js worker script. This can be done in one of two ways:
+
+1. Set the `pdfWorkerUrl` prop to the URL of the pdf.js worker script (i.e. `pdf.worker.min.js`) to any of `DocumentPreview`, `PdfViewer`, `PdfViewerWithHighlight`, or `DocumentPreview.PreviewDocument`. (see examples/discovery-search-app/src/App.js for an example)
+2. Set `PdfjsLib.GlobalWorkerOptions.workerSrc` globally to the file path of the pdf.js worker script (see `src/setupTests.ts` for an example).

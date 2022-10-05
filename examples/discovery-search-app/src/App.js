@@ -22,6 +22,8 @@ import {
   canRenderCIDocument
 } from '@ibm-watson/discovery-react-components';
 
+const PDF_WORKER_URL = './assets/pdf.worker.min.js';
+
 const App = () => {
   const searchClient = useMemo(() => {
     // Tell SDK to send requests to our server's `/api` endpoint, where
@@ -173,7 +175,8 @@ function PreviewPage() {
   const tabs = [
     {
       name: 'Document',
-      Component: DocumentPreview
+      Component: DocumentPreview,
+      componentProps: { pdfWorkerUrl: PDF_WORKER_URL }
     }
   ];
 
@@ -207,7 +210,7 @@ function PreviewPage() {
           selected={0}
           aria-label="Document details tabs"
         >
-          {tabs.map(({ name, Component, ...restProps }) => (
+          {tabs.map(({ name, Component, componentProps, ...restProps }) => (
             <Tab
               key={name}
               label={name}
@@ -219,7 +222,7 @@ function PreviewPage() {
                     [`${settings.prefix}--search-app__content`]: true
                   })}
                 >
-                  <Component document={fullDocument} />
+                  <Component document={fullDocument} {...componentProps} />
                 </div>
               )}
             />

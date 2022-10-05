@@ -12,6 +12,9 @@ import jsonPassages from '../__fixtures__/jsonPassages';
 import omit from 'lodash/omit';
 import pickBy from 'lodash/pickBy';
 
+// pulled from pdfjs-dist (see main.js > staticDirs)
+const PDF_WORKER_URL = 'pdf.worker.min.js';
+
 interface WrapperProps {
   style?: any;
 }
@@ -27,7 +30,12 @@ storiesOf('DocumentPreview', module)
     const [file, doc] = docSelection();
     return (
       <Wrapper>
-        <DocumentPreview document={doc} file={file} onChange={action('change')} />
+        <DocumentPreview
+          document={doc}
+          file={file}
+          onChange={action('change')}
+          pdfWorkerUrl={PDF_WORKER_URL}
+        />
       </Wrapper>
     );
   })
@@ -51,6 +59,7 @@ storiesOf('DocumentPreview', module)
           highlight={highlight}
           file={file}
           onChange={action('change')}
+          pdfWorkerUrl={PDF_WORKER_URL}
         />
       </Wrapper>
     );
@@ -73,6 +82,7 @@ storiesOf('DocumentPreview', module)
           document={docWithTable}
           highlight={highlight}
           onChange={action('change')}
+          pdfWorkerUrl={PDF_WORKER_URL}
         />
       </Wrapper>
     );
@@ -92,7 +102,11 @@ storiesOf('DocumentPreview', module)
 
     return (
       <Wrapper>
-        <DocumentPreview document={doc} fallbackComponent={fallback} />
+        <DocumentPreview
+          document={doc}
+          fallbackComponent={fallback}
+          pdfWorkerUrl={PDF_WORKER_URL}
+        />
       </Wrapper>
     );
   })
@@ -120,6 +134,7 @@ storiesOf('DocumentPreview', module)
             document={docArtEffects}
             fileFetchTimeout={fileFetchTimeout}
             onChange={action('change')}
+            pdfWorkerUrl={PDF_WORKER_URL}
           />
         </SearchContext.Provider>
       </Wrapper>

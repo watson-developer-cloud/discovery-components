@@ -7,15 +7,7 @@ import { document as doc } from 'components/DocumentPreview/__fixtures__/Art Eff
 
 describe('PdfViewer', () => {
   it('renders PDF document', async () => {
-    render(
-      <PdfViewer
-        file={atob(doc)}
-        page={1}
-        scale={1}
-        setLoading={(): void => {}}
-        pdfWorkerUrl={''}
-      />
-    );
+    render(<PdfViewer file={atob(doc)} page={1} scale={1} setLoading={(): void => {}} />);
 
     // wait for component to finish rendering (prevent "act" warning)
     await waitFor(() => expect(screen.getByText('ART EFFECTS LIMITED')).toBeVisible());

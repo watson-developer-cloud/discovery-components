@@ -57,7 +57,7 @@ interface Props extends WithErrorBoundaryProps {
   /**
    * URL of hosted PDF worker
    */
-  pdfWorkerUrl: string;
+  pdfWorkerUrl?: string;
   /**
    * React component rendered as a fallback when no preview is available
    */
@@ -184,7 +184,7 @@ interface PreviewDocumentProps
   loading: boolean;
   hideToolbarControls: boolean;
   setCurrentPage?: (page: number) => void;
-  pdfWorkerUrl: string;
+  pdfWorkerUrl?: string;
 }
 
 function PreviewDocument({
