@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.2](https://github.com/watson-developer-cloud/discovery-components/compare/v4.0.1...v4.0.2) (2022-10-06)
+
+
+### Bug Fixes
+
+* expose utility function for adjusting GlobalWorkerOptions ([#426](https://github.com/watson-developer-cloud/discovery-components/issues/426)) ([a0c4876](https://github.com/watson-developer-cloud/discovery-components/commit/a0c48761af8c3e0dd67579567a36f89bec06985a))
+
+
+
+
+
 ## [4.0.1](https://github.com/watson-developer-cloud/discovery-components/compare/v4.0.0...v4.0.1) (2022-10-06)
 
 
