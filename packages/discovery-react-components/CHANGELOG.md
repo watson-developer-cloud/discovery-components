@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.1](https://github.com/watson-developer-cloud/discovery-components/compare/v4.0.0...v4.0.1) (2022-10-06)
+
+
+### Bug Fixes
+
+* use Worker guard to fix unit tests ([#423](https://github.com/watson-developer-cloud/discovery-components/issues/423)) ([125878b](https://github.com/watson-developer-cloud/discovery-components/commit/125878bd3af222ae3ce797e01210e2f32aa9d193))
+
+
+
+
+
 # [4.0.0](https://github.com/watson-developer-cloud/discovery-components/compare/v3.1.1...v4.0.0) (2022-10-05)
 
 
