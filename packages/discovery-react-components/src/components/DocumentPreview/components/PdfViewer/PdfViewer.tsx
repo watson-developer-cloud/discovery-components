@@ -7,6 +7,7 @@ import { settings } from 'carbon-components';
 import useSafeRef from 'utils/useSafeRef';
 import useSize from 'utils/useSize';
 import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
+import setPdfJsGlobalWorkerOptions from 'utils/setPdfJsGlobalWorkerOptions';
 import { QueryResult } from 'ibm-watson/discovery/v2';
 import { DocumentFile } from '../../types';
 import { getTextMappings } from '../../utils/documentData';
@@ -229,7 +230,7 @@ function setupPdfjs(pdfWorkerUrl: string): void {
   // and don't load the worker in unit tests (see setupTests.ts)
   if (!!pdfWorkerUrl && pdfWorkerUrl !== currentPdfWorkerUrl) {
     const pdfjsWorker = new Worker(pdfWorkerUrl);
-    PdfjsLib.GlobalWorkerOptions.workerPort = pdfjsWorker;
+    setPdfJsGlobalWorkerOptions({ workerPort: pdfjsWorker });
     currentPdfWorkerUrl = pdfWorkerUrl;
   }
 }
