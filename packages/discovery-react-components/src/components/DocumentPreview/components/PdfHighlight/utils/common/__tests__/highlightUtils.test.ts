@@ -7,17 +7,33 @@ import {
   convertToDocumentFieldHighlights,
   getShapeFromBboxHighlight
 } from '../highlightUtils';
+import documentQandA from '../../../../../__fixtures__/QandA.pdf.json';
 
 describe('highlightUtils', () => {
   const highlightId = 'test-highlight-id';
   const className = 'test-class-name';
   const location: Location = { begin: 100, end: 300 };
 
-  const passage: QueryResultPassage = {
+  const textPassage: QueryResultPassage = {
     passage_text: '5.21 Miscellaneous Costs',
     start_offset: 39611,
     end_offset: 39635,
     field: 'text'
+  };
+
+  const answerPassage1: QueryResultPassage = {
+    passage_text: 'Smart Document Understanding',
+    start_offset: 7503,
+    end_offset: 7531,
+    field: 'answer'
+  };
+
+  const answerPassage2: QueryResultPassage = {
+    passage_text:
+      'You can use the <em>Smart</em> <em>Document</em> <em>Understanding</em> tool to teach Discovery about sections in your <em>documents</em> with distinct format and structure that you want Discovery to index. You can define a new field, and then annotate <em>documents</em> to train Discovery to <em>understand</em> what type of information is typically stored in the field. For more information, see Using <em>Smart</em> <em>Document</em> <em>Understanding</em>.',
+    start_offset: 7487,
+    end_offset: 7867,
+    field: 'answer'
   };
 
   const table: Table = {
@@ -44,16 +60,52 @@ describe('highlightUtils', () => {
   };
 
   describe('convertToDocumentFieldHighlights', () => {
-    it('should return proper field highlight', () => {
-      expect(convertToDocumentFieldHighlights(passage, { id: highlightId, className })).toEqual([
+    it('should return proper field highlight against `text` field', () => {
+      expect(convertToDocumentFieldHighlights(textPassage)).toEqual([
         {
-          id: highlightId,
-          className,
+          id: 'highlight',
           field: 'text',
           fieldIndex: 0,
           location: {
             begin: 39611,
             end: 39635
+          }
+        }
+      ]);
+    });
+
+    it('should return proper field highlight against `answers` field (single-line)', () => {
+      expect(convertToDocumentFieldHighlights(answerPassage1, documentQandA)).toEqual([
+        {
+          id: 'highlight0',
+          field: 'answer',
+          fieldIndex: 52,
+          location: {
+            begin: 16,
+            end: 44
+          }
+        }
+      ]);
+    });
+
+    it('should return proper field highlight against `answers` field (multi-line)', () => {
+      expect(convertToDocumentFieldHighlights(answerPassage2, documentQandA)).toEqual([
+        {
+          id: 'highlight0',
+          field: 'answer',
+          fieldIndex: 52,
+          location: {
+            begin: 0,
+            end: 344
+          }
+        },
+        {
+          id: 'highlight1',
+          field: 'answer',
+          fieldIndex: 53,
+          location: {
+            begin: 0,
+            end: 35
           }
         }
       ]);

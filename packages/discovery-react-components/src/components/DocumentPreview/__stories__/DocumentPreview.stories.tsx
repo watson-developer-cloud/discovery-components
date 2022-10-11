@@ -7,6 +7,8 @@ import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import DocumentPreview from '../DocumentPreview';
 import { document as docPDF } from '../__fixtures__/Art Effects.pdf';
 import docArtEffects from '../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
+import { document as docQandA } from '../__fixtures__/QandA.pdf';
+import documentQandA from '../__fixtures__/QandA.pdf.json';
 import passages from '../__fixtures__/passages';
 import jsonPassages from '../__fixtures__/jsonPassages';
 import omit from 'lodash/omit';
@@ -42,6 +44,7 @@ storiesOf('DocumentPreview', module)
   .add('passage highlighting', () => {
     const [file, doc] = docSelection([
       'pdf',
+      'pdf-q-n-a',
       'pdf-fast-path',
       'pdf-no-mappings',
       'html',
@@ -150,7 +153,8 @@ function docSelection(items = ['pdf', 'html', 'text']): [string | undefined, Que
       'PDF without text location data': 'pdf-no-mappings',
       'Document with `html` property and structure data': 'html',
       'Document with `html` property and no text mappings': 'html-no-mappings',
-      'Document with only text': 'text'
+      'Document with only text': 'text',
+      'Q&A PDF': 'pdf-q-n-a'
     },
     key => items.includes(key)
   );
@@ -163,6 +167,10 @@ function docSelection(items = ['pdf', 'html', 'text']): [string | undefined, Que
     case 'pdf':
       file = atob(docPDF);
       doc = docArtEffects;
+      break;
+    case 'pdf-q-n-a':
+      file = atob(docQandA);
+      doc = documentQandA;
       break;
     case 'pdf-fast-path':
       file = atob(docPDF);
@@ -192,7 +200,8 @@ function passageSelection(doc: QueryResult, passages: object): QueryResult {
   const label = 'Passage Type';
   const options = {
     'Single line': 'single',
-    'Multi-line': 'multiline'
+    'Multi-line': 'multiline',
+    'Answer (only for "Q&A PDF")': 'answer'
   };
   const defaultValue = 'single';
   const groupId = 'GROUP-ID1';

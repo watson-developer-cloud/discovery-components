@@ -1,6 +1,5 @@
-import React, { FC, useState, useCallback, useEffect, useRef } from 'react';
+import React, { FC, useState, useEffect, useRef } from 'react';
 import { QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
-import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
 import { nonEmpty } from 'utils/nonEmpty';
 import { TextMappings } from '../../types';
 import { spanIntersects } from '../../utils/textSpan';
@@ -63,18 +62,24 @@ const PdfViewerWithHighlight: FC<Props> = ({
 
   const [renderedText, setRenderedText] = useState<PdfRenderedText | null>(null);
   const isTableHighlight = isTable(queryHighlight);
-  const documentInfo = useAsyncFunctionCall(
-    useCallback(
-      async () =>
-        document ? await extractDocumentInfo(document, { tables: isTableHighlight }) : undefined,
-      [document, isTableHighlight]
-    )
-  );
+
+  const [documentInfo, setDocumentInfo] = useState<ExtractedDocumentInfo | undefined>(undefined);
+  useEffect(() => {
+    async function _setDocumentInfo() {
+      if (document) {
+        const docInfo = await extractDocumentInfo(document, { tables: isTableHighlight });
+        setDocumentInfo(docInfo);
+      }
+    }
+
+    _setDocumentInfo();
+  }, [document, isTableHighlight]);
 
   const state = useHighlightState({
     queryHighlight,
     fieldHighlights,
     activeIds,
+    document,
     documentInfo
   });
   const currentPage = useMovePageToActiveHighlight(
@@ -122,11 +127,13 @@ function useHighlightState({
   queryHighlight,
   fieldHighlights,
   activeIds,
+  document,
   documentInfo
 }: {
   queryHighlight: Props['highlight'];
   fieldHighlights: Props['highlights'];
   activeIds: Props['activeIds'];
+  document: Props['document'];
   documentInfo?: ExtractedDocumentInfo;
 }): HighlightState {
   const [state, setState] = useState<HighlightState>({ activePages: [] });
@@ -145,11 +152,11 @@ function useHighlightState({
           return;
         }
       } else if (isPassage(queryHighlight)) {
-        const fields = convertToDocumentFieldHighlights(queryHighlight);
-        if (fields.length) {
+        const fields = convertToDocumentFieldHighlights(queryHighlight, document);
+        if (fields?.length) {
           setState({
             activePages: getPagesFromHighlights(documentInfo?.textMappings, fields),
-            activeIds: [DEFAULT_HIGHLIGHT_ID],
+            activeIds: fields.map(f => f.id || DEFAULT_HIGHLIGHT_ID), // [DEFAULT_HIGHLIGHT_ID],
             fields
           });
           return;
@@ -167,7 +174,7 @@ function useHighlightState({
     setState({
       activePages: []
     });
-  }, [activeIds, documentInfo, fieldHighlights, queryHighlight]);
+  }, [activeIds, document, documentInfo, fieldHighlights, queryHighlight]);
 
   return state;
 }
