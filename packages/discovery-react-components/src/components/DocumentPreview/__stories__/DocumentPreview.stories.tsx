@@ -201,7 +201,7 @@ function passageSelection(doc: QueryResult, passages: object): QueryResult {
   const options = {
     'Single line': 'single',
     'Multi-line': 'multiline',
-    'Answer (only for Q&A PDF)': 'answer'
+    'Answer (only for "Q&A PDF")': 'answer'
   };
   const defaultValue = 'single';
   const groupId = 'GROUP-ID1';

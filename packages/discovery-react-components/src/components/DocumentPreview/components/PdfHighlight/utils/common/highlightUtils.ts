@@ -90,6 +90,7 @@ export function convertToDocumentFieldHighlights(
         end = indexForOffset.offset;
       }
 
+      // return index containing passage
       const res = [
         {
           id: DEFAULT_HIGHLIGHT_ID + '0',
@@ -103,8 +104,10 @@ export function convertToDocumentFieldHighlights(
       ];
 
       if (beginIndex === endIndex) {
+        // if begin and end of passage are all within single field array item, then update `end` and return
         res[0].location.end = end;
       } else {
+        // otherwise, create another object to contain passage end
         res.push({
           id: DEFAULT_HIGHLIGHT_ID + '1',
           field: passage.field,
