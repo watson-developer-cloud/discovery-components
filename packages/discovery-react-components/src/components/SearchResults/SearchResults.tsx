@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
+import cx from 'classnames';
 import compact from 'lodash/compact';
 import get from 'lodash/get';
 import uniq from 'lodash/uniq';
 import { SkeletonText } from 'carbon-components-react';
+import { ReactComponent as EmptyStateIcon } from './icons/EmptyStateMagnifyingGlass.svg';
 import { SearchApi, SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { TablesOnlyToggle } from './components/TablesOnlyToggle/TablesOnlyToggle';
@@ -15,7 +17,13 @@ import {
   searchResultClass,
   searchResultLoadingClass,
   searchResultsHeaderClass,
-  searchResultsListClass
+  searchResultsTitleClass,
+  searchResultsTitleTextClass,
+  searchResultsTitleQueryClass,
+  searchResultsListClass,
+  searchResultsEmptyListClass,
+  searchResultsEmptyTitleClass,
+  searchResultsEmptyTextClass
 } from './cssClasses';
 import { defaultMessages, Messages } from './messages';
 import { withErrorBoundary } from 'react-error-boundary';
@@ -145,7 +153,6 @@ const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   const matchingResults = (searchResponse && searchResponse.matching_results) || 0;
   const results = (searchResponse && searchResponse.results) || [];
   const tableResults = (searchResponse && searchResponse.table_results) || [];
-  const emptySearch = searchResponse ? mergedMessages.noResultsFoundText : '';
   const hasTables = tableResults && tableResults.length > 0;
   const hasMatchingResults = matchingResults && matchingResults > 0;
   const resultsFound = showTablesOnlyResults ? hasTables : hasMatchingResults;
@@ -229,10 +236,16 @@ const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
   return (
     <div className={baseClass}>
       <div className={searchResultsHeaderClass} data-testid="search_results_header">
-        <SpellingSuggestion
-          spellingSuggestionPrefix={mergedMessages.spellingSuggestionsPrefix}
-          onChange={onChange}
-        />
+        <div className={searchResultsTitleClass}>
+          <div className={searchResultsTitleTextClass}>
+            {mergedMessages.searchResultsTitle}
+            <span className={searchResultsTitleQueryClass}>{parameters.naturalLanguageQuery}</span>
+          </div>
+          <SpellingSuggestion
+            spellingSuggestionPrefix={mergedMessages.spellingSuggestionsPrefix}
+            onChange={onChange}
+          />
+        </div>
         <TablesOnlyToggle
           setShowTablesOnlyResults={setShowTablesOnlyResults}
           showTablesOnlyToggle={showTablesOnlyToggleState}
@@ -293,7 +306,13 @@ const SearchResults: React.FunctionComponent<SearchResultsProps> = ({
               })}
         </div>
       ) : (
-        emptySearch && <div className={searchResultClass}>{emptySearch}</div>
+        searchResponse && (
+          <div className={cx(searchResultClass, searchResultsEmptyListClass)}>
+            <EmptyStateIcon />
+            <div className={searchResultsEmptyTitleClass}>{mergedMessages.noResultsFoundTitle}</div>
+            <div className={searchResultsEmptyTextClass}>{mergedMessages.noResultsFoundText}</div>
+          </div>
+        )
       )}
     </div>
   );

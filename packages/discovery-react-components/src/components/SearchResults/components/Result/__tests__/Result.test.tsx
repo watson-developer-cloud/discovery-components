@@ -130,7 +130,7 @@ describe('<Result />', () => {
             expect(
               searchResults.getByText(
                 (_, element) =>
-                  element.textContent ===
+                  element?.textContent ===
                   '<div><h1>This is a header</h1><p>This is some text</p></div>'
               )
             ).toBeInTheDocument();

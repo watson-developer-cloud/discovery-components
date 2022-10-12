@@ -5,9 +5,9 @@
 
 .#{$prefix}--search-autocompletion {
   @include box-shadow;
-  left: 0;
+  left: $spacing-06;
   position: absolute;
-  right: 0;
+  right: $spacing-06;
   z-index: z('overlay');
 }
 
