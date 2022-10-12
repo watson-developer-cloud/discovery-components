@@ -24,19 +24,19 @@
         "file_type": "pdf"
       },
       "text": [
-        "This is a document.\nThis result multiple passages, but you should only be able to see the first one. IBM if you can see this passage, something probably borked"
+        "This is a document.\nThis result has multiple passages, so we'll display them in the order that they're returned. IBM. We can display multiple passages that are returned for each document."
       ],
       "document_passages": [
         {
-          "passage_text": "This result multiple passages, but you should only be able to see the first one. <em>IBM</em>",
+          "passage_text": "This result has multiple passages, so we'll display them in the order that they're returned. <em>IBM</em>.",
           "start_offset": 0,
-          "end_offset": 104,
+          "end_offset": 106,
           "field": "text"
         },
         {
-          "passage_text": "if you can see this passage, something probably borked",
-          "start_offset": 105,
-          "end_offset": 159,
+          "passage_text": "We can display multiple passages that are returned for each document.",
+          "start_offset": 107,
+          "end_offset": 176,
           "field": "text"
         }
       ]

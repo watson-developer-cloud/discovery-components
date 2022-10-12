@@ -12,6 +12,10 @@ export interface Messages {
    */
   viewTableInDocumentButtonText: string;
   /**
+   * override the default title text for search results list
+   */
+  searchResultsTitle: string;
+  /**
    * override the default label text for the show tables only toggle
    */
   tablesOnlyToggleLabelText: string;
@@ -24,7 +28,11 @@ export interface Messages {
    */
   emptyResultContentBodyText: string;
   /**
-   * override the default text to show when no search results are found
+   * override the default title to show when no search results are found
+   */
+  noResultsFoundTitle: string;
+  /**
+   * override the default body text to show when no search results are found
    */
   noResultsFoundText: string;
   /**
@@ -37,9 +45,11 @@ export const defaultMessages: Messages = {
   collectionLabel: 'Collection:',
   viewExcerptInDocumentButtonText: 'View passage in document',
   viewTableInDocumentButtonText: 'View table in document',
+  searchResultsTitle: 'Search results for',
   tablesOnlyToggleLabelText: 'Show table results only',
   spellingSuggestionsPrefix: 'Did you mean:',
   emptyResultContentBodyText: 'Excerpt unavailable.',
-  noResultsFoundText: 'There were no results found',
+  noResultsFoundTitle: 'No results found',
+  noResultsFoundText: 'Try making your search criteria less specific.',
   elementTableLabel: 'Table snippet extracted from {documentName}'
 };

@@ -34,7 +34,11 @@ const searchResults: DiscoveryV2.QueryResponse = {
       document_passages: [
         {
           passage_text:
-            "Deep learning is a specific method of the <em>machine learning</em> that incorporates nueral networks in successive layers from data in an iterative manner. Deep learning is especially userful when you're tring to learn patterns from unstructured data"
+            'Deep learning is a specific method of <em>machine learning</em> that incorporates neural networks in successive layers from data in an iterative manner.'
+        },
+        {
+          passage_text:
+            "Deep learning is especially useful when you're trying to learn patterns from unstructured data."
         }
       ],
       extracted_metadata: {

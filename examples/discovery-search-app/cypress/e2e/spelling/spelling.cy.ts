@@ -25,7 +25,7 @@ describe('Spelling', () => {
         cy.intercept('POST', '**/query?version=2019-01-01', {
           fixture: 'query/correctedQuery.json'
         }).as('postQueryCorrected');
-        cy.contains('There were no results found').click(); // Makes this test less flakey, but there's a race condition in SearchInput we should solve at some point
+        cy.contains('No results found').click(); // Makes this test less flakey, but there's a race condition in SearchInput we should solve at some point
         cy.get('button').contains('watson').click();
         cy.wait('@postQueryCorrected').as('correctedQueryObject');
       });

@@ -77,7 +77,7 @@ describe('Basic search', () => {
     });
 
     it('SearchResults displays "no results found" message', () => {
-      cy.get('.bx--search-results').should('contain', 'There were no results found');
+      cy.get('.bx--search-results').should('contain', 'No results found');
     });
   });
 });

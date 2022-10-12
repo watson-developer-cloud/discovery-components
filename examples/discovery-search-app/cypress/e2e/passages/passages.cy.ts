@@ -12,11 +12,14 @@ describe('Passage Results', () => {
     // When entering a query whose results contain passages
     cy.get('.bx--search-input').type('ibm{enter}');
 
-    // SearchResults displays ONLY the first passage text of the results that have passages
+    // SearchResults displays all passages of the results that have them
     cy.findByText(
-      'This result multiple passages, but you should only be able to see the first one.'
+      "This result has multiple passages, so we'll display them in the order that they're returned.",
+      { exact: false }
     ).should('be.visible');
-    cy.findByText('if you can see this passage, something probably borked').should('not.exist');
+    cy.findByText('We can display multiple passages that are returned for each document.').should(
+      'be.visible'
+    );
     cy.findByText('This result only has one passage, and it should be visible').should(
       'be.visible'
     );
@@ -24,7 +27,7 @@ describe('Passage Results', () => {
     // each result with a passage has a link to view passage in document
     cy.findAllByTestId('search-result-element-preview-button')
       .filter(':contains("View passage in document")')
-      .should('have.length', 3);
+      .should('have.length', 4);
 
     // each result without document passages or tables displays "Excerpt unavailable"
     cy.get('.bx--search-result__content-wrapper__body')
@@ -46,7 +49,7 @@ describe('Passage Results', () => {
     cy.get('.bx--document-preview').should('exist');
     cy.get('.bx--document-preview')
       .contains(
-        'This is a document. This result multiple passages, but you should only be able to see the first one. IBM if you can see this passage, something probably borked'
+        "This result has multiple passages, so we'll display them in the order that they're returned. IBM. We can display multiple passages that are returned for each document."
       )
       .should('exist');
 
