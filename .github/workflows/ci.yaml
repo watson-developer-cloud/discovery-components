@@ -42,7 +42,7 @@ jobs:
           path: |
             examples/discovery-search-app/cypress/screenshots
       - name: NPM Identity
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/master' || contains(github.ref, 'refs/heads/release/')
         run: |
           echo "npmRegistries:" >> ~/.yarnrc.yml
           echo "  //registry.npmjs.org:" >> ~/.yarnrc.yml
@@ -52,7 +52,7 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Github Identity
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/master' || contains(github.ref, 'refs/heads/release/')
         run: |
           git config --global push.default simple
           git config --global user.email "watdevex@us.ibm.com"
@@ -61,7 +61,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Publish
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/master' || contains(github.ref, 'refs/heads/release/')
         # must include --no-verify-access for automation tokens https://github.com/lerna/lerna/issues/2788
         run: yarn run lerna publish -y --no-verify-access --create-release github
         env:
