@@ -2,7 +2,7 @@
  * @licstart The following is the entire license notice for the
  * Javascript code in this page
  *
- * Copyright 2020 Mozilla Foundation
+ * Copyright 2019 Mozilla Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,34 +21,46 @@
  */
 "use strict";
 
-var _test_utils = require("./test_utils.js");
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
-var _util = require("../../shared/util.js");
+var _test_utils = require("./test_utils");
 
-var _display_utils = require("../../display/display_utils.js");
+var _util = require("../../shared/util");
 
-var _api = require("../../display/api.js");
+var _display_utils = require("../../display/display_utils");
 
-var _ui_utils = require("../../web/ui_utils.js");
+var _api = require("../../display/api");
 
-var _image_utils = require("../../core/image_utils.js");
+var _worker_options = require("../../display/worker_options");
 
-var _worker_options = require("../../display/worker_options.js");
+var _is_node = _interopRequireDefault(require("../../shared/is_node"));
 
-var _is_node = require("../../shared/is_node.js");
+var _metadata = require("../../display/metadata");
 
-var _metadata = require("../../display/metadata.js");
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var _node_utils = require("../../display/node_utils.js");
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-describe("api", function () {
-  const basicApiFileName = "basicapi.pdf";
-  const basicApiFileLength = 105779;
-  const basicApiGetDocumentParams = (0, _test_utils.buildGetDocumentParams)(basicApiFileName);
-  let CanvasFactory;
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+describe('api', function () {
+  var basicApiFileName = 'basicapi.pdf';
+  var basicApiFileLength = 105779;
+  var basicApiGetDocumentParams = (0, _test_utils.buildGetDocumentParams)(basicApiFileName);
+  var CanvasFactory;
   beforeAll(function (done) {
-    if (_is_node.isNodeJS) {
-      CanvasFactory = new _node_utils.NodeCanvasFactory();
+    if ((0, _is_node["default"])()) {
+      CanvasFactory = new _test_utils.NodeCanvasFactory();
     } else {
       CanvasFactory = new _display_utils.DOMCanvasFactory();
     }
@@ -67,8 +79,8 @@ describe("api", function () {
     }, WAIT_TIMEOUT);
   }
 
-  describe("getDocument", function () {
-    it("creates pdf doc from URL", function (done) {
+  describe('getDocument', function () {
+    it('creates pdf doc from URL', function (done) {
       var loadingTask = (0, _api.getDocument)(basicApiGetDocumentParams);
       var progressReportedCapability = (0, _util.createPromiseCapability)();
 
@@ -84,19 +96,19 @@ describe("api", function () {
         expect(data[1] instanceof _api.PDFDocumentProxy).toEqual(true);
         expect(loadingTask).toEqual(data[1].loadingTask);
         loadingTask.destroy().then(done);
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("creates pdf doc from URL and aborts before worker initialized", function (done) {
+    it('creates pdf doc from URL and aborts before worker initialized', function (done) {
       var loadingTask = (0, _api.getDocument)(basicApiGetDocumentParams);
-      const destroyed = loadingTask.destroy();
+      var destroyed = loadingTask.destroy();
       loadingTask.promise.then(function (reason) {
-        done.fail("shall fail loading");
-      }).catch(function (reason) {
+        done.fail('shall fail loading');
+      })["catch"](function (reason) {
         expect(true).toEqual(true);
         destroyed.then(done);
       });
     });
-    it("creates pdf doc from URL and aborts loading after worker initialized", function (done) {
+    it('creates pdf doc from URL and aborts loading after worker initialized', function (done) {
       var loadingTask = (0, _api.getDocument)(basicApiGetDocumentParams);
 
       var destroyed = loadingTask._worker.promise.then(function () {
@@ -106,12 +118,12 @@ describe("api", function () {
       destroyed.then(function (data) {
         expect(true).toEqual(true);
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("creates pdf doc from typed array", function (done) {
-      let typedArrayPdfPromise;
+    it('creates pdf doc from typed array', function (done) {
+      var typedArrayPdfPromise;
 
-      if (_is_node.isNodeJS) {
+      if ((0, _is_node["default"])()) {
         typedArrayPdfPromise = _test_utils.NodeFileReaderFactory.fetch({
           path: _test_utils.TEST_PDFS_PATH.node + basicApiFileName
         });
@@ -121,10 +133,10 @@ describe("api", function () {
         });
       }
 
-      typedArrayPdfPromise.then(typedArrayPdf => {
+      typedArrayPdfPromise.then(function (typedArrayPdf) {
         expect(typedArrayPdf.length).toEqual(basicApiFileLength);
-        const loadingTask = (0, _api.getDocument)(typedArrayPdf);
-        const progressReportedCapability = (0, _util.createPromiseCapability)();
+        var loadingTask = (0, _api.getDocument)(typedArrayPdf);
+        var progressReportedCapability = (0, _util.createPromiseCapability)();
 
         loadingTask.onProgress = function (data) {
           progressReportedCapability.resolve(data);
@@ -135,42 +147,41 @@ describe("api", function () {
           expect(data[1].loaded / data[1].total).toEqual(1);
           loadingTask.destroy().then(done);
         });
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("creates pdf doc from invalid PDF file", function (done) {
-      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("bug1020226.pdf"));
+    it('creates pdf doc from invalid PDF file', function (done) {
+      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)('bug1020226.pdf'));
       loadingTask.promise.then(function () {
-        done.fail("shall fail loading");
-      }).catch(function (reason) {
-        expect(reason instanceof _util.InvalidPDFException).toEqual(true);
-        expect(reason.message).toEqual("Invalid PDF structure.");
+        done.fail('shall fail loading');
+      })["catch"](function (error) {
+        expect(error instanceof _util.InvalidPDFException).toEqual(true);
         loadingTask.destroy().then(done);
       });
     });
-    it("creates pdf doc from non-existent URL", function (done) {
-      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("non-existent.pdf"));
+    it('creates pdf doc from non-existent URL', function (done) {
+      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)('non-existent.pdf'));
       loadingTask.promise.then(function (error) {
-        done.fail("shall fail loading");
-      }).catch(function (error) {
+        done.fail('shall fail loading');
+      })["catch"](function (error) {
         expect(error instanceof _util.MissingPDFException).toEqual(true);
         loadingTask.destroy().then(done);
       });
     });
-    it("creates pdf doc from PDF file protected with user and owner password", function (done) {
-      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("pr6531_1.pdf"));
+    it('creates pdf doc from PDF file protected with user and owner password', function (done) {
+      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)('pr6531_1.pdf'));
       var passwordNeededCapability = (0, _util.createPromiseCapability)();
       var passwordIncorrectCapability = (0, _util.createPromiseCapability)();
 
       loadingTask.onPassword = function (updatePassword, reason) {
         if (reason === _util.PasswordResponses.NEED_PASSWORD && !passwordNeededCapability.settled) {
           passwordNeededCapability.resolve();
-          updatePassword("qwerty");
+          updatePassword('qwerty');
           return;
         }
 
         if (reason === _util.PasswordResponses.INCORRECT_PASSWORD && !passwordIncorrectCapability.settled) {
           passwordIncorrectCapability.resolve();
-          updatePassword("asdfasdf");
+          updatePassword('asdfasdf');
           return;
         }
 
@@ -181,34 +192,34 @@ describe("api", function () {
       Promise.all(promises).then(function (data) {
         expect(data[2] instanceof _api.PDFDocumentProxy).toEqual(true);
         loadingTask.destroy().then(done);
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("creates pdf doc from PDF file protected with only a user password", function (done) {
-      var filename = "pr6531_2.pdf";
+    it('creates pdf doc from PDF file protected with only a user password', function (done) {
+      var filename = 'pr6531_2.pdf';
       var passwordNeededLoadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)(filename, {
-        password: ""
+        password: ''
       }));
       var result1 = passwordNeededLoadingTask.promise.then(function () {
-        done.fail("shall fail with no password");
-        return Promise.reject(new Error("loadingTask should be rejected"));
+        done.fail('shall fail with no password');
+        return Promise.reject(new Error('loadingTask should be rejected'));
       }, function (data) {
         expect(data instanceof _util.PasswordException).toEqual(true);
         expect(data.code).toEqual(_util.PasswordResponses.NEED_PASSWORD);
         return passwordNeededLoadingTask.destroy();
       });
       var passwordIncorrectLoadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)(filename, {
-        password: "qwerty"
+        password: 'qwerty'
       }));
       var result2 = passwordIncorrectLoadingTask.promise.then(function () {
-        done.fail("shall fail with wrong password");
-        return Promise.reject(new Error("loadingTask should be rejected"));
+        done.fail('shall fail with wrong password');
+        return Promise.reject(new Error('loadingTask should be rejected'));
       }, function (data) {
         expect(data instanceof _util.PasswordException).toEqual(true);
         expect(data.code).toEqual(_util.PasswordResponses.INCORRECT_PASSWORD);
         return passwordIncorrectLoadingTask.destroy();
       });
       var passwordAcceptedLoadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)(filename, {
-        password: "asdfasdf"
+        password: 'asdfasdf'
       }));
       var result3 = passwordAcceptedLoadingTask.promise.then(function (data) {
         expect(data instanceof _api.PDFDocumentProxy).toEqual(true);
@@ -216,15 +227,15 @@ describe("api", function () {
       });
       Promise.all([result1, result2, result3]).then(function () {
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("creates pdf doc from password protected PDF file and aborts/throws " + "in the onPassword callback (issue 7806)", function (done) {
-      var filename = "issue3371.pdf";
+    it('creates pdf doc from password protected PDF file and aborts/throws ' + 'in the onPassword callback (issue 7806)', function (done) {
+      var filename = 'issue3371.pdf';
       var passwordNeededLoadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)(filename));
       var passwordIncorrectLoadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)(filename, {
-        password: "qwerty"
+        password: 'qwerty'
       }));
-      let passwordNeededDestroyed;
+      var passwordNeededDestroyed;
 
       passwordNeededLoadingTask.onPassword = function (callback, reason) {
         if (reason === _util.PasswordResponses.NEED_PASSWORD) {
@@ -236,8 +247,8 @@ describe("api", function () {
       };
 
       var result1 = passwordNeededLoadingTask.promise.then(function () {
-        done.fail("shall fail since the loadingTask should be destroyed");
-        return Promise.reject(new Error("loadingTask should be rejected"));
+        done.fail('shall fail since the loadingTask should be destroyed');
+        return Promise.reject(new Error('loadingTask should be rejected'));
       }, function (reason) {
         expect(reason instanceof _util.PasswordException).toEqual(true);
         expect(reason.code).toEqual(_util.PasswordResponses.NEED_PASSWORD);
@@ -246,15 +257,15 @@ describe("api", function () {
 
       passwordIncorrectLoadingTask.onPassword = function (callback, reason) {
         if (reason === _util.PasswordResponses.INCORRECT_PASSWORD) {
-          throw new Error("Incorrect password");
+          throw new Error('Incorrect password');
         }
 
         expect(false).toEqual(true);
       };
 
       var result2 = passwordIncorrectLoadingTask.promise.then(function () {
-        done.fail("shall fail since the onPassword callback should throw");
-        return Promise.reject(new Error("loadingTask should be rejected"));
+        done.fail('shall fail since the onPassword callback should throw');
+        return Promise.reject(new Error('loadingTask should be rejected'));
       }, function (reason) {
         expect(reason instanceof _util.PasswordException).toEqual(true);
         expect(reason.code).toEqual(_util.PasswordResponses.INCORRECT_PASSWORD);
@@ -262,30 +273,20 @@ describe("api", function () {
       });
       Promise.all([result1, result2]).then(function () {
         done();
-      }).catch(done.fail);
-    });
-    it("creates pdf doc from empty typed array", function (done) {
-      const loadingTask = (0, _api.getDocument)(new Uint8Array(0));
-      loadingTask.promise.then(function () {
-        done.fail("shall not open empty file");
-      }, function (reason) {
-        expect(reason instanceof _util.InvalidPDFException);
-        expect(reason.message).toEqual("The PDF file is empty, i.e. its size is zero bytes.");
-        loadingTask.destroy().then(done);
-      });
+      })["catch"](done.fail);
     });
   });
-  describe("PDFWorker", function () {
-    it("worker created or destroyed", function (done) {
-      if (_is_node.isNodeJS) {
-        pending("Worker is not supported in Node.js.");
+  describe('PDFWorker', function () {
+    it('worker created or destroyed', function (done) {
+      if ((0, _is_node["default"])()) {
+        pending('Worker is not supported in Node.js.');
       }
 
       var worker = new _api.PDFWorker({
-        name: "test1"
+        name: 'test1'
       });
       worker.promise.then(function () {
-        expect(worker.name).toEqual("test1");
+        expect(worker.name).toEqual('test1');
         expect(!!worker.port).toEqual(true);
         expect(worker.destroyed).toEqual(false);
         expect(!!worker._webWorker).toEqual(true);
@@ -294,11 +295,11 @@ describe("api", function () {
         expect(!!worker.port).toEqual(false);
         expect(worker.destroyed).toEqual(true);
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("worker created or destroyed by getDocument", function (done) {
-      if (_is_node.isNodeJS) {
-        pending("Worker is not supported in Node.js.");
+    it('worker created or destroyed by getDocument', function (done) {
+      if ((0, _is_node["default"])()) {
+        pending('Worker is not supported in Node.js.');
       }
 
       var loadingTask = (0, _api.getDocument)(basicApiGetDocumentParams);
@@ -315,18 +316,18 @@ describe("api", function () {
         expect(!!destroyedWorker).toEqual(false);
         expect(worker.destroyed).toEqual(true);
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("worker created and can be used in getDocument", function (done) {
-      if (_is_node.isNodeJS) {
-        pending("Worker is not supported in Node.js.");
+    it('worker created and can be used in getDocument', function (done) {
+      if ((0, _is_node["default"])()) {
+        pending('Worker is not supported in Node.js.');
       }
 
       var worker = new _api.PDFWorker({
-        name: "test1"
+        name: 'test1'
       });
       var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)(basicApiFileName, {
-        worker
+        worker: worker
       }));
       loadingTask.promise.then(function () {
         var docWorker = loadingTask._worker;
@@ -341,21 +342,21 @@ describe("api", function () {
         expect(worker.destroyed).toEqual(false);
         worker.destroy();
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("creates more than one worker", function (done) {
-      if (_is_node.isNodeJS) {
-        pending("Worker is not supported in Node.js.");
+    it('creates more than one worker', function (done) {
+      if ((0, _is_node["default"])()) {
+        pending('Worker is not supported in Node.js.');
       }
 
       var worker1 = new _api.PDFWorker({
-        name: "test1"
+        name: 'test1'
       });
       var worker2 = new _api.PDFWorker({
-        name: "test2"
+        name: 'test2'
       });
       var worker3 = new _api.PDFWorker({
-        name: "test3"
+        name: 'test3'
       });
       var ready = Promise.all([worker1.promise, worker2.promise, worker3.promise]);
       ready.then(function () {
@@ -364,397 +365,372 @@ describe("api", function () {
         worker2.destroy();
         worker3.destroy();
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets current workerSrc", function () {
-      if (_is_node.isNodeJS) {
-        pending("Worker is not supported in Node.js.");
+    it('gets current workerSrc', function () {
+      if ((0, _is_node["default"])()) {
+        pending('Worker is not supported in Node.js.');
       }
 
-      const workerSrc = _api.PDFWorker.getWorkerSrc();
+      var workerSrc = _api.PDFWorker.getWorkerSrc();
 
-      expect(typeof workerSrc).toEqual("string");
+      expect(_typeof(workerSrc)).toEqual('string');
       expect(workerSrc).toEqual(_worker_options.GlobalWorkerOptions.workerSrc);
     });
   });
-  describe("PDFDocument", function () {
-    let pdfLoadingTask, pdfDocument;
+  describe('PDFDocument', function () {
+    var loadingTask;
+    var doc;
     beforeAll(function (done) {
-      pdfLoadingTask = (0, _api.getDocument)(basicApiGetDocumentParams);
-      pdfLoadingTask.promise.then(function (data) {
-        pdfDocument = data;
+      loadingTask = (0, _api.getDocument)(basicApiGetDocumentParams);
+      loadingTask.promise.then(function (data) {
+        doc = data;
         done();
       });
     });
     afterAll(function (done) {
-      pdfLoadingTask.destroy().then(done);
+      loadingTask.destroy().then(done);
     });
-    it("gets number of pages", function () {
-      expect(pdfDocument.numPages).toEqual(3);
+    it('gets number of pages', function () {
+      expect(doc.numPages).toEqual(3);
     });
-    it("gets fingerprint", function () {
-      expect(pdfDocument.fingerprint).toEqual("ea8b35919d6279a369e835bde778611b");
+    it('gets fingerprint', function () {
+      var fingerprint = doc.fingerprint;
+      expect(_typeof(fingerprint)).toEqual('string');
+      expect(fingerprint.length > 0).toEqual(true);
     });
-    it("gets page", function (done) {
-      var promise = pdfDocument.getPage(1);
+    it('gets page', function (done) {
+      var promise = doc.getPage(1);
       promise.then(function (data) {
         expect(data instanceof _api.PDFPageProxy).toEqual(true);
-        expect(data.pageNumber).toEqual(1);
+        expect(data.pageIndex).toEqual(0);
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets non-existent page", function (done) {
-      var outOfRangePromise = pdfDocument.getPage(100);
-      var nonIntegerPromise = pdfDocument.getPage(2.5);
-      var nonNumberPromise = pdfDocument.getPage("1");
+    it('gets non-existent page', function (done) {
+      var outOfRangePromise = doc.getPage(100);
+      var nonIntegerPromise = doc.getPage(2.5);
+      var nonNumberPromise = doc.getPage('1');
       outOfRangePromise = outOfRangePromise.then(function () {
-        throw new Error("shall fail for out-of-range pageNumber parameter");
+        throw new Error('shall fail for out-of-range pageNumber parameter');
       }, function (reason) {
         expect(reason instanceof Error).toEqual(true);
       });
       nonIntegerPromise = nonIntegerPromise.then(function () {
-        throw new Error("shall fail for non-integer pageNumber parameter");
+        throw new Error('shall fail for non-integer pageNumber parameter');
       }, function (reason) {
         expect(reason instanceof Error).toEqual(true);
       });
       nonNumberPromise = nonNumberPromise.then(function () {
-        throw new Error("shall fail for non-number pageNumber parameter");
+        throw new Error('shall fail for non-number pageNumber parameter');
       }, function (reason) {
         expect(reason instanceof Error).toEqual(true);
       });
       Promise.all([outOfRangePromise, nonIntegerPromise, nonNumberPromise]).then(function () {
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets page, from /Pages tree with circular reference", function (done) {
-      const loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("Pages-tree-refs.pdf"));
-      const page1 = loadingTask.promise.then(function (pdfDoc) {
-        return pdfDoc.getPage(1).then(function (pdfPage) {
-          expect(pdfPage instanceof _api.PDFPageProxy).toEqual(true);
-          expect(pdfPage.ref).toEqual({
-            num: 6,
-            gen: 0
-          });
-        }, function (reason) {
-          throw new Error("shall not fail for valid page");
-        });
-      });
-      const page2 = loadingTask.promise.then(function (pdfDoc) {
-        return pdfDoc.getPage(2).then(function (pdfPage) {
-          throw new Error("shall fail for invalid page");
-        }, function (reason) {
-          expect(reason instanceof Error).toEqual(true);
-          expect(reason.message).toEqual("Pages tree contains circular reference.");
-        });
-      });
-      Promise.all([page1, page2]).then(function () {
-        loadingTask.destroy().then(done);
-      }, done.fail);
-    });
-    it("gets page index", function (done) {
+    it('gets page index', function (done) {
       var ref = {
         num: 17,
         gen: 0
       };
-      var promise = pdfDocument.getPageIndex(ref);
+      var promise = doc.getPageIndex(ref);
       promise.then(function (pageIndex) {
         expect(pageIndex).toEqual(1);
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets invalid page index", function (done) {
+    it('gets invalid page index', function (done) {
       var ref = {
         num: 3,
         gen: 0
       };
-      var promise = pdfDocument.getPageIndex(ref);
+      var promise = doc.getPageIndex(ref);
       promise.then(function () {
-        done.fail("shall fail for invalid page reference.");
-      }).catch(function (reason) {
+        done.fail('shall fail for invalid page reference.');
+      })["catch"](function (reason) {
         expect(reason instanceof Error).toEqual(true);
         done();
       });
     });
-    it("gets destinations, from /Dests dictionary", function (done) {
-      var promise = pdfDocument.getDestinations();
+    it('gets destinations, from /Dests dictionary', function (done) {
+      var promise = doc.getDestinations();
       promise.then(function (data) {
         expect(data).toEqual({
           chapter1: [{
             gen: 0,
             num: 17
           }, {
-            name: "XYZ"
+            name: 'XYZ'
           }, 0, 841.89, null]
         });
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets a destination, from /Dests dictionary", function (done) {
-      var promise = pdfDocument.getDestination("chapter1");
+    it('gets a destination, from /Dests dictionary', function (done) {
+      var promise = doc.getDestination('chapter1');
       promise.then(function (data) {
         expect(data).toEqual([{
           gen: 0,
           num: 17
         }, {
-          name: "XYZ"
+          name: 'XYZ'
         }, 0, 841.89, null]);
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets a non-existent destination, from /Dests dictionary", function (done) {
-      var promise = pdfDocument.getDestination("non-existent-named-destination");
+    it('gets a non-existent destination, from /Dests dictionary', function (done) {
+      var promise = doc.getDestination('non-existent-named-destination');
       promise.then(function (data) {
         expect(data).toEqual(null);
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets destinations, from /Names (NameTree) dictionary", function (done) {
-      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("issue6204.pdf"));
-      var promise = loadingTask.promise.then(function (pdfDoc) {
-        return pdfDoc.getDestinations();
+    it('gets destinations, from /Names (NameTree) dictionary', function (done) {
+      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)('issue6204.pdf'));
+      var promise = loadingTask.promise.then(function (pdfDocument) {
+        return pdfDocument.getDestinations();
       });
       promise.then(function (destinations) {
         expect(destinations).toEqual({
-          "Page.1": [{
+          'Page.1': [{
             num: 1,
             gen: 0
           }, {
-            name: "XYZ"
+            name: 'XYZ'
           }, 0, 375, null],
-          "Page.2": [{
+          'Page.2': [{
             num: 6,
             gen: 0
           }, {
-            name: "XYZ"
+            name: 'XYZ'
           }, 0, 375, null]
         });
         loadingTask.destroy().then(done);
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets a destination, from /Names (NameTree) dictionary", function (done) {
-      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("issue6204.pdf"));
-      var promise = loadingTask.promise.then(function (pdfDoc) {
-        return pdfDoc.getDestination("Page.1");
+    it('gets a destination, from /Names (NameTree) dictionary', function (done) {
+      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)('issue6204.pdf'));
+      var promise = loadingTask.promise.then(function (pdfDocument) {
+        return pdfDocument.getDestination('Page.1');
       });
       promise.then(function (destination) {
         expect(destination).toEqual([{
           num: 1,
           gen: 0
         }, {
-          name: "XYZ"
+          name: 'XYZ'
         }, 0, 375, null]);
         loadingTask.destroy().then(done);
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets a non-existent destination, from /Names (NameTree) dictionary", function (done) {
-      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("issue6204.pdf"));
-      var promise = loadingTask.promise.then(function (pdfDoc) {
-        return pdfDoc.getDestination("non-existent-named-destination");
+    it('gets a non-existent destination, from /Names (NameTree) dictionary', function (done) {
+      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)('issue6204.pdf'));
+      var promise = loadingTask.promise.then(function (pdfDocument) {
+        return pdfDocument.getDestination('non-existent-named-destination');
       });
       promise.then(function (destination) {
         expect(destination).toEqual(null);
         loadingTask.destroy().then(done);
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets non-string destination", function (done) {
-      let numberPromise = pdfDocument.getDestination(4.3);
-      let booleanPromise = pdfDocument.getDestination(true);
-      let arrayPromise = pdfDocument.getDestination([{
+    it('gets non-string destination', function (done) {
+      var numberPromise = doc.getDestination(4.3);
+      var booleanPromise = doc.getDestination(true);
+      var arrayPromise = doc.getDestination([{
         num: 17,
         gen: 0
       }, {
-        name: "XYZ"
+        name: 'XYZ'
       }, 0, 841.89, null]);
       numberPromise = numberPromise.then(function () {
-        throw new Error("shall fail for non-string destination.");
+        throw new Error('shall fail for non-string destination.');
       }, function (reason) {
         expect(reason instanceof Error).toEqual(true);
       });
       booleanPromise = booleanPromise.then(function () {
-        throw new Error("shall fail for non-string destination.");
+        throw new Error('shall fail for non-string destination.');
       }, function (reason) {
         expect(reason instanceof Error).toEqual(true);
       });
       arrayPromise = arrayPromise.then(function () {
-        throw new Error("shall fail for non-string destination.");
+        throw new Error('shall fail for non-string destination.');
       }, function (reason) {
         expect(reason instanceof Error).toEqual(true);
       });
       Promise.all([numberPromise, booleanPromise, arrayPromise]).then(done, done.fail);
     });
-    it("gets non-existent page labels", function (done) {
-      var promise = pdfDocument.getPageLabels();
+    it('gets non-existent page labels', function (done) {
+      var promise = doc.getPageLabels();
       promise.then(function (data) {
         expect(data).toEqual(null);
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets page labels", function (done) {
-      var loadingTask0 = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("bug793632.pdf"));
+    it('gets page labels', function (done) {
+      var loadingTask0 = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)('bug793632.pdf'));
       var promise0 = loadingTask0.promise.then(function (pdfDoc) {
         return pdfDoc.getPageLabels();
       });
-      var loadingTask1 = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("issue1453.pdf"));
+      var loadingTask1 = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)('issue1453.pdf'));
       var promise1 = loadingTask1.promise.then(function (pdfDoc) {
         return pdfDoc.getPageLabels();
       });
-      var loadingTask2 = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("rotation.pdf"));
+      var loadingTask2 = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)('rotation.pdf'));
       var promise2 = loadingTask2.promise.then(function (pdfDoc) {
         return pdfDoc.getPageLabels();
       });
-      var loadingTask3 = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("bad-PageLabels.pdf"));
+      var loadingTask3 = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)('bad-PageLabels.pdf'));
       var promise3 = loadingTask3.promise.then(function (pdfDoc) {
         return pdfDoc.getPageLabels();
       });
       Promise.all([promise0, promise1, promise2, promise3]).then(function (pageLabels) {
-        expect(pageLabels[0]).toEqual(["i", "ii", "iii", "1"]);
-        expect(pageLabels[1]).toEqual(["Front Page1"]);
-        expect(pageLabels[2]).toEqual(["1", "2"]);
-        expect(pageLabels[3]).toEqual(["X3"]);
+        expect(pageLabels[0]).toEqual(['i', 'ii', 'iii', '1']);
+        expect(pageLabels[1]).toEqual(['Front Page1']);
+        expect(pageLabels[2]).toEqual(['1', '2']);
+        expect(pageLabels[3]).toEqual(['X3']);
         Promise.all([loadingTask0.destroy(), loadingTask1.destroy(), loadingTask2.destroy(), loadingTask3.destroy()]).then(done);
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets default page layout", function (done) {
-      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("tracemonkey.pdf"));
-      loadingTask.promise.then(function (pdfDoc) {
-        return pdfDoc.getPageLayout();
+    it('gets default page layout', function (done) {
+      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)('tracemonkey.pdf'));
+      loadingTask.promise.then(function (pdfDocument) {
+        return pdfDocument.getPageLayout();
       }).then(function (mode) {
-        expect(mode).toEqual("");
+        expect(mode).toEqual('');
         loadingTask.destroy().then(done);
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets non-default page layout", function (done) {
-      pdfDocument.getPageLayout().then(function (mode) {
-        expect(mode).toEqual("SinglePage");
+    it('gets non-default page layout', function (done) {
+      doc.getPageLayout().then(function (mode) {
+        expect(mode).toEqual('SinglePage');
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets default page mode", function (done) {
-      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("tracemonkey.pdf"));
-      loadingTask.promise.then(function (pdfDoc) {
-        return pdfDoc.getPageMode();
+    it('gets default page mode', function (done) {
+      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)('tracemonkey.pdf'));
+      loadingTask.promise.then(function (pdfDocument) {
+        return pdfDocument.getPageMode();
       }).then(function (mode) {
-        expect(mode).toEqual("UseNone");
+        expect(mode).toEqual('UseNone');
         loadingTask.destroy().then(done);
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets non-default page mode", function (done) {
-      pdfDocument.getPageMode().then(function (mode) {
-        expect(mode).toEqual("UseOutlines");
+    it('gets non-default page mode', function (done) {
+      doc.getPageMode().then(function (mode) {
+        expect(mode).toEqual('UseOutlines');
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets default viewer preferences", function (done) {
-      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("tracemonkey.pdf"));
-      loadingTask.promise.then(function (pdfDoc) {
-        return pdfDoc.getViewerPreferences();
+    it('gets default viewer preferences', function (done) {
+      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)('tracemonkey.pdf'));
+      loadingTask.promise.then(function (pdfDocument) {
+        return pdfDocument.getViewerPreferences();
       }).then(function (prefs) {
-        expect(prefs).toEqual(null);
+        expect(_typeof(prefs) === 'object' && prefs !== null && (0, _util.isEmptyObj)(prefs)).toEqual(true);
         loadingTask.destroy().then(done);
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets non-default viewer preferences", function (done) {
-      pdfDocument.getViewerPreferences().then(function (prefs) {
+    it('gets non-default viewer preferences', function (done) {
+      doc.getViewerPreferences().then(function (prefs) {
         expect(prefs).toEqual({
-          Direction: "L2R"
+          Direction: 'L2R'
         });
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets default open action", function (done) {
-      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("tracemonkey.pdf"));
-      loadingTask.promise.then(function (pdfDoc) {
-        return pdfDoc.getOpenAction();
-      }).then(function (openAction) {
-        expect(openAction).toEqual(null);
+    it('gets default open action destination', function (done) {
+      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)('tracemonkey.pdf'));
+      loadingTask.promise.then(function (pdfDocument) {
+        return pdfDocument.getOpenActionDestination();
+      }).then(function (dest) {
+        expect(dest).toEqual(null);
         loadingTask.destroy().then(done);
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets non-default open action (with destination)", function (done) {
-      pdfDocument.getOpenAction().then(function (openAction) {
-        expect(openAction.dest).toEqual([{
+    it('gets non-default open action destination', function (done) {
+      doc.getOpenActionDestination().then(function (dest) {
+        expect(dest).toEqual([{
           num: 15,
           gen: 0
         }, {
-          name: "FitH"
+          name: 'FitH'
         }, null]);
-        expect(openAction.action).toBeUndefined();
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets non-default open action (with Print action)", function (done) {
-      const loadingTask1 = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("bug1001080.pdf"));
-      const loadingTask2 = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("issue11442_reduced.pdf"));
-      const promise1 = loadingTask1.promise.then(function (pdfDoc) {
-        return pdfDoc.getOpenAction();
-      }).then(function (openAction) {
-        expect(openAction.dest).toBeUndefined();
-        expect(openAction.action).toEqual("Print");
-        return loadingTask1.destroy();
-      });
-      const promise2 = loadingTask2.promise.then(function (pdfDoc) {
-        return pdfDoc.getOpenAction();
-      }).then(function (openAction) {
-        expect(openAction.dest).toBeUndefined();
-        expect(openAction.action).toEqual("Print");
-        return loadingTask2.destroy();
-      });
-      Promise.all([promise1, promise2]).then(done, done.fail);
-    });
-    it("gets non-existent attachments", function (done) {
-      var promise = pdfDocument.getAttachments();
+    it('gets non-existent attachments', function (done) {
+      var promise = doc.getAttachments();
       promise.then(function (data) {
         expect(data).toEqual(null);
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets attachments", function (done) {
-      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("attachment.pdf"));
+    it('gets attachments', function (done) {
+      if ((0, _is_node["default"])()) {
+        pending('TODO: Use a non-linked test-case.');
+      }
+
+      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)('bug766138.pdf'));
       var promise = loadingTask.promise.then(function (pdfDoc) {
         return pdfDoc.getAttachments();
       });
       promise.then(function (data) {
-        var attachment = data["foo.txt"];
-        expect(attachment.filename).toEqual("foo.txt");
-        expect(attachment.content).toEqual(new Uint8Array([98, 97, 114, 32, 98, 97, 122, 32, 10]));
+        var attachment = data['Press Quality.joboptions'];
+        expect(attachment.filename).toEqual('Press Quality.joboptions');
+        expect(attachment.content instanceof Uint8Array).toBeTruthy();
+        expect(attachment.content.length).toEqual(30098);
         loadingTask.destroy().then(done);
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets javascript", function (done) {
-      var promise = pdfDocument.getJavaScript();
+    it('gets javascript', function (done) {
+      var promise = doc.getJavaScript();
       promise.then(function (data) {
         expect(data).toEqual(null);
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets javascript with printing instructions (JS action)", function (done) {
-      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("issue6106.pdf"));
-      var promise = loadingTask.promise.then(function (pdfDoc) {
-        return pdfDoc.getJavaScript();
+    var viewerPrintRegExp = /\bprint\s*\(/;
+    it('gets javascript with printing instructions (Print action)', function (done) {
+      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)('bug1001080.pdf'));
+      var promise = loadingTask.promise.then(function (doc) {
+        return doc.getJavaScript();
       });
       promise.then(function (data) {
-        expect(data).toEqual(["this.print({bUI:true,bSilent:false,bShrinkToFit:true});"]);
-        expect(data[0]).toMatch(_ui_utils.AutoPrintRegExp);
+        expect(data).toEqual(['print({});']);
+        expect(data[0]).toMatch(viewerPrintRegExp);
         loadingTask.destroy().then(done);
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets non-existent outline", function (done) {
-      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("tracemonkey.pdf"));
-      var promise = loadingTask.promise.then(function (pdfDoc) {
-        return pdfDoc.getOutline();
+    it('gets javascript with printing instructions (JS action)', function (done) {
+      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)('issue6106.pdf'));
+      var promise = loadingTask.promise.then(function (doc) {
+        return doc.getJavaScript();
+      });
+      promise.then(function (data) {
+        expect(data).toEqual(['this.print({bUI:true,bSilent:false,bShrinkToFit:true});']);
+        expect(data[0]).toMatch(viewerPrintRegExp);
+        loadingTask.destroy().then(done);
+      })["catch"](done.fail);
+    });
+    it('gets non-existent outline', function (done) {
+      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)('tracemonkey.pdf'));
+      var promise = loadingTask.promise.then(function (pdfDocument) {
+        return pdfDocument.getOutline();
       });
       promise.then(function (outline) {
         expect(outline).toEqual(null);
         loadingTask.destroy().then(done);
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets outline", function (done) {
-      var promise = pdfDocument.getOutline();
+    it('gets outline', function (done) {
+      var promise = doc.getOutline();
       promise.then(function (outline) {
         expect(Array.isArray(outline)).toEqual(true);
         expect(outline.length).toEqual(2);
         var outlineItem = outline[1];
-        expect(outlineItem.title).toEqual("Chapter 1");
+        expect(outlineItem.title).toEqual('Chapter 1');
         expect(Array.isArray(outlineItem.dest)).toEqual(true);
         expect(outlineItem.url).toEqual(null);
         expect(outlineItem.unsafeUrl).toBeUndefined();
@@ -763,21 +739,21 @@ describe("api", function () {
         expect(outlineItem.italic).toEqual(false);
         expect(outlineItem.color).toEqual(new Uint8ClampedArray([0, 64, 128]));
         expect(outlineItem.items.length).toEqual(1);
-        expect(outlineItem.items[0].title).toEqual("Paragraph 1.1");
+        expect(outlineItem.items[0].title).toEqual('Paragraph 1.1');
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets outline containing a url", function (done) {
-      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("issue3214.pdf"));
-      loadingTask.promise.then(function (pdfDoc) {
-        pdfDoc.getOutline().then(function (outline) {
+    it('gets outline containing a url', function (done) {
+      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)('issue3214.pdf'));
+      loadingTask.promise.then(function (pdfDocument) {
+        pdfDocument.getOutline().then(function (outline) {
           expect(Array.isArray(outline)).toEqual(true);
           expect(outline.length).toEqual(5);
           var outlineItemTwo = outline[2];
-          expect(typeof outlineItemTwo.title).toEqual("string");
+          expect(_typeof(outlineItemTwo.title)).toEqual('string');
           expect(outlineItemTwo.dest).toEqual(null);
-          expect(outlineItemTwo.url).toEqual("http://google.com/");
-          expect(outlineItemTwo.unsafeUrl).toEqual("http://google.com");
+          expect(outlineItemTwo.url).toEqual('http://google.com/');
+          expect(outlineItemTwo.unsafeUrl).toEqual('http://google.com');
           expect(outlineItemTwo.newWindow).toBeUndefined();
           var outlineItemOne = outline[1];
           expect(outlineItemOne.bold).toEqual(false);
@@ -785,28 +761,28 @@ describe("api", function () {
           expect(outlineItemOne.color).toEqual(new Uint8ClampedArray([0, 0, 0]));
           loadingTask.destroy().then(done);
         });
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets non-existent permissions", function (done) {
-      pdfDocument.getPermissions().then(function (permissions) {
+    it('gets non-existent permissions', function (done) {
+      doc.getPermissions().then(function (permissions) {
         expect(permissions).toEqual(null);
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets permissions", function (done) {
-      const loadingTask0 = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("issue9972-1.pdf"));
-      const promise0 = loadingTask0.promise.then(function (pdfDoc) {
-        return pdfDoc.getPermissions();
+    it('gets permissions', function (done) {
+      var loadingTask0 = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)('issue9972-1.pdf'));
+      var promise0 = loadingTask0.promise.then(function (pdfDocument) {
+        return pdfDocument.getPermissions();
       });
-      const loadingTask1 = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("issue9972-2.pdf"));
-      const promise1 = loadingTask1.promise.then(function (pdfDoc) {
-        return pdfDoc.getPermissions();
+      var loadingTask1 = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)('issue9972-2.pdf'));
+      var promise1 = loadingTask1.promise.then(function (pdfDocument) {
+        return pdfDocument.getPermissions();
       });
-      const loadingTask2 = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("issue9972-3.pdf"));
-      const promise2 = loadingTask2.promise.then(function (pdfDoc) {
-        return pdfDoc.getPermissions();
+      var loadingTask2 = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)('issue9972-3.pdf'));
+      var promise2 = loadingTask2.promise.then(function (pdfDocument) {
+        return pdfDocument.getPermissions();
       });
-      const totalPermissionCount = Object.keys(_util.PermissionFlag).length;
+      var totalPermissionCount = Object.keys(_util.PermissionFlag).length;
       Promise.all([promise0, promise1, promise2]).then(function (permissions) {
         expect(permissions[0].length).toEqual(totalPermissionCount - 1);
         expect(permissions[0].includes(_util.PermissionFlag.MODIFY_CONTENTS)).toBeFalsy();
@@ -816,135 +792,110 @@ describe("api", function () {
         expect(permissions[2].length).toEqual(totalPermissionCount - 1);
         expect(permissions[2].includes(_util.PermissionFlag.COPY)).toBeFalsy();
         Promise.all([loadingTask0.destroy(), loadingTask1.destroy(), loadingTask2.destroy()]).then(done);
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets metadata", function (done) {
-      var promise = pdfDocument.getMetadata();
-      promise.then(function ({
-        info,
-        metadata,
-        contentDispositionFilename
-      }) {
-        expect(info.Title).toEqual("Basic API Test");
-        expect(info.Custom).toEqual(undefined);
-        expect(info.PDFFormatVersion).toEqual("1.7");
-        expect(info.IsLinearized).toEqual(false);
-        expect(info.IsAcroFormPresent).toEqual(false);
-        expect(info.IsXFAPresent).toEqual(false);
-        expect(info.IsCollectionPresent).toEqual(false);
+    it('gets metadata', function (done) {
+      var promise = doc.getMetadata();
+      promise.then(function (_ref) {
+        var info = _ref.info,
+            metadata = _ref.metadata,
+            contentDispositionFilename = _ref.contentDispositionFilename;
+        expect(info['Title']).toEqual('Basic API Test');
+        expect(info['Custom']).toEqual(undefined);
+        expect(info['PDFFormatVersion']).toEqual('1.7');
+        expect(info['IsLinearized']).toEqual(false);
+        expect(info['IsAcroFormPresent']).toEqual(false);
+        expect(info['IsXFAPresent']).toEqual(false);
+        expect(info['IsCollectionPresent']).toEqual(false);
         expect(metadata instanceof _metadata.Metadata).toEqual(true);
-        expect(metadata.get("dc:title")).toEqual("Basic API Test");
+        expect(metadata.get('dc:title')).toEqual('Basic API Test');
         expect(contentDispositionFilename).toEqual(null);
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets metadata, with custom info dict entries", function (done) {
-      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("tracemonkey.pdf"));
-      loadingTask.promise.then(function (pdfDoc) {
-        return pdfDoc.getMetadata();
-      }).then(function ({
-        info,
-        metadata,
-        contentDispositionFilename
-      }) {
-        expect(info.Creator).toEqual("TeX");
-        expect(info.Producer).toEqual("pdfeTeX-1.21a");
-        expect(info.CreationDate).toEqual("D:20090401163925-07'00'");
-        const custom = info.Custom;
-        expect(typeof custom === "object" && custom !== null).toEqual(true);
-        expect(custom["PTEX.Fullbanner"]).toEqual("This is pdfeTeX, " + "Version 3.141592-1.21a-2.2 (Web2C 7.5.4) kpathsea version 3.5.6");
-        expect(info.PDFFormatVersion).toEqual("1.4");
-        expect(info.IsLinearized).toEqual(false);
-        expect(info.IsAcroFormPresent).toEqual(false);
-        expect(info.IsXFAPresent).toEqual(false);
-        expect(info.IsCollectionPresent).toEqual(false);
+    it('gets metadata, with custom info dict entries', function (done) {
+      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)('tracemonkey.pdf'));
+      loadingTask.promise.then(function (pdfDocument) {
+        return pdfDocument.getMetadata();
+      }).then(function (_ref2) {
+        var info = _ref2.info,
+            metadata = _ref2.metadata,
+            contentDispositionFilename = _ref2.contentDispositionFilename;
+        expect(info['Creator']).toEqual('TeX');
+        expect(info['Producer']).toEqual('pdfeTeX-1.21a');
+        expect(info['CreationDate']).toEqual('D:20090401163925-07\'00\'');
+        var custom = info['Custom'];
+        expect(_typeof(custom) === 'object' && custom !== null).toEqual(true);
+        expect(custom['PTEX.Fullbanner']).toEqual('This is pdfeTeX, ' + 'Version 3.141592-1.21a-2.2 (Web2C 7.5.4) kpathsea version 3.5.6');
+        expect(info['PDFFormatVersion']).toEqual('1.4');
+        expect(info['IsLinearized']).toEqual(false);
+        expect(info['IsAcroFormPresent']).toEqual(false);
+        expect(info['IsXFAPresent']).toEqual(false);
+        expect(info['IsCollectionPresent']).toEqual(false);
         expect(metadata).toEqual(null);
         expect(contentDispositionFilename).toEqual(null);
         loadingTask.destroy().then(done);
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets metadata, with missing PDF header (bug 1606566)", function (done) {
-      const loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("bug1606566.pdf"));
-      loadingTask.promise.then(function (pdfDoc) {
-        return pdfDoc.getMetadata();
-      }).then(function ({
-        info,
-        metadata,
-        contentDispositionFilename
-      }) {
-        expect(info.PDFFormatVersion).toEqual(null);
-        expect(info.IsLinearized).toEqual(false);
-        expect(info.IsAcroFormPresent).toEqual(false);
-        expect(info.IsXFAPresent).toEqual(false);
-        expect(info.IsCollectionPresent).toEqual(false);
-        expect(metadata).toEqual(null);
-        expect(contentDispositionFilename).toEqual(null);
-        loadingTask.destroy().then(done);
-      }).catch(done.fail);
-    });
-    it("gets data", function (done) {
-      var promise = pdfDocument.getData();
+    it('gets data', function (done) {
+      var promise = doc.getData();
       promise.then(function (data) {
         expect(data instanceof Uint8Array).toEqual(true);
         expect(data.length).toEqual(basicApiFileLength);
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets download info", function (done) {
-      var promise = pdfDocument.getDownloadInfo();
+    it('gets download info', function (done) {
+      var promise = doc.getDownloadInfo();
       promise.then(function (data) {
         expect(data).toEqual({
           length: basicApiFileLength
         });
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets document stats", function (done) {
-      var promise = pdfDocument.getStats();
+    it('gets document stats', function (done) {
+      var promise = doc.getStats();
       promise.then(function (stats) {
         expect(stats).toEqual({
-          streamTypes: {},
-          fontTypes: {}
+          streamTypes: [],
+          fontTypes: []
         });
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("cleans up document resources", function (done) {
-      const promise = pdfDocument.cleanup();
-      promise.then(function () {
-        expect(true).toEqual(true);
-        done();
-      }, done.fail);
-    });
-    it("checks that fingerprints are unique", function (done) {
-      const loadingTask1 = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("issue4436r.pdf"));
-      const loadingTask2 = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("issue4575.pdf"));
-      Promise.all([loadingTask1.promise, loadingTask2.promise]).then(function (data) {
-        const fingerprint1 = data[0].fingerprint;
-        const fingerprint2 = data[1].fingerprint;
+    it('checks that fingerprints are unique', function (done) {
+      var loadingTask1 = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)('issue4436r.pdf'));
+      var loadingTask2 = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)('issue4575.pdf'));
+      var promises = [loadingTask1.promise, loadingTask2.promise];
+      Promise.all(promises).then(function (data) {
+        var fingerprint1 = data[0].fingerprint;
+        expect(_typeof(fingerprint1)).toEqual('string');
+        expect(fingerprint1.length > 0).toEqual(true);
+        var fingerprint2 = data[1].fingerprint;
+        expect(_typeof(fingerprint2)).toEqual('string');
+        expect(fingerprint2.length > 0).toEqual(true);
         expect(fingerprint1).not.toEqual(fingerprint2);
-        expect(fingerprint1).toEqual("2f695a83d6e7553c24fc08b7ac69712d");
-        expect(fingerprint2).toEqual("04c7126b34a46b6d4d6e7a1eff7edcb6");
         Promise.all([loadingTask1.destroy(), loadingTask2.destroy()]).then(done);
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    describe("Cross-origin", function () {
+    describe('Cross-origin', function () {
       var loadingTask;
 
       function _checkCanLoad(expectSuccess, filename, options) {
-        if (_is_node.isNodeJS) {
-          pending("Cannot simulate cross-origin requests in Node.js");
+        if ((0, _is_node["default"])()) {
+          pending('Cannot simulate cross-origin requests in Node.js');
         }
 
         var params = (0, _test_utils.buildGetDocumentParams)(filename, options);
         var url = new URL(params.url);
 
-        if (url.hostname === "localhost") {
-          url.hostname = "127.0.0.1";
-        } else if (params.url.hostname === "127.0.0.1") {
-          url.hostname = "localhost";
+        if (url.hostname === 'localhost') {
+          url.hostname = '127.0.0.1';
+        } else if (params.url.hostname === '127.0.0.1') {
+          url.hostname = 'localhost';
         } else {
-          pending("Can only run cross-origin test on localhost!");
+          pending('Can only run cross-origin test on localhost!');
         }
 
         params.url = url.href;
@@ -955,7 +906,7 @@ describe("api", function () {
           expect(expectSuccess).toEqual(true);
         }, function (error) {
           if (expectSuccess) {
-            expect(error).toEqual("There should not be any error");
+            expect(error).toEqual('There should not be any error');
           }
 
           expect(expectSuccess).toEqual(false);
@@ -977,89 +928,69 @@ describe("api", function () {
           done();
         }
       });
-      it("server disallows cors", function (done) {
-        testCannotLoad("basicapi.pdf").then(done);
+      it('server disallows cors', function (done) {
+        testCannotLoad('basicapi.pdf').then(done);
       });
-      it("server allows cors without credentials, default withCredentials", function (done) {
-        testCanLoad("basicapi.pdf?cors=withoutCredentials").then(done);
+      it('server allows cors without credentials, default withCredentials', function (done) {
+        testCanLoad('basicapi.pdf?cors=withoutCredentials').then(done);
       });
-      it("server allows cors without credentials, and withCredentials=false", function (done) {
-        testCanLoad("basicapi.pdf?cors=withoutCredentials", {
+      it('server allows cors without credentials, and withCredentials=false', function (done) {
+        testCanLoad('basicapi.pdf?cors=withoutCredentials', {
           withCredentials: false
         }).then(done);
       });
-      it("server allows cors without credentials, but withCredentials=true", function (done) {
-        testCannotLoad("basicapi.pdf?cors=withoutCredentials", {
+      it('server allows cors without credentials, but withCredentials=true', function (done) {
+        testCannotLoad('basicapi.pdf?cors=withoutCredentials', {
           withCredentials: true
         }).then(done);
       });
-      it("server allows cors with credentials, and withCredentials=true", function (done) {
-        testCanLoad("basicapi.pdf?cors=withCredentials", {
+      it('server allows cors with credentials, and withCredentials=true', function (done) {
+        testCanLoad('basicapi.pdf?cors=withCredentials', {
           withCredentials: true
         }).then(done);
       });
-      it("server allows cors with credentials, and withCredentials=false", function (done) {
-        testCanLoad("basicapi.pdf?cors=withCredentials", {
+      it('server allows cors with credentials, and withCredentials=false', function (done) {
+        testCanLoad('basicapi.pdf?cors=withCredentials', {
           withCredentials: false
         }).then(done);
       });
     });
   });
-  describe("Page", function () {
-    let pdfLoadingTask, pdfDocument, page;
+  describe('Page', function () {
+    var loadingTask;
+    var pdfDocument, page;
     beforeAll(function (done) {
-      pdfLoadingTask = (0, _api.getDocument)(basicApiGetDocumentParams);
-      pdfLoadingTask.promise.then(function (doc) {
+      loadingTask = (0, _api.getDocument)(basicApiGetDocumentParams);
+      loadingTask.promise.then(function (doc) {
         pdfDocument = doc;
         pdfDocument.getPage(1).then(function (data) {
           page = data;
           done();
         });
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
     afterAll(function (done) {
-      pdfLoadingTask.destroy().then(done);
+      loadingTask.destroy().then(done);
     });
-    it("gets page number", function () {
+    it('gets page number', function () {
       expect(page.pageNumber).toEqual(1);
     });
-    it("gets rotate", function () {
+    it('gets rotate', function () {
       expect(page.rotate).toEqual(0);
     });
-    it("gets ref", function () {
+    it('gets ref', function () {
       expect(page.ref).toEqual({
         num: 15,
         gen: 0
       });
     });
-    it("gets userUnit", function () {
+    it('gets userUnit', function () {
       expect(page.userUnit).toEqual(1.0);
     });
-    it("gets view", function () {
+    it('gets view', function () {
       expect(page.view).toEqual([0, 0, 595.28, 841.89]);
     });
-    it("gets view, with empty/invalid bounding boxes", function (done) {
-      const viewLoadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("boundingBox_invalid.pdf"));
-      viewLoadingTask.promise.then(pdfDoc => {
-        const numPages = pdfDoc.numPages;
-        expect(numPages).toEqual(3);
-        const viewPromises = [];
-
-        for (let i = 0; i < numPages; i++) {
-          viewPromises[i] = pdfDoc.getPage(i + 1).then(pdfPage => {
-            return pdfPage.view;
-          });
-        }
-
-        Promise.all(viewPromises).then(([page1, page2, page3]) => {
-          expect(page1).toEqual([0, 0, 612, 792]);
-          expect(page2).toEqual([0, 0, 800, 600]);
-          expect(page3).toEqual([0, 0, 600, 800]);
-          viewLoadingTask.destroy().then(done);
-        });
-      }).catch(done.fail);
-    });
-    it("gets viewport", function () {
+    it('gets viewport', function () {
       var viewport = page.getViewport({
         scale: 1.5,
         rotation: 90
@@ -1071,25 +1002,16 @@ describe("api", function () {
       expect(viewport.width).toEqual(1262.835);
       expect(viewport.height).toEqual(892.92);
     });
-    it('gets viewport with "offsetX/offsetY" arguments', function () {
-      const viewport = page.getViewport({
-        scale: 1,
-        rotation: 0,
-        offsetX: 100,
-        offsetY: -100
-      });
-      expect(viewport.transform).toEqual([1, 0, 0, -1, 100, 741.89]);
-    });
     it('gets viewport respecting "dontFlip" argument', function () {
-      const scale = 1,
-            rotation = 0;
-      const viewport = page.getViewport({
-        scale,
-        rotation
+      var scale = 1;
+      var rotation = 135;
+      var viewport = page.getViewport({
+        scale: scale,
+        rotation: rotation
       });
-      const dontFlipViewport = page.getViewport({
-        scale,
-        rotation,
+      var dontFlipViewport = page.getViewport({
+        scale: scale,
+        rotation: rotation,
         dontFlip: true
       });
       expect(dontFlipViewport).not.toEqual(viewport);
@@ -1099,34 +1021,26 @@ describe("api", function () {
       expect(viewport.transform).toEqual([1, 0, 0, -1, 0, 841.89]);
       expect(dontFlipViewport.transform).toEqual([1, 0, -0, 1, 0, 0]);
     });
-    it("gets viewport with invalid rotation", function () {
-      expect(function () {
-        page.getViewport({
-          scale: 1,
-          rotation: 45
-        });
-      }).toThrow(new Error("PageViewport: Invalid rotation, must be a multiple of 90 degrees."));
-    });
-    it("gets annotations", function (done) {
+    it('gets annotations', function (done) {
       var defaultPromise = page.getAnnotations().then(function (data) {
         expect(data.length).toEqual(4);
       });
       var displayPromise = page.getAnnotations({
-        intent: "display"
+        intent: 'display'
       }).then(function (data) {
         expect(data.length).toEqual(4);
       });
       var printPromise = page.getAnnotations({
-        intent: "print"
+        intent: 'print'
       }).then(function (data) {
         expect(data.length).toEqual(4);
       });
       Promise.all([defaultPromise, displayPromise, printPromise]).then(function () {
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets annotations containing relative URLs (bug 766086)", function (done) {
-      var filename = "bug766086.pdf";
+    it('gets annotations containing relative URLs (bug 766086)', function (done) {
+      var filename = 'bug766086.pdf';
       var defaultLoadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)(filename));
       var defaultPromise = defaultLoadingTask.promise.then(function (pdfDoc) {
         return pdfDoc.getPage(1).then(function (pdfPage) {
@@ -1134,7 +1048,7 @@ describe("api", function () {
         });
       });
       var docBaseUrlLoadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)(filename, {
-        docBaseUrl: "http://www.example.com/test/pdfs/qwerty.pdf"
+        docBaseUrl: 'http://www.example.com/test/pdfs/qwerty.pdf'
       }));
       var docBaseUrlPromise = docBaseUrlLoadingTask.promise.then(function (pdfDoc) {
         return pdfDoc.getPage(1).then(function (pdfPage) {
@@ -1142,7 +1056,7 @@ describe("api", function () {
         });
       });
       var invalidDocBaseUrlLoadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)(filename, {
-        docBaseUrl: "qwerty.pdf"
+        docBaseUrl: 'qwerty.pdf'
       }));
       var invalidDocBaseUrlPromise = invalidDocBaseUrlLoadingTask.promise.then(function (pdfDoc) {
         return pdfDoc.getPage(1).then(function (pdfPage) {
@@ -1154,15 +1068,15 @@ describe("api", function () {
         var docBaseUrlAnnotations = data[1];
         var invalidDocBaseUrlAnnotations = data[2];
         expect(defaultAnnotations[0].url).toBeUndefined();
-        expect(defaultAnnotations[0].unsafeUrl).toEqual("../../0021/002156/215675E.pdf#15");
-        expect(docBaseUrlAnnotations[0].url).toEqual("http://www.example.com/0021/002156/215675E.pdf#15");
-        expect(docBaseUrlAnnotations[0].unsafeUrl).toEqual("../../0021/002156/215675E.pdf#15");
+        expect(defaultAnnotations[0].unsafeUrl).toEqual('../../0021/002156/215675E.pdf#15');
+        expect(docBaseUrlAnnotations[0].url).toEqual('http://www.example.com/0021/002156/215675E.pdf#15');
+        expect(docBaseUrlAnnotations[0].unsafeUrl).toEqual('../../0021/002156/215675E.pdf#15');
         expect(invalidDocBaseUrlAnnotations[0].url).toBeUndefined();
-        expect(invalidDocBaseUrlAnnotations[0].unsafeUrl).toEqual("../../0021/002156/215675E.pdf#15");
+        expect(invalidDocBaseUrlAnnotations[0].unsafeUrl).toEqual('../../0021/002156/215675E.pdf#15');
         Promise.all([defaultLoadingTask.destroy(), docBaseUrlLoadingTask.destroy(), invalidDocBaseUrlLoadingTask.destroy()]).then(done);
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets text content", function (done) {
+    it('gets text content', function (done) {
       var defaultPromise = page.getTextContent();
       var parametersPromise = page.getTextContent({
         normalizeWhitespace: true,
@@ -1175,28 +1089,27 @@ describe("api", function () {
         expect(!!data[0].styles).toEqual(true);
         expect(JSON.stringify(data[0])).toEqual(JSON.stringify(data[1]));
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets text content, with correct properties (issue 8276)", function (done) {
-      const loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("issue8276_reduced.pdf"));
-      loadingTask.promise.then(pdfDoc => {
-        pdfDoc.getPage(1).then(pdfPage => {
-          pdfPage.getTextContent().then(({
-            items,
-            styles
-          }) => {
+    it('gets text content, with correct properties (issue 8276)', function (done) {
+      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)('issue8276_reduced.pdf'));
+      loadingTask.promise.then(function (pdfDoc) {
+        pdfDoc.getPage(1).then(function (pdfPage) {
+          pdfPage.getTextContent().then(function (_ref3) {
+            var items = _ref3.items,
+                styles = _ref3.styles;
             expect(items.length).toEqual(1);
-            expect(Object.keys(styles)).toEqual(["Times"]);
+            expect(Object.keys(styles)).toEqual(['Times']);
             expect(items[0]).toEqual({
-              dir: "ltr",
-              fontName: "Times",
+              dir: 'ltr',
+              fontName: 'Times',
               height: 18,
-              str: "Issue 8276",
+              str: 'Issue 8276',
               transform: [18, 0, 0, 18, 441.81, 708.4499999999999],
               width: 77.49
             });
             expect(styles.Times).toEqual({
-              fontFamily: "serif",
+              fontFamily: 'serif',
               ascent: NaN,
               descent: NaN,
               vertical: false
@@ -1204,70 +1117,42 @@ describe("api", function () {
             loadingTask.destroy().then(done);
           });
         });
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets operator list", function (done) {
+    it('gets operator list', function (done) {
       var promise = page.getOperatorList();
       promise.then(function (oplist) {
         expect(!!oplist.fnArray).toEqual(true);
         expect(!!oplist.argsArray).toEqual(true);
         expect(oplist.lastChunk).toEqual(true);
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets operatorList with JPEG image (issue 4888)", function (done) {
-      const loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("cmykjpeg.pdf"));
-      loadingTask.promise.then(pdfDoc => {
-        pdfDoc.getPage(1).then(pdfPage => {
-          pdfPage.getOperatorList().then(opList => {
-            const imgIndex = opList.fnArray.indexOf(_util.OPS.paintImageXObject);
-            const imgArgs = opList.argsArray[imgIndex];
-            const {
-              data
-            } = pdfPage.objs.get(imgArgs[0]);
+    it('gets operatorList with JPEG image (issue 4888)', function (done) {
+      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)('cmykjpeg.pdf'));
+      loadingTask.promise.then(function (pdfDoc) {
+        pdfDoc.getPage(1).then(function (pdfPage) {
+          pdfPage.getOperatorList().then(function (opList) {
+            var imgIndex = opList.fnArray.indexOf(_util.OPS.paintImageXObject);
+            var imgArgs = opList.argsArray[imgIndex];
+
+            var _pdfPage$objs$get = pdfPage.objs.get(imgArgs[0]),
+                data = _pdfPage$objs$get.data;
+
             expect(data instanceof Uint8ClampedArray).toEqual(true);
             expect(data.length).toEqual(90000);
             loadingTask.destroy().then(done);
           });
         });
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets operatorList, from corrupt PDF file (issue 8702), " + "with/without `stopAtErrors` set", function (done) {
-      const loadingTask1 = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("issue8702.pdf", {
-        stopAtErrors: false
-      }));
-      const loadingTask2 = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("issue8702.pdf", {
-        stopAtErrors: true
-      }));
-      const result1 = loadingTask1.promise.then(pdfDoc => {
-        return pdfDoc.getPage(1).then(pdfPage => {
-          return pdfPage.getOperatorList().then(opList => {
-            expect(opList.fnArray.length).toBeGreaterThan(100);
-            expect(opList.argsArray.length).toBeGreaterThan(100);
-            expect(opList.lastChunk).toEqual(true);
-            return loadingTask1.destroy();
-          });
-        });
-      });
-      const result2 = loadingTask2.promise.then(pdfDoc => {
-        return pdfDoc.getPage(1).then(pdfPage => {
-          return pdfPage.getOperatorList().then(opList => {
-            expect(opList.fnArray.length).toEqual(0);
-            expect(opList.argsArray.length).toEqual(0);
-            expect(opList.lastChunk).toEqual(true);
-            return loadingTask2.destroy();
-          });
-        });
-      });
-      Promise.all([result1, result2]).then(done, done.fail);
-    });
-    it("gets document stats after parsing page", function (done) {
+    it('gets document stats after parsing page', function (done) {
       var promise = page.getOperatorList().then(function () {
         return pdfDocument.getStats();
       });
-      var expectedStreamTypes = {};
+      var expectedStreamTypes = [];
       expectedStreamTypes[_util.StreamType.FLATE] = true;
-      var expectedFontTypes = {};
+      var expectedFontTypes = [];
       expectedFontTypes[_util.FontType.TYPE1] = true;
       expectedFontTypes[_util.FontType.CIDFONTTYPE2] = true;
       promise.then(function (stats) {
@@ -1276,70 +1161,78 @@ describe("api", function () {
           fontTypes: expectedFontTypes
         });
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("gets page stats after parsing page, without `pdfBug` set", function (done) {
-      page.getOperatorList().then(opList => {
+    it('gets page stats after parsing page, without `pdfBug` set', function (done) {
+      page.getOperatorList().then(function (opList) {
         return page.stats;
-      }).then(stats => {
+      }).then(function (stats) {
         expect(stats).toEqual(null);
         done();
       }, done.fail);
     });
-    it("gets page stats after parsing page, with `pdfBug` set", function (done) {
-      const loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)(basicApiFileName, {
+    it('gets page stats after parsing page, with `pdfBug` set', function (done) {
+      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)(basicApiFileName, {
         pdfBug: true
       }));
-      loadingTask.promise.then(pdfDoc => {
-        return pdfDoc.getPage(1).then(pdfPage => {
-          return pdfPage.getOperatorList().then(opList => {
+      loadingTask.promise.then(function (pdfDoc) {
+        return pdfDoc.getPage(1).then(function (pdfPage) {
+          return pdfPage.getOperatorList().then(function (opList) {
             return pdfPage.stats;
           });
         });
-      }).then(stats => {
+      }).then(function (stats) {
         expect(stats instanceof _display_utils.StatTimer).toEqual(true);
         expect(stats.times.length).toEqual(1);
-        const [statEntry] = stats.times;
-        expect(statEntry.name).toEqual("Page Request");
-        expect(statEntry.end - statEntry.start).toBeGreaterThanOrEqual(0);
+
+        var _stats$times = _slicedToArray(stats.times, 1),
+            statEntry = _stats$times[0];
+
+        expect(statEntry.name).toEqual('Page Request');
+        expect(statEntry.end - statEntry.start).toBeGreaterThan(0);
         loadingTask.destroy().then(done);
       }, done.fail);
     });
-    it("gets page stats after rendering page, with `pdfBug` set", function (done) {
-      const loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)(basicApiFileName, {
+    it('gets page stats after rendering page, with `pdfBug` set', function (done) {
+      var loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)(basicApiFileName, {
         pdfBug: true
       }));
-      let canvasAndCtx;
-      loadingTask.promise.then(pdfDoc => {
-        return pdfDoc.getPage(1).then(pdfPage => {
-          const viewport = pdfPage.getViewport({
+      var canvasAndCtx;
+      loadingTask.promise.then(function (pdfDoc) {
+        return pdfDoc.getPage(1).then(function (pdfPage) {
+          var viewport = pdfPage.getViewport({
             scale: 1
           });
           canvasAndCtx = CanvasFactory.create(viewport.width, viewport.height);
-          const renderTask = pdfPage.render({
+          var renderTask = pdfPage.render({
             canvasContext: canvasAndCtx.context,
             canvasFactory: CanvasFactory,
-            viewport
+            viewport: viewport
           });
-          return renderTask.promise.then(() => {
+          return renderTask.promise.then(function () {
             return pdfPage.stats;
           });
         });
-      }).then(stats => {
+      }).then(function (stats) {
         expect(stats instanceof _display_utils.StatTimer).toEqual(true);
         expect(stats.times.length).toEqual(3);
-        const [statEntryOne, statEntryTwo, statEntryThree] = stats.times;
-        expect(statEntryOne.name).toEqual("Page Request");
-        expect(statEntryOne.end - statEntryOne.start).toBeGreaterThanOrEqual(0);
-        expect(statEntryTwo.name).toEqual("Rendering");
+
+        var _stats$times2 = _slicedToArray(stats.times, 3),
+            statEntryOne = _stats$times2[0],
+            statEntryTwo = _stats$times2[1],
+            statEntryThree = _stats$times2[2];
+
+        expect(statEntryOne.name).toEqual('Page Request');
+        expect(statEntryOne.end - statEntryOne.start).toBeGreaterThan(0);
+        expect(statEntryTwo.name).toEqual('Rendering');
         expect(statEntryTwo.end - statEntryTwo.start).toBeGreaterThan(0);
-        expect(statEntryThree.name).toEqual("Overall");
+        expect(statEntryThree.name).toEqual('Overall');
         expect(statEntryThree.end - statEntryThree.start).toBeGreaterThan(0);
         CanvasFactory.destroy(canvasAndCtx);
         loadingTask.destroy().then(done);
       }, done.fail);
     });
-    it("cancels rendering of page", function (done) {
+    it('cancels rendering of page', function (done) {
       var viewport = page.getViewport({
         scale: 1
       });
@@ -1347,48 +1240,46 @@ describe("api", function () {
       var renderTask = page.render({
         canvasContext: canvasAndCtx.context,
         canvasFactory: CanvasFactory,
-        viewport
+        viewport: viewport
       });
       renderTask.cancel();
       renderTask.promise.then(function () {
-        done.fail("shall cancel rendering");
-      }).catch(function (error) {
+        done.fail('shall cancel rendering');
+      })["catch"](function (error) {
         expect(error instanceof _display_utils.RenderingCancelledException).toEqual(true);
-        expect(error.message).toEqual("Rendering cancelled, page 1");
-        expect(error.type).toEqual("canvas");
+        expect(error.type).toEqual('canvas');
         CanvasFactory.destroy(canvasAndCtx);
         done();
       });
     });
-    it("re-render page, using the same canvas, after cancelling rendering", function (done) {
-      const viewport = page.getViewport({
+    it('re-render page, using the same canvas, after cancelling rendering', function (done) {
+      var viewport = page.getViewport({
         scale: 1
       });
-      const canvasAndCtx = CanvasFactory.create(viewport.width, viewport.height);
-      const renderTask = page.render({
+      var canvasAndCtx = CanvasFactory.create(viewport.width, viewport.height);
+      var renderTask = page.render({
         canvasContext: canvasAndCtx.context,
         canvasFactory: CanvasFactory,
-        viewport
+        viewport: viewport
       });
       renderTask.cancel();
-      renderTask.promise.then(() => {
-        throw new Error("shall cancel rendering");
-      }, reason => {
+      renderTask.promise.then(function () {
+        throw new Error('shall cancel rendering');
+      }, function (reason) {
         expect(reason instanceof _display_utils.RenderingCancelledException).toEqual(true);
-      }).then(() => {
-        const reRenderTask = page.render({
+      }).then(function () {
+        var reRenderTask = page.render({
           canvasContext: canvasAndCtx.context,
           canvasFactory: CanvasFactory,
-          viewport
+          viewport: viewport
         });
         return reRenderTask.promise;
-      }).then(() => {
+      }).then(function () {
         CanvasFactory.destroy(canvasAndCtx);
         done();
       }, done.fail);
     });
-    it("multiple render() on the same canvas", function (done) {
-      const optionalContentConfigPromise = pdfDocument.getOptionalContentConfig();
+    it('multiple render() on the same canvas', function (done) {
       var viewport = page.getViewport({
         scale: 1
       });
@@ -1396,174 +1287,85 @@ describe("api", function () {
       var renderTask1 = page.render({
         canvasContext: canvasAndCtx.context,
         canvasFactory: CanvasFactory,
-        viewport,
-        optionalContentConfigPromise
+        viewport: viewport
       });
       var renderTask2 = page.render({
         canvasContext: canvasAndCtx.context,
         canvasFactory: CanvasFactory,
-        viewport,
-        optionalContentConfigPromise
+        viewport: viewport
       });
-      Promise.all([renderTask1.promise, renderTask2.promise.then(() => {
-        done.fail("shall fail rendering");
-      }, reason => {
+      Promise.all([renderTask1.promise, renderTask2.promise.then(function () {
+        done.fail('shall fail rendering');
+      }, function (reason) {
         expect(/multiple render\(\)/.test(reason.message)).toEqual(true);
       })]).then(done);
     });
-    it("cleans up document resources after rendering of page", function (done) {
-      const loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)(basicApiFileName));
-      let canvasAndCtx;
-      loadingTask.promise.then(pdfDoc => {
-        return pdfDoc.getPage(1).then(pdfPage => {
-          const viewport = pdfPage.getViewport({
-            scale: 1
-          });
-          canvasAndCtx = CanvasFactory.create(viewport.width, viewport.height);
-          const renderTask = pdfPage.render({
-            canvasContext: canvasAndCtx.context,
-            canvasFactory: CanvasFactory,
-            viewport
-          });
-          return renderTask.promise.then(() => {
-            return pdfDoc.cleanup();
-          });
-        });
-      }).then(() => {
-        expect(true).toEqual(true);
-        CanvasFactory.destroy(canvasAndCtx);
-        loadingTask.destroy().then(done);
-      }, done.fail);
-    });
-    it("cleans up document resources during rendering of page", function (done) {
-      const loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("tracemonkey.pdf"));
-      let canvasAndCtx;
-      loadingTask.promise.then(pdfDoc => {
-        return pdfDoc.getPage(1).then(pdfPage => {
-          const viewport = pdfPage.getViewport({
-            scale: 1
-          });
-          canvasAndCtx = CanvasFactory.create(viewport.width, viewport.height);
-          const renderTask = pdfPage.render({
-            canvasContext: canvasAndCtx.context,
-            canvasFactory: CanvasFactory,
-            viewport
-          });
-
-          renderTask.onContinue = function (cont) {
-            waitSome(cont);
-          };
-
-          return pdfDoc.cleanup().then(() => {
-            throw new Error("shall fail cleanup");
-          }, reason => {
-            expect(reason instanceof Error).toEqual(true);
-            expect(reason.message).toEqual("startCleanup: Page 1 is currently rendering.");
-          }).then(() => {
-            return renderTask.promise;
-          }).then(() => {
-            CanvasFactory.destroy(canvasAndCtx);
-            loadingTask.destroy().then(done);
-          });
-        });
-      }).catch(done.fail);
-    });
-    it("caches image resources at the document/page level as expected (issue 11878)", async function (done) {
-      const {
-        NUM_PAGES_THRESHOLD
-      } = _image_utils.GlobalImageCache,
-            EXPECTED_WIDTH = 2550,
-            EXPECTED_HEIGHT = 3300;
-      const loadingTask = (0, _api.getDocument)((0, _test_utils.buildGetDocumentParams)("issue11878.pdf"));
-      let firstImgData = null;
-
-      try {
-        const pdfDoc = await loadingTask.promise;
-
-        for (let i = 1; i <= pdfDoc.numPages; i++) {
-          const pdfPage = await pdfDoc.getPage(i);
-          const opList = await pdfPage.getOperatorList();
-          const {
-            commonObjs,
-            objs
-          } = pdfPage;
-          const imgIndex = opList.fnArray.indexOf(_util.OPS.paintImageXObject);
-          const [objId, width, height] = opList.argsArray[imgIndex];
-
-          if (i < NUM_PAGES_THRESHOLD) {
-            expect(objId).toEqual(`img_p${i - 1}_1`);
-            expect(objs.has(objId)).toEqual(true);
-            expect(commonObjs.has(objId)).toEqual(false);
-          } else {
-            expect(objId).toEqual(`g_${loadingTask.docId}_img_p${NUM_PAGES_THRESHOLD - 1}_1`);
-            expect(objs.has(objId)).toEqual(false);
-            expect(commonObjs.has(objId)).toEqual(true);
-          }
-
-          expect(width).toEqual(EXPECTED_WIDTH);
-          expect(height).toEqual(EXPECTED_HEIGHT);
-
-          if (i === 1) {
-            firstImgData = objs.get(objId);
-            expect(firstImgData.width).toEqual(EXPECTED_WIDTH);
-            expect(firstImgData.height).toEqual(EXPECTED_HEIGHT);
-            expect(firstImgData.kind).toEqual(_util.ImageKind.RGB_24BPP);
-            expect(firstImgData.data instanceof Uint8ClampedArray).toEqual(true);
-            expect(firstImgData.data.length).toEqual(25245000);
-          } else {
-            const objsPool = i >= NUM_PAGES_THRESHOLD ? commonObjs : objs;
-            const currentImgData = objsPool.get(objId);
-            expect(currentImgData.width).toEqual(firstImgData.width);
-            expect(currentImgData.height).toEqual(firstImgData.height);
-            expect(currentImgData.kind).toEqual(firstImgData.kind);
-            expect(currentImgData.data instanceof Uint8ClampedArray).toEqual(true);
-            expect(currentImgData.data.every((value, index) => {
-              return value === firstImgData.data[index];
-            })).toEqual(true);
-          }
-        }
-
-        await loadingTask.destroy();
-        firstImgData = null;
-        done();
-      } catch (ex) {
-        done.fail(ex);
-      }
-    });
   });
-  describe("Multiple `getDocument` instances", function () {
-    var pdf1 = (0, _test_utils.buildGetDocumentParams)("tracemonkey.pdf");
-    var pdf2 = (0, _test_utils.buildGetDocumentParams)("TAMReview.pdf");
-    var pdf3 = (0, _test_utils.buildGetDocumentParams)("issue6068.pdf");
+  describe('Multiple `getDocument` instances', function () {
+    var pdf1 = (0, _test_utils.buildGetDocumentParams)('tracemonkey.pdf');
+    var pdf2 = (0, _test_utils.buildGetDocumentParams)('TAMReview.pdf');
+    var pdf3 = (0, _test_utils.buildGetDocumentParams)('issue6068.pdf');
     var loadingTasks = [];
 
-    async function renderPDF(filename) {
-      const loadingTask = (0, _api.getDocument)(filename);
-      loadingTasks.push(loadingTask);
-      const pdf = await loadingTask.promise;
-      const page = await pdf.getPage(1);
-      const viewport = page.getViewport({
-        scale: 1.2
-      });
-      const canvasAndCtx = CanvasFactory.create(viewport.width, viewport.height);
-      const renderTask = page.render({
-        canvasContext: canvasAndCtx.context,
-        canvasFactory: CanvasFactory,
-        viewport
-      });
-      await renderTask.promise;
-      const data = canvasAndCtx.canvas.toDataURL();
-      CanvasFactory.destroy(canvasAndCtx);
-      return data;
+    function renderPDF(_x) {
+      return _renderPDF.apply(this, arguments);
+    }
+
+    function _renderPDF() {
+      _renderPDF = _asyncToGenerator(
+      /*#__PURE__*/
+      _regenerator["default"].mark(function _callee(filename) {
+        var loadingTask, pdf, page, viewport, canvasAndCtx, renderTask, data;
+        return _regenerator["default"].wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                loadingTask = (0, _api.getDocument)(filename);
+                loadingTasks.push(loadingTask);
+                _context.next = 4;
+                return loadingTask.promise;
+
+              case 4:
+                pdf = _context.sent;
+                _context.next = 7;
+                return pdf.getPage(1);
+
+              case 7:
+                page = _context.sent;
+                viewport = page.getViewport({
+                  scale: 1.2
+                });
+                canvasAndCtx = CanvasFactory.create(viewport.width, viewport.height);
+                renderTask = page.render({
+                  canvasContext: canvasAndCtx.context,
+                  canvasFactory: CanvasFactory,
+                  viewport: viewport
+                });
+                _context.next = 13;
+                return renderTask.promise;
+
+              case 13:
+                data = canvasAndCtx.canvas.toDataURL();
+                CanvasFactory.destroy(canvasAndCtx);
+                return _context.abrupt("return", data);
+
+              case 16:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+      return _renderPDF.apply(this, arguments);
     }
 
     afterEach(function (done) {
-      const destroyPromises = loadingTasks.map(function (loadingTask) {
+      var destroyPromises = loadingTasks.map(function (loadingTask) {
         return loadingTask.destroy();
       });
       Promise.all(destroyPromises).then(done);
     });
-    it("should correctly render PDFs in parallel", function (done) {
+    it('should correctly render PDFs in parallel', function (done) {
       var baseline1, baseline2, baseline3;
       var promiseDone = renderPDF(pdf1).then(function (data1) {
         baseline1 = data1;
@@ -1582,15 +1384,15 @@ describe("api", function () {
       });
       promiseDone.then(function () {
         done();
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
   });
-  describe("PDFDataRangeTransport", function () {
-    let dataPromise;
+  describe('PDFDataRangeTransport', function () {
+    var dataPromise;
     beforeAll(function (done) {
-      const fileName = "tracemonkey.pdf";
+      var fileName = 'tracemonkey.pdf';
 
-      if (_is_node.isNodeJS) {
+      if ((0, _is_node["default"])()) {
         dataPromise = _test_utils.NodeFileReaderFactory.fetch({
           path: _test_utils.TEST_PDFS_PATH.node + fileName
         });
@@ -1605,13 +1407,13 @@ describe("api", function () {
     afterAll(function () {
       dataPromise = null;
     });
-    it("should fetch document info and page using ranges", function (done) {
-      const initialDataLength = 4000;
-      let fetches = 0,
+    it('should fetch document info and page using ranges', function (done) {
+      var initialDataLength = 4000;
+      var fetches = 0,
           loadingTask;
       dataPromise.then(function (data) {
-        const initialData = data.subarray(0, initialDataLength);
-        const transport = new _api.PDFDataRangeTransport(data.length, initialData);
+        var initialData = data.subarray(0, initialDataLength);
+        var transport = new _api.PDFDataRangeTransport(data.length, initialData);
 
         transport.requestDataRange = function (begin, end) {
           fetches++;
@@ -1630,15 +1432,15 @@ describe("api", function () {
         expect(pdfPage.rotate).toEqual(0);
         expect(fetches).toBeGreaterThan(2);
         loadingTask.destroy().then(done);
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("should fetch document info and page using range and streaming", function (done) {
-      const initialDataLength = 4000;
-      let fetches = 0,
+    it('should fetch document info and page using range and streaming', function (done) {
+      var initialDataLength = 4000;
+      var fetches = 0,
           loadingTask;
       dataPromise.then(function (data) {
-        const initialData = data.subarray(0, initialDataLength);
-        const transport = new _api.PDFDataRangeTransport(data.length, initialData);
+        var initialData = data.subarray(0, initialDataLength);
+        var transport = new _api.PDFDataRangeTransport(data.length, initialData);
 
         transport.requestDataRange = function (begin, end) {
           fetches++;
@@ -1663,13 +1465,13 @@ describe("api", function () {
         waitSome(function () {
           loadingTask.destroy().then(done);
         });
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
-    it("should fetch document info and page, without range, " + "using complete initialData", function (done) {
-      let fetches = 0,
+    it('should fetch document info and page, without range, ' + 'using complete initialData', function (done) {
+      var fetches = 0,
           loadingTask;
       dataPromise.then(function (data) {
-        const transport = new _api.PDFDataRangeTransport(data.length, data, true);
+        var transport = new _api.PDFDataRangeTransport(data.length, data, true);
 
         transport.requestDataRange = function (begin, end) {
           fetches++;
@@ -1687,7 +1489,7 @@ describe("api", function () {
         expect(pdfPage.rotate).toEqual(0);
         expect(fetches).toEqual(0);
         loadingTask.destroy().then(done);
-      }).catch(done.fail);
+      })["catch"](done.fail);
     });
   });
 });

@@ -2,7 +2,7 @@
  * @licstart The following is the entire license notice for the
  * Javascript code in this page
  *
- * Copyright 2020 Mozilla Foundation
+ * Copyright 2019 Mozilla Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,194 +24,195 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getQuadPoints = getQuadPoints;
 exports.MarkupAnnotation = exports.AnnotationFactory = exports.AnnotationBorderStyle = exports.Annotation = void 0;
 
-var _util = require("../shared/util.js");
+var _util = require("../shared/util");
 
-var _obj = require("./obj.js");
+var _obj = require("./obj");
 
-var _primitives = require("./primitives.js");
+var _primitives = require("./primitives");
 
-var _colorspace = require("./colorspace.js");
+var _colorspace = require("./colorspace");
 
-var _core_utils = require("./core_utils.js");
+var _core_utils = require("./core_utils");
 
-var _operator_list = require("./operator_list.js");
+var _operator_list = require("./operator_list");
 
-var _stream = require("./stream.js");
+var _stream = require("./stream");
 
-var _writer = require("./writer.js");
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
 
-class AnnotationFactory {
-  static create(xref, ref, pdfManager, idFactory) {
-    return pdfManager.ensureCatalog("acroForm").then(acroForm => {
-      return pdfManager.ensure(this, "_create", [xref, ref, pdfManager, idFactory, acroForm]);
-    });
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var AnnotationFactory =
+/*#__PURE__*/
+function () {
+  function AnnotationFactory() {
+    _classCallCheck(this, AnnotationFactory);
   }
 
-  static _create(xref, ref, pdfManager, idFactory, acroForm) {
-    const dict = xref.fetchIfRef(ref);
-
-    if (!(0, _primitives.isDict)(dict)) {
-      return undefined;
+  _createClass(AnnotationFactory, null, [{
+    key: "create",
+    value: function create(xref, ref, pdfManager, idFactory) {
+      return pdfManager.ensure(this, '_create', [xref, ref, pdfManager, idFactory]);
     }
+  }, {
+    key: "_create",
+    value: function _create(xref, ref, pdfManager, idFactory) {
+      var dict = xref.fetchIfRef(ref);
 
-    const id = (0, _primitives.isRef)(ref) ? ref.toString() : `annot_${idFactory.createObjId()}`;
-    let subtype = dict.get("Subtype");
-    subtype = (0, _primitives.isName)(subtype) ? subtype.name : null;
-    const parameters = {
-      xref,
-      ref,
-      dict,
-      subtype,
-      id,
-      pdfManager,
-      acroForm: acroForm instanceof _primitives.Dict ? acroForm : _primitives.Dict.empty
-    };
+      if (!(0, _primitives.isDict)(dict)) {
+        return undefined;
+      }
 
-    switch (subtype) {
-      case "Link":
-        return new LinkAnnotation(parameters);
+      var id = (0, _primitives.isRef)(ref) ? ref.toString() : "annot_".concat(idFactory.createObjId());
+      var subtype = dict.get('Subtype');
+      subtype = (0, _primitives.isName)(subtype) ? subtype.name : null;
+      var parameters = {
+        xref: xref,
+        dict: dict,
+        subtype: subtype,
+        id: id,
+        pdfManager: pdfManager
+      };
 
-      case "Text":
-        return new TextAnnotation(parameters);
+      switch (subtype) {
+        case 'Link':
+          return new LinkAnnotation(parameters);
 
-      case "Widget":
-        let fieldType = (0, _core_utils.getInheritableProperty)({
-          dict,
-          key: "FT"
-        });
-        fieldType = (0, _primitives.isName)(fieldType) ? fieldType.name : null;
+        case 'Text':
+          return new TextAnnotation(parameters);
 
-        switch (fieldType) {
-          case "Tx":
-            return new TextWidgetAnnotation(parameters);
+        case 'Widget':
+          var fieldType = (0, _core_utils.getInheritableProperty)({
+            dict: dict,
+            key: 'FT'
+          });
+          fieldType = (0, _primitives.isName)(fieldType) ? fieldType.name : null;
 
-          case "Btn":
-            return new ButtonWidgetAnnotation(parameters);
+          switch (fieldType) {
+            case 'Tx':
+              return new TextWidgetAnnotation(parameters);
 
-          case "Ch":
-            return new ChoiceWidgetAnnotation(parameters);
-        }
+            case 'Btn':
+              return new ButtonWidgetAnnotation(parameters);
 
-        (0, _util.warn)('Unimplemented widget field type "' + fieldType + '", ' + "falling back to base field type.");
-        return new WidgetAnnotation(parameters);
+            case 'Ch':
+              return new ChoiceWidgetAnnotation(parameters);
+          }
 
-      case "Popup":
-        return new PopupAnnotation(parameters);
+          (0, _util.warn)('Unimplemented widget field type "' + fieldType + '", ' + 'falling back to base field type.');
+          return new WidgetAnnotation(parameters);
 
-      case "FreeText":
-        return new FreeTextAnnotation(parameters);
+        case 'Popup':
+          return new PopupAnnotation(parameters);
 
-      case "Line":
-        return new LineAnnotation(parameters);
+        case 'FreeText':
+          return new FreeTextAnnotation(parameters);
 
-      case "Square":
-        return new SquareAnnotation(parameters);
+        case 'Line':
+          return new LineAnnotation(parameters);
 
-      case "Circle":
-        return new CircleAnnotation(parameters);
+        case 'Square':
+          return new SquareAnnotation(parameters);
 
-      case "PolyLine":
-        return new PolylineAnnotation(parameters);
+        case 'Circle':
+          return new CircleAnnotation(parameters);
 
-      case "Polygon":
-        return new PolygonAnnotation(parameters);
+        case 'PolyLine':
+          return new PolylineAnnotation(parameters);
 
-      case "Caret":
-        return new CaretAnnotation(parameters);
+        case 'Polygon':
+          return new PolygonAnnotation(parameters);
 
-      case "Ink":
-        return new InkAnnotation(parameters);
+        case 'Caret':
+          return new CaretAnnotation(parameters);
 
-      case "Highlight":
-        return new HighlightAnnotation(parameters);
+        case 'Ink':
+          return new InkAnnotation(parameters);
 
-      case "Underline":
-        return new UnderlineAnnotation(parameters);
+        case 'Highlight':
+          return new HighlightAnnotation(parameters);
 
-      case "Squiggly":
-        return new SquigglyAnnotation(parameters);
+        case 'Underline':
+          return new UnderlineAnnotation(parameters);
 
-      case "StrikeOut":
-        return new StrikeOutAnnotation(parameters);
+        case 'Squiggly':
+          return new SquigglyAnnotation(parameters);
 
-      case "Stamp":
-        return new StampAnnotation(parameters);
+        case 'StrikeOut':
+          return new StrikeOutAnnotation(parameters);
 
-      case "FileAttachment":
-        return new FileAttachmentAnnotation(parameters);
+        case 'Stamp':
+          return new StampAnnotation(parameters);
 
-      default:
-        if (!subtype) {
-          (0, _util.warn)("Annotation is missing the required /Subtype.");
-        } else {
-          (0, _util.warn)('Unimplemented annotation type "' + subtype + '", ' + "falling back to base annotation.");
-        }
+        case 'FileAttachment':
+          return new FileAttachmentAnnotation(parameters);
 
-        return new Annotation(parameters);
+        default:
+          if (!subtype) {
+            (0, _util.warn)('Annotation is missing the required /Subtype.');
+          } else {
+            (0, _util.warn)('Unimplemented annotation type "' + subtype + '", ' + 'falling back to base annotation.');
+          }
+
+          return new Annotation(parameters);
+      }
     }
-  }
+  }]);
 
-}
+  return AnnotationFactory;
+}();
 
 exports.AnnotationFactory = AnnotationFactory;
 
-function getQuadPoints(dict, rect) {
-  if (!dict.has("QuadPoints")) {
-    return null;
-  }
-
-  const quadPoints = dict.getArray("QuadPoints");
-
-  if (!Array.isArray(quadPoints) || quadPoints.length % 8 > 0) {
-    return null;
-  }
-
-  const quadPointsLists = [];
-
-  for (let i = 0, ii = quadPoints.length / 8; i < ii; i++) {
-    quadPointsLists.push([]);
-
-    for (let j = i * 8, jj = i * 8 + 8; j < jj; j += 2) {
-      const x = quadPoints[j];
-      const y = quadPoints[j + 1];
-
-      if (x < rect[0] || x > rect[2] || y < rect[1] || y > rect[3]) {
-        return null;
-      }
-
-      quadPointsLists[i].push({
-        x,
-        y
-      });
-    }
-  }
-
-  return quadPointsLists;
-}
-
 function getTransformMatrix(rect, bbox, matrix) {
-  const [minX, minY, maxX, maxY] = _util.Util.getAxialAlignedBoundingBox(bbox, matrix);
+  var bounds = _util.Util.getAxialAlignedBoundingBox(bbox, matrix);
+
+  var minX = bounds[0];
+  var minY = bounds[1];
+  var maxX = bounds[2];
+  var maxY = bounds[3];
 
   if (minX === maxX || minY === maxY) {
     return [1, 0, 0, 1, rect[0], rect[1]];
   }
 
-  const xRatio = (rect[2] - rect[0]) / (maxX - minX);
-  const yRatio = (rect[3] - rect[1]) / (maxY - minY);
+  var xRatio = (rect[2] - rect[0]) / (maxX - minX);
+  var yRatio = (rect[3] - rect[1]) / (maxY - minY);
   return [xRatio, 0, 0, yRatio, rect[0] - minX * xRatio, rect[1] - minY * yRatio];
 }
 
-class Annotation {
-  constructor(params) {
-    const dict = params.dict;
-    this.setContents(dict.get("Contents"));
-    this.setModificationDate(dict.get("M"));
-    this.setFlags(dict.get("F"));
-    this.setRectangle(dict.getArray("Rect"));
-    this.setColor(dict.getArray("C"));
+var Annotation =
+/*#__PURE__*/
+function () {
+  function Annotation(params) {
+    _classCallCheck(this, Annotation);
+
+    var dict = params.dict;
+    this.setContents(dict.get('Contents'));
+    this.setModificationDate(dict.get('M'));
+    this.setFlags(dict.get('F'));
+    this.setRectangle(dict.getArray('Rect'));
+    this.setColor(dict.getArray('C'));
     this.setBorderStyle(dict);
     this.setAppearance(dict);
     this.data = {
@@ -227,207 +228,228 @@ class Annotation {
     };
   }
 
-  _hasFlag(flags, flag) {
-    return !!(flags & flag);
-  }
-
-  _isViewable(flags) {
-    return !this._hasFlag(flags, _util.AnnotationFlag.INVISIBLE) && !this._hasFlag(flags, _util.AnnotationFlag.HIDDEN) && !this._hasFlag(flags, _util.AnnotationFlag.NOVIEW);
-  }
-
-  _isPrintable(flags) {
-    return this._hasFlag(flags, _util.AnnotationFlag.PRINT) && !this._hasFlag(flags, _util.AnnotationFlag.INVISIBLE) && !this._hasFlag(flags, _util.AnnotationFlag.HIDDEN);
-  }
-
-  get viewable() {
-    if (this.flags === 0) {
-      return true;
+  _createClass(Annotation, [{
+    key: "_hasFlag",
+    value: function _hasFlag(flags, flag) {
+      return !!(flags & flag);
     }
-
-    return this._isViewable(this.flags);
-  }
-
-  get printable() {
-    if (this.flags === 0) {
-      return false;
+  }, {
+    key: "_isViewable",
+    value: function _isViewable(flags) {
+      return !this._hasFlag(flags, _util.AnnotationFlag.INVISIBLE) && !this._hasFlag(flags, _util.AnnotationFlag.HIDDEN) && !this._hasFlag(flags, _util.AnnotationFlag.NOVIEW);
     }
-
-    return this._isPrintable(this.flags);
-  }
-
-  setContents(contents) {
-    this.contents = (0, _util.stringToPDFString)(contents || "");
-  }
-
-  setModificationDate(modificationDate) {
-    this.modificationDate = (0, _util.isString)(modificationDate) ? modificationDate : null;
-  }
-
-  setFlags(flags) {
-    this.flags = Number.isInteger(flags) && flags > 0 ? flags : 0;
-  }
-
-  hasFlag(flag) {
-    return this._hasFlag(this.flags, flag);
-  }
-
-  setRectangle(rectangle) {
-    if (Array.isArray(rectangle) && rectangle.length === 4) {
-      this.rectangle = _util.Util.normalizeRect(rectangle);
-    } else {
-      this.rectangle = [0, 0, 0, 0];
+  }, {
+    key: "_isPrintable",
+    value: function _isPrintable(flags) {
+      return this._hasFlag(flags, _util.AnnotationFlag.PRINT) && !this._hasFlag(flags, _util.AnnotationFlag.INVISIBLE) && !this._hasFlag(flags, _util.AnnotationFlag.HIDDEN);
     }
-  }
-
-  setColor(color) {
-    const rgbColor = new Uint8ClampedArray(3);
-
-    if (!Array.isArray(color)) {
-      this.color = rgbColor;
-      return;
+  }, {
+    key: "setContents",
+    value: function setContents(contents) {
+      this.contents = (0, _util.stringToPDFString)(contents || '');
     }
-
-    switch (color.length) {
-      case 0:
-        this.color = null;
-        break;
-
-      case 1:
-        _colorspace.ColorSpace.singletons.gray.getRgbItem(color, 0, rgbColor, 0);
-
-        this.color = rgbColor;
-        break;
-
-      case 3:
-        _colorspace.ColorSpace.singletons.rgb.getRgbItem(color, 0, rgbColor, 0);
-
-        this.color = rgbColor;
-        break;
-
-      case 4:
-        _colorspace.ColorSpace.singletons.cmyk.getRgbItem(color, 0, rgbColor, 0);
-
-        this.color = rgbColor;
-        break;
-
-      default:
-        this.color = rgbColor;
-        break;
+  }, {
+    key: "setModificationDate",
+    value: function setModificationDate(modificationDate) {
+      this.modificationDate = (0, _util.isString)(modificationDate) ? modificationDate : null;
     }
-  }
-
-  setBorderStyle(borderStyle) {
-    this.borderStyle = new AnnotationBorderStyle();
-
-    if (!(0, _primitives.isDict)(borderStyle)) {
-      return;
+  }, {
+    key: "setFlags",
+    value: function setFlags(flags) {
+      this.flags = Number.isInteger(flags) && flags > 0 ? flags : 0;
     }
-
-    if (borderStyle.has("BS")) {
-      const dict = borderStyle.get("BS");
-      const dictType = dict.get("Type");
-
-      if (!dictType || (0, _primitives.isName)(dictType, "Border")) {
-        this.borderStyle.setWidth(dict.get("W"), this.rectangle);
-        this.borderStyle.setStyle(dict.get("S"));
-        this.borderStyle.setDashArray(dict.getArray("D"));
+  }, {
+    key: "hasFlag",
+    value: function hasFlag(flag) {
+      return this._hasFlag(this.flags, flag);
+    }
+  }, {
+    key: "setRectangle",
+    value: function setRectangle(rectangle) {
+      if (Array.isArray(rectangle) && rectangle.length === 4) {
+        this.rectangle = _util.Util.normalizeRect(rectangle);
+      } else {
+        this.rectangle = [0, 0, 0, 0];
       }
-    } else if (borderStyle.has("Border")) {
-      const array = borderStyle.getArray("Border");
+    }
+  }, {
+    key: "setColor",
+    value: function setColor(color) {
+      var rgbColor = new Uint8ClampedArray(3);
 
-      if (Array.isArray(array) && array.length >= 3) {
-        this.borderStyle.setHorizontalCornerRadius(array[0]);
-        this.borderStyle.setVerticalCornerRadius(array[1]);
-        this.borderStyle.setWidth(array[2], this.rectangle);
+      if (!Array.isArray(color)) {
+        this.color = rgbColor;
+        return;
+      }
 
-        if (array.length === 4) {
-          this.borderStyle.setDashArray(array[3]);
+      switch (color.length) {
+        case 0:
+          this.color = null;
+          break;
+
+        case 1:
+          _colorspace.ColorSpace.singletons.gray.getRgbItem(color, 0, rgbColor, 0);
+
+          this.color = rgbColor;
+          break;
+
+        case 3:
+          _colorspace.ColorSpace.singletons.rgb.getRgbItem(color, 0, rgbColor, 0);
+
+          this.color = rgbColor;
+          break;
+
+        case 4:
+          _colorspace.ColorSpace.singletons.cmyk.getRgbItem(color, 0, rgbColor, 0);
+
+          this.color = rgbColor;
+          break;
+
+        default:
+          this.color = rgbColor;
+          break;
+      }
+    }
+  }, {
+    key: "setBorderStyle",
+    value: function setBorderStyle(borderStyle) {
+      this.borderStyle = new AnnotationBorderStyle();
+
+      if (!(0, _primitives.isDict)(borderStyle)) {
+        return;
+      }
+
+      if (borderStyle.has('BS')) {
+        var dict = borderStyle.get('BS');
+        var dictType = dict.get('Type');
+
+        if (!dictType || (0, _primitives.isName)(dictType, 'Border')) {
+          this.borderStyle.setWidth(dict.get('W'), this.rectangle);
+          this.borderStyle.setStyle(dict.get('S'));
+          this.borderStyle.setDashArray(dict.getArray('D'));
         }
+      } else if (borderStyle.has('Border')) {
+        var array = borderStyle.getArray('Border');
+
+        if (Array.isArray(array) && array.length >= 3) {
+          this.borderStyle.setHorizontalCornerRadius(array[0]);
+          this.borderStyle.setVerticalCornerRadius(array[1]);
+          this.borderStyle.setWidth(array[2], this.rectangle);
+
+          if (array.length === 4) {
+            this.borderStyle.setDashArray(array[3]);
+          }
+        }
+      } else {
+        this.borderStyle.setWidth(0);
       }
-    } else {
-      this.borderStyle.setWidth(0);
     }
-  }
+  }, {
+    key: "setAppearance",
+    value: function setAppearance(dict) {
+      this.appearance = null;
+      var appearanceStates = dict.get('AP');
 
-  setAppearance(dict) {
-    this.appearance = null;
-    const appearanceStates = dict.get("AP");
-
-    if (!(0, _primitives.isDict)(appearanceStates)) {
-      return;
-    }
-
-    const normalAppearanceState = appearanceStates.get("N");
-
-    if ((0, _primitives.isStream)(normalAppearanceState)) {
-      this.appearance = normalAppearanceState;
-      return;
-    }
-
-    if (!(0, _primitives.isDict)(normalAppearanceState)) {
-      return;
-    }
-
-    const as = dict.get("AS");
-
-    if (!(0, _primitives.isName)(as) || !normalAppearanceState.has(as.name)) {
-      return;
-    }
-
-    this.appearance = normalAppearanceState.get(as.name);
-  }
-
-  loadResources(keys) {
-    return this.appearance.dict.getAsync("Resources").then(resources => {
-      if (!resources) {
-        return undefined;
+      if (!(0, _primitives.isDict)(appearanceStates)) {
+        return;
       }
 
-      const objectLoader = new _obj.ObjectLoader(resources, keys, resources.xref);
-      return objectLoader.load().then(function () {
-        return resources;
-      });
-    });
-  }
+      var normalAppearanceState = appearanceStates.get('N');
 
-  getOperatorList(evaluator, task, renderForms, annotationStorage) {
-    if (!this.appearance) {
-      return Promise.resolve(new _operator_list.OperatorList());
+      if ((0, _primitives.isStream)(normalAppearanceState)) {
+        this.appearance = normalAppearanceState;
+        return;
+      }
+
+      if (!(0, _primitives.isDict)(normalAppearanceState)) {
+        return;
+      }
+
+      var as = dict.get('AS');
+
+      if (!(0, _primitives.isName)(as) || !normalAppearanceState.has(as.name)) {
+        return;
+      }
+
+      this.appearance = normalAppearanceState.get(as.name);
     }
+  }, {
+    key: "loadResources",
+    value: function loadResources(keys) {
+      return this.appearance.dict.getAsync('Resources').then(function (resources) {
+        if (!resources) {
+          return undefined;
+        }
 
-    const appearance = this.appearance;
-    const data = this.data;
-    const appearanceDict = appearance.dict;
-    const resourcesPromise = this.loadResources(["ExtGState", "ColorSpace", "Pattern", "Shading", "XObject", "Font"]);
-    const bbox = appearanceDict.getArray("BBox") || [0, 0, 1, 1];
-    const matrix = appearanceDict.getArray("Matrix") || [1, 0, 0, 1, 0, 0];
-    const transform = getTransformMatrix(data.rect, bbox, matrix);
-    return resourcesPromise.then(resources => {
-      const opList = new _operator_list.OperatorList();
-      opList.addOp(_util.OPS.beginAnnotation, [data.rect, transform, matrix]);
-      return evaluator.getOperatorList({
-        stream: appearance,
-        task,
-        resources,
-        operatorList: opList
-      }).then(() => {
-        opList.addOp(_util.OPS.endAnnotation, []);
-        appearance.reset();
-        return opList;
+        var objectLoader = new _obj.ObjectLoader(resources, keys, resources.xref);
+        return objectLoader.load().then(function () {
+          return resources;
+        });
       });
-    });
-  }
+    }
+  }, {
+    key: "getOperatorList",
+    value: function getOperatorList(evaluator, task, renderForms) {
+      var _this = this;
 
-  async save(evaluator, task, annotationStorage) {
-    return null;
-  }
+      if (!this.appearance) {
+        return Promise.resolve(new _operator_list.OperatorList());
+      }
 
-}
+      var data = this.data;
+      var appearanceDict = this.appearance.dict;
+      var resourcesPromise = this.loadResources(['ExtGState', 'ColorSpace', 'Pattern', 'Shading', 'XObject', 'Font']);
+      var bbox = appearanceDict.getArray('BBox') || [0, 0, 1, 1];
+      var matrix = appearanceDict.getArray('Matrix') || [1, 0, 0, 1, 0, 0];
+      var transform = getTransformMatrix(data.rect, bbox, matrix);
+      return resourcesPromise.then(function (resources) {
+        var opList = new _operator_list.OperatorList();
+        opList.addOp(_util.OPS.beginAnnotation, [data.rect, transform, matrix]);
+        return evaluator.getOperatorList({
+          stream: _this.appearance,
+          task: task,
+          resources: resources,
+          operatorList: opList
+        }).then(function () {
+          opList.addOp(_util.OPS.endAnnotation, []);
+
+          _this.appearance.reset();
+
+          return opList;
+        });
+      });
+    }
+  }, {
+    key: "viewable",
+    get: function get() {
+      if (this.flags === 0) {
+        return true;
+      }
+
+      return this._isViewable(this.flags);
+    }
+  }, {
+    key: "printable",
+    get: function get() {
+      if (this.flags === 0) {
+        return false;
+      }
+
+      return this._isPrintable(this.flags);
+    }
+  }]);
+
+  return Annotation;
+}();
 
 exports.Annotation = Annotation;
 
-class AnnotationBorderStyle {
-  constructor() {
+var AnnotationBorderStyle =
+/*#__PURE__*/
+function () {
+  function AnnotationBorderStyle() {
+    _classCallCheck(this, AnnotationBorderStyle);
+
     this.width = 1;
     this.style = _util.AnnotationBorderStyleType.SOLID;
     this.dashArray = [3];
@@ -435,1100 +457,861 @@ class AnnotationBorderStyle {
     this.verticalCornerRadius = 0;
   }
 
-  setWidth(width, rect = [0, 0, 0, 0]) {
-    if ((0, _primitives.isName)(width)) {
-      this.width = 0;
-      return;
-    }
+  _createClass(AnnotationBorderStyle, [{
+    key: "setWidth",
+    value: function setWidth(width) {
+      var rect = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [0, 0, 0, 0];
 
-    if (Number.isInteger(width)) {
-      if (width > 0) {
-        const maxWidth = (rect[2] - rect[0]) / 2;
-        const maxHeight = (rect[3] - rect[1]) / 2;
-
-        if (maxWidth > 0 && maxHeight > 0 && (width > maxWidth || width > maxHeight)) {
-          (0, _util.warn)(`AnnotationBorderStyle.setWidth - ignoring width: ${width}`);
-          width = 1;
-        }
+      if ((0, _primitives.isName)(width)) {
+        this.width = 0;
+        return;
       }
 
-      this.width = width;
+      if (Number.isInteger(width)) {
+        if (width > 0) {
+          var maxWidth = (rect[2] - rect[0]) / 2;
+          var maxHeight = (rect[3] - rect[1]) / 2;
+
+          if (maxWidth > 0 && maxHeight > 0 && (width > maxWidth || width > maxHeight)) {
+            (0, _util.warn)("AnnotationBorderStyle.setWidth - ignoring width: ".concat(width));
+            width = 1;
+          }
+        }
+
+        this.width = width;
+      }
     }
-  }
+  }, {
+    key: "setStyle",
+    value: function setStyle(style) {
+      if (!(0, _primitives.isName)(style)) {
+        return;
+      }
 
-  setStyle(style) {
-    if (!(0, _primitives.isName)(style)) {
-      return;
-    }
-
-    switch (style.name) {
-      case "S":
-        this.style = _util.AnnotationBorderStyleType.SOLID;
-        break;
-
-      case "D":
-        this.style = _util.AnnotationBorderStyleType.DASHED;
-        break;
-
-      case "B":
-        this.style = _util.AnnotationBorderStyleType.BEVELED;
-        break;
-
-      case "I":
-        this.style = _util.AnnotationBorderStyleType.INSET;
-        break;
-
-      case "U":
-        this.style = _util.AnnotationBorderStyleType.UNDERLINE;
-        break;
-
-      default:
-        break;
-    }
-  }
-
-  setDashArray(dashArray) {
-    if (Array.isArray(dashArray) && dashArray.length > 0) {
-      let isValid = true;
-      let allZeros = true;
-
-      for (const element of dashArray) {
-        const validNumber = +element >= 0;
-
-        if (!validNumber) {
-          isValid = false;
+      switch (style.name) {
+        case 'S':
+          this.style = _util.AnnotationBorderStyleType.SOLID;
           break;
-        } else if (element > 0) {
-          allZeros = false;
-        }
-      }
 
-      if (isValid && !allZeros) {
-        this.dashArray = dashArray;
-      } else {
+        case 'D':
+          this.style = _util.AnnotationBorderStyleType.DASHED;
+          break;
+
+        case 'B':
+          this.style = _util.AnnotationBorderStyleType.BEVELED;
+          break;
+
+        case 'I':
+          this.style = _util.AnnotationBorderStyleType.INSET;
+          break;
+
+        case 'U':
+          this.style = _util.AnnotationBorderStyleType.UNDERLINE;
+          break;
+
+        default:
+          break;
+      }
+    }
+  }, {
+    key: "setDashArray",
+    value: function setDashArray(dashArray) {
+      if (Array.isArray(dashArray) && dashArray.length > 0) {
+        var isValid = true;
+        var allZeros = true;
+
+        for (var i = 0, len = dashArray.length; i < len; i++) {
+          var element = dashArray[i];
+          var validNumber = +element >= 0;
+
+          if (!validNumber) {
+            isValid = false;
+            break;
+          } else if (element > 0) {
+            allZeros = false;
+          }
+        }
+
+        if (isValid && !allZeros) {
+          this.dashArray = dashArray;
+        } else {
+          this.width = 0;
+        }
+      } else if (dashArray) {
         this.width = 0;
       }
-    } else if (dashArray) {
-      this.width = 0;
     }
-  }
-
-  setHorizontalCornerRadius(radius) {
-    if (Number.isInteger(radius)) {
-      this.horizontalCornerRadius = radius;
+  }, {
+    key: "setHorizontalCornerRadius",
+    value: function setHorizontalCornerRadius(radius) {
+      if (Number.isInteger(radius)) {
+        this.horizontalCornerRadius = radius;
+      }
     }
-  }
-
-  setVerticalCornerRadius(radius) {
-    if (Number.isInteger(radius)) {
-      this.verticalCornerRadius = radius;
+  }, {
+    key: "setVerticalCornerRadius",
+    value: function setVerticalCornerRadius(radius) {
+      if (Number.isInteger(radius)) {
+        this.verticalCornerRadius = radius;
+      }
     }
-  }
+  }]);
 
-}
+  return AnnotationBorderStyle;
+}();
 
 exports.AnnotationBorderStyle = AnnotationBorderStyle;
 
-class MarkupAnnotation extends Annotation {
-  constructor(parameters) {
-    super(parameters);
-    const dict = parameters.dict;
+var MarkupAnnotation =
+/*#__PURE__*/
+function (_Annotation) {
+  _inherits(MarkupAnnotation, _Annotation);
 
-    if (dict.has("IRT")) {
-      const rawIRT = dict.getRaw("IRT");
-      this.data.inReplyTo = (0, _primitives.isRef)(rawIRT) ? rawIRT.toString() : null;
-      const rt = dict.get("RT");
-      this.data.replyType = (0, _primitives.isName)(rt) ? rt.name : _util.AnnotationReplyType.REPLY;
+  function MarkupAnnotation(parameters) {
+    var _this2;
+
+    _classCallCheck(this, MarkupAnnotation);
+
+    _this2 = _possibleConstructorReturn(this, _getPrototypeOf(MarkupAnnotation).call(this, parameters));
+    var dict = parameters.dict;
+
+    if (!dict.has('C')) {
+      _this2.data.color = null;
     }
 
-    if (this.data.replyType === _util.AnnotationReplyType.GROUP) {
-      const parent = dict.get("IRT");
-      this.data.title = (0, _util.stringToPDFString)(parent.get("T") || "");
-      this.setContents(parent.get("Contents"));
-      this.data.contents = this.contents;
+    _this2.setCreationDate(dict.get('CreationDate'));
 
-      if (!parent.has("CreationDate")) {
-        this.data.creationDate = null;
-      } else {
-        this.setCreationDate(parent.get("CreationDate"));
-        this.data.creationDate = this.creationDate;
-      }
+    _this2.data.creationDate = _this2.creationDate;
+    _this2.data.hasPopup = dict.has('Popup');
+    _this2.data.title = (0, _util.stringToPDFString)(dict.get('T') || '');
+    return _this2;
+  }
 
-      if (!parent.has("M")) {
-        this.data.modificationDate = null;
-      } else {
-        this.setModificationDate(parent.get("M"));
-        this.data.modificationDate = this.modificationDate;
-      }
-
-      this.data.hasPopup = parent.has("Popup");
-
-      if (!parent.has("C")) {
-        this.data.color = null;
-      } else {
-        this.setColor(parent.getArray("C"));
-        this.data.color = this.color;
-      }
-    } else {
-      this.data.title = (0, _util.stringToPDFString)(dict.get("T") || "");
-      this.setCreationDate(dict.get("CreationDate"));
-      this.data.creationDate = this.creationDate;
-      this.data.hasPopup = dict.has("Popup");
-
-      if (!dict.has("C")) {
-        this.data.color = null;
-      }
+  _createClass(MarkupAnnotation, [{
+    key: "setCreationDate",
+    value: function setCreationDate(creationDate) {
+      this.creationDate = (0, _util.isString)(creationDate) ? creationDate : null;
     }
-  }
+  }]);
 
-  setCreationDate(creationDate) {
-    this.creationDate = (0, _util.isString)(creationDate) ? creationDate : null;
-  }
-
-}
+  return MarkupAnnotation;
+}(Annotation);
 
 exports.MarkupAnnotation = MarkupAnnotation;
 
-class WidgetAnnotation extends Annotation {
-  constructor(params) {
-    super(params);
-    const dict = params.dict;
-    const data = this.data;
-    this.ref = params.ref;
+var WidgetAnnotation =
+/*#__PURE__*/
+function (_Annotation2) {
+  _inherits(WidgetAnnotation, _Annotation2);
+
+  function WidgetAnnotation(params) {
+    var _this3;
+
+    _classCallCheck(this, WidgetAnnotation);
+
+    _this3 = _possibleConstructorReturn(this, _getPrototypeOf(WidgetAnnotation).call(this, params));
+    var dict = params.dict;
+    var data = _this3.data;
     data.annotationType = _util.AnnotationType.WIDGET;
-    data.fieldName = this._constructFieldName(dict);
-    const fieldValue = (0, _core_utils.getInheritableProperty)({
-      dict,
-      key: "V",
+    data.fieldName = _this3._constructFieldName(dict);
+    data.fieldValue = (0, _core_utils.getInheritableProperty)({
+      dict: dict,
+      key: 'V',
       getArray: true
     });
-    data.fieldValue = this._decodeFormValue(fieldValue);
-    data.alternativeText = (0, _util.stringToPDFString)(dict.get("TU") || "");
+    data.alternativeText = (0, _util.stringToPDFString)(dict.get('TU') || '');
     data.defaultAppearance = (0, _core_utils.getInheritableProperty)({
-      dict,
-      key: "DA"
-    }) || params.acroForm.get("DA") || "";
-    const fieldType = (0, _core_utils.getInheritableProperty)({
-      dict,
-      key: "FT"
+      dict: dict,
+      key: 'DA'
+    }) || '';
+    var fieldType = (0, _core_utils.getInheritableProperty)({
+      dict: dict,
+      key: 'FT'
     });
     data.fieldType = (0, _primitives.isName)(fieldType) ? fieldType.name : null;
-    this.fieldResources = (0, _core_utils.getInheritableProperty)({
-      dict,
-      key: "DR"
-    }) || params.acroForm.get("DR") || _primitives.Dict.empty;
+    _this3.fieldResources = (0, _core_utils.getInheritableProperty)({
+      dict: dict,
+      key: 'DR'
+    }) || _primitives.Dict.empty;
     data.fieldFlags = (0, _core_utils.getInheritableProperty)({
-      dict,
-      key: "Ff"
+      dict: dict,
+      key: 'Ff'
     });
 
     if (!Number.isInteger(data.fieldFlags) || data.fieldFlags < 0) {
       data.fieldFlags = 0;
     }
 
-    data.readOnly = this.hasFieldFlag(_util.AnnotationFieldFlag.READONLY);
+    data.readOnly = _this3.hasFieldFlag(_util.AnnotationFieldFlag.READONLY);
 
-    if (data.fieldType === "Sig") {
+    if (data.fieldType === 'Sig') {
       data.fieldValue = null;
-      this.setFlags(_util.AnnotationFlag.HIDDEN);
+
+      _this3.setFlags(_util.AnnotationFlag.HIDDEN);
     }
+
+    return _this3;
   }
 
-  _constructFieldName(dict) {
-    if (!dict.has("T") && !dict.has("Parent")) {
-      (0, _util.warn)("Unknown field name, falling back to empty field name.");
-      return "";
-    }
-
-    if (!dict.has("Parent")) {
-      return (0, _util.stringToPDFString)(dict.get("T"));
-    }
-
-    const fieldName = [];
-
-    if (dict.has("T")) {
-      fieldName.unshift((0, _util.stringToPDFString)(dict.get("T")));
-    }
-
-    let loopDict = dict;
-
-    while (loopDict.has("Parent")) {
-      loopDict = loopDict.get("Parent");
-
-      if (!(0, _primitives.isDict)(loopDict)) {
-        break;
+  _createClass(WidgetAnnotation, [{
+    key: "_constructFieldName",
+    value: function _constructFieldName(dict) {
+      if (!dict.has('T') && !dict.has('Parent')) {
+        (0, _util.warn)('Unknown field name, falling back to empty field name.');
+        return '';
       }
 
-      if (loopDict.has("T")) {
-        fieldName.unshift((0, _util.stringToPDFString)(loopDict.get("T")));
-      }
-    }
-
-    return fieldName.join(".");
-  }
-
-  _decodeFormValue(formValue) {
-    if (Array.isArray(formValue)) {
-      return formValue.filter(item => (0, _util.isString)(item)).map(item => (0, _util.stringToPDFString)(item));
-    } else if ((0, _primitives.isName)(formValue)) {
-      return (0, _util.stringToPDFString)(formValue.name);
-    } else if ((0, _util.isString)(formValue)) {
-      return (0, _util.stringToPDFString)(formValue);
-    }
-
-    return null;
-  }
-
-  hasFieldFlag(flag) {
-    return !!(this.data.fieldFlags & flag);
-  }
-
-  getOperatorList(evaluator, task, renderForms, annotationStorage) {
-    if (renderForms) {
-      return Promise.resolve(new _operator_list.OperatorList());
-    }
-
-    if (!this._hasText) {
-      return super.getOperatorList(evaluator, task, renderForms, annotationStorage);
-    }
-
-    return this._getAppearance(evaluator, task, annotationStorage).then(content => {
-      if (this.appearance && content === null) {
-        return super.getOperatorList(evaluator, task, renderForms, annotationStorage);
+      if (!dict.has('Parent')) {
+        return (0, _util.stringToPDFString)(dict.get('T'));
       }
 
-      const operatorList = new _operator_list.OperatorList();
+      var fieldName = [];
 
-      if (!this.data.defaultAppearance || content === null) {
-        return operatorList;
+      if (dict.has('T')) {
+        fieldName.unshift((0, _util.stringToPDFString)(dict.get('T')));
       }
 
-      const matrix = [1, 0, 0, 1, 0, 0];
-      const bbox = [0, 0, this.data.rect[2] - this.data.rect[0], this.data.rect[3] - this.data.rect[1]];
-      const transform = getTransformMatrix(this.data.rect, bbox, matrix);
-      operatorList.addOp(_util.OPS.beginAnnotation, [this.data.rect, transform, matrix]);
-      const stream = new _stream.StringStream(content);
-      return evaluator.getOperatorList({
-        stream,
-        task,
-        resources: this.fieldResources,
-        operatorList
-      }).then(function () {
-        operatorList.addOp(_util.OPS.endAnnotation, []);
-        return operatorList;
-      });
-    });
-  }
+      var loopDict = dict;
 
-  async save(evaluator, task, annotationStorage) {
-    if (this.data.fieldValue === annotationStorage[this.data.id]) {
-      return null;
-    }
+      while (loopDict.has('Parent')) {
+        loopDict = loopDict.get('Parent');
 
-    let appearance = await this._getAppearance(evaluator, task, annotationStorage);
+        if (!(0, _primitives.isDict)(loopDict)) {
+          break;
+        }
 
-    if (appearance === null) {
-      return null;
-    }
-
-    const dict = evaluator.xref.fetchIfRef(this.ref);
-
-    if (!(0, _primitives.isDict)(dict)) {
-      return null;
-    }
-
-    const bbox = [0, 0, this.data.rect[2] - this.data.rect[0], this.data.rect[3] - this.data.rect[1]];
-    const newRef = evaluator.xref.getNewRef();
-    const AP = new _primitives.Dict(evaluator.xref);
-    AP.set("N", newRef);
-    const value = annotationStorage[this.data.id];
-    const encrypt = evaluator.xref.encrypt;
-    let originalTransform = null;
-    let newTransform = null;
-
-    if (encrypt) {
-      originalTransform = encrypt.createCipherTransform(this.ref.num, this.ref.gen);
-      newTransform = encrypt.createCipherTransform(newRef.num, newRef.gen);
-      appearance = newTransform.encryptString(appearance);
-    }
-
-    dict.set("V", value);
-    dict.set("AP", AP);
-    dict.set("M", `D:${(0, _util.getModificationDate)()}`);
-    const appearanceDict = new _primitives.Dict(evaluator.xref);
-    appearanceDict.set("Length", appearance.length);
-    appearanceDict.set("Subtype", _primitives.Name.get("Form"));
-    appearanceDict.set("Resources", this.fieldResources);
-    appearanceDict.set("BBox", bbox);
-    const bufferOriginal = [`${this.ref.num} ${this.ref.gen} obj\n`];
-    (0, _writer.writeDict)(dict, bufferOriginal, originalTransform);
-    bufferOriginal.push("\nendobj\n");
-    const bufferNew = [`${newRef.num} ${newRef.gen} obj\n`];
-    (0, _writer.writeDict)(appearanceDict, bufferNew, newTransform);
-    bufferNew.push(" stream\n");
-    bufferNew.push(appearance);
-    bufferNew.push("\nendstream\nendobj\n");
-    return [{
-      ref: this.ref,
-      data: bufferOriginal.join("")
-    }, {
-      ref: newRef,
-      data: bufferNew.join("")
-    }];
-  }
-
-  async _getAppearance(evaluator, task, annotationStorage) {
-    const isPassword = this.hasFieldFlag(_util.AnnotationFieldFlag.PASSWORD);
-
-    if (!annotationStorage || isPassword) {
-      return null;
-    }
-
-    const value = annotationStorage[this.data.id];
-
-    if (value === "") {
-      return "";
-    }
-
-    const defaultPadding = 2;
-    const hPadding = defaultPadding;
-    const totalHeight = this.data.rect[3] - this.data.rect[1];
-    const totalWidth = this.data.rect[2] - this.data.rect[0];
-    const fontInfo = await this._getFontData(evaluator, task);
-    const [font, fontName] = fontInfo;
-    let fontSize = fontInfo[2];
-    fontSize = this._computeFontSize(font, fontName, fontSize, totalHeight);
-    let descent = font.descent;
-
-    if (isNaN(descent)) {
-      descent = 0;
-    }
-
-    const vPadding = defaultPadding + Math.abs(descent) * fontSize;
-    const defaultAppearance = this.data.defaultAppearance;
-    const alignment = this.data.textAlignment;
-
-    if (this.data.comb) {
-      return this._getCombAppearance(defaultAppearance, value, totalWidth, hPadding, vPadding);
-    }
-
-    if (this.data.multiLine) {
-      return this._getMultilineAppearance(defaultAppearance, value, font, fontSize, totalWidth, totalHeight, alignment, hPadding, vPadding);
-    }
-
-    if (alignment === 0 || alignment > 2) {
-      return "/Tx BMC q BT " + defaultAppearance + ` 1 0 0 1 ${hPadding} ${vPadding} Tm (${(0, _util.escapeString)(value)}) Tj` + " ET Q EMC";
-    }
-
-    const renderedText = this._renderText(value, font, fontSize, totalWidth, alignment, hPadding, vPadding);
-
-    return "/Tx BMC q BT " + defaultAppearance + ` 1 0 0 1 0 0 Tm ${renderedText}` + " ET Q EMC";
-  }
-
-  async _getFontData(evaluator, task) {
-    const operatorList = new _operator_list.OperatorList();
-    const initialState = {
-      fontSize: 0,
-      font: null,
-      fontName: null,
-
-      clone() {
-        return this;
+        if (loopDict.has('T')) {
+          fieldName.unshift((0, _util.stringToPDFString)(loopDict.get('T')));
+        }
       }
 
-    };
-    await evaluator.getOperatorList({
-      stream: new _stream.StringStream(this.data.defaultAppearance),
-      task,
-      resources: this.fieldResources,
-      operatorList,
-      initialState
-    });
-    return [initialState.font, initialState.fontName, initialState.fontSize];
-  }
-
-  _computeFontSize(font, fontName, fontSize, height) {
-    if (fontSize === null || fontSize === 0) {
-      const em = font.charsToGlyphs("M", true)[0].width / 1000;
-      const capHeight = 0.7 * em;
-      fontSize = Math.max(1, Math.floor(height / (1.5 * capHeight)));
-      let fontRegex = new RegExp(`/${fontName}\\s+[0-9\.]+\\s+Tf`);
-
-      if (this.data.defaultAppearance.search(fontRegex) === -1) {
-        fontRegex = new RegExp(`/${fontName}\\s+Tf`);
+      return fieldName.join('.');
+    }
+  }, {
+    key: "hasFieldFlag",
+    value: function hasFieldFlag(flag) {
+      return !!(this.data.fieldFlags & flag);
+    }
+  }, {
+    key: "getOperatorList",
+    value: function getOperatorList(evaluator, task, renderForms) {
+      if (renderForms) {
+        return Promise.resolve(new _operator_list.OperatorList());
       }
 
-      this.data.defaultAppearance = this.data.defaultAppearance.replace(fontRegex, `/${fontName} ${fontSize} Tf`);
+      return _get(_getPrototypeOf(WidgetAnnotation.prototype), "getOperatorList", this).call(this, evaluator, task, renderForms);
     }
+  }]);
 
-    return fontSize;
-  }
+  return WidgetAnnotation;
+}(Annotation);
 
-  _renderText(text, font, fontSize, totalWidth, alignment, hPadding, vPadding) {
-    const glyphs = font.charsToGlyphs(text);
-    const scale = fontSize / 1000;
-    let width = 0;
+var TextWidgetAnnotation =
+/*#__PURE__*/
+function (_WidgetAnnotation) {
+  _inherits(TextWidgetAnnotation, _WidgetAnnotation);
 
-    for (const glyph of glyphs) {
-      width += glyph.width * scale;
-    }
+  function TextWidgetAnnotation(params) {
+    var _this4;
 
-    let shift;
+    _classCallCheck(this, TextWidgetAnnotation);
 
-    if (alignment === 1) {
-      shift = (totalWidth - width) / 2;
-    } else if (alignment === 2) {
-      shift = totalWidth - width - hPadding;
-    } else {
-      shift = hPadding;
-    }
-
-    shift = shift.toFixed(2);
-    vPadding = vPadding.toFixed(2);
-    return `${shift} ${vPadding} Td (${(0, _util.escapeString)(text)}) Tj`;
-  }
-
-}
-
-class TextWidgetAnnotation extends WidgetAnnotation {
-  constructor(params) {
-    super(params);
-    this._hasText = true;
-    const dict = params.dict;
-
-    if (!(0, _util.isString)(this.data.fieldValue)) {
-      this.data.fieldValue = "";
-    }
-
-    let alignment = (0, _core_utils.getInheritableProperty)({
-      dict,
-      key: "Q"
+    _this4 = _possibleConstructorReturn(this, _getPrototypeOf(TextWidgetAnnotation).call(this, params));
+    var dict = params.dict;
+    _this4.data.fieldValue = (0, _util.stringToPDFString)(_this4.data.fieldValue || '');
+    var alignment = (0, _core_utils.getInheritableProperty)({
+      dict: dict,
+      key: 'Q'
     });
 
     if (!Number.isInteger(alignment) || alignment < 0 || alignment > 2) {
       alignment = null;
     }
 
-    this.data.textAlignment = alignment;
-    let maximumLength = (0, _core_utils.getInheritableProperty)({
-      dict,
-      key: "MaxLen"
+    _this4.data.textAlignment = alignment;
+    var maximumLength = (0, _core_utils.getInheritableProperty)({
+      dict: dict,
+      key: 'MaxLen'
     });
 
     if (!Number.isInteger(maximumLength) || maximumLength < 0) {
       maximumLength = null;
     }
 
-    this.data.maxLen = maximumLength;
-    this.data.multiLine = this.hasFieldFlag(_util.AnnotationFieldFlag.MULTILINE);
-    this.data.comb = this.hasFieldFlag(_util.AnnotationFieldFlag.COMB) && !this.hasFieldFlag(_util.AnnotationFieldFlag.MULTILINE) && !this.hasFieldFlag(_util.AnnotationFieldFlag.PASSWORD) && !this.hasFieldFlag(_util.AnnotationFieldFlag.FILESELECT) && this.data.maxLen !== null;
+    _this4.data.maxLen = maximumLength;
+    _this4.data.multiLine = _this4.hasFieldFlag(_util.AnnotationFieldFlag.MULTILINE);
+    _this4.data.comb = _this4.hasFieldFlag(_util.AnnotationFieldFlag.COMB) && !_this4.hasFieldFlag(_util.AnnotationFieldFlag.MULTILINE) && !_this4.hasFieldFlag(_util.AnnotationFieldFlag.PASSWORD) && !_this4.hasFieldFlag(_util.AnnotationFieldFlag.FILESELECT) && _this4.data.maxLen !== null;
+    return _this4;
   }
 
-  _getCombAppearance(defaultAppearance, text, width, hPadding, vPadding) {
-    const combWidth = (width / this.data.maxLen).toFixed(2);
-    const buf = [];
-
-    for (const character of text) {
-      buf.push(`(${(0, _util.escapeString)(character)}) Tj`);
-    }
-
-    const renderedComb = buf.join(` ${combWidth} 0 Td `);
-    return "/Tx BMC q BT " + defaultAppearance + ` 1 0 0 1 ${hPadding} ${vPadding} Tm ${renderedComb}` + " ET Q EMC";
-  }
-
-  _getMultilineAppearance(defaultAppearance, text, font, fontSize, width, height, alignment, hPadding, vPadding) {
-    const lines = text.split(/\r\n|\r|\n/);
-    const buf = [];
-    const totalWidth = width - 2 * hPadding;
-
-    for (const line of lines) {
-      const chunks = this._splitLine(line, font, fontSize, totalWidth);
-
-      for (const chunk of chunks) {
-        const padding = buf.length === 0 ? hPadding : 0;
-        buf.push(this._renderText(chunk, font, fontSize, width, alignment, padding, -fontSize));
-      }
-    }
-
-    const renderedText = buf.join("\n");
-    return "/Tx BMC q BT " + defaultAppearance + ` 1 0 0 1 0 ${height} Tm ${renderedText}` + " ET Q EMC";
-  }
-
-  _splitLine(line, font, fontSize, width) {
-    if (line.length <= 1) {
-      return [line];
-    }
-
-    const scale = fontSize / 1000;
-    const whitespace = font.charsToGlyphs(" ", true)[0].width * scale;
-    const chunks = [];
-    let lastSpacePos = -1,
-        startChunk = 0,
-        currentWidth = 0;
-
-    for (let i = 0, ii = line.length; i < ii; i++) {
-      const character = line.charAt(i);
-
-      if (character === " ") {
-        if (currentWidth + whitespace > width) {
-          chunks.push(line.substring(startChunk, i));
-          startChunk = i;
-          currentWidth = whitespace;
-          lastSpacePos = -1;
-        } else {
-          currentWidth += whitespace;
-          lastSpacePos = i;
-        }
-      } else {
-        const charWidth = font.charsToGlyphs(character, false)[0].width * scale;
-
-        if (currentWidth + charWidth > width) {
-          if (lastSpacePos !== -1) {
-            chunks.push(line.substring(startChunk, lastSpacePos + 1));
-            startChunk = i = lastSpacePos + 1;
-            lastSpacePos = -1;
-            currentWidth = 0;
-          } else {
-            chunks.push(line.substring(startChunk, i));
-            startChunk = i;
-            currentWidth = charWidth;
-          }
-        } else {
-          currentWidth += charWidth;
-        }
-      }
-    }
-
-    if (startChunk < line.length) {
-      chunks.push(line.substring(startChunk, line.length));
-    }
-
-    return chunks;
-  }
-
-}
-
-class ButtonWidgetAnnotation extends WidgetAnnotation {
-  constructor(params) {
-    super(params);
-    this.checkedAppearance = null;
-    this.uncheckedAppearance = null;
-    this.data.checkBox = !this.hasFieldFlag(_util.AnnotationFieldFlag.RADIO) && !this.hasFieldFlag(_util.AnnotationFieldFlag.PUSHBUTTON);
-    this.data.radioButton = this.hasFieldFlag(_util.AnnotationFieldFlag.RADIO) && !this.hasFieldFlag(_util.AnnotationFieldFlag.PUSHBUTTON);
-    this.data.pushButton = this.hasFieldFlag(_util.AnnotationFieldFlag.PUSHBUTTON);
-
-    if (this.data.checkBox) {
-      this._processCheckBox(params);
-    } else if (this.data.radioButton) {
-      this._processRadioButton(params);
-    } else if (this.data.pushButton) {
-      this._processPushButton(params);
-    } else {
-      (0, _util.warn)("Invalid field flags for button widget annotation");
-    }
-  }
-
-  getOperatorList(evaluator, task, renderForms, annotationStorage) {
-    if (this.data.pushButton) {
-      return super.getOperatorList(evaluator, task, false, annotationStorage);
-    }
-
-    if (annotationStorage) {
-      const value = annotationStorage[this.data.id] || false;
-      let appearance;
-
-      if (value) {
-        appearance = this.checkedAppearance;
-      } else {
-        appearance = this.uncheckedAppearance;
+  _createClass(TextWidgetAnnotation, [{
+    key: "getOperatorList",
+    value: function getOperatorList(evaluator, task, renderForms) {
+      if (renderForms || this.appearance) {
+        return _get(_getPrototypeOf(TextWidgetAnnotation.prototype), "getOperatorList", this).call(this, evaluator, task, renderForms);
       }
 
-      if (appearance) {
-        const savedAppearance = this.appearance;
-        this.appearance = appearance;
-        const operatorList = super.getOperatorList(evaluator, task, renderForms, annotationStorage);
-        this.appearance = savedAppearance;
+      var operatorList = new _operator_list.OperatorList();
+
+      if (!this.data.defaultAppearance) {
+        return Promise.resolve(operatorList);
+      }
+
+      var stream = new _stream.Stream((0, _util.stringToBytes)(this.data.defaultAppearance));
+      return evaluator.getOperatorList({
+        stream: stream,
+        task: task,
+        resources: this.fieldResources,
+        operatorList: operatorList
+      }).then(function () {
         return operatorList;
-      }
-
-      return Promise.resolve(new _operator_list.OperatorList());
-    }
-
-    return super.getOperatorList(evaluator, task, renderForms, annotationStorage);
-  }
-
-  async save(evaluator, task, annotationStorage) {
-    if (this.data.checkBox) {
-      return this._saveCheckbox(evaluator, task, annotationStorage);
-    }
-
-    if (this.data.radioButton) {
-      return this._saveRadioButton(evaluator, task, annotationStorage);
-    }
-
-    return super.save(evaluator, task, annotationStorage);
-  }
-
-  async _saveCheckbox(evaluator, task, annotationStorage) {
-    const defaultValue = this.data.fieldValue && this.data.fieldValue !== "Off";
-    const value = annotationStorage[this.data.id];
-
-    if (defaultValue === value) {
-      return null;
-    }
-
-    const dict = evaluator.xref.fetchIfRef(this.ref);
-
-    if (!(0, _primitives.isDict)(dict)) {
-      return null;
-    }
-
-    const name = _primitives.Name.get(value ? this.data.exportValue : "Off");
-
-    dict.set("V", name);
-    dict.set("AS", name);
-    dict.set("M", `D:${(0, _util.getModificationDate)()}`);
-    const encrypt = evaluator.xref.encrypt;
-    let originalTransform = null;
-
-    if (encrypt) {
-      originalTransform = encrypt.createCipherTransform(this.ref.num, this.ref.gen);
-    }
-
-    const buffer = [`${this.ref.num} ${this.ref.gen} obj\n`];
-    (0, _writer.writeDict)(dict, buffer, originalTransform);
-    buffer.push("\nendobj\n");
-    return [{
-      ref: this.ref,
-      data: buffer.join("")
-    }];
-  }
-
-  async _saveRadioButton(evaluator, task, annotationStorage) {
-    const defaultValue = this.data.fieldValue === this.data.buttonValue;
-    const value = annotationStorage[this.data.id];
-
-    if (defaultValue === value) {
-      return null;
-    }
-
-    const dict = evaluator.xref.fetchIfRef(this.ref);
-
-    if (!(0, _primitives.isDict)(dict)) {
-      return null;
-    }
-
-    const name = _primitives.Name.get(value ? this.data.buttonValue : "Off");
-
-    let parentBuffer = null;
-    const encrypt = evaluator.xref.encrypt;
-
-    if (value) {
-      if ((0, _primitives.isRef)(this.parent)) {
-        const parent = evaluator.xref.fetch(this.parent);
-        let parentTransform = null;
-
-        if (encrypt) {
-          parentTransform = encrypt.createCipherTransform(this.parent.num, this.parent.gen);
-        }
-
-        parent.set("V", name);
-        parentBuffer = [`${this.parent.num} ${this.parent.gen} obj\n`];
-        (0, _writer.writeDict)(parent, parentBuffer, parentTransform);
-        parentBuffer.push("\nendobj\n");
-      } else if ((0, _primitives.isDict)(this.parent)) {
-        this.parent.set("V", name);
-      }
-    }
-
-    dict.set("AS", name);
-    dict.set("M", `D:${(0, _util.getModificationDate)()}`);
-    let originalTransform = null;
-
-    if (encrypt) {
-      originalTransform = encrypt.createCipherTransform(this.ref.num, this.ref.gen);
-    }
-
-    const buffer = [`${this.ref.num} ${this.ref.gen} obj\n`];
-    (0, _writer.writeDict)(dict, buffer, originalTransform);
-    buffer.push("\nendobj\n");
-    const newRefs = [{
-      ref: this.ref,
-      data: buffer.join("")
-    }];
-
-    if (parentBuffer !== null) {
-      newRefs.push({
-        ref: this.parent,
-        data: parentBuffer.join("")
       });
     }
+  }]);
 
-    return newRefs;
+  return TextWidgetAnnotation;
+}(WidgetAnnotation);
+
+var ButtonWidgetAnnotation =
+/*#__PURE__*/
+function (_WidgetAnnotation2) {
+  _inherits(ButtonWidgetAnnotation, _WidgetAnnotation2);
+
+  function ButtonWidgetAnnotation(params) {
+    var _this5;
+
+    _classCallCheck(this, ButtonWidgetAnnotation);
+
+    _this5 = _possibleConstructorReturn(this, _getPrototypeOf(ButtonWidgetAnnotation).call(this, params));
+    _this5.data.checkBox = !_this5.hasFieldFlag(_util.AnnotationFieldFlag.RADIO) && !_this5.hasFieldFlag(_util.AnnotationFieldFlag.PUSHBUTTON);
+    _this5.data.radioButton = _this5.hasFieldFlag(_util.AnnotationFieldFlag.RADIO) && !_this5.hasFieldFlag(_util.AnnotationFieldFlag.PUSHBUTTON);
+    _this5.data.pushButton = _this5.hasFieldFlag(_util.AnnotationFieldFlag.PUSHBUTTON);
+
+    if (_this5.data.checkBox) {
+      _this5._processCheckBox(params);
+    } else if (_this5.data.radioButton) {
+      _this5._processRadioButton(params);
+    } else if (_this5.data.pushButton) {
+      _this5._processPushButton(params);
+    } else {
+      (0, _util.warn)('Invalid field flags for button widget annotation');
+    }
+
+    return _this5;
   }
 
-  _processCheckBox(params) {
-    const customAppearance = params.dict.get("AP");
+  _createClass(ButtonWidgetAnnotation, [{
+    key: "_processCheckBox",
+    value: function _processCheckBox(params) {
+      if ((0, _primitives.isName)(this.data.fieldValue)) {
+        this.data.fieldValue = this.data.fieldValue.name;
+      }
 
-    if (!(0, _primitives.isDict)(customAppearance)) {
-      return;
+      var customAppearance = params.dict.get('AP');
+
+      if (!(0, _primitives.isDict)(customAppearance)) {
+        return;
+      }
+
+      var exportValueOptionsDict = customAppearance.get('D');
+
+      if (!(0, _primitives.isDict)(exportValueOptionsDict)) {
+        return;
+      }
+
+      var exportValues = exportValueOptionsDict.getKeys();
+      var hasCorrectOptionCount = exportValues.length === 2;
+
+      if (!hasCorrectOptionCount) {
+        return;
+      }
+
+      this.data.exportValue = exportValues[0] === 'Off' ? exportValues[1] : exportValues[0];
     }
+  }, {
+    key: "_processRadioButton",
+    value: function _processRadioButton(params) {
+      this.data.fieldValue = this.data.buttonValue = null;
+      var fieldParent = params.dict.get('Parent');
 
-    const normalAppearance = customAppearance.get("N");
+      if ((0, _primitives.isDict)(fieldParent) && fieldParent.has('V')) {
+        var fieldParentValue = fieldParent.get('V');
 
-    if (!(0, _primitives.isDict)(normalAppearance)) {
-      return;
-    }
+        if ((0, _primitives.isName)(fieldParentValue)) {
+          this.data.fieldValue = fieldParentValue.name;
+        }
+      }
 
-    const exportValues = normalAppearance.getKeys();
+      var appearanceStates = params.dict.get('AP');
 
-    if (!exportValues.includes("Off")) {
-      exportValues.push("Off");
-    }
+      if (!(0, _primitives.isDict)(appearanceStates)) {
+        return;
+      }
 
-    if (exportValues.length !== 2) {
-      return;
-    }
+      var normalAppearanceState = appearanceStates.get('N');
 
-    this.data.exportValue = exportValues[0] === "Off" ? exportValues[1] : exportValues[0];
-    this.checkedAppearance = normalAppearance.get(this.data.exportValue);
-    this.uncheckedAppearance = normalAppearance.get("Off") || null;
-  }
+      if (!(0, _primitives.isDict)(normalAppearanceState)) {
+        return;
+      }
 
-  _processRadioButton(params) {
-    this.data.fieldValue = this.data.buttonValue = null;
-    const fieldParent = params.dict.get("Parent");
+      var keys = normalAppearanceState.getKeys();
 
-    if ((0, _primitives.isDict)(fieldParent) && fieldParent.has("V")) {
-      const fieldParentValue = fieldParent.get("V");
-
-      if ((0, _primitives.isName)(fieldParentValue)) {
-        this.parent = params.dict.getRaw("Parent");
-        this.data.fieldValue = this._decodeFormValue(fieldParentValue);
+      for (var i = 0, ii = keys.length; i < ii; i++) {
+        if (keys[i] !== 'Off') {
+          this.data.buttonValue = keys[i];
+          break;
+        }
       }
     }
-
-    const appearanceStates = params.dict.get("AP");
-
-    if (!(0, _primitives.isDict)(appearanceStates)) {
-      return;
-    }
-
-    const normalAppearance = appearanceStates.get("N");
-
-    if (!(0, _primitives.isDict)(normalAppearance)) {
-      return;
-    }
-
-    for (const key of normalAppearance.getKeys()) {
-      if (key !== "Off") {
-        this.data.buttonValue = key;
-        break;
+  }, {
+    key: "_processPushButton",
+    value: function _processPushButton(params) {
+      if (!params.dict.has('A')) {
+        (0, _util.warn)('Push buttons without action dictionaries are not supported');
+        return;
       }
+
+      _obj.Catalog.parseDestDictionary({
+        destDict: params.dict,
+        resultObj: this.data,
+        docBaseUrl: params.pdfManager.docBaseUrl
+      });
     }
+  }]);
 
-    this.checkedAppearance = normalAppearance.get(this.data.buttonValue);
-    this.uncheckedAppearance = normalAppearance.get("Off") || null;
-  }
+  return ButtonWidgetAnnotation;
+}(WidgetAnnotation);
 
-  _processPushButton(params) {
-    if (!params.dict.has("A")) {
-      (0, _util.warn)("Push buttons without action dictionaries are not supported");
-      return;
-    }
+var ChoiceWidgetAnnotation =
+/*#__PURE__*/
+function (_WidgetAnnotation3) {
+  _inherits(ChoiceWidgetAnnotation, _WidgetAnnotation3);
 
-    _obj.Catalog.parseDestDictionary({
-      destDict: params.dict,
-      resultObj: this.data,
-      docBaseUrl: params.pdfManager.docBaseUrl
-    });
-  }
+  function ChoiceWidgetAnnotation(params) {
+    var _this6;
 
-}
+    _classCallCheck(this, ChoiceWidgetAnnotation);
 
-class ChoiceWidgetAnnotation extends WidgetAnnotation {
-  constructor(params) {
-    super(params);
-    this.data.options = [];
-    const options = (0, _core_utils.getInheritableProperty)({
+    _this6 = _possibleConstructorReturn(this, _getPrototypeOf(ChoiceWidgetAnnotation).call(this, params));
+    _this6.data.options = [];
+    var options = (0, _core_utils.getInheritableProperty)({
       dict: params.dict,
-      key: "Opt"
+      key: 'Opt'
     });
 
     if (Array.isArray(options)) {
-      const xref = params.xref;
+      var xref = params.xref;
 
-      for (let i = 0, ii = options.length; i < ii; i++) {
-        const option = xref.fetchIfRef(options[i]);
-        const isOptionArray = Array.isArray(option);
-        this.data.options[i] = {
-          exportValue: this._decodeFormValue(isOptionArray ? xref.fetchIfRef(option[0]) : option),
-          displayValue: this._decodeFormValue(isOptionArray ? xref.fetchIfRef(option[1]) : option)
+      for (var i = 0, ii = options.length; i < ii; i++) {
+        var option = xref.fetchIfRef(options[i]);
+        var isOptionArray = Array.isArray(option);
+        _this6.data.options[i] = {
+          exportValue: isOptionArray ? xref.fetchIfRef(option[0]) : option,
+          displayValue: (0, _util.stringToPDFString)(isOptionArray ? xref.fetchIfRef(option[1]) : option)
         };
       }
     }
 
-    if ((0, _util.isString)(this.data.fieldValue)) {
-      this.data.fieldValue = [this.data.fieldValue];
-    } else if (!this.data.fieldValue) {
-      this.data.fieldValue = [];
+    if (!Array.isArray(_this6.data.fieldValue)) {
+      _this6.data.fieldValue = [_this6.data.fieldValue];
     }
 
-    this.data.combo = this.hasFieldFlag(_util.AnnotationFieldFlag.COMBO);
-    this.data.multiSelect = this.hasFieldFlag(_util.AnnotationFieldFlag.MULTISELECT);
-    this._hasText = true;
+    _this6.data.combo = _this6.hasFieldFlag(_util.AnnotationFieldFlag.COMBO);
+    _this6.data.multiSelect = _this6.hasFieldFlag(_util.AnnotationFieldFlag.MULTISELECT);
+    return _this6;
   }
 
-}
+  return ChoiceWidgetAnnotation;
+}(WidgetAnnotation);
 
-class TextAnnotation extends MarkupAnnotation {
-  constructor(parameters) {
-    const DEFAULT_ICON_SIZE = 22;
-    super(parameters);
-    const dict = parameters.dict;
-    this.data.annotationType = _util.AnnotationType.TEXT;
+var TextAnnotation =
+/*#__PURE__*/
+function (_MarkupAnnotation) {
+  _inherits(TextAnnotation, _MarkupAnnotation);
 
-    if (this.data.hasAppearance) {
-      this.data.name = "NoIcon";
+  function TextAnnotation(parameters) {
+    var _this7;
+
+    _classCallCheck(this, TextAnnotation);
+
+    var DEFAULT_ICON_SIZE = 22;
+    _this7 = _possibleConstructorReturn(this, _getPrototypeOf(TextAnnotation).call(this, parameters));
+    _this7.data.annotationType = _util.AnnotationType.TEXT;
+
+    if (_this7.data.hasAppearance) {
+      _this7.data.name = 'NoIcon';
     } else {
-      this.data.rect[1] = this.data.rect[3] - DEFAULT_ICON_SIZE;
-      this.data.rect[2] = this.data.rect[0] + DEFAULT_ICON_SIZE;
-      this.data.name = dict.has("Name") ? dict.get("Name").name : "Note";
+      _this7.data.rect[1] = _this7.data.rect[3] - DEFAULT_ICON_SIZE;
+      _this7.data.rect[2] = _this7.data.rect[0] + DEFAULT_ICON_SIZE;
+      _this7.data.name = parameters.dict.has('Name') ? parameters.dict.get('Name').name : 'Note';
     }
 
-    if (dict.has("State")) {
-      this.data.state = dict.get("State") || null;
-      this.data.stateModel = dict.get("StateModel") || null;
-    } else {
-      this.data.state = null;
-      this.data.stateModel = null;
-    }
+    return _this7;
   }
 
-}
+  return TextAnnotation;
+}(MarkupAnnotation);
 
-class LinkAnnotation extends Annotation {
-  constructor(params) {
-    super(params);
-    this.data.annotationType = _util.AnnotationType.LINK;
-    const quadPoints = getQuadPoints(params.dict, this.rectangle);
+var LinkAnnotation =
+/*#__PURE__*/
+function (_Annotation3) {
+  _inherits(LinkAnnotation, _Annotation3);
 
-    if (quadPoints) {
-      this.data.quadPoints = quadPoints;
-    }
+  function LinkAnnotation(params) {
+    var _this8;
+
+    _classCallCheck(this, LinkAnnotation);
+
+    _this8 = _possibleConstructorReturn(this, _getPrototypeOf(LinkAnnotation).call(this, params));
+    _this8.data.annotationType = _util.AnnotationType.LINK;
 
     _obj.Catalog.parseDestDictionary({
       destDict: params.dict,
-      resultObj: this.data,
+      resultObj: _this8.data,
       docBaseUrl: params.pdfManager.docBaseUrl
     });
+
+    return _this8;
   }
 
-}
+  return LinkAnnotation;
+}(Annotation);
 
-class PopupAnnotation extends Annotation {
-  constructor(parameters) {
-    super(parameters);
-    this.data.annotationType = _util.AnnotationType.POPUP;
-    let parentItem = parameters.dict.get("Parent");
+var PopupAnnotation =
+/*#__PURE__*/
+function (_Annotation4) {
+  _inherits(PopupAnnotation, _Annotation4);
+
+  function PopupAnnotation(parameters) {
+    var _this9;
+
+    _classCallCheck(this, PopupAnnotation);
+
+    _this9 = _possibleConstructorReturn(this, _getPrototypeOf(PopupAnnotation).call(this, parameters));
+    _this9.data.annotationType = _util.AnnotationType.POPUP;
+    var dict = parameters.dict;
+    var parentItem = dict.get('Parent');
 
     if (!parentItem) {
-      (0, _util.warn)("Popup annotation has a missing or invalid parent annotation.");
-      return;
+      (0, _util.warn)('Popup annotation has a missing or invalid parent annotation.');
+      return _possibleConstructorReturn(_this9);
     }
 
-    const parentSubtype = parentItem.get("Subtype");
-    this.data.parentType = (0, _primitives.isName)(parentSubtype) ? parentSubtype.name : null;
-    const rawParent = parameters.dict.getRaw("Parent");
-    this.data.parentId = (0, _primitives.isRef)(rawParent) ? rawParent.toString() : null;
-    const rt = parentItem.get("RT");
+    var parentSubtype = parentItem.get('Subtype');
+    _this9.data.parentType = (0, _primitives.isName)(parentSubtype) ? parentSubtype.name : null;
+    _this9.data.parentId = dict.getRaw('Parent').toString();
+    _this9.data.title = (0, _util.stringToPDFString)(parentItem.get('T') || '');
+    _this9.data.contents = (0, _util.stringToPDFString)(parentItem.get('Contents') || '');
 
-    if ((0, _primitives.isName)(rt, _util.AnnotationReplyType.GROUP)) {
-      parentItem = parentItem.get("IRT");
-    }
-
-    if (!parentItem.has("M")) {
-      this.data.modificationDate = null;
+    if (!parentItem.has('M')) {
+      _this9.data.modificationDate = null;
     } else {
-      this.setModificationDate(parentItem.get("M"));
-      this.data.modificationDate = this.modificationDate;
+      _this9.setModificationDate(parentItem.get('M'));
+
+      _this9.data.modificationDate = _this9.modificationDate;
     }
 
-    if (!parentItem.has("C")) {
-      this.data.color = null;
+    if (!parentItem.has('C')) {
+      _this9.data.color = null;
     } else {
-      this.setColor(parentItem.getArray("C"));
-      this.data.color = this.color;
+      _this9.setColor(parentItem.getArray('C'));
+
+      _this9.data.color = _this9.color;
     }
 
-    if (!this.viewable) {
-      const parentFlags = parentItem.get("F");
+    if (!_this9.viewable) {
+      var parentFlags = parentItem.get('F');
 
-      if (this._isViewable(parentFlags)) {
-        this.setFlags(parentFlags);
+      if (_this9._isViewable(parentFlags)) {
+        _this9.setFlags(parentFlags);
       }
     }
 
-    this.data.title = (0, _util.stringToPDFString)(parentItem.get("T") || "");
-    this.data.contents = (0, _util.stringToPDFString)(parentItem.get("Contents") || "");
+    return _this9;
   }
 
-}
+  return PopupAnnotation;
+}(Annotation);
 
-class FreeTextAnnotation extends MarkupAnnotation {
-  constructor(parameters) {
-    super(parameters);
-    this.data.annotationType = _util.AnnotationType.FREETEXT;
+var FreeTextAnnotation =
+/*#__PURE__*/
+function (_MarkupAnnotation2) {
+  _inherits(FreeTextAnnotation, _MarkupAnnotation2);
+
+  function FreeTextAnnotation(parameters) {
+    var _this10;
+
+    _classCallCheck(this, FreeTextAnnotation);
+
+    _this10 = _possibleConstructorReturn(this, _getPrototypeOf(FreeTextAnnotation).call(this, parameters));
+    _this10.data.annotationType = _util.AnnotationType.FREETEXT;
+    return _this10;
   }
 
-}
+  return FreeTextAnnotation;
+}(MarkupAnnotation);
 
-class LineAnnotation extends MarkupAnnotation {
-  constructor(parameters) {
-    super(parameters);
-    this.data.annotationType = _util.AnnotationType.LINE;
-    this.data.lineCoordinates = _util.Util.normalizeRect(parameters.dict.getArray("L"));
+var LineAnnotation =
+/*#__PURE__*/
+function (_MarkupAnnotation3) {
+  _inherits(LineAnnotation, _MarkupAnnotation3);
+
+  function LineAnnotation(parameters) {
+    var _this11;
+
+    _classCallCheck(this, LineAnnotation);
+
+    _this11 = _possibleConstructorReturn(this, _getPrototypeOf(LineAnnotation).call(this, parameters));
+    _this11.data.annotationType = _util.AnnotationType.LINE;
+    var dict = parameters.dict;
+    _this11.data.lineCoordinates = _util.Util.normalizeRect(dict.getArray('L'));
+    return _this11;
   }
 
-}
+  return LineAnnotation;
+}(MarkupAnnotation);
 
-class SquareAnnotation extends MarkupAnnotation {
-  constructor(parameters) {
-    super(parameters);
-    this.data.annotationType = _util.AnnotationType.SQUARE;
+var SquareAnnotation =
+/*#__PURE__*/
+function (_MarkupAnnotation4) {
+  _inherits(SquareAnnotation, _MarkupAnnotation4);
+
+  function SquareAnnotation(parameters) {
+    var _this12;
+
+    _classCallCheck(this, SquareAnnotation);
+
+    _this12 = _possibleConstructorReturn(this, _getPrototypeOf(SquareAnnotation).call(this, parameters));
+    _this12.data.annotationType = _util.AnnotationType.SQUARE;
+    return _this12;
   }
 
-}
+  return SquareAnnotation;
+}(MarkupAnnotation);
 
-class CircleAnnotation extends MarkupAnnotation {
-  constructor(parameters) {
-    super(parameters);
-    this.data.annotationType = _util.AnnotationType.CIRCLE;
+var CircleAnnotation =
+/*#__PURE__*/
+function (_MarkupAnnotation5) {
+  _inherits(CircleAnnotation, _MarkupAnnotation5);
+
+  function CircleAnnotation(parameters) {
+    var _this13;
+
+    _classCallCheck(this, CircleAnnotation);
+
+    _this13 = _possibleConstructorReturn(this, _getPrototypeOf(CircleAnnotation).call(this, parameters));
+    _this13.data.annotationType = _util.AnnotationType.CIRCLE;
+    return _this13;
   }
 
-}
+  return CircleAnnotation;
+}(MarkupAnnotation);
 
-class PolylineAnnotation extends MarkupAnnotation {
-  constructor(parameters) {
-    super(parameters);
-    this.data.annotationType = _util.AnnotationType.POLYLINE;
-    const rawVertices = parameters.dict.getArray("Vertices");
-    this.data.vertices = [];
+var PolylineAnnotation =
+/*#__PURE__*/
+function (_MarkupAnnotation6) {
+  _inherits(PolylineAnnotation, _MarkupAnnotation6);
 
-    for (let i = 0, ii = rawVertices.length; i < ii; i += 2) {
-      this.data.vertices.push({
+  function PolylineAnnotation(parameters) {
+    var _this14;
+
+    _classCallCheck(this, PolylineAnnotation);
+
+    _this14 = _possibleConstructorReturn(this, _getPrototypeOf(PolylineAnnotation).call(this, parameters));
+    _this14.data.annotationType = _util.AnnotationType.POLYLINE;
+    var dict = parameters.dict;
+    var rawVertices = dict.getArray('Vertices');
+    _this14.data.vertices = [];
+
+    for (var i = 0, ii = rawVertices.length; i < ii; i += 2) {
+      _this14.data.vertices.push({
         x: rawVertices[i],
         y: rawVertices[i + 1]
       });
     }
+
+    return _this14;
   }
 
-}
+  return PolylineAnnotation;
+}(MarkupAnnotation);
 
-class PolygonAnnotation extends PolylineAnnotation {
-  constructor(parameters) {
-    super(parameters);
-    this.data.annotationType = _util.AnnotationType.POLYGON;
+var PolygonAnnotation =
+/*#__PURE__*/
+function (_PolylineAnnotation) {
+  _inherits(PolygonAnnotation, _PolylineAnnotation);
+
+  function PolygonAnnotation(parameters) {
+    var _this15;
+
+    _classCallCheck(this, PolygonAnnotation);
+
+    _this15 = _possibleConstructorReturn(this, _getPrototypeOf(PolygonAnnotation).call(this, parameters));
+    _this15.data.annotationType = _util.AnnotationType.POLYGON;
+    return _this15;
   }
 
-}
+  return PolygonAnnotation;
+}(PolylineAnnotation);
 
-class CaretAnnotation extends MarkupAnnotation {
-  constructor(parameters) {
-    super(parameters);
-    this.data.annotationType = _util.AnnotationType.CARET;
+var CaretAnnotation =
+/*#__PURE__*/
+function (_MarkupAnnotation7) {
+  _inherits(CaretAnnotation, _MarkupAnnotation7);
+
+  function CaretAnnotation(parameters) {
+    var _this16;
+
+    _classCallCheck(this, CaretAnnotation);
+
+    _this16 = _possibleConstructorReturn(this, _getPrototypeOf(CaretAnnotation).call(this, parameters));
+    _this16.data.annotationType = _util.AnnotationType.CARET;
+    return _this16;
   }
 
-}
+  return CaretAnnotation;
+}(MarkupAnnotation);
 
-class InkAnnotation extends MarkupAnnotation {
-  constructor(parameters) {
-    super(parameters);
-    this.data.annotationType = _util.AnnotationType.INK;
-    const xref = parameters.xref;
-    const originalInkLists = parameters.dict.getArray("InkList");
-    this.data.inkLists = [];
+var InkAnnotation =
+/*#__PURE__*/
+function (_MarkupAnnotation8) {
+  _inherits(InkAnnotation, _MarkupAnnotation8);
 
-    for (let i = 0, ii = originalInkLists.length; i < ii; ++i) {
-      this.data.inkLists.push([]);
+  function InkAnnotation(parameters) {
+    var _this17;
 
-      for (let j = 0, jj = originalInkLists[i].length; j < jj; j += 2) {
-        this.data.inkLists[i].push({
+    _classCallCheck(this, InkAnnotation);
+
+    _this17 = _possibleConstructorReturn(this, _getPrototypeOf(InkAnnotation).call(this, parameters));
+    _this17.data.annotationType = _util.AnnotationType.INK;
+    var dict = parameters.dict;
+    var xref = parameters.xref;
+    var originalInkLists = dict.getArray('InkList');
+    _this17.data.inkLists = [];
+
+    for (var i = 0, ii = originalInkLists.length; i < ii; ++i) {
+      _this17.data.inkLists.push([]);
+
+      for (var j = 0, jj = originalInkLists[i].length; j < jj; j += 2) {
+        _this17.data.inkLists[i].push({
           x: xref.fetchIfRef(originalInkLists[i][j]),
           y: xref.fetchIfRef(originalInkLists[i][j + 1])
         });
       }
     }
+
+    return _this17;
   }
 
-}
+  return InkAnnotation;
+}(MarkupAnnotation);
 
-class HighlightAnnotation extends MarkupAnnotation {
-  constructor(parameters) {
-    super(parameters);
-    this.data.annotationType = _util.AnnotationType.HIGHLIGHT;
-    const quadPoints = getQuadPoints(parameters.dict, this.rectangle);
+var HighlightAnnotation =
+/*#__PURE__*/
+function (_MarkupAnnotation9) {
+  _inherits(HighlightAnnotation, _MarkupAnnotation9);
 
-    if (quadPoints) {
-      this.data.quadPoints = quadPoints;
-    }
+  function HighlightAnnotation(parameters) {
+    var _this18;
+
+    _classCallCheck(this, HighlightAnnotation);
+
+    _this18 = _possibleConstructorReturn(this, _getPrototypeOf(HighlightAnnotation).call(this, parameters));
+    _this18.data.annotationType = _util.AnnotationType.HIGHLIGHT;
+    return _this18;
   }
 
-}
+  return HighlightAnnotation;
+}(MarkupAnnotation);
 
-class UnderlineAnnotation extends MarkupAnnotation {
-  constructor(parameters) {
-    super(parameters);
-    this.data.annotationType = _util.AnnotationType.UNDERLINE;
-    const quadPoints = getQuadPoints(parameters.dict, this.rectangle);
+var UnderlineAnnotation =
+/*#__PURE__*/
+function (_MarkupAnnotation10) {
+  _inherits(UnderlineAnnotation, _MarkupAnnotation10);
 
-    if (quadPoints) {
-      this.data.quadPoints = quadPoints;
-    }
+  function UnderlineAnnotation(parameters) {
+    var _this19;
+
+    _classCallCheck(this, UnderlineAnnotation);
+
+    _this19 = _possibleConstructorReturn(this, _getPrototypeOf(UnderlineAnnotation).call(this, parameters));
+    _this19.data.annotationType = _util.AnnotationType.UNDERLINE;
+    return _this19;
   }
 
-}
+  return UnderlineAnnotation;
+}(MarkupAnnotation);
 
-class SquigglyAnnotation extends MarkupAnnotation {
-  constructor(parameters) {
-    super(parameters);
-    this.data.annotationType = _util.AnnotationType.SQUIGGLY;
-    const quadPoints = getQuadPoints(parameters.dict, this.rectangle);
+var SquigglyAnnotation =
+/*#__PURE__*/
+function (_MarkupAnnotation11) {
+  _inherits(SquigglyAnnotation, _MarkupAnnotation11);
 
-    if (quadPoints) {
-      this.data.quadPoints = quadPoints;
-    }
+  function SquigglyAnnotation(parameters) {
+    var _this20;
+
+    _classCallCheck(this, SquigglyAnnotation);
+
+    _this20 = _possibleConstructorReturn(this, _getPrototypeOf(SquigglyAnnotation).call(this, parameters));
+    _this20.data.annotationType = _util.AnnotationType.SQUIGGLY;
+    return _this20;
   }
 
-}
+  return SquigglyAnnotation;
+}(MarkupAnnotation);
 
-class StrikeOutAnnotation extends MarkupAnnotation {
-  constructor(parameters) {
-    super(parameters);
-    this.data.annotationType = _util.AnnotationType.STRIKEOUT;
-    const quadPoints = getQuadPoints(parameters.dict, this.rectangle);
+var StrikeOutAnnotation =
+/*#__PURE__*/
+function (_MarkupAnnotation12) {
+  _inherits(StrikeOutAnnotation, _MarkupAnnotation12);
 
-    if (quadPoints) {
-      this.data.quadPoints = quadPoints;
-    }
+  function StrikeOutAnnotation(parameters) {
+    var _this21;
+
+    _classCallCheck(this, StrikeOutAnnotation);
+
+    _this21 = _possibleConstructorReturn(this, _getPrototypeOf(StrikeOutAnnotation).call(this, parameters));
+    _this21.data.annotationType = _util.AnnotationType.STRIKEOUT;
+    return _this21;
   }
 
-}
+  return StrikeOutAnnotation;
+}(MarkupAnnotation);
 
-class StampAnnotation extends MarkupAnnotation {
-  constructor(parameters) {
-    super(parameters);
-    this.data.annotationType = _util.AnnotationType.STAMP;
+var StampAnnotation =
+/*#__PURE__*/
+function (_MarkupAnnotation13) {
+  _inherits(StampAnnotation, _MarkupAnnotation13);
+
+  function StampAnnotation(parameters) {
+    var _this22;
+
+    _classCallCheck(this, StampAnnotation);
+
+    _this22 = _possibleConstructorReturn(this, _getPrototypeOf(StampAnnotation).call(this, parameters));
+    _this22.data.annotationType = _util.AnnotationType.STAMP;
+    return _this22;
   }
 
-}
+  return StampAnnotation;
+}(MarkupAnnotation);
 
-class FileAttachmentAnnotation extends MarkupAnnotation {
-  constructor(parameters) {
-    super(parameters);
-    const file = new _obj.FileSpec(parameters.dict.get("FS"), parameters.xref);
-    this.data.annotationType = _util.AnnotationType.FILEATTACHMENT;
-    this.data.file = file.serializable;
+var FileAttachmentAnnotation =
+/*#__PURE__*/
+function (_MarkupAnnotation14) {
+  _inherits(FileAttachmentAnnotation, _MarkupAnnotation14);
+
+  function FileAttachmentAnnotation(parameters) {
+    var _this23;
+
+    _classCallCheck(this, FileAttachmentAnnotation);
+
+    _this23 = _possibleConstructorReturn(this, _getPrototypeOf(FileAttachmentAnnotation).call(this, parameters));
+    var file = new _obj.FileSpec(parameters.dict.get('FS'), parameters.xref);
+    _this23.data.annotationType = _util.AnnotationType.FILEATTACHMENT;
+    _this23.data.file = file.serializable;
+    return _this23;
   }
 
-}
+  return FileAttachmentAnnotation;
+}(MarkupAnnotation);

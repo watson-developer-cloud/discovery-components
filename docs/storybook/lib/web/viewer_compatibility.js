@@ -2,7 +2,7 @@
  * @licstart The following is the entire license notice for the
  * Javascript code in this page
  *
- * Copyright 2020 Mozilla Foundation
+ * Copyright 2019 Mozilla Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,25 +21,11 @@
  */
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.viewerCompatibilityParams = void 0;
-const compatibilityParams = Object.create(null);
+var compatibilityParams = Object.create(null);
 {
-  const userAgent = typeof navigator !== "undefined" && navigator.userAgent || "";
-  const platform = typeof navigator !== "undefined" && navigator.platform || "";
-  const maxTouchPoints = typeof navigator !== "undefined" && navigator.maxTouchPoints || 1;
-  const isAndroid = /Android/.test(userAgent);
-  const isIE = /Trident/.test(userAgent);
-  const isIOS = /\b(iPad|iPhone|iPod)(?=;)/.test(userAgent) || platform === "MacIntel" && maxTouchPoints > 1;
-  const isIOSChrome = /CriOS/.test(userAgent);
-
-  (function checkOnBlobSupport() {
-    if (isIE || isIOSChrome) {
-      compatibilityParams.disableCreateObjectURL = true;
-    }
-  })();
+  var userAgent = typeof navigator !== 'undefined' && navigator.userAgent || '';
+  var isAndroid = /Android/.test(userAgent);
+  var isIOS = /\b(iPad|iPhone|iPod)(?=;)/.test(userAgent);
 
   (function checkCanvasSizeLimitation() {
     if (isIOS || isAndroid) {
@@ -47,5 +33,4 @@ const compatibilityParams = Object.create(null);
     }
   })();
 }
-const viewerCompatibilityParams = Object.freeze(compatibilityParams);
-exports.viewerCompatibilityParams = viewerCompatibilityParams;
+exports.viewerCompatibilityParams = Object.freeze(compatibilityParams);

@@ -2,7 +2,7 @@
  * @licstart The following is the entire license notice for the
  * Javascript code in this page
  *
- * Copyright 2020 Mozilla Foundation
+ * Copyright 2019 Mozilla Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.renderTextLayer = void 0;
 
-var _util = require("../shared/util.js");
+var _util = require("../shared/util");
+
+var _global_scope = _interopRequireDefault(require("../shared/global_scope"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var renderTextLayer = function renderTextLayerClosure() {
   var MAX_TEXT_DIVS_TO_RENDER = 100000;
@@ -36,9 +40,12 @@ var renderTextLayer = function renderTextLayerClosure() {
     return !NonWhitespaceRegexp.test(str);
   }
 
+  var styleBuf = ['left: ', 0, 'px; top: ', 0, 'px; font-size: ', 0, 'px; font-family: ', '', ';'];
+
   function appendText(task, geom, styles) {
-    var textDiv = document.createElement("span");
+    var textDiv = document.createElement('span');
     var textDivProperties = {
+      style: null,
       angle: 0,
       canvasWidth: 0,
       isWhitespace: false,
@@ -78,7 +85,8 @@ var renderTextLayer = function renderTextLayerClosure() {
       fontAscent = (1 + style.descent) * fontAscent;
     }
 
-    let left, top;
+    var left;
+    var top;
 
     if (angle === 0) {
       left = tx[4];
@@ -88,10 +96,12 @@ var renderTextLayer = function renderTextLayerClosure() {
       top = tx[5] - fontAscent * Math.cos(angle);
     }
 
-    textDiv.style.left = `${left}px`;
-    textDiv.style.top = `${top}px`;
-    textDiv.style.fontSize = `${fontHeight}px`;
-    textDiv.style.fontFamily = style.fontFamily;
+    styleBuf[1] = left;
+    styleBuf[3] = top;
+    styleBuf[5] = fontHeight;
+    styleBuf[7] = style.fontFamily;
+    textDivProperties.style = styleBuf.join('');
+    textDiv.setAttribute('style', textDivProperties.style);
     textDiv.textContent = geom.str;
 
     if (task._fontInspectorEnabled) {
@@ -102,20 +112,7 @@ var renderTextLayer = function renderTextLayerClosure() {
       textDivProperties.angle = angle * (180 / Math.PI);
     }
 
-    let shouldScaleText = false;
-
     if (geom.str.length > 1) {
-      shouldScaleText = true;
-    } else if (geom.transform[0] !== geom.transform[3]) {
-      const absScaleX = Math.abs(geom.transform[0]),
-            absScaleY = Math.abs(geom.transform[3]);
-
-      if (absScaleX !== absScaleY && Math.max(absScaleX, absScaleY) / Math.min(absScaleX, absScaleY) > 1.5) {
-        shouldScaleText = true;
-      }
-    }
-
-    if (shouldScaleText) {
       if (style.vertical) {
         textDivProperties.canvasWidth = geom.height * task._viewport.scale;
       } else {
@@ -156,7 +153,7 @@ var renderTextLayer = function renderTextLayerClosure() {
         bottom: b[3],
         div: textDiv,
         size: [divWidth, divHeight],
-        m
+        m: m
       });
     }
   }
@@ -184,20 +181,6 @@ var renderTextLayer = function renderTextLayerClosure() {
 
     task._renderingDone = true;
     capability.resolve();
-  }
-
-  function findPositiveMin(ts, offset, count) {
-    let result = 0;
-
-    for (let i = 0; i < count; i++) {
-      const t = ts[offset++];
-
-      if (t > 0) {
-        result = result ? Math.min(t, result) : t;
-      }
-    }
-
-    return result;
   }
 
   function expand(task) {
@@ -228,26 +211,41 @@ var renderTextLayer = function renderTextLayerClosure() {
           s = m[1];
       var points = [[0, 0], [0, b.size[1]], [b.size[0], 0], b.size];
       var ts = new Float64Array(64);
-      points.forEach(function (p, j) {
+      points.forEach(function (p, i) {
         var t = _util.Util.applyTransform(p, m);
 
-        ts[j + 0] = c && (e.left - t[0]) / c;
-        ts[j + 4] = s && (e.top - t[1]) / s;
-        ts[j + 8] = c && (e.right - t[0]) / c;
-        ts[j + 12] = s && (e.bottom - t[1]) / s;
-        ts[j + 16] = s && (e.left - t[0]) / -s;
-        ts[j + 20] = c && (e.top - t[1]) / c;
-        ts[j + 24] = s && (e.right - t[0]) / -s;
-        ts[j + 28] = c && (e.bottom - t[1]) / c;
-        ts[j + 32] = c && (e.left - t[0]) / -c;
-        ts[j + 36] = s && (e.top - t[1]) / -s;
-        ts[j + 40] = c && (e.right - t[0]) / -c;
-        ts[j + 44] = s && (e.bottom - t[1]) / -s;
-        ts[j + 48] = s && (e.left - t[0]) / s;
-        ts[j + 52] = c && (e.top - t[1]) / -c;
-        ts[j + 56] = s && (e.right - t[0]) / s;
-        ts[j + 60] = c && (e.bottom - t[1]) / -c;
+        ts[i + 0] = c && (e.left - t[0]) / c;
+        ts[i + 4] = s && (e.top - t[1]) / s;
+        ts[i + 8] = c && (e.right - t[0]) / c;
+        ts[i + 12] = s && (e.bottom - t[1]) / s;
+        ts[i + 16] = s && (e.left - t[0]) / -s;
+        ts[i + 20] = c && (e.top - t[1]) / c;
+        ts[i + 24] = s && (e.right - t[0]) / -s;
+        ts[i + 28] = c && (e.bottom - t[1]) / c;
+        ts[i + 32] = c && (e.left - t[0]) / -c;
+        ts[i + 36] = s && (e.top - t[1]) / -s;
+        ts[i + 40] = c && (e.right - t[0]) / -c;
+        ts[i + 44] = s && (e.bottom - t[1]) / -s;
+        ts[i + 48] = s && (e.left - t[0]) / s;
+        ts[i + 52] = c && (e.top - t[1]) / -c;
+        ts[i + 56] = s && (e.right - t[0]) / s;
+        ts[i + 60] = c && (e.bottom - t[1]) / -c;
       });
+
+      var findPositiveMin = function findPositiveMin(ts, offset, count) {
+        var result = 0;
+
+        for (var i = 0; i < count; i++) {
+          var t = ts[offset++];
+
+          if (t > 0) {
+            result = result ? Math.min(t, result) : t;
+          }
+        }
+
+        return result;
+      };
+
       var boxScale = 1 + Math.min(Math.abs(c), Math.abs(s));
       divProperties.paddingLeft = findPositiveMin(ts, 32, 16) / boxScale;
       divProperties.paddingTop = findPositiveMin(ts, 48, 16) / boxScale;
@@ -450,24 +448,24 @@ var renderTextLayer = function renderTextLayerClosure() {
     });
   }
 
-  function TextLayerRenderTask({
-    textContent,
-    textContentStream,
-    container,
-    viewport,
-    textDivs,
-    textContentItemsStr,
-    enhanceTextSelection
-  }) {
+  function TextLayerRenderTask(_ref) {
+    var _this = this;
+
+    var textContent = _ref.textContent,
+        textContentStream = _ref.textContentStream,
+        container = _ref.container,
+        viewport = _ref.viewport,
+        textDivs = _ref.textDivs,
+        textContentItemsStr = _ref.textContentItemsStr,
+        enhanceTextSelection = _ref.enhanceTextSelection;
     this._textContent = textContent;
     this._textContentStream = textContentStream;
     this._container = container;
-    this._document = container.ownerDocument;
     this._viewport = viewport;
     this._textDivs = textDivs || [];
     this._textContentItemsStr = textContentItemsStr || [];
     this._enhanceTextSelection = !!enhanceTextSelection;
-    this._fontInspectorEnabled = !!(globalThis.FontInspector && globalThis.FontInspector.enabled);
+    this._fontInspectorEnabled = !!(_global_scope["default"].FontInspector && _global_scope["default"].FontInspector.enabled);
     this._reader = null;
     this._layoutTextLastFontSize = null;
     this._layoutTextLastFontFamily = null;
@@ -479,13 +477,13 @@ var renderTextLayer = function renderTextLayerClosure() {
     this._renderTimer = null;
     this._bounds = [];
 
-    this._capability.promise.finally(() => {
-      if (this._layoutTextCtx) {
-        this._layoutTextCtx.canvas.width = 0;
-        this._layoutTextCtx.canvas.height = 0;
-        this._layoutTextCtx = null;
+    this._capability.promise["finally"](function () {
+      if (_this._layoutTextCtx) {
+        _this._layoutTextCtx.canvas.width = 0;
+        _this._layoutTextCtx.canvas.height = 0;
+        _this._layoutTextCtx = null;
       }
-    }).catch(() => {});
+    });
   }
 
   TextLayerRenderTask.prototype = {
@@ -497,7 +495,7 @@ var renderTextLayer = function renderTextLayerClosure() {
       this._canceled = true;
 
       if (this._reader) {
-        this._reader.cancel(new _util.AbortException("TextLayer task cancelled."));
+        this._reader.cancel(new _util.AbortException('TextLayer task cancelled.'));
 
         this._reader = null;
       }
@@ -507,89 +505,79 @@ var renderTextLayer = function renderTextLayerClosure() {
         this._renderTimer = null;
       }
 
-      this._capability.reject(new Error("TextLayer task cancelled."));
+      this._capability.reject(new Error('TextLayer task cancelled.'));
     },
-
-    _processItems(items, styleCache) {
-      for (let i = 0, len = items.length; i < len; i++) {
+    _processItems: function _processItems(items, styleCache) {
+      for (var i = 0, len = items.length; i < len; i++) {
         this._textContentItemsStr.push(items[i].str);
 
         appendText(this, items[i], styleCache);
       }
     },
+    _layoutText: function _layoutText(textDiv) {
+      var textLayerFrag = this._container;
 
-    _layoutText(textDiv) {
-      const textDivProperties = this._textDivProperties.get(textDiv);
+      var textDivProperties = this._textDivProperties.get(textDiv);
 
       if (textDivProperties.isWhitespace) {
         return;
       }
 
-      let transform = "";
+      var fontSize = textDiv.style.fontSize;
+      var fontFamily = textDiv.style.fontFamily;
 
-      if (textDivProperties.canvasWidth !== 0) {
-        const {
-          fontSize,
-          fontFamily
-        } = textDiv.style;
+      if (fontSize !== this._layoutTextLastFontSize || fontFamily !== this._layoutTextLastFontFamily) {
+        this._layoutTextCtx.font = fontSize + ' ' + fontFamily;
+        this._layoutTextLastFontSize = fontSize;
+        this._layoutTextLastFontFamily = fontFamily;
+      }
 
-        if (fontSize !== this._layoutTextLastFontSize || fontFamily !== this._layoutTextLastFontFamily) {
-          this._layoutTextCtx.font = `${fontSize} ${fontFamily}`;
-          this._layoutTextLastFontSize = fontSize;
-          this._layoutTextLastFontFamily = fontFamily;
-        }
+      var width = this._layoutTextCtx.measureText(textDiv.textContent).width;
 
-        const {
-          width
-        } = this._layoutTextCtx.measureText(textDiv.textContent);
+      var transform = '';
 
-        if (width > 0) {
-          textDivProperties.scale = textDivProperties.canvasWidth / width;
-          transform = `scaleX(${textDivProperties.scale})`;
-        }
+      if (textDivProperties.canvasWidth !== 0 && width > 0) {
+        textDivProperties.scale = textDivProperties.canvasWidth / width;
+        transform = "scaleX(".concat(textDivProperties.scale, ")");
       }
 
       if (textDivProperties.angle !== 0) {
-        transform = `rotate(${textDivProperties.angle}deg) ${transform}`;
+        transform = "rotate(".concat(textDivProperties.angle, "deg) ").concat(transform);
       }
 
       if (transform.length > 0) {
-        if (this._enhanceTextSelection) {
-          textDivProperties.originalTransform = transform;
-        }
-
+        textDivProperties.originalTransform = transform;
         textDiv.style.transform = transform;
       }
 
       this._textDivProperties.set(textDiv, textDivProperties);
 
-      this._container.appendChild(textDiv);
+      textLayerFrag.appendChild(textDiv);
     },
-
     _render: function TextLayer_render(timeout) {
-      const capability = (0, _util.createPromiseCapability)();
-      let styleCache = Object.create(null);
+      var _this2 = this;
 
-      const canvas = this._document.createElement("canvas");
-
+      var capability = (0, _util.createPromiseCapability)();
+      var styleCache = Object.create(null);
+      var canvas = document.createElement('canvas');
       canvas.mozOpaque = true;
-      this._layoutTextCtx = canvas.getContext("2d", {
+      this._layoutTextCtx = canvas.getContext('2d', {
         alpha: false
       });
 
       if (this._textContent) {
-        const textItems = this._textContent.items;
-        const textStyles = this._textContent.styles;
+        var textItems = this._textContent.items;
+        var textStyles = this._textContent.styles;
 
         this._processItems(textItems, textStyles);
 
         capability.resolve();
       } else if (this._textContentStream) {
-        const pump = () => {
-          this._reader.read().then(({
-            value,
-            done
-          }) => {
+        var pump = function pump() {
+          _this2._reader.read().then(function (_ref2) {
+            var value = _ref2.value,
+                done = _ref2.done;
+
             if (done) {
               capability.resolve();
               return;
@@ -597,7 +585,7 @@ var renderTextLayer = function renderTextLayerClosure() {
 
             Object.assign(styleCache, value.styles);
 
-            this._processItems(value.items, styleCache);
+            _this2._processItems(value.items, styleCache);
 
             pump();
           }, capability.reject);
@@ -606,18 +594,18 @@ var renderTextLayer = function renderTextLayerClosure() {
         this._reader = this._textContentStream.getReader();
         pump();
       } else {
-        throw new Error('Neither "textContent" nor "textContentStream"' + " parameters specified.");
+        throw new Error('Neither "textContent" nor "textContentStream"' + ' parameters specified.');
       }
 
-      capability.promise.then(() => {
+      capability.promise.then(function () {
         styleCache = null;
 
         if (!timeout) {
-          render(this);
+          render(_this2);
         } else {
-          this._renderTimer = setTimeout(() => {
-            render(this);
-            this._renderTimer = null;
+          _this2._renderTimer = setTimeout(function () {
+            render(_this2);
+            _this2._renderTimer = null;
           }, timeout);
         }
       }, this._capability.reject);
@@ -632,60 +620,55 @@ var renderTextLayer = function renderTextLayerClosure() {
         this._bounds = null;
       }
 
-      const transformBuf = [],
-            paddingBuf = [];
-
       for (var i = 0, ii = this._textDivs.length; i < ii; i++) {
-        const div = this._textDivs[i];
+        var div = this._textDivs[i];
 
-        const divProps = this._textDivProperties.get(div);
+        var divProperties = this._textDivProperties.get(div);
 
-        if (divProps.isWhitespace) {
+        if (divProperties.isWhitespace) {
           continue;
         }
 
         if (expandDivs) {
-          transformBuf.length = 0;
-          paddingBuf.length = 0;
+          var transform = '',
+              padding = '';
 
-          if (divProps.originalTransform) {
-            transformBuf.push(divProps.originalTransform);
+          if (divProperties.scale !== 1) {
+            transform = 'scaleX(' + divProperties.scale + ')';
           }
 
-          if (divProps.paddingTop > 0) {
-            paddingBuf.push(`${divProps.paddingTop}px`);
-            transformBuf.push(`translateY(${-divProps.paddingTop}px)`);
-          } else {
-            paddingBuf.push(0);
+          if (divProperties.angle !== 0) {
+            transform = 'rotate(' + divProperties.angle + 'deg) ' + transform;
           }
 
-          if (divProps.paddingRight > 0) {
-            paddingBuf.push(`${divProps.paddingRight / divProps.scale}px`);
-          } else {
-            paddingBuf.push(0);
+          if (divProperties.paddingLeft !== 0) {
+            padding += ' padding-left: ' + divProperties.paddingLeft / divProperties.scale + 'px;';
+            transform += ' translateX(' + -divProperties.paddingLeft / divProperties.scale + 'px)';
           }
 
-          if (divProps.paddingBottom > 0) {
-            paddingBuf.push(`${divProps.paddingBottom}px`);
-          } else {
-            paddingBuf.push(0);
+          if (divProperties.paddingTop !== 0) {
+            padding += ' padding-top: ' + divProperties.paddingTop + 'px;';
+            transform += ' translateY(' + -divProperties.paddingTop + 'px)';
           }
 
-          if (divProps.paddingLeft > 0) {
-            paddingBuf.push(`${divProps.paddingLeft / divProps.scale}px`);
-            transformBuf.push(`translateX(${-divProps.paddingLeft / divProps.scale}px)`);
-          } else {
-            paddingBuf.push(0);
+          if (divProperties.paddingRight !== 0) {
+            padding += ' padding-right: ' + divProperties.paddingRight / divProperties.scale + 'px;';
           }
 
-          div.style.padding = paddingBuf.join(" ");
+          if (divProperties.paddingBottom !== 0) {
+            padding += ' padding-bottom: ' + divProperties.paddingBottom + 'px;';
+          }
 
-          if (transformBuf.length) {
-            div.style.transform = transformBuf.join(" ");
+          if (padding !== '') {
+            div.setAttribute('style', divProperties.style + padding);
+          }
+
+          if (transform !== '') {
+            div.style.transform = transform;
           }
         } else {
-          div.style.padding = null;
-          div.style.transform = divProps.originalTransform;
+          div.style.padding = 0;
+          div.style.transform = divProperties.originalTransform || '';
         }
       }
     }

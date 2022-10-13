@@ -21,7 +21,7 @@
   bottom: 0;
   overflow: hidden;
   opacity: 0.2;
-  line-height: 1;
+  line-height: 1.0;
 }
 
 .textLayer > span {
@@ -29,13 +29,15 @@
   position: absolute;
   white-space: pre;
   cursor: text;
-  transform-origin: 0% 0%;
+  -webkit-transform-origin: 0% 0%;
+          transform-origin: 0% 0%;
 }
 
 .textLayer .highlight {
   margin: -1px;
   padding: 1px;
-  background-color: rgba(180, 0, 170, 1);
+
+  background-color: rgb(180, 0, 170);
   border-radius: 4px;
 }
 
@@ -52,16 +54,12 @@
 }
 
 .textLayer .highlight.selected {
-  background-color: rgba(0, 100, 0, 1);
+  background-color: rgb(0, 100, 0);
 }
 
-.textLayer ::-moz-selection {
-  background: rgba(0, 0, 255, 1);
-}
+.textLayer ::-moz-selection { background: rgb(0,0,255); }
 
-.textLayer ::selection {
-  background: rgba(0, 0, 255, 1);
-}
+.textLayer ::selection { background: rgb(0,0,255); }
 
 .textLayer .endOfContent {
   display: block;
@@ -100,8 +98,8 @@
 .annotationLayer .linkAnnotation > a:hover,
 .annotationLayer .buttonWidgetAnnotation.pushButton > a:hover {
   opacity: 0.2;
-  background: rgba(255, 255, 0, 1);
-  box-shadow: 0px 2px 10px rgba(255, 255, 0, 1);
+  background: #ff0;
+  box-shadow: 0px 2px 10px #ff0;
 }
 
 .annotationLayer .textAnnotation img {
@@ -154,7 +152,7 @@
 .annotationLayer .choiceWidgetAnnotation select:hover,
 .annotationLayer .buttonWidgetAnnotation.checkBox input:hover,
 .annotationLayer .buttonWidgetAnnotation.radioButton input:hover {
-  border: 1px solid rgba(0, 0, 0, 1);
+  border: 1px solid #000;
 }
 
 .annotationLayer .textWidgetAnnotation input:focus,
@@ -167,8 +165,8 @@
 .annotationLayer .buttonWidgetAnnotation.checkBox input:checked:before,
 .annotationLayer .buttonWidgetAnnotation.checkBox input:checked:after,
 .annotationLayer .buttonWidgetAnnotation.radioButton input:checked:before {
-  background-color: rgba(0, 0, 0, 1);
-  content: "";
+  background-color: #000;
+  content: '';
   display: block;
   position: absolute;
 }
@@ -181,11 +179,13 @@
 }
 
 .annotationLayer .buttonWidgetAnnotation.checkBox input:checked:before {
-  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
 }
 
 .annotationLayer .buttonWidgetAnnotation.checkBox input:checked:after {
-  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
 }
 
 .annotationLayer .buttonWidgetAnnotation.radioButton input:checked:before {
@@ -229,8 +229,8 @@
   position: absolute;
   z-index: 200;
   max-width: 20em;
-  background-color: rgba(255, 255, 153, 1);
-  box-shadow: 0px 2px 5px rgba(136, 136, 136, 1);
+  background-color: #FFFF99;
+  box-shadow: 0px 2px 5px #888;
   border-radius: 2px;
   padding: 6px;
   margin-left: 5px;
@@ -254,7 +254,7 @@
 }
 
 .annotationLayer .popup p {
-  border-top: 1px solid rgba(51, 51, 51, 1);
+  border-top: 1px solid #333;
   margin-top: 2px;
   padding-top: 2px;
 }
@@ -289,9 +289,10 @@
   overflow: visible;
   border: 9px solid transparent;
   background-clip: content-box;
-  -o-border-image: url(images/shadow.png) 9 9 repeat;
-     border-image: url(images/shadow.png) 9 9 repeat;
-  background-color: rgba(255, 255, 255, 1);
+  -webkit-border-image: url(images/shadow.png) 9 9 repeat;
+       -o-border-image: url(images/shadow.png) 9 9 repeat;
+          border-image: url(images/shadow.png) 9 9 repeat;
+  background-color: white;
 }
 
 .pdfViewer.removePageBorders .page {
@@ -308,16 +309,13 @@
   border: none;
 }
 
-.pdfViewer.scrollHorizontal,
-.pdfViewer.scrollWrapped,
-.spread {
+.pdfViewer.scrollHorizontal, .pdfViewer.scrollWrapped, .spread {
   margin-left: 3.5px;
   margin-right: 3.5px;
   text-align: center;
 }
 
-.pdfViewer.scrollHorizontal,
-.spread {
+.pdfViewer.scrollHorizontal, .spread {
   white-space: nowrap;
 }
 
@@ -367,7 +365,7 @@
   top: 0;
   right: 0;
   bottom: 0;
-  background: url("images/loading-icon.gif") center no-repeat;
+  background: url('images/loading-icon.gif') center no-repeat;
 }
 
 .pdfPresentationMode .pdfViewer {

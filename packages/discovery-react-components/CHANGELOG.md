@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.3.0](https://github.com/watson-developer-cloud/discovery-components/compare/v3.0.5...v3.3.0) (2022-10-13)
+
+
+### Bug Fixes
+
+* allow passage highlight on non-text fields ([#430](https://github.com/watson-developer-cloud/discovery-components/issues/430)) ([785e208](https://github.com/watson-developer-cloud/discovery-components/commit/785e208a43292d87ca28a3c348a83310af719136))
+
+
+### Features
+
+* allow displaying multiple passages from each document ([#397](https://github.com/watson-developer-cloud/discovery-components/issues/397)) ([5818f86](https://github.com/watson-developer-cloud/discovery-components/commit/5818f860b5bf92fa8ab32dd1dab095700542eac1))
+* strip out inputs, forms, buttons, and scripts from HTML doc view ([#415](https://github.com/watson-developer-cloud/discovery-components/issues/415)) ([e31c46f](https://github.com/watson-developer-cloud/discovery-components/commit/e31c46fffd15de4657de68cb6959e7d9bb95a9db))
+
+
+
+
+
 # [3.1.0](https://github.com/watson-developer-cloud/discovery-components/compare/v3.0.7...v3.1.0) (2022-09-26)
 
 

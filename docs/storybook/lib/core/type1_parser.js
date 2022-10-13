@@ -2,7 +2,7 @@
  * @licstart The following is the entire license notice for the
  * Javascript code in this page
  *
- * Copyright 2020 Mozilla Foundation
+ * Copyright 2019 Mozilla Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,33 +26,31 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Type1Parser = void 0;
 
-var _encodings = require("./encodings.js");
+var _util = require("../shared/util");
 
-var _core_utils = require("./core_utils.js");
+var _encodings = require("./encodings");
 
-var _stream = require("./stream.js");
-
-var _util = require("../shared/util.js");
+var _stream = require("./stream");
 
 var HINTING_ENABLED = false;
 
 var Type1CharString = function Type1CharStringClosure() {
   var COMMAND_MAP = {
-    hstem: [1],
-    vstem: [3],
-    vmoveto: [4],
-    rlineto: [5],
-    hlineto: [6],
-    vlineto: [7],
-    rrcurveto: [8],
-    callsubr: [10],
-    flex: [12, 35],
-    drop: [12, 18],
-    endchar: [14],
-    rmoveto: [21],
-    hmoveto: [22],
-    vhcurveto: [30],
-    hvcurveto: [31]
+    'hstem': [1],
+    'vstem': [3],
+    'vmoveto': [4],
+    'rlineto': [5],
+    'hlineto': [6],
+    'vlineto': [7],
+    'rrcurveto': [8],
+    'callsubr': [10],
+    'flex': [12, 35],
+    'drop': [12, 18],
+    'endchar': [14],
+    'rmoveto': [21],
+    'hmoveto': [22],
+    'vhcurveto': [30],
+    'hvcurveto': [31]
   };
 
   function Type1CharString() {
@@ -217,9 +215,7 @@ var Type1CharString = function Type1CharStringClosure() {
 
             case (12 << 8) + 6:
               if (seacAnalysisEnabled) {
-                const asb = this.stack[this.stack.length - 5];
                 this.seac = this.stack.splice(-4, 4);
-                this.seac[0] += this.lsb - asb;
                 error = this.executeCommand(0, COMMAND_MAP.endchar);
               } else {
                 error = this.executeCommand(4, COMMAND_MAP.endchar);
@@ -307,8 +303,7 @@ var Type1CharString = function Type1CharStringClosure() {
 
       return error;
     },
-
-    executeCommand(howManyArgs, command, keepStack) {
+    executeCommand: function executeCommand(howManyArgs, command, keepStack) {
       var stackLength = this.stack.length;
 
       if (howManyArgs > stackLength) {
@@ -324,7 +319,7 @@ var Type1CharString = function Type1CharStringClosure() {
           this.output.push(28, value >> 8 & 0xff, value & 0xff);
         } else {
           value = 65536 * value | 0;
-          this.output.push(255, value >> 24 & 0xff, value >> 16 & 0xff, value >> 8 & 0xff, value & 0xff);
+          this.output.push(255, value >> 24 & 0xFF, value >> 16 & 0xFF, value >> 8 & 0xFF, value & 0xFF);
         }
       }
 
@@ -338,7 +333,6 @@ var Type1CharString = function Type1CharStringClosure() {
 
       return false;
     }
-
   };
   return Type1CharString;
 }();
@@ -408,17 +402,17 @@ var Type1Parser = function Type1ParserClosure() {
       }
     }
 
-    return decrypted.slice(discardNumber, j);
+    return Array.prototype.slice.call(decrypted, discardNumber, j);
   }
 
   function isSpecial(c) {
-    return c === 0x2f || c === 0x5b || c === 0x5d || c === 0x7b || c === 0x7d || c === 0x28 || c === 0x29;
+    return c === 0x2F || c === 0x5B || c === 0x5D || c === 0x7B || c === 0x7D || c === 0x28 || c === 0x29;
   }
 
   function Type1Parser(stream, encrypted, seacAnalysisEnabled) {
     if (encrypted) {
       var data = stream.getBytes();
-      var isBinary = !((isHexDigit(data[0]) || (0, _core_utils.isWhiteSpace)(data[0])) && isHexDigit(data[1]) && isHexDigit(data[2]) && isHexDigit(data[3]) && isHexDigit(data[4]) && isHexDigit(data[5]) && isHexDigit(data[6]) && isHexDigit(data[7]));
+      var isBinary = !(isHexDigit(data[0]) && isHexDigit(data[1]) && isHexDigit(data[2]) && isHexDigit(data[3]));
       stream = new _stream.Stream(isBinary ? decrypt(data, EEXEC_ENCRYPT_KEY, 4) : decryptAscii(data, EEXEC_ENCRYPT_KEY, 4));
     }
 
@@ -435,7 +429,7 @@ var Type1Parser = function Type1ParserClosure() {
       while (true) {
         var token = this.getToken();
 
-        if (token === null || token === "]" || token === "}") {
+        if (token === null || token === ']' || token === '}') {
           break;
         }
 
@@ -454,7 +448,7 @@ var Type1Parser = function Type1ParserClosure() {
     },
     readBoolean: function Type1Parser_readBoolean() {
       var token = this.getToken();
-      return token === "true" ? 1 : 0;
+      return token === 'true' ? 1 : 0;
     },
     nextChar: function Type1_nextChar() {
       return this.currentChar = this.stream.getByte();
@@ -469,12 +463,12 @@ var Type1Parser = function Type1ParserClosure() {
         }
 
         if (comment) {
-          if (ch === 0x0a || ch === 0x0d) {
+          if (ch === 0x0A || ch === 0x0D) {
             comment = false;
           }
         } else if (ch === 0x25) {
           comment = true;
-        } else if (!(0, _core_utils.isWhiteSpace)(ch)) {
+        } else if (!(0, _util.isSpace)(ch)) {
           break;
         }
 
@@ -486,12 +480,12 @@ var Type1Parser = function Type1ParserClosure() {
         return String.fromCharCode(ch);
       }
 
-      var token = "";
+      var token = '';
 
       do {
         token += String.fromCharCode(ch);
         ch = this.nextChar();
-      } while (ch >= 0 && !(0, _core_utils.isWhiteSpace)(ch) && !isSpecial(ch));
+      } while (ch >= 0 && !(0, _util.isSpace)(ch) && !isSpecial(ch));
 
       return token;
     },
@@ -502,30 +496,30 @@ var Type1Parser = function Type1ParserClosure() {
 
       return decrypt(bytes, CHAR_STRS_ENCRYPT_KEY, lenIV);
     },
-    extractFontProgram: function Type1Parser_extractFontProgram(properties) {
+    extractFontProgram: function Type1Parser_extractFontProgram() {
       var stream = this.stream;
       var subrs = [],
           charstrings = [];
       var privateData = Object.create(null);
-      privateData.lenIV = 4;
+      privateData['lenIV'] = 4;
       var program = {
         subrs: [],
         charstrings: [],
         properties: {
-          privateData
+          'privateData': privateData
         }
       };
       var token, length, data, lenIV, encoded;
 
       while ((token = this.getToken()) !== null) {
-        if (token !== "/") {
+        if (token !== '/') {
           continue;
         }
 
         token = this.getToken();
 
         switch (token) {
-          case "CharStrings":
+          case 'CharStrings':
             this.getToken();
             this.getToken();
             this.getToken();
@@ -534,11 +528,11 @@ var Type1Parser = function Type1ParserClosure() {
             while (true) {
               token = this.getToken();
 
-              if (token === null || token === "end") {
+              if (token === null || token === 'end') {
                 break;
               }
 
-              if (token !== "/") {
+              if (token !== '/') {
                 continue;
               }
 
@@ -546,38 +540,38 @@ var Type1Parser = function Type1ParserClosure() {
               length = this.readInt();
               this.getToken();
               data = length > 0 ? stream.getBytes(length) : new Uint8Array(0);
-              lenIV = program.properties.privateData.lenIV;
+              lenIV = program.properties.privateData['lenIV'];
               encoded = this.readCharStrings(data, lenIV);
               this.nextChar();
               token = this.getToken();
 
-              if (token === "noaccess") {
+              if (token === 'noaccess') {
                 this.getToken();
               }
 
               charstrings.push({
-                glyph,
-                encoded
+                glyph: glyph,
+                encoded: encoded
               });
             }
 
             break;
 
-          case "Subrs":
+          case 'Subrs':
             this.readInt();
             this.getToken();
 
-            while (this.getToken() === "dup") {
-              const index = this.readInt();
+            while (this.getToken() === 'dup') {
+              var index = this.readInt();
               length = this.readInt();
               this.getToken();
               data = length > 0 ? stream.getBytes(length) : new Uint8Array(0);
-              lenIV = program.properties.privateData.lenIV;
+              lenIV = program.properties.privateData['lenIV'];
               encoded = this.readCharStrings(data, lenIV);
               this.nextChar();
               token = this.getToken();
 
-              if (token === "noaccess") {
+              if (token === 'noaccess') {
                 this.getToken();
               }
 
@@ -586,10 +580,10 @@ var Type1Parser = function Type1ParserClosure() {
 
             break;
 
-          case "BlueValues":
-          case "OtherBlues":
-          case "FamilyBlues":
-          case "FamilyOtherBlues":
+          case 'BlueValues':
+          case 'OtherBlues':
+          case 'FamilyBlues':
+          case 'FamilyOtherBlues':
             var blueArray = this.readNumberArray();
 
             if (blueArray.length > 0 && blueArray.length % 2 === 0 && HINTING_ENABLED) {
@@ -598,26 +592,26 @@ var Type1Parser = function Type1ParserClosure() {
 
             break;
 
-          case "StemSnapH":
-          case "StemSnapV":
+          case 'StemSnapH':
+          case 'StemSnapV':
             program.properties.privateData[token] = this.readNumberArray();
             break;
 
-          case "StdHW":
-          case "StdVW":
+          case 'StdHW':
+          case 'StdVW':
             program.properties.privateData[token] = this.readNumberArray()[0];
             break;
 
-          case "BlueShift":
-          case "lenIV":
-          case "BlueFuzz":
-          case "BlueScale":
-          case "LanguageGroup":
-          case "ExpansionFactor":
+          case 'BlueShift':
+          case 'lenIV':
+          case 'BlueFuzz':
+          case 'BlueScale':
+          case 'LanguageGroup':
+          case 'ExpansionFactor':
             program.properties.privateData[token] = this.readNumber();
             break;
 
-          case "ForceBold":
+          case 'ForceBold':
             program.properties.privateData[token] = this.readBoolean();
             break;
         }
@@ -634,27 +628,13 @@ var Type1Parser = function Type1ParserClosure() {
           output = [14];
         }
 
-        const charStringObject = {
+        program.charstrings.push({
           glyphName: glyph,
           charstring: output,
           width: charString.width,
           lsb: charString.lsb,
           seac: charString.seac
-        };
-
-        if (glyph === ".notdef") {
-          program.charstrings.unshift(charStringObject);
-        } else {
-          program.charstrings.push(charStringObject);
-        }
-
-        if (properties.builtInEncoding) {
-          const index = properties.builtInEncoding.indexOf(glyph);
-
-          if (index > -1 && properties.widths[index] === undefined && index >= properties.firstChar && index <= properties.lastChar) {
-            properties.widths[index] = charString.width;
-          }
-        }
+        });
       }
 
       return program;
@@ -663,19 +643,19 @@ var Type1Parser = function Type1ParserClosure() {
       var token;
 
       while ((token = this.getToken()) !== null) {
-        if (token !== "/") {
+        if (token !== '/') {
           continue;
         }
 
         token = this.getToken();
 
         switch (token) {
-          case "FontMatrix":
+          case 'FontMatrix':
             var matrix = this.readNumberArray();
             properties.fontMatrix = matrix;
             break;
 
-          case "Encoding":
+          case 'Encoding':
             var encodingArg = this.getToken();
             var encoding;
 
@@ -689,7 +669,7 @@ var Type1Parser = function Type1ParserClosure() {
               for (var j = 0; j < size; j++) {
                 token = this.getToken();
 
-                while (token !== "dup" && token !== "def") {
+                while (token !== 'dup' && token !== 'def') {
                   token = this.getToken();
 
                   if (token === null) {
@@ -697,7 +677,7 @@ var Type1Parser = function Type1ParserClosure() {
                   }
                 }
 
-                if (token === "def") {
+                if (token === 'def') {
                   break;
                 }
 
@@ -712,7 +692,7 @@ var Type1Parser = function Type1ParserClosure() {
             properties.builtInEncoding = encoding;
             break;
 
-          case "FontBBox":
+          case 'FontBBox':
             var fontBBox = this.readNumberArray();
             properties.ascent = Math.max(fontBBox[3], fontBBox[1]);
             properties.descent = Math.min(fontBBox[1], fontBBox[3]);

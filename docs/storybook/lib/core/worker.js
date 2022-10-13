@@ -2,7 +2,7 @@
  * @licstart The following is the entire license notice for the
  * Javascript code in this page
  *
- * Copyright 2020 Mozilla Foundation
+ * Copyright 2019 Mozilla Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,55 +26,70 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.WorkerMessageHandler = exports.WorkerTask = void 0;
 
-var _util = require("../shared/util.js");
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
-var _primitives = require("./primitives.js");
+var _util = require("../shared/util");
 
-var _pdf_manager = require("./pdf_manager.js");
+var _primitives = require("./primitives");
 
-var _writer = require("./writer.js");
+var _pdf_manager = require("./pdf_manager");
 
-var _is_node = require("../shared/is_node.js");
+var _is_node = _interopRequireDefault(require("../shared/is_node"));
 
-var _message_handler = require("../shared/message_handler.js");
+var _message_handler = require("../shared/message_handler");
 
-var _worker_stream = require("./worker_stream.js");
+var _worker_stream = require("./worker_stream");
 
-var _core_utils = require("./core_utils.js");
+var _core_utils = require("./core_utils");
 
-class WorkerTask {
-  constructor(name) {
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+var WorkerTask = function WorkerTaskClosure() {
+  function WorkerTask(name) {
     this.name = name;
     this.terminated = false;
     this._capability = (0, _util.createPromiseCapability)();
   }
 
-  get finished() {
-    return this._capability.promise;
-  }
+  WorkerTask.prototype = {
+    get finished() {
+      return this._capability.promise;
+    },
 
-  finish() {
-    this._capability.resolve();
-  }
-
-  terminate() {
-    this.terminated = true;
-  }
-
-  ensureNotTerminated() {
-    if (this.terminated) {
-      throw new Error("Worker task was terminated");
+    finish: function finish() {
+      this._capability.resolve();
+    },
+    terminate: function terminate() {
+      this.terminated = true;
+    },
+    ensureNotTerminated: function ensureNotTerminated() {
+      if (this.terminated) {
+        throw new Error('Worker task was terminated');
+      }
     }
-  }
-
-}
+  };
+  return WorkerTask;
+}();
 
 exports.WorkerTask = WorkerTask;
-
-class WorkerMessageHandler {
-  static setup(handler, port) {
+var WorkerMessageHandler = {
+  setup: function setup(handler, port) {
     var testMessageProcessed = false;
-    handler.on("test", function wphSetupTest(data) {
+    handler.on('test', function wphSetupTest(data) {
       if (testMessageProcessed) {
         return;
       }
@@ -82,60 +97,60 @@ class WorkerMessageHandler {
       testMessageProcessed = true;
 
       if (!(data instanceof Uint8Array)) {
-        handler.send("test", null);
+        handler.send('test', false);
         return;
       }
 
-      const supportTransfers = data[0] === 255;
+      var supportTransfers = data[0] === 255;
       handler.postMessageTransfers = supportTransfers;
-      handler.send("test", {
-        supportTransfers
+      var xhr = new XMLHttpRequest();
+      var responseExists = 'response' in xhr;
+
+      try {
+        xhr.responseType;
+      } catch (e) {
+        responseExists = false;
+      }
+
+      if (!responseExists) {
+        handler.send('test', false);
+        return;
+      }
+
+      handler.send('test', {
+        supportTypedArray: true,
+        supportTransfers: supportTransfers
       });
     });
-    handler.on("configure", function wphConfigure(data) {
+    handler.on('configure', function wphConfigure(data) {
       (0, _util.setVerbosityLevel)(data.verbosity);
     });
-    handler.on("GetDocRequest", function wphSetupDoc(data) {
+    handler.on('GetDocRequest', function wphSetupDoc(data) {
       return WorkerMessageHandler.createDocumentHandler(data, port);
     });
-  }
-
-  static createDocumentHandler(docParams, port) {
+  },
+  createDocumentHandler: function createDocumentHandler(docParams, port) {
     var pdfManager;
     var terminated = false;
     var cancelXHRs = null;
     var WorkerTasks = [];
-    const verbosity = (0, _util.getVerbosityLevel)();
-    const apiVersion = docParams.apiVersion;
-    const workerVersion = '2.6.347';
+    var verbosity = (0, _util.getVerbosityLevel)();
+    var apiVersion = docParams.apiVersion;
+    var workerVersion = '2.2.228';
 
     if (apiVersion !== workerVersion) {
-      throw new Error(`The API version "${apiVersion}" does not match ` + `the Worker version "${workerVersion}".`);
-    }
-
-    const enumerableProperties = [];
-
-    for (const property in []) {
-      enumerableProperties.push(property);
-    }
-
-    if (enumerableProperties.length) {
-      throw new Error("The `Array.prototype` contains unexpected enumerable properties: " + enumerableProperties.join(", ") + "; thus breaking e.g. `for...in` iteration of `Array`s.");
-    }
-
-    if (typeof ReadableStream === "undefined" || typeof Promise.allSettled === "undefined") {
-      throw new Error("The browser/environment lacks native support for critical " + "functionality used by the PDF.js library (e.g. " + "`ReadableStream` and/or `Promise.allSettled`); " + "please use an ES5-compatible build instead.");
+      throw new Error("The API version \"".concat(apiVersion, "\" does not match ") + "the Worker version \"".concat(workerVersion, "\"."));
     }
 
     var docId = docParams.docId;
     var docBaseUrl = docParams.docBaseUrl;
-    var workerHandlerName = docParams.docId + "_worker";
+    var workerHandlerName = docParams.docId + '_worker';
     var handler = new _message_handler.MessageHandler(workerHandlerName, docId, port);
     handler.postMessageTransfers = docParams.postMessageTransfers;
 
     function ensureNotTerminated() {
       if (terminated) {
-        throw new Error("Worker was terminated");
+        throw new Error('Worker was terminated');
       }
     }
 
@@ -149,31 +164,73 @@ class WorkerMessageHandler {
       WorkerTasks.splice(i, 1);
     }
 
-    async function loadDocument(recoveryMode) {
-      await pdfManager.ensureDoc("checkHeader");
-      await pdfManager.ensureDoc("parseStartXRef");
-      await pdfManager.ensureDoc("parse", [recoveryMode]);
+    function loadDocument(_x) {
+      return _loadDocument.apply(this, arguments);
+    }
 
-      if (!recoveryMode) {
-        await pdfManager.ensureDoc("checkFirstPage");
-      }
+    function _loadDocument() {
+      _loadDocument = _asyncToGenerator(
+      /*#__PURE__*/
+      _regenerator["default"].mark(function _callee(recoveryMode) {
+        var _ref4, _ref5, numPages, fingerprint;
 
-      const [numPages, fingerprint] = await Promise.all([pdfManager.ensureDoc("numPages"), pdfManager.ensureDoc("fingerprint")]);
-      return {
-        numPages,
-        fingerprint
-      };
+        return _regenerator["default"].wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return pdfManager.ensureDoc('checkHeader');
+
+              case 2:
+                _context.next = 4;
+                return pdfManager.ensureDoc('parseStartXRef');
+
+              case 4:
+                _context.next = 6;
+                return pdfManager.ensureDoc('parse', [recoveryMode]);
+
+              case 6:
+                if (recoveryMode) {
+                  _context.next = 9;
+                  break;
+                }
+
+                _context.next = 9;
+                return pdfManager.ensureDoc('checkFirstPage');
+
+              case 9:
+                _context.next = 11;
+                return Promise.all([pdfManager.ensureDoc('numPages'), pdfManager.ensureDoc('fingerprint')]);
+
+              case 11:
+                _ref4 = _context.sent;
+                _ref5 = _slicedToArray(_ref4, 2);
+                numPages = _ref5[0];
+                fingerprint = _ref5[1];
+                return _context.abrupt("return", {
+                  numPages: numPages,
+                  fingerprint: fingerprint
+                });
+
+              case 16:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+      return _loadDocument.apply(this, arguments);
     }
 
     function getPdfManager(data, evaluatorOptions) {
       var pdfManagerCapability = (0, _util.createPromiseCapability)();
-      let newPdfManager;
+      var pdfManager;
       var source = data.source;
 
       if (source.data) {
         try {
-          newPdfManager = new _pdf_manager.LocalPdfManager(docId, source.data, source.password, evaluatorOptions, docBaseUrl);
-          pdfManagerCapability.resolve(newPdfManager);
+          pdfManager = new _pdf_manager.LocalPdfManager(docId, source.data, source.password, evaluatorOptions, docBaseUrl);
+          pdfManagerCapability.resolve(pdfManager);
         } catch (ex) {
           pdfManagerCapability.reject(ex);
         }
@@ -198,37 +255,37 @@ class WorkerMessageHandler {
         }
 
         var disableAutoFetch = source.disableAutoFetch || fullRequest.isStreamingSupported;
-        newPdfManager = new _pdf_manager.NetworkPdfManager(docId, pdfStream, {
+        pdfManager = new _pdf_manager.NetworkPdfManager(docId, pdfStream, {
           msgHandler: handler,
           password: source.password,
           length: fullRequest.contentLength,
-          disableAutoFetch,
+          disableAutoFetch: disableAutoFetch,
           rangeChunkSize: source.rangeChunkSize
         }, evaluatorOptions, docBaseUrl);
 
-        for (let i = 0; i < cachedChunks.length; i++) {
-          newPdfManager.sendProgressiveData(cachedChunks[i]);
+        for (var i = 0; i < cachedChunks.length; i++) {
+          pdfManager.sendProgressiveData(cachedChunks[i]);
         }
 
         cachedChunks = [];
-        pdfManagerCapability.resolve(newPdfManager);
+        pdfManagerCapability.resolve(pdfManager);
         cancelXHRs = null;
-      }).catch(function (reason) {
+      })["catch"](function (reason) {
         pdfManagerCapability.reject(reason);
         cancelXHRs = null;
       });
       var loaded = 0;
 
-      var flushChunks = function () {
+      var flushChunks = function flushChunks() {
         var pdfFile = (0, _util.arraysToBytes)(cachedChunks);
 
         if (source.length && pdfFile.length !== source.length) {
-          (0, _util.warn)("reported HTTP length is different from actual");
+          (0, _util.warn)('reported HTTP length is different from actual');
         }
 
         try {
-          newPdfManager = new _pdf_manager.LocalPdfManager(docId, pdfFile, source.password, evaluatorOptions, docBaseUrl);
-          pdfManagerCapability.resolve(newPdfManager);
+          pdfManager = new _pdf_manager.LocalPdfManager(docId, pdfFile, source.password, evaluatorOptions, docBaseUrl);
+          pdfManagerCapability.resolve(pdfManager);
         } catch (ex) {
           pdfManagerCapability.reject(ex);
         }
@@ -237,15 +294,12 @@ class WorkerMessageHandler {
       };
 
       var readPromise = new Promise(function (resolve, reject) {
-        var readChunk = function ({
-          value,
-          done
-        }) {
+        var readChunk = function readChunk(chunk) {
           try {
             ensureNotTerminated();
 
-            if (done) {
-              if (!newPdfManager) {
+            if (chunk.done) {
+              if (!pdfManager) {
                 flushChunks();
               }
 
@@ -253,19 +307,20 @@ class WorkerMessageHandler {
               return;
             }
 
-            loaded += (0, _util.arrayByteLength)(value);
+            var data = chunk.value;
+            loaded += (0, _util.arrayByteLength)(data);
 
             if (!fullRequest.isStreamingSupported) {
-              handler.send("DocProgress", {
-                loaded,
+              handler.send('DocProgress', {
+                loaded: loaded,
                 total: Math.max(loaded, fullRequest.contentLength || 0)
               });
             }
 
-            if (newPdfManager) {
-              newPdfManager.sendProgressiveData(value);
+            if (pdfManager) {
+              pdfManager.sendProgressiveData(data);
             } else {
-              cachedChunks.push(value);
+              cachedChunks.push(data);
             }
 
             fullRequest.read().then(readChunk, reject);
@@ -276,13 +331,13 @@ class WorkerMessageHandler {
 
         fullRequest.read().then(readChunk, reject);
       });
-      readPromise.catch(function (e) {
+      readPromise["catch"](function (e) {
         pdfManagerCapability.reject(e);
         cancelXHRs = null;
       });
 
-      cancelXHRs = function (reason) {
-        pdfStream.cancelAllRequests(reason);
+      cancelXHRs = function cancelXHRs() {
+        pdfStream.cancelAllRequests('abort');
       };
 
       return pdfManagerCapability.promise;
@@ -291,41 +346,43 @@ class WorkerMessageHandler {
     function setupDoc(data) {
       function onSuccess(doc) {
         ensureNotTerminated();
-        handler.send("GetDoc", {
+        handler.send('GetDoc', {
           pdfInfo: doc
         });
       }
 
-      function onFailure(ex) {
+      function onFailure(e) {
         ensureNotTerminated();
 
-        if (ex instanceof _util.PasswordException) {
-          var task = new WorkerTask(`PasswordException: response ${ex.code}`);
+        if (e instanceof _util.PasswordException) {
+          var task = new WorkerTask('PasswordException: response ' + e.code);
           startWorkerTask(task);
-          handler.sendWithPromise("PasswordRequest", ex).then(function ({
-            password
-          }) {
+          handler.sendWithPromise('PasswordRequest', e).then(function (data) {
             finishWorkerTask(task);
-            pdfManager.updatePassword(password);
+            pdfManager.updatePassword(data.password);
             pdfManagerReady();
-          }).catch(function () {
+          })["catch"](function (boundException) {
             finishWorkerTask(task);
-            handler.send("DocException", ex);
-          });
-        } else if (ex instanceof _util.InvalidPDFException || ex instanceof _util.MissingPDFException || ex instanceof _util.UnexpectedResponseException || ex instanceof _util.UnknownErrorException) {
-          handler.send("DocException", ex);
+            handler.send('PasswordException', boundException);
+          }.bind(null, e));
+        } else if (e instanceof _util.InvalidPDFException) {
+          handler.send('InvalidPDF', e);
+        } else if (e instanceof _util.MissingPDFException) {
+          handler.send('MissingPDF', e);
+        } else if (e instanceof _util.UnexpectedResponseException) {
+          handler.send('UnexpectedResponse', e);
         } else {
-          handler.send("DocException", new _util.UnknownErrorException(ex.message, ex.toString()));
+          handler.send('UnknownError', new _util.UnknownErrorException(e.message, e.toString()));
         }
       }
 
       function pdfManagerReady() {
         ensureNotTerminated();
-        loadDocument(false).then(onSuccess, function (reason) {
+        loadDocument(false).then(onSuccess, function loadFailure(ex) {
           ensureNotTerminated();
 
-          if (!(reason instanceof _core_utils.XRefParseException)) {
-            onFailure(reason);
+          if (!(ex instanceof _core_utils.XRefParseException)) {
+            onFailure(ex);
             return;
           }
 
@@ -334,202 +391,165 @@ class WorkerMessageHandler {
             ensureNotTerminated();
             loadDocument(true).then(onSuccess, onFailure);
           });
-        });
+        }, onFailure);
       }
 
       ensureNotTerminated();
       var evaluatorOptions = {
+        forceDataSchema: data.disableCreateObjectURL,
         maxImageSize: data.maxImageSize,
         disableFontFace: data.disableFontFace,
+        nativeImageDecoderSupport: data.nativeImageDecoderSupport,
         ignoreErrors: data.ignoreErrors,
-        isEvalSupported: data.isEvalSupported,
-        fontExtraProperties: data.fontExtraProperties
+        isEvalSupported: data.isEvalSupported
       };
       getPdfManager(data, evaluatorOptions).then(function (newPdfManager) {
         if (terminated) {
-          newPdfManager.terminate(new _util.AbortException("Worker was terminated."));
-          throw new Error("Worker was terminated");
+          newPdfManager.terminate();
+          throw new Error('Worker was terminated');
         }
 
         pdfManager = newPdfManager;
         pdfManager.onLoadedStream().then(function (stream) {
-          handler.send("DataLoaded", {
+          handler.send('DataLoaded', {
             length: stream.bytes.byteLength
           });
         });
       }).then(pdfManagerReady, onFailure);
     }
 
-    handler.on("GetPage", function wphSetupGetPage(data) {
+    handler.on('GetPage', function wphSetupGetPage(data) {
       return pdfManager.getPage(data.pageIndex).then(function (page) {
-        return Promise.all([pdfManager.ensure(page, "rotate"), pdfManager.ensure(page, "ref"), pdfManager.ensure(page, "userUnit"), pdfManager.ensure(page, "view")]).then(function ([rotate, ref, userUnit, view]) {
+        return Promise.all([pdfManager.ensure(page, 'rotate'), pdfManager.ensure(page, 'ref'), pdfManager.ensure(page, 'userUnit'), pdfManager.ensure(page, 'view')]).then(function (_ref) {
+          var _ref2 = _slicedToArray(_ref, 4),
+              rotate = _ref2[0],
+              ref = _ref2[1],
+              userUnit = _ref2[2],
+              view = _ref2[3];
+
           return {
-            rotate,
-            ref,
-            userUnit,
-            view
+            rotate: rotate,
+            ref: ref,
+            userUnit: userUnit,
+            view: view
           };
         });
       });
     });
-    handler.on("GetPageIndex", function wphSetupGetPageIndex({
-      ref
-    }) {
-      const pageRef = _primitives.Ref.get(ref.num, ref.gen);
+    handler.on('GetPageIndex', function wphSetupGetPageIndex(data) {
+      var ref = _primitives.Ref.get(data.ref.num, data.ref.gen);
 
-      return pdfManager.ensureCatalog("getPageIndex", [pageRef]);
+      var catalog = pdfManager.pdfDocument.catalog;
+      return catalog.getPageIndex(ref);
     });
-    handler.on("GetDestinations", function wphSetupGetDestinations(data) {
-      return pdfManager.ensureCatalog("destinations");
+    handler.on('GetDestinations', function wphSetupGetDestinations(data) {
+      return pdfManager.ensureCatalog('destinations');
     });
-    handler.on("GetDestination", function wphSetupGetDestination(data) {
-      return pdfManager.ensureCatalog("getDestination", [data.id]);
+    handler.on('GetDestination', function wphSetupGetDestination(data) {
+      return pdfManager.ensureCatalog('getDestination', [data.id]);
     });
-    handler.on("GetPageLabels", function wphSetupGetPageLabels(data) {
-      return pdfManager.ensureCatalog("pageLabels");
+    handler.on('GetPageLabels', function wphSetupGetPageLabels(data) {
+      return pdfManager.ensureCatalog('pageLabels');
     });
-    handler.on("GetPageLayout", function wphSetupGetPageLayout(data) {
-      return pdfManager.ensureCatalog("pageLayout");
+    handler.on('GetPageLayout', function wphSetupGetPageLayout(data) {
+      return pdfManager.ensureCatalog('pageLayout');
     });
-    handler.on("GetPageMode", function wphSetupGetPageMode(data) {
-      return pdfManager.ensureCatalog("pageMode");
+    handler.on('GetPageMode', function wphSetupGetPageMode(data) {
+      return pdfManager.ensureCatalog('pageMode');
     });
-    handler.on("GetViewerPreferences", function (data) {
-      return pdfManager.ensureCatalog("viewerPreferences");
+    handler.on('GetViewerPreferences', function (data) {
+      return pdfManager.ensureCatalog('viewerPreferences');
     });
-    handler.on("GetOpenAction", function (data) {
-      return pdfManager.ensureCatalog("openAction");
+    handler.on('GetOpenActionDestination', function (data) {
+      return pdfManager.ensureCatalog('openActionDestination');
     });
-    handler.on("GetAttachments", function wphSetupGetAttachments(data) {
-      return pdfManager.ensureCatalog("attachments");
+    handler.on('GetAttachments', function wphSetupGetAttachments(data) {
+      return pdfManager.ensureCatalog('attachments');
     });
-    handler.on("GetJavaScript", function wphSetupGetJavaScript(data) {
-      return pdfManager.ensureCatalog("javaScript");
+    handler.on('GetJavaScript', function wphSetupGetJavaScript(data) {
+      return pdfManager.ensureCatalog('javaScript');
     });
-    handler.on("GetOutline", function wphSetupGetOutline(data) {
-      return pdfManager.ensureCatalog("documentOutline");
+    handler.on('GetOutline', function wphSetupGetOutline(data) {
+      return pdfManager.ensureCatalog('documentOutline');
     });
-    handler.on("GetOptionalContentConfig", function (data) {
-      return pdfManager.ensureCatalog("optionalContentConfig");
+    handler.on('GetPermissions', function (data) {
+      return pdfManager.ensureCatalog('permissions');
     });
-    handler.on("GetPermissions", function (data) {
-      return pdfManager.ensureCatalog("permissions");
+    handler.on('GetMetadata', function wphSetupGetMetadata(data) {
+      return Promise.all([pdfManager.ensureDoc('documentInfo'), pdfManager.ensureCatalog('metadata')]);
     });
-    handler.on("GetMetadata", function wphSetupGetMetadata(data) {
-      return Promise.all([pdfManager.ensureDoc("documentInfo"), pdfManager.ensureCatalog("metadata")]);
-    });
-    handler.on("GetData", function wphSetupGetData(data) {
+    handler.on('GetData', function wphSetupGetData(data) {
       pdfManager.requestLoadedStream();
       return pdfManager.onLoadedStream().then(function (stream) {
         return stream.bytes;
       });
     });
-    handler.on("GetStats", function wphSetupGetStats(data) {
-      return pdfManager.ensureXRef("stats");
+    handler.on('GetStats', function wphSetupGetStats(data) {
+      return pdfManager.pdfDocument.xref.stats;
     });
-    handler.on("GetAnnotations", function ({
-      pageIndex,
-      intent
-    }) {
+    handler.on('GetAnnotations', function (_ref3) {
+      var pageIndex = _ref3.pageIndex,
+          intent = _ref3.intent;
       return pdfManager.getPage(pageIndex).then(function (page) {
         return page.getAnnotationsData(intent);
       });
     });
-    handler.on("SaveDocument", function ({
-      numPages,
-      annotationStorage,
-      filename
-    }) {
-      pdfManager.requestLoadedStream();
-      const promises = [pdfManager.onLoadedStream()];
-      const document = pdfManager.pdfDocument;
-
-      for (let pageIndex = 0; pageIndex < numPages; pageIndex++) {
-        promises.push(pdfManager.getPage(pageIndex).then(function (page) {
-          const task = new WorkerTask(`Save: page ${pageIndex}`);
-          return page.save(handler, task, annotationStorage);
-        }));
-      }
-
-      return Promise.all(promises).then(([stream, ...refs]) => {
-        let newRefs = [];
-
-        for (const ref of refs) {
-          newRefs = ref.filter(x => x !== null).reduce((a, b) => a.concat(b), newRefs);
-        }
-
-        if (newRefs.length === 0) {
-          return stream.bytes;
-        }
-
-        const xref = document.xref;
-        let newXrefInfo = Object.create(null);
-
-        if (xref.trailer) {
-          const _info = Object.create(null);
-
-          const xrefInfo = xref.trailer.get("Info") || null;
-
-          if (xrefInfo) {
-            xrefInfo.forEach((key, value) => {
-              if ((0, _util.isString)(key) && (0, _util.isString)(value)) {
-                _info[key] = (0, _util.stringToPDFString)(value);
-              }
-            });
-          }
-
-          newXrefInfo = {
-            rootRef: xref.trailer.getRaw("Root") || null,
-            encrypt: xref.trailer.getRaw("Encrypt") || null,
-            newRef: xref.getNewRef(),
-            infoRef: xref.trailer.getRaw("Info") || null,
-            info: _info,
-            fileIds: xref.trailer.getRaw("ID") || null,
-            startXRef: document.startXRef,
-            filename
-          };
-        }
-
-        xref.resetNewRef();
-        return (0, _writer.incrementalUpdate)(stream.bytes, newXrefInfo, newRefs);
-      });
-    });
-    handler.on("GetOperatorList", function wphSetupRenderPage(data, sink) {
+    handler.on('RenderPageRequest', function wphSetupRenderPage(data) {
       var pageIndex = data.pageIndex;
       pdfManager.getPage(pageIndex).then(function (page) {
-        var task = new WorkerTask(`GetOperatorList: page ${pageIndex}`);
+        var task = new WorkerTask('RenderPageRequest: page ' + pageIndex);
         startWorkerTask(task);
-        const start = verbosity >= _util.VerbosityLevel.INFOS ? Date.now() : 0;
+        var start = verbosity >= _util.VerbosityLevel.INFOS ? Date.now() : 0;
         page.getOperatorList({
-          handler,
-          sink,
-          task,
+          handler: handler,
+          task: task,
           intent: data.intent,
-          renderInteractiveForms: data.renderInteractiveForms,
-          annotationStorage: data.annotationStorage
-        }).then(function (operatorListInfo) {
+          renderInteractiveForms: data.renderInteractiveForms
+        }).then(function (operatorList) {
           finishWorkerTask(task);
 
           if (start) {
-            (0, _util.info)(`page=${pageIndex + 1} - getOperatorList: time=` + `${Date.now() - start}ms, len=${operatorListInfo.length}`);
+            (0, _util.info)("page=".concat(pageIndex + 1, " - getOperatorList: time=") + "".concat(Date.now() - start, "ms, len=").concat(operatorList.totalLength));
           }
-
-          sink.close();
-        }, function (reason) {
+        }, function (e) {
           finishWorkerTask(task);
 
           if (task.terminated) {
             return;
           }
 
-          handler.send("UnsupportedFeature", {
-            featureId: _util.UNSUPPORTED_FEATURES.errorOperatorList
+          handler.send('UnsupportedFeature', {
+            featureId: _util.UNSUPPORTED_FEATURES.unknown
           });
-          sink.error(reason);
+          var minimumStackMessage = 'worker.js: while trying to getPage() and getOperatorList()';
+          var wrappedException;
+
+          if (typeof e === 'string') {
+            wrappedException = {
+              message: e,
+              stack: minimumStackMessage
+            };
+          } else if (_typeof(e) === 'object') {
+            wrappedException = {
+              message: e.message || e.toString(),
+              stack: e.stack || minimumStackMessage
+            };
+          } else {
+            wrappedException = {
+              message: 'Unknown exception type: ' + _typeof(e),
+              stack: minimumStackMessage
+            };
+          }
+
+          handler.send('PageError', {
+            pageIndex: pageIndex,
+            error: wrappedException,
+            intent: data.intent
+          });
         });
       });
     }, this);
-    handler.on("GetTextContent", function wphExtractText(data, sink) {
+    handler.on('GetTextContent', function wphExtractText(data, sink) {
       var pageIndex = data.pageIndex;
 
       sink.onPull = function (desiredSize) {};
@@ -537,20 +557,20 @@ class WorkerMessageHandler {
       sink.onCancel = function (reason) {};
 
       pdfManager.getPage(pageIndex).then(function (page) {
-        var task = new WorkerTask("GetTextContent: page " + pageIndex);
+        var task = new WorkerTask('GetTextContent: page ' + pageIndex);
         startWorkerTask(task);
-        const start = verbosity >= _util.VerbosityLevel.INFOS ? Date.now() : 0;
+        var start = verbosity >= _util.VerbosityLevel.INFOS ? Date.now() : 0;
         page.extractTextContent({
-          handler,
-          task,
-          sink,
+          handler: handler,
+          task: task,
+          sink: sink,
           normalizeWhitespace: data.normalizeWhitespace,
           combineTextItems: data.combineTextItems
         }).then(function () {
           finishWorkerTask(task);
 
           if (start) {
-            (0, _util.info)(`page=${pageIndex + 1} - getTextContent: time=` + `${Date.now() - start}ms`);
+            (0, _util.info)("page=".concat(pageIndex + 1, " - getTextContent: time=") + "".concat(Date.now() - start, "ms"));
           }
 
           sink.close();
@@ -562,32 +582,30 @@ class WorkerMessageHandler {
           }
 
           sink.error(reason);
+          throw reason;
         });
       });
     });
-    handler.on("FontFallback", function (data) {
+    handler.on('FontFallback', function (data) {
       return pdfManager.fontFallback(data.id, handler);
     });
-    handler.on("Cleanup", function wphCleanup(data) {
-      return pdfManager.cleanup(true);
+    handler.on('Cleanup', function wphCleanup(data) {
+      return pdfManager.cleanup();
     });
-    handler.on("Terminate", function wphTerminate(data) {
+    handler.on('Terminate', function wphTerminate(data) {
       terminated = true;
-      const waitOn = [];
 
       if (pdfManager) {
-        pdfManager.terminate(new _util.AbortException("Worker was terminated."));
-        const cleanupPromise = pdfManager.cleanup();
-        waitOn.push(cleanupPromise);
+        pdfManager.terminate();
         pdfManager = null;
-      } else {
-        (0, _primitives.clearPrimitiveCaches)();
       }
 
       if (cancelXHRs) {
-        cancelXHRs(new _util.AbortException("Worker was terminated."));
+        cancelXHRs();
       }
 
+      (0, _primitives.clearPrimitiveCaches)();
+      var waitOn = [];
       WorkerTasks.forEach(function (task) {
         waitOn.push(task.finished);
         task.terminate();
@@ -597,27 +615,24 @@ class WorkerMessageHandler {
         handler = null;
       });
     });
-    handler.on("Ready", function wphReady(data) {
+    handler.on('Ready', function wphReady(data) {
       setupDoc(docParams);
       docParams = null;
     });
     return workerHandlerName;
-  }
-
-  static initializeFromPort(port) {
-    var handler = new _message_handler.MessageHandler("worker", "main", port);
+  },
+  initializeFromPort: function initializeFromPort(port) {
+    var handler = new _message_handler.MessageHandler('worker', 'main', port);
     WorkerMessageHandler.setup(handler, port);
-    handler.send("ready", null);
+    handler.send('ready', null);
   }
-
-}
-
+};
 exports.WorkerMessageHandler = WorkerMessageHandler;
 
 function isMessagePort(maybePort) {
-  return typeof maybePort.postMessage === "function" && "onmessage" in maybePort;
+  return typeof maybePort.postMessage === 'function' && 'onmessage' in maybePort;
 }
 
-if (typeof window === "undefined" && !_is_node.isNodeJS && typeof self !== "undefined" && isMessagePort(self)) {
+if (typeof window === 'undefined' && !(0, _is_node["default"])() && typeof self !== 'undefined' && isMessagePort(self)) {
   WorkerMessageHandler.initializeFromPort(self);
 }

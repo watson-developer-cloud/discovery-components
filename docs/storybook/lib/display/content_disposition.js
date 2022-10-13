@@ -2,7 +2,7 @@
  * @licstart The following is the entire license notice for the
  * Javascript code in this page
  *
- * Copyright 2020 Mozilla Foundation
+ * Copyright 2019 Mozilla Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,13 +26,21 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getFilenameFromContentDispositionHeader = getFilenameFromContentDispositionHeader;
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 function getFilenameFromContentDispositionHeader(contentDisposition) {
-  let needsEncodingFixup = true;
-  let tmp = toParamRegExp("filename\\*", "i").exec(contentDisposition);
+  var needsEncodingFixup = true;
+  var tmp = toParamRegExp('filename\\*', 'i').exec(contentDisposition);
 
   if (tmp) {
     tmp = tmp[1];
-    let filename = rfc2616unquote(tmp);
+    var filename = rfc2616unquote(tmp);
     filename = unescape(filename);
     filename = rfc5987decode(filename);
     filename = rfc2047decode(filename);
@@ -42,21 +50,24 @@ function getFilenameFromContentDispositionHeader(contentDisposition) {
   tmp = rfc2231getparam(contentDisposition);
 
   if (tmp) {
-    const filename = rfc2047decode(tmp);
-    return fixupEncoding(filename);
+    var _filename = rfc2047decode(tmp);
+
+    return fixupEncoding(_filename);
   }
 
-  tmp = toParamRegExp("filename", "i").exec(contentDisposition);
+  tmp = toParamRegExp('filename', 'i').exec(contentDisposition);
 
   if (tmp) {
     tmp = tmp[1];
-    let filename = rfc2616unquote(tmp);
-    filename = rfc2047decode(filename);
-    return fixupEncoding(filename);
+
+    var _filename2 = rfc2616unquote(tmp);
+
+    _filename2 = rfc2047decode(_filename2);
+    return fixupEncoding(_filename2);
   }
 
   function toParamRegExp(attributePattern, flags) {
-    return new RegExp("(?:^|;)\\s*" + attributePattern + "\\s*=\\s*" + "(" + '[^";\\s][^;\\s]*' + "|" + '"(?:[^"\\\\]|\\\\"?)+"?' + ")", flags);
+    return new RegExp('(?:^|;)\\s*' + attributePattern + '\\s*=\\s*' + '(' + '[^";\\s][^;\\s]*' + '|' + '"(?:[^"\\\\]|\\\\"?)+"?' + ')', flags);
   }
 
   function textdecode(encoding, value) {
@@ -66,11 +77,11 @@ function getFilenameFromContentDispositionHeader(contentDisposition) {
       }
 
       try {
-        const decoder = new TextDecoder(encoding, {
+        var decoder = new TextDecoder(encoding, {
           fatal: true
         });
-        const bytes = Array.from(value, function (ch) {
-          return ch.charCodeAt(0) & 0xff;
+        var bytes = Array.from(value, function (ch) {
+          return ch.charCodeAt(0) & 0xFF;
         });
         value = decoder.decode(new Uint8Array(bytes));
         needsEncodingFixup = false;
@@ -89,23 +100,28 @@ function getFilenameFromContentDispositionHeader(contentDisposition) {
 
   function fixupEncoding(value) {
     if (needsEncodingFixup && /[\x80-\xff]/.test(value)) {
-      value = textdecode("utf-8", value);
+      value = textdecode('utf-8', value);
 
       if (needsEncodingFixup) {
-        value = textdecode("iso-8859-1", value);
+        value = textdecode('iso-8859-1', value);
       }
     }
 
     return value;
   }
 
-  function rfc2231getparam(contentDispositionStr) {
-    const matches = [];
-    let match;
-    const iter = toParamRegExp("filename\\*((?!0\\d)\\d+)(\\*?)", "ig");
+  function rfc2231getparam(contentDisposition) {
+    var matches = [],
+        match;
+    var iter = toParamRegExp('filename\\*((?!0\\d)\\d+)(\\*?)', 'ig');
 
-    while ((match = iter.exec(contentDispositionStr)) !== null) {
-      let [, n, quot, part] = match;
+    while ((match = iter.exec(contentDisposition)) !== null) {
+      var _match = match,
+          _match2 = _slicedToArray(_match, 4),
+          n = _match2[1],
+          quot = _match2[2],
+          part = _match2[3];
+
       n = parseInt(n, 10);
 
       if (n in matches) {
@@ -119,14 +135,17 @@ function getFilenameFromContentDispositionHeader(contentDisposition) {
       matches[n] = [quot, part];
     }
 
-    const parts = [];
+    var parts = [];
 
-    for (let n = 0; n < matches.length; ++n) {
+    for (var n = 0; n < matches.length; ++n) {
       if (!(n in matches)) {
         break;
       }
 
-      let [quot, part] = matches[n];
+      var _matches$n = _slicedToArray(matches[n], 2),
+          quot = _matches$n[0],
+          part = _matches$n[1];
+
       part = rfc2616unquote(part);
 
       if (quot) {
@@ -140,22 +159,22 @@ function getFilenameFromContentDispositionHeader(contentDisposition) {
       parts.push(part);
     }
 
-    return parts.join("");
+    return parts.join('');
   }
 
   function rfc2616unquote(value) {
     if (value.startsWith('"')) {
-      const parts = value.slice(1).split('\\"');
+      var parts = value.slice(1).split('\\"');
 
-      for (let i = 0; i < parts.length; ++i) {
-        const quotindex = parts[i].indexOf('"');
+      for (var i = 0; i < parts.length; ++i) {
+        var quotindex = parts[i].indexOf('"');
 
         if (quotindex !== -1) {
           parts[i] = parts[i].slice(0, quotindex);
           parts.length = i + 1;
         }
 
-        parts[i] = parts[i].replace(/\\(.)/g, "$1");
+        parts[i] = parts[i].replace(/\\(.)/g, '$1');
       }
 
       value = parts.join('"');
@@ -165,27 +184,27 @@ function getFilenameFromContentDispositionHeader(contentDisposition) {
   }
 
   function rfc5987decode(extvalue) {
-    const encodingend = extvalue.indexOf("'");
+    var encodingend = extvalue.indexOf('\'');
 
     if (encodingend === -1) {
       return extvalue;
     }
 
-    const encoding = extvalue.slice(0, encodingend);
-    const langvalue = extvalue.slice(encodingend + 1);
-    const value = langvalue.replace(/^[^']*'/, "");
+    var encoding = extvalue.slice(0, encodingend);
+    var langvalue = extvalue.slice(encodingend + 1);
+    var value = langvalue.replace(/^[^']*'/, '');
     return textdecode(encoding, value);
   }
 
   function rfc2047decode(value) {
-    if (!value.startsWith("=?") || /[\x00-\x19\x80-\xff]/.test(value)) {
+    if (!value.startsWith('=?') || /[\x00-\x19\x80-\xff]/.test(value)) {
       return value;
     }
 
-    return value.replace(/=\?([\w-]*)\?([QqBb])\?((?:[^?]|\?(?!=))*)\?=/g, function (matches, charset, encoding, text) {
-      if (encoding === "q" || encoding === "Q") {
-        text = text.replace(/_/g, " ");
-        text = text.replace(/=([0-9a-fA-F]{2})/g, function (match, hex) {
+    return value.replace(/=\?([\w-]*)\?([QqBb])\?((?:[^?]|\?(?!=))*)\?=/g, function (_, charset, encoding, text) {
+      if (encoding === 'q' || encoding === 'Q') {
+        text = text.replace(/_/g, ' ');
+        text = text.replace(/=([0-9a-fA-F]{2})/g, function (_, hex) {
           return String.fromCharCode(parseInt(hex, 16));
         });
         return textdecode(charset, text);
@@ -199,5 +218,5 @@ function getFilenameFromContentDispositionHeader(contentDisposition) {
     });
   }
 
-  return "";
+  return '';
 }

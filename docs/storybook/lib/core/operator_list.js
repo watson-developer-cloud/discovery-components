@@ -2,7 +2,7 @@
  * @licstart The following is the entire license notice for the
  * Javascript code in this page
  *
- * Copyright 2020 Mozilla Foundation
+ * Copyright 2019 Mozilla Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.OperatorList = void 0;
 
-var _util = require("../shared/util.js");
+var _util = require("../shared/util");
 
 var QueueOptimizer = function QueueOptimizerClosure() {
   function addState(parentState, pattern, checkFn, iterateFn, processFn) {
@@ -38,9 +38,9 @@ var QueueOptimizer = function QueueOptimizerClosure() {
     }
 
     state[pattern[pattern.length - 1]] = {
-      checkFn,
-      iterateFn,
-      processFn
+      checkFn: checkFn,
+      iterateFn: iterateFn,
+      processFn: processFn
     };
   }
 
@@ -82,7 +82,7 @@ var QueueOptimizer = function QueueOptimizerClosure() {
         return fnArray[i] === _util.OPS.restore;
     }
 
-    throw new Error(`iterateInlineImageGroup - invalid pos: ${pos}`);
+    throw new Error("iterateInlineImageGroup - invalid pos: ".concat(pos));
   }, function foundInlineImageGroup(context, i) {
     var MIN_IMAGES_IN_INLINE_IMAGES_BLOCK = 10;
     var MAX_IMAGES_IN_INLINE_IMAGES_BLOCK = 200;
@@ -119,7 +119,7 @@ var QueueOptimizer = function QueueOptimizerClosure() {
       }
 
       map.push({
-        transform,
+        transform: transform,
         x: currentX,
         y: currentY,
         w: img.width,
@@ -190,7 +190,7 @@ var QueueOptimizer = function QueueOptimizerClosure() {
         return fnArray[i] === _util.OPS.restore;
     }
 
-    throw new Error(`iterateImageMaskGroup - invalid pos: ${pos}`);
+    throw new Error("iterateImageMaskGroup - invalid pos: ".concat(pos));
   }, function foundImageMaskGroup(context, i) {
     var MIN_IMAGES_IN_MASKS_BLOCK = 10;
     var MAX_IMAGES_IN_MASKS_BLOCK = 100;
@@ -212,20 +212,18 @@ var QueueOptimizer = function QueueOptimizerClosure() {
     var isSameImage = false;
     var iTransform, transformArgs;
     var firstPIMXOArg0 = argsArray[iFirstPIMXO][0];
-    const firstTransformArg0 = argsArray[iFirstTransform][0],
-          firstTransformArg1 = argsArray[iFirstTransform][1],
-          firstTransformArg2 = argsArray[iFirstTransform][2],
-          firstTransformArg3 = argsArray[iFirstTransform][3];
 
-    if (firstTransformArg1 === firstTransformArg2) {
+    if (argsArray[iFirstTransform][1] === 0 && argsArray[iFirstTransform][2] === 0) {
       isSameImage = true;
+      var firstTransformArg0 = argsArray[iFirstTransform][0];
+      var firstTransformArg3 = argsArray[iFirstTransform][3];
       iTransform = iFirstTransform + 4;
       var iPIMXO = iFirstPIMXO + 4;
 
       for (q = 1; q < count; q++, iTransform += 4, iPIMXO += 4) {
         transformArgs = argsArray[iTransform];
 
-        if (argsArray[iPIMXO][0] !== firstPIMXOArg0 || transformArgs[0] !== firstTransformArg0 || transformArgs[1] !== firstTransformArg1 || transformArgs[2] !== firstTransformArg2 || transformArgs[3] !== firstTransformArg3) {
+        if (argsArray[iPIMXO][0] !== firstPIMXOArg0 || transformArgs[0] !== firstTransformArg0 || transformArgs[1] !== 0 || transformArgs[2] !== 0 || transformArgs[3] !== firstTransformArg3) {
           if (q < MIN_IMAGES_IN_MASKS_BLOCK) {
             isSameImage = false;
           } else {
@@ -249,7 +247,7 @@ var QueueOptimizer = function QueueOptimizerClosure() {
       }
 
       fnArray.splice(iFirstSave, count * 4, _util.OPS.paintImageMaskXObjectRepeat);
-      argsArray.splice(iFirstSave, count * 4, [firstPIMXOArg0, firstTransformArg0, firstTransformArg1, firstTransformArg2, firstTransformArg3, positions]);
+      argsArray.splice(iFirstSave, count * 4, [firstPIMXOArg0, firstTransformArg0, firstTransformArg3, positions]);
     } else {
       count = Math.min(count, MAX_IMAGES_IN_MASKS_BLOCK);
       var images = [];
@@ -318,7 +316,7 @@ var QueueOptimizer = function QueueOptimizerClosure() {
         return fnArray[i] === _util.OPS.restore;
     }
 
-    throw new Error(`iterateImageGroup - invalid pos: ${pos}`);
+    throw new Error("iterateImageGroup - invalid pos: ".concat(pos));
   }, function (context, i) {
     var MIN_IMAGES_IN_BLOCK = 3;
     var MAX_IMAGES_IN_BLOCK = 1000;
@@ -386,7 +384,7 @@ var QueueOptimizer = function QueueOptimizerClosure() {
         return fnArray[i] === _util.OPS.endText;
     }
 
-    throw new Error(`iterateShowTextGroup - invalid pos: ${pos}`);
+    throw new Error("iterateShowTextGroup - invalid pos: ".concat(pos));
   }, function (context, i) {
     var MIN_CHARS_IN_BLOCK = 3;
     var MAX_CHARS_IN_BLOCK = 1000;
@@ -437,23 +435,23 @@ var QueueOptimizer = function QueueOptimizerClosure() {
   }
 
   QueueOptimizer.prototype = {
-    _optimize() {
-      const fnArray = this.queue.fnArray;
-      let i = this.lastProcessed,
+    _optimize: function _optimize() {
+      var fnArray = this.queue.fnArray;
+      var i = this.lastProcessed,
           ii = fnArray.length;
-      let state = this.state;
-      let match = this.match;
+      var state = this.state;
+      var match = this.match;
 
       if (!state && !match && i + 1 === ii && !InitialState[fnArray[i]]) {
         this.lastProcessed = ii;
         return;
       }
 
-      const context = this.context;
+      var context = this.context;
 
       while (i < ii) {
         if (match) {
-          const iterate = (0, match.iterateFn)(context, i);
+          var iterate = (0, match.iterateFn)(context, i);
 
           if (iterate) {
             i++;
@@ -493,17 +491,15 @@ var QueueOptimizer = function QueueOptimizerClosure() {
       this.match = match;
       this.lastProcessed = i;
     },
-
-    push(fn, args) {
+    push: function push(fn, args) {
       this.queue.fnArray.push(fn);
       this.queue.argsArray.push(args);
 
       this._optimize();
     },
-
-    flush() {
+    flush: function flush() {
       while (this.match) {
-        const length = this.queue.fnArray.length;
+        var length = this.queue.fnArray.length;
         this.lastProcessed = (0, this.match.processFn)(this.context, length);
         this.match = null;
         this.state = null;
@@ -511,13 +507,11 @@ var QueueOptimizer = function QueueOptimizerClosure() {
         this._optimize();
       }
     },
-
-    reset() {
+    reset: function reset() {
       this.state = null;
       this.match = null;
       this.lastProcessed = 0;
     }
-
   };
   return QueueOptimizer;
 }();
@@ -528,15 +522,12 @@ var NullOptimizer = function NullOptimizerClosure() {
   }
 
   NullOptimizer.prototype = {
-    push(fn, args) {
+    push: function push(fn, args) {
       this.queue.fnArray.push(fn);
       this.queue.argsArray.push(args);
     },
-
-    flush() {},
-
-    reset() {}
-
+    flush: function flush() {},
+    reset: function reset() {}
   };
   return NullOptimizer;
 }();
@@ -545,21 +536,22 @@ var OperatorList = function OperatorListClosure() {
   var CHUNK_SIZE = 1000;
   var CHUNK_SIZE_ABOUT = CHUNK_SIZE - 5;
 
-  function OperatorList(intent, streamSink) {
-    this._streamSink = streamSink;
+  function OperatorList(intent, messageHandler, pageIndex) {
+    this.messageHandler = messageHandler;
     this.fnArray = [];
     this.argsArray = [];
 
-    if (streamSink && intent !== "oplist") {
+    if (messageHandler && intent !== 'oplist') {
       this.optimizer = new QueueOptimizer(this);
     } else {
       this.optimizer = new NullOptimizer(this);
     }
 
-    this.dependencies = new Set();
+    this.dependencies = Object.create(null);
     this._totalLength = 0;
+    this.pageIndex = pageIndex;
+    this.intent = intent;
     this.weight = 0;
-    this._resolved = streamSink ? null : Promise.resolve();
   }
 
   OperatorList.prototype = {
@@ -567,19 +559,15 @@ var OperatorList = function OperatorListClosure() {
       return this.argsArray.length;
     },
 
-    get ready() {
-      return this._resolved || this._streamSink.ready;
-    },
-
     get totalLength() {
       return this._totalLength + this.length;
     },
 
-    addOp(fn, args) {
+    addOp: function addOp(fn, args) {
       this.optimizer.push(fn, args);
       this.weight++;
 
-      if (this._streamSink) {
+      if (this.messageHandler) {
         if (this.weight >= CHUNK_SIZE) {
           this.flush();
         } else if (this.weight >= CHUNK_SIZE_ABOUT && (fn === _util.OPS.restore || fn === _util.OPS.endText)) {
@@ -587,38 +575,27 @@ var OperatorList = function OperatorListClosure() {
         }
       }
     },
-
-    addDependency(dependency) {
-      if (this.dependencies.has(dependency)) {
+    addDependency: function addDependency(dependency) {
+      if (dependency in this.dependencies) {
         return;
       }
 
-      this.dependencies.add(dependency);
+      this.dependencies[dependency] = true;
       this.addOp(_util.OPS.dependency, [dependency]);
     },
-
-    addDependencies(dependencies) {
-      for (const dependency of dependencies) {
-        this.addDependency(dependency);
+    addDependencies: function addDependencies(dependencies) {
+      for (var key in dependencies) {
+        this.addDependency(key);
       }
     },
-
-    addOpList(opList) {
-      if (!(opList instanceof OperatorList)) {
-        (0, _util.warn)('addOpList - ignoring invalid "opList" parameter.');
-        return;
-      }
-
-      for (const dependency of opList.dependencies) {
-        this.dependencies.add(dependency);
-      }
+    addOpList: function addOpList(opList) {
+      Object.assign(this.dependencies, opList.dependencies);
 
       for (var i = 0, ii = opList.length; i < ii; i++) {
         this.addOp(opList.fnArray[i], opList.argsArray[i]);
       }
     },
-
-    getIR() {
+    getIR: function getIR() {
       return {
         fnArray: this.fnArray,
         argsArray: this.argsArray,
@@ -627,19 +604,17 @@ var OperatorList = function OperatorListClosure() {
     },
 
     get _transfers() {
-      const transfers = [];
-      const {
-        fnArray,
-        argsArray,
-        length
-      } = this;
+      var transfers = [];
+      var fnArray = this.fnArray,
+          argsArray = this.argsArray,
+          length = this.length;
 
-      for (let i = 0; i < length; i++) {
+      for (var i = 0; i < length; i++) {
         switch (fnArray[i]) {
           case _util.OPS.paintInlineImageXObject:
           case _util.OPS.paintInlineImageXObjectGroup:
           case _util.OPS.paintImageMaskXObject:
-            const arg = argsArray[i][0];
+            var arg = argsArray[i][0];
             ;
 
             if (!arg.cached) {
@@ -653,25 +628,27 @@ var OperatorList = function OperatorListClosure() {
       return transfers;
     },
 
-    flush(lastChunk = false) {
+    flush: function flush() {
+      var lastChunk = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
       this.optimizer.flush();
-      const length = this.length;
+      var length = this.length;
       this._totalLength += length;
-
-      this._streamSink.enqueue({
-        fnArray: this.fnArray,
-        argsArray: this.argsArray,
-        lastChunk,
-        length
-      }, 1, this._transfers);
-
-      this.dependencies.clear();
+      this.messageHandler.send('RenderPageChunk', {
+        operatorList: {
+          fnArray: this.fnArray,
+          argsArray: this.argsArray,
+          lastChunk: lastChunk,
+          length: length
+        },
+        pageIndex: this.pageIndex,
+        intent: this.intent
+      }, this._transfers);
+      this.dependencies = Object.create(null);
       this.fnArray.length = 0;
       this.argsArray.length = 0;
       this.weight = 0;
       this.optimizer.reset();
     }
-
   };
   return OperatorList;
 }();

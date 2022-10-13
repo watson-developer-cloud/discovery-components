@@ -2,7 +2,7 @@
  * @licstart The following is the entire license notice for the
  * Javascript code in this page
  *
- * Copyright 2020 Mozilla Foundation
+ * Copyright 2019 Mozilla Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,19 +19,11 @@
  * @licend The above is the entire license notice for the
  * Javascript code in this page
  */
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "WorkerMessageHandler", {
-  enumerable: true,
-  get: function () {
-    return _worker.WorkerMessageHandler;
-  }
-});
+var pdfjsVersion = '2.2.228';
+var pdfjsBuild = 'd7afb74a';
 
-var _worker = require("./core/worker.js");
+var pdfjsCoreWorker = require('./core/worker.js');
 
-const pdfjsVersion = '2.6.347';
-const pdfjsBuild = '3be9c65f';
+exports.WorkerMessageHandler = pdfjsCoreWorker.WorkerMessageHandler;

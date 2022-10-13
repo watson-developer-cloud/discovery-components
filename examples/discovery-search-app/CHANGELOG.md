@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.3.0](https://github.com/watson-developer-cloud/discovery-components/compare/v3.0.5...v3.3.0) (2022-10-13)
+
+
+### Features
+
+* allow displaying multiple passages from each document ([#397](https://github.com/watson-developer-cloud/discovery-components/issues/397)) ([5818f86](https://github.com/watson-developer-cloud/discovery-components/commit/5818f860b5bf92fa8ab32dd1dab095700542eac1))
+
+
+
+
+
 # [3.1.0](https://github.com/watson-developer-cloud/discovery-components/compare/v3.0.7...v3.1.0) (2022-09-26)
 
 **Note:** Version bump only for package discovery-search-app

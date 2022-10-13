@@ -2,7 +2,7 @@
  * @licstart The following is the entire license notice for the
  * Javascript code in this page
  *
- * Copyright 2020 Mozilla Foundation
+ * Copyright 2019 Mozilla Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,186 +28,162 @@ exports.PDFAttachmentViewer = void 0;
 
 var _pdf = require("../pdf");
 
-var _base_tree_viewer = require("./base_tree_viewer.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var _viewer_compatibility = require("./viewer_compatibility.js");
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-const PdfFileRegExp = /\.pdf$/i;
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-class PDFAttachmentViewer extends _base_tree_viewer.BaseTreeViewer {
-  constructor(options) {
-    super(options);
-    this.downloadManager = options.downloadManager;
+var PDFAttachmentViewer =
+/*#__PURE__*/
+function () {
+  function PDFAttachmentViewer(_ref) {
+    var container = _ref.container,
+        eventBus = _ref.eventBus,
+        downloadManager = _ref.downloadManager;
 
-    this.eventBus._on("fileattachmentannotation", this._appendAttachment.bind(this));
+    _classCallCheck(this, PDFAttachmentViewer);
+
+    this.container = container;
+    this.eventBus = eventBus;
+    this.downloadManager = downloadManager;
+    this.reset();
+    this.eventBus.on('fileattachmentannotation', this._appendAttachment.bind(this));
   }
 
-  reset(keepRenderedCapability = false) {
-    super.reset();
-    this._attachments = null;
+  _createClass(PDFAttachmentViewer, [{
+    key: "reset",
+    value: function reset() {
+      var keepRenderedCapability = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+      this.attachments = null;
+      this.container.textContent = '';
 
-    if (!keepRenderedCapability) {
-      this._renderedCapability = (0, _pdf.createPromiseCapability)();
+      if (!keepRenderedCapability) {
+        this._renderedCapability = (0, _pdf.createPromiseCapability)();
+      }
     }
+  }, {
+    key: "_dispatchEvent",
+    value: function _dispatchEvent(attachmentsCount) {
+      this._renderedCapability.resolve();
 
-    if (this._pendingDispatchEvent) {
-      clearTimeout(this._pendingDispatchEvent);
-    }
-
-    this._pendingDispatchEvent = null;
-  }
-
-  _dispatchEvent(attachmentsCount) {
-    this._renderedCapability.resolve();
-
-    if (this._pendingDispatchEvent) {
-      clearTimeout(this._pendingDispatchEvent);
-      this._pendingDispatchEvent = null;
-    }
-
-    if (attachmentsCount === 0) {
-      this._pendingDispatchEvent = setTimeout(() => {
-        this.eventBus.dispatch("attachmentsloaded", {
-          source: this,
-          attachmentsCount: 0
-        });
-        this._pendingDispatchEvent = null;
+      this.eventBus.dispatch('attachmentsloaded', {
+        source: this,
+        attachmentsCount: attachmentsCount
       });
-      return;
     }
-
-    this.eventBus.dispatch("attachmentsloaded", {
-      source: this,
-      attachmentsCount
-    });
-  }
-
-  _bindPdfLink(element, {
-    content,
-    filename
-  }) {
-    let blobUrl;
-
-    element.onclick = () => {
-      if (!blobUrl) {
-        blobUrl = URL.createObjectURL(new Blob([content], {
-          type: "application/pdf"
-        }));
+  }, {
+    key: "_bindPdfLink",
+    value: function _bindPdfLink(button, content, filename) {
+      if (this.downloadManager.disableCreateObjectURL) {
+        throw new Error('bindPdfLink: Unsupported "disableCreateObjectURL" value.');
       }
 
-      let viewerUrl;
-      viewerUrl = "?file=" + encodeURIComponent(blobUrl + "#" + filename);
+      var blobUrl;
 
-      try {
+      button.onclick = function () {
+        if (!blobUrl) {
+          blobUrl = (0, _pdf.createObjectURL)(content, 'application/pdf');
+        }
+
+        var viewerUrl;
+        viewerUrl = '?file=' + encodeURIComponent(blobUrl + '#' + filename);
         window.open(viewerUrl);
-      } catch (ex) {
-        console.error(`_bindPdfLink: ${ex}`);
-        URL.revokeObjectURL(blobUrl);
-        blobUrl = null;
-        this.downloadManager.downloadData(content, filename, "application/pdf");
+        return false;
+      };
+    }
+  }, {
+    key: "_bindLink",
+    value: function _bindLink(button, content, filename) {
+      var _this = this;
+
+      button.onclick = function () {
+        _this.downloadManager.downloadData(content, filename, '');
+
+        return false;
+      };
+    }
+  }, {
+    key: "render",
+    value: function render(_ref2) {
+      var attachments = _ref2.attachments,
+          _ref2$keepRenderedCap = _ref2.keepRenderedCapability,
+          keepRenderedCapability = _ref2$keepRenderedCap === void 0 ? false : _ref2$keepRenderedCap;
+      var attachmentsCount = 0;
+
+      if (this.attachments) {
+        this.reset(keepRenderedCapability === true);
       }
 
-      return false;
-    };
-  }
+      this.attachments = attachments || null;
 
-  _bindLink(element, {
-    content,
-    filename
-  }) {
-    element.onclick = () => {
-      const contentType = PdfFileRegExp.test(filename) ? "application/pdf" : "";
-      this.downloadManager.downloadData(content, filename, contentType);
-      return false;
-    };
-  }
+      if (!attachments) {
+        this._dispatchEvent(attachmentsCount);
 
-  render({
-    attachments,
-    keepRenderedCapability = false
-  }) {
-    if (this._attachments) {
-      this.reset(keepRenderedCapability);
-    }
-
-    this._attachments = attachments || null;
-
-    if (!attachments) {
-      this._dispatchEvent(0);
-
-      return;
-    }
-
-    const names = Object.keys(attachments).sort(function (a, b) {
-      return a.toLowerCase().localeCompare(b.toLowerCase());
-    });
-    const fragment = document.createDocumentFragment();
-    let attachmentsCount = 0;
-
-    for (const name of names) {
-      const item = attachments[name];
-      const filename = (0, _pdf.getFilenameFromUrl)(item.filename);
-      const div = document.createElement("div");
-      div.className = "treeItem";
-      const element = document.createElement("a");
-
-      if (PdfFileRegExp.test(filename) && !_viewer_compatibility.viewerCompatibilityParams.disableCreateObjectURL) {
-        this._bindPdfLink(element, {
-          content: item.content,
-          filename
-        });
-      } else {
-        this._bindLink(element, {
-          content: item.content,
-          filename
-        });
-      }
-
-      element.textContent = this._normalizeTextContent(filename);
-      div.appendChild(element);
-      fragment.appendChild(div);
-      attachmentsCount++;
-    }
-
-    this.container.appendChild(fragment);
-
-    this._dispatchEvent(attachmentsCount);
-  }
-
-  _appendAttachment({
-    id,
-    filename,
-    content
-  }) {
-    const renderedPromise = this._renderedCapability.promise;
-    renderedPromise.then(() => {
-      if (renderedPromise !== this._renderedCapability.promise) {
         return;
       }
 
-      let attachments = this._attachments;
+      var names = Object.keys(attachments).sort(function (a, b) {
+        return a.toLowerCase().localeCompare(b.toLowerCase());
+      });
+      attachmentsCount = names.length;
 
-      if (!attachments) {
-        attachments = Object.create(null);
-      } else {
-        for (const name in attachments) {
-          if (id === name) {
-            return;
-          }
+      for (var i = 0; i < attachmentsCount; i++) {
+        var item = attachments[names[i]];
+        var filename = (0, _pdf.removeNullCharacters)((0, _pdf.getFilenameFromUrl)(item.filename));
+        var div = document.createElement('div');
+        div.className = 'attachmentsItem';
+        var button = document.createElement('button');
+        button.textContent = filename;
+
+        if (/\.pdf$/i.test(filename) && !this.downloadManager.disableCreateObjectURL) {
+          this._bindPdfLink(button, item.content, filename);
+        } else {
+          this._bindLink(button, item.content, filename);
         }
+
+        div.appendChild(button);
+        this.container.appendChild(div);
       }
 
-      attachments[id] = {
-        filename,
-        content
-      };
-      this.render({
-        attachments,
-        keepRenderedCapability: true
-      });
-    });
-  }
+      this._dispatchEvent(attachmentsCount);
+    }
+  }, {
+    key: "_appendAttachment",
+    value: function _appendAttachment(_ref3) {
+      var _this2 = this;
 
-}
+      var id = _ref3.id,
+          filename = _ref3.filename,
+          content = _ref3.content;
+
+      this._renderedCapability.promise.then(function () {
+        var attachments = _this2.attachments;
+
+        if (!attachments) {
+          attachments = Object.create(null);
+        } else {
+          for (var name in attachments) {
+            if (id === name) {
+              return;
+            }
+          }
+        }
+
+        attachments[id] = {
+          filename: filename,
+          content: content
+        };
+
+        _this2.render({
+          attachments: attachments,
+          keepRenderedCapability: true
+        });
+      });
+    }
+  }]);
+
+  return PDFAttachmentViewer;
+}();
 
 exports.PDFAttachmentViewer = PDFAttachmentViewer;

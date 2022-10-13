@@ -2,7 +2,7 @@
  * @licstart The following is the entire license notice for the
  * Javascript code in this page
  *
- * Copyright 2020 Mozilla Foundation
+ * Copyright 2019 Mozilla Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,40 +27,25 @@ Object.defineProperty(exports, "__esModule", {
 exports.getShadingPatternFromIR = getShadingPatternFromIR;
 exports.TilingPattern = void 0;
 
-var _util = require("../shared/util.js");
+var _util = require("../shared/util");
 
 var ShadingIRs = {};
-
-function applyBoundingBox(ctx, bbox) {
-  if (!bbox || typeof Path2D === "undefined") {
-    return;
-  }
-
-  const width = bbox[2] - bbox[0];
-  const height = bbox[3] - bbox[1];
-  const region = new Path2D();
-  region.rect(bbox[0], bbox[1], width, height);
-  ctx.clip(region);
-}
-
 ShadingIRs.RadialAxial = {
   fromIR: function RadialAxial_fromIR(raw) {
     var type = raw[1];
-    var bbox = raw[2];
-    var colorStops = raw[3];
-    var p0 = raw[4];
-    var p1 = raw[5];
-    var r0 = raw[6];
-    var r1 = raw[7];
+    var colorStops = raw[2];
+    var p0 = raw[3];
+    var p1 = raw[4];
+    var r0 = raw[5];
+    var r1 = raw[6];
     return {
-      type: "Pattern",
+      type: 'Pattern',
       getPattern: function RadialAxial_getPattern(ctx) {
-        applyBoundingBox(ctx, bbox);
         var grad;
 
-        if (type === "axial") {
+        if (type === 'axial') {
           grad = ctx.createLinearGradient(p0[0], p0[1], p1[0], p1[1]);
-        } else if (type === "radial") {
+        } else if (type === 'radial') {
           grad = ctx.createRadialGradient(p0[0], p0[1], r0, p1[0], p1[1], r1);
         }
 
@@ -134,50 +119,24 @@ var createMeshCanvas = function createMeshCanvasClosure() {
         maxY = Math.round(y3);
     var xa, car, cag, cab;
     var xb, cbr, cbg, cbb;
+    var k;
 
     for (var y = minY; y <= maxY; y++) {
       if (y < y2) {
-        let k;
-
-        if (y < y1) {
-          k = 0;
-        } else if (y1 === y2) {
-          k = 1;
-        } else {
-          k = (y1 - y) / (y1 - y2);
-        }
-
+        k = y < y1 ? 0 : y1 === y2 ? 1 : (y1 - y) / (y1 - y2);
         xa = x1 - (x1 - x2) * k;
         car = c1r - (c1r - c2r) * k;
         cag = c1g - (c1g - c2g) * k;
         cab = c1b - (c1b - c2b) * k;
       } else {
-        let k;
-
-        if (y > y3) {
-          k = 1;
-        } else if (y2 === y3) {
-          k = 0;
-        } else {
-          k = (y2 - y) / (y2 - y3);
-        }
-
+        k = y > y3 ? 1 : y2 === y3 ? 0 : (y2 - y) / (y2 - y3);
         xa = x2 - (x2 - x3) * k;
         car = c2r - (c2r - c3r) * k;
         cag = c2g - (c2g - c3g) * k;
         cab = c2b - (c2b - c3b) * k;
       }
 
-      let k;
-
-      if (y < y1) {
-        k = 0;
-      } else if (y > y3) {
-        k = 1;
-      } else {
-        k = (y1 - y) / (y1 - y3);
-      }
-
+      k = y < y1 ? 0 : y > y3 ? 1 : (y1 - y) / (y1 - y3);
       xb = x1 - (x1 - x3) * k;
       cbr = c1r - (c1r - c3r) * k;
       cbg = c1g - (c1g - c3g) * k;
@@ -188,13 +147,7 @@ var createMeshCanvas = function createMeshCanvasClosure() {
 
       for (var x = x1_; x <= x2_; x++) {
         k = (xa - x) / (xa - xb);
-
-        if (k < 0) {
-          k = 0;
-        } else if (k > 1) {
-          k = 1;
-        }
-
+        k = k < 0 ? 0 : k > 1 ? 1 : k;
         bytes[j++] = car - (car - cbr) * k | 0;
         bytes[j++] = cag - (cag - cbg) * k | 0;
         bytes[j++] = cab - (cab - cbb) * k | 0;
@@ -209,7 +162,7 @@ var createMeshCanvas = function createMeshCanvasClosure() {
     var i, ii;
 
     switch (figure.type) {
-      case "lattice":
+      case 'lattice':
         var verticesPerRow = figure.verticesPerRow;
         var rows = Math.floor(ps.length / verticesPerRow) - 1;
         var cols = verticesPerRow - 1;
@@ -225,7 +178,7 @@ var createMeshCanvas = function createMeshCanvasClosure() {
 
         break;
 
-      case "triangles":
+      case 'triangles':
         for (i = 0, ii = ps.length; i < ii; i += 3) {
           drawTriangle(data, context, ps[i], ps[i + 1], ps[i + 2], cs[i], cs[i + 1], cs[i + 2]);
         }
@@ -233,7 +186,7 @@ var createMeshCanvas = function createMeshCanvasClosure() {
         break;
 
       default:
-        throw new Error("illegal figure");
+        throw new Error('illegal figure');
     }
   }
 
@@ -250,8 +203,8 @@ var createMeshCanvas = function createMeshCanvasClosure() {
     var scaleX = boundsWidth / width;
     var scaleY = boundsHeight / height;
     var context = {
-      coords,
-      colors,
+      coords: coords,
+      colors: colors,
       offsetX: -offsetX,
       offsetY: -offsetY,
       scaleX: 1 / scaleX,
@@ -263,17 +216,17 @@ var createMeshCanvas = function createMeshCanvasClosure() {
 
     if (webGLContext.isEnabled) {
       canvas = webGLContext.drawFigures({
-        width,
-        height,
-        backgroundColor,
-        figures,
-        context
+        width: width,
+        height: height,
+        backgroundColor: backgroundColor,
+        figures: figures,
+        context: context
       });
-      tmpCanvas = cachedCanvases.getCanvas("mesh", paddedWidth, paddedHeight, false);
+      tmpCanvas = cachedCanvases.getCanvas('mesh', paddedWidth, paddedHeight, false);
       tmpCanvas.context.drawImage(canvas, BORDER_SIZE, BORDER_SIZE);
       canvas = tmpCanvas.canvas;
     } else {
-      tmpCanvas = cachedCanvases.getCanvas("mesh", paddedWidth, paddedHeight, false);
+      tmpCanvas = cachedCanvases.getCanvas('mesh', paddedWidth, paddedHeight, false);
       var tmpCtx = tmpCanvas.context;
       var data = tmpCtx.createImageData(width, height);
 
@@ -297,11 +250,11 @@ var createMeshCanvas = function createMeshCanvasClosure() {
     }
 
     return {
-      canvas,
+      canvas: canvas,
       offsetX: offsetX - BORDER_SIZE * scaleX,
       offsetY: offsetY - BORDER_SIZE * scaleY,
-      scaleX,
-      scaleY
+      scaleX: scaleX,
+      scaleY: scaleY
     };
   }
 
@@ -315,12 +268,10 @@ ShadingIRs.Mesh = {
     var figures = raw[4];
     var bounds = raw[5];
     var matrix = raw[6];
-    var bbox = raw[7];
     var background = raw[8];
     return {
-      type: "Pattern",
+      type: 'Pattern',
       getPattern: function Mesh_getPattern(ctx, owner, shadingFill) {
-        applyBoundingBox(ctx, bbox);
         var scale;
 
         if (shadingFill) {
@@ -347,7 +298,7 @@ ShadingIRs.Mesh = {
 
         ctx.translate(temporaryPatternCanvas.offsetX, temporaryPatternCanvas.offsetY);
         ctx.scale(temporaryPatternCanvas.scaleX, temporaryPatternCanvas.scaleY);
-        return ctx.createPattern(temporaryPatternCanvas.canvas, "no-repeat");
+        return ctx.createPattern(temporaryPatternCanvas.canvas, 'no-repeat');
       }
     };
   }
@@ -355,9 +306,9 @@ ShadingIRs.Mesh = {
 ShadingIRs.Dummy = {
   fromIR: function Dummy_fromIR() {
     return {
-      type: "Pattern",
+      type: 'Pattern',
       getPattern: function Dummy_fromIR_getPattern() {
-        return "hotpink";
+        return 'hotpink';
       }
     };
   }
@@ -367,7 +318,7 @@ function getShadingPatternFromIR(raw) {
   var shadingIR = ShadingIRs[raw[0]];
 
   if (!shadingIR) {
-    throw new Error(`Unknown IR type: ${raw[0]}`);
+    throw new Error("Unknown IR type: ".concat(raw[0]));
   }
 
   return shadingIR.fromIR(raw);
@@ -391,7 +342,7 @@ var TilingPattern = function TilingPatternClosure() {
     this.color = color;
     this.canvasGraphicsFactory = canvasGraphicsFactory;
     this.baseTransform = baseTransform;
-    this.type = "Pattern";
+    this.type = 'Pattern';
     this.ctx = ctx;
   }
 
@@ -405,7 +356,7 @@ var TilingPattern = function TilingPatternClosure() {
       var tilingType = this.tilingType;
       var color = this.color;
       var canvasGraphicsFactory = this.canvasGraphicsFactory;
-      (0, _util.info)("TilingType: " + tilingType);
+      (0, _util.info)('TilingType: ' + tilingType);
       var x0 = bbox[0],
           y0 = bbox[1],
           x1 = bbox[2],
@@ -418,7 +369,7 @@ var TilingPattern = function TilingPatternClosure() {
       var combinedScale = [matrixScale[0] * curMatrixScale[0], matrixScale[1] * curMatrixScale[1]];
       var dimx = this.getSizeAndScale(xstep, this.ctx.canvas.width, combinedScale[0]);
       var dimy = this.getSizeAndScale(ystep, this.ctx.canvas.height, combinedScale[1]);
-      var tmpCanvas = owner.cachedCanvases.getCanvas("pattern", dimx.size, dimy.size, true);
+      var tmpCanvas = owner.cachedCanvases.getCanvas('pattern', dimx.size, dimy.size, true);
       var tmpCtx = tmpCanvas.context;
       var graphics = canvasGraphicsFactory.createCanvasGraphics(tmpCtx);
       graphics.groupLevel = owner.groupLevel;
@@ -443,8 +394,8 @@ var TilingPattern = function TilingPatternClosure() {
       }
 
       return {
-        scale,
-        size
+        scale: scale,
+        size: size
       };
     },
     clipBbox: function clipBbox(graphics, bbox, x0, y0, x1, y1) {
@@ -457,8 +408,8 @@ var TilingPattern = function TilingPatternClosure() {
       }
     },
     setFillAndStrokeStyleToContext: function setFillAndStrokeStyleToContext(graphics, paintType, color) {
-      const context = graphics.ctx,
-            current = graphics.current;
+      var context = graphics.ctx,
+          current = graphics.current;
 
       switch (paintType) {
         case PaintType.COLORED:
@@ -479,7 +430,7 @@ var TilingPattern = function TilingPatternClosure() {
           break;
 
         default:
-          throw new _util.FormatError(`Unsupported paint type: ${paintType}`);
+          throw new _util.FormatError("Unsupported paint type: ".concat(paintType));
       }
     },
     getPattern: function TilingPattern_getPattern(ctx, owner) {
@@ -487,7 +438,7 @@ var TilingPattern = function TilingPatternClosure() {
       ctx.setTransform.apply(ctx, this.baseTransform);
       ctx.transform.apply(ctx, this.matrix);
       var temporaryPatternCanvas = this.createPatternCanvas(owner);
-      return ctx.createPattern(temporaryPatternCanvas, "repeat");
+      return ctx.createPattern(temporaryPatternCanvas, 'repeat');
     }
   };
   return TilingPattern;

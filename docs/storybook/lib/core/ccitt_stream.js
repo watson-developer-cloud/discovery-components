@@ -2,7 +2,7 @@
  * @licstart The following is the entire license notice for the
  * Javascript code in this page
  *
- * Copyright 2020 Mozilla Foundation
+ * Copyright 2019 Mozilla Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,11 +26,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.CCITTFaxStream = void 0;
 
-var _primitives = require("./primitives.js");
+var _primitives = require("./primitives");
 
-var _ccitt = require("./ccitt.js");
+var _ccitt = require("./ccitt");
 
-var _stream = require("./stream.js");
+var _stream = require("./stream");
 
 var CCITTFaxStream = function CCITTFaxStreamClosure() {
   function CCITTFaxStream(str, maybeLength, params) {
@@ -41,20 +41,19 @@ var CCITTFaxStream = function CCITTFaxStreamClosure() {
       params = _primitives.Dict.empty;
     }
 
-    const source = {
-      next() {
+    var source = {
+      next: function next() {
         return str.getByte();
       }
-
     };
     this.ccittFaxDecoder = new _ccitt.CCITTFaxDecoder(source, {
-      K: params.get("K"),
-      EndOfLine: params.get("EndOfLine"),
-      EncodedByteAlign: params.get("EncodedByteAlign"),
-      Columns: params.get("Columns"),
-      Rows: params.get("Rows"),
-      EndOfBlock: params.get("EndOfBlock"),
-      BlackIs1: params.get("BlackIs1")
+      K: params.get('K'),
+      EndOfLine: params.get('EndOfLine'),
+      EncodedByteAlign: params.get('EncodedByteAlign'),
+      Columns: params.get('Columns'),
+      Rows: params.get('Rows'),
+      EndOfBlock: params.get('EndOfBlock'),
+      BlackIs1: params.get('BlackIs1')
     });
 
     _stream.DecodeStream.call(this, maybeLength);
@@ -64,7 +63,7 @@ var CCITTFaxStream = function CCITTFaxStreamClosure() {
 
   CCITTFaxStream.prototype.readBlock = function () {
     while (!this.eof) {
-      const c = this.ccittFaxDecoder.readNextChar();
+      var c = this.ccittFaxDecoder.readNextChar();
 
       if (c === -1) {
         this.eof = true;

@@ -2,7 +2,7 @@
  * @licstart The following is the entire license notice for the
  * Javascript code in this page
  *
- * Copyright 2020 Mozilla Foundation
+ * Copyright 2019 Mozilla Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,21 +28,33 @@ exports.DefaultAnnotationLayerFactory = exports.AnnotationLayerBuilder = void 0;
 
 var _pdf = require("../pdf");
 
-var _ui_utils = require("./ui_utils.js");
+var _ui_utils = require("./ui_utils");
 
-var _pdf_link_service = require("./pdf_link_service.js");
+var _pdf_link_service = require("./pdf_link_service");
 
-class AnnotationLayerBuilder {
-  constructor({
-    pageDiv,
-    pdfPage,
-    linkService,
-    downloadManager,
-    annotationStorage = null,
-    imageResourcesPath = "",
-    renderInteractiveForms = true,
-    l10n = _ui_utils.NullL10n
-  }) {
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var AnnotationLayerBuilder =
+/*#__PURE__*/
+function () {
+  function AnnotationLayerBuilder(_ref) {
+    var pageDiv = _ref.pageDiv,
+        pdfPage = _ref.pdfPage,
+        linkService = _ref.linkService,
+        downloadManager = _ref.downloadManager,
+        _ref$imageResourcesPa = _ref.imageResourcesPath,
+        imageResourcesPath = _ref$imageResourcesPa === void 0 ? '' : _ref$imageResourcesPa,
+        _ref$renderInteractiv = _ref.renderInteractiveForms,
+        renderInteractiveForms = _ref$renderInteractiv === void 0 ? false : _ref$renderInteractiv,
+        _ref$l10n = _ref.l10n,
+        l10n = _ref$l10n === void 0 ? _ui_utils.NullL10n : _ref$l10n;
+
+    _classCallCheck(this, AnnotationLayerBuilder);
+
     this.pageDiv = pageDiv;
     this.pdfPage = pdfPage;
     this.linkService = linkService;
@@ -50,81 +62,102 @@ class AnnotationLayerBuilder {
     this.imageResourcesPath = imageResourcesPath;
     this.renderInteractiveForms = renderInteractiveForms;
     this.l10n = l10n;
-    this.annotationStorage = annotationStorage;
     this.div = null;
     this._cancelled = false;
   }
 
-  render(viewport, intent = "display") {
-    return this.pdfPage.getAnnotations({
-      intent
-    }).then(annotations => {
-      if (this._cancelled) {
-        return;
-      }
+  _createClass(AnnotationLayerBuilder, [{
+    key: "render",
+    value: function render(viewport) {
+      var _this = this;
 
-      if (annotations.length === 0) {
-        return;
-      }
+      var intent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'display';
+      this.pdfPage.getAnnotations({
+        intent: intent
+      }).then(function (annotations) {
+        if (_this._cancelled) {
+          return;
+        }
 
-      const parameters = {
-        viewport: viewport.clone({
-          dontFlip: true
-        }),
-        div: this.div,
-        annotations,
-        page: this.pdfPage,
-        imageResourcesPath: this.imageResourcesPath,
-        renderInteractiveForms: this.renderInteractiveForms,
-        linkService: this.linkService,
-        downloadManager: this.downloadManager,
-        annotationStorage: this.annotationStorage
-      };
+        var parameters = {
+          viewport: viewport.clone({
+            dontFlip: true
+          }),
+          div: _this.div,
+          annotations: annotations,
+          page: _this.pdfPage,
+          imageResourcesPath: _this.imageResourcesPath,
+          renderInteractiveForms: _this.renderInteractiveForms,
+          linkService: _this.linkService,
+          downloadManager: _this.downloadManager
+        };
 
-      if (this.div) {
-        _pdf.AnnotationLayer.update(parameters);
-      } else {
-        this.div = document.createElement("div");
-        this.div.className = "annotationLayer";
-        this.pageDiv.appendChild(this.div);
-        parameters.div = this.div;
+        if (_this.div) {
+          _pdf.AnnotationLayer.update(parameters);
+        } else {
+          if (annotations.length === 0) {
+            return;
+          }
 
-        _pdf.AnnotationLayer.render(parameters);
+          _this.div = document.createElement('div');
+          _this.div.className = 'annotationLayer';
 
-        this.l10n.translate(this.div);
-      }
-    });
-  }
+          _this.pageDiv.appendChild(_this.div);
 
-  cancel() {
-    this._cancelled = true;
-  }
+          parameters.div = _this.div;
 
-  hide() {
-    if (!this.div) {
-      return;
+          _pdf.AnnotationLayer.render(parameters);
+
+          _this.l10n.translate(_this.div);
+        }
+      });
     }
+  }, {
+    key: "cancel",
+    value: function cancel() {
+      this._cancelled = true;
+    }
+  }, {
+    key: "hide",
+    value: function hide() {
+      if (!this.div) {
+        return;
+      }
 
-    this.div.setAttribute("hidden", "true");
-  }
+      this.div.setAttribute('hidden', 'true');
+    }
+  }]);
 
-}
+  return AnnotationLayerBuilder;
+}();
 
 exports.AnnotationLayerBuilder = AnnotationLayerBuilder;
 
-class DefaultAnnotationLayerFactory {
-  createAnnotationLayerBuilder(pageDiv, pdfPage, annotationStorage = null, imageResourcesPath = "", renderInteractiveForms = true, l10n = _ui_utils.NullL10n) {
-    return new AnnotationLayerBuilder({
-      pageDiv,
-      pdfPage,
-      imageResourcesPath,
-      renderInteractiveForms,
-      linkService: new _pdf_link_service.SimpleLinkService(),
-      l10n,
-      annotationStorage
-    });
+var DefaultAnnotationLayerFactory =
+/*#__PURE__*/
+function () {
+  function DefaultAnnotationLayerFactory() {
+    _classCallCheck(this, DefaultAnnotationLayerFactory);
   }
 
-}
+  _createClass(DefaultAnnotationLayerFactory, [{
+    key: "createAnnotationLayerBuilder",
+    value: function createAnnotationLayerBuilder(pageDiv, pdfPage) {
+      var imageResourcesPath = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
+      var renderInteractiveForms = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+      var l10n = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : _ui_utils.NullL10n;
+      return new AnnotationLayerBuilder({
+        pageDiv: pageDiv,
+        pdfPage: pdfPage,
+        imageResourcesPath: imageResourcesPath,
+        renderInteractiveForms: renderInteractiveForms,
+        linkService: new _pdf_link_service.SimpleLinkService(),
+        l10n: l10n
+      });
+    }
+  }]);
+
+  return DefaultAnnotationLayerFactory;
+}();
 
 exports.DefaultAnnotationLayerFactory = DefaultAnnotationLayerFactory;

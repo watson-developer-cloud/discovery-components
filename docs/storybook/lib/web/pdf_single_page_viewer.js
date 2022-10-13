@@ -2,7 +2,7 @@
  * @licstart The following is the entire license notice for the
  * Javascript code in this page
  *
- * Copyright 2020 Mozilla Foundation
+ * Copyright 2019 Mozilla Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,112 +26,161 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.PDFSinglePageViewer = void 0;
 
-var _base_viewer = require("./base_viewer.js");
+var _base_viewer = require("./base_viewer");
 
 var _pdf = require("../pdf");
 
-class PDFSinglePageViewer extends _base_viewer.BaseViewer {
-  constructor(options) {
-    super(options);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-    this.eventBus._on("pagesinit", evt => {
-      this._ensurePageViewVisible();
-    });
-  }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  get _viewerElement() {
-    return (0, _pdf.shadow)(this, "_viewerElement", this._shadowViewer);
-  }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-  _resetView() {
-    super._resetView();
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-    this._previousPageNumber = 1;
-    this._shadowViewer = document.createDocumentFragment();
-    this._updateScrollDown = null;
-  }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-  _ensurePageViewVisible() {
-    const pageView = this._pages[this._currentPageNumber - 1];
-    const previousPageView = this._pages[this._previousPageNumber - 1];
-    const viewerNodes = this.viewer.childNodes;
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-    switch (viewerNodes.length) {
-      case 0:
-        this.viewer.appendChild(pageView.div);
-        break;
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
 
-      case 1:
-        if (viewerNodes[0] !== previousPageView.div) {
-          throw new Error("_ensurePageViewVisible: Unexpected previously visible page.");
-        }
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
 
-        if (pageView === previousPageView) {
-          break;
-        }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-        this._shadowViewer.appendChild(previousPageView.div);
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
-        this.viewer.appendChild(pageView.div);
-        this.container.scrollTop = 0;
-        break;
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-      default:
-        throw new Error("_ensurePageViewVisible: Only one page should be visible at a time.");
-    }
+var PDFSinglePageViewer =
+/*#__PURE__*/
+function (_BaseViewer) {
+  _inherits(PDFSinglePageViewer, _BaseViewer);
 
-    this._previousPageNumber = this._currentPageNumber;
-  }
+  function PDFSinglePageViewer(options) {
+    var _this;
 
-  _scrollUpdate() {
-    if (this._updateScrollDown) {
-      this._updateScrollDown();
-    }
+    _classCallCheck(this, PDFSinglePageViewer);
 
-    super._scrollUpdate();
-  }
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(PDFSinglePageViewer).call(this, options));
 
-  _scrollIntoView({
-    pageDiv,
-    pageSpot = null,
-    pageNumber = null
-  }) {
-    if (pageNumber) {
-      this._setCurrentPageNumber(pageNumber);
-    }
-
-    const scrolledDown = this._currentPageNumber >= this._previousPageNumber;
-
-    this._ensurePageViewVisible();
-
-    this.update();
-
-    super._scrollIntoView({
-      pageDiv,
-      pageSpot,
-      pageNumber
+    _this.eventBus.on('pagesinit', function (evt) {
+      _this._ensurePageViewVisible();
     });
 
-    this._updateScrollDown = () => {
-      this.scroll.down = scrolledDown;
+    return _this;
+  }
+
+  _createClass(PDFSinglePageViewer, [{
+    key: "_resetView",
+    value: function _resetView() {
+      _get(_getPrototypeOf(PDFSinglePageViewer.prototype), "_resetView", this).call(this);
+
+      this._previousPageNumber = 1;
+      this._shadowViewer = document.createDocumentFragment();
       this._updateScrollDown = null;
-    };
-  }
+    }
+  }, {
+    key: "_ensurePageViewVisible",
+    value: function _ensurePageViewVisible() {
+      var pageView = this._pages[this._currentPageNumber - 1];
+      var previousPageView = this._pages[this._previousPageNumber - 1];
+      var viewerNodes = this.viewer.childNodes;
 
-  _getVisiblePages() {
-    return this._getCurrentVisiblePage();
-  }
+      switch (viewerNodes.length) {
+        case 0:
+          this.viewer.appendChild(pageView.div);
+          break;
 
-  _updateHelper(visiblePages) {}
+        case 1:
+          if (viewerNodes[0] !== previousPageView.div) {
+            throw new Error('_ensurePageViewVisible: Unexpected previously visible page.');
+          }
 
-  get _isScrollModeHorizontal() {
-    return (0, _pdf.shadow)(this, "_isScrollModeHorizontal", false);
-  }
+          if (pageView === previousPageView) {
+            break;
+          }
 
-  _updateScrollMode() {}
+          this._shadowViewer.appendChild(previousPageView.div);
 
-  _updateSpreadMode() {}
+          this.viewer.appendChild(pageView.div);
+          this.container.scrollTop = 0;
+          break;
 
-}
+        default:
+          throw new Error('_ensurePageViewVisible: Only one page should be visible at a time.');
+      }
+
+      this._previousPageNumber = this._currentPageNumber;
+    }
+  }, {
+    key: "_scrollUpdate",
+    value: function _scrollUpdate() {
+      if (this._updateScrollDown) {
+        this._updateScrollDown();
+      }
+
+      _get(_getPrototypeOf(PDFSinglePageViewer.prototype), "_scrollUpdate", this).call(this);
+    }
+  }, {
+    key: "_scrollIntoView",
+    value: function _scrollIntoView(_ref) {
+      var _this2 = this;
+
+      var pageDiv = _ref.pageDiv,
+          _ref$pageSpot = _ref.pageSpot,
+          pageSpot = _ref$pageSpot === void 0 ? null : _ref$pageSpot,
+          _ref$pageNumber = _ref.pageNumber,
+          pageNumber = _ref$pageNumber === void 0 ? null : _ref$pageNumber;
+
+      if (pageNumber) {
+        this._setCurrentPageNumber(pageNumber);
+      }
+
+      var scrolledDown = this._currentPageNumber >= this._previousPageNumber;
+
+      this._ensurePageViewVisible();
+
+      this.update();
+
+      _get(_getPrototypeOf(PDFSinglePageViewer.prototype), "_scrollIntoView", this).call(this, {
+        pageDiv: pageDiv,
+        pageSpot: pageSpot,
+        pageNumber: pageNumber
+      });
+
+      this._updateScrollDown = function () {
+        _this2.scroll.down = scrolledDown;
+        _this2._updateScrollDown = null;
+      };
+    }
+  }, {
+    key: "_getVisiblePages",
+    value: function _getVisiblePages() {
+      return this._getCurrentVisiblePage();
+    }
+  }, {
+    key: "_updateHelper",
+    value: function _updateHelper(visiblePages) {}
+  }, {
+    key: "_updateScrollMode",
+    value: function _updateScrollMode() {}
+  }, {
+    key: "_updateSpreadMode",
+    value: function _updateSpreadMode() {}
+  }, {
+    key: "_setDocumentViewerElement",
+    get: function get() {
+      return (0, _pdf.shadow)(this, '_setDocumentViewerElement', this._shadowViewer);
+    }
+  }, {
+    key: "_isScrollModeHorizontal",
+    get: function get() {
+      return (0, _pdf.shadow)(this, '_isScrollModeHorizontal', false);
+    }
+  }]);
+
+  return PDFSinglePageViewer;
+}(_base_viewer.BaseViewer);
 
 exports.PDFSinglePageViewer = PDFSinglePageViewer;

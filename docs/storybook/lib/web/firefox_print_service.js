@@ -2,7 +2,7 @@
  * @licstart The following is the entire license notice for the
  * Javascript code in this page
  *
- * Copyright 2020 Mozilla Foundation
+ * Copyright 2019 Mozilla Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,65 +26,49 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.FirefoxPrintService = FirefoxPrintService;
 
-var _ui_utils = require("./ui_utils.js");
+var _app_options = require("./app_options");
 
-var _app = require("./app.js");
+var _ui_utils = require("./ui_utils");
+
+var _app = require("./app");
 
 var _pdf = require("../pdf");
 
-function composePage(pdfDocument, pageNumber, size, printContainer, printResolution, optionalContentConfigPromise) {
-  const canvas = document.createElement("canvas");
-  const PRINT_UNITS = printResolution / 72.0;
+function composePage(pdfDocument, pageNumber, size, printContainer) {
+  var canvas = document.createElement('canvas');
+  var PRINT_RESOLUTION = _app_options.AppOptions.get('printResolution') || 150;
+  var PRINT_UNITS = PRINT_RESOLUTION / 72.0;
   canvas.width = Math.floor(size.width * PRINT_UNITS);
   canvas.height = Math.floor(size.height * PRINT_UNITS);
-  canvas.style.width = Math.floor(size.width * _ui_utils.CSS_UNITS) + "px";
-  canvas.style.height = Math.floor(size.height * _ui_utils.CSS_UNITS) + "px";
-  const canvasWrapper = document.createElement("div");
+  canvas.style.width = Math.floor(size.width * _ui_utils.CSS_UNITS) + 'px';
+  canvas.style.height = Math.floor(size.height * _ui_utils.CSS_UNITS) + 'px';
+  var canvasWrapper = document.createElement('div');
   canvasWrapper.appendChild(canvas);
   printContainer.appendChild(canvasWrapper);
-  let currentRenderTask = null;
 
   canvas.mozPrintCallback = function (obj) {
-    const ctx = obj.context;
+    var ctx = obj.context;
     ctx.save();
-    ctx.fillStyle = "rgb(255, 255, 255)";
+    ctx.fillStyle = 'rgb(255, 255, 255)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.restore();
-    let thisRenderTask = null;
     pdfDocument.getPage(pageNumber).then(function (pdfPage) {
-      if (currentRenderTask) {
-        currentRenderTask.cancel();
-        currentRenderTask = null;
-      }
-
-      const renderContext = {
+      var renderContext = {
         canvasContext: ctx,
         transform: [PRINT_UNITS, 0, 0, PRINT_UNITS, 0, 0],
         viewport: pdfPage.getViewport({
           scale: 1,
           rotation: size.rotation
         }),
-        intent: "print",
-        annotationStorage: pdfDocument.annotationStorage,
-        optionalContentConfigPromise
+        intent: 'print'
       };
-      currentRenderTask = thisRenderTask = pdfPage.render(renderContext);
-      return thisRenderTask.promise;
+      return pdfPage.render(renderContext).promise;
     }).then(function () {
-      if (currentRenderTask === thisRenderTask) {
-        currentRenderTask = null;
-      }
-
       obj.done();
     }, function (error) {
       console.error(error);
 
-      if (currentRenderTask === thisRenderTask) {
-        currentRenderTask.cancel();
-        currentRenderTask = null;
-      }
-
-      if ("abort" in obj) {
+      if ('abort' in obj) {
         obj.abort();
       } else {
         obj.done();
@@ -93,47 +77,35 @@ function composePage(pdfDocument, pageNumber, size, printContainer, printResolut
   };
 }
 
-function FirefoxPrintService(pdfDocument, pagesOverview, printContainer, printResolution, optionalContentConfigPromise = null) {
+function FirefoxPrintService(pdfDocument, pagesOverview, printContainer) {
   this.pdfDocument = pdfDocument;
   this.pagesOverview = pagesOverview;
   this.printContainer = printContainer;
-  this._printResolution = printResolution || 150;
-  this._optionalContentConfigPromise = optionalContentConfigPromise || pdfDocument.getOptionalContentConfig();
 }
 
 FirefoxPrintService.prototype = {
-  layout() {
-    const {
-      pdfDocument,
-      pagesOverview,
-      printContainer,
-      _printResolution,
-      _optionalContentConfigPromise
-    } = this;
-    const body = document.querySelector("body");
-    body.setAttribute("data-pdfjsprinting", true);
+  layout: function layout() {
+    var pdfDocument = this.pdfDocument;
+    var printContainer = this.printContainer;
+    var body = document.querySelector('body');
+    body.setAttribute('data-pdfjsprinting', true);
 
-    for (let i = 0, ii = pagesOverview.length; i < ii; ++i) {
-      composePage(pdfDocument, i + 1, pagesOverview[i], printContainer, _printResolution, _optionalContentConfigPromise);
+    for (var i = 0, ii = this.pagesOverview.length; i < ii; ++i) {
+      composePage(pdfDocument, i + 1, this.pagesOverview[i], printContainer);
     }
   },
-
-  destroy() {
-    this.printContainer.textContent = "";
-    const body = document.querySelector("body");
-    body.removeAttribute("data-pdfjsprinting");
+  destroy: function destroy() {
+    this.printContainer.textContent = '';
   }
-
 };
 _app.PDFPrintServiceFactory.instance = {
   get supportsPrinting() {
-    const canvas = document.createElement("canvas");
-    const value = ("mozPrintCallback" in canvas);
-    return (0, _pdf.shadow)(this, "supportsPrinting", value);
+    var canvas = document.createElement('canvas');
+    var value = 'mozPrintCallback' in canvas;
+    return (0, _pdf.shadow)(this, 'supportsPrinting', value);
   },
 
-  createPrintService(pdfDocument, pagesOverview, printContainer, printResolution, optionalContentConfigPromise) {
-    return new FirefoxPrintService(pdfDocument, pagesOverview, printContainer, printResolution, optionalContentConfigPromise);
+  createPrintService: function createPrintService(pdfDocument, pagesOverview, printContainer) {
+    return new FirefoxPrintService(pdfDocument, pagesOverview, printContainer);
   }
-
 };

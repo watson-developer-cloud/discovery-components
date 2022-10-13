@@ -2,7 +2,7 @@
  * @licstart The following is the entire license notice for the
  * Javascript code in this page
  *
- * Copyright 2020 Mozilla Foundation
+ * Copyright 2019 Mozilla Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,248 +24,88 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.GlobalImageCache = exports.LocalGStateCache = exports.LocalFunctionCache = exports.LocalColorSpaceCache = exports.LocalImageCache = void 0;
+exports.NativeImageDecoder = void 0;
 
-var _util = require("../shared/util.js");
+var _colorspace = require("./colorspace");
 
-var _primitives = require("./primitives.js");
+var _jpeg_stream = require("./jpeg_stream");
 
-class BaseLocalCache {
-  constructor(options) {
-    if (this.constructor === BaseLocalCache) {
-      (0, _util.unreachable)("Cannot initialize BaseLocalCache.");
-    }
+var _stream = require("./stream");
 
-    if (!options || !options.onlyRefs) {
-      this._nameRefMap = new Map();
-      this._imageMap = new Map();
-    }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-    this._imageCache = new _primitives.RefSetCache();
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var NativeImageDecoder =
+/*#__PURE__*/
+function () {
+  function NativeImageDecoder(_ref) {
+    var xref = _ref.xref,
+        resources = _ref.resources,
+        handler = _ref.handler,
+        _ref$forceDataSchema = _ref.forceDataSchema,
+        forceDataSchema = _ref$forceDataSchema === void 0 ? false : _ref$forceDataSchema,
+        pdfFunctionFactory = _ref.pdfFunctionFactory;
+
+    _classCallCheck(this, NativeImageDecoder);
+
+    this.xref = xref;
+    this.resources = resources;
+    this.handler = handler;
+    this.forceDataSchema = forceDataSchema;
+    this.pdfFunctionFactory = pdfFunctionFactory;
   }
 
-  getByName(name) {
-    const ref = this._nameRefMap.get(name);
-
-    if (ref) {
-      return this.getByRef(ref);
+  _createClass(NativeImageDecoder, [{
+    key: "canDecode",
+    value: function canDecode(image) {
+      return image instanceof _jpeg_stream.JpegStream && NativeImageDecoder.isDecodable(image, this.xref, this.resources, this.pdfFunctionFactory);
     }
-
-    return this._imageMap.get(name) || null;
-  }
-
-  getByRef(ref) {
-    return this._imageCache.get(ref) || null;
-  }
-
-  set(name, ref, data) {
-    (0, _util.unreachable)("Abstract method `set` called.");
-  }
-
-}
-
-class LocalImageCache extends BaseLocalCache {
-  set(name, ref = null, data) {
-    if (!name) {
-      throw new Error('LocalImageCache.set - expected "name" argument.');
+  }, {
+    key: "decode",
+    value: function decode(image) {
+      var dict = image.dict;
+      var colorSpace = dict.get('ColorSpace', 'CS');
+      colorSpace = _colorspace.ColorSpace.parse(colorSpace, this.xref, this.resources, this.pdfFunctionFactory);
+      return this.handler.sendWithPromise('JpegDecode', [image.getIR(this.forceDataSchema), colorSpace.numComps]).then(function (_ref2) {
+        var data = _ref2.data,
+            width = _ref2.width,
+            height = _ref2.height;
+        return new _stream.Stream(data, 0, data.length, dict);
+      });
     }
+  }], [{
+    key: "isSupported",
+    value: function isSupported(image, xref, res, pdfFunctionFactory) {
+      var dict = image.dict;
 
-    if (ref) {
-      if (this._imageCache.has(ref)) {
-        return;
+      if (dict.has('DecodeParms') || dict.has('DP')) {
+        return false;
       }
 
-      this._nameRefMap.set(name, ref);
+      var cs = _colorspace.ColorSpace.parse(dict.get('ColorSpace', 'CS'), xref, res, pdfFunctionFactory);
 
-      this._imageCache.put(ref, data);
-
-      return;
+      return (cs.name === 'DeviceGray' || cs.name === 'DeviceRGB') && cs.isDefaultDecode(dict.getArray('Decode', 'D'));
     }
+  }, {
+    key: "isDecodable",
+    value: function isDecodable(image, xref, res, pdfFunctionFactory) {
+      var dict = image.dict;
 
-    if (this._imageMap.has(name)) {
-      return;
-    }
-
-    this._imageMap.set(name, data);
-  }
-
-}
-
-exports.LocalImageCache = LocalImageCache;
-
-class LocalColorSpaceCache extends BaseLocalCache {
-  set(name = null, ref = null, data) {
-    if (!name && !ref) {
-      throw new Error('LocalColorSpaceCache.set - expected "name" and/or "ref" argument.');
-    }
-
-    if (ref) {
-      if (this._imageCache.has(ref)) {
-        return;
+      if (dict.has('DecodeParms') || dict.has('DP')) {
+        return false;
       }
 
-      if (name) {
-        this._nameRefMap.set(name, ref);
-      }
+      var cs = _colorspace.ColorSpace.parse(dict.get('ColorSpace', 'CS'), xref, res, pdfFunctionFactory);
 
-      this._imageCache.put(ref, data);
-
-      return;
+      var bpc = dict.get('BitsPerComponent', 'BPC') || 1;
+      return (cs.numComps === 1 || cs.numComps === 3) && cs.isDefaultDecode(dict.getArray('Decode', 'D'), bpc);
     }
+  }]);
 
-    if (this._imageMap.has(name)) {
-      return;
-    }
+  return NativeImageDecoder;
+}();
 
-    this._imageMap.set(name, data);
-  }
-
-}
-
-exports.LocalColorSpaceCache = LocalColorSpaceCache;
-
-class LocalFunctionCache extends BaseLocalCache {
-  constructor(options) {
-    super({
-      onlyRefs: true
-    });
-  }
-
-  getByName(name) {
-    (0, _util.unreachable)("Should not call `getByName` method.");
-  }
-
-  set(name = null, ref, data) {
-    if (!ref) {
-      throw new Error('LocalFunctionCache.set - expected "ref" argument.');
-    }
-
-    if (this._imageCache.has(ref)) {
-      return;
-    }
-
-    this._imageCache.put(ref, data);
-  }
-
-}
-
-exports.LocalFunctionCache = LocalFunctionCache;
-
-class LocalGStateCache extends BaseLocalCache {
-  set(name, ref = null, data) {
-    if (!name) {
-      throw new Error('LocalGStateCache.set - expected "name" argument.');
-    }
-
-    if (ref) {
-      if (this._imageCache.has(ref)) {
-        return;
-      }
-
-      this._nameRefMap.set(name, ref);
-
-      this._imageCache.put(ref, data);
-
-      return;
-    }
-
-    if (this._imageMap.has(name)) {
-      return;
-    }
-
-    this._imageMap.set(name, data);
-  }
-
-}
-
-exports.LocalGStateCache = LocalGStateCache;
-
-class GlobalImageCache {
-  static get NUM_PAGES_THRESHOLD() {
-    return (0, _util.shadow)(this, "NUM_PAGES_THRESHOLD", 2);
-  }
-
-  static get MAX_IMAGES_TO_CACHE() {
-    return (0, _util.shadow)(this, "MAX_IMAGES_TO_CACHE", 10);
-  }
-
-  constructor() {
-    this._refCache = new _primitives.RefSetCache();
-    this._imageCache = new _primitives.RefSetCache();
-  }
-
-  shouldCache(ref, pageIndex) {
-    const pageIndexSet = this._refCache.get(ref);
-
-    const numPages = pageIndexSet ? pageIndexSet.size + (pageIndexSet.has(pageIndex) ? 0 : 1) : 1;
-
-    if (numPages < GlobalImageCache.NUM_PAGES_THRESHOLD) {
-      return false;
-    }
-
-    if (!this._imageCache.has(ref) && this._imageCache.size >= GlobalImageCache.MAX_IMAGES_TO_CACHE) {
-      return false;
-    }
-
-    return true;
-  }
-
-  addPageIndex(ref, pageIndex) {
-    let pageIndexSet = this._refCache.get(ref);
-
-    if (!pageIndexSet) {
-      pageIndexSet = new Set();
-
-      this._refCache.put(ref, pageIndexSet);
-    }
-
-    pageIndexSet.add(pageIndex);
-  }
-
-  getData(ref, pageIndex) {
-    const pageIndexSet = this._refCache.get(ref);
-
-    if (!pageIndexSet) {
-      return null;
-    }
-
-    if (pageIndexSet.size < GlobalImageCache.NUM_PAGES_THRESHOLD) {
-      return null;
-    }
-
-    if (!this._imageCache.has(ref)) {
-      return null;
-    }
-
-    pageIndexSet.add(pageIndex);
-    return this._imageCache.get(ref);
-  }
-
-  setData(ref, data) {
-    if (!this._refCache.has(ref)) {
-      throw new Error('GlobalImageCache.setData - expected "addPageIndex" to have been called.');
-    }
-
-    if (this._imageCache.has(ref)) {
-      return;
-    }
-
-    if (this._imageCache.size >= GlobalImageCache.MAX_IMAGES_TO_CACHE) {
-      (0, _util.info)("GlobalImageCache.setData - ignoring image above MAX_IMAGES_TO_CACHE.");
-      return;
-    }
-
-    this._imageCache.put(ref, data);
-  }
-
-  clear(onlyData = false) {
-    if (!onlyData) {
-      this._refCache.clear();
-    }
-
-    this._imageCache.clear();
-  }
-
-}
-
-exports.GlobalImageCache = GlobalImageCache;
+exports.NativeImageDecoder = NativeImageDecoder;
