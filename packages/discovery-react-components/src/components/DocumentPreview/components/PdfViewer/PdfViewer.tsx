@@ -88,13 +88,24 @@ const PdfViewer: FC<PdfViewerProps> = ({
   }, [pdfWorkerUrl]);
 
   const loadedFile = useAsyncFunctionCall(
-    useCallback(async () => (file ? await _loadPdf(file) : null), [file])
+    useCallback(async () => {
+      try {
+        return file ? await _loadPdf(file) : null;
+      } catch (error) {
+        console.error(`Failed to load pdf file: ${error}`);
+        return null;
+      }
+    }, [file])
   );
   const loadedPage = useAsyncFunctionCall(
-    useCallback(
-      async () => (loadedFile && page > 0 ? await _loadPage(loadedFile, page) : null),
-      [loadedFile, page]
-    )
+    useCallback(async () => {
+      try {
+        return loadedFile && page > 0 ? await _loadPage(loadedFile, page) : null;
+      } catch (error) {
+        console.error(`Failed to load pdf page ${page}: ${error}`);
+        return null;
+      }
+    }, [loadedFile, page])
   );
 
   const { width } = useSize(rootNode);
