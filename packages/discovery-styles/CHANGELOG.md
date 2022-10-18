@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.1](https://github.com/watson-developer-cloud/discovery-components/compare/v4.1.0...v4.1.1) (2022-10-18)
+
+
+### Bug Fixes
+
+* remove horizontal padding from passages ([#434](https://github.com/watson-developer-cloud/discovery-components/issues/434)) ([bb714a3](https://github.com/watson-developer-cloud/discovery-components/commit/bb714a38e3481546915da3234b3c95c102a68298))
+
+
+
+
+
 # [4.1.0](https://github.com/watson-developer-cloud/discovery-components/compare/v4.0.2...v4.1.0) (2022-10-12)
 
 
