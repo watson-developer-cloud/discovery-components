@@ -9,8 +9,8 @@
   "scripts": {
     "setup": "mkdir -p ./public/assets/ && cp ../../node_modules/pdfjs-dist/build/pdf.worker.min.js ./public/assets/pdf.worker.min.js",
     "build:app": "yarn run build",
-    "build": "yarn setup && cross-env SKIP_PREFLIGHT_CHECK=true CI=false react-scripts build",
-    "start": "yarn setup && cross-env SKIP_PREFLIGHT_CHECK=true react-scripts start",
+    "build": "yarn setup && cross-env SKIP_PREFLIGHT_CHECK=true CI=false SASS_PATH=${PWD}/src react-scripts build",
+    "start": "yarn setup && cross-env SKIP_PREFLIGHT_CHECK=true SASS_PATH=${PWD}/src react-scripts start",
     "lint": "yarn run g:eslint --quiet '{src,cypress}/**/*.{js,jsx,ts,tsx}' './*.{js,jsx,ts,tsx}'",
     "test:e2e": "cross-env REACT_APP_CYPRESS_MODE=true BROWSER=none CYPRESS_baseUrl=http://localhost:3000 start-server-and-test start http://localhost:3000 'cypress run'",
     "test:unit": "cross-env SKIP_PREFLIGHT_CHECK=true CI=1 react-scripts test --env=jsdom",
