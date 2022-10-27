@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.2](https://github.com/watson-developer-cloud/discovery-components/compare/v4.1.1...v4.1.2) (2022-10-27)
+
+
+### Bug Fixes
+
+* make loading prop optional in HtmlView and fix style leaks ([#439](https://github.com/watson-developer-cloud/discovery-components/issues/439)) ([e4f5bc7](https://github.com/watson-developer-cloud/discovery-components/commit/e4f5bc754eb77b5ab08d0477f0eb03f9acbab58f))
+
+
+
+
+
 ## [4.1.1](https://github.com/watson-developer-cloud/discovery-components/compare/v4.1.0...v4.1.1) (2022-10-18)
 
 
