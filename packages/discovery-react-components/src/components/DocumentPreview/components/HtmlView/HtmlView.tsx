@@ -25,7 +25,7 @@ interface Props {
   /**
    * Check to disable toolbar in parent
    */
-  setLoading: (loading: boolean) => void;
+  setLoading?: (loading: boolean) => void;
   /**
    * Callback which is invoked with whether to enable/disable toolbar controls
    */
