@@ -25,7 +25,7 @@ interface Props {
   /**
    * Check to disable toolbar in parent
    */
-  setLoading: (loading: boolean) => void;
+  setLoading?: (loading: boolean) => void;
   /**
    * Callback which is invoked with whether to enable/disable toolbar controls
    */
@@ -40,8 +40,8 @@ const SANITIZE_CONFIG = {
     // bbox
     'page'
   ],
-  FORBID_TAGS: ['input', 'form', 'a', 'button', 'script'],
-  FORBID_CONTENTS: ['script'],
+  FORBID_TAGS: ['input', 'form', 'a', 'button', 'script', 'style'],
+  FORBID_CONTENTS: ['script', 'style'],
   KEEP_CONTENT: true,
   WHOLE_DOCUMENT: true
 };
@@ -101,13 +101,17 @@ export const HtmlView: FC<Props> = ({
             <style>${processedDoc.styles}</style>
             ${DOMPurify.sanitize(fullHtml, SANITIZE_CONFIG)}
           `);
-          setLoading(false);
+          if (!!setLoading) {
+            setLoading(false);
+          }
         };
         process();
       } else {
         // if no highlight, then no need to "process"
         setHtml(docHtml ? DOMPurify.sanitize(docHtml, SANITIZE_CONFIG) : '');
-        setLoading(false);
+        if (!!setLoading) {
+          setLoading(false);
+        }
       }
     }
   }, [document, highlight, setLoading]);
