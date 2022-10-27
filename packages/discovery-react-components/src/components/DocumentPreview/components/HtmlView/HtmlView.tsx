@@ -101,13 +101,17 @@ export const HtmlView: FC<Props> = ({
             <style>${processedDoc.styles}</style>
             ${DOMPurify.sanitize(fullHtml, SANITIZE_CONFIG)}
           `);
-          setLoading(false);
+          if (!!setLoading) {
+            setLoading(false);
+          }
         };
         process();
       } else {
         // if no highlight, then no need to "process"
         setHtml(docHtml ? DOMPurify.sanitize(docHtml, SANITIZE_CONFIG) : '');
-        setLoading(false);
+        if (!!setLoading) {
+          setLoading(false);
+        }
       }
     }
   }, [document, highlight, setLoading]);
