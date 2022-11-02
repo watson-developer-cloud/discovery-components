@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.3](https://github.com/watson-developer-cloud/discovery-components/compare/v4.1.2...v4.1.3) (2022-11-02)
+
+
+### Bug Fixes
+
+* keep styles from leaking in html view when highlight present ([#441](https://github.com/watson-developer-cloud/discovery-components/issues/441)) ([2383dc4](https://github.com/watson-developer-cloud/discovery-components/commit/2383dc42b73c0460bb132efb7701a3fbd4bfe95d))
+
+
+
+
+
 ## [4.1.2](https://github.com/watson-developer-cloud/discovery-components/compare/v4.1.1...v4.1.2) (2022-10-27)
 
 
