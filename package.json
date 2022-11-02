@@ -21,7 +21,7 @@
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@testing-library/jest-dom": "^5.16.1",
-    "@testing-library/react": "^11.2.7",
+    "@testing-library/react": "^12.1.5",
     "@testing-library/react-hooks": "^7.0.2",
     "@types/babel__preset-env": "^7.9.2",
     "@types/classnames": "^2.2.9",
