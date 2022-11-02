@@ -96,11 +96,13 @@ export const HtmlView: FC<Props> = ({
 
           setProcessedDoc(processedDoc);
 
+          // TODO: restore the styles getting added back into html as part of issue #12210, once sandboxed
           // set sanitized HTML (removing scripts, etc)
-          setHtml(`
-            <style>${processedDoc.styles}</style>
-            ${DOMPurify.sanitize(fullHtml, SANITIZE_CONFIG)}
-          `);
+          // setHtml(`
+          //   <style>${processedDoc.styles}</style>
+          //   ${DOMPurify.sanitize(fullHtml, SANITIZE_CONFIG)}
+          // `);
+          setHtml(DOMPurify.sanitize(fullHtml, SANITIZE_CONFIG));
           if (!!setLoading) {
             setLoading(false);
           }
