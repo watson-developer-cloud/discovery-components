@@ -2238,7 +2238,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ibm-watson/discovery-react-components@^4.1.2, @ibm-watson/discovery-react-components@workspace:packages/discovery-react-components":
+"@ibm-watson/discovery-react-components@^4.1.3, @ibm-watson/discovery-react-components@workspace:packages/discovery-react-components":
   version: 0.0.0-use.local
   resolution: "@ibm-watson/discovery-react-components@workspace:packages/discovery-react-components"
   dependencies:
@@ -11114,7 +11114,7 @@ __metadata:
   resolution: "discovery-search-app@workspace:examples/discovery-search-app"
   dependencies:
     "@carbon/icons": ^10.5.0
-    "@ibm-watson/discovery-react-components": ^4.1.2
+    "@ibm-watson/discovery-react-components": ^4.1.3
     "@ibm-watson/discovery-styles": ^4.1.1
     "@testing-library/cypress": ^7.0.7
     "@types/proper-url-join": ^2
@@ -14653,12 +14653,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"husky@npm:^7.0.4":
-  version: 7.0.4
-  resolution: "husky@npm:7.0.4"
+"husky@npm:^8.0.2":
+  version: 8.0.2
+  resolution: "husky@npm:8.0.2"
   bin:
     husky: lib/bin.js
-  checksum: c6ec4af63da2c9522da8674a20ad9b48362cc92704896cc8a58c6a2a39d797feb2b806f93fbd83a6d653fbdceb2c3b6e0b602c6b2e8565206ffc2882ef7db9e9
+  checksum: e101656fcb56163d610488f186448c78b132626aa427094489d886ce9374955a90274912b0f3a34af3326eaa74977883b032e5f701d7aaf4554daa5a7931be43
   languageName: node
   linkType: hard
 
@@ -23265,7 +23265,7 @@ __metadata:
     eslint-plugin-react-hooks: ^4.5.0
     fast-xml-parser: ^3.14.0
     gh-pages: ^2.1.1
-    husky: ^7.0.4
+    husky: ^8.0.2
     ibm-watson: ^6.2.1
     lerna: ^4.0.0
     lerna-update-wizard: ^0.17.8
