@@ -203,10 +203,23 @@ function PreviewDocument({
   pdfWorkerUrl,
   fallbackComponent
 }: PreviewDocumentProps): ReactElement | null {
-  const previewType = useMemo(
-    () => (document ? detectPreviewType(document, file, highlight) : null),
-    [document, file, highlight]
-  );
+  const [isPdfRenderError, setIsPdfRenderError] = useState(false);
+
+  // notify PDF state
+  useEffect(() => {
+    console.log('DocumentPreview isPdfRenderError', isPdfRenderError);
+  }, [isPdfRenderError, setIsPdfRenderError]);
+
+  const previewType = useMemo(() => {
+    console.log('dorian useMemo and now...', document, file, highlight, isPdfRenderError);
+    var decidePreviewType = document ? detectPreviewType(document, file, highlight) : null;
+    if (isPdfRenderError) {
+      console.log('dorian override to TEXT', isPdfRenderError);
+      decidePreviewType = 'TEXT';
+    }
+    //return (document ? detectPreviewType(document, file, highlight) : null);
+    return decidePreviewType;
+  }, [document, file, highlight, isPdfRenderError]);
 
   if (!document) {
     return null;
@@ -225,6 +238,8 @@ function PreviewDocument({
           setHideToolbarControls={setHideToolbarControls}
           highlight={highlight}
           setCurrentPage={setCurrentPage}
+          setIsPdfRenderError={setIsPdfRenderError}
+          _isPdfRenderError={false} // Todo: Dorian, How to set default
           disableTextLayer={disableTextLayer}
           pdfWorkerUrl={pdfWorkerUrl}
         />

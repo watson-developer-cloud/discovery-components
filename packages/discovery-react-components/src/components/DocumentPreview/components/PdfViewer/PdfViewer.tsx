@@ -56,7 +56,11 @@ export type PdfViewerProps = PdfDisplayProps & {
    */
   setRenderedText?: (info: PdfRenderedText | null) => any;
   /**
-   * URL of hosted PDF worker
+   * Callback any errors on render
+   */
+  setIsPdfRenderError: (isError: boolean) => void;
+  /**
+   * Callback for text layer info
    */
   pdfWorkerUrl?: string;
 };
@@ -73,6 +77,7 @@ const PdfViewer: FC<PdfViewerProps> = ({
   setLoading,
   setHideToolbarControls,
   setRenderedText,
+  setIsPdfRenderError,
   pdfWorkerUrl,
   children
 }) => {
@@ -90,12 +95,15 @@ const PdfViewer: FC<PdfViewerProps> = ({
   const loadedFile = useAsyncFunctionCall(
     useCallback(async () => {
       try {
-        return file ? await _loadPdf(file) : null;
+        var promise = file ? await _loadPdf(file) : null;
+        setIsPdfRenderError(false);
+        return promise;
       } catch (error) {
+        setIsPdfRenderError(true);
         console.error(`Failed to load pdf file: ${error}`);
         return null;
       }
-    }, [file])
+    }, [file, setIsPdfRenderError])
   );
   const loadedPage = useAsyncFunctionCall(
     useCallback(async () => {

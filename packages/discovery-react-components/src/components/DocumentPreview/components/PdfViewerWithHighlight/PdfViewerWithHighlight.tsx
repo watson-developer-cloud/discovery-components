@@ -33,6 +33,8 @@ type Props = PdfViewerProps &
      * This property overrides `highlights` property if specified
      */
     highlight?: QueryResultPassage | QueryTableResult;
+    _isPdfRenderError: boolean;
+    setIsPdfRenderError: (state: boolean) => any;
   };
 
 /**
@@ -48,7 +50,9 @@ const PdfViewerWithHighlight: FC<Props> = ({
   activeIds,
   _useHtmlBbox,
   _usePdfTextItem,
+  _isPdfRenderError = false,
   setCurrentPage,
+  setIsPdfRenderError,
   ...rest
 }) => {
   const { scale } = rest;
@@ -89,9 +93,16 @@ const PdfViewerWithHighlight: FC<Props> = ({
     setCurrentPage
   );
 
+  const setCurrentErrMsgFromPdfConst = useIsPfdError(_isPdfRenderError, setIsPdfRenderError);
+
   const highlightReady = !!documentInfo && !!renderedText;
   return (
-    <PdfViewer {...rest} page={currentPage} setRenderedText={setRenderedText}>
+    <PdfViewer
+      {...rest}
+      page={currentPage}
+      setRenderedText={setRenderedText}
+      setIsPdfRenderError={setCurrentErrMsgFromPdfConst}
+    >
       {({ fitToWidthRatio }: { fitToWidthRatio: number }) => {
         return (
           (state.fields || state.bboxes) && (
@@ -177,6 +188,29 @@ function useHighlightState({
   }, [activeIds, document, documentInfo, fieldHighlights, queryHighlight]);
 
   return state;
+}
+
+/**
+ * Hook to handle PDF render error
+ */
+
+export function useIsPfdError(
+  isPdfRenderError: boolean,
+  callbackIsPdfError?: (state: boolean) => any
+) {
+  const [currentIsPdfError, setCurrentIsPdfError] = useState(isPdfRenderError);
+  console.log('useIsPfdError', currentIsPdfError, callbackIsPdfError);
+
+  // Process error message
+  const _previouserrMsgFromPdf = useRef(isPdfRenderError);
+  useEffect(() => {
+    console.log('_previouserrMsgFromPdf', _previouserrMsgFromPdf);
+    console.log('currentErrMsgFromPdf  ', currentIsPdfError);
+    console.log('localErrMsgFromPdf    ', isPdfRenderError);
+    callbackIsPdfError?.(currentIsPdfError);
+  }, [currentIsPdfError, setCurrentIsPdfError, isPdfRenderError, callbackIsPdfError]);
+
+  return setCurrentIsPdfError;
 }
 
 /**
