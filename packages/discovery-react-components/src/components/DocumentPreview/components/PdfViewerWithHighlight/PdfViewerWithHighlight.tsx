@@ -199,14 +199,9 @@ export function useIsPfdError(
   callbackIsPdfError?: (state: boolean) => any
 ) {
   const [currentIsPdfError, setCurrentIsPdfError] = useState(isPdfRenderError);
-  console.log('useIsPfdError', currentIsPdfError, callbackIsPdfError);
 
   // Process error message
-  const _previouserrMsgFromPdf = useRef(isPdfRenderError);
   useEffect(() => {
-    console.log('_previouserrMsgFromPdf', _previouserrMsgFromPdf);
-    console.log('currentErrMsgFromPdf  ', currentIsPdfError);
-    console.log('localErrMsgFromPdf    ', isPdfRenderError);
     callbackIsPdfError?.(currentIsPdfError);
   }, [currentIsPdfError, setCurrentIsPdfError, isPdfRenderError, callbackIsPdfError]);
 

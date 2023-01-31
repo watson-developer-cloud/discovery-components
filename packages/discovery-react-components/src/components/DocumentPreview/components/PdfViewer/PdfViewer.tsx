@@ -60,7 +60,7 @@ export type PdfViewerProps = PdfDisplayProps & {
    */
   setIsPdfRenderError: (isError: boolean) => void;
   /**
-   * Callback for text layer info
+   * URL of hosted PDF worker
    */
   pdfWorkerUrl?: string;
 };
