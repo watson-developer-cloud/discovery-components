@@ -33,7 +33,7 @@ type Props = PdfViewerProps &
      * This property overrides `highlights` property if specified
      */
     highlight?: QueryResultPassage | QueryTableResult;
-    _isPdfRenderError: boolean;
+    _isPdfRenderError?: boolean;
     setIsPdfRenderError: (state: boolean) => any;
   };
 

@@ -58,7 +58,7 @@ export type PdfViewerProps = PdfDisplayProps & {
   /**
    * Callback any errors on render
    */
-  setIsPdfRenderError: (isError: boolean) => void;
+  setIsPdfRenderError?: (isError: boolean) => void;
   /**
    * URL of hosted PDF worker
    */
@@ -96,10 +96,9 @@ const PdfViewer: FC<PdfViewerProps> = ({
     useCallback(async () => {
       try {
         var promise = file ? await _loadPdf(file) : null;
-        setIsPdfRenderError(false);
         return promise;
       } catch (error) {
-        setIsPdfRenderError(true);
+        setIsPdfRenderError?.(true);
         console.error(`Failed to load pdf file: ${error}`);
         return null;
       }
