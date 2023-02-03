@@ -6,10 +6,15 @@ import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import DiscoverySearch from 'components/DiscoverySearch/DiscoverySearch';
 import DocumentPreview from '../DocumentPreview';
 import pdfDocument from '../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
+import { document as pdfContentDocument } from '../__fixtures__/Art Effects.pdf';
+import { document as pdfContentInvalidDocument } from '../__fixtures__/Art Effects invalid.pdf';
 import passages from '../__fixtures__/passages';
 import 'utils/test/createRange.mock';
 import { SearchApiIFC, SearchContextIFC } from 'components/DiscoverySearch/DiscoverySearch';
 import { wrapWithContext } from 'utils/testingUtils';
+
+// PDF.js uses web streams, which aren't defined in jest/JSDOM
+import 'web-streams-polyfill/es2018';
 
 expect.extend({
   toBeValidHighlight(highlights, length, fieldType, fieldId) {
@@ -195,6 +200,102 @@ describe('DocumentPreview', () => {
         </DiscoverySearch>
       );
 
+      const elem = await screen.findByText('On 22 December 2008 ART EFFECTS LIMITED', {
+        exact: false
+      });
+      expect(elem).toBeInTheDocument();
+    });
+
+    it('should render pdf', async () => {
+      const authenticator = new NoAuthAuthenticator();
+      const searchClient = new DiscoveryV2({
+        ur: 'http://mock:3000/api',
+        version: '2019-01-01',
+        authenticator
+      });
+      const dummyResponse = {
+        result: {},
+        status: 200,
+        statusText: 'OK',
+        headers: {}
+      };
+      jest
+        .spyOn(searchClient, 'listCollections')
+        .mockImplementation(() => Promise.resolve(dummyResponse));
+      jest
+        .spyOn(searchClient, 'getComponentSettings')
+        .mockImplementation(() => Promise.resolve(dummyResponse));
+
+      const selectedResult = {
+        document: pdfDocument,
+        element: null,
+        elementType: null
+      };
+      const results = {
+        matching_results: 1,
+        results: [selectedResult]
+      };
+
+      render(
+        <DiscoverySearch
+          searchClient={searchClient}
+          projectId={'PROJECT_ID'}
+          overrideSearchResults={results}
+          overrideSelectedResult={selectedResult}
+        >
+          <DocumentPreview file={atob(pdfContentDocument)} />
+        </DiscoverySearch>
+      );
+
+      // 58 pages evidence PDF rendered
+      const elem = await screen.findByText('58 pages', {
+        exact: false
+      });
+      expect(elem).toBeInTheDocument();
+    });
+
+    it('should render html when pdf is invalid', async () => {
+      const authenticator = new NoAuthAuthenticator();
+      const searchClient = new DiscoveryV2({
+        ur: 'http://mock:3000/api',
+        version: '2019-01-01',
+        authenticator
+      });
+      const dummyResponse = {
+        result: {},
+        status: 200,
+        statusText: 'OK',
+        headers: {}
+      };
+      jest
+        .spyOn(searchClient, 'listCollections')
+        .mockImplementation(() => Promise.resolve(dummyResponse));
+      jest
+        .spyOn(searchClient, 'getComponentSettings')
+        .mockImplementation(() => Promise.resolve(dummyResponse));
+
+      const selectedResult = {
+        document: pdfDocument,
+        element: null,
+        elementType: null
+      };
+      const results = {
+        matching_results: 1,
+        results: [selectedResult]
+      };
+
+      render(
+        <DiscoverySearch
+          searchClient={searchClient}
+          projectId={'PROJECT_ID'}
+          overrideSearchResults={results}
+          overrideSelectedResult={selectedResult}
+        >
+          <DocumentPreview file={pdfContentInvalidDocument} />
+        </DiscoverySearch>
+      );
+
+      // Evidence HTML rendered
       const elem = await screen.findByText('On 22 December 2008 ART EFFECTS LIMITED', {
         exact: false
       });

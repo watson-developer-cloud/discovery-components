@@ -203,10 +203,11 @@ function PreviewDocument({
   pdfWorkerUrl,
   fallbackComponent
 }: PreviewDocumentProps): ReactElement | null {
-  const previewType = useMemo(
-    () => (document ? detectPreviewType(document, file, highlight) : null),
-    [document, file, highlight]
-  );
+  const [isPdfRenderError, setIsPdfRenderError] = useState(false);
+
+  const previewType = useMemo(() => {
+    return document ? detectPreviewType(document, file, highlight, isPdfRenderError) : null;
+  }, [document, file, highlight, isPdfRenderError]);
 
   if (!document) {
     return null;
@@ -225,6 +226,7 @@ function PreviewDocument({
           setHideToolbarControls={setHideToolbarControls}
           highlight={highlight}
           setCurrentPage={setCurrentPage}
+          setIsPdfRenderError={setIsPdfRenderError}
           disableTextLayer={disableTextLayer}
           pdfWorkerUrl={pdfWorkerUrl}
         />

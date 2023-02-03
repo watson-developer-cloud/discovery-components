@@ -52,7 +52,8 @@ export function isJsonFile(doc: QueryResult | null | undefined): boolean {
 export function detectPreviewType(
   document: DiscoveryDocument,
   file?: DocumentFile,
-  highlight?: QueryResultPassage | QueryTableResult
+  highlight?: QueryResultPassage | QueryTableResult,
+  isPdfRenderError?: boolean | false
 ): PreviewType {
   const fileType = document.extracted_metadata?.file_type;
   // passages contain location offsets against text-based strings (not HTML)
@@ -61,7 +62,7 @@ export function detectPreviewType(
   const isPassageHighlight = isPassage(highlight);
   const isTableHighlight = isTable(highlight);
 
-  if (fileType === 'pdf' && file) {
+  if (fileType === 'pdf' && file && !isPdfRenderError) {
     // When trying to highlight a passage or table, text_mappings are required to map
     // between passages' text-based offsets and the BBOX data need to highlight
     // on PDFs
