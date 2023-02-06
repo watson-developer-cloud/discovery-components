@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.4](https://github.com/watson-developer-cloud/discovery-components/compare/v4.1.3...v4.1.4) (2023-02-06)
+
+
+### Bug Fixes
+
+* callback pdf render error ([#467](https://github.com/watson-developer-cloud/discovery-components/issues/467)) ([6a7b8d4](https://github.com/watson-developer-cloud/discovery-components/commit/6a7b8d47c4f7f6c6c212e2ca569380f2d2f67255))
+* notify pdf error, fix storybook ([#474](https://github.com/watson-developer-cloud/discovery-components/issues/474)) ([07fa783](https://github.com/watson-developer-cloud/discovery-components/commit/07fa7835d1e0236855bbb60cfee552958c453d10))
+
+
+
+
+
 ## [4.1.3](https://github.com/watson-developer-cloud/discovery-components/compare/v4.1.2...v4.1.3) (2022-11-02)
 
 **Note:** Version bump only for package discovery-search-app
