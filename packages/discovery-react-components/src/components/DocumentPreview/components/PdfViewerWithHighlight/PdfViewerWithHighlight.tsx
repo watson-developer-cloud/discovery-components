@@ -34,7 +34,7 @@ type Props = PdfViewerProps &
      */
     highlight?: QueryResultPassage | QueryTableResult;
     _isPdfRenderError?: boolean;
-    setIsPdfRenderError: (state: boolean) => any;
+    setIsPdfRenderError?: (state: boolean) => any;
   };
 
 /**
