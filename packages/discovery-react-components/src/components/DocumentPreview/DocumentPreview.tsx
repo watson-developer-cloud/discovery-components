@@ -2,6 +2,7 @@ import React, {
   ComponentProps,
   FC,
   ReactElement,
+  forwardRef,
   useContext,
   useEffect,
   useMemo,
@@ -187,22 +188,25 @@ interface PreviewDocumentProps
   pdfWorkerUrl?: string;
 }
 
-function PreviewDocument({
-  file,
-  currentPage,
-  scale,
-  document,
-  loading,
-  setPdfPageCount,
-  setLoading,
-  hideToolbarControls,
-  setHideToolbarControls,
-  highlight,
-  disableTextLayer,
-  setCurrentPage,
-  pdfWorkerUrl,
-  fallbackComponent
-}: PreviewDocumentProps): ReactElement | null {
+const PreviewDocument = forwardRef<any, PreviewDocumentProps>(function PreviewDocument(
+  {
+    file,
+    currentPage,
+    scale,
+    document,
+    loading,
+    setPdfPageCount,
+    setLoading,
+    hideToolbarControls,
+    setHideToolbarControls,
+    highlight,
+    disableTextLayer,
+    setCurrentPage,
+    pdfWorkerUrl,
+    fallbackComponent
+  },
+  scrollRef
+): ReactElement | null {
   const [isPdfRenderError, setIsPdfRenderError] = useState(false);
 
   const previewType = useMemo(() => {
@@ -229,6 +233,7 @@ function PreviewDocument({
           setIsPdfRenderError={setIsPdfRenderError}
           disableTextLayer={disableTextLayer}
           pdfWorkerUrl={pdfWorkerUrl}
+          ref={scrollRef}
         />
       );
     case 'HTML':
@@ -238,6 +243,7 @@ function PreviewDocument({
           highlight={highlight}
           setHideToolbarControls={setHideToolbarControls}
           setLoading={setLoading}
+          ref={scrollRef}
         />
       );
     case 'TEXT':
@@ -250,12 +256,13 @@ function PreviewDocument({
           loading={loading}
           setLoading={setLoading}
           fallbackComponent={fallbackComponent}
+          ref={scrollRef}
         />
       );
     default:
       return null;
   }
-}
+});
 
 //Replace any with a proper TS check
 const ErrorBoundDocumentPreview: any = withErrorBoundary(DocumentPreview);

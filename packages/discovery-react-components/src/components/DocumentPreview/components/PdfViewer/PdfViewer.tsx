@@ -1,4 +1,13 @@
-import React, { FC, useEffect, useRef, useCallback, useMemo, useState } from 'react';
+import React, {
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+  useState,
+  forwardRef,
+  useImperativeHandle,
+  HTMLAttributes
+} from 'react';
 import cx from 'classnames';
 import * as PdfjsLib from 'pdfjs-dist';
 import { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist/types/display/api';
@@ -16,7 +25,7 @@ import { toPDFSource } from './utils';
 import { PdfDisplayProps } from './types';
 type RenderTask = ReturnType<PDFPageProxy['render']>;
 
-export type PdfViewerProps = PdfDisplayProps & {
+export interface PdfViewerProps extends PdfDisplayProps, HTMLAttributes<HTMLElement> {
   className?: string;
 
   /**
@@ -63,125 +72,131 @@ export type PdfViewerProps = PdfDisplayProps & {
    * URL of hosted PDF worker
    */
   pdfWorkerUrl?: string;
-};
+}
 
-const PdfViewer: FC<PdfViewerProps> = ({
-  className,
-  file,
-  page,
-  scale,
-  document,
-  textLayerClassName,
-  disableTextLayer = false,
-  setPageCount,
-  setLoading,
-  setHideToolbarControls,
-  setRenderedText,
-  setIsPdfRenderError,
-  pdfWorkerUrl,
-  children
-}) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const { node: rootNode, setRef: setRootRef } = useSafeRef();
-  const [canvasInfo, setCanvasInfo] = useState<CanvasInfo | null>(null);
+const PdfViewer = forwardRef<any, PdfViewerProps>(
+  (
+    {
+      className,
+      file,
+      page,
+      scale,
+      document,
+      textLayerClassName,
+      disableTextLayer = false,
+      setPageCount,
+      setLoading,
+      setHideToolbarControls,
+      setRenderedText,
+      setIsPdfRenderError,
+      pdfWorkerUrl,
+      children
+    },
+    scrollRef
+  ) => {
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const { node: rootNode, setRef: setRootRef } = useSafeRef();
+    useImperativeHandle(scrollRef, () => rootNode!, [rootNode]);
+    const [canvasInfo, setCanvasInfo] = useState<CanvasInfo | null>(null);
 
-  useEffect(() => {
-    // If we're given a url for a pdf.js worker, set up that worker
-    if (pdfWorkerUrl) {
-      setupPdfjs(pdfWorkerUrl);
-    }
-  }, [pdfWorkerUrl]);
-
-  const loadedFile = useAsyncFunctionCall(
-    useCallback(async () => {
-      try {
-        var promise = file ? await _loadPdf(file) : null;
-        return promise;
-      } catch (error) {
-        setIsPdfRenderError?.(true);
-        console.error(`Failed to load pdf file: ${error}`);
-        return null;
+    useEffect(() => {
+      // If we're given a url for a pdf.js worker, set up that worker
+      if (pdfWorkerUrl) {
+        setupPdfjs(pdfWorkerUrl);
       }
-    }, [file, setIsPdfRenderError])
-  );
-  const loadedPage = useAsyncFunctionCall(
-    useCallback(async () => {
-      try {
-        return loadedFile && page > 0 ? await _loadPage(loadedFile, page) : null;
-      } catch (error) {
-        console.error(`Failed to load pdf page ${page}: ${error}`);
-        return null;
-      }
-    }, [loadedFile, page])
-  );
+    }, [pdfWorkerUrl]);
 
-  const { width } = useSize(rootNode);
-
-  useEffect(() => {
-    // width has changed; update canvas info
-    setCanvasInfo(getCanvasInfo(loadedPage, scale, width));
-  }, [loadedPage, scale, width]);
-
-  // render page
-  useAsyncFunctionCall(
-    useCallback(
-      async (abortSignal: AbortSignal) => {
-        if (loadedPage && !(loadedPage as any).then && canvasInfo) {
-          const task = _renderPage(loadedPage, canvasRef.current!, canvasInfo);
-          abortSignal.addEventListener('abort', () => task?.cancel());
-          await task?.promise;
-
-          setLoading(false);
+    const loadedFile = useAsyncFunctionCall(
+      useCallback(async () => {
+        try {
+          var promise = file ? await _loadPdf(file) : null;
+          return promise;
+        } catch (error) {
+          setIsPdfRenderError?.(true);
+          console.error(`Failed to load pdf file: ${error}`);
+          return null;
         }
-      },
-      [canvasInfo, loadedPage, setLoading]
-    )
-  );
+      }, [file, setIsPdfRenderError])
+    );
+    const loadedPage = useAsyncFunctionCall(
+      useCallback(async () => {
+        try {
+          return loadedFile && page > 0 ? await _loadPage(loadedFile, page) : null;
+        } catch (error) {
+          console.error(`Failed to load pdf page ${page}: ${error}`);
+          return null;
+        }
+      }, [loadedFile, page])
+    );
 
-  const pageCount = usePageCount({ loadedFile, document });
-  useEffect(() => {
-    if (setPageCount && pageCount !== null) {
-      setPageCount(pageCount);
-    }
-  }, [pageCount, setPageCount]);
+    const { width } = useSize(rootNode);
 
-  useEffect(() => {
-    if (setHideToolbarControls) {
-      setHideToolbarControls(false);
-    }
-  }, [setHideToolbarControls]);
+    useEffect(() => {
+      // width has changed; update canvas info
+      setCanvasInfo(getCanvasInfo(loadedPage, scale, width));
+    }, [loadedPage, scale, width]);
 
-  // Ratio of the available width for the viewer to the native width of the PDF
-  // This value will be used to scale the text layer and highlights
-  const fitToWidthRatio = canvasInfo?.fitToWidthRatio || 1;
+    // render page
+    useAsyncFunctionCall(
+      useCallback(
+        async (abortSignal: AbortSignal) => {
+          if (loadedPage && !(loadedPage as any).then && canvasInfo) {
+            const task = _renderPage(loadedPage, canvasRef.current!, canvasInfo);
+            abortSignal.addEventListener('abort', () => task?.cancel());
+            await task?.promise;
 
-  const base = `${settings.prefix}--document-preview-pdf-viewer`;
-  return (
-    <div ref={setRootRef} className={cx(base, className)}>
-      <div className={`${base}__wrapper`}>
-        <canvas
-          ref={canvasRef}
-          className={`${base}__canvas`}
-          style={{
-            width: `${canvasInfo?.width ?? 0}px`,
-            height: `${canvasInfo?.height ?? 0}px`
-          }}
-          width={canvasInfo?.canvasWidth}
-          height={canvasInfo?.canvasHeight}
-        />
-        {!disableTextLayer && (
-          <PdfViewerTextLayer
-            className={cx(`${base}__text`, textLayerClassName)}
-            loadedPage={loadedPage}
-            scale={scale * fitToWidthRatio}
-            setRenderedText={setRenderedText}
+            setLoading(false);
+          }
+        },
+        [canvasInfo, loadedPage, setLoading]
+      )
+    );
+
+    const pageCount = usePageCount({ loadedFile, document });
+    useEffect(() => {
+      if (setPageCount && pageCount !== null) {
+        setPageCount(pageCount);
+      }
+    }, [pageCount, setPageCount]);
+
+    useEffect(() => {
+      if (setHideToolbarControls) {
+        setHideToolbarControls(false);
+      }
+    }, [setHideToolbarControls]);
+
+    // Ratio of the available width for the viewer to the native width of the PDF
+    // This value will be used to scale the text layer and highlights
+    const fitToWidthRatio = canvasInfo?.fitToWidthRatio || 1;
+
+    const base = `${settings.prefix}--document-preview-pdf-viewer`;
+    return (
+      <div ref={setRootRef} className={cx(base, className)}>
+        <div className={`${base}__wrapper`}>
+          <canvas
+            ref={canvasRef}
+            className={`${base}__canvas`}
+            style={{
+              width: `${canvasInfo?.width ?? 0}px`,
+              height: `${canvasInfo?.height ?? 0}px`
+            }}
+            width={canvasInfo?.canvasWidth}
+            height={canvasInfo?.canvasHeight}
           />
-        )}
-        {typeof children === 'function' ? children({ fitToWidthRatio }) : children}
+          {!disableTextLayer && (
+            <PdfViewerTextLayer
+              className={cx(`${base}__text`, textLayerClassName)}
+              loadedPage={loadedPage}
+              scale={scale * fitToWidthRatio}
+              setRenderedText={setRenderedText}
+            />
+          )}
+          {typeof children === 'function' ? children({ fitToWidthRatio }) : children}
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+);
 
 PdfViewer.defaultProps = {
   page: 1,

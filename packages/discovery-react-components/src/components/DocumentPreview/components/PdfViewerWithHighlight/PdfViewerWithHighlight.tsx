@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, forwardRef } from 'react';
 import { QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { nonEmpty } from 'utils/nonEmpty';
 import { TextMappings } from '../../types';
@@ -40,88 +40,94 @@ type Props = PdfViewerProps &
 /**
  * PDF viewer component with text highlighting capability
  */
-const PdfViewerWithHighlight: FC<Props> = ({
-  highlightClassName,
-  activeHighlightClassName,
-  document,
-  page,
-  highlight: queryHighlight,
-  highlights: fieldHighlights,
-  activeIds,
-  _useHtmlBbox,
-  _usePdfTextItem,
-  _isPdfRenderError = false,
-  setCurrentPage,
-  setIsPdfRenderError,
-  ...rest
-}) => {
-  const { scale } = rest;
-  const highlightProps: Omit<HighlightProps, 'highlights'> = {
-    highlightClassName,
-    activeHighlightClassName,
-    document,
-    _useHtmlBbox,
-    _usePdfTextItem
-  };
+const PdfViewerWithHighlight = forwardRef<any, Props>(
+  (
+    {
+      highlightClassName,
+      activeHighlightClassName,
+      document,
+      page,
+      highlight: queryHighlight,
+      highlights: fieldHighlights,
+      activeIds,
+      _useHtmlBbox,
+      _usePdfTextItem,
+      _isPdfRenderError = false,
+      setCurrentPage,
+      setIsPdfRenderError,
+      ...rest
+    },
+    scrollRef
+  ) => {
+    const { scale } = rest;
+    const highlightProps: Omit<HighlightProps, 'highlights'> = {
+      highlightClassName,
+      activeHighlightClassName,
+      document,
+      _useHtmlBbox,
+      _usePdfTextItem
+    };
 
-  const [renderedText, setRenderedText] = useState<PdfRenderedText | null>(null);
-  const isTableHighlight = isTable(queryHighlight);
+    const [renderedText, setRenderedText] = useState<PdfRenderedText | null>(null);
+    const isTableHighlight = isTable(queryHighlight);
 
-  const [documentInfo, setDocumentInfo] = useState<ExtractedDocumentInfo | undefined>(undefined);
-  useEffect(() => {
-    async function _setDocumentInfo() {
-      if (document) {
-        const docInfo = await extractDocumentInfo(document, { tables: isTableHighlight });
-        setDocumentInfo(docInfo);
+    const [documentInfo, setDocumentInfo] = useState<ExtractedDocumentInfo | undefined>(undefined);
+    useEffect(() => {
+      async function _setDocumentInfo() {
+        if (document) {
+          const docInfo = await extractDocumentInfo(document, { tables: isTableHighlight });
+          setDocumentInfo(docInfo);
+        }
       }
-    }
 
-    _setDocumentInfo();
-  }, [document, isTableHighlight]);
+      _setDocumentInfo();
+    }, [document, isTableHighlight]);
 
-  const state = useHighlightState({
-    queryHighlight,
-    fieldHighlights,
-    activeIds,
-    document,
-    documentInfo
-  });
-  const currentPage = useMovePageToActiveHighlight(
-    page,
-    state.activePages,
-    state.activeIds,
-    setCurrentPage
-  );
+    const state = useHighlightState({
+      queryHighlight,
+      fieldHighlights,
+      activeIds,
+      document,
+      documentInfo
+    });
+    const currentPage = useMovePageToActiveHighlight(
+      page,
+      state.activePages,
+      state.activeIds,
+      setCurrentPage
+    );
 
-  const setCurrentErrMsgFromPdfConst = useIsPfdError(_isPdfRenderError, setIsPdfRenderError);
+    const setCurrentErrMsgFromPdfConst = useIsPfdError(_isPdfRenderError, setIsPdfRenderError);
 
-  const highlightReady = !!documentInfo && !!renderedText;
-  return (
-    <PdfViewer
-      {...rest}
-      page={currentPage}
-      setRenderedText={setRenderedText}
-      setIsPdfRenderError={setCurrentErrMsgFromPdfConst}
-    >
-      {({ fitToWidthRatio }: { fitToWidthRatio: number }) => {
-        return (
-          (state.fields || state.bboxes) && (
-            <PdfHighlight
-              parsedDocument={highlightReady ? documentInfo ?? null : null}
-              pdfRenderedText={highlightReady ? renderedText : null}
-              page={currentPage}
-              scale={scale * fitToWidthRatio}
-              highlights={state.fields}
-              boxHighlights={state.bboxes}
-              activeIds={state.activeIds}
-              {...highlightProps}
-            />
-          )
-        );
-      }}
-    </PdfViewer>
-  );
-};
+    const highlightReady = !!documentInfo && !!renderedText;
+    return (
+      <PdfViewer
+        ref={scrollRef}
+        {...rest}
+        page={currentPage}
+        setRenderedText={setRenderedText}
+        setIsPdfRenderError={setCurrentErrMsgFromPdfConst}
+      >
+        {({ fitToWidthRatio }: { fitToWidthRatio: number }) => {
+          return (
+            (state.fields || state.bboxes) && (
+              <PdfHighlight
+                parsedDocument={highlightReady ? documentInfo ?? null : null}
+                pdfRenderedText={highlightReady ? renderedText : null}
+                page={currentPage}
+                scale={scale * fitToWidthRatio}
+                highlights={state.fields}
+                boxHighlights={state.bboxes}
+                activeIds={state.activeIds}
+                {...highlightProps}
+              />
+            )
+          );
+        }}
+      </PdfViewer>
+    );
+  }
+);
 
 type HighlightState = {
   activePages: number[];

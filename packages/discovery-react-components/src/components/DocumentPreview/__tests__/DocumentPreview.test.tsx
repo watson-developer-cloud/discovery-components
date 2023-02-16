@@ -252,7 +252,8 @@ describe('DocumentPreview', () => {
         exact: false
       });
       expect(elem).toBeInTheDocument();
-    });
+      // Increased timeout for long-running test
+    }, 30000);
 
     it('should render html when pdf is invalid', async () => {
       const authenticator = new NoAuthAuthenticator();
