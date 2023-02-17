@@ -904,7 +904,7 @@ describe('useUpdateQueryReturnParam', () => {
       _return: ['_extraReturnParam_']
     };
     const api: Partial<SearchApiIFC> = {
-      // @ts-ignore
+      // @ts-expect-error
       setSearchParameters: (callback: (callback: QueryParams) => QueryParams) => {
         searchParameters = callback(searchParameters);
       }
