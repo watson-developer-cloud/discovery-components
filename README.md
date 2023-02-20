@@ -48,7 +48,9 @@ First, you will need to customize and improve your document retrieval project on
 
 - [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [nvm](https://github.com/nvm-sh/nvm#installation-and-update)
+  - Set Node version to 16.x.x via `nvm install 16` and `nvm use 16`
 - [yarn](https://yarnpkg.com/getting-started/install) or [npm](https://www.npmjs.com/get-npm)
+- On MacOS, install any waiting OS Software Updates and install Xcode Command Line Tools by running `xcode-select --install` in terminal.
 
 ## Running the example app
 
@@ -110,6 +112,9 @@ yarn workspace discovery-search-app run start
       - CP4D sample URL: `https://zen-25-cpd-zen-25.apps.my-cluster-name.com/discovery/wd/projects/{REACT_APP_PROJECT_ID}/workspace`)
       - Cloud sample URL: `https://us-south.discovery.cloud.ibm.com/v2/instances/123/projects/{REACT_APP_PROJECT_ID}/workspace`)
 
+   <img src="./docs/images/example-project-id.png" alt="Example app" width="800px">
+
+
    #### Windows Only
 
    On Windows, the default `SASS_PATH` environment variable must be updated. Append the following to the `.env.local` file:
@@ -145,21 +150,31 @@ yarn workspace discovery-search-app run start
      - `DISCOVERY_URL` is the API URL to your Discovery instance (ex. `https://api.us-south.discovery.cloud.ibm.com/instances/2386cfd4-a584-41d0-868d-671d8be819bc`)
      - `DISCOVERY_APIKEY` the api key associated with `DISCOVERY_URL`
 
+   <img src="./docs/images/example-url-apikey.png" alt="URL and API key" width="800px">
+
+
 6. Build the React components:
 
    ```
    yarn workspace @ibm-watson/discovery-react-components run build
    ```
 
-7. Start the example app:
+7. Start the example server:
+
+   ```
+   yarn workspace discovery-search-app run server
+   ```
+
+8. In a separate terminal window, start the example app:
 
    ```
    yarn workspace discovery-search-app run start
    ```
 
-8. Go to [localhost:3000](localhost:3000) in your browser. If everything is working, you should see something like this:
+9. Go to [localhost:3000](localhost:3000) in your browser. If everything is working, you should see something like this:
 
-   ![Example app](./docs/images/example-app.png)
+   <img src="./docs/images/example-app.png" alt="Example app" width="800px">
+
 
 For more information on how each component can be customized and configured, check out our hosted [storybook](https://watson-developer-cloud.github.io/discovery-components/storybook)
 
