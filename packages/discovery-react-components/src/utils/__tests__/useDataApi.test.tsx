@@ -61,7 +61,7 @@ class ErrorSearchClient extends BaseSearchClient {
     const error = new Error();
     error.message =
       'You have exceeded the number of daily queries allowed for your plan. You can resume requests after the daily reset.';
-    // @ts-ignore - `body` isn't a field on `Error`
+    // @ts-expect-error - `body` isn't a field on `Error`
     error.body = {
       status_code: 400,
       errors: [

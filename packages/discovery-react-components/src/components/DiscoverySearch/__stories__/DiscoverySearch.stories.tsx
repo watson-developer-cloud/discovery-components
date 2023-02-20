@@ -22,7 +22,7 @@ const MyComponent: FC<{}> = () => {
 const customSearchClientProps = (): DiscoverySearchProps => ({
   searchClient: new DummySearchClient(),
   projectId: text('Project ID', 'project-id'),
-  // @ts-ignore
+  // @ts-expect-error
   overrideSearchResults: object('Search results object', {
     matching_results: 1,
     results: [
