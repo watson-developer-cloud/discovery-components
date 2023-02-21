@@ -1,4 +1,11 @@
-import React, { useEffect, useState, useRef, useLayoutEffect, forwardRef } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useLayoutEffect,
+  forwardRef,
+  HTMLAttributes
+} from 'react';
 import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import DOMPurify from 'dompurify';
@@ -13,7 +20,7 @@ import { getPassagePageInfo } from '../Highlight/passages';
 import { isPassage } from '../Highlight/typeUtils';
 import { QueryResultWithOptionalMetadata } from 'components/DocumentPreview/types';
 
-interface Props {
+interface Props extends HTMLAttributes<HTMLElement> {
   /**
    * Document data returned by query
    */
@@ -49,7 +56,7 @@ const SANITIZE_CONFIG = {
 const baseClassName = `${settings.prefix}--html`;
 
 export const HtmlView = forwardRef<any, Props>(
-  ({ document, highlight, setHideToolbarControls, setLoading }, scrollRef) => {
+  ({ document, highlight, setHideToolbarControls, setLoading, ...rest }, scrollRef) => {
     const contentRef = useRef<HTMLDivElement>(null);
     const highlightRef = useRef<HTMLDivElement>(null);
 
@@ -183,7 +190,7 @@ export const HtmlView = forwardRef<any, Props>(
     }, [highlight, html, highlightLocations]);
 
     return (
-      <div ref={scrollRef} className={baseClassName}>
+      <div ref={scrollRef} className={baseClassName} {...rest}>
         <div ref={highlightRef} />
         {html && (
           <div

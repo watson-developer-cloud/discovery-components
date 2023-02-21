@@ -6,7 +6,8 @@ import React, {
   useContext,
   useEffect,
   useMemo,
-  useState
+  useState,
+  HTMLAttributes
 } from 'react';
 import { SkeletonText, Loading } from 'carbon-components-react';
 import { settings } from 'carbon-components';
@@ -173,10 +174,8 @@ const DocumentPreview: FC<Props> = ({
 };
 
 interface PreviewDocumentProps
-  extends Pick<
-    Props,
-    'document' | 'file' | 'highlight' | 'fallbackComponent' | 'disableTextLayer'
-  > {
+  extends Pick<Props, 'document' | 'file' | 'highlight' | 'fallbackComponent' | 'disableTextLayer'>,
+    HTMLAttributes<HTMLElement> {
   currentPage: number;
   scale: number;
   setPdfPageCount?: (count: number) => void;
@@ -203,7 +202,8 @@ const PreviewDocument = forwardRef<any, PreviewDocumentProps>(function PreviewDo
     disableTextLayer,
     setCurrentPage,
     pdfWorkerUrl,
-    fallbackComponent
+    fallbackComponent,
+    ...rest
   },
   scrollRef
 ): ReactElement | null {
@@ -234,6 +234,7 @@ const PreviewDocument = forwardRef<any, PreviewDocumentProps>(function PreviewDo
           disableTextLayer={disableTextLayer}
           pdfWorkerUrl={pdfWorkerUrl}
           ref={scrollRef}
+          {...rest}
         />
       );
     case 'HTML':
@@ -244,6 +245,7 @@ const PreviewDocument = forwardRef<any, PreviewDocumentProps>(function PreviewDo
           setHideToolbarControls={setHideToolbarControls}
           setLoading={setLoading}
           ref={scrollRef}
+          {...rest}
         />
       );
     case 'TEXT':
@@ -257,6 +259,7 @@ const PreviewDocument = forwardRef<any, PreviewDocumentProps>(function PreviewDo
           setLoading={setLoading}
           fallbackComponent={fallbackComponent}
           ref={scrollRef}
+          {...rest}
         />
       );
     default:

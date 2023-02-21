@@ -1,4 +1,11 @@
-import React, { ComponentType, useContext, useEffect, useRef, forwardRef } from 'react';
+import React, {
+  ComponentType,
+  useContext,
+  useEffect,
+  useRef,
+  forwardRef,
+  HTMLAttributes
+} from 'react';
 import { encodeHTML } from 'entities';
 import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
@@ -9,7 +16,7 @@ import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import { isJsonFile, isCsvFile } from '../../utils/documentData';
 import ErrorView from './ErrorView';
 
-interface Props {
+interface Props extends HTMLAttributes<HTMLElement> {
   /**
    * Document data returned by query
    */
@@ -58,7 +65,8 @@ export const SimpleDocument = forwardRef<any, Props>(
       setHideToolbarControls,
       fallbackComponent: FallbackComponent,
       cannotPreviewMessage = "Can't preview document",
-      cannotPreviewMessage2 = "Try the JSON tab for a different view of this document's data."
+      cannotPreviewMessage2 = "Try the JSON tab for a different view of this document's data.",
+      ...rest
     },
     scrollRef
   ) => {
@@ -176,7 +184,7 @@ export const SimpleDocument = forwardRef<any, Props>(
 
     const baseClass = `${settings.prefix}--simple-document`;
     return (
-      <div ref={scrollRef} className={baseClass}>
+      <div ref={scrollRef} className={baseClass} {...rest}>
         {html ? (
           <div className={`${baseClass}__wrapper`}>
             <div ref={highlightRef} />

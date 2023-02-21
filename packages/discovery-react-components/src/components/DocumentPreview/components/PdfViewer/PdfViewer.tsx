@@ -90,7 +90,8 @@ const PdfViewer = forwardRef<any, PdfViewerProps>(
       setRenderedText,
       setIsPdfRenderError,
       pdfWorkerUrl,
-      children
+      children,
+      ...rest
     },
     scrollRef
   ) => {
@@ -171,7 +172,7 @@ const PdfViewer = forwardRef<any, PdfViewerProps>(
 
     const base = `${settings.prefix}--document-preview-pdf-viewer`;
     return (
-      <div ref={setRootRef} className={cx(base, className)}>
+      <div ref={setRootRef} className={cx(base, className)} {...rest}>
         <div className={`${base}__wrapper`}>
           <canvas
             ref={canvasRef}
