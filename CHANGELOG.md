@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.2.0](https://github.com/watson-developer-cloud/discovery-components/compare/v4.1.4...v4.2.0) (2023-02-21)
+
+
+### Features
+
+* add refs to PreviewDocument ([#477](https://github.com/watson-developer-cloud/discovery-components/issues/477)) ([4438ae8](https://github.com/watson-developer-cloud/discovery-components/commit/4438ae84eb132a80fc6bd821ae21ca5690815949))
+
+
+
+
+
 ## [4.1.4](https://github.com/watson-developer-cloud/discovery-components/compare/v4.1.3...v4.1.4) (2023-02-06)
 
 
