@@ -93,6 +93,8 @@ const highlightKnob = {
   }
 };
 
+// @ts-expect-error forwardRef makes PdfViewerWithHighlight a ForwardRefExoticComponent,
+// which has a $$typeof field that is superfluous here
 const WithTextSelection: typeof PdfViewerWithHighlight = props => {
   const [selectedField, setSelectedField] = useState<string | null>('text|||0');
   const { document } = props;

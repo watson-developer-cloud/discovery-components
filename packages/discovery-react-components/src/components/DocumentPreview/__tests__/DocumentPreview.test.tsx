@@ -16,6 +16,9 @@ import { wrapWithContext } from 'utils/testingUtils';
 // PDF.js uses web streams, which aren't defined in jest/JSDOM
 import 'web-streams-polyfill/es2018';
 
+// Increased timeout for long-running tests
+const THIRTY_SECONDS = 30000;
+
 expect.extend({
   toBeValidHighlight(highlights, length, fieldType, fieldId) {
     if (highlights.length === length) {
@@ -206,53 +209,57 @@ describe('DocumentPreview', () => {
       expect(elem).toBeInTheDocument();
     });
 
-    it('should render pdf', async () => {
-      const authenticator = new NoAuthAuthenticator();
-      const searchClient = new DiscoveryV2({
-        ur: 'http://mock:3000/api',
-        version: '2019-01-01',
-        authenticator
-      });
-      const dummyResponse = {
-        result: {},
-        status: 200,
-        statusText: 'OK',
-        headers: {}
-      };
-      jest
-        .spyOn(searchClient, 'listCollections')
-        .mockImplementation(() => Promise.resolve(dummyResponse));
-      jest
-        .spyOn(searchClient, 'getComponentSettings')
-        .mockImplementation(() => Promise.resolve(dummyResponse));
+    it(
+      'should render pdf',
+      async () => {
+        const authenticator = new NoAuthAuthenticator();
+        const searchClient = new DiscoveryV2({
+          ur: 'http://mock:3000/api',
+          version: '2019-01-01',
+          authenticator
+        });
+        const dummyResponse = {
+          result: {},
+          status: 200,
+          statusText: 'OK',
+          headers: {}
+        };
+        jest
+          .spyOn(searchClient, 'listCollections')
+          .mockImplementation(() => Promise.resolve(dummyResponse));
+        jest
+          .spyOn(searchClient, 'getComponentSettings')
+          .mockImplementation(() => Promise.resolve(dummyResponse));
 
-      const selectedResult = {
-        document: pdfDocument,
-        element: null,
-        elementType: null
-      };
-      const results = {
-        matching_results: 1,
-        results: [selectedResult]
-      };
+        const selectedResult = {
+          document: pdfDocument,
+          element: null,
+          elementType: null
+        };
+        const results = {
+          matching_results: 1,
+          results: [selectedResult]
+        };
 
-      render(
-        <DiscoverySearch
-          searchClient={searchClient}
-          projectId={'PROJECT_ID'}
-          overrideSearchResults={results}
-          overrideSelectedResult={selectedResult}
-        >
-          <DocumentPreview file={atob(pdfContentDocument)} />
-        </DiscoverySearch>
-      );
+        render(
+          <DiscoverySearch
+            searchClient={searchClient}
+            projectId={'PROJECT_ID'}
+            overrideSearchResults={results}
+            overrideSelectedResult={selectedResult}
+          >
+            <DocumentPreview file={atob(pdfContentDocument)} />
+          </DiscoverySearch>
+        );
 
-      // 58 pages evidence PDF rendered
-      const elem = await screen.findByText('58 pages', {
-        exact: false
-      });
-      expect(elem).toBeInTheDocument();
-    });
+        // 58 pages evidence PDF rendered
+        const elem = await screen.findByText('58 pages', {
+          exact: false
+        });
+        expect(elem).toBeInTheDocument();
+      },
+      THIRTY_SECONDS
+    );
 
     it('should render html when pdf is invalid', async () => {
       const authenticator = new NoAuthAuthenticator();

@@ -1,4 +1,11 @@
-import React, { FC, useEffect, useState, useRef, useLayoutEffect } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useLayoutEffect,
+  forwardRef,
+  HTMLAttributes
+} from 'react';
 import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import DOMPurify from 'dompurify';
@@ -13,7 +20,7 @@ import { getPassagePageInfo } from '../Highlight/passages';
 import { isPassage } from '../Highlight/typeUtils';
 import { QueryResultWithOptionalMetadata } from 'components/DocumentPreview/types';
 
-interface Props {
+interface Props extends HTMLAttributes<HTMLElement> {
   /**
    * Document data returned by query
    */
@@ -48,158 +55,155 @@ const SANITIZE_CONFIG = {
 
 const baseClassName = `${settings.prefix}--html`;
 
-export const HtmlView: FC<Props> = ({
-  document,
-  highlight,
-  setHideToolbarControls,
-  setLoading
-}) => {
-  const contentRef = useRef<HTMLDivElement>(null);
-  const highlightRef = useRef<HTMLDivElement>(null);
+export const HtmlView = forwardRef<any, Props>(
+  ({ document, highlight, setHideToolbarControls, setLoading, ...rest }, scrollRef) => {
+    const contentRef = useRef<HTMLDivElement>(null);
+    const highlightRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (setHideToolbarControls) {
-      setHideToolbarControls(true);
-    }
-  }, [setHideToolbarControls]);
-
-  const [html, setHtml] = useState<string | null>(null);
-  const [processedDoc, setProcessedDoc] = useState<ProcessedDoc | null>(null);
-  const [highlightLocations, setHighlightLocations] = useState<Location[]>([]);
-
-  useLayoutEffect(() => {
-    DOMPurify.addHook('afterSanitizeAttributes', function (node) {
-      if (node.tagName === 'TABLE') {
-        node.setAttribute('role', 'presentation');
+    useEffect(() => {
+      if (setHideToolbarControls) {
+        setHideToolbarControls(true);
       }
-    });
+    }, [setHideToolbarControls]);
 
-    return () => {
-      DOMPurify.removeHook('afterSanitizeAttributes');
-    };
-  }, []);
+    const [html, setHtml] = useState<string | null>(null);
+    const [processedDoc, setProcessedDoc] = useState<ProcessedDoc | null>(null);
+    const [highlightLocations, setHighlightLocations] = useState<Location[]>([]);
 
-  useEffect(() => {
-    if (document) {
-      const docHtml = document.html;
-      if (docHtml && highlight) {
-        // "process" the original HTML string in order to find offsets for DOM nodes
-        const process = async (): Promise<void> => {
-          const processedDoc = await processDoc(
-            { ...document, docHtml },
-            { sections: true, bbox: true }
-          );
+    useLayoutEffect(() => {
+      DOMPurify.addHook('afterSanitizeAttributes', function (node) {
+        if (node.tagName === 'TABLE') {
+          node.setAttribute('role', 'presentation');
+        }
+      });
 
-          const fullHtml = processedDoc.sections
-            ? processedDoc.sections.map(section => section.html).join('')
-            : '';
+      return () => {
+        DOMPurify.removeHook('afterSanitizeAttributes');
+      };
+    }, []);
 
-          setProcessedDoc(processedDoc);
+    useEffect(() => {
+      if (document) {
+        const docHtml = document.html;
+        if (docHtml && highlight) {
+          // "process" the original HTML string in order to find offsets for DOM nodes
+          const process = async (): Promise<void> => {
+            const processedDoc = await processDoc(
+              { ...document, docHtml },
+              { sections: true, bbox: true }
+            );
 
-          // TODO: restore the styles getting added back into html as part of issue #12210, once sandboxed
-          // set sanitized HTML (removing scripts, etc)
-          // setHtml(`
-          //   <style>${processedDoc.styles}</style>
-          //   ${DOMPurify.sanitize(fullHtml, SANITIZE_CONFIG)}
-          // `);
-          setHtml(DOMPurify.sanitize(fullHtml, SANITIZE_CONFIG));
+            const fullHtml = processedDoc.sections
+              ? processedDoc.sections.map(section => section.html).join('')
+              : '';
+
+            setProcessedDoc(processedDoc);
+
+            // TODO: restore the styles getting added back into html as part of issue #12210, once sandboxed
+            // set sanitized HTML (removing scripts, etc)
+            // setHtml(`
+            //   <style>${processedDoc.styles}</style>
+            //   ${DOMPurify.sanitize(fullHtml, SANITIZE_CONFIG)}
+            // `);
+            setHtml(DOMPurify.sanitize(fullHtml, SANITIZE_CONFIG));
+            if (!!setLoading) {
+              setLoading(false);
+            }
+          };
+          process();
+        } else {
+          // if no highlight, then no need to "process"
+          setHtml(docHtml ? DOMPurify.sanitize(docHtml, SANITIZE_CONFIG) : '');
           if (!!setLoading) {
             setLoading(false);
           }
-        };
-        process();
-      } else {
-        // if no highlight, then no need to "process"
-        setHtml(docHtml ? DOMPurify.sanitize(docHtml, SANITIZE_CONFIG) : '');
-        if (!!setLoading) {
-          setLoading(false);
         }
       }
-    }
-  }, [document, highlight, setLoading]);
+    }, [document, highlight, setLoading]);
 
-  useEffect(() => {
-    if (highlight) {
-      const textMappings = getTextMappings(document);
-      if (isPassage(highlight) && textMappings) {
-        const textMappingBbox = getPassagePageInfo(textMappings, highlight);
-        if (processedDoc && processedDoc.bboxes && textMappingBbox) {
-          const passageLocs: Location[] = flatMap(textMappingBbox, bbox => {
-            return findMatchingBbox(bbox, processedDoc.bboxes as ProcessedBbox[]);
-          }).map(bbox => {
-            return bbox.location;
+    useEffect(() => {
+      if (highlight) {
+        const textMappings = getTextMappings(document);
+        if (isPassage(highlight) && textMappings) {
+          const textMappingBbox = getPassagePageInfo(textMappings, highlight);
+          if (processedDoc && processedDoc.bboxes && textMappingBbox) {
+            const passageLocs: Location[] = flatMap(textMappingBbox, bbox => {
+              return findMatchingBbox(bbox, processedDoc.bboxes as ProcessedBbox[]);
+            }).map(bbox => {
+              return bbox.location;
+            });
+            setHighlightLocations(passageLocs);
+          }
+        } else {
+          const tableLoc = get(highlight, 'table.location', {});
+          setHighlightLocations([tableLoc]);
+        }
+      }
+    }, [document, highlight, processedDoc]);
+
+    // highlight table and scroll into view
+    useEffect(() => {
+      if (!html || !highlightLocations) {
+        return;
+      }
+
+      const contentNode = contentRef.current;
+      const highlightNode = highlightRef.current;
+
+      if (highlightNode) {
+        clearNodeChildren(highlightNode);
+      }
+
+      if (!highlight || !contentNode || !highlightNode) {
+        return;
+      }
+
+      highlightLocations.forEach(location => {
+        try {
+          const { begin, end } = location;
+          if (typeof begin === 'undefined' || typeof end === 'undefined') {
+            return;
+          }
+
+          const offsets = findOffsetInDOM(contentNode, begin, end);
+
+          const fragment = window.document.createDocumentFragment();
+          const parentRect = contentNode.getBoundingClientRect() as DOMRect;
+          createFieldRects({
+            fragment,
+            parentRect,
+            fieldType: 'highlight',
+            fieldId: begin.toString(),
+            ...offsets
           });
-          setHighlightLocations(passageLocs);
+          highlightNode.appendChild(fragment);
+        } catch (err) {
+          console.error('Error creating field rects', err);
         }
-      } else {
-        const tableLoc = get(highlight, 'table.location', {});
-        setHighlightLocations([tableLoc]);
+      });
+
+      // scroll highlight into view
+      const firstFieldRect = highlightNode.querySelector('.field--rect');
+      if (firstFieldRect) {
+        firstFieldRect.scrollIntoView({ block: 'center' });
       }
-    }
-  }, [document, highlight, processedDoc]);
+    }, [highlight, html, highlightLocations]);
 
-  // highlight table and scroll into view
-  useEffect(() => {
-    if (!html || !highlightLocations) {
-      return;
-    }
-
-    const contentNode = contentRef.current;
-    const highlightNode = highlightRef.current;
-
-    if (highlightNode) {
-      clearNodeChildren(highlightNode);
-    }
-
-    if (!highlight || !contentNode || !highlightNode) {
-      return;
-    }
-
-    highlightLocations.forEach(location => {
-      try {
-        const { begin, end } = location;
-        if (typeof begin === 'undefined' || typeof end === 'undefined') {
-          return;
-        }
-
-        const offsets = findOffsetInDOM(contentNode, begin, end);
-
-        const fragment = window.document.createDocumentFragment();
-        const parentRect = contentNode.getBoundingClientRect() as DOMRect;
-        createFieldRects({
-          fragment,
-          parentRect,
-          fieldType: 'highlight',
-          fieldId: begin.toString(),
-          ...offsets
-        });
-        highlightNode.appendChild(fragment);
-      } catch (err) {
-        console.error('Error creating field rects', err);
-      }
-    });
-
-    // scroll highlight into view
-    const firstFieldRect = highlightNode.querySelector('.field--rect');
-    if (firstFieldRect) {
-      firstFieldRect.scrollIntoView({ block: 'center' });
-    }
-  }, [highlight, html, highlightLocations]);
-
-  return (
-    <div className={baseClassName}>
-      <div ref={highlightRef} />
-      {html && (
-        <div
-          className={`${baseClassName}__content`}
-          dangerouslySetInnerHTML={{
-            __html: html
-          }}
-          ref={contentRef}
-        />
-      )}
-    </div>
-  );
-};
+    return (
+      <div ref={scrollRef} className={baseClassName} {...rest}>
+        <div ref={highlightRef} />
+        {html && (
+          <div
+            className={`${baseClassName}__content`}
+            dangerouslySetInnerHTML={{
+              __html: html
+            }}
+            ref={contentRef}
+          />
+        )}
+      </div>
+    );
+  }
+);
 
 export default HtmlView;

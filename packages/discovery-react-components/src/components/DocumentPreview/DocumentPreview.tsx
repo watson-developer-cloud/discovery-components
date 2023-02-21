@@ -2,10 +2,12 @@ import React, {
   ComponentProps,
   FC,
   ReactElement,
+  forwardRef,
   useContext,
   useEffect,
   useMemo,
-  useState
+  useState,
+  HTMLAttributes
 } from 'react';
 import { SkeletonText, Loading } from 'carbon-components-react';
 import { settings } from 'carbon-components';
@@ -172,10 +174,8 @@ const DocumentPreview: FC<Props> = ({
 };
 
 interface PreviewDocumentProps
-  extends Pick<
-    Props,
-    'document' | 'file' | 'highlight' | 'fallbackComponent' | 'disableTextLayer'
-  > {
+  extends Pick<Props, 'document' | 'file' | 'highlight' | 'fallbackComponent' | 'disableTextLayer'>,
+    HTMLAttributes<HTMLElement> {
   currentPage: number;
   scale: number;
   setPdfPageCount?: (count: number) => void;
@@ -187,22 +187,26 @@ interface PreviewDocumentProps
   pdfWorkerUrl?: string;
 }
 
-function PreviewDocument({
-  file,
-  currentPage,
-  scale,
-  document,
-  loading,
-  setPdfPageCount,
-  setLoading,
-  hideToolbarControls,
-  setHideToolbarControls,
-  highlight,
-  disableTextLayer,
-  setCurrentPage,
-  pdfWorkerUrl,
-  fallbackComponent
-}: PreviewDocumentProps): ReactElement | null {
+const PreviewDocument = forwardRef<any, PreviewDocumentProps>(function PreviewDocument(
+  {
+    file,
+    currentPage,
+    scale,
+    document,
+    loading,
+    setPdfPageCount,
+    setLoading,
+    hideToolbarControls,
+    setHideToolbarControls,
+    highlight,
+    disableTextLayer,
+    setCurrentPage,
+    pdfWorkerUrl,
+    fallbackComponent,
+    ...rest
+  },
+  scrollRef
+): ReactElement | null {
   const [isPdfRenderError, setIsPdfRenderError] = useState(false);
 
   const previewType = useMemo(() => {
@@ -229,6 +233,8 @@ function PreviewDocument({
           setIsPdfRenderError={setIsPdfRenderError}
           disableTextLayer={disableTextLayer}
           pdfWorkerUrl={pdfWorkerUrl}
+          ref={scrollRef}
+          {...rest}
         />
       );
     case 'HTML':
@@ -238,6 +244,8 @@ function PreviewDocument({
           highlight={highlight}
           setHideToolbarControls={setHideToolbarControls}
           setLoading={setLoading}
+          ref={scrollRef}
+          {...rest}
         />
       );
     case 'TEXT':
@@ -250,12 +258,14 @@ function PreviewDocument({
           loading={loading}
           setLoading={setLoading}
           fallbackComponent={fallbackComponent}
+          ref={scrollRef}
+          {...rest}
         />
       );
     default:
       return null;
   }
-}
+});
 
 //Replace any with a proper TS check
 const ErrorBoundDocumentPreview: any = withErrorBoundary(DocumentPreview);
