@@ -2238,7 +2238,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ibm-watson/discovery-react-components@^4.1.4, @ibm-watson/discovery-react-components@workspace:packages/discovery-react-components":
+"@ibm-watson/discovery-react-components@^4.2.0, @ibm-watson/discovery-react-components@workspace:packages/discovery-react-components":
   version: 0.0.0-use.local
   resolution: "@ibm-watson/discovery-react-components@workspace:packages/discovery-react-components"
   dependencies:
@@ -5839,7 +5839,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^14.0.10 || ^16.0.0, @types/node@npm:^14.14.20 || ^16.0.0, @types/node@npm:^16.11.59":
+"@types/node@npm:*, @types/node@npm:^14.0.10 || ^16.0.0, @types/node@npm:^14.14.20 || ^16.0.0":
   version: 16.11.59
   resolution: "@types/node@npm:16.11.59"
   checksum: b3a2986ef8f8216bb7fd1187dcf2e69aca3e6b6b5fdfd6abf4cf11c44e3cdd587fae875a28dc4ef257e2b369e2c5290642aff6a0a9d702f3385a78f561293259
@@ -5857,6 +5857,13 @@ __metadata:
   version: 14.18.20
   resolution: "@types/node@npm:14.18.20"
   checksum: 999d8ef25c983c9ca7c3365d6878a7f9387a90e10fdec9b6fc26764ae0b52768b8ca4f7e3fcab6056326dcc613b730f2a58b59acacdc5d5863fa4b7a09c1f85f
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^18.14.4":
+  version: 18.14.4
+  resolution: "@types/node@npm:18.14.4"
+  checksum: 3f2f625777747b9f87e793eea5a8bbf1ac2c828846bda5811d07a457d55cfe6762239779759de61e7b7e917632b9ceee3f7ffd2a024117e7ec364dc1b4eb8d55
   languageName: node
   linkType: hard
 
@@ -11114,7 +11121,7 @@ __metadata:
   resolution: "discovery-search-app@workspace:examples/discovery-search-app"
   dependencies:
     "@carbon/icons": ^10.5.0
-    "@ibm-watson/discovery-react-components": ^4.1.4
+    "@ibm-watson/discovery-react-components": ^4.2.0
     "@ibm-watson/discovery-styles": ^4.1.1
     "@testing-library/cypress": ^7.0.7
     "@types/proper-url-join": ^2
@@ -23239,7 +23246,7 @@ __metadata:
     "@types/lodash": ^4.14.141
     "@types/md5": 2.3.2
     "@types/mustache": ^0.8.32
-    "@types/node": ^16.11.59
+    "@types/node": ^18.14.4
     "@types/react": ^17.0.38
     "@types/react-dom": ^17.0.11
     "@types/react-resize-detector": ^4.2.0
