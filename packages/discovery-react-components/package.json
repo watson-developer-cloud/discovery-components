@@ -90,7 +90,7 @@
     "react-dom": ">= 16.8.0 < 18"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=16"
   },
   "jsnext:main": "dist/index.es.js",
   "publishConfig": {

@@ -22,7 +22,7 @@
     "carbon-components": ">= 10.46.0 < 11"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=16"
   },
   "publishConfig": {
     "access": "public"
