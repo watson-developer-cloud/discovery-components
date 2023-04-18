@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import get from 'lodash/get';
 import { QueryResult, QueryResultPassage } from 'ibm-watson/discovery/v2';
 import { getTextMappings } from 'components/DocumentPreview/utils/documentData';
 import { CellPage, TextMappings } from 'components/DocumentPreview/types';
@@ -40,7 +39,8 @@ export function getPassagePageInfo(
     return null;
   }
 
-  return get(textMappings, 'text_mappings', [])
+  const mappings = textMappings?.text_mappings || [];
+  return mappings
     .filter(cell => {
       const {
         field: { name, span }
