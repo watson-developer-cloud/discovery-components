@@ -357,6 +357,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
 
   useDeepCompareEffect(() => {
     setSearchResponse(overrideSearchResults);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [overrideSearchResults]);
 
   useDeepCompareEffect(() => {
@@ -367,10 +368,12 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
         ...deprecateReturnFields(overrideQueryParameters)
       };
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId, overrideQueryParameters]);
 
   useDeepCompareEffect(() => {
     setGlobalAggregationsResponse(overrideAggregationResults);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [overrideAggregationResults]);
 
   useDeepCompareEffect(() => {
@@ -383,6 +386,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
 
   useDeepCompareEffect(() => {
     setAutocompletions(overrideAutocompletionResults);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [overrideAutocompletionResults]);
 
   useDeepCompareEffect(() => {
@@ -444,6 +448,7 @@ const DiscoverySearch: FC<DiscoverySearchProps> = ({
         setAutocompletions(undefined);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [autocompletionOptions, projectId]
   );
 

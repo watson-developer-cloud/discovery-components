@@ -1,4 +1,4 @@
-export default {
+const data = {
   single: {
     passage_text: 'Please do not reply to this email.',
     start_offset: 0,
@@ -6,3 +6,5 @@ export default {
     field: 'text'
   }
 };
+
+export default data;
