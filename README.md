@@ -173,7 +173,7 @@ yarn workspace discovery-search-app run start
 
    <img src="./docs/images/example-app.png" alt="Example app" width="800px">
 
-For more information on how each component can be customized and configured, check out our hosted [storybook](https://watson-developer-cloud.github.io/discovery-components/storybook)
+For more information on how each component can be customized and configured, check out our hosted [storybook](https://watson-developer-cloud.github.io/discovery-components/storybook).
 
 ## Using Discovery Components in a React application
 
