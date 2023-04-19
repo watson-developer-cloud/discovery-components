@@ -94,9 +94,32 @@ export class SearchFilterTransform {
     facets.forEach(facet => {
       const field = get(facet, 'field', '');
       const results = get(facet, 'results', []);
-      const keys = this.quoteSelectedFacets(results, 'key');
-      if (keys.length) {
-        filterStrings.push(keys.map(key => `${escapeFieldName(field)}::${key}`).join('|'));
+      const hasCategories = // logic duplicated from CollapsibleFacetsGroup
+        field.includes('enriched_') &&
+        field.includes('entities.text') &&
+        results?.[0]?.aggregations !== undefined;
+      // if a group of facets contain sub-categories, surround each sub-category with an AND (,)
+      if (hasCategories) {
+        const resultsByCategory: { [key: string]: SelectableQueryTermAggregationResult[] } = {};
+        results.forEach(result => {
+          const resultCategory = result!.aggregations![0].results![0].key;
+          if (resultCategory in resultsByCategory) {
+            resultsByCategory[`${resultCategory}`].push(result);
+          } else {
+            resultsByCategory[`${resultCategory}`] = [result];
+          }
+        });
+        Object.values(resultsByCategory).forEach(category => {
+          const keys = this.quoteSelectedFacets(category, 'key');
+          if (keys.length) {
+            filterStrings.push(keys.map(key => `${escapeFieldName(field)}::${key}`).join('|'));
+          }
+        });
+      } else {
+        const keys = this.quoteSelectedFacets(results, 'key');
+        if (keys.length) {
+          filterStrings.push(keys.map(key => `${escapeFieldName(field)}::${key}`).join('|'));
+        }
       }
     });
     return filterStrings.join(',');
