@@ -1,4 +1,4 @@
-export default [
+const data = [
   {
     // eslint-disable-next-line max-len
     html: `<p text-alignment="left" data-child-begin="148361" data-child-end="149450"><span class="TimesNewRomanPSMT_Black_9_0" data-child-begin="148398" data-child-end="149443"><bbox height="76.61051940917969" page="14" width="467.9559555053711" x="72.0250015258789" y="274.989501953125" data-child-begin="148514" data-child-end="149436">Supplier agrees to have and maintain a business continuity plan and business continuity testing procedures, which include but are not limited to the areas of disaster recovery planning, pandemic planning, and cyber security. Cyber security programs must include, at a minimum, provisions to prevent, detect, and respond to cyber security incidents. Supplier agrees to review, update, and test the business continuity plan annually and, upon Buyer's request, Supplier will provide a summary of the business continuity plan and test results. Buyer may, from time to time, provide feedback regarding the plan and requests that Supplier take Buyer's comments into consideration when updating the plan. However, Supplier remains solely responsible for the performance of its responsibilities under the Agreement and the adequacy of the business continuity plan regardless of whether Buyer has reviewed or commented on the plan.</bbox></span></p>`,
@@ -298,3 +298,5 @@ export default [
     ]
   }
 ];
+
+export default data;

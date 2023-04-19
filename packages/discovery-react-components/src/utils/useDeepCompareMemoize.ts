@@ -16,6 +16,7 @@ export function useDeepCompareMemo<T>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dependencies: readonly any[] | undefined
 ): T {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   return useMemo(factory, useDeepCompareMemoize(dependencies));
 }
 
@@ -25,10 +26,12 @@ export function useDeepCompareCallback<T extends (...args: any[]) => any>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dependencies: readonly any[]
 ): T {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   return useCallback(callback, useDeepCompareMemoize(dependencies));
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function useDeepCompareEffect(callback: EffectCallback, dependencies: readonly any[]): void {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(callback, useDeepCompareMemoize(dependencies));
 }

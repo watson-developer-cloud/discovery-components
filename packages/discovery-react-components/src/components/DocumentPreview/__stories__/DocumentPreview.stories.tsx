@@ -156,11 +156,11 @@ function docSelection(items = ['pdf', 'html', 'text']): [string | undefined, Que
       'Document with only text': 'text',
       'Q&A PDF': 'pdf-q-n-a'
     },
-    key => items.includes(key)
+    (key: string) => items.includes(key)
   );
   const defaultValue = 'pdf';
   const groupId = 'GROUP-ID1';
-  const docname = radios(label, options, defaultValue, groupId);
+  const docname: string = radios(label, options, defaultValue, groupId);
 
   let file, doc;
   switch (docname) {
