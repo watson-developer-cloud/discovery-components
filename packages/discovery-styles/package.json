@@ -1,6 +1,6 @@
 {
   "name": "@ibm-watson/discovery-styles",
-  "version": "4.1.1",
+  "version": "4.2.1",
   "description": "Discovery components SASS/CSS styles used with discovery components",
   "license": "Apache-2.0",
   "author": "IBM Corp.",
@@ -22,7 +22,7 @@
     "carbon-components": ">= 10.46.0 < 11"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=16"
   },
   "publishConfig": {
     "access": "public"

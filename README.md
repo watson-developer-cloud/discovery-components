@@ -42,7 +42,7 @@
 
 ## Using Discovery Components
 
-First, you will need to customize and improve your document retrieval project on the [Improve and Customize page](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-improve) in IBM Watson Discovery. For example, you can [configure facets](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-facets), as well as the search bar and search results for your project. Then, you can build your application using Discovery Components, and it will pull in your specified project's configuration.
+First, you will need to customize and improve your document retrieval project on the [Improve and Customize page](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-improvements) in IBM Watson Discovery. For example, you can [configure facets](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-facets), as well as the search bar and search results for your project. Then, you can build your application using Discovery Components, and it will pull in your specified project's configuration.
 
 ## Prerequisites
 
@@ -114,7 +114,6 @@ yarn workspace discovery-search-app run start
 
    <img src="./docs/images/example-project-id.png" alt="Example app" width="800px">
 
-
    #### Windows Only
 
    On Windows, the default `SASS_PATH` environment variable must be updated. Append the following to the `.env.local` file:
@@ -152,7 +151,6 @@ yarn workspace discovery-search-app run start
 
    <img src="./docs/images/example-url-apikey.png" alt="URL and API key" width="800px">
 
-
 6. Build the React components:
 
    ```
@@ -175,8 +173,7 @@ yarn workspace discovery-search-app run start
 
    <img src="./docs/images/example-app.png" alt="Example app" width="800px">
 
-
-For more information on how each component can be customized and configured, check out our hosted [storybook](https://watson-developer-cloud.github.io/discovery-components/storybook)
+For more information on how each component can be customized and configured, check out our hosted [storybook](https://watson-developer-cloud.github.io/discovery-components/storybook).
 
 ## Using Discovery Components in a React application
 
