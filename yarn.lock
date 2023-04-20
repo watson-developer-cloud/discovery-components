@@ -2266,7 +2266,7 @@ __metadata:
     cross-env: ^7.0.3
     css-loader: ^6.7.1
     debounce: ^1.2.0
-    dompurify: ^2.0.17
+    dompurify: ^3.0.2
     entities: ^4.4.0
     htmlparser2: ^4.0.0
     lodash: ^4.17.21
@@ -5532,10 +5532,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/dompurify@npm:^0.0.33":
-  version: 0.0.33
-  resolution: "@types/dompurify@npm:0.0.33"
-  checksum: 7d2992a8b3d009df5a93f6225ccd20a79f01938362eb7144002d7cf4ecf7766f3eed0fdc2a6ea0aecfc6fcaa76d44c6f79626f39439c14640dda1d1c8e9e1139
+"@types/dompurify@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "@types/dompurify@npm:3.0.2"
+  dependencies:
+    "@types/trusted-types": "*"
+  checksum: dc017e16a46bcc77086af7d4dc5d2bf4102f16bf1a11b2937e90380da50e77716a2a608ff52990b1293250fefc2ad7593a1378fe07e3a7e21f200d702f0a7878
   languageName: node
   linkType: hard
 
@@ -6119,6 +6121,13 @@ __metadata:
   version: 4.0.0
   resolution: "@types/tough-cookie@npm:4.0.0"
   checksum: 454fa8d4d64532992274ebf2ff5ea0061b0dd32a2282255a3e793f04a8b64a9c4c1f9e0f4ed83c514c852b7b604d69336c66c80de4a857cb41a81e9572981e7f
+  languageName: node
+  linkType: hard
+
+"@types/trusted-types@npm:*":
+  version: 2.0.3
+  resolution: "@types/trusted-types@npm:2.0.3"
+  checksum: 4794804bc4a4a173d589841b6d26cf455ff5dc4f3e704e847de7d65d215f2e7043d8757e4741ce3a823af3f08260a8d04a1a6e9c5ec9b20b7b04586956a6b005
   languageName: node
   linkType: hard
 
@@ -11354,10 +11363,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dompurify@npm:^2.0.17":
-  version: 2.3.3
-  resolution: "dompurify@npm:2.3.3"
-  checksum: 947e3661681bd183aae1cd08f991b14c6aa41fd188f6c801c5e916c2dc4575bbefbaa121ed06dbe0cb0f595545527d588a44b53bfc35d1cbb898c214dc0d7930
+"dompurify@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "dompurify@npm:3.0.2"
+  checksum: 768c3bb2f139ce1e1a53faf81aae6abe03e24d0b043e2fda0b70e91ef15bb1df854a35e82d8c519adfe5b81c24bfdad3e0b1085534bfbf427137cb742406c47f
   languageName: node
   linkType: hard
 
@@ -23354,7 +23363,7 @@ __metadata:
     "@types/babel__preset-env": ^7.9.2
     "@types/classnames": ^2.2.9
     "@types/debounce": ^1.2.0
-    "@types/dompurify": ^0.0.33
+    "@types/dompurify": ^3.0.2
     "@types/jest": ^24.0.18
     "@types/lodash": ^4.14.141
     "@types/md5": 2.3.2
