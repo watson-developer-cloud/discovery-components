@@ -2238,7 +2238,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ibm-watson/discovery-react-components@^4.2.0, @ibm-watson/discovery-react-components@workspace:packages/discovery-react-components":
+"@ibm-watson/discovery-react-components@^4.2.1, @ibm-watson/discovery-react-components@workspace:packages/discovery-react-components":
   version: 0.0.0-use.local
   resolution: "@ibm-watson/discovery-react-components@workspace:packages/discovery-react-components"
   dependencies:
@@ -2299,7 +2299,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ibm-watson/discovery-styles@^4.1.1, @ibm-watson/discovery-styles@workspace:packages/discovery-styles":
+"@ibm-watson/discovery-styles@^4.2.1, @ibm-watson/discovery-styles@workspace:packages/discovery-styles":
   version: 0.0.0-use.local
   resolution: "@ibm-watson/discovery-styles@workspace:packages/discovery-styles"
   dependencies:
@@ -6027,9 +6027,9 @@ __metadata:
   linkType: hard
 
 "@types/seedrandom@npm:^3.0.2":
-  version: 3.0.2
-  resolution: "@types/seedrandom@npm:3.0.2"
-  checksum: 02e585601cb9764cb0eb3f92b384512f8e171422acea3d5a801a41a8a06d475b60ae520eba469bcedf0ed8ad650415919cf30a9cd6bc57090613e61bedc071ed
+  version: 3.0.5
+  resolution: "@types/seedrandom@npm:3.0.5"
+  checksum: d63d56ebc609203cf8cbe2ab7e7934237446bc2463ade664be130dcd4a3d74915d529909de2e1b18141cfabc9e42784998b7e5ff30c016919ac5b83911a700f0
   languageName: node
   linkType: hard
 
@@ -11153,8 +11153,8 @@ __metadata:
   resolution: "discovery-search-app@workspace:examples/discovery-search-app"
   dependencies:
     "@carbon/icons": ^10.5.0
-    "@ibm-watson/discovery-react-components": ^4.2.0
-    "@ibm-watson/discovery-styles": ^4.1.1
+    "@ibm-watson/discovery-react-components": ^4.2.1
+    "@ibm-watson/discovery-styles": ^4.2.1
     "@testing-library/cypress": ^7.0.7
     "@types/proper-url-join": ^2
     body-parser: ^1.19.0
