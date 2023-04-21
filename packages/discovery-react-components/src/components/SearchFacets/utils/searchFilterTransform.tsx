@@ -93,7 +93,7 @@ export class SearchFilterTransform {
     const filterStrings: string[] = [];
     facets.forEach(facet => {
       const field = get(facet, 'field', '');
-      const results = get(facet, 'results', []);
+      const results: SelectableQueryTermAggregationResult[] | never[] = get(facet, 'results', []);
       const hasCategories = // logic duplicated from CollapsibleFacetsGroup
         field.includes('enriched_') &&
         field.includes('entities.text') &&
