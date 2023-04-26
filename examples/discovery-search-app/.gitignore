@@ -1,3 +1,4 @@
-build
 ibm-credentials.env
 .env.local
+build
+public/assets/**
