@@ -104,10 +104,10 @@ describe('<SearchResults />', () => {
                 passage_text: 'this is the first passage text'
               }
             ]
-          },
+          } as unknown as QueryResult,
           {
             document_id: 'some other document_id'
-          }
+          } as unknown as QueryResult
         ];
         tableResults = [
           {
@@ -465,7 +465,7 @@ describe('<SearchResults />', () => {
 
         describe('and the naturalLanguageQuery changes', () => {
           test('fetchDocuments should be called twice', () => {
-            let context = {
+            let context: Partial<SearchContextIFC> = {
               searchResponseStore: {
                 isLoading: false,
                 isError: false,
@@ -492,7 +492,8 @@ describe('<SearchResults />', () => {
                       table: {}
                     }
                   ]
-                }
+                },
+                error: null
               }
             };
 

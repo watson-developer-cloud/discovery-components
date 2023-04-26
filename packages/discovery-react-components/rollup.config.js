@@ -59,7 +59,6 @@ const COMMON_PLUGINS = [
     include: [pdfWorkerRegex]
   }),
   typescript({
-    rollupCommonJSResolveHack: true,
     clean: true,
     tsconfig: 'tsconfig.prod.json'
   })

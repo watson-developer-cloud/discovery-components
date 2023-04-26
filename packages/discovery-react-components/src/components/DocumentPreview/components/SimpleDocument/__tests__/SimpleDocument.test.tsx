@@ -1,10 +1,11 @@
 import React from 'react';
 import { act, render, BoundFunction, GetByText } from '@testing-library/react';
+import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import 'utils/test/createRange.mock';
-import SimpleDocument from '../SimpleDocument';
+import { wrapWithContext } from 'utils/testingUtils';
 import docArrayJson from 'components/DocumentPreview/__fixtures__/ArtEffectsTextArray.json';
 import { SearchApiIFC, SearchContextIFC } from 'components/DiscoverySearch/DiscoverySearch';
-import { wrapWithContext } from 'utils/testingUtils';
+import SimpleDocument from '../SimpleDocument';
 
 const noop = (): any => {
   throw new Error();
@@ -16,7 +17,7 @@ describe('SimpleDocument', () => {
     extracted_metadata: {
       filename: 'i_am_a_file'
     }
-  };
+  } as unknown as DiscoveryV2.QueryResult;
 
   beforeAll(() => {
     window.HTMLElement.prototype.scrollIntoView = jest.fn();
@@ -29,6 +30,8 @@ describe('SimpleDocument', () => {
           document={minimalDoc}
           setHideToolbarControls={(): void => {}}
           setLoading={(): void => {}}
+          loading={false}
+          hideToolbarControls={false}
         />
       );
     });
@@ -42,9 +45,11 @@ describe('SimpleDocument', () => {
     act(() => {
       ({ getByText } = render(
         <SimpleDocument
-          document={docArrayJson}
+          document={docArrayJson as unknown as DiscoveryV2.QueryResult}
           setLoading={(): void => {}}
           setHideToolbarControls={(): void => mock('setHideToolbarControls called')}
+          loading={false}
+          hideToolbarControls={false}
         />
       ));
     });
@@ -59,7 +64,7 @@ describe('SimpleDocument', () => {
     const documentText = 'This is the text of the document.';
     const customDoc = {
       body_field: documentText
-    };
+    } as unknown as DiscoveryV2.QueryResult;
     const context: Partial<SearchContextIFC> = {
       componentSettings: {
         fields_shown: {
@@ -79,6 +84,8 @@ describe('SimpleDocument', () => {
             document={customDoc}
             setHideToolbarControls={(): void => {}}
             setLoading={(): void => {}}
+            loading={false}
+            hideToolbarControls={false}
           />,
           api,
           context
@@ -96,7 +103,7 @@ describe('SimpleDocument', () => {
     const customDoc = {
       body_field: bodyText,
       passage_field: passageText
-    };
+    } as unknown as DiscoveryV2.QueryResult;
 
     const context: Partial<SearchContextIFC> = {
       componentSettings: {
@@ -126,6 +133,8 @@ describe('SimpleDocument', () => {
             highlight={highlight}
             setHideToolbarControls={(): void => {}}
             setLoading={(): void => {}}
+            loading={false}
+            hideToolbarControls={false}
           />,
           api,
           context

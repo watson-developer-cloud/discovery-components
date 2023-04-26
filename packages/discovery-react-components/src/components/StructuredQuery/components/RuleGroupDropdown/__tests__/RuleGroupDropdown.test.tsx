@@ -7,7 +7,9 @@ describe('<RuleGroupDropdown />', () => {
   describe('rule group dropdown options and their selection', () => {
     let ruleGroupDropdown: RenderResult;
     beforeEach(() => {
-      ruleGroupDropdown = render(<RuleGroupDropdown messages={defaultMessages} />);
+      // @ts-ignore
+      const component = <RuleGroupDropdown messages={defaultMessages} />;
+      ruleGroupDropdown = render(component);
     });
 
     test('dropdown has correct initial selection', () => {

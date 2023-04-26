@@ -145,7 +145,7 @@ function normalizeText(text: string): string {
 export class TextNormalizer {
   readonly rawText: string;
   readonly normalizedText: string;
-  private readonly normalizationMappings: SpanMapping[];
+  readonly normalizationMappings: SpanMapping[];
 
   constructor(rawText: string) {
     this.rawText = rawText;

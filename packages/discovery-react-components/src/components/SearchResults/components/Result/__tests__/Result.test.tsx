@@ -87,7 +87,7 @@ describe('<Result />', () => {
         {
           document_id: 'some document_id',
           text: 'body text'
-        }
+        } as unknown as QueryResult
       ];
     });
 

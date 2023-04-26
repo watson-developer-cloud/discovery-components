@@ -42,7 +42,8 @@ function setup(
       isError: fieldsStoreErrorState,
       parameters: {
         projectId: ''
-      }
+      },
+      error: null
     }
   };
   const structuredQuery = render(

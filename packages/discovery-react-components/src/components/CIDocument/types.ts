@@ -48,13 +48,13 @@ export interface ItemMap {
 
 export type EnrichedHtml = EnrichedHtmlContract | EnrichedHtmlInvoice | EnrichedHtmlPurchaseOrder;
 
-interface EnrichedHtmlContract {
+export interface EnrichedHtmlContract {
   contract: Contract;
 }
-interface EnrichedHtmlInvoice {
+export interface EnrichedHtmlInvoice {
   invoice: Invoice;
 }
-interface EnrichedHtmlPurchaseOrder {
+export interface EnrichedHtmlPurchaseOrder {
   purchase_order: PurchaseOrder;
 }
 

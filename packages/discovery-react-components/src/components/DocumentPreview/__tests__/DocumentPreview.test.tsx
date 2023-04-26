@@ -190,7 +190,7 @@ describe('DocumentPreview', () => {
       const results = {
         matching_results: 1,
         results: [selectedResult]
-      };
+      } as unknown as DiscoveryV2.QueryResponse;
 
       render(
         <DiscoverySearch
@@ -239,7 +239,7 @@ describe('DocumentPreview', () => {
         const results = {
           matching_results: 1,
           results: [selectedResult]
-        };
+        } as unknown as DiscoveryV2.QueryResponse;
 
         render(
           <DiscoverySearch
@@ -289,7 +289,7 @@ describe('DocumentPreview', () => {
       const results = {
         matching_results: 1,
         results: [selectedResult]
-      };
+      } as unknown as DiscoveryV2.QueryResponse;
 
       render(
         <DiscoverySearch
