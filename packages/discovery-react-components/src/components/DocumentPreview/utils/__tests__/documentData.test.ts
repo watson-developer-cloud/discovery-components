@@ -1,10 +1,11 @@
+import { QueryResult } from 'ibm-watson/discovery/v2';
 import { detectPreviewType, getTextMappings, isCsvFile, isJsonFile } from '../documentData';
 import jsonDoc from '../../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
 
 describe('documentData', () => {
   const noMetadata = {
     extracted_metadata: {}
-  };
+  } as unknown as QueryResult;
 
   let consoleError: jest.SpyInstance<any, any>;
 
@@ -73,7 +74,7 @@ describe('documentData', () => {
     extracted_metadata: {
       file_type: 'json'
     }
-  };
+  } as unknown as QueryResult;
   it('returns true if the document is a JSON file', () => {
     const docTypeJson = isJsonFile(jsonFileType);
     expect(docTypeJson).toEqual(true);
@@ -83,7 +84,7 @@ describe('documentData', () => {
     extracted_metadata: {
       file_type: 'csv'
     }
-  };
+  } as unknown as QueryResult;
   it('returns true if the document is a CSV file', () => {
     const docTypeJson = isCsvFile(csvFileType);
     expect(docTypeJson).toEqual(true);
@@ -93,7 +94,7 @@ describe('documentData', () => {
     extracted_metadata: {
       file_type: true
     }
-  };
+  } as unknown as QueryResult;
   it('returns false if the file type provided is not a string', () => {
     const falseDocType = isJsonFile(noStringFileType);
     expect(falseDocType).toEqual(false);

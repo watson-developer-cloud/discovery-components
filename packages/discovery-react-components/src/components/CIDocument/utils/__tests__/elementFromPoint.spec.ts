@@ -42,7 +42,7 @@ describe('elementFromPoint returns expected mock element', () => {
   });
 
   it('runs elementsFromPoint function for standard web browsers', () => {
-    document.elementsFromPoint = (x: number, y: number): Element[] => {
+    document.elementsFromPoint = (_x: number, _y: number): Element[] => {
       return mockElements as unknown as Element[];
     };
 
@@ -51,7 +51,7 @@ describe('elementFromPoint returns expected mock element', () => {
   });
 
   it('runs elementFromPointMs function for MS Edge browser', () => {
-    (document as MsDocument).msElementsFromPoint = (x: number, y: number): HTMLElement[] => {
+    (document as MsDocument).msElementsFromPoint = (_x: number, _y: number): HTMLElement[] => {
       return mockElements as unknown as HTMLElement[];
     };
 
@@ -61,7 +61,7 @@ describe('elementFromPoint returns expected mock element', () => {
 
   it('runs elementFromPointFallback function for older browsers', () => {
     let nextElementIndex = 0;
-    document.elementFromPoint = (x: number, y: number): Element | null => {
+    document.elementFromPoint = (_x: number, _y: number): Element | null => {
       return nextElementIndex < mockElements.length
         ? (mockElements[nextElementIndex++] as unknown as Element)
         : null;
@@ -73,7 +73,7 @@ describe('elementFromPoint returns expected mock element', () => {
 
   it('runs elementFromPointFallback and fails to find element', () => {
     let nextElementIndex = 0;
-    document.elementFromPoint = (x: number, y: number): Element | null => {
+    document.elementFromPoint = (_x: number, _y: number): Element | null => {
       return nextElementIndex < mockElements.length
         ? (mockElements[nextElementIndex++] as unknown as Element)
         : null;

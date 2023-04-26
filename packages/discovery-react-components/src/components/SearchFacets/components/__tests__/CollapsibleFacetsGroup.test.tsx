@@ -108,7 +108,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
       const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
       const authorFacets = await searchFacetsComponent.findAllByText((content, element) => {
         return (
-          element.tagName.toLowerCase() === 'span' &&
+          element?.tagName.toLowerCase() === 'span' &&
           ['Research (138993)', 'Analytics (57158)', 'Documentation (32444)'].includes(content)
         );
       });
@@ -117,7 +117,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
       // Check MultiSelect facets
       const subjectFacets = searchFacetsComponent.queryAllByText((content, element) => {
         return (
-          element.tagName.toLowerCase() === 'span' &&
+          element?.tagName.toLowerCase() === 'span' &&
           [
             'Neural network (138993)',
             'Reinforced learning (57158)',
@@ -135,7 +135,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
       fireEvent.click(locationCategoryHeader);
       const locationFacets = searchFacetsComponent.queryAllByText((content, element) => {
         return (
-          element.tagName.toLowerCase() === 'span' &&
+          element?.tagName.toLowerCase() === 'span' &&
           [
             'us (57158)',
             'eu (57158)',
@@ -154,7 +154,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
           const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
           const authorFacets = await searchFacetsComponent.findAllByText((content, element) => {
             return (
-              element.tagName.toLowerCase() === 'span' &&
+              element?.tagName.toLowerCase() === 'span' &&
               ['Research (138993)', 'Analytics (57158)', 'Documentation (32444)'].includes(content)
             );
           });
@@ -164,7 +164,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
           fireEvent.click(showMoreButtons[1]);
           const subjectFacets = searchFacetsComponent.queryAllByText((content, element) => {
             return (
-              element.tagName.toLowerCase() === 'span' &&
+              element?.tagName.toLowerCase() === 'span' &&
               [
                 'Neural network (138993)',
                 'Reinforced learning (57158)',
@@ -182,7 +182,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
           const { searchFacetsComponent } = setup({ collapsedFacetsCount: 2 });
           const authorFacets = await searchFacetsComponent.findAllByText((content, element) => {
             return (
-              element.tagName.toLowerCase() === 'span' &&
+              element?.tagName.toLowerCase() === 'span' &&
               ['Research (138993)', 'Analytics (57158)', 'Documentation (32444)'].includes(content)
             );
           });
@@ -217,7 +217,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
           expect(productsHeader).toBeDefined();
           const productsFacets = within(productsModal).queryAllByText((content, element) => {
             return (
-              element.tagName.toLowerCase() === 'span' &&
+              element?.tagName.toLowerCase() === 'span' &&
               [
                 'discovery (138993)',
                 'studio (57158)',
@@ -375,7 +375,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
       expect(searchBarValue).toBe('');
       // all facets are initially shown
       const productsFacets = within(productsModal).queryAllByText((content, element) => {
-        return element.tagName.toLowerCase() === 'span' && productsFacetArray.includes(content);
+        return element?.tagName.toLowerCase() === 'span' && productsFacetArray.includes(content);
       });
       expect(productsFacets).toHaveLength(16);
     });
@@ -387,7 +387,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
       expect(productsSearchBar.getAttribute('value')).toBe('st');
       // only two facets are left showing
       const filteredProductsFacets = within(productsModal).queryAllByText((content, element) => {
-        return element.tagName.toLowerCase() === 'span' && productsFacetArray.includes(content);
+        return element?.tagName.toLowerCase() === 'span' && productsFacetArray.includes(content);
       });
       expect(filteredProductsFacets).toHaveLength(2);
       const studioFacet = within(productsModal).getByLabelText('studio (57158)');
@@ -402,7 +402,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
       fireEvent.change(productsSearchBar, { target: { value: 'DiScOvErY' } });
       // should return only the "discovery" facet
       const filteredFacets = within(productsModal).queryAllByText((content, element) => {
-        return element.tagName.toLowerCase() === 'span' && productsFacetArray.includes(content);
+        return element?.tagName.toLowerCase() === 'span' && productsFacetArray.includes(content);
       });
       expect(filteredFacets).toHaveLength(1);
       const discoveryFacet = within(productsModal).getByLabelText('discovery (138993)');
@@ -412,7 +412,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
       fireEvent.change(productsSearchBar, { target: { value: 'api KIT' } });
       // should return only the "API kit" facet
       const filteredProductsFacets = within(productsModal).queryAllByText((content, element) => {
-        return element.tagName.toLowerCase() === 'span' && productsFacetArray.includes(content);
+        return element?.tagName.toLowerCase() === 'span' && productsFacetArray.includes(content);
       });
       expect(filteredProductsFacets).toHaveLength(1);
       const apiFacet = within(productsModal).getByLabelText('API kit (57158)');
@@ -425,7 +425,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
       fireEvent.change(productsSearchBar, { target: { value: '1' } });
       // should show no matching facets
       const filteredFacets = within(productsModal).queryAllByText((content, element) => {
-        return element.tagName.toLowerCase() === 'span' && productsFacetArray.includes(content);
+        return element?.tagName.toLowerCase() === 'span' && productsFacetArray.includes(content);
       });
       expect(filteredFacets).toHaveLength(0);
       const emptyStateMessage = within(productsModal).getByText('There were no results found');
@@ -468,7 +468,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
       fireEvent.click(showLessButtons[0]);
       const authorFacets = searchFacetsComponent.queryAllByText((content, element) => {
         return (
-          element.tagName.toLowerCase() === 'span' &&
+          element?.tagName.toLowerCase() === 'span' &&
           ['Research (138993)', 'Analytics (57158)', 'Documentation (32444)'].includes(content)
         );
       });
@@ -484,7 +484,7 @@ describe('CollapsibleFacetsGroupComponent', () => {
       fireEvent.click(showLessButtons[0]);
       const subjectFacets = searchFacetsComponent.queryAllByText((content, element) => {
         return (
-          element.tagName.toLowerCase() === 'span' &&
+          element?.tagName.toLowerCase() === 'span' &&
           [
             'Neural network (138993)',
             'Reinforced learning (57158)',

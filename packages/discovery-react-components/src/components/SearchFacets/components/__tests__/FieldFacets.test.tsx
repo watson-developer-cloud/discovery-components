@@ -814,7 +814,7 @@ describe('FieldFacetsComponent', () => {
           const topEntitiesQuantityFacets = within(quantityModal).queryAllByText(
             (content, element) => {
               return (
-                element.tagName.toLowerCase() === 'span' &&
+                element?.tagName.toLowerCase() === 'span' &&
                 [
                   '$299 (32444)',
                   '$399 (32444)',
@@ -848,7 +848,7 @@ describe('FieldFacetsComponent', () => {
           expect(productsSearchBar).toBeDefined();
           const productsFacets = within(productsModal).queryAllByText((content, element) => {
             return (
-              element.tagName.toLowerCase() === 'span' &&
+              element?.tagName.toLowerCase() === 'span' &&
               [
                 'discovery (138993)',
                 'studio (57158)',
