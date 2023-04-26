@@ -2238,7 +2238,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ibm-watson/discovery-react-components@^4.2.1, @ibm-watson/discovery-react-components@workspace:packages/discovery-react-components":
+"@ibm-watson/discovery-react-components@^4.2.2, @ibm-watson/discovery-react-components@workspace:packages/discovery-react-components":
   version: 0.0.0-use.local
   resolution: "@ibm-watson/discovery-react-components@workspace:packages/discovery-react-components"
   dependencies:
@@ -2262,17 +2262,17 @@ __metadata:
     "@types/uuid": ^8
     buffer: ^6.0.3
     canvas: ^2.9.3
-    classnames: ^2.2.6
+    classnames: ^2.3.2
     cross-env: ^7.0.3
     css-loader: ^6.7.1
-    debounce: ^1.2.0
+    debounce: ^1.2.1
     dompurify: ^3.0.2
-    entities: ^4.4.0
+    entities: ^4.5.0
     htmlparser2: ^4.0.0
     lodash: ^4.17.21
     madge: ^5.0.1
     marked: ^4.0.10
-    mustache: ^3.1.0
+    mustache: ^4.2.0
     pdfjs-dist: 2.6.347
     react-error-boundary: ^1.2.5
     react-resize-detector: ^4.2.1
@@ -5824,10 +5824,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/mustache@npm:^0.8.32":
-  version: 0.8.32
-  resolution: "@types/mustache@npm:0.8.32"
-  checksum: 390fb7dc873932b9b07d8a3c09c2cf5708232ca01be71ddac8d58a145735909687f9fd661ed3ff9037f4051abf3e010f109c91baa5e704d87aad80d6cd377562
+"@types/mustache@npm:^4.2.2":
+  version: 4.2.2
+  resolution: "@types/mustache@npm:4.2.2"
+  checksum: 1fa67a519f4302c96615524be4c8248067da02ca047bae9d4c4bb79977135ac7c15dcc388e7c70b8a817b9497004d5ca5c77a155dcb096bea16d53d4cdbe75d2
   languageName: node
   linkType: hard
 
@@ -6124,17 +6124,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/trusted-types@npm:*":
+"@types/trusted-types@npm:*, @types/trusted-types@npm:^2.0.2":
   version: 2.0.3
   resolution: "@types/trusted-types@npm:2.0.3"
   checksum: 4794804bc4a4a173d589841b6d26cf455ff5dc4f3e704e847de7d65d215f2e7043d8757e4741ce3a823af3f08260a8d04a1a6e9c5ec9b20b7b04586956a6b005
-  languageName: node
-  linkType: hard
-
-"@types/trusted-types@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "@types/trusted-types@npm:2.0.2"
-  checksum: 3371eef5f1c50e1c3c07a127c1207b262ba65b83dd167a1c460fc1b135a3fb0c97b9f508efebd383f239cc5dd5b7169093686a692a501fde9c3f7208657d9b0d
   languageName: node
   linkType: hard
 
@@ -9125,10 +9118,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"classnames@npm:2.3.1, classnames@npm:^2.2.6":
+"classnames@npm:2.3.1":
   version: 2.3.1
   resolution: "classnames@npm:2.3.1"
   checksum: 14db8889d56c267a591f08b0834989fe542d47fac659af5a539e110cc4266694e8de86e4e3bbd271157dbd831361310a8293e0167141e80b0f03a0f175c80960
+  languageName: node
+  linkType: hard
+
+"classnames@npm:^2.2.6, classnames@npm:^2.3.2":
+  version: 2.3.2
+  resolution: "classnames@npm:2.3.2"
+  checksum: 2c62199789618d95545c872787137262e741f9db13328e216b093eea91c85ef2bfb152c1f9e63027204e2559a006a92eb74147d46c800a9f96297ae1d9f96f4e
   languageName: node
   linkType: hard
 
@@ -10555,7 +10555,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debounce@npm:^1.2.0":
+"debounce@npm:^1.2.1":
   version: 1.2.1
   resolution: "debounce@npm:1.2.1"
   checksum: 682a89506d9e54fb109526f4da255c5546102fbb8e3ae75eef3b04effaf5d4853756aee97475cd4650641869794e44f410eeb20ace2b18ea592287ab2038519e
@@ -11162,7 +11162,7 @@ __metadata:
   resolution: "discovery-search-app@workspace:examples/discovery-search-app"
   dependencies:
     "@carbon/icons": ^10.5.0
-    "@ibm-watson/discovery-react-components": ^4.2.1
+    "@ibm-watson/discovery-react-components": ^4.2.2
     "@ibm-watson/discovery-styles": ^4.2.1
     "@testing-library/cypress": ^7.0.7
     "@types/proper-url-join": ^2
@@ -11727,10 +11727,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"entities@npm:^4.4.0":
-  version: 4.4.0
-  resolution: "entities@npm:4.4.0"
-  checksum: 84d250329f4b56b40fa93ed067b194db21e8815e4eb9b59f43a086f0ecd342814f6bc483de8a77da5d64e0f626033192b1b4f1792232a7ea6b970ebe0f3187c2
+"entities@npm:^4.5.0":
+  version: 4.5.0
+  resolution: "entities@npm:4.5.0"
+  checksum: 853f8ebd5b425d350bffa97dd6958143179a5938352ccae092c62d1267c4e392a039be1bae7d51b6e4ffad25f51f9617531fedf5237f15df302ccfb452cbf2d7
   languageName: node
   linkType: hard
 
@@ -18860,12 +18860,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mustache@npm:^3.1.0":
-  version: 3.2.1
-  resolution: "mustache@npm:3.2.1"
+"mustache@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "mustache@npm:4.2.0"
   bin:
     mustache: bin/mustache
-  checksum: d008c18f870ddffc7440b3848e2d9f549a7460042e2660ea407adf0cdf6292b9dd2f32757e483d72abe1791b3341ec1fb65340510586c3757b1c3ca07ee7f354
+  checksum: 928fcb63e3aa44a562bfe9b59ba202cccbe40a46da50be6f0dd831b495be1dd7e38ca4657f0ecab2c1a89dc7bccba0885eab7ee7c1b215830da765758c7e0506
   languageName: node
   linkType: hard
 
@@ -23367,7 +23367,7 @@ __metadata:
     "@types/jest": ^24.0.18
     "@types/lodash": ^4.14.141
     "@types/md5": 2.3.2
-    "@types/mustache": ^0.8.32
+    "@types/mustache": ^4.2.2
     "@types/node": ^16.18.23
     "@types/react": ^17.0.38
     "@types/react-dom": ^17.0.11
