@@ -10,6 +10,7 @@ import {
 } from '../utils/searchFacetInterfaces';
 import { Messages } from '../messages';
 import { CollapsibleFacetsGroup } from './FacetsGroups/CollapsibleFacetsGroup';
+import { fieldHasCategories } from '../utils/fieldHasCategories';
 
 interface FieldFacetsProps {
   /**
@@ -120,11 +121,7 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
         if (aggregationResults.length === 0) {
           return null;
         }
-
-        const hasCategories =
-          aggregation.field.includes('enriched_') &&
-          aggregation.field.includes('entities.text') &&
-          aggregation.results?.[0]?.aggregations !== undefined;
+        const hasCategories = fieldHasCategories(aggregation);
 
         return (
           <CollapsibleFacetsGroup

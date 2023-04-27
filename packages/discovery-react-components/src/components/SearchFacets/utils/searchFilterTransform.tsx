@@ -7,6 +7,7 @@ import {
   SelectableQueryTermAggregationResult,
   SelectableDynamicFacets
 } from './searchFacetInterfaces';
+import { fieldHasCategories } from './fieldHasCategories';
 
 /*
  * Utility class for creating and parsing query strings for search filters
@@ -93,10 +94,33 @@ export class SearchFilterTransform {
     const filterStrings: string[] = [];
     facets.forEach(facet => {
       const field = get(facet, 'field', '');
-      const results = get(facet, 'results', []);
-      const keys = this.quoteSelectedFacets(results, 'key');
-      if (keys.length) {
-        filterStrings.push(keys.map(key => `${escapeFieldName(field)}::${key}`).join('|'));
+      const results: SelectableQueryTermAggregationResult[] | [] = facet?.results || [];
+      const hasCategories = fieldHasCategories({
+        field,
+        results
+      });
+      // if a group of facets contain sub-categories, surround each sub-category with an AND (,)
+      if (hasCategories) {
+        const resultsByCategory: Record<string, SelectableQueryTermAggregationResult[]> = {};
+        results.forEach(result => {
+          const resultCategory = result!.aggregations![0].results![0].key;
+          if (resultCategory in resultsByCategory) {
+            resultsByCategory[resultCategory].push(result);
+          } else {
+            resultsByCategory[resultCategory] = [result];
+          }
+        });
+        Object.values(resultsByCategory).forEach(category => {
+          const keys = this.quoteSelectedFacets(category, 'key');
+          if (keys.length) {
+            filterStrings.push(keys.map(key => `${escapeFieldName(field)}::${key}`).join('|'));
+          }
+        });
+      } else {
+        const keys = this.quoteSelectedFacets(results, 'key');
+        if (keys.length) {
+          filterStrings.push(keys.map(key => `${escapeFieldName(field)}::${key}`).join('|'));
+        }
       }
     });
     return filterStrings.join(',');
