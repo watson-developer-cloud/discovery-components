@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.3.0](https://github.com/watson-developer-cloud/discovery-components/compare/v4.2.3...v4.3.0) (2023-05-01)
+
+
+### Features
+
+* update facet filtering logic ([#495](https://github.com/watson-developer-cloud/discovery-components/issues/495)) ([32d81e2](https://github.com/watson-developer-cloud/discovery-components/commit/32d81e2025bf0c19c4f56f90a89d5c8fcb8060d1))
+
+
+
+
+
 ## [4.2.3](https://github.com/watson-developer-cloud/discovery-components/compare/v4.2.2...v4.2.3) (2023-04-26)
 
 **Note:** Version bump only for package root
