@@ -2282,7 +2282,7 @@ __metadata:
     mustache: ^4.2.0
     pdfjs-dist: 2.6.347
     react-error-boundary: ^1.2.5
-    react-resize-detector: ^4.2.1
+    react-resize-detector: ^9.1.0
     react-scripts: ^5.0.1
     react-virtualized: 9.21.2
     rollup: ^2.57.0
@@ -17508,13 +17508,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash-es@npm:^4.17.15":
-  version: 4.17.20
-  resolution: "lodash-es@npm:4.17.20"
-  checksum: 209a749a5c50feaf50db16bcd99c41a945568bc2efe07c16b250add982bdfaf57d2e4930d6556a1220ec9c52578ba9fcf533a351704e09a6fe29d137d440d3fb
-  languageName: node
-  linkType: hard
-
 "lodash.debounce@npm:^4.0.8":
   version: 4.0.8
   resolution: "lodash.debounce@npm:4.0.8"
@@ -22261,13 +22254,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"raf-schd@npm:^4.0.2":
-  version: 4.0.2
-  resolution: "raf-schd@npm:4.0.2"
-  checksum: 9af6e00e36b2844371c61da071cf1fa0d6093dc20eadc654fbb3d940a713df61f037c2e24287eebe8201a41b6acc910b865a4e24010b3a09aba7f4a9616b975a
-  languageName: node
-  linkType: hard
-
 "raf@npm:^3.4.1":
   version: 3.4.1
   resolution: "raf@npm:3.4.1"
@@ -22544,19 +22530,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-resize-detector@npm:^4.2.1":
-  version: 4.2.3
-  resolution: "react-resize-detector@npm:4.2.3"
+"react-resize-detector@npm:^9.1.0":
+  version: 9.1.0
+  resolution: "react-resize-detector@npm:9.1.0"
   dependencies:
-    lodash: ^4.17.15
-    lodash-es: ^4.17.15
-    prop-types: ^15.7.2
-    raf-schd: ^4.0.2
-    resize-observer-polyfill: ^1.5.1
+    lodash: ^4.17.21
   peerDependencies:
-    react: ^16.0.0
-    react-dom: ^16.0.0
-  checksum: a1b6c3f7ba84c2ba8823a67a67d96698e43bae968f34f67a1100edb83396cd9300c3c0ad175d41a2659c7dccbea073b9201b89770b947237d89c86b4b28fb5c7
+    react: ^16.0.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0
+  checksum: 05b263e141fd428eea433e399f88c3e1a379b4a2293958f59b5a5c75dd86c621ce60583724257cc3dc1f5c120a664666ff3fa53d41e6c283687676dc55afa02b
   languageName: node
   linkType: hard
 
