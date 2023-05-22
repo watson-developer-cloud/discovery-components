@@ -29,6 +29,7 @@ export interface CIDocumentContentProps {
   theme?: Theme;
   documentId?: string;
   onItemClick?: OnFieldClickFn;
+  highlightedIdsByColor?: { color: string; highlightLocationIds: string[] }[];
 }
 
 const CIDocumentContent: FC<CIDocumentContentProps> = ({
@@ -45,7 +46,8 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
   height,
   theme = defaultTheme,
   documentId = '',
-  onItemClick = (): void => {}
+  onItemClick = (): void => {},
+  highlightedIdsByColor
 }) => {
   const virtualScrollRef = useRef<any>();
 
@@ -67,15 +69,11 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
       ) : (
         <>
           <style data-testid="style">{docStyles}</style>
-          {highlightedIds.length > 0 && (
-            <style>
-              {createStyleRules(highlightedIds, [
-                backgroundColorRule(theme.highlightBackground),
-                // Set z-index to -1 in order to push non-active fields back
-                zIndexRule(-1)
-              ])}
-            </style>
-          )}
+          {highlightedIds.length > 0 &&
+            !!highlightedIdsByColor &&
+            highlightStyling(highlightedIdsByColor).map(highlightStyleRules => {
+              return <style>{highlightStyleRules}</style>;
+            })}
           {activeIds && activeIds.length > 0 && (
             <>
               <style>
@@ -124,6 +122,20 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
     </div>
   );
 };
+
+function highlightStyling(
+  highlightedLocationIdsByColor: { color: string; highlightLocationIds: string[] }[]
+): string[] {
+  return highlightedLocationIdsByColor.map(highlightData => {
+    const { color, highlightLocationIds } = highlightData;
+
+    return createStyleRules(highlightLocationIds, [
+      backgroundColorRule(color),
+      // Set z-index to -1 in order to push non-active fields back
+      zIndexRule(-1)
+    ]);
+  });
+}
 
 function createStyleRules(idList: string[], rules: string[]): string {
   return idList
