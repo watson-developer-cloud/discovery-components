@@ -62,6 +62,7 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
   }, [activeIds, activeMetadataIds, activePartIds, itemMap]);
 
   const loading = !sections || sections.length === 0;
+  const useColoredHighlights = !!highlightedIdsByColor;
   return (
     <div className={cx(baseClassName, className, { skeleton: loading })}>
       {loading ? (
@@ -69,11 +70,20 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
       ) : (
         <>
           <style data-testid="style">{docStyles}</style>
-          {highlightedIds.length > 0 &&
-            !!highlightedIdsByColor &&
+          {useColoredHighlights &&
+            highlightedIdsByColor.length > 0 &&
             highlightStyling(highlightedIdsByColor).map(highlightStyleRules => {
               return <style>{highlightStyleRules}</style>;
             })}
+          {!useColoredHighlights && highlightedIds.length > 0 && (
+            <style>
+              {createStyleRules(highlightedIds, [
+                backgroundColorRule(theme.highlightBackground),
+                // Set z-index to -1 in order to push non-active fields back
+                zIndexRule(-1)
+              ])}
+            </style>
+          )}
           {activeIds && activeIds.length > 0 && (
             <>
               <style>
