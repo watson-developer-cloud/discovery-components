@@ -62,7 +62,6 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
   }, [activeIds, activeMetadataIds, activePartIds, itemMap]);
 
   const loading = !sections || sections.length === 0;
-  const useColoredHighlights = !!highlightedIdsByColor;
   return (
     <div className={cx(baseClassName, className, { skeleton: loading })}>
       {loading ? (
@@ -70,12 +69,12 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
       ) : (
         <>
           <style data-testid="style">{docStyles}</style>
-          {useColoredHighlights &&
+          {!!highlightedIdsByColor &&
             highlightedIdsByColor.length > 0 &&
             highlightStyling(highlightedIdsByColor).map(highlightStyleRules => {
               return <style>{highlightStyleRules}</style>;
             })}
-          {!useColoredHighlights && highlightedIds.length > 0 && (
+          {!highlightedIdsByColor && highlightedIds.length > 0 && (
             <style>
               {createStyleRules(highlightedIds, [
                 backgroundColorRule(theme.highlightBackground),
@@ -89,7 +88,9 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
               <style>
                 {/*Set z-index to 0 to pull active element in front of overlapping fields */}
                 {createStyleRules(activeIds, [
-                  backgroundColorRule(theme.activeHighlightBackground),
+                  // expecting this to get overridden by work in https://github.ibm.com/Watson-Discovery/disco-issue-tracker/issues/13109
+                  // backgroundColorRule(theme.activeHighlightBackground),
+                  outlineRule(theme.activeHighlightBackground),
                   zIndexRule(0)
                 ])}
               </style>
@@ -160,6 +161,10 @@ function backgroundColorRule(color: string): string {
 
 function zIndexRule(value: number): string {
   return `z-index: ${value}`;
+}
+
+function outlineRule(color: string): string {
+  return `border: ${color} 2px`;
 }
 
 function underlineRule(color: string): string {
