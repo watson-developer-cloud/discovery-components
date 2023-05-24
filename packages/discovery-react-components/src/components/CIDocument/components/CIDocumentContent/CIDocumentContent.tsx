@@ -74,7 +74,7 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
             highlightStyling(highlightedIdsByColor).map(highlightStyleRules => {
               return <style>{highlightStyleRules}</style>;
             })}
-          {!highlightedIdsByColor && highlightedIds.length > 0 && (
+          {(!highlightedIdsByColor || highlightedIds.length <= 0) && (
             <style>
               {createStyleRules(highlightedIds, [
                 backgroundColorRule(theme.highlightBackground),
@@ -164,7 +164,7 @@ function zIndexRule(value: number): string {
 }
 
 function outlineRule(color: string): string {
-  return `border: ${color} 2px`;
+  return `border: ${color} solid 2px`;
 }
 
 function underlineRule(color: string): string {
