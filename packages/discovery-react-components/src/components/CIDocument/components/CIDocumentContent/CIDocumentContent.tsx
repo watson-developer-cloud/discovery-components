@@ -10,7 +10,7 @@ import { SkeletonText } from 'carbon-components-react';
 import Section, { OnFieldClickFn } from '../Section/Section';
 import VirtualScroll from '../VirtualScroll/VirtualScroll';
 import { defaultTheme, Theme } from 'utils/theme';
-import { SectionType, ItemMap } from 'components/CIDocument/types';
+import { SectionType, ItemMap, HighlightIdsByColor } from 'components/CIDocument/types';
 
 const baseClassName = `${settings.prefix}--ci-doc-content`;
 
@@ -29,7 +29,7 @@ export interface CIDocumentContentProps {
   theme?: Theme;
   documentId?: string;
   onItemClick?: OnFieldClickFn;
-  highlightedIdsByColor?: { color: string; highlightLocationIds: string[] }[];
+  highlightedIdsByColor?: HighlightIdsByColor;
 }
 
 const CIDocumentContent: FC<CIDocumentContentProps> = ({
