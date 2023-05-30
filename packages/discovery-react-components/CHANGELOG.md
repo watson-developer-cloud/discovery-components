@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.4.0](https://github.com/watson-developer-cloud/discovery-components/compare/v4.3.0...v4.4.0) (2023-05-30)
+
+
+### Features
+
+* add unique highlighting colors to document preview text view ([#517](https://github.com/watson-developer-cloud/discovery-components/issues/517)) ([79b5fcd](https://github.com/watson-developer-cloud/discovery-components/commit/79b5fcdab13c3da452d96ac31b541cf7f126b02b))
+
+
+
+
+
 # [4.3.0](https://github.com/watson-developer-cloud/discovery-components/compare/v4.2.3...v4.3.0) (2023-05-01)
 
 
