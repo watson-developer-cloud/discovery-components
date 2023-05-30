@@ -10,7 +10,7 @@ import { SkeletonText } from 'carbon-components-react';
 import Section, { OnFieldClickFn } from '../Section/Section';
 import VirtualScroll from '../VirtualScroll/VirtualScroll';
 import { defaultTheme, Theme } from 'utils/theme';
-import { SectionType, ItemMap } from 'components/CIDocument/types';
+import { SectionType, ItemMap, HighlightIdsByColor } from 'components/CIDocument/types';
 
 const baseClassName = `${settings.prefix}--ci-doc-content`;
 
@@ -29,6 +29,7 @@ export interface CIDocumentContentProps {
   theme?: Theme;
   documentId?: string;
   onItemClick?: OnFieldClickFn;
+  highlightedIdsByColor?: HighlightIdsByColor;
 }
 
 const CIDocumentContent: FC<CIDocumentContentProps> = ({
@@ -45,7 +46,8 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
   height,
   theme = defaultTheme,
   documentId = '',
-  onItemClick = (): void => {}
+  onItemClick = (): void => {},
+  highlightedIdsByColor
 }) => {
   const virtualScrollRef = useRef<any>();
 
@@ -67,7 +69,12 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
       ) : (
         <>
           <style data-testid="style">{docStyles}</style>
-          {highlightedIds.length > 0 && (
+          {!!highlightedIdsByColor &&
+            highlightedIdsByColor.length > 0 &&
+            highlightStyling(highlightedIdsByColor).map(highlightStyleRules => {
+              return <style>{highlightStyleRules}</style>;
+            })}
+          {(!highlightedIdsByColor || highlightedIds.length <= 0) && (
             <style>
               {createStyleRules(highlightedIds, [
                 backgroundColorRule(theme.highlightBackground),
@@ -81,7 +88,9 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
               <style>
                 {/*Set z-index to 0 to pull active element in front of overlapping fields */}
                 {createStyleRules(activeIds, [
-                  backgroundColorRule(theme.activeHighlightBackground),
+                  // expecting this to get overridden by work in https://github.ibm.com/Watson-Discovery/disco-issue-tracker/issues/13109
+                  // backgroundColorRule(theme.activeHighlightBackground),
+                  outlineRule(theme.activeHighlightBackground),
                   zIndexRule(0)
                 ])}
               </style>
@@ -125,6 +134,20 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
   );
 };
 
+function highlightStyling(
+  highlightedLocationIdsByColor: { color: string; highlightLocationIds: string[] }[]
+): string[] {
+  return highlightedLocationIdsByColor.map(highlightData => {
+    const { color, highlightLocationIds } = highlightData;
+
+    return createStyleRules(highlightLocationIds, [
+      backgroundColorRule(color),
+      // Set z-index to -1 in order to push non-active fields back
+      zIndexRule(-1)
+    ]);
+  });
+}
+
 function createStyleRules(idList: string[], rules: string[]): string {
   return idList
     .map(id => `.${baseClassName} .field[data-field-id="${id}"] > *`)
@@ -138,6 +161,10 @@ function backgroundColorRule(color: string): string {
 
 function zIndexRule(value: number): string {
   return `z-index: ${value}`;
+}
+
+function outlineRule(color: string): string {
+  return `border: ${color} solid 2px`;
 }
 
 function underlineRule(color: string): string {

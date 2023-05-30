@@ -97,3 +97,5 @@ export interface Relations {
   attributes: Attributes[];
   relations?: Relations[];
 }
+
+export type HighlightIdsByColor = { color: string; highlightLocationIds: string[] }[];
