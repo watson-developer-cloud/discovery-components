@@ -12655,12 +12655,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-xml-parser@npm:^3.14.0":
-  version: 3.17.5
-  resolution: "fast-xml-parser@npm:3.17.5"
+"fast-xml-parser@npm:^4.2.4":
+  version: 4.2.4
+  resolution: "fast-xml-parser@npm:4.2.4"
+  dependencies:
+    strnum: ^1.0.5
   bin:
-    xml2js: cli.js
-  checksum: 6c436f540a4dcab67d395c0f6e8dc70090e6ced2ff73ed5fec181c1b25df755ed9fd9ba8271d6f70096fbe3add8b4eac130a5f4daeb12970427f72403a56934e
+    fxparser: src/cli/cli.js
+  checksum: d3b4d0c0152c09f98def792769fca6bb3fa1d597f9745d9564451c239089bd86bdf573c9263b4944860028cb7edb81752d64399c1aff8b87c9225ecef96905f7
   languageName: node
   linkType: hard
 
@@ -23729,7 +23731,7 @@ __metadata:
     eslint-plugin-prettier: ^4.2.1
     eslint-plugin-react: ^7.28.0
     eslint-plugin-react-hooks: ^4.5.0
-    fast-xml-parser: ^3.14.0
+    fast-xml-parser: ^4.2.4
     gh-pages: ^2.1.1
     husky: ^8.0.3
     ibm-watson: ^6.2.1
@@ -25331,6 +25333,13 @@ __metadata:
   version: 1.0.1
   resolution: "strip-url-auth@npm:1.0.1"
   checksum: c7f529d2c027ebdbe9a521cd2e6b4dbae9d5431fe6f6ca6fc62683b7b4c17bb543dc2abe5c58cd5f8933917c8b0ae896b2f215bc2e5410dfbfa1a81933b3ea6a
+  languageName: node
+  linkType: hard
+
+"strnum@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "strnum@npm:1.0.5"
+  checksum: 651b2031db5da1bf4a77fdd2f116a8ac8055157c5420f5569f64879133825915ad461513e7202a16d7fec63c54fd822410d0962f8ca12385c4334891b9ae6dd2
   languageName: node
   linkType: hard
 
