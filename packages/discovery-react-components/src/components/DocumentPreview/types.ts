@@ -68,4 +68,13 @@ export interface QueryResultWithOptionalMetadata extends Omit<QueryResult, 'resu
   result_metadata?: QuerytResultMetadataWithOptionalCollectionId;
 }
 
+// Facet info
+export interface FacetInfo {
+  facetId: string;
+  color: string;
+  displayName: string;
+}
+
+export type FacetInfoMap = Record<string, FacetInfo>;
+
 export type DocumentFile = string | TypedArray | DocumentInitParameters;

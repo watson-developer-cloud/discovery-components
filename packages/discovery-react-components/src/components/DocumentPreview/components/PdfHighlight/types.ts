@@ -20,6 +20,8 @@ export type DocumentFieldHighlight = {
   fieldIndex: number;
   location: Location;
   className?: string;
+  facetId?: string;
+  // TODO: add category?
 };
 
 /**
@@ -41,6 +43,7 @@ export interface HighlightShape {
   highlightId: string;
   boxes: HighlightShapeBox[];
   className?: string;
+  facetId?: string;
 }
 
 /**
@@ -51,6 +54,7 @@ export interface HighlightShapeBox {
   dir?: string; // e.g. ltr, rtl. ltr by default
   isStart?: boolean;
   isEnd?: boolean;
+  facetId?: string;
 }
 
 export interface HighlightProps {
