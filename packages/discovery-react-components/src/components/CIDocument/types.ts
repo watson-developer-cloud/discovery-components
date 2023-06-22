@@ -99,3 +99,19 @@ export interface Relations {
 }
 
 export type HighlightIdsByColor = { color: string; highlightLocationIds: string[] }[];
+
+export type HighlightFacetMentions = {
+  id: string; // ${begin}_${end}
+  field: string;
+  fieldIndex: number;
+  location: Location;
+  className?: string;
+};
+
+export type HighlightWithMeta = {
+  facetIds: string[];
+  mentions: HighlightFacetMentions[];
+  begin: number;
+  end: number;
+  color: string;
+};

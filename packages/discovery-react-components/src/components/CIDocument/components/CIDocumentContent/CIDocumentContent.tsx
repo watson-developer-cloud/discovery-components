@@ -10,7 +10,7 @@ import { SkeletonText } from 'carbon-components-react';
 import Section, { OnFieldClickFn } from '../Section/Section';
 import VirtualScroll from '../VirtualScroll/VirtualScroll';
 import { defaultTheme, Theme } from 'utils/theme';
-import { SectionType, ItemMap } from 'components/CIDocument/types';
+import { SectionType, ItemMap, HighlightWithMeta } from 'components/CIDocument/types';
 import { getId as getLocationId } from 'utils/document/idUtils';
 
 const baseClassName = `${settings.prefix}--ci-doc-content`;
@@ -30,7 +30,7 @@ export interface CIDocumentContentProps {
   theme?: Theme;
   documentId?: string;
   onItemClick?: OnFieldClickFn;
-  combinedHighlights?: any[]; //TODO: reshape this type based on tooling prop
+  combinedHighlights?: HighlightWithMeta[]; //TODO: reshape this type based on tooling prop
 }
 
 const CIDocumentContent: FC<CIDocumentContentProps> = ({
@@ -73,7 +73,7 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
           {!!combinedHighlights && combinedHighlights.length > 0 && (
             <style>{...highlightColoringFullArray(combinedHighlights)}</style>
           )}
-          {(!highlightedIdsByColor || highlightedIds.length <= 0) && (
+          {(!combinedHighlights || combinedHighlights.length <= 0) && (
             <style>
               {createStyleRules(highlightedIds, [
                 backgroundColorRule(theme.highlightBackground),
@@ -140,14 +140,12 @@ function createStyleRules(idList: string[], rules: string[]): string {
     .concat(`{${rules.join(';')}}`);
 }
 
-function highlightColoringFullArray(combinedHighlightsWithMeta: any[]) {
-  const combinedHighlightsStyle = combinedHighlightsWithMeta.map(highlightWithMeta => {
+function highlightColoringFullArray(combinedHighlightsWithMeta: HighlightWithMeta[]) {
+  return combinedHighlightsWithMeta.map(highlightWithMeta => {
     const locationId = getHighlightLocationId(highlightWithMeta);
     const rules = `.${baseClassName} .field[data-field-id="${locationId}"] > * {background-color: ${highlightWithMeta.color}; z-index: -1;}`;
     return <style>{rules}</style>;
   });
-  console.log('combinedHighlightStyle', combinedHighlightsStyle);
-  return combinedHighlightsStyle;
 }
 
 function backgroundColorRule(color: string): string {
@@ -177,8 +175,7 @@ function scrollToActiveItem(
   );
 }
 
-//TODO: type
-function getHighlightLocationId(highlightWithMeta: any): string {
+function getHighlightLocationId(highlightWithMeta: HighlightWithMeta): string {
   return getLocationId({
     location: {
       begin: highlightWithMeta.begin,
