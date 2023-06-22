@@ -71,7 +71,7 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
         <>
           <style data-testid="style">{docStyles}</style>
           {!!combinedHighlights && combinedHighlights.length > 0 && (
-            <style>{...highlightColoringFullArray(combinedHighlights)}</style>
+            <style>{highlightColoringFullArray(combinedHighlights)}</style>
           )}
           {(!combinedHighlights || combinedHighlights.length <= 0) && (
             <style>
