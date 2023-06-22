@@ -10,7 +10,8 @@ import { SkeletonText } from 'carbon-components-react';
 import Section, { OnFieldClickFn } from '../Section/Section';
 import VirtualScroll from '../VirtualScroll/VirtualScroll';
 import { defaultTheme, Theme } from 'utils/theme';
-import { SectionType, ItemMap, HighlightIdsByColor } from 'components/CIDocument/types';
+import { SectionType, ItemMap } from 'components/CIDocument/types';
+import { getId as getLocationId } from 'utils/document/idUtils';
 
 const baseClassName = `${settings.prefix}--ci-doc-content`;
 
@@ -29,7 +30,7 @@ export interface CIDocumentContentProps {
   theme?: Theme;
   documentId?: string;
   onItemClick?: OnFieldClickFn;
-  highlightedIdsByColor?: HighlightIdsByColor;
+  combinedHighlights?: any[]; //TODO: reshape this type based on tooling prop
 }
 
 const CIDocumentContent: FC<CIDocumentContentProps> = ({
@@ -47,7 +48,7 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
   theme = defaultTheme,
   documentId = '',
   onItemClick = (): void => {},
-  highlightedIdsByColor
+  combinedHighlights
 }) => {
   const virtualScrollRef = useRef<any>();
 
@@ -69,11 +70,9 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
       ) : (
         <>
           <style data-testid="style">{docStyles}</style>
-          {!!highlightedIdsByColor &&
-            highlightedIdsByColor.length > 0 &&
-            highlightStyling(highlightedIdsByColor).map(highlightStyleRules => {
-              return <style>{highlightStyleRules}</style>;
-            })}
+          {!!combinedHighlights && combinedHighlights.length > 0 && (
+            <style>{...highlightColoringFullArray(combinedHighlights)}</style>
+          )}
           {(!highlightedIdsByColor || highlightedIds.length <= 0) && (
             <style>
               {createStyleRules(highlightedIds, [
@@ -134,25 +133,21 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
   );
 };
 
-function highlightStyling(
-  highlightedLocationIdsByColor: { color: string; highlightLocationIds: string[] }[]
-): string[] {
-  return highlightedLocationIdsByColor.map(highlightData => {
-    const { color, highlightLocationIds } = highlightData;
-
-    return createStyleRules(highlightLocationIds, [
-      backgroundColorRule(color),
-      // Set z-index to -1 in order to push non-active fields back
-      zIndexRule(-1)
-    ]);
-  });
-}
-
 function createStyleRules(idList: string[], rules: string[]): string {
   return idList
     .map(id => `.${baseClassName} .field[data-field-id="${id}"] > *`)
     .join(',')
     .concat(`{${rules.join(';')}}`);
+}
+
+function highlightColoringFullArray(combinedHighlightsWithMeta: any[]) {
+  const combinedHighlightsStyle = combinedHighlightsWithMeta.map(highlightWithMeta => {
+    const locationId = getHighlightLocationId(highlightWithMeta);
+    const rules = `.${baseClassName} .field[data-field-id="${locationId}"] > * {background-color: ${highlightWithMeta.color}; z-index: -1;}`;
+    return <style>{rules}</style>;
+  });
+  console.log('combinedHighlightStyle', combinedHighlightsStyle);
+  return combinedHighlightsStyle;
 }
 
 function backgroundColorRule(color: string): string {
@@ -180,6 +175,16 @@ function scrollToActiveItem(
     itemMap.byItem[activeId],
     `.field[data-field-id="${activeId}"]`
   );
+}
+
+//TODO: type
+function getHighlightLocationId(highlightWithMeta: any): string {
+  return getLocationId({
+    location: {
+      begin: highlightWithMeta.begin,
+      end: highlightWithMeta.end
+    }
+  });
 }
 
 export default CIDocumentContent;
