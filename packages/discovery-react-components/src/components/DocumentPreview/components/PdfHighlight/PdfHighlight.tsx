@@ -82,7 +82,6 @@ const PdfHighlight: FC<Props> = ({
   const highlightDivRef = useRef<HTMLDivElement | null>(null);
   useScrollIntoActiveHighlight(highlightDivRef, highlightShapes, activeIds);
 
-  console.log('PdfHighlight highlightShapes', highlightShapes);
   return (
     <div ref={highlightDivRef} className={cx(base, className)}>
       {highlightShapes.map(shape => {
@@ -125,8 +124,8 @@ const Highlight: FC<{
               shape.className,
               active && `${base}__item--active`,
               active && activeClassName,
-              // `${className}.category_xyz`
-              `category_${shape.facetId}`
+              shape.facetId && `category_${shape.facetId} mf-highlight`,
+              shape.facetId && active && `category_${shape.facetId} mf-active`
             )}
             style={{ ...getPositionStyle(item.bbox, scale) }}
           />

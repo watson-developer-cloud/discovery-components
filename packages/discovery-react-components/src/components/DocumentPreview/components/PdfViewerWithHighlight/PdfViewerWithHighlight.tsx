@@ -92,9 +92,6 @@ const PdfViewerWithHighlight = forwardRef<any, Props>(
       document,
       documentInfo
     });
-    console.log('PdfViewerWithHighlight state', state);
-    console.log('PdfViewerWithHighlight queryHighlight', queryHighlight);
-    console.log('PdfViewerWithHighlight fieldHighlights', fieldHighlights);
     const currentPage = useMovePageToActiveHighlight(
       page,
       state.activePages,
@@ -108,9 +105,15 @@ const PdfViewerWithHighlight = forwardRef<any, Props>(
     const styleColor = Object.values(facetInfoMap || {})
       .map(facetInfo => {
         return `
-      .${highlightClassName}.category_${facetInfo.facetId} {
-        border: 2px solid ${facetInfo.color};
-      }`;
+        .category_${facetInfo.facetId}.mf-highlight {
+          background: ${facetInfo.color};
+          border: 2px solid ${facetInfo.color};
+        }
+        .category_${facetInfo.facetId}.mf-active {
+          background: unset;
+          opacity: 100%;
+          border: 2px solid ${facetInfo.color};
+        }`;
       })
       .join('\n');
 

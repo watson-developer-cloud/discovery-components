@@ -46,9 +46,14 @@
 }
 
 .#{$prefix}--document-preview-pdf-viewer-highlight__item {
+  box-sizing: content-box;
+  margin: -3px;
+  padding: 1px 1px 0;
   position: absolute;
   opacity: 20%;
-  background: darken(saturate($highlight, 50%), 40%);
+  background: purple;
+  // background: darken(saturate($highlight, 50%), 40%);
+  // TODO: reflect these changes in tooling
 }
 
 .#{$prefix}--document-preview-pdf-viewer-highlight__item--active {
