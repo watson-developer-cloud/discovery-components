@@ -30,7 +30,7 @@ export interface CIDocumentContentProps {
   theme?: Theme;
   documentId?: string;
   onItemClick?: OnFieldClickFn;
-  combinedHighlights?: HighlightWithMeta[]; //TODO: reshape this type based on tooling prop
+  combinedHighlights?: HighlightWithMeta[];
 }
 
 const CIDocumentContent: FC<CIDocumentContentProps> = ({
@@ -143,6 +143,7 @@ function createStyleRules(idList: string[], rules: string[]): string {
 function highlightColoringFullArray(combinedHighlightsWithMeta: HighlightWithMeta[]) {
   return combinedHighlightsWithMeta.map(highlightWithMeta => {
     const locationId = getHighlightLocationId(highlightWithMeta);
+    // Set z-index to -1 in order to push non-active fields back
     const rules = `.${baseClassName} .field[data-field-id="${locationId}"] > * {background-color: ${highlightWithMeta.color}; z-index: -1;}`;
     return <style>{rules}</style>;
   });
