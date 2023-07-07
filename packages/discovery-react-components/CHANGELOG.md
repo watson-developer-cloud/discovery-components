@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.5.0](https://github.com/watson-developer-cloud/discovery-components/compare/v4.4.0...v4.5.0) (2023-07-07)
+
+
+### Features
+
+* add styling for overlapping highlights in text view ([#521](https://github.com/watson-developer-cloud/discovery-components/issues/521)) ([6ddd76c](https://github.com/watson-developer-cloud/discovery-components/commit/6ddd76c9e82e0b39fc21b6cd2dc54c90f2c824ed))
+
+
+
+
+
 # [4.4.0](https://github.com/watson-developer-cloud/discovery-components/compare/v4.3.0...v4.4.0) (2023-05-30)
 
 
