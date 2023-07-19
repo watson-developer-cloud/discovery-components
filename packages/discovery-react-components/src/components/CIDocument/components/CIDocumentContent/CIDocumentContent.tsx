@@ -65,7 +65,6 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
   }, [activeIds, activeMetadataIds, activePartIds, itemMap]);
 
   const loading = !sections || sections.length === 0;
-  console.log('CIDocumentContent combinedHighlights', combinedHighlights);
   return (
     <div className={cx(baseClassName, className, { skeleton: loading })}>
       {loading ? (
@@ -90,7 +89,6 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
               <style>
                 {/*Set z-index to 0 to pull active element in front of overlapping fields */}
                 {createStyleRules(activeIds, [
-                  // expecting this to get overridden by work in https://github.ibm.com/Watson-Discovery/disco-issue-tracker/issues/13109
                   backgroundColorRule(theme.activeHighlightBackground),
                   outlineRule(activeColor || theme.highlightBackground),
                   zIndexRule(0)

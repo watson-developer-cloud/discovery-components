@@ -51,13 +51,14 @@
   padding: 1px 1px 0;
   position: absolute;
   opacity: 20%;
-  background: purple;
-  // background: darken(saturate($highlight, 50%), 40%);
-  // TODO: reflect these changes in tooling
+  background: darken(saturate($highlight, 50%), 40%);
 }
 
 .#{$prefix}--document-preview-pdf-viewer-highlight__item--active {
   position: absolute;
   opacity: 35%;
   background: darken(saturate($highlight, 50%), 50%);
+  margin: -3px;
+  padding: 1px 1px 0px;
+  box-sizing: content-box;
 }

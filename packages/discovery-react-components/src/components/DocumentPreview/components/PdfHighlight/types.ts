@@ -21,7 +21,6 @@ export type DocumentFieldHighlight = {
   location: Location;
   className?: string;
   facetId?: string;
-  // TODO: add category?
 };
 
 /**

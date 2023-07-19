@@ -101,8 +101,8 @@ const PdfViewerWithHighlight = forwardRef<any, Props>(
 
     const setCurrentErrMsgFromPdfConst = useIsPfdError(_isPdfRenderError, setIsPdfRenderError);
 
-    // TODO: Dynamically create a style for every category. Match color of category
-    const styleColor = Object.values(facetInfoMap || {})
+    // Dynamically create a style for every category. Match color of category
+    const colorStyles = Object.values(facetInfoMap || {})
       .map(facetInfo => {
         return `
         .category_${facetInfo.facetId}.mf-highlight {
@@ -112,7 +112,6 @@ const PdfViewerWithHighlight = forwardRef<any, Props>(
         .category_${facetInfo.facetId}.mf-active {
           background: unset;
           opacity: 100%;
-          border: 2px solid ${facetInfo.color};
         }`;
       })
       .join('\n');
@@ -120,7 +119,7 @@ const PdfViewerWithHighlight = forwardRef<any, Props>(
     const highlightReady = !!documentInfo && !!renderedText;
     return (
       <>
-        <style>{styleColor}</style>
+        <style>{colorStyles}</style>
         <PdfViewer
           ref={scrollRef}
           {...rest}
