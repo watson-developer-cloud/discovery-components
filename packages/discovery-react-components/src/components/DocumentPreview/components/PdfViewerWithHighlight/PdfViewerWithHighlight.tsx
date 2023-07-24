@@ -102,16 +102,13 @@ const PdfViewerWithHighlight = forwardRef<any, Props>(
     const setCurrentErrMsgFromPdfConst = useIsPfdError(_isPdfRenderError, setIsPdfRenderError);
 
     // Dynamically create a style for every category. Match color of category
+    // hc stand for highlight color
     const colorStyles = Object.values(facetInfoMap || {})
       .map(facetInfo => {
         return `
-        .category_${facetInfo.facetId}.mf-highlight {
+        .category_${facetInfo.facetId}.hc-highlight {
           background: ${facetInfo.color};
           border: 2px solid ${facetInfo.color};
-        }
-        .category_${facetInfo.facetId}.mf-active {
-          background: unset;
-          opacity: 100%;
         }`;
       })
       .join('\n');
