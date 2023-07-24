@@ -253,8 +253,6 @@ This method brings in Discovery Component styles as needed. Use this method if y
 
 This method uses the vanilla CSS that is built from the Discovery Component styles SCSS files and also includes the Carbon Component styles. Use this method if you do not have SCSS importing as part of your application build pipeline.
 
-<!-- TODO: do we need this section as well? -->
-
 ## Usage
 
 ```jsx
