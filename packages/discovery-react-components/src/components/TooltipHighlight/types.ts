@@ -3,13 +3,6 @@ export enum TooltipEvent {
   ENTER
 }
 
-// TooltipInfo is the internal state of the TooltipHightlight
-export interface TooltipInfo {
-  rectTooltipArea: DOMRect;
-  element: JSX.Element;
-  isOpen: boolean;
-}
-
 // TooltipAction is the signature for the callback called my components that will activate the tooltip
 export interface TooltipAction {
   tooltipEvent: TooltipEvent;

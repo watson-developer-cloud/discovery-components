@@ -138,6 +138,7 @@ const PdfViewerWithHighlight = forwardRef<any, Props>(
                   highlights={state.fields}
                   boxHighlights={state.bboxes}
                   activeIds={state.activeIds}
+                  facetInfoMap={facetInfoMap}
                   {...highlightProps}
                 />
               )

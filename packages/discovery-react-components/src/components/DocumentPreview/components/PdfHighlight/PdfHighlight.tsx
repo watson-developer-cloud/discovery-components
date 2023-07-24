@@ -1,9 +1,9 @@
-import React, { FC, useMemo, useEffect, useRef, useState, useCallback } from 'react';
+import React, { FC, useMemo, useEffect, useRef, useState, useCallback, MouseEvent } from 'react';
 import cx from 'classnames';
 import { settings } from 'carbon-components';
 import { QueryResult } from 'ibm-watson/discovery/v2';
 import { ProcessedDoc } from 'utils/document';
-import { Bbox, TextMappings } from '../../types';
+import { Bbox, TextMappings, FacetInfoMap } from '../../types';
 import { PdfDisplayProps } from '../PdfViewer/types';
 import { PdfRenderedText } from '../PdfViewer/PdfViewerTextLayer';
 import { ExtractedDocumentInfo } from './utils/common/documentUtils';
@@ -39,9 +39,15 @@ type Props = PdfDisplayProps &
      * Highlight bboxes. This overrides `highlights` props
      */
     boxHighlights?: DocumentBboxHighlight[];
+
+    /**
+     * Meta-data on facets
+     */
+    facetInfoMap?: FacetInfoMap;
   };
 
 const base = `${settings.prefix}--document-preview-pdf-viewer-highlight`;
+const baseTooltipHighlight = `${settings.prefix}--tooltip-hightlight`;
 
 /**
  * Text highlight layer for PdfViewer
@@ -58,6 +64,7 @@ const PdfHighlight: FC<Props> = ({
   activeIds,
   pdfRenderedText,
   scale,
+  facetInfoMap,
   _useHtmlBbox = true,
   _usePdfTextItem = true
 }) => {
@@ -91,7 +98,6 @@ const PdfHighlight: FC<Props> = ({
   const onTooltipAction = useCallback(
     (updateTooltipAction: TooltipAction) => {
       setTooltipAction(updateTooltipAction);
-      console.log('onTooltipEnter ', updateTooltipAction);
     },
     [setTooltipAction]
   );
@@ -113,6 +119,7 @@ const PdfHighlight: FC<Props> = ({
             scale={scale}
             active={active}
             onTooltipAction={onTooltipAction}
+            facetInfoMap={facetInfoMap}
           />
         );
       })}
@@ -127,15 +134,40 @@ const Highlight: FC<{
   scale: number;
   onTooltipAction: OnTooltipActionFn;
   active?: boolean;
-}> = ({ className, activeClassName, shape, scale, onTooltipAction, active }) => {
+  facetInfoMap?: FacetInfoMap;
+}> = ({ className, activeClassName, shape, scale, onTooltipAction, active, facetInfoMap }) => {
   const divHighlightNode = useRef<HTMLDivElement>(null);
   if (shape?.boxes.length === 0) {
     return null;
   }
 
-  const onMouseEnterHandler = () => {
+  const onMouseEnterHandler = (event: MouseEvent<HTMLElement>) => {
+    const targetEle = event.target as Element;
+    const enrichValue = targetEle.getAttribute('data-value');
+    const enrichFacetId = targetEle.getAttribute('data-facetid') || '';
+    let enrichFacet = '';
+    let enrichColor = '';
+    if (facetInfoMap) {
+      enrichFacet = facetInfoMap[enrichFacetId].displayName;
+      enrichColor = facetInfoMap[enrichFacetId].color;
+    }
     const divEle = divHighlightNode.current;
-    const tooltipContent = <div>see more</div>;
+    // Create tooltip content to display
+    const tooltipContent = (
+      <div
+        style={{
+          whiteSpace: 'nowrap'
+        }}
+      >
+        <div
+          className={cx(baseTooltipHighlight)}
+          style={{
+            backgroundColor: enrichColor
+          }}
+        />
+        {enrichFacet}, "{enrichValue}"
+      </div>
+    );
     onTooltipAction({
       tooltipEvent: TooltipEvent.ENTER,
       rectActiveElement: divEle?.getBoundingClientRect(),
@@ -168,6 +200,8 @@ const Highlight: FC<{
             onMouseEnter={onMouseEnterHandler}
             onMouseLeave={onMouseLeaveHandler}
             ref={divHighlightNode}
+            data-value={shape.value || ''}
+            data-facetid={shape.facetId || ''}
           />
         );
       })}

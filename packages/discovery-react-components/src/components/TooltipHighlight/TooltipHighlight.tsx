@@ -2,7 +2,14 @@ import React, { FC, useState, useEffect } from 'react';
 
 import { Tooltip } from 'carbon-components-react';
 
-import { TooltipInfo, TooltipAction, TooltipEvent } from './types';
+import { TooltipAction, TooltipEvent } from './types';
+
+// TooltipInfo is the internal state of the TooltipHightlight
+export interface TooltipInfo {
+  rectTooltipArea: DOMRect;
+  tooltipContent: JSX.Element;
+  isOpen: boolean;
+}
 
 type Props = {
   /**
@@ -19,11 +26,12 @@ type Props = {
 const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
   const [tooltipInfo, setTooltipInfo] = useState<TooltipInfo>({
     rectTooltipArea: new DOMRect(),
-    element: <div></div>,
+    tooltipContent: <div></div>,
     isOpen: false
   });
 
   useEffect(() => {
+    // Compute parameters to overlay the tooltip over the active item
     const highlightDivRect = parentDiv.current?.getBoundingClientRect() || new DOMRect();
     const isOpen = tooltipAction.tooltipEvent !== TooltipEvent.LEAVE;
     const clickRect = tooltipAction.rectActiveElement || new DOMRect();
@@ -35,11 +43,10 @@ const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
     );
     const tooltipUpdate = {
       rectTooltipArea: tooltipRect,
-      element: tooltipAction.tooltipContent || <div></div>,
+      tooltipContent: tooltipAction.tooltipContent || <div></div>,
       isOpen: isOpen
     };
     setTooltipInfo(tooltipUpdate);
-    console.log('onTooltipEnter ', tooltipUpdate);
   }, [tooltipAction, setTooltipInfo]);
 
   return (
@@ -71,12 +78,7 @@ const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
             }}
           />
         }
-        children={
-          <div>
-            Tooltip <b style={{ color: 'red' }}>text</b> {tooltipInfo.isOpen} x{' '}
-            {tooltipInfo.rectTooltipArea.x} zzz
-          </div>
-        }
+        children={<div>{tooltipInfo.tooltipContent}</div>}
       />
     </div>
   );
