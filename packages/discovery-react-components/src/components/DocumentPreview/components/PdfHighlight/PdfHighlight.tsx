@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useEffect, useRef } from 'react';
+import React, { FC, useMemo, useEffect, useRef, useState, useCallback } from 'react';
 import cx from 'classnames';
 import { settings } from 'carbon-components';
 import { QueryResult } from 'ibm-watson/discovery/v2';
@@ -10,6 +10,13 @@ import { ExtractedDocumentInfo } from './utils/common/documentUtils';
 import { Highlighter } from './utils/Highlighter';
 import { getShapeFromBboxHighlight } from './utils/common/highlightUtils';
 import { DocumentBboxHighlight, HighlightProps, HighlightShape } from './types';
+import {
+  TooltipAction,
+  TooltipEvent,
+  initAction,
+  OnTooltipActionFn
+} from '../../../TooltipHighlight/types';
+import TooltipHighlight from '../../../TooltipHighlight/TooltipHighlight';
 
 type Props = PdfDisplayProps &
   HighlightProps & {
@@ -79,11 +86,22 @@ const PdfHighlight: FC<Props> = ({
     }
   }, [boxHighlights, highlighter, highlights, page, textDivs]);
 
+  const [tooltipAction, setTooltipAction] = useState<TooltipAction>(initAction());
+
+  const onTooltipAction = useCallback(
+    (updateTooltipAction: TooltipAction) => {
+      setTooltipAction(updateTooltipAction);
+      console.log('onTooltipEnter ', updateTooltipAction);
+    },
+    [setTooltipAction]
+  );
+
   const highlightDivRef = useRef<HTMLDivElement | null>(null);
   useScrollIntoActiveHighlight(highlightDivRef, highlightShapes, activeIds);
-
+  console.log('highlightShapes', highlightShapes);
   return (
     <div ref={highlightDivRef} className={cx(base, className)}>
+      <TooltipHighlight parentDiv={highlightDivRef} tooltipAction={tooltipAction} />
       {highlightShapes.map(shape => {
         const active = activeIds?.includes(shape.highlightId);
         return (
@@ -94,6 +112,7 @@ const PdfHighlight: FC<Props> = ({
             shape={shape}
             scale={scale}
             active={active}
+            onTooltipAction={onTooltipAction}
           />
         );
       })}
@@ -106,11 +125,29 @@ const Highlight: FC<{
   activeClassName?: string;
   shape: HighlightShape;
   scale: number;
+  onTooltipAction: OnTooltipActionFn;
   active?: boolean;
-}> = ({ className, activeClassName, shape, scale, active }) => {
+}> = ({ className, activeClassName, shape, scale, onTooltipAction, active }) => {
+  const divHighlightNode = useRef<HTMLDivElement>(null);
   if (shape?.boxes.length === 0) {
     return null;
   }
+
+  const onMouseEnterHandler = () => {
+    const divEle = divHighlightNode.current;
+    const tooltipContent = <div>see more</div>;
+    onTooltipAction({
+      tooltipEvent: TooltipEvent.ENTER,
+      rectActiveElement: divEle?.getBoundingClientRect(),
+      tooltipContent
+    });
+  };
+
+  const onMouseLeaveHandler = () => {
+    onTooltipAction({
+      tooltipEvent: TooltipEvent.LEAVE
+    });
+  };
 
   return (
     <div data-highlight-id={shape.highlightId}>
@@ -128,6 +165,9 @@ const Highlight: FC<{
               shape.facetId && active && `category_${shape.facetId} mf-active`
             )}
             style={{ ...getPositionStyle(item.bbox, scale) }}
+            onMouseEnter={onMouseEnterHandler}
+            onMouseLeave={onMouseLeaveHandler}
+            ref={divHighlightNode}
           />
         );
       })}
