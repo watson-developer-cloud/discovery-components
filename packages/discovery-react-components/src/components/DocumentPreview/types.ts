@@ -69,11 +69,12 @@ export interface QueryResultWithOptionalMetadata extends Omit<QueryResult, 'resu
 }
 
 // Data on a single Facet.
-// - color applied to visualized enrichments.
-// - displayName shown in tooltip over enrichement.
+
 export interface FacetInfo {
   facetId: string;
+  // color applied to visualized enrichments.
   color: string;
+  // displayName shown in tooltip over enrichement.
   displayName: string;
 }
 
