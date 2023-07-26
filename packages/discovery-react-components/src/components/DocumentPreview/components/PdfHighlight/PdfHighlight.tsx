@@ -164,7 +164,8 @@ const Highlight: FC<{
         <div
           className={cx(baseTooltipHighlight)}
           style={{
-            backgroundColor: enrichColor
+            backgroundColor: enrichColor,
+            display: 'inline-block'
           }}
         />
         {enrichFacet}, "{enrichValue}"
