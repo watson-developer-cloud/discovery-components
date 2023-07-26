@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.6.0](https://github.com/watson-developer-cloud/discovery-components/compare/v4.5.0...v4.6.0) (2023-07-26)
+
+
+### Features
+
+* text active color and PDF highlight/active colors ([#520](https://github.com/watson-developer-cloud/discovery-components/issues/520)) ([760bed3](https://github.com/watson-developer-cloud/discovery-components/commit/760bed35419fadf4036fc12200388d0653f1393a))
+
+
+
+
+
 ## [4.2.1](https://github.com/watson-developer-cloud/discovery-components/compare/v4.2.0...v4.2.1) (2023-04-19)
 
 **Note:** Version bump only for package @ibm-watson/discovery-styles
