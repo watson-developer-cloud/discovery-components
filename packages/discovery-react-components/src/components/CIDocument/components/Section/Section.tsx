@@ -10,7 +10,8 @@ import React, {
   MouseEvent,
   useEffect,
   useRef,
-  useState
+  useState,
+  useCallback
 } from 'react';
 import cx from 'classnames';
 import debounce from 'debounce';
@@ -21,6 +22,8 @@ import { createFieldRects, findOffsetInDOM } from 'utils/document/documentUtils'
 import { clearNodeChildren } from 'utils/dom';
 import elementFromPoint from 'components/CIDocument/utils/elementFromPoint';
 import { SectionType, Field, Item } from 'components/CIDocument/types';
+import { TooltipAction, TooltipEvent, OnTooltipActionFn } from '../../../TooltipHighlight/types';
+import HighlightTooltip from '../../../TooltipHighlight/TooltipHighlight';
 
 export type OnFieldClickFn = (field: Field) => void;
 
@@ -55,6 +58,26 @@ export const Section: FC<SectionProps> = ({ section, onFieldClick }) => {
     }
   };
 
+  const [tooltipAction, setTooltipAction] = useState<TooltipAction>({
+    tooltipEvent: TooltipEvent.LEAVE,
+    rectActiveElement: new DOMRect(),
+    tooltipContent: <div></div>
+  });
+
+  const onTooltipAction = useCallback(
+    (tooltipAction: TooltipAction) => {
+      const updateTooltipAction: TooltipAction = {
+        tooltipContent: tooltipAction.tooltipContent || <div></div>,
+        tooltipEvent: tooltipAction.tooltipEvent || TooltipEvent.LEAVE,
+        rectActiveElement: tooltipAction.rectActiveElement || new DOMRect()
+      };
+      setTooltipAction(updateTooltipAction);
+
+      console.log('onTooltipEnter ', updateTooltipAction);
+    },
+    [setTooltipAction]
+  );
+
   useEffect(() => {
     createSectionFields();
     // Run every time this section changes
@@ -71,10 +94,11 @@ export const Section: FC<SectionProps> = ({ section, onFieldClick }) => {
     <div
       className={cx(`${baseClassName}`, { hasTable: hasTable(html) })}
       ref={sectionNode}
-      onMouseMove={mouseMoveListener(hoveredField, setHoveredField)}
-      onMouseLeave={mouseLeaveListener(hoveredField, setHoveredField)}
+      onMouseMove={mouseMoveListener(hoveredField, setHoveredField, onTooltipAction)}
+      onMouseLeave={mouseLeaveListener(hoveredField, setHoveredField, onTooltipAction)}
       onClick={mouseClickListener(onFieldClick)}
     >
+      <HighlightTooltip parentDiv={sectionNode} tooltipAction={tooltipAction} />
       <div className="fields" ref={fieldsNode} />
       <div
         className="content htmlReset htmlOverride"
@@ -88,7 +112,8 @@ export const Section: FC<SectionProps> = ({ section, onFieldClick }) => {
 
 function mouseMoveListener(
   hoveredField: HTMLElement | null,
-  setHoveredField: Dispatch<SetStateAction<HTMLElement | null>>
+  setHoveredField: Dispatch<SetStateAction<HTMLElement | null>>,
+  onTooltipAction: OnTooltipActionFn
 ) {
   return function _mouseMoveListener(event: MouseEvent): void {
     const fieldRect = elementFromPoint(
@@ -102,6 +127,7 @@ function mouseMoveListener(
         hoveredField.classList.remove('hover');
         setHoveredField(null);
         document.body.style.cursor = 'initial';
+        onTooltipAction({ tooltipEvent: TooltipEvent.LEAVE });
       }
       return;
     }
@@ -110,10 +136,20 @@ function mouseMoveListener(
     if (hoveredField !== fieldNode) {
       if (hoveredField) {
         hoveredField.classList.remove('hover');
+        onTooltipAction({ tooltipEvent: TooltipEvent.LEAVE });
       }
       setHoveredField(fieldNode as HTMLElement);
       if (fieldNode) {
         fieldNode.classList.add('hover');
+        const tooltipContent = <div>text tooltip</div>;
+        const fieldNodeContent = fieldNode?.firstElementChild;
+        const rect = fieldNodeContent?.getBoundingClientRect();
+        console.log('text field element box', rect);
+        onTooltipAction({
+          tooltipEvent: TooltipEvent.ENTER,
+          tooltipContent: tooltipContent,
+          rectActiveElement: fieldNodeContent?.getBoundingClientRect()
+        });
       }
       document.body.style.cursor = 'pointer';
     }
@@ -122,13 +158,15 @@ function mouseMoveListener(
 
 function mouseLeaveListener(
   hoveredField: HTMLElement | null,
-  setHoveredField: Dispatch<SetStateAction<HTMLElement | null>>
+  setHoveredField: Dispatch<SetStateAction<HTMLElement | null>>,
+  onTooltipAction: OnTooltipActionFn
 ) {
   return function _mouseLeaveListener(): void {
     if (hoveredField) {
       hoveredField.classList.remove('hover');
       setHoveredField(null);
       document.body.style.cursor = 'initial';
+      onTooltipAction({ tooltipEvent: TooltipEvent.LEAVE });
     }
   };
 }
