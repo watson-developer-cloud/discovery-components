@@ -47,6 +47,8 @@ type Props = PdfDisplayProps &
   };
 
 const base = `${settings.prefix}--document-preview-pdf-viewer-highlight`;
+const baseHighlightColor = `${settings.prefix}--category`;
+const baseHighlightColorActive = `${settings.prefix}--active`;
 const baseTooltipHighlight = `${settings.prefix}--tooltip-hightlight`;
 
 /**
@@ -193,8 +195,8 @@ const Highlight: FC<{
               shape.className,
               active && `${base}__item--active`,
               active && activeClassName,
-              shape.facetId && `category_${shape.facetId} mf-highlight`,
-              shape.facetId && active && `category_${shape.facetId} mf-active`
+              shape.facetId && `${baseHighlightColor}-${shape.facetId} highlight`,
+              shape.facetId && active && baseHighlightColorActive
             )}
             style={{ ...getPositionStyle(item.bbox, scale) }}
             onMouseEnter={onMouseEnterHandler}

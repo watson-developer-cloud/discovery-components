@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, forwardRef } from 'react';
+import { settings } from 'carbon-components';
 import { QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { nonEmpty } from 'utils/nonEmpty';
 import { FacetInfoMap, TextMappings } from '../../types';
@@ -61,6 +62,7 @@ const PdfViewerWithHighlight = forwardRef<any, Props>(
     },
     scrollRef
   ) => {
+    const baseHighlightColor = `${settings.prefix}--category`;
     const { scale } = rest;
     const highlightProps: Omit<HighlightProps, 'highlights'> = {
       highlightClassName,
@@ -105,13 +107,9 @@ const PdfViewerWithHighlight = forwardRef<any, Props>(
     const colorStyles = Object.values(facetInfoMap || {})
       .map(facetInfo => {
         return `
-        .category_${facetInfo.facetId}.mf-highlight {
+        .${baseHighlightColor}-${facetInfo.facetId}.highlight {
           background: ${facetInfo.color};
           border: 2px solid ${facetInfo.color};
-        }
-        .category_${facetInfo.facetId}.mf-active {
-          background: unset;
-          opacity: 100%;
         }`;
       })
       .join('\n');
