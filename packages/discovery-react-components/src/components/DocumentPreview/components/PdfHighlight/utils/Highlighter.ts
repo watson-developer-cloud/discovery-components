@@ -114,7 +114,7 @@ export class Highlighter {
     highlight: T
   ): HighlightShape & Omit<T, keyof DocumentFieldHighlight> {
     debug('getHighlight: %o', highlight);
-    const { id, field, fieldIndex, location, className, ...rest } = highlight;
+    const { id, field, fieldIndex, location, className, facetId, ...rest } = highlight;
     const items = this.getHighlightTextMappingResult({ field, fieldIndex, location });
     debug('getHighlight - items: %o', items);
 
@@ -145,6 +145,7 @@ export class Highlighter {
       highlightId: Highlighter.getId(highlight),
       boxes: Highlighter.optimizeHighlightBoxes(boxShapes),
       className,
+      facetId,
       ...rest
     };
   }

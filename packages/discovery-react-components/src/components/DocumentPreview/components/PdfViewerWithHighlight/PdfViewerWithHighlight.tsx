@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef, forwardRef } from 'react';
+import { settings } from 'carbon-components';
 import { QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { nonEmpty } from 'utils/nonEmpty';
-import { TextMappings } from '../../types';
+import { FacetInfoMap, TextMappings } from '../../types';
 import { spanIntersects } from '../../utils/textSpan';
 import { isPassage, isTable } from '../Highlight/typeUtils';
 import { getHighlightedTable } from '../Highlight/tables';
@@ -33,6 +34,7 @@ type Props = PdfViewerProps &
      * This property overrides `highlights` property if specified
      */
     highlight?: QueryResultPassage | QueryTableResult;
+    facetInfoMap?: FacetInfoMap;
     _isPdfRenderError?: boolean;
     setIsPdfRenderError?: (state: boolean) => any;
   };
@@ -50,6 +52,7 @@ const PdfViewerWithHighlight = forwardRef<any, Props>(
       highlight: queryHighlight,
       highlights: fieldHighlights,
       activeIds,
+      facetInfoMap,
       _useHtmlBbox,
       _usePdfTextItem,
       _isPdfRenderError = false,
@@ -59,6 +62,7 @@ const PdfViewerWithHighlight = forwardRef<any, Props>(
     },
     scrollRef
   ) => {
+    const baseHighlightColor = `${settings.prefix}--category`;
     const { scale } = rest;
     const highlightProps: Omit<HighlightProps, 'highlights'> = {
       highlightClassName,
@@ -99,32 +103,46 @@ const PdfViewerWithHighlight = forwardRef<any, Props>(
 
     const setCurrentErrMsgFromPdfConst = useIsPfdError(_isPdfRenderError, setIsPdfRenderError);
 
+    // Dynamically create a style for every category. Match color of category
+    const colorStyles = Object.values(facetInfoMap || {})
+      .map(facetInfo => {
+        return `
+        .${baseHighlightColor}-${facetInfo.facetId}.highlight {
+          background: ${facetInfo.color};
+          border: 2px solid ${facetInfo.color};
+        }`;
+      })
+      .join('\n');
+
     const highlightReady = !!documentInfo && !!renderedText;
     return (
-      <PdfViewer
-        ref={scrollRef}
-        {...rest}
-        page={currentPage}
-        setRenderedText={setRenderedText}
-        setIsPdfRenderError={setCurrentErrMsgFromPdfConst}
-      >
-        {({ fitToWidthRatio }: { fitToWidthRatio: number }) => {
-          return (
-            (state.fields || state.bboxes) && (
-              <PdfHighlight
-                parsedDocument={highlightReady ? documentInfo ?? null : null}
-                pdfRenderedText={highlightReady ? renderedText : null}
-                page={currentPage}
-                scale={scale * fitToWidthRatio}
-                highlights={state.fields}
-                boxHighlights={state.bboxes}
-                activeIds={state.activeIds}
-                {...highlightProps}
-              />
-            )
-          );
-        }}
-      </PdfViewer>
+      <>
+        <style>{colorStyles}</style>
+        <PdfViewer
+          ref={scrollRef}
+          {...rest}
+          page={currentPage}
+          setRenderedText={setRenderedText}
+          setIsPdfRenderError={setCurrentErrMsgFromPdfConst}
+        >
+          {({ fitToWidthRatio }: { fitToWidthRatio: number }) => {
+            return (
+              (state.fields || state.bboxes) && (
+                <PdfHighlight
+                  parsedDocument={highlightReady ? documentInfo ?? null : null}
+                  pdfRenderedText={highlightReady ? renderedText : null}
+                  page={currentPage}
+                  scale={scale * fitToWidthRatio}
+                  highlights={state.fields}
+                  boxHighlights={state.bboxes}
+                  activeIds={state.activeIds}
+                  {...highlightProps}
+                />
+              )
+            );
+          }}
+        </PdfViewer>
+      </>
     );
   }
 );

@@ -34,7 +34,7 @@ export interface Theme {
 
 export const defaultTheme: Theme = {
   highlightBackground: whiteTheme.highlight,
-  activeHighlightBackground: colors.blue30,
+  activeHighlightBackground: 'unset',
   highlightWithinActiveHighlightBackground: colors.purple30,
   textHoverBackground: whiteTheme.hover_selected_ui
 };

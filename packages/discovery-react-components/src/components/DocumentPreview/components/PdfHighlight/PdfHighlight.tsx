@@ -35,6 +35,8 @@ type Props = PdfDisplayProps &
   };
 
 const base = `${settings.prefix}--document-preview-pdf-viewer-highlight`;
+const baseHighlightColor = `${settings.prefix}--category`;
+const baseHighlightColorActive = `${settings.prefix}--active`;
 
 /**
  * Text highlight layer for PdfViewer
@@ -123,7 +125,9 @@ const Highlight: FC<{
               className,
               shape.className,
               active && `${base}__item--active`,
-              active && activeClassName
+              active && activeClassName,
+              shape.facetId && `${baseHighlightColor}-${shape.facetId} highlight`,
+              shape.facetId && active && baseHighlightColorActive
             )}
             style={{ ...getPositionStyle(item.bbox, scale) }}
           />

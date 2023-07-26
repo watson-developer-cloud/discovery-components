@@ -31,6 +31,7 @@ export interface CIDocumentContentProps {
   documentId?: string;
   onItemClick?: OnFieldClickFn;
   combinedHighlights?: HighlightWithMeta[];
+  activeColor?: string | null;
 }
 
 const CIDocumentContent: FC<CIDocumentContentProps> = ({
@@ -48,7 +49,8 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
   theme = defaultTheme,
   documentId = '',
   onItemClick = (): void => {},
-  combinedHighlights
+  combinedHighlights,
+  activeColor
 }) => {
   const virtualScrollRef = useRef<any>();
 
@@ -87,9 +89,8 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
               <style>
                 {/*Set z-index to 0 to pull active element in front of overlapping fields */}
                 {createStyleRules(activeIds, [
-                  // expecting this to get overridden by work in https://github.ibm.com/Watson-Discovery/disco-issue-tracker/issues/13109
-                  // backgroundColorRule(theme.activeHighlightBackground),
-                  outlineRule(theme.activeHighlightBackground),
+                  backgroundColorRule(theme.activeHighlightBackground),
+                  outlineRule(activeColor || theme.highlightBackground),
                   zIndexRule(0)
                 ])}
               </style>
