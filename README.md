@@ -10,6 +10,7 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+- [About](#about)
 - [Quick Links](#quick-links)
 - [Using Discovery Components](#using-discovery-components)
 - [Prerequisites](#prerequisites)
@@ -30,6 +31,10 @@
   - [Branching and Releasing](#branching-and-releasing)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## About
+
+This is a repository created and maintained by the IBM Watson Discovery UI team. It contains a collection of components, to be used by internal and external applications to query [Watson Discovery](https://www.ibm.com/products/watson-discovery) projects.
 
 ## Quick Links
 

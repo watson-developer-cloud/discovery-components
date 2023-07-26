@@ -1,8 +1,6 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-**Table of Contents** _generated with [DocToc](https://github.com/thlorenz/doctoc)_
-
 - [Running the example app](#running-the-example-app)
   - [Setup script](#setup-script)
   - [Manual setup](#manual-setup)
@@ -76,7 +74,7 @@ yarn workspace discovery-search-app run start
       - CP4D sample URL: `https://zen-25-cpd-zen-25.apps.my-cluster-name.com/discovery/wd/projects/{REACT_APP_PROJECT_ID}/workspace`)
       - Cloud sample URL: `https://us-south.discovery.cloud.ibm.com/v2/instances/123/projects/{REACT_APP_PROJECT_ID}/workspace`)
 
-   <img src="./docs/images/example-project-id.png" alt="Example app" width="800px">
+   <img src="../../docs/images/example-project-id.png" alt="Example app" width="800px">
 
    #### Windows Only
 
@@ -113,7 +111,7 @@ yarn workspace discovery-search-app run start
      - `DISCOVERY_URL` is the API URL to your Discovery instance (ex. `https://api.us-south.discovery.cloud.ibm.com/instances/2386cfd4-a584-41d0-868d-671d8be819bc`)
      - `DISCOVERY_APIKEY` the api key associated with `DISCOVERY_URL`
 
-   <img src="./docs/images/example-url-apikey.png" alt="URL and API key" width="800px">
+   <img src="../../docs/images/example-url-apikey.png" alt="URL and API key" width="800px">
 
 6. Build the React components:
 
@@ -135,7 +133,7 @@ yarn workspace discovery-search-app run start
 
 9. Go to [localhost:3000](localhost:3000) in your browser. If everything is working, you should see something like this:
 
-   <img src="./docs/images/example-app.png" alt="Example app" width="800px">
+   <img src="../../docs/images/example-app.png" alt="Example app" width="800px">
 
 For more information on how each component can be customized and configured, check out our hosted [storybook](https://watson-developer-cloud.github.io/discovery-components/storybook).
 
