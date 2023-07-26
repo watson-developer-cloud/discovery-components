@@ -34,7 +34,7 @@
 
 ## About
 
-This is a repository created and maintained by the IBM Watson Discovery UI team. It contains a collection of components, to be used by internal and external applications to query [Watson Discovery](https://www.ibm.com/products/watson-discovery) projects.
+This is a repository created and maintained by the IBM Watson Discovery UI team. It contains a collection of components, to be used by internal and external applications to query [Watson Discovery](https://www.ibm.com/products/watson-discovery) projects. For a quick look at the available components, take a look at them in [Storybook](https://watson-developer-cloud.github.io/discovery-components/storybook/)
 
 ## Quick Links
 
