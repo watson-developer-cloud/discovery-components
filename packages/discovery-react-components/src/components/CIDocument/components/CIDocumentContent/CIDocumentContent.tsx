@@ -68,7 +68,7 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
   }, [activeIds, activeMetadataIds, activePartIds, itemMap]);
 
   const loading = !sections || sections.length === 0;
-  console.log('CIDocumentContent section', sections);
+
   return (
     <div className={cx(baseClassName, className, { skeleton: loading })}>
       {loading ? (

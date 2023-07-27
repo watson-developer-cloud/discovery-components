@@ -78,8 +78,6 @@ export const Section: FC<SectionProps> = ({ section, onFieldClick, facetInfoMap 
         rectActiveElement: tooltipAction.rectActiveElement || new DOMRect()
       };
       setTooltipAction(updateTooltipAction);
-
-      console.log('onTooltipEnter ', updateTooltipAction);
     },
     [setTooltipAction]
   );
@@ -152,8 +150,6 @@ function mouseMoveListener(
         const enrichFacetId = fieldNode.getAttribute('data-field-type') || '';
         const tooltipContent = calcToolTipContent(facetInfoMap, enrichFacetId, enrichValue);
         const fieldNodeContent = fieldNode?.firstElementChild;
-        const rect = fieldNodeContent?.getBoundingClientRect();
-        console.log('text field element box', rect);
         onTooltipAction({
           tooltipEvent: TooltipEvent.ENTER,
           tooltipContent: tooltipContent,

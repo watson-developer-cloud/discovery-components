@@ -24,6 +24,7 @@ type Props = {
   tooltipAction: TooltipAction;
 };
 
+const Z_INDEX_ON_TOP = 50;
 const baseTooltipHighlight = `${settings.prefix}--tooltip-hightlight`;
 
 export const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
@@ -54,16 +55,14 @@ export const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
 
   return (
     // Outter div is required to provide tooltip element with position information
+    // "pointerEvents" = "none" so that underlying elements can react to mouse events
     <div
       style={{
-        border: '2px solid purple',
-        width: '50px',
-        height: '50px',
         position: 'absolute',
-        zIndex: 50,
+        zIndex: Z_INDEX_ON_TOP,
+        pointerEvents: 'none',
         top: tooltipInfo.rectTooltipArea.y,
-        left: tooltipInfo.rectTooltipArea.x,
-        pointerEvents: 'none'
+        left: tooltipInfo.rectTooltipArea.x
       }}
     >
       <Tooltip
@@ -74,7 +73,7 @@ export const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
         triggerText={
           <div
             style={{
-              border: '2px solid orange',
+              // Provide size so that tooltip knows boundry where to draw the tooltip
               width: tooltipInfo.rectTooltipArea.width,
               height: tooltipInfo.rectTooltipArea.height,
               pointerEvents: 'none'
@@ -99,11 +98,7 @@ export function calcToolTipContent(
     enrichFacetDisplayname = facetInfoMap[facetId].displayName;
   }
   const tooltipContent = (
-    <div
-      style={{
-        whiteSpace: 'nowrap'
-      }}
-    >
+    <div>
       <div
         className={cx(baseTooltipHighlight)}
         style={{

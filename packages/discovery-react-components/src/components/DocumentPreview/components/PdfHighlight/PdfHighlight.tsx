@@ -104,7 +104,7 @@ const PdfHighlight: FC<Props> = ({
 
   const highlightDivRef = useRef<HTMLDivElement | null>(null);
   useScrollIntoActiveHighlight(highlightDivRef, highlightShapes, activeIds);
-  console.log('highlightShapes', highlightShapes);
+
   return (
     <div ref={highlightDivRef} className={cx(base, className)}>
       <TooltipHighlight parentDiv={highlightDivRef} tooltipAction={tooltipAction} />
