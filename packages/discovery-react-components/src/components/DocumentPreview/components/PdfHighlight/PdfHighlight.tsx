@@ -16,7 +16,7 @@ import {
   initAction,
   OnTooltipActionFn
 } from '../../../TooltipHighlight/types';
-import TooltipHighlight from '../../../TooltipHighlight/TooltipHighlight';
+import { TooltipHighlight, calcToolTipContent } from '../../../TooltipHighlight/TooltipHighlight';
 
 type Props = PdfDisplayProps &
   HighlightProps & {
@@ -49,7 +49,6 @@ type Props = PdfDisplayProps &
 const base = `${settings.prefix}--document-preview-pdf-viewer-highlight`;
 const baseHighlightColor = `${settings.prefix}--category`;
 const baseHighlightColorActive = `${settings.prefix}--active`;
-const baseTooltipHighlight = `${settings.prefix}--tooltip-hightlight`;
 /**
  * Text highlight layer for PdfViewer
  */
@@ -65,7 +64,7 @@ const PdfHighlight: FC<Props> = ({
   activeIds,
   pdfRenderedText,
   scale,
-  facetInfoMap,
+  facetInfoMap = {},
   _useHtmlBbox = true,
   _usePdfTextItem = true
 }) => {
@@ -134,9 +133,9 @@ const Highlight: FC<{
   shape: HighlightShape;
   scale: number;
   onTooltipAction: OnTooltipActionFn;
+  facetInfoMap: FacetInfoMap;
   active?: boolean;
-  facetInfoMap?: FacetInfoMap;
-}> = ({ className, activeClassName, shape, scale, onTooltipAction, active, facetInfoMap }) => {
+}> = ({ className, activeClassName, shape, scale, onTooltipAction, facetInfoMap, active }) => {
   const divHighlightNode = useRef<HTMLDivElement>(null);
   if (shape?.boxes.length === 0) {
     return null;
@@ -144,32 +143,11 @@ const Highlight: FC<{
 
   const onMouseEnterHandler = (event: MouseEvent<HTMLElement>) => {
     const targetEle = event.target as Element;
-    const enrichValue = targetEle.getAttribute('data-value');
+    const enrichValue = targetEle.getAttribute('data-value') || '';
     const enrichFacetId = targetEle.getAttribute('data-facetid') || '';
-    let enrichFacet = '';
-    let enrichColor = '';
-    if (facetInfoMap) {
-      enrichFacet = facetInfoMap[enrichFacetId].displayName;
-      enrichColor = facetInfoMap[enrichFacetId].color;
-    }
     const divEle = divHighlightNode.current;
     // Create tooltip content to display
-    const tooltipContent = (
-      <div
-        style={{
-          whiteSpace: 'nowrap'
-        }}
-      >
-        <div
-          className={cx(baseTooltipHighlight)}
-          style={{
-            backgroundColor: enrichColor,
-            display: 'inline-block'
-          }}
-        />
-        {enrichFacet}, "{enrichValue}"
-      </div>
-    );
+    const tooltipContent = calcToolTipContent(facetInfoMap, enrichFacetId, enrichValue);
     onTooltipAction({
       tooltipEvent: TooltipEvent.ENTER,
       rectActiveElement: divEle?.getBoundingClientRect(),

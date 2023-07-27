@@ -167,6 +167,7 @@ export const SimpleDocument = forwardRef<any, Props>(
           fragment,
           parentRect,
           fieldType: 'passage',
+          fieldValue: '',
           fieldId: begin.toString(),
           ...offsets
         });

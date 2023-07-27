@@ -1,11 +1,12 @@
 import React, { FC, useState, useEffect } from 'react';
-
+import cx from 'classnames';
 import { Tooltip } from 'carbon-components-react';
-
+import { settings } from 'carbon-components';
 import { TooltipAction, TooltipEvent } from './types';
+import { FacetInfoMap } from 'components/DocumentPreview/types';
 
 // TooltipInfo is the internal state of the TooltipHightlight
-export interface TooltipInfo {
+interface TooltipInfo {
   rectTooltipArea: DOMRect;
   tooltipContent: JSX.Element;
   isOpen: boolean;
@@ -23,7 +24,9 @@ type Props = {
   tooltipAction: TooltipAction;
 };
 
-const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
+const baseTooltipHighlight = `${settings.prefix}--tooltip-hightlight`;
+
+export const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
   const [tooltipInfo, setTooltipInfo] = useState<TooltipInfo>({
     rectTooltipArea: new DOMRect(),
     tooltipContent: <div></div>,
@@ -84,4 +87,32 @@ const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
   );
 };
 
-export default TooltipHighlight;
+export function calcToolTipContent(
+  facetInfoMap: FacetInfoMap,
+  facetId: string,
+  enrichValue: string
+) {
+  let enrichColor = '';
+  let enrichFacetDisplayname = '';
+  if (facetInfoMap[facetId]) {
+    enrichColor = facetInfoMap[facetId].color;
+    enrichFacetDisplayname = facetInfoMap[facetId].displayName;
+  }
+  const tooltipContent = (
+    <div
+      style={{
+        whiteSpace: 'nowrap'
+      }}
+    >
+      <div
+        className={cx(baseTooltipHighlight)}
+        style={{
+          backgroundColor: enrichColor,
+          display: 'inline-block'
+        }}
+      />
+      {enrichFacetDisplayname}, "{enrichValue}"
+    </div>
+  );
+  return tooltipContent;
+}

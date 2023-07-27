@@ -22,8 +22,9 @@ import { createFieldRects, findOffsetInDOM } from 'utils/document/documentUtils'
 import { clearNodeChildren } from 'utils/dom';
 import elementFromPoint from 'components/CIDocument/utils/elementFromPoint';
 import { SectionType, Field, Item } from 'components/CIDocument/types';
+import { FacetInfoMap } from '../../../DocumentPreview/types';
 import { TooltipAction, TooltipEvent, OnTooltipActionFn } from '../../../TooltipHighlight/types';
-import HighlightTooltip from '../../../TooltipHighlight/TooltipHighlight';
+import { TooltipHighlight, calcToolTipContent } from '../../../TooltipHighlight/TooltipHighlight';
 
 export type OnFieldClickFn = (field: Field) => void;
 
@@ -38,9 +39,14 @@ interface SectionProps {
    * Function to call when a field is clicked
    */
   onFieldClick?: OnFieldClickFn;
+
+  /**
+   * Meta-data on facets
+   */
+  facetInfoMap?: FacetInfoMap;
 }
 
-export const Section: FC<SectionProps> = ({ section, onFieldClick }) => {
+export const Section: FC<SectionProps> = ({ section, onFieldClick, facetInfoMap = {} }) => {
   const { html } = section;
 
   const [hoveredField, setHoveredField] = useState<HTMLElement | null>(null);
@@ -94,11 +100,11 @@ export const Section: FC<SectionProps> = ({ section, onFieldClick }) => {
     <div
       className={cx(`${baseClassName}`, { hasTable: hasTable(html) })}
       ref={sectionNode}
-      onMouseMove={mouseMoveListener(hoveredField, setHoveredField, onTooltipAction)}
+      onMouseMove={mouseMoveListener(hoveredField, setHoveredField, onTooltipAction, facetInfoMap)}
       onMouseLeave={mouseLeaveListener(hoveredField, setHoveredField, onTooltipAction)}
       onClick={mouseClickListener(onFieldClick)}
     >
-      <HighlightTooltip parentDiv={sectionNode} tooltipAction={tooltipAction} />
+      <TooltipHighlight parentDiv={sectionNode} tooltipAction={tooltipAction} />
       <div className="fields" ref={fieldsNode} />
       <div
         className="content htmlReset htmlOverride"
@@ -113,7 +119,8 @@ export const Section: FC<SectionProps> = ({ section, onFieldClick }) => {
 function mouseMoveListener(
   hoveredField: HTMLElement | null,
   setHoveredField: Dispatch<SetStateAction<HTMLElement | null>>,
-  onTooltipAction: OnTooltipActionFn
+  onTooltipAction: OnTooltipActionFn,
+  facetInfoMap: FacetInfoMap
 ) {
   return function _mouseMoveListener(event: MouseEvent): void {
     const fieldRect = elementFromPoint(
@@ -141,7 +148,9 @@ function mouseMoveListener(
       setHoveredField(fieldNode as HTMLElement);
       if (fieldNode) {
         fieldNode.classList.add('hover');
-        const tooltipContent = <div>text tooltip</div>;
+        const enrichValue = fieldNode.getAttribute('data-field-value') || '';
+        const enrichFacetId = fieldNode.getAttribute('data-field-type') || '';
+        const tooltipContent = calcToolTipContent(facetInfoMap, enrichFacetId, enrichValue);
         const fieldNodeContent = fieldNode?.firstElementChild;
         const rect = fieldNodeContent?.getBoundingClientRect();
         console.log('text field element box', rect);
@@ -229,6 +238,7 @@ function renderSectionFields(
   for (const field of section.enrichments) {
     try {
       const fieldType = field.__type;
+      const fieldValue = field.value || '';
       const { begin, end } = field.location;
 
       const offsets = findOffsetInDOM(contentNode, begin, end);
@@ -237,6 +247,7 @@ function renderSectionFields(
         fragment,
         parentRect: sectionRect as DOMRect,
         fieldType,
+        fieldValue,
         fieldId: getId(field as unknown as Item),
         ...offsets
       });

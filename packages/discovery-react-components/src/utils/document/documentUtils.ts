@@ -117,6 +117,7 @@ interface CreateFieldRectsProps {
   fragment: DocumentFragment;
   parentRect: DOMRect;
   fieldType: string;
+  fieldValue: string;
   fieldId: string;
   beginTextNode: Text;
   beginOffset: number;
@@ -130,6 +131,7 @@ interface CreateFieldRectsProps {
  * @param args.fragment DocumentFragment or Node in which to create field rects
  * @param args.parentRect dimensions of parent of field rects
  * @param args.fieldType type string for field rects
+ * @param args.fieldValue displayed in tooltip
  * @param args.fieldId id string for field rects
  * @param args.beginTextNode
  * @param args.beginOffset
@@ -140,6 +142,7 @@ export function createFieldRects({
   fragment,
   parentRect,
   fieldType,
+  fieldValue,
   fieldId,
   beginTextNode,
   beginOffset,
@@ -150,6 +153,7 @@ export function createFieldRects({
   const fieldNode = document.createElement('div');
   fieldNode.className = 'field';
   fieldNode.dataset.fieldType = fieldType;
+  fieldNode.dataset.fieldValue = fieldValue;
   fieldNode.dataset.fieldId = fieldId;
   fieldNode.setAttribute('data-testid', `field-${fieldId}`);
   fragment.appendChild(fieldNode);
