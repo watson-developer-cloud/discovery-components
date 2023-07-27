@@ -1,11 +1,12 @@
 import React, { FC, useState, useEffect } from 'react';
-
+import cx from 'classnames';
 import { Tooltip } from 'carbon-components-react';
-
+import { settings } from 'carbon-components';
 import { TooltipAction, TooltipEvent } from './types';
+import { FacetInfoMap } from 'components/DocumentPreview/types';
 
 // TooltipInfo is the internal state of the TooltipHightlight
-export interface TooltipInfo {
+interface TooltipInfo {
   rectTooltipArea: DOMRect;
   tooltipContent: JSX.Element;
   isOpen: boolean;
@@ -23,7 +24,10 @@ type Props = {
   tooltipAction: TooltipAction;
 };
 
-const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
+const Z_INDEX_ON_TOP = 50;
+const baseTooltipHighlight = `${settings.prefix}--tooltip-hightlight`;
+
+export const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
   const [tooltipInfo, setTooltipInfo] = useState<TooltipInfo>({
     rectTooltipArea: new DOMRect(),
     tooltipContent: <div></div>,
@@ -51,16 +55,14 @@ const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
 
   return (
     // Outter div is required to provide tooltip element with position information
+    // "pointerEvents" = "none" so that underlying elements can react to mouse events
     <div
       style={{
-        border: '2px solid purple',
-        width: '50px',
-        height: '50px',
         position: 'absolute',
-        zIndex: 50,
+        zIndex: Z_INDEX_ON_TOP,
+        pointerEvents: 'none',
         top: tooltipInfo.rectTooltipArea.y,
-        left: tooltipInfo.rectTooltipArea.x,
-        pointerEvents: 'none'
+        left: tooltipInfo.rectTooltipArea.x
       }}
     >
       <Tooltip
@@ -71,7 +73,7 @@ const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
         triggerText={
           <div
             style={{
-              border: '2px solid orange',
+              // Provide size so that tooltip knows boundry where to draw the tooltip
               width: tooltipInfo.rectTooltipArea.width,
               height: tooltipInfo.rectTooltipArea.height,
               pointerEvents: 'none'
@@ -84,4 +86,28 @@ const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
   );
 };
 
-export default TooltipHighlight;
+export function calcToolTipContent(
+  facetInfoMap: FacetInfoMap,
+  facetId: string,
+  enrichValue: string
+) {
+  let enrichColor = '';
+  let enrichFacetDisplayname = '';
+  if (facetInfoMap[facetId]) {
+    enrichColor = facetInfoMap[facetId].color;
+    enrichFacetDisplayname = facetInfoMap[facetId].displayName;
+  }
+  const tooltipContent = (
+    <div>
+      <div
+        className={cx(baseTooltipHighlight)}
+        style={{
+          backgroundColor: enrichColor,
+          display: 'inline-block'
+        }}
+      />
+      {enrichFacetDisplayname}, "{enrichValue}"
+    </div>
+  );
+  return tooltipContent;
+}
