@@ -49,6 +49,7 @@ type Props = PdfDisplayProps &
 const base = `${settings.prefix}--document-preview-pdf-viewer-highlight`;
 const baseHighlightColor = `${settings.prefix}--category`;
 const baseHighlightColorActive = `${settings.prefix}--active`;
+
 /**
  * Text highlight layer for PdfViewer
  */
