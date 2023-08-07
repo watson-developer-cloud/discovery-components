@@ -48,7 +48,7 @@ export const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
     const tooltipUpdate = {
       rectTooltipArea: tooltipRect,
       tooltipContent: tooltipAction.tooltipContent || <div></div>,
-      isOpen: isOpen
+      isOpen: !!tooltipAction.tooltipContent && isOpen
     };
     setTooltipInfo(tooltipUpdate);
   }, [tooltipAction, setTooltipInfo]);
@@ -97,17 +97,23 @@ export function calcToolTipContent(
     enrichColor = facetInfoMap[facetId].color;
     enrichFacetDisplayname = facetInfoMap[facetId].displayName;
   }
-  const tooltipContent = (
-    <div>
-      <div
-        className={cx(baseTooltipHighlight)}
-        style={{
-          backgroundColor: enrichColor,
-          display: 'inline-block'
-        }}
-      />
-      {enrichFacetDisplayname}, "{enrichValue}"
-    </div>
-  );
+  let tooltipContent = undefined;
+  if (enrichFacetDisplayname || enrichValue) {
+    tooltipContent = (
+      <div>
+        <div
+          className={cx(baseTooltipHighlight)}
+          style={{
+            backgroundColor: enrichColor,
+            display: 'inline-block'
+          }}
+        />
+        {enrichFacetDisplayname}
+        {enrichValue &&
+          enrichValue.localeCompare(enrichFacetDisplayname) !== 0 &&
+          `, "${enrichValue}"`}
+      </div>
+    );
+  }
   return tooltipContent;
 }
