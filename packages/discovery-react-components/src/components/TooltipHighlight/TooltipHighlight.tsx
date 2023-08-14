@@ -13,9 +13,7 @@ interface TooltipInfo {
 }
 
 type Props = {
-  /**
-   * Parent div element
-   */
+  //Parent div element
   parentDiv: React.MutableRefObject<HTMLDivElement | null>;
 
   /**
@@ -24,8 +22,8 @@ type Props = {
   tooltipAction: TooltipAction;
 };
 
-const Z_INDEX_ON_TOP = 50;
-const baseTooltipHighlight = `${settings.prefix}--tooltip-hightlight`;
+const baseTooltipContent = `${settings.prefix}--tooltip-place-content`;
+const baseTooltipBoxColor = `${settings.prefix}--tooltip-box-color`;
 
 export const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
   const [tooltipInfo, setTooltipInfo] = useState<TooltipInfo>({
@@ -57,10 +55,8 @@ export const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
     // Outter div is required to provide tooltip element with position information
     // "pointerEvents" = "none" so that underlying elements can react to mouse events
     <div
+      className={cx(baseTooltipContent)}
       style={{
-        position: 'absolute',
-        zIndex: Z_INDEX_ON_TOP,
-        pointerEvents: 'none',
         top: tooltipInfo.rectTooltipArea.y,
         left: tooltipInfo.rectTooltipArea.x
       }}
@@ -102,10 +98,9 @@ export function calcToolTipContent(
     tooltipContent = (
       <div>
         <div
-          className={cx(baseTooltipHighlight)}
+          className={cx(baseTooltipBoxColor)}
           style={{
-            backgroundColor: enrichColor,
-            display: 'inline-block'
+            backgroundColor: enrichColor
           }}
         />
         {enrichFacetDisplayname}

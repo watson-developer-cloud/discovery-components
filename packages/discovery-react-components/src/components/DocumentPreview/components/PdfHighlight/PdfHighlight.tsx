@@ -14,7 +14,7 @@ import {
   TooltipAction,
   TooltipEvent,
   initAction,
-  OnTooltipActionFn
+  OnTooltipShowFn
 } from '../../../TooltipHighlight/types';
 import { TooltipHighlight, calcToolTipContent } from '../../../TooltipHighlight/TooltipHighlight';
 
@@ -96,7 +96,7 @@ const PdfHighlight: FC<Props> = ({
 
   const [tooltipAction, setTooltipAction] = useState<TooltipAction>(initAction());
 
-  const onTooltipAction = useCallback(
+  const onTooltipShow = useCallback(
     (updateTooltipAction: TooltipAction) => {
       setTooltipAction(updateTooltipAction);
     },
@@ -119,7 +119,7 @@ const PdfHighlight: FC<Props> = ({
             shape={shape}
             scale={scale}
             active={active}
-            onTooltipAction={onTooltipAction}
+            onTooltipShow={onTooltipShow}
             facetInfoMap={facetInfoMap}
           />
         );
@@ -133,10 +133,10 @@ const Highlight: FC<{
   activeClassName?: string;
   shape: HighlightShape;
   scale: number;
-  onTooltipAction: OnTooltipActionFn;
+  onTooltipShow: OnTooltipShowFn;
   facetInfoMap: FacetInfoMap;
   active?: boolean;
-}> = ({ className, activeClassName, shape, scale, onTooltipAction, facetInfoMap = {}, active }) => {
+}> = ({ className, activeClassName, shape, scale, onTooltipShow, facetInfoMap = {}, active }) => {
   const divHighlightNode = useRef<HTMLDivElement>(null);
   if (shape?.boxes.length === 0) {
     return null;
@@ -149,7 +149,7 @@ const Highlight: FC<{
     const divEle = divHighlightNode.current;
     // Create tooltip content to display
     const tooltipContent = calcToolTipContent(facetInfoMap, enrichFacetId, enrichValue);
-    onTooltipAction({
+    onTooltipShow({
       tooltipEvent: TooltipEvent.ENTER,
       rectActiveElement: divEle?.getBoundingClientRect(),
       tooltipContent
@@ -157,7 +157,7 @@ const Highlight: FC<{
   };
 
   const onMouseLeaveHandler = () => {
-    onTooltipAction({
+    onTooltipShow({
       tooltipEvent: TooltipEvent.LEAVE
     });
   };
