@@ -77,7 +77,7 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
         <>
           <style data-testid="style">{docStyles}</style>
           {!!combinedHighlights && combinedHighlights.length > 0 && (
-            <style>{highlightColoringFullArray(combinedHighlights)}</style>
+            <style>{highlightColoringFullArray(combinedHighlights).join('\n')}</style>
           )}
           {(!combinedHighlights || combinedHighlights.length <= 0) && (
             <style>
@@ -152,9 +152,8 @@ function createStyleRules(idList: string[], rules: string[]): string {
 function highlightColoringFullArray(combinedHighlightsWithMeta: HighlightWithMeta[]) {
   return combinedHighlightsWithMeta.map(highlightWithMeta => {
     const locationId = getHighlightLocationId(highlightWithMeta);
-    // Set z-index to -1 in order to push non-active fields back
-    const rules = `.${baseClassName} .field[data-field-id="${locationId}"] > * {background-color: ${highlightWithMeta.color}; z-index: -1;}`;
-    return <style>{rules}</style>;
+    const rules = `.${baseClassName} .field[data-field-id="${locationId}"] > * {background-color: ${highlightWithMeta.color}; border: 2px solid ${highlightWithMeta.color};}`;
+    return rules;
   });
 }
 
