@@ -103,18 +103,6 @@ export function calcToolTipContent(
       enrichValue: enrichValue
     });
   }
-
-  // sample data for development
-  tableContent.push({
-    enrichColor: 'red',
-    enrichFacetDisplayname: 'short',
-    enrichValue: 'extra super duper long'
-  });
-  tableContent.push({
-    enrichColor: 'green',
-    enrichFacetDisplayname: 'extra super duper long',
-    enrichValue: 'short'
-  });
   let tooltipContent = undefined;
 
   if (enrichFacetDisplayname || enrichValue) {

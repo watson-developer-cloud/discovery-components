@@ -1,14 +1,8 @@
 // Keep tooltip top-level
 $tooltip-content-z-index: 50;
 
-// This technique did not work
-.root {
-  :global(.bx--tooltip--shown) {
-    max-width: 27rem;
-  }
-}
-
 // Override so that tooltip content does not have max width
+// Include the original content from Carbon design
 .bx--tooltip--shown {
   max-width: unset;
   display: block;
