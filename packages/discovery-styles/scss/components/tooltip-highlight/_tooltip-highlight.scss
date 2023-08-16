@@ -1,10 +1,29 @@
 // Keep tooltip top-level
 $tooltip-content-z-index: 50;
 
+// This technique did not work
+.root {
+  :global(.bx--tooltip--shown) {
+    max-width: 27rem;
+  }
+}
+
+// Override so that tooltip content does not have max width
+.bx--tooltip--shown {
+  max-width: unset;
+  display: block;
+  margin-top: 0;
+}
+
 .#{$prefix}--tooltip-place-content {
   position: absolute;
   z-index: $tooltip-content-z-index;
   pointer-events: none;
+}
+
+.#{$prefix}--tooltip-custom-content {
+  text-align: left;
+  @include type-style('label-01');
 }
 
 .#{$prefix}--tooltip-box-color {
@@ -14,4 +33,13 @@ $tooltip-content-z-index: 50;
   margin-right: $spacing-03;
   border-radius: 3px;
   display: inline-block;
+}
+
+.#{$prefix}--tooltip-content-cell {
+  vertical-align: top;
+}
+
+// Create spacing between Category and Value in table
+.#{$prefix}--tooltip-content-cell-buffer {
+  margin-right: $spacing-04;
 }

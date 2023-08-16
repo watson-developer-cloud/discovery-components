@@ -22,8 +22,11 @@ type Props = {
   tooltipAction: TooltipAction;
 };
 
-const baseTooltipContent = `${settings.prefix}--tooltip-place-content`;
+const baseTooltipPlaceContent = `${settings.prefix}--tooltip-place-content`;
+const baseTooltipCustomContent = `${settings.prefix}--tooltip-custom-content`;
 const baseTooltipBoxColor = `${settings.prefix}--tooltip-box-color`;
+const baseTooltipContentCell = `${settings.prefix}--tooltip-content-cell`;
+const baseTooltipContentCellBuffer = `${settings.prefix}--tooltip-content-cell-buffer`;
 
 export const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
   const [tooltipInfo, setTooltipInfo] = useState<TooltipInfo>({
@@ -55,7 +58,7 @@ export const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
     // Outter div is required to provide tooltip element with position information
     // "pointerEvents" = "none" so that underlying elements can react to mouse events
     <div
-      className={cx(baseTooltipContent)}
+      className={cx(baseTooltipPlaceContent)}
       style={{
         top: tooltipInfo.rectTooltipArea.y,
         left: tooltipInfo.rectTooltipArea.x
@@ -87,26 +90,63 @@ export function calcToolTipContent(
   facetId: string,
   enrichValue: string
 ) {
+  const tableContent = [];
   let enrichColor = '';
   let enrichFacetDisplayname = '';
   if (facetInfoMap[facetId]) {
     enrichColor = facetInfoMap[facetId].color;
     enrichFacetDisplayname = facetInfoMap[facetId].displayName;
+    // Will have multiple entries after overlapping is implemented
+    tableContent.push({
+      enrichColor: enrichColor,
+      enrichFacetDisplayname: enrichFacetDisplayname,
+      enrichValue: enrichValue
+    });
   }
+
+  // sample data for development
+  tableContent.push({
+    enrichColor: 'red',
+    enrichFacetDisplayname: 'short',
+    enrichValue: 'extra super duper long'
+  });
+  tableContent.push({
+    enrichColor: 'green',
+    enrichFacetDisplayname: 'extra super duper long',
+    enrichValue: 'short'
+  });
   let tooltipContent = undefined;
+
   if (enrichFacetDisplayname || enrichValue) {
     tooltipContent = (
-      <div>
-        <div
-          className={cx(baseTooltipBoxColor)}
-          style={{
-            backgroundColor: enrichColor
-          }}
-        />
-        {enrichFacetDisplayname}
-        {enrichValue &&
-          enrichValue.localeCompare(enrichFacetDisplayname) !== 0 &&
-          `, "${enrichValue}"`}
+      <div className={cx(baseTooltipCustomContent)}>
+        <span>Enrichments ({tableContent.length})</span>
+        <br />
+
+        <table>
+          {tableContent.map(oneRow => (
+            <tr>
+              <td className={cx(baseTooltipContentCell)}>
+                <div
+                  className={cx(baseTooltipBoxColor)}
+                  style={{
+                    backgroundColor: oneRow.enrichColor
+                  }}
+                />
+              </td>
+              <td className={cx(baseTooltipContentCell)}>
+                <span className={cx(baseTooltipContentCellBuffer)}>
+                  {oneRow.enrichFacetDisplayname}
+                </span>
+              </td>
+              <td className={cx(baseTooltipContentCell)}>
+                {oneRow.enrichValue &&
+                  oneRow.enrichValue.localeCompare(oneRow.enrichFacetDisplayname) !== 0 &&
+                  `${oneRow.enrichValue}`}
+              </td>
+            </tr>
+          ))}
+        </table>
       </div>
     );
   }
