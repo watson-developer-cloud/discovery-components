@@ -15,4 +15,4 @@ export const initAction = (): TooltipAction => ({
   tooltipEvent: TooltipEvent.LEAVE
 });
 
-export type OnTooltipActionFn = (tooltipAction: TooltipAction) => void;
+export type OnTooltipShowFn = (tooltipAction: TooltipAction) => void;
