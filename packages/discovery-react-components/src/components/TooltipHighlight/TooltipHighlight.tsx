@@ -16,9 +16,7 @@ type Props = {
   //Parent div element
   parentDiv: React.MutableRefObject<HTMLDivElement | null>;
 
-  /**
-   * state of the highlight-tootip
-   */
+  // State of the highlight-tootip
   tooltipAction: TooltipAction;
 };
 
