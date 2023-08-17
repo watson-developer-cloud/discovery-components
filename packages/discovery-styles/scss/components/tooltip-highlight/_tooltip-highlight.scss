@@ -20,6 +20,11 @@ $tooltip-content-z-index: 50;
   @include type-style('label-01');
 }
 
+.#{$prefix}--tooltip-content-header {
+  @include type-style('heading-01');
+  margin-bottom: $spacing-03;
+}
+
 .#{$prefix}--tooltip-box-color {
   flex: 0 0 auto;
   width: $spacing-05;
@@ -35,5 +40,5 @@ $tooltip-content-z-index: 50;
 
 // Create spacing between Category and Value in table
 .#{$prefix}--tooltip-content-cell-buffer {
-  margin-right: $spacing-04;
+  margin-right: $spacing-06;
 }

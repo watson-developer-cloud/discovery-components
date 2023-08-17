@@ -23,6 +23,7 @@ type Props = {
 
 const baseTooltipPlaceContent = `${settings.prefix}--tooltip-place-content`;
 const baseTooltipCustomContent = `${settings.prefix}--tooltip-custom-content`;
+const baseTooltipContentHeader = `${settings.prefix}--tooltip-content-header`;
 const baseTooltipBoxColor = `${settings.prefix}--tooltip-box-color`;
 const baseTooltipContentCell = `${settings.prefix}--tooltip-content-cell`;
 const baseTooltipContentCellBuffer = `${settings.prefix}--tooltip-content-cell-buffer`;
@@ -102,39 +103,58 @@ export function calcToolTipContent(
       enrichValue: enrichValue
     });
   }
+
+  // sample data for development
+  // tableContent.push({
+  //   enrichColor: 'red',
+  //   enrichFacetDisplayname: 'short',
+  //   enrichValue: 'extra super duper long'
+  // });
+  // tableContent.push({
+  //   enrichColor: 'green',
+  //   enrichFacetDisplayname: 'extra super duper long',
+  //   enrichValue: 'short'
+  // });
+
   let tooltipContent = undefined;
 
   if (enrichFacetDisplayname || enrichValue) {
     tooltipContent = (
       <div className={cx(baseTooltipCustomContent)}>
-        <span>
+        <div className={cx(baseTooltipContentHeader)}>
           {defaultMessages.enrichmentsHeaderLabel} ({tableContent.length})
-        </span>
-        <br />
-
+        </div>
         <table>
-          {tableContent.map(oneRow => (
-            <tr>
-              <td className={cx(baseTooltipContentCell)}>
-                <div
-                  className={cx(baseTooltipBoxColor)}
-                  style={{
-                    backgroundColor: oneRow.enrichColor
-                  }}
-                />
-              </td>
-              <td className={cx(baseTooltipContentCell)}>
-                <span className={cx(baseTooltipContentCellBuffer)}>
-                  {oneRow.enrichFacetDisplayname}
-                </span>
-              </td>
-              <td className={cx(baseTooltipContentCell)}>
-                {oneRow.enrichValue &&
-                  oneRow.enrichValue.localeCompare(oneRow.enrichFacetDisplayname) !== 0 &&
-                  `${oneRow.enrichValue}`}
-              </td>
-            </tr>
-          ))}
+          {tableContent.map((oneRow, index) => {
+            let rowBorderClass = {};
+            if (index < tableContent.length - 1) {
+              rowBorderClass = {
+                borderBottom: `1px solid darkgray`
+              };
+            }
+            return (
+              <tr>
+                <td className={cx(baseTooltipContentCell)} style={rowBorderClass}>
+                  <div
+                    className={cx(baseTooltipBoxColor)}
+                    style={{
+                      backgroundColor: oneRow.enrichColor
+                    }}
+                  />
+                </td>
+                <td className={cx(baseTooltipContentCell)} style={rowBorderClass}>
+                  <span className={cx(baseTooltipContentCellBuffer)}>
+                    {oneRow.enrichFacetDisplayname}
+                  </span>
+                </td>
+                <td className={cx(baseTooltipContentCell)} style={rowBorderClass}>
+                  {oneRow.enrichValue &&
+                    oneRow.enrichValue.localeCompare(oneRow.enrichFacetDisplayname) !== 0 &&
+                    `${oneRow.enrichValue}`}
+                </td>
+              </tr>
+            );
+          })}
         </table>
       </div>
     );
