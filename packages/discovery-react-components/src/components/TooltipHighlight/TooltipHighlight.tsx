@@ -4,6 +4,7 @@ import { Tooltip } from 'carbon-components-react';
 import { settings } from 'carbon-components';
 import { TooltipAction, TooltipEvent } from './types';
 import { FacetInfoMap } from 'components/DocumentPreview/types';
+import { defaultMessages } from 'components/TooltipHighlight/messages';
 
 // TooltipInfo is the internal state of the TooltipHightlight
 interface TooltipInfo {
@@ -106,7 +107,9 @@ export function calcToolTipContent(
   if (enrichFacetDisplayname || enrichValue) {
     tooltipContent = (
       <div className={cx(baseTooltipCustomContent)}>
-        <span>Enrichments ({tableContent.length})</span>
+        <span>
+          {defaultMessages.enrichmentsHeaderLabel} ({tableContent.length})
+        </span>
         <br />
 
         <table>
