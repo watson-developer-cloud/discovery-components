@@ -23,7 +23,7 @@ import { clearNodeChildren } from 'utils/dom';
 import elementFromPoint from 'components/CIDocument/utils/elementFromPoint';
 import { SectionType, Field, Item } from 'components/CIDocument/types';
 import { FacetInfoMap } from '../../../DocumentPreview/types';
-import { TooltipAction, TooltipEvent, OnTooltipActionFn } from '../../../TooltipHighlight/types';
+import { TooltipAction, TooltipEvent, OnTooltipShowFn } from '../../../TooltipHighlight/types';
 import { TooltipHighlight, calcToolTipContent } from '../../../TooltipHighlight/TooltipHighlight';
 
 export type OnFieldClickFn = (field: Field) => void;
@@ -117,7 +117,7 @@ export const Section: FC<SectionProps> = ({ section, onFieldClick, facetInfoMap 
 function mouseMoveListener(
   hoveredField: HTMLElement | null,
   setHoveredField: Dispatch<SetStateAction<HTMLElement | null>>,
-  onTooltipAction: OnTooltipActionFn,
+  onTooltipShow: OnTooltipShowFn,
   facetInfoMap: FacetInfoMap
 ) {
   return function _mouseMoveListener(event: MouseEvent): void {
@@ -132,7 +132,7 @@ function mouseMoveListener(
         hoveredField.classList.remove('hover');
         setHoveredField(null);
         document.body.style.cursor = 'initial';
-        onTooltipAction({ tooltipEvent: TooltipEvent.LEAVE });
+        onTooltipShow({ tooltipEvent: TooltipEvent.LEAVE });
       }
       return;
     }
@@ -141,7 +141,7 @@ function mouseMoveListener(
     if (hoveredField !== fieldNode) {
       if (hoveredField) {
         hoveredField.classList.remove('hover');
-        onTooltipAction({ tooltipEvent: TooltipEvent.LEAVE });
+        onTooltipShow({ tooltipEvent: TooltipEvent.LEAVE });
       }
       setHoveredField(fieldNode as HTMLElement);
       if (fieldNode) {
@@ -150,7 +150,7 @@ function mouseMoveListener(
         const enrichFacetId = fieldNode.getAttribute('data-field-type') || '';
         const tooltipContent = calcToolTipContent(facetInfoMap, enrichFacetId, enrichValue);
         const fieldNodeContent = fieldNode?.firstElementChild;
-        onTooltipAction({
+        onTooltipShow({
           tooltipEvent: TooltipEvent.ENTER,
           tooltipContent: tooltipContent,
           rectActiveElement: fieldNodeContent?.getBoundingClientRect()
@@ -164,14 +164,14 @@ function mouseMoveListener(
 function mouseLeaveListener(
   hoveredField: HTMLElement | null,
   setHoveredField: Dispatch<SetStateAction<HTMLElement | null>>,
-  onTooltipAction: OnTooltipActionFn
+  onTooltipShow: OnTooltipShowFn
 ) {
   return function _mouseLeaveListener(): void {
     if (hoveredField) {
       hoveredField.classList.remove('hover');
       setHoveredField(null);
       document.body.style.cursor = 'initial';
-      onTooltipAction({ tooltipEvent: TooltipEvent.LEAVE });
+      onTooltipShow({ tooltipEvent: TooltipEvent.LEAVE });
     }
   };
 }
