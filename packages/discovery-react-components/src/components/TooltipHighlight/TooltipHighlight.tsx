@@ -100,7 +100,7 @@ export function calcToolTipContent(
     tableContent.push({
       enrichColor: enrichColor,
       enrichFacetDisplayname: enrichFacetDisplayname,
-      enrichValue: enrichValue
+      enrichValue: ellipsisMiddle(enrichValue)
     });
   }
 
@@ -160,4 +160,17 @@ export function calcToolTipContent(
     );
   }
   return tooltipContent;
+}
+
+function ellipsisMiddle(text: string) {
+  const MAX_CONTENT_LENGTH = 30; // even number
+  const ELLIPSIS = '...';
+  let ellipsisText = text;
+  // account for the new string being extended by the ellipsis
+  if (text.length > MAX_CONTENT_LENGTH + ELLIPSIS.length) {
+    const half = MAX_CONTENT_LENGTH / 2;
+    const latterStart = text.length - half;
+    ellipsisText = text.substring(0, half) + ELLIPSIS + text.substring(latterStart);
+  }
+  return ellipsisText;
 }
