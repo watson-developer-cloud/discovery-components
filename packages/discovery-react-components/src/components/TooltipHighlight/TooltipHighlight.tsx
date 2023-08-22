@@ -104,18 +104,6 @@ export function calcToolTipContent(
     });
   }
 
-  // sample data for development
-  // tableContent.push({
-  //   enrichColor: 'red',
-  //   enrichFacetDisplayname: 'short',
-  //   enrichValue: ellipsisMiddle('extra super duper long long 44 characters')
-  // });
-  // tableContent.push({
-  //   enrichColor: 'green',
-  //   enrichFacetDisplayname: ellipsisMiddle('extra super duper long long 44 characters'),
-  //   enrichValue: 'short'
-  // });
-
   let tooltipContent = undefined;
 
   if (enrichFacetDisplayname || enrichValue) {
