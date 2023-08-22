@@ -36,6 +36,7 @@ $tooltip-content-z-index: 50;
 
 .#{$prefix}--tooltip-content-cell {
   vertical-align: top;
+  padding: 5px;
 }
 
 // Create spacing between Category and Value in table

@@ -52,7 +52,7 @@ export const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
       isOpen: !!tooltipAction.tooltipContent && isOpen
     };
     setTooltipInfo(tooltipUpdate);
-  }, [tooltipAction, setTooltipInfo]);
+  }, [tooltipAction, setTooltipInfo, parentDiv]);
 
   return (
     // Outter div is required to provide tooltip element with position information
@@ -99,7 +99,7 @@ export function calcToolTipContent(
     // Will have multiple entries after overlapping is implemented
     tableContent.push({
       enrichColor: enrichColor,
-      enrichFacetDisplayname: enrichFacetDisplayname,
+      enrichFacetDisplayname: ellipsisMiddle(enrichFacetDisplayname),
       enrichValue: ellipsisMiddle(enrichValue)
     });
   }
@@ -108,11 +108,11 @@ export function calcToolTipContent(
   // tableContent.push({
   //   enrichColor: 'red',
   //   enrichFacetDisplayname: 'short',
-  //   enrichValue: 'extra super duper long'
+  //   enrichValue: ellipsisMiddle('extra super duper long long 44 characters')
   // });
   // tableContent.push({
   //   enrichColor: 'green',
-  //   enrichFacetDisplayname: 'extra super duper long',
+  //   enrichFacetDisplayname: ellipsisMiddle('extra super duper long long 44 characters'),
   //   enrichValue: 'short'
   // });
 
@@ -129,7 +129,7 @@ export function calcToolTipContent(
             let rowBorderClass = {};
             if (index < tableContent.length - 1) {
               rowBorderClass = {
-                borderBottom: `1px solid darkgray`
+                borderBottom: `1px solid #7A7979`
               };
             }
             return (
