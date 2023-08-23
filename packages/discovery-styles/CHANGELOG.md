@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.7.0](https://github.com/watson-developer-cloud/discovery-components/compare/v4.6.0...v4.7.0) (2023-08-23)
+
+
+### Features
+
+* PDF view, single tooltip, show when hovering/selecting an enrichment ([#529](https://github.com/watson-developer-cloud/discovery-components/issues/529)) ([74702a7](https://github.com/watson-developer-cloud/discovery-components/commit/74702a7e2d5da9969dc8d6174d97b64eba2ad89c))
+
+
+
+
+
 # [4.6.0](https://github.com/watson-developer-cloud/discovery-components/compare/v4.5.0...v4.6.0) (2023-07-26)
 
 
