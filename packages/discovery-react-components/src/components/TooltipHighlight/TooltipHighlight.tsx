@@ -108,7 +108,7 @@ export function calcToolTipContent(
 
   if (enrichFacetDisplayname || enrichValue) {
     tooltipContent = (
-      <div className={cx(baseTooltipCustomContent)}>
+      <div className={cx(baseTooltipCustomContent)} data-testid="tooltip_highlight_content">
         <div className={cx(baseTooltipContentHeader)}>
           {defaultMessages.enrichmentsHeaderLabel} ({tableContent.length})
         </div>
