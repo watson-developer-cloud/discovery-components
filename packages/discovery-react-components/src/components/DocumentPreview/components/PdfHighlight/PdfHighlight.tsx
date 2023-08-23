@@ -163,7 +163,7 @@ const Highlight: FC<{
   };
 
   return (
-    <div data-highlight-id={shape.highlightId}>
+    <div data-highlight-id={shape.highlightId} data-testid={shape.highlightId}>
       {shape?.boxes.map(item => {
         return (
           <div

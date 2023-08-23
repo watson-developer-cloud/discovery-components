@@ -23,6 +23,7 @@ type Props = {
 
 const baseTooltipPlaceContent = `${settings.prefix}--tooltip-place-content`;
 const baseTooltipCustomContent = `${settings.prefix}--tooltip-custom-content`;
+const baseTooltipContentHeader = `${settings.prefix}--tooltip-content-header`;
 const baseTooltipBoxColor = `${settings.prefix}--tooltip-box-color`;
 const baseTooltipContentCell = `${settings.prefix}--tooltip-content-cell`;
 const baseTooltipContentCellBuffer = `${settings.prefix}--tooltip-content-cell-buffer`;
@@ -51,7 +52,7 @@ export const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
       isOpen: !!tooltipAction.tooltipContent && isOpen
     };
     setTooltipInfo(tooltipUpdate);
-  }, [tooltipAction, setTooltipInfo]);
+  }, [tooltipAction, setTooltipInfo, parentDiv]);
 
   return (
     // Outter div is required to provide tooltip element with position information
@@ -98,46 +99,66 @@ export function calcToolTipContent(
     // Will have multiple entries after overlapping is implemented
     tableContent.push({
       enrichColor: enrichColor,
-      enrichFacetDisplayname: enrichFacetDisplayname,
-      enrichValue: enrichValue
+      enrichFacetDisplayname: ellipsisMiddle(enrichFacetDisplayname),
+      enrichValue: ellipsisMiddle(enrichValue)
     });
   }
+
   let tooltipContent = undefined;
 
   if (enrichFacetDisplayname || enrichValue) {
     tooltipContent = (
-      <div className={cx(baseTooltipCustomContent)}>
-        <span>
+      <div className={cx(baseTooltipCustomContent)} data-testid="tooltip_highlight_content">
+        <div className={cx(baseTooltipContentHeader)}>
           {defaultMessages.enrichmentsHeaderLabel} ({tableContent.length})
-        </span>
-        <br />
-
+        </div>
         <table>
-          {tableContent.map(oneRow => (
-            <tr>
-              <td className={cx(baseTooltipContentCell)}>
-                <div
-                  className={cx(baseTooltipBoxColor)}
-                  style={{
-                    backgroundColor: oneRow.enrichColor
-                  }}
-                />
-              </td>
-              <td className={cx(baseTooltipContentCell)}>
-                <span className={cx(baseTooltipContentCellBuffer)}>
-                  {oneRow.enrichFacetDisplayname}
-                </span>
-              </td>
-              <td className={cx(baseTooltipContentCell)}>
-                {oneRow.enrichValue &&
-                  oneRow.enrichValue.localeCompare(oneRow.enrichFacetDisplayname) !== 0 &&
-                  `${oneRow.enrichValue}`}
-              </td>
-            </tr>
-          ))}
+          {tableContent.map((oneRow, index) => {
+            let rowBorderClass = {};
+            if (index < tableContent.length - 1) {
+              rowBorderClass = {
+                borderBottom: `1px solid #7A7979`
+              };
+            }
+            return (
+              <tr>
+                <td className={cx(baseTooltipContentCell)} style={rowBorderClass}>
+                  <div
+                    className={cx(baseTooltipBoxColor)}
+                    style={{
+                      backgroundColor: oneRow.enrichColor
+                    }}
+                  />
+                </td>
+                <td className={cx(baseTooltipContentCell)} style={rowBorderClass}>
+                  <span className={cx(baseTooltipContentCellBuffer)}>
+                    {oneRow.enrichFacetDisplayname}
+                  </span>
+                </td>
+                <td className={cx(baseTooltipContentCell)} style={rowBorderClass}>
+                  {oneRow.enrichValue &&
+                    oneRow.enrichValue.localeCompare(oneRow.enrichFacetDisplayname) !== 0 &&
+                    `${oneRow.enrichValue}`}
+                </td>
+              </tr>
+            );
+          })}
         </table>
       </div>
     );
   }
   return tooltipContent;
+}
+
+function ellipsisMiddle(text: string) {
+  const MAX_CONTENT_LENGTH = 30; // even number
+  const ELLIPSIS = '...';
+  let ellipsisText = text;
+  // account for the new string being extended by the ellipsis
+  if (text.length > MAX_CONTENT_LENGTH + ELLIPSIS.length) {
+    const half = MAX_CONTENT_LENGTH / 2;
+    const latterStart = text.length - half;
+    ellipsisText = text.substring(0, half) + ELLIPSIS + text.substring(latterStart);
+  }
+  return ellipsisText;
 }
