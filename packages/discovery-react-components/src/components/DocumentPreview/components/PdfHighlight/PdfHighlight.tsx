@@ -1,15 +1,22 @@
-import React, { FC, useMemo, useEffect, useRef } from 'react';
+import React, { FC, useMemo, useEffect, useRef, useState, useCallback, MouseEvent } from 'react';
 import cx from 'classnames';
 import { settings } from 'carbon-components';
 import { QueryResult } from 'ibm-watson/discovery/v2';
 import { ProcessedDoc } from 'utils/document';
-import { Bbox, TextMappings } from '../../types';
+import { Bbox, TextMappings, FacetInfoMap } from '../../types';
 import { PdfDisplayProps } from '../PdfViewer/types';
 import { PdfRenderedText } from '../PdfViewer/PdfViewerTextLayer';
 import { ExtractedDocumentInfo } from './utils/common/documentUtils';
 import { Highlighter } from './utils/Highlighter';
 import { getShapeFromBboxHighlight } from './utils/common/highlightUtils';
 import { DocumentBboxHighlight, HighlightProps, HighlightShape } from './types';
+import {
+  TooltipAction,
+  TooltipEvent,
+  initAction,
+  OnTooltipShowFn
+} from '../../../TooltipHighlight/types';
+import { TooltipHighlight, calcToolTipContent } from '../../../TooltipHighlight/TooltipHighlight';
 
 type Props = PdfDisplayProps &
   HighlightProps & {
@@ -32,6 +39,11 @@ type Props = PdfDisplayProps &
      * Highlight bboxes. This overrides `highlights` props
      */
     boxHighlights?: DocumentBboxHighlight[];
+
+    /**
+     * Meta-data on facets
+     */
+    facetInfoMap?: FacetInfoMap;
   };
 
 const base = `${settings.prefix}--document-preview-pdf-viewer-highlight`;
@@ -53,6 +65,7 @@ const PdfHighlight: FC<Props> = ({
   activeIds,
   pdfRenderedText,
   scale,
+  facetInfoMap = {},
   _useHtmlBbox = true,
   _usePdfTextItem = true
 }) => {
@@ -81,11 +94,21 @@ const PdfHighlight: FC<Props> = ({
     }
   }, [boxHighlights, highlighter, highlights, page, textDivs]);
 
+  const [tooltipAction, setTooltipAction] = useState<TooltipAction>(initAction());
+
+  const onTooltipShow = useCallback(
+    (updateTooltipAction: TooltipAction) => {
+      setTooltipAction(updateTooltipAction);
+    },
+    [setTooltipAction]
+  );
+
   const highlightDivRef = useRef<HTMLDivElement | null>(null);
   useScrollIntoActiveHighlight(highlightDivRef, highlightShapes, activeIds);
 
   return (
     <div ref={highlightDivRef} className={cx(base, className)}>
+      <TooltipHighlight parentDiv={highlightDivRef} tooltipAction={tooltipAction} />
       {highlightShapes.map(shape => {
         const active = activeIds?.includes(shape.highlightId);
         return (
@@ -96,6 +119,8 @@ const PdfHighlight: FC<Props> = ({
             shape={shape}
             scale={scale}
             active={active}
+            onTooltipShow={onTooltipShow}
+            facetInfoMap={facetInfoMap}
           />
         );
       })}
@@ -108,14 +133,37 @@ const Highlight: FC<{
   activeClassName?: string;
   shape: HighlightShape;
   scale: number;
+  onTooltipShow: OnTooltipShowFn;
+  facetInfoMap: FacetInfoMap;
   active?: boolean;
-}> = ({ className, activeClassName, shape, scale, active }) => {
+}> = ({ className, activeClassName, shape, scale, onTooltipShow, facetInfoMap = {}, active }) => {
+  const divHighlightNode = useRef<HTMLDivElement>(null);
   if (shape?.boxes.length === 0) {
     return null;
   }
 
+  const onMouseEnterHandler = (event: MouseEvent<HTMLElement>) => {
+    const targetEle = event.target as Element;
+    const enrichValue = targetEle.getAttribute('data-value') || '';
+    const enrichFacetId = targetEle.getAttribute('data-facetid') || '';
+    const divEle = divHighlightNode.current;
+    // Create tooltip content to display
+    const tooltipContent = calcToolTipContent(facetInfoMap, enrichFacetId, enrichValue);
+    onTooltipShow({
+      tooltipEvent: TooltipEvent.ENTER,
+      rectActiveElement: divEle?.getBoundingClientRect(),
+      tooltipContent
+    });
+  };
+
+  const onMouseLeaveHandler = () => {
+    onTooltipShow({
+      tooltipEvent: TooltipEvent.LEAVE
+    });
+  };
+
   return (
-    <div data-highlight-id={shape.highlightId}>
+    <div data-highlight-id={shape.highlightId} data-testid={shape.highlightId}>
       {shape?.boxes.map(item => {
         return (
           <div
@@ -130,6 +178,11 @@ const Highlight: FC<{
               shape.facetId && active && baseHighlightColorActive
             )}
             style={{ ...getPositionStyle(item.bbox, scale) }}
+            onMouseEnter={onMouseEnterHandler}
+            onMouseLeave={onMouseLeaveHandler}
+            ref={divHighlightNode}
+            data-value={shape.value || ''}
+            data-facetid={shape.facetId || ''}
           />
         );
       })}
