@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { Tooltip } from 'carbon-components-react';
 import { settings } from 'carbon-components';
 import { TooltipAction, TooltipEvent } from './types';
-import { FacetInfoMap } from 'components/DocumentPreview/types';
+import { FacetInfoMap, OverlapInfoMap } from 'components/DocumentPreview/types';
 import { defaultMessages } from 'components/TooltipHighlight/messages';
 
 // TooltipInfo is the internal state of the TooltipHightlight
@@ -87,6 +87,7 @@ export const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
 
 export function calcToolTipContent(
   facetInfoMap: FacetInfoMap,
+  overlapInfoMap: OverlapInfoMap,
   facetId: string,
   enrichValue: string
 ) {
@@ -103,7 +104,9 @@ export function calcToolTipContent(
       enrichValue: ellipsisMiddle(enrichValue)
     });
   }
-
+  if (!overlapInfoMap) {
+    console.log('overlapInfoMap not defined', overlapInfoMap);
+  }
   let tooltipContent = undefined;
 
   if (enrichFacetDisplayname || enrichValue) {

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, forwardRef } from 'react';
 import { settings } from 'carbon-components';
 import { QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { nonEmpty } from 'utils/nonEmpty';
-import { FacetInfoMap, TextMappings } from '../../types';
+import { FacetInfoMap, OverlapInfoMap, TextMappings } from '../../types';
 import { spanIntersects } from '../../utils/textSpan';
 import { isPassage, isTable } from '../Highlight/typeUtils';
 import { getHighlightedTable } from '../Highlight/tables';
@@ -35,6 +35,8 @@ type Props = PdfViewerProps &
      */
     highlight?: QueryResultPassage | QueryTableResult;
     facetInfoMap?: FacetInfoMap;
+    // Overlap information used by tooltip
+    overlapInfoMap?: OverlapInfoMap;
     _isPdfRenderError?: boolean;
     setIsPdfRenderError?: (state: boolean) => any;
   };
@@ -53,6 +55,7 @@ const PdfViewerWithHighlight = forwardRef<any, Props>(
       highlights: fieldHighlights,
       activeIds,
       facetInfoMap,
+      overlapInfoMap,
       _useHtmlBbox,
       _usePdfTextItem,
       _isPdfRenderError = false,
@@ -137,6 +140,7 @@ const PdfViewerWithHighlight = forwardRef<any, Props>(
                   boxHighlights={state.bboxes}
                   activeIds={state.activeIds}
                   facetInfoMap={facetInfoMap}
+                  overlapInfoMap={overlapInfoMap}
                   {...highlightProps}
                 />
               )

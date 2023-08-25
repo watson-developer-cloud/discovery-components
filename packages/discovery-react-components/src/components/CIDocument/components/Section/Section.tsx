@@ -22,7 +22,7 @@ import { createFieldRects, findOffsetInDOM } from 'utils/document/documentUtils'
 import { clearNodeChildren } from 'utils/dom';
 import elementFromPoint from 'components/CIDocument/utils/elementFromPoint';
 import { SectionType, Field, Item } from 'components/CIDocument/types';
-import { FacetInfoMap } from '../../../DocumentPreview/types';
+import { FacetInfoMap, OverlapInfoMap } from '../../../DocumentPreview/types';
 import { TooltipAction, TooltipEvent, OnTooltipShowFn } from '../../../TooltipHighlight/types';
 import { TooltipHighlight, calcToolTipContent } from '../../../TooltipHighlight/TooltipHighlight';
 
@@ -31,22 +31,22 @@ export type OnFieldClickFn = (field: Field) => void;
 const baseClassName = `${settings.prefix}--ci-doc-section`;
 
 interface SectionProps {
-  /**
-   * Section to display in this component
-   */
+  // Section to display in this component
   section: SectionType;
-  /**
-   * Function to call when a field is clicked
-   */
+  // Function to call when a field is clicked
   onFieldClick?: OnFieldClickFn;
-
-  /**
-   * Meta-data on facets
-   */
+  // Meta-data on facets
   facetInfoMap?: FacetInfoMap;
+  // Overlap information used by tooltip
+  overlapInfoMap?: OverlapInfoMap;
 }
 
-export const Section: FC<SectionProps> = ({ section, onFieldClick, facetInfoMap = {} }) => {
+export const Section: FC<SectionProps> = ({
+  section,
+  onFieldClick,
+  facetInfoMap = {},
+  overlapInfoMap = {}
+}) => {
   const { html } = section;
 
   const [hoveredField, setHoveredField] = useState<HTMLElement | null>(null);
@@ -98,7 +98,13 @@ export const Section: FC<SectionProps> = ({ section, onFieldClick, facetInfoMap 
     <div
       className={cx(`${baseClassName}`, { hasTable: hasTable(html) })}
       ref={sectionNode}
-      onMouseMove={mouseMoveListener(hoveredField, setHoveredField, onTooltipAction, facetInfoMap)}
+      onMouseMove={mouseMoveListener(
+        hoveredField,
+        setHoveredField,
+        onTooltipAction,
+        facetInfoMap,
+        overlapInfoMap
+      )}
       onMouseLeave={mouseLeaveListener(hoveredField, setHoveredField, onTooltipAction)}
       onClick={mouseClickListener(onFieldClick)}
     >
@@ -118,7 +124,8 @@ function mouseMoveListener(
   hoveredField: HTMLElement | null,
   setHoveredField: Dispatch<SetStateAction<HTMLElement | null>>,
   onTooltipShow: OnTooltipShowFn,
-  facetInfoMap: FacetInfoMap
+  facetInfoMap: FacetInfoMap,
+  overlapInfoMap: OverlapInfoMap
 ) {
   return function _mouseMoveListener(event: MouseEvent): void {
     const fieldRect = elementFromPoint(
@@ -148,7 +155,12 @@ function mouseMoveListener(
         fieldNode.classList.add('hover');
         const enrichValue = fieldNode.getAttribute('data-field-value') || '';
         const enrichFacetId = fieldNode.getAttribute('data-field-type') || '';
-        const tooltipContent = calcToolTipContent(facetInfoMap, enrichFacetId, enrichValue);
+        const tooltipContent = calcToolTipContent(
+          facetInfoMap,
+          overlapInfoMap,
+          enrichFacetId,
+          enrichValue
+        );
         const fieldNodeContent = fieldNode?.firstElementChild;
         onTooltipShow({
           tooltipEvent: TooltipEvent.ENTER,

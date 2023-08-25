@@ -11,7 +11,7 @@ import Section, { OnFieldClickFn } from '../Section/Section';
 import VirtualScroll from '../VirtualScroll/VirtualScroll';
 import { defaultTheme, Theme } from 'utils/theme';
 import { SectionType, ItemMap, HighlightWithMeta } from 'components/CIDocument/types';
-import { FacetInfoMap } from '../../../DocumentPreview/types';
+import { FacetInfoMap, OverlapInfoMap } from '../../../DocumentPreview/types';
 import { getId as getLocationId } from 'utils/document/idUtils';
 
 const baseClassName = `${settings.prefix}--ci-doc-content`;
@@ -33,6 +33,7 @@ export interface CIDocumentContentProps {
   onItemClick?: OnFieldClickFn;
   combinedHighlights?: HighlightWithMeta[];
   facetInfoMap?: FacetInfoMap;
+  overlapInfoMap?: OverlapInfoMap;
   activeColor?: string | null;
 }
 
@@ -53,6 +54,7 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
   onItemClick = (): void => {},
   combinedHighlights,
   facetInfoMap,
+  overlapInfoMap,
   activeColor
 }) => {
   const virtualScrollRef = useRef<any>();
@@ -68,7 +70,7 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
   }, [activeIds, activeMetadataIds, activePartIds, itemMap]);
 
   const loading = !sections || sections.length === 0;
-
+  console.log('component CIDocumentContent', overlapInfoMap);
   return (
     <div className={cx(baseClassName, className, { skeleton: loading })}>
       {loading ? (
@@ -132,6 +134,7 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
                   section={sections[index]}
                   onFieldClick={onItemClick}
                   facetInfoMap={facetInfoMap}
+                  overlapInfoMap={overlapInfoMap}
                 />
               )}
             </VirtualScroll>
