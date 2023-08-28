@@ -21,6 +21,10 @@ type Props = {
   tooltipAction: TooltipAction;
 };
 
+// Longer strings will be truncated with ellipsis in the middle of the term.
+// This way a user sees the start and end of the string and can map it to the document view
+const MAX_CONTENT_LENGTH = 30; // even number
+
 const baseTooltipPlaceContent = `${settings.prefix}--tooltip-place-content`;
 const baseTooltipCustomContent = `${settings.prefix}--tooltip-custom-content`;
 const baseTooltipContentHeader = `${settings.prefix}--tooltip-content-header`;
@@ -96,6 +100,10 @@ export function calcToolTipContent(
   if (facetInfoMap[facetId]) {
     enrichColor = facetInfoMap[facetId].color;
     enrichFacetDisplayname = facetInfoMap[facetId].displayName;
+    if (enrichFacetDisplayname.localeCompare(enrichValue) == 0) {
+      // This case applies to keyowrds
+      enrichFacetDisplayname = 'Keyword';
+    }
     // Will have multiple entries after overlapping is implemented
     tableContent.push({
       enrichColor: enrichColor,
@@ -103,6 +111,18 @@ export function calcToolTipContent(
       enrichValue: ellipsisMiddle(enrichValue)
     });
   }
+
+  // sample data for development
+  tableContent.push({
+    enrichColor: 'red',
+    enrichFacetDisplayname: 'short',
+    enrichValue: ellipsisMiddle('extra super duper long long 44 characters')
+  });
+  tableContent.push({
+    enrichColor: 'green',
+    enrichFacetDisplayname: ellipsisMiddle('extra super duper long long 44 characters'),
+    enrichValue: 'short'
+  });
 
   let tooltipContent = undefined;
 
@@ -114,15 +134,24 @@ export function calcToolTipContent(
         </div>
         <table>
           {tableContent.map((oneRow, index) => {
-            let rowBorderClass = {};
-            if (index < tableContent.length - 1) {
-              rowBorderClass = {
-                borderBottom: `1px solid #7A7979`
-              };
-            }
+            const isDivider = index < tableContent.length - 1;
+            const classObj = {
+              [`${baseTooltipContentCell}`]: true,
+              [`${settings.prefix}--tooltip-content-divider`]: isDivider
+            };
+            // let rowBorderClass = {};
+            // if (index < tableContent.length - 1) {
+            //   rowBorderClass = {
+            //     borderBottom: `1px solid #7A7979`
+            //   };
+            // }
             return (
+              // className={cx({
+              //   [`${settings.prefix}--search-app__tabs--hidden`]: !selected,
+              //   [`${settings.prefix}--search-app__content`]: true
+              // })}
               <tr>
-                <td className={cx(baseTooltipContentCell)} style={rowBorderClass}>
+                <td className={cx(classObj)}>
                   <div
                     className={cx(baseTooltipBoxColor)}
                     style={{
@@ -130,12 +159,12 @@ export function calcToolTipContent(
                     }}
                   />
                 </td>
-                <td className={cx(baseTooltipContentCell)} style={rowBorderClass}>
+                <td className={cx(classObj)}>
                   <span className={cx(baseTooltipContentCellBuffer)}>
                     {oneRow.enrichFacetDisplayname}
                   </span>
                 </td>
-                <td className={cx(baseTooltipContentCell)} style={rowBorderClass}>
+                <td className={cx(classObj)}>
                   {oneRow.enrichValue &&
                     oneRow.enrichValue.localeCompare(oneRow.enrichFacetDisplayname) !== 0 &&
                     `${oneRow.enrichValue}`}
@@ -151,7 +180,6 @@ export function calcToolTipContent(
 }
 
 function ellipsisMiddle(text: string) {
-  const MAX_CONTENT_LENGTH = 30; // even number
   const ELLIPSIS = '...';
   let ellipsisText = text;
   // account for the new string being extended by the ellipsis
