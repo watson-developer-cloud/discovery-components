@@ -113,16 +113,16 @@ export function calcToolTipContent(
   }
 
   // sample data for development
-  tableContent.push({
-    enrichColor: 'red',
-    enrichFacetDisplayname: 'short',
-    enrichValue: ellipsisMiddle('extra super duper long long 44 characters')
-  });
-  tableContent.push({
-    enrichColor: 'green',
-    enrichFacetDisplayname: ellipsisMiddle('extra super duper long long 44 characters'),
-    enrichValue: 'short'
-  });
+  // tableContent.push({
+  //   enrichColor: 'red',
+  //   enrichFacetDisplayname: 'short',
+  //   enrichValue: ellipsisMiddle('extra super duper long long 44 characters')
+  // });
+  // tableContent.push({
+  //   enrichColor: 'green',
+  //   enrichFacetDisplayname: ellipsisMiddle('extra super duper long long 44 characters'),
+  //   enrichValue: 'short'
+  // });
 
   let tooltipContent = undefined;
 
@@ -139,17 +139,7 @@ export function calcToolTipContent(
               [`${baseTooltipContentCell}`]: true,
               [`${settings.prefix}--tooltip-content-divider`]: isDivider
             };
-            // let rowBorderClass = {};
-            // if (index < tableContent.length - 1) {
-            //   rowBorderClass = {
-            //     borderBottom: `1px solid #7A7979`
-            //   };
-            // }
             return (
-              // className={cx({
-              //   [`${settings.prefix}--search-app__tabs--hidden`]: !selected,
-              //   [`${settings.prefix}--search-app__content`]: true
-              // })}
               <tr>
                 <td className={cx(classObj)}>
                   <div
