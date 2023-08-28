@@ -100,7 +100,9 @@ export function calcToolTipContent(
   if (facetInfoMap[facetId]) {
     enrichColor = facetInfoMap[facetId].color;
     enrichFacetDisplayname = facetInfoMap[facetId].displayName;
-    if (enrichFacetDisplayname.localeCompare(enrichValue) == 0) {
+    if (
+      enrichFacetDisplayname.localeCompare(enrichValue, undefined, { sensitivity: 'base' }) == 0
+    ) {
       // This case applies to keyowrds
       enrichFacetDisplayname = 'Keyword';
     }
