@@ -39,6 +39,10 @@ $tooltip-content-z-index: 50;
   padding: 5px;
 }
 
+.#{$prefix}--tooltip-content-divider {
+  border-bottom: 1px solid #7a7979;
+}
+
 // Create spacing between Category and Value in table
 .#{$prefix}--tooltip-content-cell-buffer {
   margin-right: $spacing-06;
