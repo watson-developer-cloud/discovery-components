@@ -106,7 +106,7 @@ export function calcToolTipContent(
 
   let tooltipContent = undefined;
 
-  if (enrichFacetDisplayname || enrichValue) {
+  if (tableContent.length > 0) {
     tooltipContent = (
       <div className={cx(baseTooltipCustomContent)} data-testid="tooltip_highlight_content">
         <div className={cx(baseTooltipContentHeader)}>
