@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.7.1](https://github.com/watson-developer-cloud/discovery-components/compare/v4.7.0...v4.7.1) (2023-08-30)
+
+
+### Bug Fixes
+
+* tooltip when facet available and border pdf active element ([#531](https://github.com/watson-developer-cloud/discovery-components/issues/531)) ([a152389](https://github.com/watson-developer-cloud/discovery-components/commit/a152389de97a44b4a9463b5885cdb9dc62c95fb7))
+
+
+
+
+
 # [4.7.0](https://github.com/watson-developer-cloud/discovery-components/compare/v4.6.0...v4.7.0) (2023-08-23)
 
 

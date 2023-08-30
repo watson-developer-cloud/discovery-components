@@ -1,6 +1,6 @@
 {
   "name": "@ibm-watson/discovery-styles",
-  "version": "4.7.0",
+  "version": "4.7.1",
   "description": "Discovery components SASS/CSS styles used with discovery components",
   "license": "Apache-2.0",
   "author": "IBM Corp.",
