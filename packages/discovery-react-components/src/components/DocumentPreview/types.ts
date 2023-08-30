@@ -85,7 +85,7 @@ export type FacetInfoMap = Record<string, FacetInfo>;
 export interface OverlapInfo {
   overlapId: string;
   // Info about mentions included in the overlap.
-  mentions: HighlightFacetMentions;
+  mentions: HighlightFacetMentions[];
 }
 
 // Collection of overlap meta data, map from overlap ID to overlap meta data

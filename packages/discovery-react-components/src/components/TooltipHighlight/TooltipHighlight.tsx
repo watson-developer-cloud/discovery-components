@@ -93,7 +93,8 @@ export function calcToolTipContent(
   facetInfoMap: FacetInfoMap,
   overlapInfoMap: OverlapInfoMap,
   facetId: string,
-  enrichValue: string
+  enrichValue: string,
+  enrichFieldId: string
 ) {
   const tableContent = [];
   let enrichColor = '';

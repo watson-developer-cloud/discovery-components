@@ -161,6 +161,7 @@ const Highlight: FC<{
   const onMouseEnterHandler = (event: MouseEvent<HTMLElement>) => {
     const targetEle = event.target as Element;
     const enrichValue = targetEle.getAttribute('data-value') || '';
+    const enrichFieldId = targetEle.parentElement?.getAttribute('data-highlight-id') || '';
     const enrichFacetId = targetEle.getAttribute('data-facetid') || '';
     const divEle = divHighlightNode.current;
     // Create tooltip content to display
@@ -168,7 +169,8 @@ const Highlight: FC<{
       facetInfoMap,
       overlapInfoMap,
       enrichFacetId,
-      enrichValue
+      enrichValue,
+      enrichFieldId
     );
     onTooltipShow({
       tooltipEvent: TooltipEvent.ENTER,

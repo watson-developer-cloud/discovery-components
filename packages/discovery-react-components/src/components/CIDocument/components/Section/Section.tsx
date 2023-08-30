@@ -154,12 +154,14 @@ function mouseMoveListener(
       if (fieldNode) {
         fieldNode.classList.add('hover');
         const enrichValue = fieldNode.getAttribute('data-field-value') || '';
+        const enrichFieldId = fieldNode.getAttribute('data-field-id') || '';
         const enrichFacetId = fieldNode.getAttribute('data-field-type') || '';
         const tooltipContent = calcToolTipContent(
           facetInfoMap,
           overlapInfoMap,
           enrichFacetId,
-          enrichValue
+          enrichValue,
+          enrichFieldId
         );
         const fieldNodeContent = fieldNode?.firstElementChild;
         onTooltipShow({
