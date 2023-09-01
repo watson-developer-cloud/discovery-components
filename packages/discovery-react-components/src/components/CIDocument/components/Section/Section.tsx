@@ -22,7 +22,7 @@ import { createFieldRects, findOffsetInDOM } from 'utils/document/documentUtils'
 import { clearNodeChildren } from 'utils/dom';
 import elementFromPoint from 'components/CIDocument/utils/elementFromPoint';
 import { SectionType, Field, Item } from 'components/CIDocument/types';
-import { FacetInfoMap, OverlapInfoMap } from '../../../DocumentPreview/types';
+import { FacetInfoMap, OverlapMeta } from '../../../DocumentPreview/types';
 import { TooltipAction, TooltipEvent, OnTooltipShowFn } from '../../../TooltipHighlight/types';
 import { TooltipHighlight, calcToolTipContent } from '../../../TooltipHighlight/TooltipHighlight';
 
@@ -38,14 +38,14 @@ interface SectionProps {
   // Meta-data on facets
   facetInfoMap?: FacetInfoMap;
   // Overlap information used by tooltip
-  overlapInfoMap?: OverlapInfoMap;
+  overlapMeta?: OverlapMeta;
 }
 
 export const Section: FC<SectionProps> = ({
   section,
   onFieldClick,
   facetInfoMap = {},
-  overlapInfoMap = {}
+  overlapMeta = { overlapInfoMap: {}, fieldIdWithOverlap: new Set<string>() }
 }) => {
   const { html } = section;
 
@@ -103,7 +103,7 @@ export const Section: FC<SectionProps> = ({
         setHoveredField,
         onTooltipAction,
         facetInfoMap,
-        overlapInfoMap
+        overlapMeta
       )}
       onMouseLeave={mouseLeaveListener(hoveredField, setHoveredField, onTooltipAction)}
       onClick={mouseClickListener(onFieldClick)}
@@ -125,7 +125,7 @@ function mouseMoveListener(
   setHoveredField: Dispatch<SetStateAction<HTMLElement | null>>,
   onTooltipShow: OnTooltipShowFn,
   facetInfoMap: FacetInfoMap,
-  overlapInfoMap: OverlapInfoMap
+  overlapMeta: OverlapMeta
 ) {
   return function _mouseMoveListener(event: MouseEvent): void {
     const fieldRect = elementFromPoint(
@@ -154,11 +154,12 @@ function mouseMoveListener(
       if (fieldNode) {
         fieldNode.classList.add('hover');
         const enrichValue = fieldNode.getAttribute('data-field-value') || '';
-        const enrichFieldId = fieldNode.getAttribute('data-field-id') || '';
+        // In the case of overlap, data-field-value is used for Overlap ID
+        const enrichFieldId = fieldNode.getAttribute('data-field-value') || '';
         const enrichFacetId = fieldNode.getAttribute('data-field-type') || '';
         const tooltipContent = calcToolTipContent(
           facetInfoMap,
-          overlapInfoMap,
+          overlapMeta,
           enrichFacetId,
           enrichValue,
           enrichFieldId

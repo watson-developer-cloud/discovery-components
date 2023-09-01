@@ -1,4 +1,3 @@
-import { HighlightFacetMentions } from 'components/CIDocument/types';
 import { QueryResult, QueryResultMetadata } from 'ibm-watson/discovery/v2';
 import { DocumentInitParameters, TypedArray } from 'pdfjs-dist/types/display/api';
 
@@ -69,6 +68,24 @@ export interface QueryResultWithOptionalMetadata extends Omit<QueryResult, 'resu
   result_metadata?: QuerytResultMetadataWithOptionalCollectionId;
 }
 
+export interface Location {
+  begin: number;
+  end: number;
+}
+
+/**
+ * Highlight on a document field
+ */
+export type DocumentFieldHighlight = {
+  id?: string;
+  field: string;
+  fieldIndex: number;
+  location: Location;
+  className?: string;
+  facetId?: string;
+  value?: string;
+};
+
 // Data on a single Facet.
 
 export interface FacetInfo {
@@ -85,10 +102,19 @@ export type FacetInfoMap = Record<string, FacetInfo>;
 export interface OverlapInfo {
   overlapId: string;
   // Info about mentions included in the overlap.
-  mentions: HighlightFacetMentions[];
+  mentions: DocumentFieldHighlight[];
 }
 
 // Collection of overlap meta data, map from overlap ID to overlap meta data
 export type OverlapInfoMap = Record<string, OverlapInfo>;
+
+export interface OverlapMeta {
+  overlapInfoMap: OverlapInfoMap;
+  fieldIdWithOverlap: Set<string>;
+}
+
+// export function initOverlapMeta(): OverlapMeta {
+//   return {overlapInfoMap: {}, fieldIdWithOverlap: new Set<string>()}
+// }
 
 export type DocumentFile = string | TypedArray | DocumentInitParameters;

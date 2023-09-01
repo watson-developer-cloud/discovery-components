@@ -1,5 +1,8 @@
-import { Bbox as DocPreviewBbox, TextSpan as DocPreviewTextSpan } from '../../types';
-import { Location } from 'utils/document/processDoc';
+import {
+  Bbox as DocPreviewBbox,
+  DocumentFieldHighlight,
+  TextSpan as DocPreviewTextSpan
+} from '../../types';
 import { QueryResult } from 'ibm-watson/discovery/v2';
 
 // (re-)export useful types
@@ -10,19 +13,6 @@ export type TextSpan = DocPreviewTextSpan;
  * A document. Same to QueryResult, but this more focuses on document fields
  */
 export type DocumentFields = { [fieldName: string]: string[] | undefined };
-
-/**
- * Highlight on a document field
- */
-export type DocumentFieldHighlight = {
-  id?: string;
-  field: string;
-  fieldIndex: number;
-  location: Location;
-  className?: string;
-  facetId?: string;
-  value?: string;
-};
 
 /**
  * Highlight based on bbox

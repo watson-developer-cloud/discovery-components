@@ -2,18 +2,15 @@ import React, { useState, useEffect, useRef, forwardRef } from 'react';
 import { settings } from 'carbon-components';
 import { QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { nonEmpty } from 'utils/nonEmpty';
-import { FacetInfoMap, OverlapInfoMap, TextMappings } from '../../types';
+import { FacetInfoMap, OverlapMeta, TextMappings } from '../../types';
 import { spanIntersects } from '../../utils/textSpan';
 import { isPassage, isTable } from '../Highlight/typeUtils';
 import { getHighlightedTable } from '../Highlight/tables';
 import PdfViewer, { PdfViewerProps } from '../PdfViewer/PdfViewer';
 import { PdfRenderedText } from '../PdfViewer/PdfViewerTextLayer';
 import PdfHighlight from '../PdfHighlight/PdfHighlight';
-import {
-  DocumentBboxHighlight,
-  DocumentFieldHighlight,
-  HighlightProps
-} from '../PdfHighlight/types';
+import { DocumentBboxHighlight, HighlightProps } from '../PdfHighlight/types';
+import { DocumentFieldHighlight } from '../../types';
 import {
   extractDocumentInfo,
   ExtractedDocumentInfo
@@ -36,7 +33,7 @@ type Props = PdfViewerProps &
     highlight?: QueryResultPassage | QueryTableResult;
     facetInfoMap?: FacetInfoMap;
     // Overlap information used by tooltip
-    overlapInfoMap?: OverlapInfoMap;
+    overlapMeta?: OverlapMeta;
     _isPdfRenderError?: boolean;
     setIsPdfRenderError?: (state: boolean) => any;
   };
@@ -55,7 +52,7 @@ const PdfViewerWithHighlight = forwardRef<any, Props>(
       highlights: fieldHighlights,
       activeIds,
       facetInfoMap,
-      overlapInfoMap,
+      overlapMeta,
       _useHtmlBbox,
       _usePdfTextItem,
       _isPdfRenderError = false,
@@ -140,7 +137,7 @@ const PdfViewerWithHighlight = forwardRef<any, Props>(
                   boxHighlights={state.bboxes}
                   activeIds={state.activeIds}
                   facetInfoMap={facetInfoMap}
-                  overlapInfoMap={overlapInfoMap}
+                  overlapMeta={overlapMeta}
                   {...highlightProps}
                 />
               )

@@ -16,7 +16,7 @@ import { Buffer } from 'buffer';
 import { flatten } from 'lodash';
 import { PreviewToolbar, ZOOM_IN, ZOOM_OUT } from '../PreviewToolbar/PreviewToolbar';
 import PdfViewerWithHighlight from './PdfViewerWithHighlight';
-import { DocumentFieldHighlight } from '../PdfHighlight/types';
+import { DocumentFieldHighlight } from 'components/DocumentPreview/types';
 import './PdfViewerWithHighlight.stories.scss';
 import { nonEmpty } from 'utils/nonEmpty';
 import { getDocFieldValue } from '../PdfHighlight/utils/common/documentUtils';

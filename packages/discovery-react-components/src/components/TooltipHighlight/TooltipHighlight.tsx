@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { Tooltip } from 'carbon-components-react';
 import { settings } from 'carbon-components';
 import { TooltipAction, TooltipEvent } from './types';
-import { FacetInfoMap, OverlapInfoMap } from 'components/DocumentPreview/types';
+import { FacetInfoMap, OverlapMeta } from 'components/DocumentPreview/types';
 import { defaultMessages } from 'components/TooltipHighlight/messages';
 
 // TooltipInfo is the internal state of the TooltipHightlight
@@ -91,32 +91,36 @@ export const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
 
 export function calcToolTipContent(
   facetInfoMap: FacetInfoMap,
-  overlapInfoMap: OverlapInfoMap,
+  overlapMeta: OverlapMeta,
   facetId: string,
   enrichValue: string,
   enrichFieldId: string
 ) {
-  const tableContent = [];
-  let enrichColor = '';
-  let enrichFacetDisplayname = '';
+  const tableContent: any[] = [];
+  console.log(
+    'calcToolTipContent',
+    overlapMeta.overlapInfoMap[enrichFieldId],
+    enrichFieldId,
+    overlapMeta
+  );
   if (facetInfoMap[facetId]) {
-    enrichColor = facetInfoMap[facetId].color;
-    enrichFacetDisplayname = facetInfoMap[facetId].displayName;
-    if (
-      enrichFacetDisplayname.localeCompare(enrichValue, undefined, { sensitivity: 'base' }) == 0
-    ) {
-      // This case applies to keyowrds
-      enrichFacetDisplayname = 'Keyword';
+    if (overlapMeta.overlapInfoMap[enrichFieldId]) {
+      const mentionList = overlapMeta.overlapInfoMap[enrichFieldId].mentions;
+      console.log('calcToolTipContent mentionList', mentionList);
+      mentionList.forEach(oneMention => {
+        calcOneTooltipRow(
+          tableContent,
+          facetInfoMap,
+          oneMention?.facetId || '',
+          oneMention?.value || ''
+        );
+      });
+    } else {
+      calcOneTooltipRow(tableContent, facetInfoMap, facetId, enrichValue);
     }
-    // Will have multiple entries after overlapping is implemented
-    tableContent.push({
-      enrichColor: enrichColor,
-      enrichFacetDisplayname: ellipsisMiddle(enrichFacetDisplayname),
-      enrichValue: ellipsisMiddle(enrichValue)
-    });
   }
-  if (!overlapInfoMap) {
-    console.log('overlapInfoMap not defined', overlapInfoMap);
+  if (!overlapMeta) {
+    console.log('overlapMeta not defined', overlapMeta);
   }
   let tooltipContent = undefined;
 
@@ -161,6 +165,26 @@ export function calcToolTipContent(
     );
   }
   return tooltipContent;
+}
+
+function calcOneTooltipRow(
+  tableContent: any[],
+  facetInfoMap: FacetInfoMap,
+  facetId: string,
+  enrichValue: string
+) {
+  let enrichColor = facetInfoMap[facetId].color;
+  let enrichFacetDisplayname = facetInfoMap[facetId].displayName;
+  if (enrichFacetDisplayname.localeCompare(enrichValue, undefined, { sensitivity: 'base' }) == 0) {
+    // This case applies to keyowrds
+    enrichFacetDisplayname = 'Keyword';
+  }
+  // Will have multiple entries after overlapping is implemented
+  tableContent.push({
+    enrichColor: enrichColor,
+    enrichFacetDisplayname: ellipsisMiddle(enrichFacetDisplayname),
+    enrichValue: ellipsisMiddle(enrichValue)
+  });
 }
 
 function ellipsisMiddle(text: string) {

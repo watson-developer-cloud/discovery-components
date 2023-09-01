@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { settings } from 'carbon-components';
 import { QueryResult } from 'ibm-watson/discovery/v2';
 import { ProcessedDoc } from 'utils/document';
-import { Bbox, TextMappings, FacetInfoMap, OverlapInfoMap } from '../../types';
+import { Bbox, TextMappings, FacetInfoMap, OverlapMeta } from '../../types';
 import { PdfDisplayProps } from '../PdfViewer/types';
 import { PdfRenderedText } from '../PdfViewer/PdfViewerTextLayer';
 import { ExtractedDocumentInfo } from './utils/common/documentUtils';
@@ -47,7 +47,7 @@ type Props = PdfDisplayProps &
     /**
      * Overlap information used by tooltip
      */
-    overlapInfoMap?: OverlapInfoMap;
+    overlapMeta?: OverlapMeta;
   };
 
 const base = `${settings.prefix}--document-preview-pdf-viewer-highlight`;
@@ -70,7 +70,7 @@ const PdfHighlight: FC<Props> = ({
   pdfRenderedText,
   scale,
   facetInfoMap = {},
-  overlapInfoMap = {},
+  overlapMeta = { overlapInfoMap: {}, fieldIdWithOverlap: new Set<string>() },
   _useHtmlBbox = true,
   _usePdfTextItem = true
 }) => {
@@ -110,7 +110,7 @@ const PdfHighlight: FC<Props> = ({
 
   const highlightDivRef = useRef<HTMLDivElement | null>(null);
   useScrollIntoActiveHighlight(highlightDivRef, highlightShapes, activeIds);
-  console.log('component PdfHighlight', overlapInfoMap);
+  console.log('component PdfHighlight overlapMeta', overlapMeta);
   return (
     <div ref={highlightDivRef} className={cx(base, className)}>
       <TooltipHighlight parentDiv={highlightDivRef} tooltipAction={tooltipAction} />
@@ -126,7 +126,7 @@ const PdfHighlight: FC<Props> = ({
             active={active}
             onTooltipShow={onTooltipShow}
             facetInfoMap={facetInfoMap}
-            overlapInfoMap={overlapInfoMap}
+            overlapMeta={overlapMeta}
           />
         );
       })}
@@ -141,7 +141,7 @@ const Highlight: FC<{
   scale: number;
   onTooltipShow: OnTooltipShowFn;
   facetInfoMap: FacetInfoMap;
-  overlapInfoMap: OverlapInfoMap;
+  overlapMeta: OverlapMeta;
   active?: boolean;
 }> = ({
   className,
@@ -150,7 +150,7 @@ const Highlight: FC<{
   scale,
   onTooltipShow,
   facetInfoMap = {},
-  overlapInfoMap = {},
+  overlapMeta = { overlapInfoMap: {}, fieldIdWithOverlap: new Set<string>() },
   active
 }) => {
   const divHighlightNode = useRef<HTMLDivElement>(null);
@@ -167,7 +167,7 @@ const Highlight: FC<{
     // Create tooltip content to display
     const tooltipContent = calcToolTipContent(
       facetInfoMap,
-      overlapInfoMap,
+      overlapMeta,
       enrichFacetId,
       enrichValue,
       enrichFieldId
@@ -185,6 +185,8 @@ const Highlight: FC<{
     });
   };
 
+  const nonOverlap = !overlapMeta.fieldIdWithOverlap.has(shape.highlightId);
+
   return (
     <div data-highlight-id={shape.highlightId} data-testid={shape.highlightId}>
       {shape?.boxes.map(item => {
@@ -197,7 +199,7 @@ const Highlight: FC<{
               shape.className,
               active && `${base}__item--active`,
               active && activeClassName,
-              shape.facetId && `${baseHighlightColor}-${shape.facetId} highlight`,
+              shape.facetId && nonOverlap && `${baseHighlightColor}-${shape.facetId} highlight`,
               shape.facetId && active && baseHighlightColorActive
             )}
             style={{ ...getPositionStyle(item.bbox, scale) }}

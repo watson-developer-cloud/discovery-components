@@ -11,14 +11,17 @@ import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/di
 import DOMPurify from 'dompurify';
 import get from 'lodash/get';
 import flatMap from 'lodash/flatMap';
-import { processDoc, ProcessedDoc, ProcessedBbox, Location } from 'utils/document/processDoc';
+import { processDoc, ProcessedDoc, ProcessedBbox } from 'utils/document/processDoc';
 import { findMatchingBbox } from 'components/DocumentPreview/utils/box';
 import { findOffsetInDOM, createFieldRects } from 'utils/document/documentUtils';
 import { clearNodeChildren } from 'utils/dom';
 import { getTextMappings } from 'components/DocumentPreview/utils/documentData';
 import { getPassagePageInfo } from '../Highlight/passages';
 import { isPassage } from '../Highlight/typeUtils';
-import { QueryResultWithOptionalMetadata } from 'components/DocumentPreview/types';
+import {
+  QueryResultWithOptionalMetadata,
+  Location as LocationBE
+} from 'components/DocumentPreview/types';
 
 interface Props extends HTMLAttributes<HTMLElement> {
   /**
@@ -68,7 +71,7 @@ export const HtmlView = forwardRef<any, Props>(
 
     const [html, setHtml] = useState<string | null>(null);
     const [processedDoc, setProcessedDoc] = useState<ProcessedDoc | null>(null);
-    const [highlightLocations, setHighlightLocations] = useState<Location[]>([]);
+    const [highlightLocations, setHighlightLocations] = useState<LocationBE[]>([]);
 
     useLayoutEffect(() => {
       DOMPurify.addHook('afterSanitizeAttributes', function (node) {
@@ -127,7 +130,7 @@ export const HtmlView = forwardRef<any, Props>(
         if (isPassage(highlight) && textMappings) {
           const textMappingBbox = getPassagePageInfo(textMappings, highlight);
           if (processedDoc && processedDoc.bboxes && textMappingBbox) {
-            const passageLocs: Location[] = flatMap(textMappingBbox, bbox => {
+            const passageLocs: LocationBE[] = flatMap(textMappingBbox, bbox => {
               return findMatchingBbox(bbox, processedDoc.bboxes as ProcessedBbox[]);
             }).map(bbox => {
               return bbox.location;
