@@ -68,4 +68,11 @@
 .#{$prefix}--active {
   background: unset !important;
   opacity: 100%;
+  z-index: 200;
+}
+
+.#{$prefix}--overlap-highlight {
+  background: unset;
+  border: unset;
+  opacity: 100%;
 }

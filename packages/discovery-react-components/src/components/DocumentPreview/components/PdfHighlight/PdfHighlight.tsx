@@ -53,6 +53,7 @@ type Props = PdfDisplayProps &
 const base = `${settings.prefix}--document-preview-pdf-viewer-highlight`;
 const baseHighlightColor = `${settings.prefix}--category`;
 const baseHighlightColorActive = `${settings.prefix}--active`;
+const baseOverlapHighlight = `${settings.prefix}--overlap-highlight`;
 
 /**
  * Text highlight layer for PdfViewer
@@ -185,7 +186,7 @@ const Highlight: FC<{
     });
   };
 
-  const nonOverlap = !overlapMeta.fieldIdWithOverlap.has(shape.highlightId);
+  const hasOverlap = overlapMeta.fieldIdWithOverlap.has(shape.highlightId);
 
   return (
     <div data-highlight-id={shape.highlightId} data-testid={shape.highlightId}>
@@ -199,8 +200,14 @@ const Highlight: FC<{
               shape.className,
               active && `${base}__item--active`,
               active && activeClassName,
-              shape.facetId && nonOverlap && `${baseHighlightColor}-${shape.facetId} highlight`,
-              shape.facetId && active && baseHighlightColorActive
+              shape.facetId && !hasOverlap && `${baseHighlightColor}-${shape.facetId} highlight`,
+              shape.facetId && !hasOverlap && active && baseHighlightColorActive,
+              shape.facetId && hasOverlap && baseOverlapHighlight,
+              shape.facetId && hasOverlap && active && baseHighlightColorActive,
+              shape.facetId &&
+                hasOverlap &&
+                active &&
+                `${baseHighlightColor}-${shape.facetId} highlight`
             )}
             style={{ ...getPositionStyle(item.bbox, scale) }}
             onMouseEnter={onMouseEnterHandler}
