@@ -24,6 +24,7 @@ type Props = {
 // Longer strings will be truncated with ellipsis in the middle of the term.
 // This way a user sees the start and end of the string and can map it to the document view
 const MAX_CONTENT_LENGTH = 30; // even number
+const ELLIPSIS = '...';
 
 const baseTooltipPlaceContent = `${settings.prefix}--tooltip-place-content`;
 const baseTooltipCustomContent = `${settings.prefix}--tooltip-custom-content`;
@@ -114,21 +115,9 @@ export function calcToolTipContent(
     });
   }
 
-  // sample data for development
-  // tableContent.push({
-  //   enrichColor: 'red',
-  //   enrichFacetDisplayname: 'short',
-  //   enrichValue: ellipsisMiddle('extra super duper long long 44 characters')
-  // });
-  // tableContent.push({
-  //   enrichColor: 'green',
-  //   enrichFacetDisplayname: ellipsisMiddle('extra super duper long long 44 characters'),
-  //   enrichValue: 'short'
-  // });
-
   let tooltipContent = undefined;
 
-  if (enrichFacetDisplayname || enrichValue) {
+  if (tableContent.length > 0) {
     tooltipContent = (
       <div className={cx(baseTooltipCustomContent)} data-testid="tooltip_highlight_content">
         <div className={cx(baseTooltipContentHeader)}>
@@ -172,7 +161,6 @@ export function calcToolTipContent(
 }
 
 function ellipsisMiddle(text: string) {
-  const ELLIPSIS = '...';
   let ellipsisText = text;
   // account for the new string being extended by the ellipsis
   if (text.length > MAX_CONTENT_LENGTH + ELLIPSIS.length) {
