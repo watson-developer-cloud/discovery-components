@@ -9,8 +9,8 @@ import { defaultMessages } from 'components/TooltipHighlight/messages';
 // TooltipInfo is the internal state of the TooltipHightlight
 interface TooltipInfo {
   rectTooltipArea: DOMRect;
-  tooltipContent: JSX.Element;
   isOpen: boolean;
+  tooltipContent?: JSX.Element;
 }
 
 type Props = {
@@ -36,7 +36,6 @@ const baseTooltipContentCellBuffer = `${settings.prefix}--tooltip-content-cell-b
 export const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
   const [tooltipInfo, setTooltipInfo] = useState<TooltipInfo>({
     rectTooltipArea: new DOMRect(),
-    tooltipContent: <div></div>,
     isOpen: false
   });
 
@@ -52,9 +51,11 @@ export const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
       clickRect?.height
     );
     const tooltipUpdate = {
-      rectTooltipArea: tooltipRect,
-      tooltipContent: tooltipAction.tooltipContent || <div></div>,
-      isOpen: !!tooltipAction.tooltipContent && isOpen
+      ...{
+        rectTooltipArea: tooltipRect,
+        isOpen: !!tooltipAction.tooltipContent && isOpen
+      },
+      ...(tooltipAction.tooltipContent && { tooltipContent: tooltipAction.tooltipContent })
     };
     setTooltipInfo(tooltipUpdate);
   }, [tooltipAction, setTooltipInfo, parentDiv]);
