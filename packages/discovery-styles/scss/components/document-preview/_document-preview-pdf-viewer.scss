@@ -76,3 +76,7 @@
   border: unset;
   opacity: 100%;
 }
+
+.#{$prefix}--overlap-active-pass-through {
+  pointer-events: none;
+}

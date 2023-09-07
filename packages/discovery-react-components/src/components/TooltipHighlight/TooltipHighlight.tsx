@@ -106,7 +106,6 @@ export function calcToolTipContent(
   if (facetInfoMap[facetId]) {
     if (overlapMeta.overlapInfoMap[enrichFieldId]) {
       const mentionList = overlapMeta.overlapInfoMap[enrichFieldId].mentions;
-      console.log('calcToolTipContent mentionList', mentionList);
       mentionList.forEach(oneMention => {
         calcOneTooltipRow(
           tableContent,

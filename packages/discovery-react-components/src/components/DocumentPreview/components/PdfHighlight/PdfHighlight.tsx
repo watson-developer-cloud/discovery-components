@@ -54,6 +54,7 @@ const base = `${settings.prefix}--document-preview-pdf-viewer-highlight`;
 const baseHighlightColor = `${settings.prefix}--category`;
 const baseHighlightColorActive = `${settings.prefix}--active`;
 const baseOverlapHighlight = `${settings.prefix}--overlap-highlight`;
+const basePassThroughActive = `${settings.prefix}--overlap-active-pass-through`;
 
 /**
  * Text highlight layer for PdfViewer
@@ -204,6 +205,7 @@ const Highlight: FC<{
               shape.facetId && !hasOverlap && active && baseHighlightColorActive,
               shape.facetId && hasOverlap && baseOverlapHighlight,
               shape.facetId && hasOverlap && active && baseHighlightColorActive,
+              shape.facetId && hasOverlap && active && basePassThroughActive,
               shape.facetId &&
                 hasOverlap &&
                 active &&

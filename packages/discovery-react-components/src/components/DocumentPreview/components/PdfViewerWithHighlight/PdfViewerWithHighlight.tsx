@@ -106,10 +106,12 @@ const PdfViewerWithHighlight = forwardRef<any, Props>(
     // Dynamically create a style for every category. Match color of category
     const colorStyles = Object.values(facetInfoMap || {})
       .map(facetInfo => {
+        const overlapOnTop = facetInfo.facetId.localeCompare('Overlap') === 0 ? 'z-index: 10;' : '';
         return `
         .${baseHighlightColor}-${facetInfo.facetId}.highlight {
           background: ${facetInfo.color};
           border: 2px solid ${facetInfo.color};
+          ${overlapOnTop}
         }`;
       })
       .join('\n');
