@@ -23,8 +23,9 @@ type Props = {
 
 // Longer strings will be truncated with ellipsis in the middle of the term.
 // This way a user sees the start and end of the string and can map it to the document view
-const MAX_CONTENT_LENGTH = 30; // even number
+const MAX_CONTENT_LENGTH = 30;
 const ELLIPSIS = '...';
+const KEYWORDS_CATEGORY = 'Keywords';
 
 const baseTooltipPlaceContent = `${settings.prefix}--tooltip-place-content`;
 const baseTooltipCustomContent = `${settings.prefix}--tooltip-custom-content`;
@@ -105,8 +106,8 @@ export function calcToolTipContent(
     if (
       enrichFacetDisplayname.localeCompare(enrichValue, undefined, { sensitivity: 'base' }) == 0
     ) {
-      // This case applies to keyowrds
-      enrichFacetDisplayname = 'Keyword';
+      // This case applies to keywords
+      enrichFacetDisplayname = KEYWORDS_CATEGORY;
     }
     // Will have multiple entries after overlapping is implemented
     tableContent.push({
