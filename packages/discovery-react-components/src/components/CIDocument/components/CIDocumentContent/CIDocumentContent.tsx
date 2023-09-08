@@ -11,6 +11,7 @@ import Section, { OnFieldClickFn } from '../Section/Section';
 import VirtualScroll from '../VirtualScroll/VirtualScroll';
 import { defaultTheme, Theme } from 'utils/theme';
 import { SectionType, ItemMap, HighlightWithMeta } from 'components/CIDocument/types';
+import { FacetInfoMap } from '../../../DocumentPreview/types';
 import { getId as getLocationId } from 'utils/document/idUtils';
 
 const baseClassName = `${settings.prefix}--ci-doc-content`;
@@ -31,6 +32,7 @@ export interface CIDocumentContentProps {
   documentId?: string;
   onItemClick?: OnFieldClickFn;
   combinedHighlights?: HighlightWithMeta[];
+  facetInfoMap?: FacetInfoMap;
   activeColor?: string | null;
 }
 
@@ -50,6 +52,7 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
   documentId = '',
   onItemClick = (): void => {},
   combinedHighlights,
+  facetInfoMap,
   activeColor
 }) => {
   const virtualScrollRef = useRef<any>();
@@ -65,6 +68,7 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
   }, [activeIds, activeMetadataIds, activePartIds, itemMap]);
 
   const loading = !sections || sections.length === 0;
+
   return (
     <div className={cx(baseClassName, className, { skeleton: loading })}>
       {loading ? (
@@ -73,7 +77,7 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
         <>
           <style data-testid="style">{docStyles}</style>
           {!!combinedHighlights && combinedHighlights.length > 0 && (
-            <style>{highlightColoringFullArray(combinedHighlights)}</style>
+            <style>{highlightColoringFullArray(combinedHighlights).join('\n')}</style>
           )}
           {(!combinedHighlights || combinedHighlights.length <= 0) && (
             <style>
@@ -124,7 +128,11 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
               ref={virtualScrollRef}
             >
               {({ index }): ReactElement => (
-                <Section section={sections[index]} onFieldClick={onItemClick} />
+                <Section
+                  section={sections[index]}
+                  onFieldClick={onItemClick}
+                  facetInfoMap={facetInfoMap}
+                />
               )}
             </VirtualScroll>
           )}
@@ -144,9 +152,8 @@ function createStyleRules(idList: string[], rules: string[]): string {
 function highlightColoringFullArray(combinedHighlightsWithMeta: HighlightWithMeta[]) {
   return combinedHighlightsWithMeta.map(highlightWithMeta => {
     const locationId = getHighlightLocationId(highlightWithMeta);
-    // Set z-index to -1 in order to push non-active fields back
-    const rules = `.${baseClassName} .field[data-field-id="${locationId}"] > * {background-color: ${highlightWithMeta.color}; z-index: -1;}`;
-    return <style>{rules}</style>;
+    const rules = `.${baseClassName} .field[data-field-id="${locationId}"] > * {background-color: ${highlightWithMeta.color}; border: 2px solid ${highlightWithMeta.color};}`;
+    return rules;
   });
 }
 

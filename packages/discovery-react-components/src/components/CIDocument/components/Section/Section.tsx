@@ -10,7 +10,8 @@ import React, {
   MouseEvent,
   useEffect,
   useRef,
-  useState
+  useState,
+  useCallback
 } from 'react';
 import cx from 'classnames';
 import debounce from 'debounce';
@@ -21,6 +22,9 @@ import { createFieldRects, findOffsetInDOM } from 'utils/document/documentUtils'
 import { clearNodeChildren } from 'utils/dom';
 import elementFromPoint from 'components/CIDocument/utils/elementFromPoint';
 import { SectionType, Field, Item } from 'components/CIDocument/types';
+import { FacetInfoMap } from '../../../DocumentPreview/types';
+import { TooltipAction, TooltipEvent, OnTooltipShowFn } from '../../../TooltipHighlight/types';
+import { TooltipHighlight, calcToolTipContent } from '../../../TooltipHighlight/TooltipHighlight';
 
 export type OnFieldClickFn = (field: Field) => void;
 
@@ -35,9 +39,14 @@ interface SectionProps {
    * Function to call when a field is clicked
    */
   onFieldClick?: OnFieldClickFn;
+
+  /**
+   * Meta-data on facets
+   */
+  facetInfoMap?: FacetInfoMap;
 }
 
-export const Section: FC<SectionProps> = ({ section, onFieldClick }) => {
+export const Section: FC<SectionProps> = ({ section, onFieldClick, facetInfoMap = {} }) => {
   const { html } = section;
 
   const [hoveredField, setHoveredField] = useState<HTMLElement | null>(null);
@@ -55,6 +64,26 @@ export const Section: FC<SectionProps> = ({ section, onFieldClick }) => {
     }
   };
 
+  const [tooltipAction, setTooltipAction] = useState<TooltipAction>({
+    tooltipEvent: TooltipEvent.LEAVE,
+    rectActiveElement: new DOMRect(),
+    tooltipContent: <div></div>
+  });
+
+  const onTooltipAction = useCallback(
+    (tooltipAction: TooltipAction) => {
+      const updateTooltipAction: TooltipAction = {
+        ...{
+          tooltipEvent: tooltipAction.tooltipEvent || TooltipEvent.LEAVE,
+          rectActiveElement: tooltipAction.rectActiveElement || new DOMRect()
+        },
+        ...(tooltipAction.tooltipContent && { tooltipContent: tooltipAction.tooltipContent })
+      };
+      setTooltipAction(updateTooltipAction);
+    },
+    [setTooltipAction]
+  );
+
   useEffect(() => {
     createSectionFields();
     // Run every time this section changes
@@ -71,10 +100,11 @@ export const Section: FC<SectionProps> = ({ section, onFieldClick }) => {
     <div
       className={cx(`${baseClassName}`, { hasTable: hasTable(html) })}
       ref={sectionNode}
-      onMouseMove={mouseMoveListener(hoveredField, setHoveredField)}
-      onMouseLeave={mouseLeaveListener(hoveredField, setHoveredField)}
+      onMouseMove={mouseMoveListener(hoveredField, setHoveredField, onTooltipAction, facetInfoMap)}
+      onMouseLeave={mouseLeaveListener(hoveredField, setHoveredField, onTooltipAction)}
       onClick={mouseClickListener(onFieldClick)}
     >
+      <TooltipHighlight parentDiv={sectionNode} tooltipAction={tooltipAction} />
       <div className="fields" ref={fieldsNode} />
       <div
         className="content htmlReset htmlOverride"
@@ -88,7 +118,9 @@ export const Section: FC<SectionProps> = ({ section, onFieldClick }) => {
 
 function mouseMoveListener(
   hoveredField: HTMLElement | null,
-  setHoveredField: Dispatch<SetStateAction<HTMLElement | null>>
+  setHoveredField: Dispatch<SetStateAction<HTMLElement | null>>,
+  onTooltipShow: OnTooltipShowFn,
+  facetInfoMap: FacetInfoMap
 ) {
   return function _mouseMoveListener(event: MouseEvent): void {
     const fieldRect = elementFromPoint(
@@ -102,6 +134,7 @@ function mouseMoveListener(
         hoveredField.classList.remove('hover');
         setHoveredField(null);
         document.body.style.cursor = 'initial';
+        onTooltipShow({ tooltipEvent: TooltipEvent.LEAVE });
       }
       return;
     }
@@ -110,10 +143,22 @@ function mouseMoveListener(
     if (hoveredField !== fieldNode) {
       if (hoveredField) {
         hoveredField.classList.remove('hover');
+        onTooltipShow({ tooltipEvent: TooltipEvent.LEAVE });
       }
       setHoveredField(fieldNode as HTMLElement);
       if (fieldNode) {
         fieldNode.classList.add('hover');
+        const enrichValue = fieldNode.getAttribute('data-field-value') || '';
+        const enrichFacetId = fieldNode.getAttribute('data-field-type') || '';
+        const tooltipContent = calcToolTipContent(facetInfoMap, enrichFacetId, enrichValue);
+        const fieldNodeContent = fieldNode?.firstElementChild;
+        onTooltipShow({
+          ...{
+            tooltipEvent: TooltipEvent.ENTER,
+            rectActiveElement: fieldNodeContent?.getBoundingClientRect()
+          },
+          ...(tooltipContent && { tooltipContent: tooltipContent })
+        });
       }
       document.body.style.cursor = 'pointer';
     }
@@ -122,13 +167,15 @@ function mouseMoveListener(
 
 function mouseLeaveListener(
   hoveredField: HTMLElement | null,
-  setHoveredField: Dispatch<SetStateAction<HTMLElement | null>>
+  setHoveredField: Dispatch<SetStateAction<HTMLElement | null>>,
+  onTooltipShow: OnTooltipShowFn
 ) {
   return function _mouseLeaveListener(): void {
     if (hoveredField) {
       hoveredField.classList.remove('hover');
       setHoveredField(null);
       document.body.style.cursor = 'initial';
+      onTooltipShow({ tooltipEvent: TooltipEvent.LEAVE });
     }
   };
 }
@@ -191,6 +238,7 @@ function renderSectionFields(
   for (const field of section.enrichments) {
     try {
       const fieldType = field.__type;
+      const fieldValue = field.value || '';
       const { begin, end } = field.location;
 
       const offsets = findOffsetInDOM(contentNode, begin, end);
@@ -199,6 +247,7 @@ function renderSectionFields(
         fragment,
         parentRect: sectionRect as DOMRect,
         fieldType,
+        fieldValue,
         fieldId: getId(field as unknown as Item),
         ...offsets
       });

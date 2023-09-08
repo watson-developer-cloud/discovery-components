@@ -28,6 +28,7 @@ export interface RelationItem extends Item {
 export interface Enrichment {
   __type: string;
   location: Location;
+  value?: string;
 }
 
 export interface SectionType {

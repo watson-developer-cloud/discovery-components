@@ -9,8 +9,8 @@ import { defaultMessages } from 'components/TooltipHighlight/messages';
 // TooltipInfo is the internal state of the TooltipHightlight
 interface TooltipInfo {
   rectTooltipArea: DOMRect;
-  tooltipContent: JSX.Element;
   isOpen: boolean;
+  tooltipContent?: JSX.Element;
 }
 
 type Props = {
@@ -20,6 +20,12 @@ type Props = {
   // State of the highlight-tootip
   tooltipAction: TooltipAction;
 };
+
+// Longer strings will be truncated with ellipsis in the middle of the term.
+// This way a user sees the start and end of the string and can map it to the document view
+const MAX_CONTENT_LENGTH = 30;
+const ELLIPSIS = '...';
+const KEYWORDS_CATEGORY = 'Keywords';
 
 const baseTooltipPlaceContent = `${settings.prefix}--tooltip-place-content`;
 const baseTooltipCustomContent = `${settings.prefix}--tooltip-custom-content`;
@@ -31,7 +37,6 @@ const baseTooltipContentCellBuffer = `${settings.prefix}--tooltip-content-cell-b
 export const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
   const [tooltipInfo, setTooltipInfo] = useState<TooltipInfo>({
     rectTooltipArea: new DOMRect(),
-    tooltipContent: <div></div>,
     isOpen: false
   });
 
@@ -47,9 +52,11 @@ export const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
       clickRect?.height
     );
     const tooltipUpdate = {
-      rectTooltipArea: tooltipRect,
-      tooltipContent: tooltipAction.tooltipContent || <div></div>,
-      isOpen: !!tooltipAction.tooltipContent && isOpen
+      ...{
+        rectTooltipArea: tooltipRect,
+        isOpen: !!tooltipAction.tooltipContent && isOpen
+      },
+      ...(tooltipAction.tooltipContent && { tooltipContent: tooltipAction.tooltipContent })
     };
     setTooltipInfo(tooltipUpdate);
   }, [tooltipAction, setTooltipInfo, parentDiv]);
@@ -96,6 +103,12 @@ export function calcToolTipContent(
   if (facetInfoMap[facetId]) {
     enrichColor = facetInfoMap[facetId].color;
     enrichFacetDisplayname = facetInfoMap[facetId].displayName;
+    if (
+      enrichFacetDisplayname.localeCompare(enrichValue, undefined, { sensitivity: 'base' }) == 0
+    ) {
+      // This case applies to keywords
+      enrichFacetDisplayname = KEYWORDS_CATEGORY;
+    }
     // Will have multiple entries after overlapping is implemented
     tableContent.push({
       enrichColor: enrichColor,
@@ -114,15 +127,14 @@ export function calcToolTipContent(
         </div>
         <table>
           {tableContent.map((oneRow, index) => {
-            let rowBorderClass = {};
-            if (index < tableContent.length - 1) {
-              rowBorderClass = {
-                borderBottom: `1px solid #7A7979`
-              };
-            }
+            const isDivider = index < tableContent.length - 1;
+            const classObj = {
+              [`${baseTooltipContentCell}`]: true,
+              [`${settings.prefix}--tooltip-content-divider`]: isDivider
+            };
             return (
               <tr>
-                <td className={cx(baseTooltipContentCell)} style={rowBorderClass}>
+                <td className={cx(classObj)}>
                   <div
                     className={cx(baseTooltipBoxColor)}
                     style={{
@@ -130,12 +142,12 @@ export function calcToolTipContent(
                     }}
                   />
                 </td>
-                <td className={cx(baseTooltipContentCell)} style={rowBorderClass}>
+                <td className={cx(classObj)}>
                   <span className={cx(baseTooltipContentCellBuffer)}>
                     {oneRow.enrichFacetDisplayname}
                   </span>
                 </td>
-                <td className={cx(baseTooltipContentCell)} style={rowBorderClass}>
+                <td className={cx(classObj)}>
                   {oneRow.enrichValue &&
                     oneRow.enrichValue.localeCompare(oneRow.enrichFacetDisplayname) !== 0 &&
                     `${oneRow.enrichValue}`}
@@ -151,8 +163,6 @@ export function calcToolTipContent(
 }
 
 function ellipsisMiddle(text: string) {
-  const MAX_CONTENT_LENGTH = 30; // even number
-  const ELLIPSIS = '...';
   let ellipsisText = text;
   // account for the new string being extended by the ellipsis
   if (text.length > MAX_CONTENT_LENGTH + ELLIPSIS.length) {

@@ -173,6 +173,7 @@ export const HtmlView = forwardRef<any, Props>(
             fragment,
             parentRect,
             fieldType: 'highlight',
+            fieldValue: '',
             fieldId: begin.toString(),
             ...offsets
           });

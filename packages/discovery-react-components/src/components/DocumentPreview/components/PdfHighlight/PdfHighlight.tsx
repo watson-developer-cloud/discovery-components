@@ -150,9 +150,11 @@ const Highlight: FC<{
     // Create tooltip content to display
     const tooltipContent = calcToolTipContent(facetInfoMap, enrichFacetId, enrichValue);
     onTooltipShow({
-      tooltipEvent: TooltipEvent.ENTER,
-      rectActiveElement: divEle?.getBoundingClientRect(),
-      tooltipContent
+      ...{
+        tooltipEvent: TooltipEvent.ENTER,
+        rectActiveElement: divEle?.getBoundingClientRect()
+      },
+      ...(tooltipContent && { tooltipContent: tooltipContent })
     });
   };
 
