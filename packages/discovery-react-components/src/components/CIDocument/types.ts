@@ -111,8 +111,9 @@ export type HighlightFacetMentions = {
 
 export type HighlightWithMeta = {
   facetIds: string[];
-  mentions: HighlightFacetMentions[];
+  mention: HighlightFacetMentions;
   begin: number;
   end: number;
   color: string;
+  isOverlap: boolean;
 };
