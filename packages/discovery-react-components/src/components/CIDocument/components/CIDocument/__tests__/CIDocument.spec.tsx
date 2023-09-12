@@ -16,6 +16,7 @@ import CIDocument from '../CIDocument';
 import purchaseOrder from '../__fixtures__/po-index_op.json';
 import invoice from '../__fixtures__/invoice-index_op.json';
 import shortContract from '../__fixtures__/shortenedContract.json';
+import { defineDOMRect, removeDOMRect } from 'setupTestsUtil';
 
 describe('<CIDocument />', () => {
   describe('Invoice Document', () => {
@@ -26,11 +27,15 @@ describe('<CIDocument />', () => {
       queryByTestId: BoundFunction<QueryByText>;
 
     beforeEach(async () => {
+      defineDOMRect();
       ({ getByTestId, getByText, findByText, findByTestId, queryByTestId } = render(
         <CIDocument document={invoice} overrideDocWidth={400} overrideDocHeight={600} />
       ));
       // wait for component to finish rendering (prevent "act" warning)
       await screen.findByText('invoice.pdf');
+    });
+    afterEach(() => {
+      removeDOMRect();
     });
 
     it('loads correct document', async () => {
@@ -89,11 +94,15 @@ describe('<CIDocument />', () => {
       queryByTitle: BoundFunction<QueryByText>;
 
     beforeEach(async () => {
+      defineDOMRect();
       ({ getAllByRole, getByTestId, getByText, findByText, findByTitle, queryByTitle } = render(
         <CIDocument document={purchaseOrder} overrideDocWidth={400} overrideDocHeight={600} />
       ));
       // wait for component to finish rendering (prevent "act" warning)
       await screen.findByText('purchase_orders.pdf');
+    });
+    afterEach(() => {
+      removeDOMRect();
     });
 
     it('loads correct document', async () => {
@@ -163,11 +172,15 @@ describe('<CIDocument />', () => {
       queryByTestId: BoundFunction<QueryByText>;
 
     beforeEach(async () => {
+      defineDOMRect();
       ({ getByTestId, getByText, findByText, findByTestId, queryByTestId } = render(
         <CIDocument document={shortContract} overrideDocWidth={400} overrideDocHeight={1200} />
       ));
       // wait for component to finish rendering (prevent "act" warning)
       await screen.findByText('Art Effects Koya Creative Base TSA 2008.pdf');
+    });
+    afterEach(() => {
+      removeDOMRect();
     });
 
     it('loads correct document', async () => {
