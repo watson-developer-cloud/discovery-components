@@ -18,6 +18,8 @@ export interface Location {
 // TODO better name
 export interface Item {
   id?: string;
+  __type?: string;
+  facetId?: string;
   location: Location;
 }
 
@@ -109,9 +111,7 @@ export type HighlightFacetMentions = {
   className?: string;
 };
 
-export type HighlightWithMeta = {
-  facetIds: string[];
-  mention: HighlightFacetMentions;
+export type HighlightWithMetaForText = {
   begin: number;
   end: number;
   color: string;

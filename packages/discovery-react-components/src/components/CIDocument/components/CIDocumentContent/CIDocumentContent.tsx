@@ -10,7 +10,7 @@ import { SkeletonText } from 'carbon-components-react';
 import Section, { OnFieldClickFn } from '../Section/Section';
 import VirtualScroll from '../VirtualScroll/VirtualScroll';
 import { defaultTheme, Theme } from 'utils/theme';
-import { SectionType, ItemMap, HighlightWithMeta } from 'components/CIDocument/types';
+import { SectionType, ItemMap, HighlightWithMetaForText } from 'components/CIDocument/types';
 import { FacetInfoMap, OverlapMeta } from '../../../DocumentPreview/types';
 import { getId as getLocationId } from 'utils/document/idUtils';
 
@@ -31,7 +31,7 @@ export interface CIDocumentContentProps {
   theme?: Theme;
   documentId?: string;
   onItemClick?: OnFieldClickFn;
-  combinedHighlights?: HighlightWithMeta[];
+  combinedHighlights?: HighlightWithMetaForText[];
   facetInfoMap?: FacetInfoMap;
   overlapMeta?: OverlapMeta;
   activeColor?: string | null;
@@ -70,7 +70,10 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
   }, [activeIds, activeMetadataIds, activePartIds, itemMap]);
 
   const loading = !sections || sections.length === 0;
-  console.log('component CIDocumentContent', overlapMeta);
+  console.log('CIDocumentContent overlapMeta', overlapMeta);
+  console.log('CIDocumentContent facetInfoMap', facetInfoMap);
+  console.log('CIDocumentContent combinedHighlights', combinedHighlights);
+
   return (
     <div className={cx(baseClassName, className, { skeleton: loading })}>
       {loading ? (
@@ -97,7 +100,8 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
                 {createStyleRules(activeIds, [
                   backgroundColorRule(theme.activeHighlightBackground),
                   outlineRule(activeColor || theme.highlightBackground),
-                  zIndexRule(0)
+                  zIndexRule(20),
+                  opacityRule(100)
                 ])}
               </style>
             </>
@@ -152,10 +156,13 @@ function createStyleRules(idList: string[], rules: string[]): string {
     .concat(`{${rules.join(';')}}`);
 }
 
-function highlightColoringFullArray(combinedHighlightsWithMeta: HighlightWithMeta[]) {
-  return combinedHighlightsWithMeta.map(highlightWithMeta => {
-    const locationId = getHighlightLocationId(highlightWithMeta);
-    const rules = `.${baseClassName} .field[data-field-id="${locationId}"] > * {background-color: ${highlightWithMeta.color}; border: 2px solid ${highlightWithMeta.color};}`;
+function highlightColoringFullArray(combinedHighlightsWithMeta: HighlightWithMetaForText[]) {
+  return combinedHighlightsWithMeta.map(highlightWithMetaForText => {
+    const locationId = getHighlightLocationId(highlightWithMetaForText);
+    const zIndexValue = highlightWithMetaForText.isOverlap ? 10 : 0;
+    const rules = `.${baseClassName} .field[data-field-id="${locationId}"] > * {background-color: ${
+      highlightWithMetaForText.color
+    }; border: 2px solid ${highlightWithMetaForText.color}; ${zIndexRule(zIndexValue)};}`;
     return rules;
   });
 }
@@ -166,6 +173,10 @@ function backgroundColorRule(color: string): string {
 
 function zIndexRule(value: number): string {
   return `z-index: ${value}`;
+}
+
+function opacityRule(value: number): string {
+  return `opacity: ${value}`;
 }
 
 function outlineRule(color: string): string {
@@ -187,11 +198,11 @@ function scrollToActiveItem(
   );
 }
 
-function getHighlightLocationId(highlightWithMeta: HighlightWithMeta): string {
+function getHighlightLocationId(HighlightWithMetaForText: HighlightWithMetaForText): string {
   return getLocationId({
     location: {
-      begin: highlightWithMeta.begin,
-      end: highlightWithMeta.end
+      begin: HighlightWithMetaForText.begin,
+      end: HighlightWithMetaForText.end
     }
   });
 }

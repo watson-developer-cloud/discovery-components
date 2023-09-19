@@ -9,7 +9,10 @@ import { isRelationObject } from './nonContractUtils';
  * @returns {string} Id string
  */
 export function getId(item: Item): string {
-  return item.location && `${item.location.begin}_${item.location.end}`;
+  return (
+    item.location &&
+    `${item.facetId || item.__type || 'DEFAULT_F'}_${item.location.begin}_${item.location.end}`
+  );
 }
 
 /**
