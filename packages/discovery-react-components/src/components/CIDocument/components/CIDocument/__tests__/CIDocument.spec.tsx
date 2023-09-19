@@ -16,6 +16,14 @@ import CIDocument from '../CIDocument';
 import purchaseOrder from '../__fixtures__/po-index_op.json';
 import invoice from '../__fixtures__/invoice-index_op.json';
 import shortContract from '../__fixtures__/shortenedContract.json';
+import { defineDOMRect, removeDOMRect } from 'setupTestsUtil';
+
+beforeAll(() => {
+  defineDOMRect();
+});
+afterAll(() => {
+  removeDOMRect();
+});
 
 describe('<CIDocument />', () => {
   describe('Invoice Document', () => {
