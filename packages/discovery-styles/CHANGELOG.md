@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.8.0](https://github.com/watson-developer-cloud/discovery-components/compare/v4.7.1...v4.8.0) (2023-09-19)
+
+
+### Features
+
+* Text view, tooltip for enrichments ([#530](https://github.com/watson-developer-cloud/discovery-components/issues/530)) ([8033a29](https://github.com/watson-developer-cloud/discovery-components/commit/8033a29452028abba2bf65d543dc1edce18b8e93))
+
+
+
+
+
 ## [4.7.1](https://github.com/watson-developer-cloud/discovery-components/compare/v4.7.0...v4.7.1) (2023-08-30)
 
 
