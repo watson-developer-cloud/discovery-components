@@ -36,8 +36,3 @@ export function defineDOMRect() {
 export function removeDOMRect() {
   delete globalThis.DOMRect;
 }
-
-// Ensure DOMRect is not defined for sake of PDF
-export function setupBeforeRenderPdf() {
-  removeDOMRect();
-}

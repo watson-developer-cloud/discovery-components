@@ -210,7 +210,7 @@ describe('DocumentPreview', () => {
     });
 
     it(
-      'should render pdf (flaky, try to rerun)',
+      'should render pdf',
       async () => {
         const authenticator = new NoAuthAuthenticator();
         const searchClient = new DiscoveryV2({
