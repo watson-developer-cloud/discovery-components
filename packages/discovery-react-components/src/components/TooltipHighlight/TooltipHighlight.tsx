@@ -97,12 +97,6 @@ export function calcToolTipContent(
   enrichFieldId: string
 ) {
   const tableContent: any[] = [];
-  console.log(
-    'calcToolTipContent',
-    overlapMeta.overlapInfoMap[enrichFieldId],
-    enrichFieldId,
-    overlapMeta
-  );
   if (facetInfoMap[facetId]) {
     if (overlapMeta.overlapInfoMap[enrichFieldId]) {
       const mentionList = overlapMeta.overlapInfoMap[enrichFieldId].mentions;
@@ -118,11 +112,7 @@ export function calcToolTipContent(
       calcOneTooltipRow(tableContent, facetInfoMap, facetId, enrichValue);
     }
   }
-  if (!overlapMeta) {
-    console.log('overlapMeta not defined', overlapMeta);
-  }
   let tooltipContent = undefined;
-
   if (tableContent.length > 0) {
     tooltipContent = (
       <div className={cx(baseTooltipCustomContent)} data-testid="tooltip_highlight_content">

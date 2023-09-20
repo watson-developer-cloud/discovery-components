@@ -114,6 +114,7 @@ export type HighlightFacetMentions = {
 export type HighlightWithMetaForText = {
   begin: number;
   end: number;
+  facetId: string;
   color: string;
   isOverlap: boolean;
 };

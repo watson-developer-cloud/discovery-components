@@ -112,7 +112,7 @@ const PdfHighlight: FC<Props> = ({
 
   const highlightDivRef = useRef<HTMLDivElement | null>(null);
   useScrollIntoActiveHighlight(highlightDivRef, highlightShapes, activeIds);
-  console.log('component PdfHighlight overlapMeta', overlapMeta);
+
   return (
     <div ref={highlightDivRef} className={cx(base, className)}>
       <TooltipHighlight parentDiv={highlightDivRef} tooltipAction={tooltipAction} />

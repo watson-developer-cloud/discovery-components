@@ -70,9 +70,6 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
   }, [activeIds, activeMetadataIds, activePartIds, itemMap]);
 
   const loading = !sections || sections.length === 0;
-  console.log('CIDocumentContent overlapMeta', overlapMeta);
-  console.log('CIDocumentContent facetInfoMap', facetInfoMap);
-  console.log('CIDocumentContent combinedHighlights', combinedHighlights);
 
   return (
     <div className={cx(baseClassName, className, { skeleton: loading })}>
@@ -198,11 +195,12 @@ function scrollToActiveItem(
   );
 }
 
-function getHighlightLocationId(HighlightWithMetaForText: HighlightWithMetaForText): string {
+function getHighlightLocationId(highlightWithMetaForText: HighlightWithMetaForText): string {
   return getLocationId({
+    facetId: highlightWithMetaForText.facetId,
     location: {
-      begin: HighlightWithMetaForText.begin,
-      end: HighlightWithMetaForText.end
+      begin: highlightWithMetaForText.begin,
+      end: highlightWithMetaForText.end
     }
   });
 }
