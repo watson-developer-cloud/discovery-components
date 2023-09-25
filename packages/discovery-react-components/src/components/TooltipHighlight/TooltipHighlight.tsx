@@ -169,7 +169,7 @@ function calcOneTooltipRow(
   let enrichFacetDisplayname = facetInfoMap[facetId].displayName;
   if (enrichFacetDisplayname.localeCompare(enrichValue, undefined, { sensitivity: 'base' }) == 0) {
     // This case applies to keyowrds
-    enrichFacetDisplayname = 'Keyword';
+    enrichFacetDisplayname = KEYWORDS_CATEGORY;
   }
   // Will have multiple entries after overlapping is implemented
   tableContent.push({
