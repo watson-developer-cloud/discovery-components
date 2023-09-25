@@ -3,8 +3,15 @@ import { screen, act, render } from '@testing-library/react';
 import 'utils/test/createRange.mock';
 import Section from '../Section';
 import sectionData from '../__fixtures__/sectionData';
+import { defineDOMRect, removeDOMRect } from 'setupTestsUtil';
 
 describe('<Section />', () => {
+  beforeEach(() => {
+    defineDOMRect();
+  });
+  afterEach(() => {
+    removeDOMRect();
+  });
   it('renders section HTML', async () => {
     const data = {
       html: '<p class="foobar">Here I am!</p>',

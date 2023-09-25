@@ -73,9 +73,11 @@ export const Section: FC<SectionProps> = ({
   const onTooltipAction = useCallback(
     (tooltipAction: TooltipAction) => {
       const updateTooltipAction: TooltipAction = {
-        tooltipContent: tooltipAction.tooltipContent || <div></div>,
-        tooltipEvent: tooltipAction.tooltipEvent || TooltipEvent.LEAVE,
-        rectActiveElement: tooltipAction.rectActiveElement || new DOMRect()
+        ...{
+          tooltipEvent: tooltipAction.tooltipEvent || TooltipEvent.LEAVE,
+          rectActiveElement: tooltipAction.rectActiveElement || new DOMRect()
+        },
+        ...(tooltipAction.tooltipContent && { tooltipContent: tooltipAction.tooltipContent })
       };
       setTooltipAction(updateTooltipAction);
     },
@@ -166,9 +168,11 @@ function mouseMoveListener(
         );
         const fieldNodeContent = fieldNode?.firstElementChild;
         onTooltipShow({
-          tooltipEvent: TooltipEvent.ENTER,
-          tooltipContent: tooltipContent,
-          rectActiveElement: fieldNodeContent?.getBoundingClientRect()
+          ...{
+            tooltipEvent: TooltipEvent.ENTER,
+            rectActiveElement: fieldNodeContent?.getBoundingClientRect()
+          },
+          ...(tooltipContent && { tooltipContent: tooltipContent })
         });
       }
       document.body.style.cursor = 'pointer';

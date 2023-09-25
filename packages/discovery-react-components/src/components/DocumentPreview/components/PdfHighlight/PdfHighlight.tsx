@@ -175,9 +175,11 @@ const Highlight: FC<{
       enrichFieldId
     );
     onTooltipShow({
-      tooltipEvent: TooltipEvent.ENTER,
-      rectActiveElement: divEle?.getBoundingClientRect(),
-      tooltipContent
+      ...{
+        tooltipEvent: TooltipEvent.ENTER,
+        rectActiveElement: divEle?.getBoundingClientRect()
+      },
+      ...(tooltipContent && { tooltipContent: tooltipContent })
     });
   };
 

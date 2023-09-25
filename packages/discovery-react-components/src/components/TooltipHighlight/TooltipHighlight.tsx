@@ -9,8 +9,8 @@ import { defaultMessages } from 'components/TooltipHighlight/messages';
 // TooltipInfo is the internal state of the TooltipHightlight
 interface TooltipInfo {
   rectTooltipArea: DOMRect;
-  tooltipContent: JSX.Element;
   isOpen: boolean;
+  tooltipContent?: JSX.Element;
 }
 
 type Props = {
@@ -23,7 +23,9 @@ type Props = {
 
 // Longer strings will be truncated with ellipsis in the middle of the term.
 // This way a user sees the start and end of the string and can map it to the document view
-const MAX_CONTENT_LENGTH = 30; // even number
+const MAX_CONTENT_LENGTH = 30;
+const ELLIPSIS = '...';
+const KEYWORDS_CATEGORY = 'Keywords';
 
 const baseTooltipPlaceContent = `${settings.prefix}--tooltip-place-content`;
 const baseTooltipCustomContent = `${settings.prefix}--tooltip-custom-content`;
@@ -35,7 +37,6 @@ const baseTooltipContentCellBuffer = `${settings.prefix}--tooltip-content-cell-b
 export const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
   const [tooltipInfo, setTooltipInfo] = useState<TooltipInfo>({
     rectTooltipArea: new DOMRect(),
-    tooltipContent: <div></div>,
     isOpen: false
   });
 
@@ -51,9 +52,11 @@ export const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
       clickRect?.height
     );
     const tooltipUpdate = {
-      rectTooltipArea: tooltipRect,
-      tooltipContent: tooltipAction.tooltipContent || <div></div>,
-      isOpen: !!tooltipAction.tooltipContent && isOpen
+      ...{
+        rectTooltipArea: tooltipRect,
+        isOpen: !!tooltipAction.tooltipContent && isOpen
+      },
+      ...(tooltipAction.tooltipContent && { tooltipContent: tooltipAction.tooltipContent })
     };
     setTooltipInfo(tooltipUpdate);
   }, [tooltipAction, setTooltipInfo, parentDiv]);
@@ -177,7 +180,6 @@ function calcOneTooltipRow(
 }
 
 function ellipsisMiddle(text: string) {
-  const ELLIPSIS = '...';
   let ellipsisText = text;
   // account for the new string being extended by the ellipsis
   if (text.length > MAX_CONTENT_LENGTH + ELLIPSIS.length) {
