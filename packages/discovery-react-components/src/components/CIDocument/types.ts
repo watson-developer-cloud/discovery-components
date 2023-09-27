@@ -92,6 +92,7 @@ export interface Attributes {
   type?: string;
   text?: string;
   location: Location;
+  __type: string;
 }
 
 export interface Relations {
