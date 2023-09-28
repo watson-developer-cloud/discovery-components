@@ -57,7 +57,13 @@ export const Section: FC<SectionProps> = ({
 
   const createSectionFields = (): void => {
     try {
-      renderSectionFields(section, sectionNode.current, contentNode.current, fieldsNode.current);
+      renderSectionFields(
+        section,
+        sectionNode.current,
+        contentNode.current,
+        fieldsNode.current,
+        facetInfoMap
+      );
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error('Failed to create section fields:', err);
@@ -224,7 +230,8 @@ function renderSectionFields(
   section: SectionType,
   sectionNode: HTMLElement | null,
   contentNode: HTMLElement | null,
-  fieldsNode: HTMLElement | null
+  fieldsNode: HTMLElement | null,
+  facetInfoMap: FacetInfoMap
 ): void {
   if (!sectionNode || !contentNode || !fieldsNode) {
     return;
@@ -258,12 +265,19 @@ function renderSectionFields(
 
       const offsets = findOffsetInDOM(contentNode, begin, end);
 
+      // Field ID
+      // 1. W/O  Facets: regular ID
+      // 2: With Facets: __type is same as facetId and is included in ID to distiguish overlap
+      // Note: FacetID defaults to {}, otherwise facets enabled
+      const fieldForId =
+        Object.keys(facetInfoMap).length === 0 ? field : { ...field, facetId: fieldType };
+
       createFieldRects({
         fragment,
         parentRect: sectionRect as DOMRect,
         fieldType,
         fieldValue,
-        fieldId: getId(field as unknown as Item),
+        fieldId: getId(fieldForId as unknown as Item),
         ...offsets
       });
     } catch (err) {
