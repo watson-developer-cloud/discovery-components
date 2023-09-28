@@ -90,8 +90,7 @@ function createAttributeObject({ text, location }: Attributes, type: string): At
   return {
     type,
     text,
-    location,
-    __type: 'attributes'
+    location
   };
 }
 
