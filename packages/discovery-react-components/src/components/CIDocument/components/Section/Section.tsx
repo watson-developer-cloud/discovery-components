@@ -22,7 +22,7 @@ import { createFieldRects, findOffsetInDOM } from 'utils/document/documentUtils'
 import { clearNodeChildren } from 'utils/dom';
 import elementFromPoint from 'components/CIDocument/utils/elementFromPoint';
 import { SectionType, Field, Item } from 'components/CIDocument/types';
-import { FacetInfoMap, OverlapMeta } from '../../../DocumentPreview/types';
+import { FacetInfoMap, initOverlapMeta, OverlapMeta } from '../../../DocumentPreview/types';
 import { TooltipAction, TooltipEvent, OnTooltipShowFn } from '../../../TooltipHighlight/types';
 import { TooltipHighlight, calcToolTipContent } from '../../../TooltipHighlight/TooltipHighlight';
 
@@ -45,7 +45,7 @@ export const Section: FC<SectionProps> = ({
   section,
   onFieldClick,
   facetInfoMap = {},
-  overlapMeta = { overlapInfoMap: {}, fieldIdWithOverlap: new Set<string>() }
+  overlapMeta = initOverlapMeta()
 }) => {
   const { html } = section;
 

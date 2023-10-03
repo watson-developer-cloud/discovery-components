@@ -113,8 +113,11 @@ export interface OverlapMeta {
   fieldIdWithOverlap: Set<string>;
 }
 
-// export function initOverlapMeta(): OverlapMeta {
-//   return {overlapInfoMap: {}, fieldIdWithOverlap: new Set<string>()}
-// }
+// OVERLAP_ID should be crafted to avoid conflicit with third party enrichment names
+export const OVERLAP_ID: string = 'OverlapFT';
+
+export function initOverlapMeta(): OverlapMeta {
+  return { overlapInfoMap: {}, fieldIdWithOverlap: new Set<string>() };
+}
 
 export type DocumentFile = string | TypedArray | DocumentInitParameters;

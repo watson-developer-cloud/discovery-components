@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, forwardRef } from 'react';
 import { settings } from 'carbon-components';
 import { QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { nonEmpty } from 'utils/nonEmpty';
-import { FacetInfoMap, OverlapMeta, TextMappings } from '../../types';
+import { FacetInfoMap, OverlapMeta, OVERLAP_ID, TextMappings } from '../../types';
 import { spanIntersects } from '../../utils/textSpan';
 import { isPassage, isTable } from '../Highlight/typeUtils';
 import { getHighlightedTable } from '../Highlight/tables';
@@ -72,6 +72,7 @@ const PdfViewerWithHighlight = forwardRef<any, Props>(
       _usePdfTextItem
     };
 
+    const hightlightOverlapZindex = 10;
     const [renderedText, setRenderedText] = useState<PdfRenderedText | null>(null);
     const isTableHighlight = isTable(queryHighlight);
 
@@ -106,7 +107,10 @@ const PdfViewerWithHighlight = forwardRef<any, Props>(
     // Dynamically create a style for every category. Match color of category
     const colorStyles = Object.values(facetInfoMap || {})
       .map(facetInfo => {
-        const overlapOnTop = facetInfo.facetId.localeCompare('Overlap') === 0 ? 'z-index: 10;' : '';
+        const overlapOnTop =
+          facetInfo.facetId.localeCompare(OVERLAP_ID) === 0
+            ? `z-index: ${hightlightOverlapZindex};`
+            : '';
         return `
         .${baseHighlightColor}-${facetInfo.facetId}.highlight {
           background: ${facetInfo.color};

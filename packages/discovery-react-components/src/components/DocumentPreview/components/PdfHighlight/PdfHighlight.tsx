@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { settings } from 'carbon-components';
 import { QueryResult } from 'ibm-watson/discovery/v2';
 import { ProcessedDoc } from 'utils/document';
-import { Bbox, TextMappings, FacetInfoMap, OverlapMeta } from '../../types';
+import { Bbox, TextMappings, FacetInfoMap, OverlapMeta, initOverlapMeta } from '../../types';
 import { PdfDisplayProps } from '../PdfViewer/types';
 import { PdfRenderedText } from '../PdfViewer/PdfViewerTextLayer';
 import { ExtractedDocumentInfo } from './utils/common/documentUtils';
@@ -54,7 +54,7 @@ const base = `${settings.prefix}--document-preview-pdf-viewer-highlight`;
 const baseHighlightColor = `${settings.prefix}--category`;
 const baseHighlightColorActive = `${settings.prefix}--active`;
 const baseOverlapHighlight = `${settings.prefix}--overlap-highlight`;
-const basePassThroughActive = `${settings.prefix}--overlap-active-pass-through`;
+// const basePassThroughActive = `${settings.prefix}--overlap-active-pass-through`;
 
 /**
  * Text highlight layer for PdfViewer
@@ -72,7 +72,7 @@ const PdfHighlight: FC<Props> = ({
   pdfRenderedText,
   scale,
   facetInfoMap = {},
-  overlapMeta = { overlapInfoMap: {}, fieldIdWithOverlap: new Set<string>() },
+  overlapMeta = initOverlapMeta(),
   _useHtmlBbox = true,
   _usePdfTextItem = true
 }) => {
@@ -152,7 +152,7 @@ const Highlight: FC<{
   scale,
   onTooltipShow,
   facetInfoMap = {},
-  overlapMeta = { overlapInfoMap: {}, fieldIdWithOverlap: new Set<string>() },
+  overlapMeta = initOverlapMeta(),
   active
 }) => {
   const divHighlightNode = useRef<HTMLDivElement>(null);
@@ -207,7 +207,7 @@ const Highlight: FC<{
               shape.facetId && !hasOverlap && active && baseHighlightColorActive,
               shape.facetId && hasOverlap && baseOverlapHighlight,
               shape.facetId && hasOverlap && active && baseHighlightColorActive,
-              shape.facetId && hasOverlap && active && basePassThroughActive,
+              // shape.facetId && hasOverlap && active && basePassThroughActive,
               shape.facetId &&
                 hasOverlap &&
                 active &&
