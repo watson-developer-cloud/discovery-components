@@ -165,9 +165,11 @@ function calcOneTooltipRow(
   facetId: string,
   enrichValue: string
 ) {
-  let enrichColor = facetInfoMap[facetId].color;
-  let enrichFacetDisplayname = facetInfoMap[facetId].displayName;
-  if (enrichFacetDisplayname.localeCompare(enrichValue, undefined, { sensitivity: 'base' }) == 0) {
+  // Account for invalid facetId, fail gracefully
+  let facetInfo = facetInfoMap[facetId] || {};
+  let enrichColor = facetInfo.color || '';
+  let enrichFacetDisplayname = facetInfo.displayName || '';
+  if (enrichFacetDisplayname.localeCompare(enrichValue, undefined, { sensitivity: 'base' }) === 0) {
     // This case applies to keyowrds
     enrichFacetDisplayname = KEYWORDS_CATEGORY;
   }
