@@ -188,30 +188,46 @@ const Highlight: FC<{
     });
   };
 
+  // This enrichment is encompassed by an overlap
   const hasOverlap = overlapMeta.fieldIdWithOverlap.has(shape.highlightId);
 
+  // Style without facets
+  let customStyles = [
+    `${base}__item`,
+    className,
+    shape.className,
+    active && `${base}__item--active`,
+    active && activeClassName
+  ];
+  // Style without facets
+  if (shape.facetId) {
+    if (hasOverlap) {
+      // Enrichment is part of overlap, display only when active,
+      // otherwise overlap has precedent to be displayed
+      customStyles = customStyles.concat([
+        baseOverlapHighlight,
+        active && baseHighlightColorActive,
+        active && `${baseHighlightColor}-${shape.facetId} highlight`
+      ]);
+    } else {
+      // Applies to enrichment not in overlap
+      // or the overlap itself
+      customStyles = customStyles.concat([
+        `${baseHighlightColor}-${shape.facetId} highlight`,
+        active && baseHighlightColorActive
+      ]);
+    }
+  }
+
+  // filter undefined and boolean values
+  customStyles = customStyles.filter(item => typeof item === 'string');
   return (
     <div data-highlight-id={shape.highlightId} data-testid={shape.highlightId}>
       {shape?.boxes.map(item => {
         return (
           <div
             key={`${item.bbox[0].toFixed(2)}_${item.bbox[1].toFixed(2)}`}
-            className={cx(
-              `${base}__item`,
-              className,
-              shape.className,
-              active && `${base}__item--active`,
-              active && activeClassName,
-              shape.facetId && !hasOverlap && `${baseHighlightColor}-${shape.facetId} highlight`,
-              shape.facetId && !hasOverlap && active && baseHighlightColorActive,
-              shape.facetId && hasOverlap && baseOverlapHighlight,
-              shape.facetId && hasOverlap && active && baseHighlightColorActive,
-              // shape.facetId && hasOverlap && active && basePassThroughActive,
-              shape.facetId &&
-                hasOverlap &&
-                active &&
-                `${baseHighlightColor}-${shape.facetId} highlight`
-            )}
+            className={customStyles.join(' ')}
             style={{ ...getPositionStyle(item.bbox, scale) }}
             onMouseEnter={onMouseEnterHandler}
             onMouseLeave={onMouseLeaveHandler}
