@@ -99,6 +99,7 @@ export interface FacetInfo {
 // Collection of facets, map facet ID to facet info
 export type FacetInfoMap = Record<string, FacetInfo>;
 
+// One overlap entry used to display the contents of the overlap tooltip.
 export interface OverlapInfo {
   overlapId: string;
   // Info about mentions included in the overlap.
@@ -108,6 +109,8 @@ export interface OverlapInfo {
 // Collection of overlap meta data, map from overlap ID to overlap meta data
 export type OverlapInfoMap = Record<string, OverlapInfo>;
 
+// State of Overlaps.
+// fieldIdWithOverlap makes it easy to verify if an enrichment is part of an overlap
 export interface OverlapMeta {
   overlapInfoMap: OverlapInfoMap;
   fieldIdWithOverlap: Set<string>;
@@ -116,6 +119,10 @@ export interface OverlapMeta {
 // OVERLAP_ID should be crafted to avoid conflicit with third party enrichment names
 export const OVERLAP_ID: string = 'OverlapFT';
 
+// On each initialization, create a new object.
+// Function is necessary to create a new object each time.
+// Defining a value obj to assign to other variables is not possible
+// because all variables would point to the same value object.
 export function initOverlapMeta(): OverlapMeta {
   return { overlapInfoMap: {}, fieldIdWithOverlap: new Set<string>() };
 }

@@ -10,7 +10,7 @@ import { SkeletonText } from 'carbon-components-react';
 import Section, { OnFieldClickFn } from '../Section/Section';
 import VirtualScroll from '../VirtualScroll/VirtualScroll';
 import { defaultTheme, Theme } from 'utils/theme';
-import { SectionType, ItemMap, HighlightWithMetaForText } from 'components/CIDocument/types';
+import { SectionType, ItemMap, TextHighlightWithMeta } from 'components/CIDocument/types';
 import { FacetInfoMap, OverlapMeta } from '../../../DocumentPreview/types';
 import { getId as getLocationId } from 'utils/document/idUtils';
 
@@ -31,11 +31,17 @@ export interface CIDocumentContentProps {
   theme?: Theme;
   documentId?: string;
   onItemClick?: OnFieldClickFn;
-  combinedHighlights?: HighlightWithMetaForText[];
+  combinedHighlights?: TextHighlightWithMeta[];
   facetInfoMap?: FacetInfoMap;
   overlapMeta?: OverlapMeta;
   activeColor?: string | null;
 }
+
+// Explicit control of elements to accomplish mouse interaction with overlap
+// Enrichment with highest z-index is content of overlap tooltip
+const ZINDEX_BASE = 1;
+const ZINDEX_OVERLAP = 10;
+const ZINDEX_ACTIVE = 20;
 
 const CIDocumentContent: FC<CIDocumentContentProps> = ({
   className,
@@ -85,19 +91,20 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
             <style>
               {createStyleRules(highlightedIds, [
                 backgroundColorRule(theme.highlightBackground),
-                // Set z-index to -1 in order to push non-active fields back
-                zIndexRule(-1)
+                // Fields are transparent, now ontop of text.
+                // Also, makes debug in browser inspect easier.
+                zIndexRule(ZINDEX_BASE)
               ])}
             </style>
           )}
           {activeIds && activeIds.length > 0 && (
             <>
               <style>
-                {/*Set z-index to 0 to pull active element in front of overlapping fields */}
+                {/*Set z-index to pull active element in front of overlapping fields */}
                 {createStyleRules(activeIds, [
                   backgroundColorRule(theme.activeHighlightBackground),
                   outlineRule(activeColor || theme.highlightBackground),
-                  zIndexRule(20),
+                  zIndexRule(ZINDEX_ACTIVE),
                   opacityRule(100)
                 ])}
               </style>
@@ -153,13 +160,13 @@ function createStyleRules(idList: string[], rules: string[]): string {
     .concat(`{${rules.join(';')}}`);
 }
 
-function highlightColoringFullArray(combinedHighlightsWithMeta: HighlightWithMetaForText[]) {
-  return combinedHighlightsWithMeta.map(highlightWithMetaForText => {
-    const locationId = getHighlightLocationId(highlightWithMetaForText);
-    const zIndexValue = highlightWithMetaForText.isOverlap ? 10 : 0;
+function highlightColoringFullArray(combinedHighlightsWithMeta: TextHighlightWithMeta[]) {
+  return combinedHighlightsWithMeta.map(textHighlightWithMeta => {
+    const locationId = getHighlightLocationId(textHighlightWithMeta);
+    const zIndexValue = textHighlightWithMeta.isOverlap ? ZINDEX_OVERLAP : ZINDEX_BASE;
     const rules = `.${baseClassName} .field[data-field-id="${locationId}"] > * {background-color: ${
-      highlightWithMetaForText.color
-    }; border: 2px solid ${highlightWithMetaForText.color}; ${zIndexRule(zIndexValue)};}`;
+      textHighlightWithMeta.color
+    }; border: 2px solid ${textHighlightWithMeta.color}; ${zIndexRule(zIndexValue)};}`;
     return rules;
   });
 }
@@ -195,12 +202,12 @@ function scrollToActiveItem(
   );
 }
 
-function getHighlightLocationId(highlightWithMetaForText: HighlightWithMetaForText): string {
+function getHighlightLocationId(textHighlightWithMeta: TextHighlightWithMeta): string {
   return getLocationId({
-    facetId: highlightWithMetaForText.facetId,
+    facetId: textHighlightWithMeta.facetId,
     location: {
-      begin: highlightWithMetaForText.begin,
-      end: highlightWithMetaForText.end
+      begin: textHighlightWithMeta.begin,
+      end: textHighlightWithMeta.end
     }
   });
 }

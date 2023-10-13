@@ -54,7 +54,6 @@ const base = `${settings.prefix}--document-preview-pdf-viewer-highlight`;
 const baseHighlightColor = `${settings.prefix}--category`;
 const baseHighlightColorActive = `${settings.prefix}--active`;
 const baseOverlapHighlight = `${settings.prefix}--overlap-highlight`;
-// const basePassThroughActive = `${settings.prefix}--overlap-active-pass-through`;
 
 /**
  * Text highlight layer for PdfViewer

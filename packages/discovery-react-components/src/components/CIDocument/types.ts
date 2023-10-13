@@ -16,6 +16,9 @@ export interface Location {
 }
 
 // TODO better name
+// Some code-flow to Item use either __type or facetId
+// facetId: Used when facets with colors are defined
+// __type: Used when raw data from discovery query is processed
 export interface Item {
   id?: string;
   __type?: string;
@@ -111,7 +114,7 @@ export type HighlightFacetMentions = {
   className?: string;
 };
 
-export type HighlightWithMetaForText = {
+export type TextHighlightWithMeta = {
   begin: number;
   end: number;
   facetId: string;
