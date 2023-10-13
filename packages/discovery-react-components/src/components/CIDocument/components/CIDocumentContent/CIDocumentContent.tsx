@@ -39,9 +39,10 @@ export interface CIDocumentContentProps {
 
 // Explicit control of elements to accomplish mouse interaction with overlap
 // Enrichment with highest z-index is content of overlap tooltip
-const ZINDEX_BASE = 1;
-const ZINDEX_OVERLAP = 10;
-const ZINDEX_ACTIVE = 20;
+// Fields are transparent, now on-top of text, makes debug in browser inspect easier.
+const ZINDEX_BASE = 10;
+const ZINDEX_OVERLAP = 20;
+const ZINDEX_ACTIVE = 30;
 
 const CIDocumentContent: FC<CIDocumentContentProps> = ({
   className,
@@ -91,8 +92,6 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
             <style>
               {createStyleRules(highlightedIds, [
                 backgroundColorRule(theme.highlightBackground),
-                // Fields are transparent, now ontop of text.
-                // Also, makes debug in browser inspect easier.
                 zIndexRule(ZINDEX_BASE)
               ])}
             </style>
