@@ -18,10 +18,7 @@ import { clearNodeChildren } from 'utils/dom';
 import { getTextMappings } from 'components/DocumentPreview/utils/documentData';
 import { getPassagePageInfo } from '../Highlight/passages';
 import { isPassage } from '../Highlight/typeUtils';
-import {
-  QueryResultWithOptionalMetadata,
-  Location as LocationBE
-} from 'components/DocumentPreview/types';
+import { QueryResultWithOptionalMetadata, Location } from 'components/DocumentPreview/types';
 
 interface Props extends HTMLAttributes<HTMLElement> {
   /**
@@ -71,7 +68,7 @@ export const HtmlView = forwardRef<any, Props>(
 
     const [html, setHtml] = useState<string | null>(null);
     const [processedDoc, setProcessedDoc] = useState<ProcessedDoc | null>(null);
-    const [highlightLocations, setHighlightLocations] = useState<LocationBE[]>([]);
+    const [highlightLocations, setHighlightLocations] = useState<Location[]>([]);
 
     useLayoutEffect(() => {
       DOMPurify.addHook('afterSanitizeAttributes', function (node) {
@@ -130,7 +127,7 @@ export const HtmlView = forwardRef<any, Props>(
         if (isPassage(highlight) && textMappings) {
           const textMappingBbox = getPassagePageInfo(textMappings, highlight);
           if (processedDoc && processedDoc.bboxes && textMappingBbox) {
-            const passageLocs: LocationBE[] = flatMap(textMappingBbox, bbox => {
+            const passageLocs: Location[] = flatMap(textMappingBbox, bbox => {
               return findMatchingBbox(bbox, processedDoc.bboxes as ProcessedBbox[]);
             }).map(bbox => {
               return bbox.location;
