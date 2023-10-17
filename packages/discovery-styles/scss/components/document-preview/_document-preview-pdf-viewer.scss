@@ -78,3 +78,7 @@ $hightlight-active-z-index: 200;
   border: unset;
   opacity: 100%;
 }
+
+.#{$prefix}--overlap-active-pass-through {
+  pointer-events: none;
+}

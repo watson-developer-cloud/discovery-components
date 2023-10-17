@@ -11,7 +11,7 @@ import Section, { OnFieldClickFn } from '../Section/Section';
 import VirtualScroll from '../VirtualScroll/VirtualScroll';
 import { defaultTheme, Theme } from 'utils/theme';
 import { SectionType, ItemMap, TextHighlightWithMeta } from 'components/CIDocument/types';
-import { FacetInfoMap, OverlapMeta } from '../../../DocumentPreview/types';
+import { FacetInfoMap, initOverlapMeta, OverlapMeta } from '../../../DocumentPreview/types';
 import { getId as getLocationId } from 'utils/document/idUtils';
 
 const baseClassName = `${settings.prefix}--ci-doc-content`;
@@ -61,7 +61,7 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
   onItemClick = (): void => {},
   combinedHighlights,
   facetInfoMap,
-  overlapMeta,
+  overlapMeta = initOverlapMeta(),
   activeColor
 }) => {
   const virtualScrollRef = useRef<any>();
@@ -104,6 +104,7 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
                   backgroundColorRule(theme.activeHighlightBackground),
                   outlineRule(activeColor || theme.highlightBackground),
                   zIndexRule(ZINDEX_ACTIVE),
+                  activeEnrichmentInOverlapRule(activeIds, overlapMeta),
                   opacityRule(100)
                 ])}
               </style>
@@ -153,7 +154,9 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
 };
 
 function createStyleRules(idList: string[], rules: string[]): string {
+  // remove empty strings
   return idList
+    .filter(item => item.localeCompare('') !== 0)
     .map(id => `.${baseClassName} .field[data-field-id="${id}"] > *`)
     .join(',')
     .concat(`{${rules.join(';')}}`);
@@ -176,6 +179,16 @@ function backgroundColorRule(color: string): string {
 
 function zIndexRule(value: number): string {
   return `z-index: ${value}`;
+}
+
+function activeEnrichmentInOverlapRule(activeIds: string[], overlapMeta: OverlapMeta): string {
+  // Case: Enrichment in overlap, tooltip should show the overlap info.
+  // Enrichment element is on top to visually draw the border, but the mouse event must pass through.
+  if (activeIds.length > 0 && overlapMeta.fieldIdWithOverlap.has(activeIds[0])) {
+    return 'pointer-events: none';
+  } else {
+    return '';
+  }
 }
 
 function opacityRule(value: number): string {
