@@ -79,7 +79,11 @@ or
 git clone https://github.com/watson-developer-cloud/discovery-components.git
 ```
 
-3. To generate the dependencies for all of the packages, run the following at the root directory:
+3. Install OS dependencies for building NPM packages (required for building `cairo`, which is used by `pdfjs`):
+
+    Follow the installation instructions for your OS from https://github.com/Automattic/node-canvas#compiling.
+
+5. To generate the dependencies for all of the packages, run the following at the root directory:
 
 ```
 yarn
