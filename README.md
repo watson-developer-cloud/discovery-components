@@ -83,7 +83,7 @@ git clone https://github.com/watson-developer-cloud/discovery-components.git
 
     Follow the installation instructions for your OS from https://github.com/Automattic/node-canvas#compiling.
 
-5. To generate the dependencies for all of the packages, run the following at the root directory:
+4. To generate the dependencies for all of the packages, run the following at the root directory:
 
 ```
 yarn
