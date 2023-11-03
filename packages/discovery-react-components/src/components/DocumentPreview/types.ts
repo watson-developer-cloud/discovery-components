@@ -117,7 +117,7 @@ export interface OverlapMeta {
 }
 
 // OVERLAP_ID should be crafted to avoid conflicit with third party enrichment names
-export const OVERLAP_ID: string = 'OverlapFT';
+export const OVERLAP_ID: string = '__overlap__';
 
 // On each initialization, create a new object.
 // Function is necessary to create a new object each time.

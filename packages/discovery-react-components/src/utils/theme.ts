@@ -4,12 +4,13 @@
 const colors = {
   blue20: '#c9deff',
   blue30: '#97c1ff',
+  blue40: '#5596e6',
   gray20: '#dcdcdc',
   purple30: '#d0b0ff'
 };
 
 const whiteTheme = {
-  highlight: colors.blue20,
+  highlight: colors.blue40,
   hover_selected_ui: colors.gray20
 };
 

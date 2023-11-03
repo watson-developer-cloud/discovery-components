@@ -159,6 +159,8 @@ export function calcToolTipContent(
   return tooltipContent;
 }
 
+// Calculate one enrichment to display in the tooltip.
+// If overlap, each enrichment in the overlap will have its own row.
 function calcOneTooltipRow(
   tableContent: any[],
   facetInfoMap: FacetInfoMap,
@@ -170,10 +172,10 @@ function calcOneTooltipRow(
   let enrichColor = facetInfo.color || '';
   let enrichFacetDisplayname = facetInfo.displayName || '';
   if (enrichFacetDisplayname.localeCompare(enrichValue, undefined, { sensitivity: 'base' }) === 0) {
-    // This case applies to keyowrds
+    // This case applies to keywords
     enrichFacetDisplayname = KEYWORDS_CATEGORY;
   }
-  // Will have multiple entries after overlapping is implemented
+  // Will have multiple entries if overlapping
   tableContent.push({
     enrichColor: enrichColor,
     enrichFacetDisplayname: ellipsisMiddle(enrichFacetDisplayname),

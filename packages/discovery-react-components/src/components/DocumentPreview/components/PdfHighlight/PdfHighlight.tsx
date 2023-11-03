@@ -205,19 +205,19 @@ const Highlight: FC<{
     if (hasOverlap) {
       // Enrichment is part of overlap, display only when active,
       // otherwise overlap has precedent to be displayed
-      customStyles = customStyles.concat([
+      customStyles.push(
         baseOverlapHighlight,
         active && baseHighlightColorActive,
         active && `${baseHighlightColor}-${shape.facetId} highlight`,
         active && basePassThroughActive
-      ]);
+      );
     } else {
       // Applies to enrichment not in overlap
       // or the overlap itself
-      customStyles = customStyles.concat([
+      customStyles.push(
         `${baseHighlightColor}-${shape.facetId} highlight`,
         active && baseHighlightColorActive
-      ]);
+      );
     }
   }
 
