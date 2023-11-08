@@ -1,14 +1,9 @@
-import { TextMappings } from 'components/DocumentPreview/types';
 import flatMap from 'lodash/flatMap';
 import { TextContent } from 'pdfjs-dist/types/display/api';
 import { PageViewport } from 'pdfjs-dist/types/display/display_utils';
 import { nonEmpty } from 'utils/nonEmpty';
-import {
-  DocumentFields,
-  DocumentFieldHighlight,
-  HighlightShape,
-  HighlightShapeBox
-} from '../types';
+import { DocumentFields, HighlightShape, HighlightShapeBox } from '../types';
+import { DocumentFieldHighlight, TextMappings } from 'components/DocumentPreview/types';
 import { spanOffset, START } from '../../../utils/textSpan';
 import { getTextBoxMappings } from './textBoxMapping';
 import { TextBoxMapping, TextBoxMappingResult } from './textBoxMapping/types';

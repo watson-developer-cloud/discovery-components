@@ -45,7 +45,7 @@ describe('<MetadataPane />', () => {
           text_normalized: '2008-12-22'
         }
       ],
-      metadataId: '2533_2549',
+      metadataId: 'DEFAULT_F_2533_2549',
       metadataType: 'effective_dates'
     });
   });

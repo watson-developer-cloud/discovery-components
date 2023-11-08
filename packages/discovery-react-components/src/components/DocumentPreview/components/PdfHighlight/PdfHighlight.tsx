@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { settings } from 'carbon-components';
 import { QueryResult } from 'ibm-watson/discovery/v2';
 import { ProcessedDoc } from 'utils/document';
-import { Bbox, TextMappings, FacetInfoMap } from '../../types';
+import { Bbox, TextMappings, FacetInfoMap, OverlapMeta, initOverlapMeta } from '../../types';
 import { PdfDisplayProps } from '../PdfViewer/types';
 import { PdfRenderedText } from '../PdfViewer/PdfViewerTextLayer';
 import { ExtractedDocumentInfo } from './utils/common/documentUtils';
@@ -44,11 +44,17 @@ type Props = PdfDisplayProps &
      * Meta-data on facets
      */
     facetInfoMap?: FacetInfoMap;
+    /**
+     * Overlap information used by tooltip
+     */
+    overlapMeta?: OverlapMeta;
   };
 
 const base = `${settings.prefix}--document-preview-pdf-viewer-highlight`;
 const baseHighlightColor = `${settings.prefix}--category`;
 const baseHighlightColorActive = `${settings.prefix}--active`;
+const baseOverlapHighlight = `${settings.prefix}--overlap-highlight`;
+const basePassThroughActive = `${settings.prefix}--overlap-active-pass-through`;
 
 /**
  * Text highlight layer for PdfViewer
@@ -66,6 +72,7 @@ const PdfHighlight: FC<Props> = ({
   pdfRenderedText,
   scale,
   facetInfoMap = {},
+  overlapMeta = initOverlapMeta(),
   _useHtmlBbox = true,
   _usePdfTextItem = true
 }) => {
@@ -121,6 +128,7 @@ const PdfHighlight: FC<Props> = ({
             active={active}
             onTooltipShow={onTooltipShow}
             facetInfoMap={facetInfoMap}
+            overlapMeta={overlapMeta}
           />
         );
       })}
@@ -135,8 +143,18 @@ const Highlight: FC<{
   scale: number;
   onTooltipShow: OnTooltipShowFn;
   facetInfoMap: FacetInfoMap;
+  overlapMeta: OverlapMeta;
   active?: boolean;
-}> = ({ className, activeClassName, shape, scale, onTooltipShow, facetInfoMap = {}, active }) => {
+}> = ({
+  className,
+  activeClassName,
+  shape,
+  scale,
+  onTooltipShow,
+  facetInfoMap = {},
+  overlapMeta = initOverlapMeta(),
+  active
+}) => {
   const divHighlightNode = useRef<HTMLDivElement>(null);
   if (shape?.boxes.length === 0) {
     return null;
@@ -145,10 +163,17 @@ const Highlight: FC<{
   const onMouseEnterHandler = (event: MouseEvent<HTMLElement>) => {
     const targetEle = event.target as Element;
     const enrichValue = targetEle.getAttribute('data-value') || '';
+    const enrichFieldId = targetEle.parentElement?.getAttribute('data-highlight-id') || '';
     const enrichFacetId = targetEle.getAttribute('data-facetid') || '';
     const divEle = divHighlightNode.current;
     // Create tooltip content to display
-    const tooltipContent = calcToolTipContent(facetInfoMap, enrichFacetId, enrichValue);
+    const tooltipContent = calcToolTipContent(
+      facetInfoMap,
+      overlapMeta,
+      enrichFacetId,
+      enrichValue,
+      enrichFieldId
+    );
     onTooltipShow({
       ...{
         tooltipEvent: TooltipEvent.ENTER,
@@ -164,21 +189,47 @@ const Highlight: FC<{
     });
   };
 
+  // This enrichment is encompassed by an overlap
+  const hasOverlap = overlapMeta.fieldIdWithOverlap.has(shape.highlightId);
+
+  // Style without facets
+  let customStyles = [
+    `${base}__item`,
+    className,
+    shape.className,
+    active && `${base}__item--active`,
+    active && activeClassName
+  ];
+  // Style without facets
+  if (shape.facetId) {
+    if (hasOverlap) {
+      // Enrichment is part of overlap, display only when active,
+      // otherwise overlap has precedent to be displayed
+      customStyles.push(
+        baseOverlapHighlight,
+        active && baseHighlightColorActive,
+        active && `${baseHighlightColor}-${shape.facetId} highlight`,
+        active && basePassThroughActive
+      );
+    } else {
+      // Applies to enrichment not in overlap
+      // or the overlap itself
+      customStyles.push(
+        `${baseHighlightColor}-${shape.facetId} highlight`,
+        active && baseHighlightColorActive
+      );
+    }
+  }
+
+  // filter undefined and boolean values
+  customStyles = customStyles.filter(item => typeof item === 'string');
   return (
     <div data-highlight-id={shape.highlightId} data-testid={shape.highlightId}>
       {shape?.boxes.map(item => {
         return (
           <div
             key={`${item.bbox[0].toFixed(2)}_${item.bbox[1].toFixed(2)}`}
-            className={cx(
-              `${base}__item`,
-              className,
-              shape.className,
-              active && `${base}__item--active`,
-              active && activeClassName,
-              shape.facetId && `${baseHighlightColor}-${shape.facetId} highlight`,
-              shape.facetId && active && baseHighlightColorActive
-            )}
+            className={customStyles.join(' ')}
             style={{ ...getPositionStyle(item.bbox, scale) }}
             onMouseEnter={onMouseEnterHandler}
             onMouseLeave={onMouseLeaveHandler}

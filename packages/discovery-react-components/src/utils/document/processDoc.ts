@@ -8,7 +8,7 @@ import { getEnrichmentName } from 'components/CIDocument/utils/enrichmentUtils';
 import { spansIntersect } from './documentUtils';
 import { decodeHTML, encodeHTML } from 'entities';
 import { getDocumentTitle } from 'utils/getDocumentTitle';
-import { QueryResultWithOptionalMetadata } from 'components/DocumentPreview/types';
+import { QueryResultWithOptionalMetadata, Location } from 'components/DocumentPreview/types';
 
 // split HTML into "sections" based on these top level tag(s)
 const SECTION_NAMES = ['p', 'ul', 'table'];
@@ -38,11 +38,6 @@ const DEFAULT_OPTIONS: Options = {
   bbox: false,
   itemMap: false
 };
-
-export interface Location {
-  begin: number;
-  end: number;
-}
 
 export interface ProcessedDoc {
   title: string;

@@ -11,14 +11,14 @@ import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/di
 import DOMPurify from 'dompurify';
 import get from 'lodash/get';
 import flatMap from 'lodash/flatMap';
-import { processDoc, ProcessedDoc, ProcessedBbox, Location } from 'utils/document/processDoc';
+import { processDoc, ProcessedDoc, ProcessedBbox } from 'utils/document/processDoc';
 import { findMatchingBbox } from 'components/DocumentPreview/utils/box';
 import { findOffsetInDOM, createFieldRects } from 'utils/document/documentUtils';
 import { clearNodeChildren } from 'utils/dom';
 import { getTextMappings } from 'components/DocumentPreview/utils/documentData';
 import { getPassagePageInfo } from '../Highlight/passages';
 import { isPassage } from '../Highlight/typeUtils';
-import { QueryResultWithOptionalMetadata } from 'components/DocumentPreview/types';
+import { QueryResultWithOptionalMetadata, Location } from 'components/DocumentPreview/types';
 
 interface Props extends HTMLAttributes<HTMLElement> {
   /**

@@ -2,6 +2,10 @@ import { Item, RelationItem } from 'components/CIDocument/types';
 import isEqual from 'lodash/isEqual';
 import { isRelationObject } from './nonContractUtils';
 
+// Default facet value when facets are disabled.
+// String is unique so a developer map from debugging in the browser to the code
+const DEFAULT_F = 'DEFAULT_F';
+
 /**
  * Creates an id string for the given item, based on the location.begin field
  *
@@ -9,7 +13,9 @@ import { isRelationObject } from './nonContractUtils';
  * @returns {string} Id string
  */
 export function getId(item: Item): string {
-  return item.location && `${item.location.begin}_${item.location.end}`;
+  return (
+    item.location && `${item.facetId || DEFAULT_F}_${item.location.begin}_${item.location.end}`
+  );
 }
 
 /**

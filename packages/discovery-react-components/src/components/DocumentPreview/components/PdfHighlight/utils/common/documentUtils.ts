@@ -2,7 +2,7 @@ import { TextMappings } from 'components/DocumentPreview/types';
 import { getTextMappings } from 'components/DocumentPreview/utils/documentData';
 import { QueryResult } from 'ibm-watson/discovery/v2';
 import { processDoc, ProcessedDoc } from 'utils/document';
-import { Location } from 'utils/document/processDoc';
+import { Location } from '../../../../types';
 import { DocumentFields, TextSpan } from '../../types';
 
 /**

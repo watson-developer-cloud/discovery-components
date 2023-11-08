@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { Tooltip } from 'carbon-components-react';
 import { settings } from 'carbon-components';
 import { TooltipAction, TooltipEvent } from './types';
-import { FacetInfoMap } from 'components/DocumentPreview/types';
+import { FacetInfoMap, OverlapMeta } from 'components/DocumentPreview/types';
 import { defaultMessages } from 'components/TooltipHighlight/messages';
 
 // TooltipInfo is the internal state of the TooltipHightlight
@@ -94,31 +94,28 @@ export const TooltipHighlight: FC<Props> = ({ parentDiv, tooltipAction }) => {
 
 export function calcToolTipContent(
   facetInfoMap: FacetInfoMap,
+  overlapMeta: OverlapMeta,
   facetId: string,
-  enrichValue: string
+  enrichValue: string,
+  enrichFieldId: string
 ) {
-  const tableContent = [];
-  let enrichColor = '';
-  let enrichFacetDisplayname = '';
+  const tableContent: any[] = [];
   if (facetInfoMap[facetId]) {
-    enrichColor = facetInfoMap[facetId].color;
-    enrichFacetDisplayname = facetInfoMap[facetId].displayName;
-    if (
-      enrichFacetDisplayname.localeCompare(enrichValue, undefined, { sensitivity: 'base' }) == 0
-    ) {
-      // This case applies to keywords
-      enrichFacetDisplayname = KEYWORDS_CATEGORY;
+    if (overlapMeta.overlapInfoMap[enrichFieldId]) {
+      const mentionList = overlapMeta.overlapInfoMap[enrichFieldId].mentions;
+      mentionList.forEach(oneMention => {
+        calcOneTooltipRow(
+          tableContent,
+          facetInfoMap,
+          oneMention?.facetId || '',
+          oneMention?.value || ''
+        );
+      });
+    } else {
+      calcOneTooltipRow(tableContent, facetInfoMap, facetId, enrichValue);
     }
-    // Will have multiple entries after overlapping is implemented
-    tableContent.push({
-      enrichColor: enrichColor,
-      enrichFacetDisplayname: ellipsisMiddle(enrichFacetDisplayname),
-      enrichValue: ellipsisMiddle(enrichValue)
-    });
   }
-
   let tooltipContent = undefined;
-
   if (tableContent.length > 0) {
     tooltipContent = (
       <div className={cx(baseTooltipCustomContent)} data-testid="tooltip_highlight_content">
@@ -160,6 +157,30 @@ export function calcToolTipContent(
     );
   }
   return tooltipContent;
+}
+
+// Calculate one enrichment to display in the tooltip.
+// If overlap, each enrichment in the overlap will have its own row.
+function calcOneTooltipRow(
+  tableContent: any[],
+  facetInfoMap: FacetInfoMap,
+  facetId: string,
+  enrichValue: string
+) {
+  // Account for invalid facetId, fail gracefully
+  let facetInfo = facetInfoMap[facetId] || {};
+  let enrichColor = facetInfo.color || '';
+  let enrichFacetDisplayname = facetInfo.displayName || '';
+  if (enrichFacetDisplayname.localeCompare(enrichValue, undefined, { sensitivity: 'base' }) === 0) {
+    // This case applies to keywords
+    enrichFacetDisplayname = KEYWORDS_CATEGORY;
+  }
+  // Will have multiple entries if overlapping
+  tableContent.push({
+    enrichColor: enrichColor,
+    enrichFacetDisplayname: ellipsisMiddle(enrichFacetDisplayname),
+    enrichValue: ellipsisMiddle(enrichValue)
+  });
 }
 
 function ellipsisMiddle(text: string) {

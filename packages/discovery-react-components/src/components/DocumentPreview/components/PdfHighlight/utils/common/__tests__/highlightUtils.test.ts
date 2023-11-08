@@ -1,6 +1,6 @@
 import { QueryResultPassage } from 'ibm-watson/discovery/v2';
 import { Table } from 'utils/document';
-import { Location } from 'utils/document/processDoc';
+import { Location } from '../../../../../types';
 import { DocumentBboxHighlight } from '../../../types';
 import {
   convertToDocumentBboxHighlights,

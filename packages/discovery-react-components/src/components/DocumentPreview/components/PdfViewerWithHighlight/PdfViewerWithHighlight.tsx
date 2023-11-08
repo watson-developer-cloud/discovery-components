@@ -2,18 +2,15 @@ import React, { useState, useEffect, useRef, forwardRef } from 'react';
 import { settings } from 'carbon-components';
 import { QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { nonEmpty } from 'utils/nonEmpty';
-import { FacetInfoMap, TextMappings } from '../../types';
+import { FacetInfoMap, OverlapMeta, OVERLAP_ID, TextMappings } from '../../types';
 import { spanIntersects } from '../../utils/textSpan';
 import { isPassage, isTable } from '../Highlight/typeUtils';
 import { getHighlightedTable } from '../Highlight/tables';
 import PdfViewer, { PdfViewerProps } from '../PdfViewer/PdfViewer';
 import { PdfRenderedText } from '../PdfViewer/PdfViewerTextLayer';
 import PdfHighlight from '../PdfHighlight/PdfHighlight';
-import {
-  DocumentBboxHighlight,
-  DocumentFieldHighlight,
-  HighlightProps
-} from '../PdfHighlight/types';
+import { DocumentBboxHighlight, HighlightProps } from '../PdfHighlight/types';
+import { DocumentFieldHighlight } from '../../types';
 import {
   extractDocumentInfo,
   ExtractedDocumentInfo
@@ -35,6 +32,8 @@ type Props = PdfViewerProps &
      */
     highlight?: QueryResultPassage | QueryTableResult;
     facetInfoMap?: FacetInfoMap;
+    // Overlap information used by tooltip
+    overlapMeta?: OverlapMeta;
     _isPdfRenderError?: boolean;
     setIsPdfRenderError?: (state: boolean) => any;
   };
@@ -53,6 +52,7 @@ const PdfViewerWithHighlight = forwardRef<any, Props>(
       highlights: fieldHighlights,
       activeIds,
       facetInfoMap,
+      overlapMeta,
       _useHtmlBbox,
       _usePdfTextItem,
       _isPdfRenderError = false,
@@ -72,6 +72,7 @@ const PdfViewerWithHighlight = forwardRef<any, Props>(
       _usePdfTextItem
     };
 
+    const hightlightOverlapZindex = 10;
     const [renderedText, setRenderedText] = useState<PdfRenderedText | null>(null);
     const isTableHighlight = isTable(queryHighlight);
 
@@ -106,10 +107,15 @@ const PdfViewerWithHighlight = forwardRef<any, Props>(
     // Dynamically create a style for every category. Match color of category
     const colorStyles = Object.values(facetInfoMap || {})
       .map(facetInfo => {
+        const overlapOnTop =
+          facetInfo.facetId.localeCompare(OVERLAP_ID) === 0
+            ? `z-index: ${hightlightOverlapZindex};`
+            : '';
         return `
         .${baseHighlightColor}-${facetInfo.facetId}.highlight {
           background: ${facetInfo.color};
           border: 2px solid ${facetInfo.color};
+          ${overlapOnTop}
         }`;
       })
       .join('\n');
@@ -137,6 +143,7 @@ const PdfViewerWithHighlight = forwardRef<any, Props>(
                   boxHighlights={state.bboxes}
                   activeIds={state.activeIds}
                   facetInfoMap={facetInfoMap}
+                  overlapMeta={overlapMeta}
                   {...highlightProps}
                 />
               )

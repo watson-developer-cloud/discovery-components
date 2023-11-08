@@ -10,8 +10,8 @@ import { SkeletonText } from 'carbon-components-react';
 import Section, { OnFieldClickFn } from '../Section/Section';
 import VirtualScroll from '../VirtualScroll/VirtualScroll';
 import { defaultTheme, Theme } from 'utils/theme';
-import { SectionType, ItemMap, HighlightWithMeta } from 'components/CIDocument/types';
-import { FacetInfoMap } from '../../../DocumentPreview/types';
+import { SectionType, ItemMap, TextHighlightWithMeta } from 'components/CIDocument/types';
+import { FacetInfoMap, initOverlapMeta, OverlapMeta } from '../../../DocumentPreview/types';
 import { getId as getLocationId } from 'utils/document/idUtils';
 
 const baseClassName = `${settings.prefix}--ci-doc-content`;
@@ -31,10 +31,18 @@ export interface CIDocumentContentProps {
   theme?: Theme;
   documentId?: string;
   onItemClick?: OnFieldClickFn;
-  combinedHighlights?: HighlightWithMeta[];
+  combinedHighlights?: TextHighlightWithMeta[];
   facetInfoMap?: FacetInfoMap;
+  overlapMeta?: OverlapMeta;
   activeColor?: string | null;
 }
+
+// Explicit control of elements to accomplish mouse interaction with overlap
+// Enrichment with highest z-index is content of overlap tooltip
+// Fields are transparent, now on-top of text, makes debug in browser inspect easier.
+const ZINDEX_BASE = 10;
+const ZINDEX_OVERLAP = 20;
+const ZINDEX_ACTIVE = 30;
 
 const CIDocumentContent: FC<CIDocumentContentProps> = ({
   className,
@@ -53,6 +61,7 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
   onItemClick = (): void => {},
   combinedHighlights,
   facetInfoMap,
+  overlapMeta = initOverlapMeta(),
   activeColor
 }) => {
   const virtualScrollRef = useRef<any>();
@@ -83,19 +92,20 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
             <style>
               {createStyleRules(highlightedIds, [
                 backgroundColorRule(theme.highlightBackground),
-                // Set z-index to -1 in order to push non-active fields back
-                zIndexRule(-1)
+                zIndexRule(ZINDEX_BASE)
               ])}
             </style>
           )}
           {activeIds && activeIds.length > 0 && (
             <>
               <style>
-                {/*Set z-index to 0 to pull active element in front of overlapping fields */}
+                {/*Set z-index to pull active element in front of overlapping fields */}
                 {createStyleRules(activeIds, [
                   backgroundColorRule(theme.activeHighlightBackground),
                   outlineRule(activeColor || theme.highlightBackground),
-                  zIndexRule(0)
+                  zIndexRule(ZINDEX_ACTIVE),
+                  activeEnrichmentInOverlapRule(activeIds, overlapMeta),
+                  opacityRule(100)
                 ])}
               </style>
             </>
@@ -132,6 +142,7 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
                   section={sections[index]}
                   onFieldClick={onItemClick}
                   facetInfoMap={facetInfoMap}
+                  overlapMeta={overlapMeta}
                 />
               )}
             </VirtualScroll>
@@ -143,16 +154,21 @@ const CIDocumentContent: FC<CIDocumentContentProps> = ({
 };
 
 function createStyleRules(idList: string[], rules: string[]): string {
+  // remove empty strings
   return idList
+    .filter(item => item.localeCompare('') !== 0)
     .map(id => `.${baseClassName} .field[data-field-id="${id}"] > *`)
     .join(',')
     .concat(`{${rules.join(';')}}`);
 }
 
-function highlightColoringFullArray(combinedHighlightsWithMeta: HighlightWithMeta[]) {
-  return combinedHighlightsWithMeta.map(highlightWithMeta => {
-    const locationId = getHighlightLocationId(highlightWithMeta);
-    const rules = `.${baseClassName} .field[data-field-id="${locationId}"] > * {background-color: ${highlightWithMeta.color}; border: 2px solid ${highlightWithMeta.color};}`;
+function highlightColoringFullArray(combinedHighlightsWithMeta: TextHighlightWithMeta[]) {
+  return combinedHighlightsWithMeta.map(textHighlightWithMeta => {
+    const locationId = getHighlightLocationId(textHighlightWithMeta);
+    const zIndexValue = textHighlightWithMeta.isOverlap ? ZINDEX_OVERLAP : ZINDEX_BASE;
+    const rules = `.${baseClassName} .field[data-field-id="${locationId}"] > * {background-color: ${
+      textHighlightWithMeta.color
+    }; border: 2px solid ${textHighlightWithMeta.color}; ${zIndexRule(zIndexValue)};}`;
     return rules;
   });
 }
@@ -163,6 +179,20 @@ function backgroundColorRule(color: string): string {
 
 function zIndexRule(value: number): string {
   return `z-index: ${value}`;
+}
+
+function activeEnrichmentInOverlapRule(activeIds: string[], overlapMeta: OverlapMeta): string {
+  // Case: Enrichment in overlap, tooltip should show the overlap info.
+  // Enrichment element is on top to visually draw the border, but the mouse event must pass through.
+  if (activeIds.length > 0 && overlapMeta.fieldIdWithOverlap.has(activeIds[0])) {
+    return 'pointer-events: none';
+  } else {
+    return '';
+  }
+}
+
+function opacityRule(value: number): string {
+  return `opacity: ${value}`;
 }
 
 function outlineRule(color: string): string {
@@ -184,11 +214,12 @@ function scrollToActiveItem(
   );
 }
 
-function getHighlightLocationId(highlightWithMeta: HighlightWithMeta): string {
+function getHighlightLocationId(textHighlightWithMeta: TextHighlightWithMeta): string {
   return getLocationId({
+    facetId: textHighlightWithMeta.facetId,
     location: {
-      begin: highlightWithMeta.begin,
-      end: highlightWithMeta.end
+      begin: textHighlightWithMeta.begin,
+      end: textHighlightWithMeta.end
     }
   });
 }

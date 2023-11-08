@@ -1,11 +1,11 @@
-import { Cell, CellField } from '../../../../types';
+import { Cell, CellField, DocumentFieldHighlight } from '../../../../types';
 import {
   spanGetSubSpan,
   spanContains,
   spanIntersection,
   spanIntersects
 } from '../../../../utils/textSpan';
-import { DocumentFields, DocumentFieldHighlight, TextSpan } from '../../types';
+import { DocumentFields, TextSpan } from '../../types';
 import { getDocFieldValue } from '../common/documentUtils';
 import { TextBoxMappingResult } from '../textBoxMapping/types';
 import { BaseTextLayoutCell } from './BaseTextLayout';

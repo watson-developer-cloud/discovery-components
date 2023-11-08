@@ -18,7 +18,7 @@ const relation: any = [
 
 describe('idUtils - function getId', () => {
   it('gives back id from a valid item', () => {
-    expect(getId(elements[0])).toBe('469800_469817');
+    expect(getId(elements[0])).toBe('DEFAULT_F_469800_469817');
   });
 
   it('gives back undefined from an invalid item', () => {
@@ -29,7 +29,7 @@ describe('idUtils - function getId', () => {
 
 describe('idUtils - function findElement', () => {
   it('finds an element in the given list that matches the given ids', () => {
-    expect(findElement(elements, ['469800_469817'])).toBe(elements[0]);
+    expect(findElement(elements, ['DEFAULT_F_469800_469817'])).toBe(elements[0]);
   });
 
   it('gives back undefined if it could not match the given ids', () => {

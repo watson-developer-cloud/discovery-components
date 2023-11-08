@@ -1,13 +1,8 @@
 import { QueryResult, QueryResultPassage } from 'ibm-watson/discovery/v2';
 import { Table } from 'utils/document';
 import { nonEmpty } from 'utils/nonEmpty';
-import {
-  Bbox,
-  DocumentBboxHighlight,
-  DocumentFieldHighlight,
-  HighlightShape,
-  HighlightShapeBox
-} from '../../types';
+import { Bbox, DocumentBboxHighlight, HighlightShape, HighlightShapeBox } from '../../types';
+import { DocumentFieldHighlight } from 'components/DocumentPreview/types';
 
 export const DEFAULT_HIGHLIGHT_ID = 'highlight';
 

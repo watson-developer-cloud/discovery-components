@@ -1,6 +1,6 @@
 import { QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { ProcessedDoc } from 'utils/document';
-import { Location } from 'utils/document/processDoc';
+import { Location } from '../../../types';
 import { getHighlightedTable } from '../tables';
 import { isTable } from '../typeUtils';
 
