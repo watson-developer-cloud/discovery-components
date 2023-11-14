@@ -1,9 +1,10 @@
+import Debug from 'debug';
 import { forEachRectInRange, getTextNodeAndOffset } from 'utils/document/documentUtils';
 import { Bbox, TextSpan } from '../../types';
 import { END, START } from '../../../../utils/textSpan';
 import { TextLayoutCell } from './types';
 
-const debugOut = require('debug')?.('pdf:textLayout:dom');
+const debugOut = Debug('pdf:textLayout:dom');
 function debug(...args: any) {
   debugOut?.apply(null, args);
 }

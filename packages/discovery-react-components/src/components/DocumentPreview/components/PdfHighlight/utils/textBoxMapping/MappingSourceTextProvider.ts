@@ -1,3 +1,4 @@
+import Debug from 'debug';
 import minBy from 'lodash/minBy';
 import { spanGetText, spanLen, START } from '../../../../utils/textSpan';
 import { TextSpan } from '../../types';
@@ -5,7 +6,7 @@ import { TextNormalizer } from '../common/TextNormalizer';
 import { TextLayoutCell } from '../textLayout/types';
 import { TextProvider } from './TextProvider';
 
-const debugOut = require('debug')?.('pdf:mapping:MappingSourceTextProvider');
+const debugOut = Debug('pdf:mapping:MappingSourceTextProvider');
 function debug(...args: any) {
   debugOut?.apply(null, args);
 }

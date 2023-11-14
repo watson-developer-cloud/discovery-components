@@ -1,3 +1,4 @@
+import Debug from 'debug';
 import flatMap from 'lodash/flatMap';
 import { TextContent } from 'pdfjs-dist/types/display/api';
 import { PageViewport } from 'pdfjs-dist/types/display/display_utils';
@@ -11,7 +12,7 @@ import { HtmlBboxTextLayout, PdfTextContentTextLayout, TextMappingsTextLayout } 
 import { HtmlBboxInfo, TextLayout, TextLayoutCell } from './textLayout/types';
 import { isNextToEachOther } from './common/bboxUtils';
 
-const debugOut = require('debug')?.('pdf:Highlighter');
+const debugOut = Debug('pdf:Highlighter');
 function debug(...args: any) {
   debugOut?.apply(null, args);
 }
