@@ -1,4 +1,4 @@
-import React, { FC, useContext, SyntheticEvent } from 'react';
+import { FC, useContext, SyntheticEvent } from 'react';
 import {
   RadioButtonGroup as CarbonRadioButtonGroup,
   RadioButton as CarbonRadioButton

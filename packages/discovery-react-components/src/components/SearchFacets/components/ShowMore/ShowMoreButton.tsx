@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Button } from 'carbon-components-react';
 import { Messages } from 'components/SearchFacets/messages';
 

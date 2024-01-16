@@ -1,4 +1,4 @@
-import React, { FC, SyntheticEvent } from 'react';
+import { FC, SyntheticEvent } from 'react';
 import {
   SelectableDynamicFacets,
   SearchFilterFacets,

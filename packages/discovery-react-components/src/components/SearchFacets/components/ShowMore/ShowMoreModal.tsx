@@ -1,4 +1,4 @@
-import React, { FC, useState, SyntheticEvent } from 'react';
+import { FC, useState, SyntheticEvent } from 'react';
 import { Modal } from 'carbon-components-react';
 import { showMoreModalClass } from 'components/SearchFacets/cssClasses';
 import { Messages } from 'components/SearchFacets/messages';

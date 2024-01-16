@@ -1,4 +1,4 @@
-import React, { FC, useState, useContext, useEffect } from 'react';
+import { FC, useState, useContext, useEffect } from 'react';
 import { CodeSnippet } from 'carbon-components-react';
 import { RuleGroup } from './components/RuleGroup/RuleGroup';
 import { AddRuleRowButton } from './components/AddRuleRowButton/AddRuleRowButton';

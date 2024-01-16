@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { settings } from 'carbon-components';
 import { Items, OnActiveLinkChangeFn } from './types';
 import Details from './Details';

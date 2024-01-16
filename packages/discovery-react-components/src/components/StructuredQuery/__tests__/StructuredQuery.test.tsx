@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, RenderResult, fireEvent } from '@testing-library/react';
 import StructuredQuery, { StructuredQueryProps } from '../StructuredQuery';
 import { wrapWithContext } from 'utils/testingUtils';

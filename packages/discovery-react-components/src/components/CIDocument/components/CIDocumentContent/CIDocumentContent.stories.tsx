@@ -1,5 +1,3 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { withKnobs, radios } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
@@ -55,7 +53,14 @@ const longDocument = {
   ]
 };
 
-const docs = {
+type Doc = {
+  document_id?: string;
+  title?: string;
+  sections?: any | Array<any>;
+  styles?: string[];
+};
+
+const docs: Record<string, Doc> = {
   contracts: contract,
   shortDocument: shortDocument,
   longDocument: longDocument
@@ -71,10 +76,14 @@ const storyStyle = `
   background-color: #fff;
 }`;
 
-storiesOf('CIDocument/components/CIDocumentContent', module)
-  .addDecorator(withKnobs)
-  .add('default', () => {
-    const modelId = radios(label, options, defaultValue, groupId);
+export default {
+  title: 'CIDocument/components/CIDocumentContent',
+  decorators: [withKnobs]
+};
+
+export const Default = {
+  render: () => {
+    const modelId = radios(label, options, defaultValue, groupId) as keyof typeof docs;
 
     return (
       <>
@@ -90,15 +99,20 @@ storiesOf('CIDocument/components/CIDocumentContent', module)
         </div>
       </>
     );
-  })
-  .add('loading', () => {
+  },
+
+  name: 'default'
+};
+
+export const Loading = {
+  render: () => {
     return (
       <>
         <style>
           {storyStyle +
             `.doc {
-              overflow: scroll;
-            }`}
+                overflow: scroll;
+              }`}
         </style>
         <div className="story">
           <CIDocumentContent
@@ -112,4 +126,7 @@ storiesOf('CIDocument/components/CIDocumentContent', module)
         </div>
       </>
     );
-  });
+  },
+
+  name: 'loading'
+};

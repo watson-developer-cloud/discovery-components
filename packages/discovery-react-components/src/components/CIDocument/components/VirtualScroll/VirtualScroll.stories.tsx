@@ -2,7 +2,6 @@ import React, { MutableRefObject, ReactElement, useRef } from 'react';
 
 import { LoremIpsum } from 'lorem-ipsum';
 import seedrandom from 'seedrandom';
-import { storiesOf } from '@storybook/react';
 
 import VirtualScroll from './VirtualScroll';
 
@@ -69,6 +68,11 @@ const VirtualScrollTester = (): ReactElement => {
   );
 };
 
-storiesOf('CIDocument/components/VirtualScroll', module).add('default', () => (
-  <VirtualScrollTester />
-));
+export default {
+  title: 'CIDocument/components/VirtualScroll'
+};
+
+export const Default = {
+  render: () => <VirtualScrollTester />,
+  name: 'default'
+};

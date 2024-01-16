@@ -1,5 +1,3 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { withKnobs, radios, number } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import PdfViewer from './PdfViewer';
@@ -39,9 +37,13 @@ const zoomKnob = {
   defaultValue: '1'
 };
 
-storiesOf('DocumentPreview/components/PdfViewer', module)
-  .addDecorator(withKnobs)
-  .add('default', () => {
+export default {
+  title: 'DocumentPreview/components/PdfViewer',
+  decorators: [withKnobs]
+};
+
+export const Default = {
+  render: () => {
     const page = number(pageKnob.label, pageKnob.defaultValue, pageKnob.options);
 
     const zoom = radios(zoomKnob.label, zoomKnob.options, zoomKnob.defaultValue);
@@ -68,4 +70,7 @@ storiesOf('DocumentPreview/components/PdfViewer', module)
         />
       </div>
     );
-  });
+  },
+
+  name: 'default'
+};

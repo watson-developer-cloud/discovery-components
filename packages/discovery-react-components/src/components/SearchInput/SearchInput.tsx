@@ -2,15 +2,7 @@
  * @class SearchInput
  */
 
-import React, {
-  FC,
-  useContext,
-  useEffect,
-  useState,
-  SyntheticEvent,
-  KeyboardEvent,
-  useMemo
-} from 'react';
+import { FC, useContext, useEffect, useState, SyntheticEvent, KeyboardEvent, useMemo } from 'react';
 import { settings } from 'carbon-components';
 import { Search as CarbonSearchInput } from 'carbon-components-react';
 import ListBox from 'carbon-components-react/es/components/ListBox';
@@ -25,7 +17,7 @@ import { withErrorBoundary } from 'react-error-boundary';
 import onErrorCallback from 'utils/onErrorCallback';
 import { FallbackComponent } from 'utils/FallbackComponent';
 
-interface SearchInputProps {
+export interface SearchInputProps {
   /**
    * className to style SearchInput
    */

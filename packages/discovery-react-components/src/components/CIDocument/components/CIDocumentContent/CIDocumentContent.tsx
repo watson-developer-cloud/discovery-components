@@ -3,7 +3,7 @@
  * performance reasons.
  */
 
-import React, { FC, ReactElement, MutableRefObject, useEffect, useRef } from 'react';
+import { FC, ReactElement, MutableRefObject, useEffect, useRef } from 'react';
 import cx from 'classnames';
 import { settings } from 'carbon-components';
 import { SkeletonText } from 'carbon-components-react';

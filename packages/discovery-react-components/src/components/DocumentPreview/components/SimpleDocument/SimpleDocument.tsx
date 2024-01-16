@@ -1,11 +1,4 @@
-import React, {
-  ComponentType,
-  useContext,
-  useEffect,
-  useRef,
-  forwardRef,
-  HTMLAttributes
-} from 'react';
+import { ComponentType, useContext, useEffect, useRef, forwardRef, HTMLAttributes } from 'react';
 import { encodeHTML } from 'entities';
 import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';

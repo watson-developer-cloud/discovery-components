@@ -1,4 +1,4 @@
-import React, { FC, useContext } from 'react';
+import { FC, useContext } from 'react';
 import get from 'lodash/get';
 import { Messages } from '../messages';
 import { collectionFacetIdPrefix } from '../cssClasses';

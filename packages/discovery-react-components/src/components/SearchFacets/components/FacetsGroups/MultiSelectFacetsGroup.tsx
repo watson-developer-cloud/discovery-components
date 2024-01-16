@@ -1,4 +1,4 @@
-import React, { FC, useContext, SyntheticEvent } from 'react';
+import { FC, useContext, SyntheticEvent } from 'react';
 import { Buffer } from 'buffer';
 import { optionClass, optionLabelClass } from 'components/SearchFacets/cssClasses';
 import { Messages } from 'components/SearchFacets/messages';

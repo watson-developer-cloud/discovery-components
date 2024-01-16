@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, SyntheticEvent } from 'react';
+import { FC, useState, useEffect, SyntheticEvent } from 'react';
 import filter from 'lodash/filter';
 import get from 'lodash/get';
 import ListBox from 'carbon-components-react/es/components/ListBox';
@@ -141,7 +141,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
   };
 
   const translateWithId = (id: string): string => {
-    const mapping = {
+    const mapping: Record<string, string> = {
       'clear.all': messages.clearFacetTitle,
       'clear.selection': messages.clearFacetSelectionTitle
     };

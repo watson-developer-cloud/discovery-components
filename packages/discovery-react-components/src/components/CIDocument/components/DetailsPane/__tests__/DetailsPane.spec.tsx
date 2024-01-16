@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, BoundFunction, GetByText, AllByText, fireEvent } from '@testing-library/react';
 import DetailsPane from '../DetailsPane';
 import { Items, OnActiveLinkChangeFn } from '../types';

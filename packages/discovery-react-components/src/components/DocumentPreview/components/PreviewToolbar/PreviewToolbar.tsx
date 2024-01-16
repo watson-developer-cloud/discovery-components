@@ -193,9 +193,9 @@ const PreviewToolbar: FC<Props> = ({
 };
 
 function renderUserAction(action: ToolbarAction & { key: string }) {
-  if (action['renderIcon']) {
+  if ((action as ToolbarButton)?.renderIcon) {
     return renderButton(action as ToolbarButton & { key: string });
-  } else if (action['render']) {
+  } else if ((action as ToolbarItem)?.render) {
     const { key, ...item } = action as ToolbarItem & { key: string };
     const Component = item.render;
     return <Component key={action.key} />;

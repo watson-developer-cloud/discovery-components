@@ -1,5 +1,3 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import DetailsPane from './DetailsPane';
 import { Items } from './types';
@@ -23,10 +21,18 @@ const mockData: Items[] = [
   }
 ];
 
-storiesOf('CIDocument/components/DetailsPane', module).add('DetailsPane', () => {
-  return (
-    <div style={{ maxWidth: '30%', minWidth: '200px' }}>
-      <DetailsPane items={mockData} onActiveLinkChange={action('active-link-change')} />
-    </div>
-  );
-});
+export default {
+  title: 'CIDocument/components/DetailsPane'
+};
+
+export const _DetailsPane = {
+  render: () => {
+    return (
+      <div style={{ maxWidth: '30%', minWidth: '200px' }}>
+        <DetailsPane items={mockData} onActiveLinkChange={action('active-link-change')} />
+      </div>
+    );
+  },
+
+  name: 'DetailsPane'
+};

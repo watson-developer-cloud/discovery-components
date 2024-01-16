@@ -30,7 +30,7 @@ export const nonContractDetailsFromItem = (item: any): Items[] => {
   return details;
 };
 
-const modelMapping = {
+const modelMapping: Record<string, (item: any) => Items[]> = {
   contract: contractDetailsFromItem,
   invoice: nonContractDetailsFromItem,
   purchase_order: nonContractDetailsFromItem

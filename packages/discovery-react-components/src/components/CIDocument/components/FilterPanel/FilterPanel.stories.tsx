@@ -1,13 +1,15 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import FilterPanel from './FilterPanel';
 import filter from './__fixtures__/filter.json';
 import filterGroups from './__fixtures__/filterGroups.json';
 import { FilterGroup } from './types';
 
-storiesOf('CIDocument/components/FilterPanel', module)
-  .add('default', () => (
+export default {
+  title: 'CIDocument/components/FilterPanel'
+};
+
+export const Default = {
+  render: () => (
     <div style={{ maxWidth: '30%', minWidth: '200px' }}>
       <FilterPanel
         filter={filter}
@@ -16,9 +18,17 @@ storiesOf('CIDocument/components/FilterPanel', module)
         onFilterClear={action('filter-clear')}
       />
     </div>
-  ))
-  .add('loading', () => (
+  ),
+
+  name: 'default'
+};
+
+export const Loading = {
+  render: () => (
     <div style={{ maxWidth: '30%', minWidth: '200px' }}>
       <FilterPanel filter={null} filterGroups={null} />
     </div>
-  ));
+  ),
+
+  name: 'loading'
+};

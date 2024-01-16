@@ -1,4 +1,4 @@
-import React, { FC, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import { QueryResultPassage, QueryResult, QueryTableResult } from 'ibm-watson/discovery/v2';
 import TableHighlight from './TableHighlight';
 import PassageHighlight from './PassageHighlight';

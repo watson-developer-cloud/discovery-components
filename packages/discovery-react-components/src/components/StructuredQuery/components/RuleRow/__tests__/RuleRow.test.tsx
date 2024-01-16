@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, RenderResult } from '@testing-library/react';
 import StructuredQuery from 'components/StructuredQuery/StructuredQuery';
 

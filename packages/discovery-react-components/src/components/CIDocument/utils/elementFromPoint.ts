@@ -47,8 +47,7 @@ export function elementFromPointFallback(
 // @ts-expect-error function is not always defined
 const exportFn = document.elementsFromPoint
   ? elementFromPoint
-  : // @ts-expect-error function is not always defined
-  (document as MsDocument).msElementsFromPoint
+  : (document as MsDocument).msElementsFromPoint
   ? elementFromPointMs
   : elementFromPointFallback;
 export default exportFn;

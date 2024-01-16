@@ -1,4 +1,4 @@
-import React, { FC, Dispatch, SetStateAction } from 'react';
+import { FC, Dispatch, SetStateAction } from 'react';
 import { Button } from 'carbon-components-react';
 import { Add16 } from '@carbon/icons-react';
 import { Messages } from 'components/StructuredQuery/messages';

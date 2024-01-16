@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React from 'react';
 import { render } from '@testing-library/react';
 import parser from 'fast-xml-parser';
 import { processDoc, ProcessedDoc } from '../processDoc';

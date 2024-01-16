@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 import { settings } from 'carbon-components';
 import { ReactComponent as DocumentPreviewIcon } from './icons/document_preview.svg';
 

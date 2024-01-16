@@ -22,9 +22,8 @@ describe('Pagination', () => {
 
     it('items per page has the correct options available', () => {
       itemsPerPageOptions.forEach(option => {
-        cy.findByLabelText(/^Items per page/)
-          .select(option)
-          .should('have.value', option);
+        cy.findByLabelText(/^Items per page/).select(option);
+        cy.findByLabelText(/^Items per page/).should('have.value', option);
       });
     });
   });
@@ -77,6 +76,7 @@ describe('Pagination', () => {
     describe('and we navigate to the last page of results', () => {
       beforeEach(() => {
         // click 'next' 5 times to get to end
+        // eslint-disable-next-line cypress/unsafe-to-chain-command
         cy.findByLabelText('Next page').click().click().click().click().click();
         cy.wait('@postQueryMultiPage');
       });

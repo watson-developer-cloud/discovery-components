@@ -29,7 +29,7 @@ import onErrorCallback from 'utils/onErrorCallback';
 import { FallbackComponent } from 'utils/FallbackComponent';
 import { withErrorBoundary } from 'react-error-boundary';
 
-interface SearchFacetsProps {
+export interface SearchFacetsProps {
   /**
    * ID for the SearchFacets
    */

@@ -1,4 +1,4 @@
-import React, { FC, SyntheticEvent } from 'react';
+import { FC, SyntheticEvent } from 'react';
 import get from 'lodash/get';
 import filter from 'lodash/filter';
 import cloneDeep from 'lodash/cloneDeep';

@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { render, waitFor, screen } from '@testing-library/react';
 // PDF.js uses web streams, which aren't defined in jest/JSDOM
 import 'web-streams-polyfill/es2018';

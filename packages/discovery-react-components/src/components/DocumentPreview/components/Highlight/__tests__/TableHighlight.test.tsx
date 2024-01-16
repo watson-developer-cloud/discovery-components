@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { act, render, waitForElement } from '@testing-library/react';
 import Highlight from '../Highlight';
 import docJson from 'components/DocumentPreview/__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';

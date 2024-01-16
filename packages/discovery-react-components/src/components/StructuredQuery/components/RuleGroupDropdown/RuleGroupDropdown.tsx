@@ -1,4 +1,4 @@
-import React, { FC, Dispatch, SetStateAction } from 'react';
+import { FC, Dispatch, SetStateAction } from 'react';
 import { Dropdown } from 'carbon-components-react';
 import { Messages } from 'components/StructuredQuery/messages';
 import { structuredQueryRuleGroupDropdownClass } from 'components/StructuredQuery/cssClasses';

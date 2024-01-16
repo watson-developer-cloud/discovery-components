@@ -1,4 +1,4 @@
-import React, { cloneElement } from 'react';
+import { cloneElement } from 'react';
 import { render, fireEvent, RenderResult, wait } from '@testing-library/react';
 import DiscoverySearch, {
   DiscoverySearchProps,

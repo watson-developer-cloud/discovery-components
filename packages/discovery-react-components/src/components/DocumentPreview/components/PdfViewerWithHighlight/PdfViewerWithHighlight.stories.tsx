@@ -7,7 +7,6 @@ import React, {
   useRef,
   useState
 } from 'react';
-import { storiesOf } from '@storybook/react';
 import { withKnobs, radios, number, select, files } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import { ChevronUp24 } from '@carbon/icons-react';
@@ -90,7 +89,7 @@ const highlightKnob = {
     empty: EMPTY,
     companies: HIGHLIGHT_COMPANIES,
     customerGroups: HIGHLIGHT_CUSTOMER_GROUPS
-  }
+  } as Record<string, DocumentFieldHighlight[]>
 };
 
 // @ts-expect-error forwardRef makes PdfViewerWithHighlight a ForwardRefExoticComponent,
@@ -291,9 +290,13 @@ const WithToolbar: FC<
   );
 };
 
-storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
-  .addDecorator(withKnobs)
-  .add('default', () => {
+export default {
+  title: 'DocumentPreview/components/PdfViewerWithHighlight',
+  decorators: [withKnobs]
+};
+
+export const Default = {
+  render: () => {
     const page = number(pageKnob.label, pageKnob.defaultValue, pageKnob.options);
     const zoom = radios(zoomKnob.label, zoomKnob.options, zoomKnob.defaultValue);
     const scale = parseFloat(zoom);
@@ -322,7 +325,7 @@ storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
     useEffect(() => {
       const items = highlightKnob.data[highlights];
       const item = items[activeId];
-      setActiveIds(item ? [item.id] : []);
+      setActiveIds(item?.id ? [item.id] : []);
     }, [activeId, highlights]);
 
     return (
@@ -338,8 +341,13 @@ storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
         pdfWorkerUrl={PDF_WORKER_URL}
       />
     );
-  })
-  .add('with text selection', () => {
+  },
+
+  name: 'default'
+};
+
+export const _WithTextSelection = {
+  render: () => {
     const page = number(pageKnob.label, pageKnob.defaultValue, pageKnob.options);
     const zoom = radios(zoomKnob.label, zoomKnob.options, zoomKnob.defaultValue);
     const scale = parseFloat(zoom);
@@ -358,8 +366,13 @@ storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
         pdfWorkerUrl={PDF_WORKER_URL}
       />
     );
-  })
-  .add('with PDF in Japanese', () => {
+  },
+
+  name: 'with text selection'
+};
+
+export const WithPdfInJapanese = {
+  render: () => {
     const page = number(pageKnob.label, pageKnob.defaultValue, pageKnob.options);
     const zoom = radios(zoomKnob.label, zoomKnob.options, zoomKnob.defaultValue);
     const scale = parseFloat(zoom);
@@ -378,8 +391,13 @@ storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
         pdfWorkerUrl={PDF_WORKER_URL}
       />
     );
-  })
-  .add("with user's PDF and JSON", () => {
+  },
+
+  name: 'with PDF in Japanese'
+};
+
+export const WithUsersPdfAndJson = {
+  render: () => {
     const pdfFile = files(pdfFileKnob.label, pdfFileKnob.accept);
     const documentFile = files(documentFileKnob.label, documentFileKnob.accept);
     const page = number(pageKnob.label, pageKnob.defaultValue, pageKnob.options);
@@ -420,8 +438,13 @@ storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
         pdfWorkerUrl={PDF_WORKER_URL}
       />
     );
-  })
-  .add('with preview toolbar', () => {
+  },
+
+  name: "with user's PDF and JSON"
+};
+
+export const WithPreviewToolbar = {
+  render: () => {
     const highlights = select(
       highlightKnob.label,
       highlightKnob.options,
@@ -439,4 +462,7 @@ storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
         highlights={highlightKnob.data[highlights]}
       />
     );
-  });
+  },
+
+  name: 'with preview toolbar'
+};

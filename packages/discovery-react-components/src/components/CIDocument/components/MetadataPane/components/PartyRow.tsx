@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import cx from 'classnames';
 import { Link } from 'carbon-components-react';
 import { getId } from 'utils/document/idUtils';

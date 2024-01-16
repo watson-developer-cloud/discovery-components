@@ -1,34 +1,41 @@
-module.exports = {
-  stories: process.env.STORYBOOK_BUILD_MODE == 'production' ? ['../src/**/__stories__/*.stories.tsx'] : ['../src/**/*.stories.tsx'],
+import { dirname, join } from 'path';
+import { StorybookConfig } from '@storybook/react-vite';
+
+const config: StorybookConfig = {
+  stories:
+    process.env.STORYBOOK_BUILD_MODE == 'production'
+      ? ['../src/**/__stories__/*.stories.tsx']
+      : ['../src/**/*.stories.tsx'],
+
   addons: [
-    '@storybook/preset-create-react-app',
-    '@storybook/addon-actions',
+    getAbsolutePath('@storybook/addon-actions'),
     {
       name: '@storybook/addon-docs',
       options: {
-        configureJSX: true,
-      },
+        configureJSX: true
+      }
     },
-    '@storybook/addon-knobs'
+    getAbsolutePath('@storybook/addon-knobs')
   ],
+
   core: {
-    builder: 'webpack5',
+    disableTelemetry: true
   },
+
   staticDirs: ['../../../node_modules/pdfjs-dist/build/'],
-  webpackFinal: (config) => {
-    // ignore some Node.js packages
-    config.resolve.fallback.crypto = false;
-    config.resolve.fallback.fs = false;
-    config.resolve.fallback.https = false;
-    config.resolve.fallback.os = false;
-    config.resolve.fallback.stream = false;
-    config.resolve.fallback.zlib = false;
 
-    config.module.rules.push({
-      test: /\.worker\.min\.js$/,
-      use: 'raw-loader'
-    });
+  framework: {
+    name: getAbsolutePath('@storybook/react-vite'),
+    options: {}
+  },
 
-    return config;
+  docs: {
+    autodocs: true
   }
 };
+
+function getAbsolutePath(value: string): any {
+  return dirname(require.resolve(join(value, 'package.json')));
+}
+
+export default config;

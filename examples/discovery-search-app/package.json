@@ -21,20 +21,20 @@
     "server:setup": "node ./scripts/setSdkUrl.js"
   },
   "dependencies": {
-    "@carbon/icons": "^10.5.0",
+    "@carbon/icons": "^10.48.3",
     "@ibm-watson/discovery-react-components": "workspace:*",
     "@ibm-watson/discovery-styles": "workspace:*",
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.20.2",
     "carbon-components": "~10.46.0",
     "carbon-components-react": "~7.46.0",
     "carbon-icons": "^7.0.7",
-    "classnames": "^2.2.6",
+    "classnames": "^2.5.1",
     "core-js": "^2.6.12",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
-    "express": "^4.17.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
     "http-proxy-middleware": "^0.20.0",
-    "ibm-watson": "^6.2.1",
+    "ibm-watson": "^6.2.2",
     "node-polyfill-webpack-plugin": "^2.0.1",
     "proper-url-join": "^2.1.1",
     "react": "^17.0.2",
@@ -42,10 +42,10 @@
   },
   "devDependencies": {
     "@testing-library/cypress": "^7.0.7",
-    "@types/proper-url-join": "^2",
+    "@types/proper-url-join": "^2.1.4",
     "cross-env": "^7.0.3",
-    "cypress": "^10.8.0",
+    "cypress": "^10.11.0",
     "react-scripts": "^5.0.1",
-    "start-server-and-test": "^1.14.0"
+    "start-server-and-test": "^1.15.4"
   }
 }

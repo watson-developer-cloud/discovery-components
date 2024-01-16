@@ -1,4 +1,3 @@
-import React from 'react';
 import FilterPanel from '../FilterPanel';
 import filter from '../__fixtures__/filter.json';
 import filterGroups from '../__fixtures__/filterGroups.json';

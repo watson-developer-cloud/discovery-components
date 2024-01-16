@@ -9,6 +9,7 @@ type GlobalWorkerOptionsDelta = {
 
 const setPdfJsGlobalWorkerOptions = (options: GlobalWorkerOptionsDelta): void => {
   for (const [option, value] of Object.entries(options)) {
+    // @ts-expect-error
     PdfjsLib.GlobalWorkerOptions[option] = value;
   }
 };

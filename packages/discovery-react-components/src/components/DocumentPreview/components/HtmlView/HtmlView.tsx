@@ -1,11 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  useLayoutEffect,
-  forwardRef,
-  HTMLAttributes
-} from 'react';
+import { useEffect, useState, useRef, useLayoutEffect, forwardRef, HTMLAttributes } from 'react';
 import { settings } from 'carbon-components';
 import { QueryResult, QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import DOMPurify from 'dompurify';
@@ -135,8 +128,8 @@ export const HtmlView = forwardRef<any, Props>(
             setHighlightLocations(passageLocs);
           }
         } else {
-          const tableLoc = get(highlight, 'table.location', {});
-          setHighlightLocations([tableLoc]);
+          const tableLoc = (highlight as QueryTableResult)?.table?.location;
+          setHighlightLocations(tableLoc ? [tableLoc] : []);
         }
       }
     }, [document, highlight, processedDoc]);

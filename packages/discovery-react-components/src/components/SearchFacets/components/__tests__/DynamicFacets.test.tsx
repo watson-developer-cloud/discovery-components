@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { screen, render, fireEvent, RenderResult } from '@testing-library/react';
 import { wrapWithContext } from 'utils/testingUtils';
 import {
@@ -94,14 +93,18 @@ describe('DynamicFacetsComponent', () => {
 
     test('checkboxes are unchecked when initially rendered', async () => {
       const { searchFacetsComponent } = setup();
-      const embiidCheckbox = await searchFacetsComponent.findByLabelText('trust the process');
-      expect(embiidCheckbox['checked']).toEqual(false);
+      const embiidCheckbox = (await searchFacetsComponent.findByLabelText(
+        'trust the process'
+      )) as HTMLInputElement;
+      expect(embiidCheckbox.checked).toEqual(false);
     });
 
     test('checkboxes are checked when set in filter query', async () => {
       const { searchFacetsComponent } = setup({ filter: '"sam hinkie"' });
-      const saviorCheckbox = await searchFacetsComponent.findByLabelText('sam hinkie');
-      expect(saviorCheckbox['checked']).toEqual(true);
+      const saviorCheckbox = (await searchFacetsComponent.findByLabelText(
+        'sam hinkie'
+      )) as HTMLInputElement;
+      expect(saviorCheckbox.checked).toEqual(true);
     });
   });
 

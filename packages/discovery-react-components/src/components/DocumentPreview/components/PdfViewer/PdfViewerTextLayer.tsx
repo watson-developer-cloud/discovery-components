@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useCallback } from 'react';
+import { FC, useEffect, useRef, useCallback } from 'react';
 import cx from 'classnames';
 import { TextContent, TextItem, PDFPageProxy } from 'pdfjs-dist/types/display/api';
 import { PageViewport } from 'pdfjs-dist/types/display/display_utils';

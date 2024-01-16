@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { render, fireEvent, RenderResult, waitFor, within } from '@testing-library/react';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { wrapWithContext } from 'utils/testingUtils';
@@ -189,13 +188,17 @@ describe('FieldFacetsComponent', () => {
 
     test('checkboxes are unchecked when initially rendered', async () => {
       const { fieldFacetsComponent } = setup();
-      const animalsCheckbox = await fieldFacetsComponent.findByLabelText('Animals (138993)');
+      const animalsCheckbox = (await fieldFacetsComponent.findByLabelText(
+        'Animals (138993)'
+      )) as HTMLInputElement;
       expect(animalsCheckbox['checked']).toEqual(false);
     });
 
     test('checkboxes are checked when set in filter query', async () => {
       const { fieldFacetsComponent } = setup({ filter: 'subject::Animals' });
-      const animalsCheckbox = await fieldFacetsComponent.findByLabelText('Animals (138993)');
+      const animalsCheckbox = (await fieldFacetsComponent.findByLabelText(
+        'Animals (138993)'
+      )) as HTMLInputElement;
       expect(animalsCheckbox['checked']).toEqual(true);
     });
   });
@@ -360,7 +363,7 @@ describe('FieldFacetsComponent', () => {
 
       test('should only deselect one of the two', () => {
         const { fieldFacetsComponent } = setupResult;
-        const checkboxes = fieldFacetsComponent.getAllByLabelText('two (2)');
+        const checkboxes = fieldFacetsComponent.getAllByLabelText('two (2)') as HTMLInputElement[];
         expect(checkboxes).toHaveLength(2);
         expect(checkboxes[0]['checked']).toEqual(true);
         expect(checkboxes[1]['checked']).toEqual(false);
@@ -422,7 +425,7 @@ describe('FieldFacetsComponent', () => {
 
     test('should only select one of the two', () => {
       const { fieldFacetsComponent } = setupResult;
-      const checkboxes = fieldFacetsComponent.getAllByLabelText('hi (1)');
+      const checkboxes = fieldFacetsComponent.getAllByLabelText('hi (1)') as HTMLInputElement[];
       expect(checkboxes).toHaveLength(2);
       expect(checkboxes[0]['checked']).toEqual(true);
       expect(checkboxes[1]['checked']).toEqual(false);
@@ -573,7 +576,9 @@ describe('FieldFacetsComponent', () => {
         filter: 'subject::Animals',
         componentSettingsAggregations: updateSelectionSettings(['subject_id'])
       });
-      const animalRadioButton = await fieldFacetsComponent.findAllByLabelText('Animals (138993)');
+      const animalRadioButton = (await fieldFacetsComponent.findAllByLabelText(
+        'Animals (138993)'
+      )) as HTMLInputElement[];
       expect(animalRadioButton[0]['checked']).toEqual(true);
     });
 
@@ -900,8 +905,10 @@ describe('FieldFacetsComponent', () => {
           const { fieldFacetsComponent, performSearchMock } = setupResult;
           const locationCategoryHeader = fieldFacetsComponent.getByText('Location');
           fireEvent.click(locationCategoryHeader);
-          let pittsburghFacetValue = fieldFacetsComponent.getByLabelText('pittsburgh (57158)');
-          let usFacetValue = fieldFacetsComponent.getByLabelText('us (57158)');
+          let pittsburghFacetValue = fieldFacetsComponent.getByLabelText(
+            'pittsburgh (57158)'
+          ) as HTMLInputElement;
+          let usFacetValue = fieldFacetsComponent.getByLabelText('us (57158)') as HTMLInputElement;
           // First select facet values in one category and test it calls search with expected filter
           fireEvent.click(pittsburghFacetValue);
           expect(performSearchMock).toBeCalledTimes(1);
@@ -934,8 +941,10 @@ describe('FieldFacetsComponent', () => {
             }),
             false
           );
-          pittsburghFacetValue = fieldFacetsComponent.getByLabelText('pittsburgh (57158)');
-          usFacetValue = fieldFacetsComponent.getByLabelText('us (57158)');
+          pittsburghFacetValue = fieldFacetsComponent.getByLabelText(
+            'pittsburgh (57158)'
+          ) as HTMLInputElement;
+          usFacetValue = fieldFacetsComponent.getByLabelText('us (57158)') as HTMLInputElement;
           expect(pittsburghFacetValue['checked']).toEqual(false);
           expect(usFacetValue['checked']).toEqual(false);
         });
@@ -947,8 +956,12 @@ describe('FieldFacetsComponent', () => {
           // First select facet values across multiple categories and test it calls search with expected filters
           fireEvent.click(locationCategoryHeader);
           fireEvent.click(organizationCategoryHeader);
-          let pittsburghFacetValue = fieldFacetsComponent.getByLabelText('pittsburgh (57158)');
-          let ibmFacetValue = fieldFacetsComponent.getByLabelText('ibm (138993)');
+          let pittsburghFacetValue = fieldFacetsComponent.getByLabelText(
+            'pittsburgh (57158)'
+          ) as HTMLInputElement;
+          let ibmFacetValue = fieldFacetsComponent.getByLabelText(
+            'ibm (138993)'
+          ) as HTMLInputElement;
           fireEvent.click(pittsburghFacetValue);
           expect(performSearchMock).toBeCalledTimes(1);
           expect(performSearchMock).toBeCalledWith(
@@ -968,8 +981,10 @@ describe('FieldFacetsComponent', () => {
             }),
             false
           );
-          pittsburghFacetValue = fieldFacetsComponent.getByLabelText('pittsburgh (57158)');
-          ibmFacetValue = fieldFacetsComponent.getByLabelText('ibm (138993)');
+          pittsburghFacetValue = fieldFacetsComponent.getByLabelText(
+            'pittsburgh (57158)'
+          ) as HTMLInputElement;
+          ibmFacetValue = fieldFacetsComponent.getByLabelText('ibm (138993)') as HTMLInputElement;
           expect(pittsburghFacetValue['checked']).toEqual(true);
           expect(ibmFacetValue['checked']).toEqual(true);
           // Then clear facet values across multiple categories and test it calls search with empty filter
@@ -983,8 +998,10 @@ describe('FieldFacetsComponent', () => {
             }),
             false
           );
-          pittsburghFacetValue = fieldFacetsComponent.getByLabelText('pittsburgh (57158)');
-          ibmFacetValue = fieldFacetsComponent.getByLabelText('ibm (138993)');
+          pittsburghFacetValue = fieldFacetsComponent.getByLabelText(
+            'pittsburgh (57158)'
+          ) as HTMLInputElement;
+          ibmFacetValue = fieldFacetsComponent.getByLabelText('ibm (138993)') as HTMLInputElement;
           expect(pittsburghFacetValue['checked']).toEqual(false);
           expect(ibmFacetValue['checked']).toEqual(false);
         });

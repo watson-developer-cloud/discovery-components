@@ -1,5 +1,3 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { text, boolean, number, object } from '@storybook/addon-knobs';
 import SearchInput from '../SearchInput';
 import SearchResults from 'components/SearchResults/SearchResults';
@@ -61,9 +59,16 @@ const discoverySearchProps = (): DiscoverySearchProps => ({
   }
 });
 
-storiesOf('SearchInput', module)
-  .addParameters({ component: SearchInput })
-  .add('default', () => {
+export default {
+  title: 'SearchInput',
+
+  parameters: {
+    component: SearchInput
+  }
+};
+
+export const Default = {
+  render: () => {
     autocompletions = generateCompletionsArray(props().completionsCount, '');
     return (
       <StoryWrapper>
@@ -72,8 +77,13 @@ storiesOf('SearchInput', module)
         </DiscoverySearch>
       </StoryWrapper>
     );
-  })
-  .add('with spelling suggestions', () => {
+  },
+
+  name: 'default'
+};
+
+export const WithSpellingSuggestions = {
+  render: () => {
     const spellingSuggestionProps = {
       ...discoverySearchProps(),
       overrideQueryParameters: {
@@ -92,4 +102,7 @@ storiesOf('SearchInput', module)
         </DiscoverySearch>
       </StoryWrapper>
     );
-  });
+  },
+
+  name: 'with spelling suggestions'
+};

@@ -1,7 +1,7 @@
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 
 export interface QueryAggregationWithResults extends DiscoveryV2.QueryAggregation {
-  results?: DiscoveryV2.QueryTermAggregationResult;
+  results?: DiscoveryV2.QueryTermAggregationResult[];
 }
 
 export interface SelectableQueryTermAggregationResult

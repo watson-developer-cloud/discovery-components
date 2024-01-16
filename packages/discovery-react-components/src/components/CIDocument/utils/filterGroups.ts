@@ -82,7 +82,7 @@ function getBaseFilterGroups(
 
   return groups.map(group => ({
     ...group,
-    title: messages[messagesMap[group.id]]
+    title: messages[messagesMap[group.id as keyof typeof messagesMap]]
   }));
 }
 

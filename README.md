@@ -50,7 +50,7 @@ First, you will need to customize and improve your document retrieval project on
 
 - [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [nvm](https://github.com/nvm-sh/nvm#installation-and-update)
-  - Set Node version to 16.x.x via `nvm install 16` and `nvm use 16` (also compatible with Node 18)
+  - Set Node version `nvm use` (uses value defined in `.nvmrc` file)
 - [yarn](https://yarnpkg.com/getting-started/install) or [npm](https://www.npmjs.com/get-npm)
 - On MacOS, install any waiting OS Software Updates and install Xcode Command Line Tools by running `xcode-select --install` in terminal.
 

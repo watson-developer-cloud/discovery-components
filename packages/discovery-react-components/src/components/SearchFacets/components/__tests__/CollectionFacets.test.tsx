@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { screen, render, fireEvent, RenderResult } from '@testing-library/react';
 import { wrapWithContext } from 'utils/testingUtils';
 import { SearchContextIFC, SearchApiIFC } from 'components/DiscoverySearch/DiscoverySearch';

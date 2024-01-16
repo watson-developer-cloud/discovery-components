@@ -30,7 +30,11 @@ export function getDocFieldValue(
   }
 
   // to handle 'table' field's text mappings specially
-  if (field === 'table' && typeof fieldText?.['table_text'] === 'string') {
+  if (
+    field === 'table' &&
+    typeof fieldText === 'object' &&
+    typeof fieldText?.['table_text'] === 'string'
+  ) {
     return fieldText['table_text'];
   }
 

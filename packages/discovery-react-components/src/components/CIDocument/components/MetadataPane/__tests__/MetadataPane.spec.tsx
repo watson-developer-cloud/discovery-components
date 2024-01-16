@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, GetByText, BoundFunction, fireEvent } from '@testing-library/react';
 import MetadataPane from '../MetadataPane';
 import { mockMetadata } from '../__fixtures__/metadata';

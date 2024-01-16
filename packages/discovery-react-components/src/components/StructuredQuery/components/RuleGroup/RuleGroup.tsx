@@ -1,4 +1,4 @@
-import React, { FC, Dispatch, SetStateAction } from 'react';
+import { FC, Dispatch, SetStateAction } from 'react';
 import { Messages } from 'components/StructuredQuery/messages';
 import { RuleGroupDropdown } from '../RuleGroupDropdown/RuleGroupDropdown';
 import { RuleRow } from '../RuleRow/RuleRow';

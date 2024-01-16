@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { render, RenderResult, fireEvent, waitFor, within } from '@testing-library/react';
 import { wrapWithContext } from 'utils/testingUtils';
 import SearchFacets from 'components/SearchFacets/SearchFacets';
@@ -250,14 +249,20 @@ describe('CollapsibleFacetsGroupComponent', () => {
           const productsModal = searchFacetsComponent.getByTestId(
             'search-facet-show-more-modal-products'
           );
-          let assistantFacetValue = within(productsModal).getByLabelText('assistant (32444)');
-          expect(assistantFacetValue['checked']).toEqual(false);
+          let assistantFacetValue = within(productsModal).getByLabelText(
+            'assistant (32444)'
+          ) as HTMLInputElement;
+          expect(assistantFacetValue.checked).toEqual(false);
           fireEvent.click(assistantFacetValue);
-          assistantFacetValue = within(productsModal).getByLabelText('assistant (32444)');
-          expect(assistantFacetValue['checked']).toEqual(true);
+          assistantFacetValue = within(productsModal).getByLabelText(
+            'assistant (32444)'
+          ) as HTMLInputElement;
+          expect(assistantFacetValue.checked).toEqual(true);
           fireEvent.click(assistantFacetValue);
-          assistantFacetValue = within(productsModal).getByLabelText('assistant (32444)');
-          expect(assistantFacetValue['checked']).toEqual(false);
+          assistantFacetValue = within(productsModal).getByLabelText(
+            'assistant (32444)'
+          ) as HTMLInputElement;
+          expect(assistantFacetValue.checked).toEqual(false);
         });
 
         test('on submit of the modal, updates search with new facet selections and preserves selections', async () => {
@@ -281,10 +286,11 @@ describe('CollapsibleFacetsGroupComponent', () => {
             }),
             false
           );
-          const assistantFacetValues =
-            searchFacetsComponent.queryAllByLabelText('assistant (32444)');
-          expect(assistantFacetValues[0]['checked']).toEqual(true);
-          expect(assistantFacetValues[1]['checked']).toEqual(true);
+          const assistantFacetValues = searchFacetsComponent.queryAllByLabelText(
+            'assistant (32444)'
+          ) as HTMLInputElement[];
+          expect(assistantFacetValues[0].checked).toEqual(true);
+          expect(assistantFacetValues[1].checked).toEqual(true);
         });
 
         test('on cancel of modal, does not update search or preserve selections', async () => {
@@ -302,10 +308,11 @@ describe('CollapsibleFacetsGroupComponent', () => {
           const cancelButton = within(productsModal).getByText('Cancel');
           fireEvent.click(cancelButton);
           expect(performSearchMock).toBeCalledTimes(0);
-          const assistantFacetValues =
-            searchFacetsComponent.queryAllByLabelText('assistant (32444)');
-          expect(assistantFacetValues[0]['checked']).toEqual(false);
-          expect(assistantFacetValues[1]['checked']).toEqual(false);
+          const assistantFacetValues = searchFacetsComponent.queryAllByLabelText(
+            'assistant (32444)'
+          ) as HTMLInputElement[];
+          expect(assistantFacetValues[0].checked).toEqual(false);
+          expect(assistantFacetValues[1].checked).toEqual(false);
         });
 
         test('on close of modal, does not update search or preserve selections', async () => {
@@ -323,10 +330,11 @@ describe('CollapsibleFacetsGroupComponent', () => {
           const closeButton = within(productsModal).getByTitle('Close');
           fireEvent.click(closeButton);
           expect(performSearchMock).toBeCalledTimes(0);
-          const assistantFacetValues =
-            searchFacetsComponent.queryAllByLabelText('assistant (32444)');
-          expect(assistantFacetValues[0]['checked']).toEqual(false);
-          expect(assistantFacetValues[1]['checked']).toEqual(false);
+          const assistantFacetValues = searchFacetsComponent.queryAllByLabelText(
+            'assistant (32444)'
+          ) as HTMLInputElement[];
+          expect(assistantFacetValues[0].checked).toEqual(false);
+          expect(assistantFacetValues[1].checked).toEqual(false);
         });
       });
     });
