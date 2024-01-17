@@ -86,7 +86,7 @@
     "carbon-components": ">= 10.46.0 < 11",
     "carbon-components-react": ">= 7.46.0 < 8",
     "core-js": "^2.6.12",
-    "ibm-watson": "^6.0.2",
+    "ibm-watson": "^7",
     "react": ">= 16.8.0 < 18",
     "react-dom": ">= 16.8.0 < 18"
   },

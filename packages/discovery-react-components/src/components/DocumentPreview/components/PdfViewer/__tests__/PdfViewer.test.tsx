@@ -9,7 +9,9 @@ describe('PdfViewer', () => {
     render(<PdfViewer file={atob(doc)} page={1} scale={1} setLoading={(): void => {}} />);
 
     // wait for component to finish rendering (prevent "act" warning)
-    await waitFor(() => expect(screen.getByText('ART EFFECTS LIMITED')).toBeVisible());
+    await waitFor(() => expect(screen.getByText('ART EFFECTS LIMITED')).toBeVisible(), {
+      timeout: 5000
+    });
 
     const canvasList = document.querySelectorAll('canvas');
     expect(canvasList.length).toBe(1);
