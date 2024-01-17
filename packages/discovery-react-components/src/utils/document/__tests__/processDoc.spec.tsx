@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import parser from 'fast-xml-parser';
+import { XMLValidator } from 'fast-xml-parser';
 import { processDoc, ProcessedDoc } from '../processDoc';
 import contractData from '../__fixtures__/contract.json';
 import escapedCharData from '../__fixtures__/escaped_char_document.json';
@@ -10,7 +10,7 @@ import isEqual from 'lodash/isEqual';
 
 expect.extend({
   toBeValidXml(received): any {
-    const result = parser.validate(received);
+    const result = XMLValidator.validate(received);
     const pass = result === true;
 
     const message = pass
