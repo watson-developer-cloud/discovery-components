@@ -295,53 +295,51 @@ export default {
   decorators: [withKnobs]
 };
 
+const DefaultStory: FC<{}> = () => {
+  const page = number(pageKnob.label, pageKnob.defaultValue, pageKnob.options);
+  const zoom = radios(zoomKnob.label, zoomKnob.options, zoomKnob.defaultValue);
+  const scale = parseFloat(zoom);
+  const highlights = select(highlightKnob.label, highlightKnob.options, highlightKnob.defaultValue);
+  const activeId = number('Active highlight index', 0);
+  const setLoadingAction = action('setLoading');
+  const setCurrentPageAction = action('setCurrentPage');
+
+  const [currentPage, setCurrentPage] = useState(0);
+  useEffect(() => {
+    setCurrentPage(page);
+  }, [page]);
+  const handleSetCurrentPage = useCallback(
+    (p: number) => {
+      setCurrentPageAction(p);
+      setCurrentPage(p);
+    },
+    [setCurrentPageAction]
+  );
+
+  const [activeIds, setActiveIds] = useState<string[]>([]);
+  useEffect(() => {
+    const items = highlightKnob.data[highlights];
+    const item = items[activeId];
+    setActiveIds(item?.id ? [item.id] : []);
+  }, [activeId, highlights]);
+
+  return (
+    <PdfViewerWithHighlight
+      file={atob(doc)}
+      page={currentPage}
+      scale={scale}
+      setLoading={setLoadingAction}
+      document={document}
+      highlights={highlightKnob.data[highlights]}
+      activeIds={activeIds}
+      setCurrentPage={handleSetCurrentPage}
+      pdfWorkerUrl={PDF_WORKER_URL}
+    />
+  );
+};
+
 export const Default = {
-  render: () => {
-    const page = number(pageKnob.label, pageKnob.defaultValue, pageKnob.options);
-    const zoom = radios(zoomKnob.label, zoomKnob.options, zoomKnob.defaultValue);
-    const scale = parseFloat(zoom);
-    const highlights = select(
-      highlightKnob.label,
-      highlightKnob.options,
-      highlightKnob.defaultValue
-    );
-    const activeId = number('Active highlight index', 0);
-    const setLoadingAction = action('setLoading');
-    const setCurrentPageAction = action('setCurrentPage');
-
-    const [currentPage, setCurrentPage] = useState(0);
-    useEffect(() => {
-      setCurrentPage(page);
-    }, [page]);
-    const handleSetCurrentPage = useCallback(
-      (p: number) => {
-        setCurrentPageAction(p);
-        setCurrentPage(p);
-      },
-      [setCurrentPageAction]
-    );
-
-    const [activeIds, setActiveIds] = useState<string[]>([]);
-    useEffect(() => {
-      const items = highlightKnob.data[highlights];
-      const item = items[activeId];
-      setActiveIds(item?.id ? [item.id] : []);
-    }, [activeId, highlights]);
-
-    return (
-      <PdfViewerWithHighlight
-        file={atob(doc)}
-        page={currentPage}
-        scale={scale}
-        setLoading={setLoadingAction}
-        document={document}
-        highlights={highlightKnob.data[highlights]}
-        activeIds={activeIds}
-        setCurrentPage={handleSetCurrentPage}
-        pdfWorkerUrl={PDF_WORKER_URL}
-      />
-    );
-  },
+  render: () => <DefaultStory />,
 
   name: 'default'
 };
