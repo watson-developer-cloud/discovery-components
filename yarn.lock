@@ -2835,7 +2835,6 @@ __metadata:
     "@ibm-watson/discovery-styles": 4.x.x
     carbon-components: ">= 10.46.0 < 11"
     carbon-components-react: ">= 7.46.0 < 8"
-    core-js: ^2.6.12
     ibm-watson: ^8
     react: ">= 16.8.0 < 18"
     react-dom: ">= 16.8.0 < 18"
@@ -10081,7 +10080,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^2.4.0, core-js@npm:^2.6.12":
+"core-js@npm:^2.4.0":
   version: 2.6.12
   resolution: "core-js@npm:2.6.12"
   checksum: 00128efe427789120a06b819adc94cc72b96955acb331cb71d09287baf9bd37bebd191d91f1ee4939c893a050307ead4faea08876f09115112612b6a05684b63
@@ -11286,7 +11285,6 @@ __metadata:
     carbon-components-react: "npm:~7.46.0"
     carbon-icons: "npm:^7.0.7"
     classnames: "npm:^2.5.1"
-    core-js: "npm:^2.6.12"
     cors: "npm:^2.8.5"
     cross-env: "npm:^7.0.3"
     cypress: "npm:^10.11.0"
