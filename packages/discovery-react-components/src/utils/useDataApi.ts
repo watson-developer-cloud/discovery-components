@@ -454,9 +454,11 @@ export const useFetchDocumentsApi = (
 
   const fetchDocuments: FetchDocumentsActions['fetchDocuments'] = useCallback(
     (filter, collections, callback) => {
-      setSearchParameters((currentSearchParameters: DiscoveryV2.QueryParams) => {
-        return { ...currentSearchParameters, filter, collection_ids: collections };
-      });
+      setSearchParameters(
+        (currentSearchParameters: DiscoveryV2.QueryParams): DiscoveryV2.QueryParams => {
+          return { ...currentSearchParameters, filter, collectionIds: collections };
+        }
+      );
       setFetchToken({ trigger: true, callback });
     },
     [setSearchParameters, setFetchToken]

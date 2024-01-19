@@ -327,7 +327,7 @@ describe('DiscoverySearch', () => {
       expect(spy).toHaveBeenCalledWith({
         projectId: 'foo',
         filter: 'document_id::bar',
-        collection_ids: ['12345-12345-12345-12345'],
+        collectionIds: ['12345-12345-12345-12345'],
         aggregation: '',
         passages: {
           enabled: false

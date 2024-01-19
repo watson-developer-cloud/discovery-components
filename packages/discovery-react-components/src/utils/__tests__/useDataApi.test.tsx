@@ -799,7 +799,7 @@ describe('useFetchDocumentsApi', () => {
       fireEvent.click(fetchDocumentsButton, { target: { value: 'filter_string' } });
       expect(checkParametersMock).toHaveBeenCalledWith({
         projectId: 'foo',
-        collection_ids: ['12345-12345-12345-12345'],
+        collectionIds: ['12345-12345-12345-12345'],
         _return: [],
         aggregation: '',
         passages: {},
