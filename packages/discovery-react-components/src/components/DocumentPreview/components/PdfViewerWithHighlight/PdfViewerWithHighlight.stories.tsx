@@ -371,7 +371,7 @@ export const _WithTextSelection = {
 
 export const WithPdfInJapanese = {
   render: () => {
-    const page = number(pageKnob.label, pageKnob.defaultValue, pageKnob.options);
+    const page = number(pageKnob.label, pageKnob.defaultValue, { ...pageKnob.options, max: 1 });
     const zoom = radios(zoomKnob.label, zoomKnob.options, zoomKnob.defaultValue);
     const scale = parseFloat(zoom);
     const setLoadingAction = action('setLoading');
