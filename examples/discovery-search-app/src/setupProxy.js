@@ -1,6 +1,6 @@
 const path = require('path');
 const dotenv = require('dotenv');
-const proxy = require('http-proxy-middleware');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 const { getAuthenticatorFromEnvironment } = require('ibm-watson/auth');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -36,7 +36,7 @@ if (process.env.REACT_APP_CYPRESS_MODE) {
     app.use(
       '/api',
       addAuthorization,
-      proxy({
+      createProxyMiddleware({
         target,
         secure: false,
         changeOrigin: true,
