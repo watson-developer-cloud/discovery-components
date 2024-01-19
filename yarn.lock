@@ -2826,6 +2826,7 @@ __metadata:
     typescript: "npm:^5.3.3"
     uuid: "npm:^9.0.1"
     vite: "npm:^5.0.11"
+    vite-plugin-node-polyfills: "npm:^0.19.0"
     vite-plugin-svgr: "npm:^3.3.0"
     vite-tsconfig-paths: "npm:^4.3.1"
     web-streams-polyfill: "npm:^3.3.2"
@@ -2835,7 +2836,7 @@ __metadata:
     carbon-components: ">= 10.46.0 < 11"
     carbon-components-react: ">= 7.46.0 < 8"
     core-js: ^2.6.12
-    ibm-watson: ^7
+    ibm-watson: ^8
     react: ">= 16.8.0 < 18"
     react-dom: ">= 16.8.0 < 18"
   languageName: unknown
@@ -4469,6 +4470,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rollup/plugin-inject@npm:^5.0.5":
+  version: 5.0.5
+  resolution: "@rollup/plugin-inject@npm:5.0.5"
+  dependencies:
+    "@rollup/pluginutils": "npm:^5.0.1"
+    estree-walker: "npm:^2.0.2"
+    magic-string: "npm:^0.30.3"
+  peerDependencies:
+    rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
+  peerDependenciesMeta:
+    rollup:
+      optional: true
+  checksum: 22d10cf44fa56a6683d5ac4df24a9003379b3dcaae9897f5c30c844afc2ebca83cfaa5557f13a1399b1c8a0d312c3217bcacd508b7ebc4b2cbee401bd1ec8be2
+  languageName: node
+  linkType: hard
+
 "@rollup/plugin-node-resolve@npm:^11.2.1":
   version: 11.2.1
   resolution: "@rollup/plugin-node-resolve@npm:11.2.1"
@@ -4510,9 +4527,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/pluginutils@npm:^5.0.2, @rollup/pluginutils@npm:^5.0.4":
-  version: 5.0.5
-  resolution: "@rollup/pluginutils@npm:5.0.5"
+"@rollup/pluginutils@npm:^5.0.1, @rollup/pluginutils@npm:^5.0.2, @rollup/pluginutils@npm:^5.0.4":
+  version: 5.1.0
+  resolution: "@rollup/pluginutils@npm:5.1.0"
   dependencies:
     "@types/estree": "npm:^1.0.0"
     estree-walker: "npm:^2.0.2"
@@ -4522,7 +4539,7 @@ __metadata:
   peerDependenciesMeta:
     rollup:
       optional: true
-  checksum: 18a1f5a9afa993a76663cc2102169cd546786b39a3e92bdc8a2a0b408b509d070a02b20970a30daa9d5d0b1b591b5e7734add84b3aaf263178aef5a26cfab2cf
+  checksum: c7bed15711f942d6fdd3470fef4105b73991f99a478605e13d41888963330a6f9e32be37e6ddb13f012bc7673ff5e54f06f59fd47109436c1c513986a8a7612d
   languageName: node
   linkType: hard
 
@@ -8203,30 +8220,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios-cookiejar-support@npm:^1.0.0":
-  version: 1.0.1
-  resolution: "axios-cookiejar-support@npm:1.0.1"
-  dependencies:
-    is-redirect: "npm:^1.0.0"
-    pify: "npm:^5.0.0"
-  peerDependencies:
-    "@types/tough-cookie": ">=2.3.3"
-    axios: ">=0.16.2"
-    tough-cookie: ">=2.3.3"
-  checksum: 1b7c8e261e790b193496e207f7cbd7ed9f3a689bf81fe9446f91e93ee5fc29881e5171fc75d722249984cd3e39ba668d70474869813ee4931eb9b3106901a607
-  languageName: node
-  linkType: hard
-
-"axios@npm:^0.26.1":
-  version: 0.26.1
-  resolution: "axios@npm:0.26.1"
-  dependencies:
-    follow-redirects: "npm:^1.14.8"
-  checksum: 77ad7f1e6ca04fcd3fa8af1795b09d8b7c005b71a31f28d99ba40cda0bdcc12a4627801d7fac5efa62b9f667a8402bd54c669039694373bc8d44f6be611f785c
-  languageName: node
-  linkType: hard
-
-"axios@npm:^1.5.1, axios@npm:^1.6.1, axios@npm:^1.6.5":
+"axios@npm:1.6.4, axios@npm:^1.5.1, axios@npm:^1.6.1, axios@npm:^1.6.5":
   version: 1.6.5
   resolution: "axios@npm:1.6.5"
   dependencies:
@@ -8722,6 +8716,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"browser-resolve@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "browser-resolve@npm:2.0.0"
+  dependencies:
+    resolve: "npm:^1.17.0"
+  checksum: 06c43adf3cb1939825ab9a4ac355b23272820ee421a20d04f62e0dabd9ea305e497b97f3ac027f87d53c366483aafe8673bbe1aaa5e41cd69eeafa65ac5fda6e
+  languageName: node
+  linkType: hard
+
 "browserify-aes@npm:^1.0.0, browserify-aes@npm:^1.0.4":
   version: 1.2.0
   resolution: "browserify-aes@npm:1.2.0"
@@ -8871,7 +8874,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"buffer@npm:^5.5.0, buffer@npm:^5.6.0":
+"buffer@npm:^5.5.0, buffer@npm:^5.6.0, buffer@npm:^5.7.1":
   version: 5.7.1
   resolution: "buffer@npm:5.7.1"
   dependencies:
@@ -9871,7 +9874,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"console-browserify@npm:^1.2.0":
+"console-browserify@npm:^1.1.0, console-browserify@npm:^1.2.0":
   version: 1.2.0
   resolution: "console-browserify@npm:1.2.0"
   checksum: 89b99a53b7d6cee54e1e64fa6b1f7ac24b844b4019c5d39db298637e55c1f4ffa5c165457ad984864de1379df2c8e1886cbbdac85d9dbb6876a9f26c3106f226
@@ -10203,6 +10206,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"create-require@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "create-require@npm:1.1.1"
+  checksum: 157cbc59b2430ae9a90034a5f3a1b398b6738bf510f713edc4d4e45e169bc514d3d99dd34d8d01ca7ae7830b5b8b537e46ae8f3c8f932371b0875c0151d7ec91
+  languageName: node
+  linkType: hard
+
 "cross-env@npm:^7.0.3":
   version: 7.0.3
   resolution: "cross-env@npm:7.0.3"
@@ -10233,7 +10243,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"crypto-browserify@npm:^3.12.0":
+"crypto-browserify@npm:^3.11.0, crypto-browserify@npm:^3.12.0":
   version: 3.12.0
   resolution: "crypto-browserify@npm:3.12.0"
   dependencies:
@@ -11284,7 +11294,7 @@ __metadata:
     dotenv: "npm:^16.3.1"
     express: "npm:^4.18.2"
     http-proxy-middleware: "npm:^0.20.0"
-    ibm-watson: "npm:^7"
+    ibm-watson: "npm:^8.0.0"
     node-polyfill-webpack-plugin: "npm:^3.0.0"
     proper-url-join: "npm:^2.1.1"
     react: "npm:^17.0.2"
@@ -12651,7 +12661,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"events@npm:^3.2.0, events@npm:^3.3.0":
+"events@npm:^3.0.0, events@npm:^3.2.0, events@npm:^3.3.0":
   version: 3.3.0
   resolution: "events@npm:3.3.0"
   checksum: d6b6f2adbccbcda74ddbab52ed07db727ef52e31a61ed26db9feb7dc62af7fc8e060defa65e5f8af9449b86b52cc1a1f6a79f2eafcf4e62add2b7a1fa4a432f6
@@ -13289,7 +13299,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.14.8, follow-redirects@npm:^1.15.4":
+"follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.15.4":
   version: 1.15.5
   resolution: "follow-redirects@npm:1.15.5"
   peerDependenciesMeta:
@@ -14720,18 +14730,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ibm-cloud-sdk-core@npm:^3.2.1":
-  version: 3.2.2
-  resolution: "ibm-cloud-sdk-core@npm:3.2.2"
+"ibm-cloud-sdk-core@npm:^4.0.3":
+  version: 4.2.2
+  resolution: "ibm-cloud-sdk-core@npm:4.2.2"
   dependencies:
+    "@types/debug": "npm:^4.1.12"
     "@types/file-type": "npm:~5.2.1"
     "@types/isstream": "npm:^0.1.0"
     "@types/node": "npm:~10.14.19"
     "@types/tough-cookie": "npm:^4.0.0"
-    axios: "npm:^0.26.1"
-    axios-cookiejar-support: "npm:^1.0.0"
+    axios: "npm:1.6.4"
     camelcase: "npm:^5.3.1"
-    debug: "npm:^4.1.1"
+    debug: "npm:^4.3.4"
     dotenv: "npm:^6.2.0"
     expect: "npm:^26.1.0"
     extend: "npm:^3.0.2"
@@ -14740,19 +14750,16 @@ __metadata:
     isstream: "npm:~0.1.2"
     jsonwebtoken: "npm:^9.0.0"
     lodash.isempty: "npm:^4.4.0"
-    mime-types: "npm:~2.1.18"
-    object.omit: "npm:~3.0.0"
-    object.pick: "npm:~1.3.0"
+    mime-types: "npm:^2.1.35"
     retry-axios: "npm:^2.6.0"
-    semver: "npm:^6.2.0"
-    tough-cookie: "npm:^4.0.0"
-  checksum: c7437eed8f31cc79222d31593fe088af16c98882fec33e0d1fa3045511b2ac2549315ed7cfab2de2693cd92a829edb95bfd0455dabd10be99af4154b2a677b4a
+    tough-cookie: "npm:^4.1.3"
+  checksum: 3ed89ff3c2cfc4ba5c0e53c22f5f65277f4370e8012620e5079c55c3fe427cb153de174db6443a74e3b2c2eb55202a7f01098abe42d940ecc08ddbab04c1fd34
   languageName: node
   linkType: hard
 
-"ibm-watson@npm:^7":
-  version: 7.1.2
-  resolution: "ibm-watson@npm:7.1.2"
+"ibm-watson@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "ibm-watson@npm:8.0.0"
   dependencies:
     "@types/async": "npm:^3.2.5"
     "@types/extend": "npm:^3.0.1"
@@ -14762,10 +14769,10 @@ __metadata:
     async: "npm:^3.2.0"
     camelcase: "npm:^6.2.0"
     extend: "npm:~3.0.2"
-    ibm-cloud-sdk-core: "npm:^3.2.1"
+    ibm-cloud-sdk-core: "npm:^4.0.3"
     isstream: "npm:~0.1.2"
     websocket: "npm:^1.0.33"
-  checksum: 73dfed617d61a7b1937903970cca21db1b4c79009a7cdb183317aacc801406cb9bbbb8acd388b4356f108aedec2789bffafe764381dd21086a6aea6ea7c00709
+  checksum: dc298d6aa2d9f46a1ca523dfd08528f894bd3040a28ff21d41cb4be9461295fddc9e95e3dc85b4605c020932e24ef0ff4ca8a80caf22159341614ca12879a952
   languageName: node
   linkType: hard
 
@@ -15191,15 +15198,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-extendable@npm:^1.0.0":
-  version: 1.0.1
-  resolution: "is-extendable@npm:1.0.1"
-  dependencies:
-    is-plain-object: "npm:^2.0.4"
-  checksum: 1d6678a5be1563db6ecb121331c819c38059703f0179f52aa80c242c223ee9c6b66470286636c0e63d7163e4d905c0a7d82a096e0b5eaeabb51b9f8d0af0d73f
-  languageName: node
-  linkType: hard
-
 "is-extglob@npm:^2.1.1":
   version: 2.1.1
   resolution: "is-extglob@npm:2.1.1"
@@ -15428,13 +15426,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-redirect@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "is-redirect@npm:1.0.0"
-  checksum: 4fb24eaa61548d276499ec5e2f7efbc4ed823b68c7ee3bdfbf29d0f6c45d19c07f417bf3dd86110285c28a35481b46a9996921739b7b84bb8ba5216f250d40de
-  languageName: node
-  linkType: hard
-
 "is-regex@npm:^1.1.4":
   version: 1.1.4
   resolution: "is-regex@npm:1.1.4"
@@ -15645,6 +15636,13 @@ __metadata:
   version: 3.0.1
   resolution: "isobject@npm:3.0.1"
   checksum: 03344f5064a82f099a0cd1a8a407f4c0d20b7b8485e8e816c39f249e9416b06c322e8dec5b842b6bb8a06de0af9cb48e7bc1b5352f0fadc2f0abac033db3d4db
+  languageName: node
+  linkType: hard
+
+"isomorphic-timers-promises@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "isomorphic-timers-promises@npm:1.0.1"
+  checksum: 3b4761d0012ebe6b6382246079fc667f3513f36fe4042638f2bfb7db1557e4f1acd33a9c9907706c04270890ec6434120f132f3f300161a42a7dd8628926c8a4
   languageName: node
   linkType: hard
 
@@ -17526,7 +17524,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"magic-string@npm:^0.30.0":
+"magic-string@npm:^0.30.0, magic-string@npm:^0.30.3":
   version: 0.30.5
   resolution: "magic-string@npm:0.30.5"
   dependencies:
@@ -18061,7 +18059,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mime-types@npm:^2.1.12, mime-types@npm:^2.1.25, mime-types@npm:^2.1.27, mime-types@npm:^2.1.31, mime-types@npm:~2.1.17, mime-types@npm:~2.1.18, mime-types@npm:~2.1.19, mime-types@npm:~2.1.24, mime-types@npm:~2.1.34":
+"mime-types@npm:^2.1.12, mime-types@npm:^2.1.25, mime-types@npm:^2.1.27, mime-types@npm:^2.1.31, mime-types@npm:^2.1.35, mime-types@npm:~2.1.17, mime-types@npm:~2.1.19, mime-types@npm:~2.1.24, mime-types@npm:~2.1.34":
   version: 2.1.35
   resolution: "mime-types@npm:2.1.35"
   dependencies:
@@ -18748,6 +18746,41 @@ __metadata:
   languageName: node
   linkType: hard
 
+"node-stdlib-browser@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "node-stdlib-browser@npm:1.2.0"
+  dependencies:
+    assert: "npm:^2.0.0"
+    browser-resolve: "npm:^2.0.0"
+    browserify-zlib: "npm:^0.2.0"
+    buffer: "npm:^5.7.1"
+    console-browserify: "npm:^1.1.0"
+    constants-browserify: "npm:^1.0.0"
+    create-require: "npm:^1.1.1"
+    crypto-browserify: "npm:^3.11.0"
+    domain-browser: "npm:^4.22.0"
+    events: "npm:^3.0.0"
+    https-browserify: "npm:^1.0.0"
+    isomorphic-timers-promises: "npm:^1.0.1"
+    os-browserify: "npm:^0.3.0"
+    path-browserify: "npm:^1.0.1"
+    pkg-dir: "npm:^5.0.0"
+    process: "npm:^0.11.10"
+    punycode: "npm:^1.4.1"
+    querystring-es3: "npm:^0.2.1"
+    readable-stream: "npm:^3.6.0"
+    stream-browserify: "npm:^3.0.0"
+    stream-http: "npm:^3.2.0"
+    string_decoder: "npm:^1.0.0"
+    timers-browserify: "npm:^2.0.4"
+    tty-browserify: "npm:0.0.1"
+    url: "npm:^0.11.0"
+    util: "npm:^0.12.4"
+    vm-browserify: "npm:^1.0.1"
+  checksum: 4da239ebabcba68e09b2620aaae02dd589045b101441beb90988bc60f1af3d286e9fab0c334503eaf74986e583923e7648a8fa081edc4981e4d738636773f32e
+  languageName: node
+  linkType: hard
+
 "nopt@npm:^5.0.0":
   version: 5.0.0
   resolution: "nopt@npm:5.0.0"
@@ -19252,24 +19285,6 @@ __metadata:
     define-properties: "npm:^1.2.0"
     es-abstract: "npm:^1.22.1"
   checksum: 8a41ba4fb1208a85c2275e9b5098071beacc24345b9a71ab98ef0a1c61b34dc74c6b460ff1e1884c33843d8f2553df64a10eec2b74b3ed009e3b2710c826bd2c
-  languageName: node
-  linkType: hard
-
-"object.omit@npm:~3.0.0":
-  version: 3.0.0
-  resolution: "object.omit@npm:3.0.0"
-  dependencies:
-    is-extendable: "npm:^1.0.0"
-  checksum: 8e16a3087580b67ca7532539930dc5cf2eb1b12112cfdfc539412db8d2e5d5ba541ea9ffc9df936fc84cf362832806b8a4091d064610728614193eee8f26c473
-  languageName: node
-  linkType: hard
-
-"object.pick@npm:~1.3.0":
-  version: 1.3.0
-  resolution: "object.pick@npm:1.3.0"
-  dependencies:
-    isobject: "npm:^3.0.1"
-  checksum: cd316ec986e49895a28f2df9182de9cdeee57cd2a952c122aacc86344c28624fe002d9affc4f48b5014ec7c033da9942b08821ddb44db8c5bac5b3ec54bdc31e
   languageName: node
   linkType: hard
 
@@ -19921,7 +19936,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pify@npm:5.0.0, pify@npm:^5.0.0":
+"pify@npm:5.0.0":
   version: 5.0.0
   resolution: "pify@npm:5.0.0"
   checksum: 9f6f3cd1f159652692f514383efe401a06473af35a699962230ad1c4c9796df5999961461fc1a3b81eed8e3e74adb8bd032474fb3f93eb6bdbd9f33328da1ed2
@@ -21719,9 +21734,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-scripts@patch:react-scripts@npm:5.0.1#.yarn/patches/react-scripts-npm-5.0.1-d06bd2d5ad::locator=root%40workspace%3A.":
+"react-scripts@patch:react-scripts@npm:5.0.1#.yarn/patches/react-scripts-npm-5.0.1-d06bd2d5ad.patch::locator=root%40workspace%3A.":
   version: 5.0.1
-  resolution: "react-scripts@patch:react-scripts@npm%3A5.0.1#.yarn/patches/react-scripts-npm-5.0.1-d06bd2d5ad::version=5.0.1&hash=4eea89&locator=root%40workspace%3A."
+  resolution: "react-scripts@patch:react-scripts@npm%3A5.0.1#.yarn/patches/react-scripts-npm-5.0.1-d06bd2d5ad.patch::version=5.0.1&hash=3e7267&locator=root%40workspace%3A."
   dependencies:
     "@babel/core": "npm:^7.16.0"
     "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.3"
@@ -21782,7 +21797,7 @@ __metadata:
       optional: true
   bin:
     react-scripts: bin/react-scripts.js
-  checksum: 308a870dbfe58cf461d54a166d44c4da3930d634034898bb3d807d59c7e361b5da0a863a1a1112b8f38cb18115488bf4703a36b81c5f947183ec8377e129d463
+  checksum: 8f76218fc2f5cc74b2db714a5fb267c0a9895652dba6bc6cadf73c446856d69029a6af4d2f97ca1cefd46881747e4aec87351d117c3df86fa387eb50c5162590
   languageName: node
   linkType: hard
 
@@ -22372,7 +22387,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@npm:^1.10.0, resolve@npm:^1.14.2, resolve@npm:^1.19.0, resolve@npm:^1.20.0, resolve@npm:^1.22.0, resolve@npm:^1.22.1, resolve@npm:^1.22.4":
+"resolve@npm:^1.10.0, resolve@npm:^1.14.2, resolve@npm:^1.17.0, resolve@npm:^1.19.0, resolve@npm:^1.20.0, resolve@npm:^1.22.0, resolve@npm:^1.22.1, resolve@npm:^1.22.4":
   version: 1.22.8
   resolution: "resolve@npm:1.22.8"
   dependencies:
@@ -22398,7 +22413,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@patch:resolve@npm%3A^1.10.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.14.2#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.19.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.20.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.22.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.22.1#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.22.4#optional!builtin<compat/resolve>":
+"resolve@patch:resolve@npm%3A^1.10.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.14.2#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.17.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.19.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.20.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.22.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.22.1#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.22.4#optional!builtin<compat/resolve>":
   version: 1.22.8
   resolution: "resolve@patch:resolve@npm%3A1.22.8#optional!builtin<compat/resolve>::version=1.22.8&hash=c3c19d"
   dependencies:
@@ -22679,7 +22694,7 @@ __metadata:
     fast-xml-parser: "npm:^4.3.3"
     gh-pages: "npm:^6.1.1"
     husky: "npm:^8.0.3"
-    ibm-watson: "npm:^7"
+    ibm-watson: "npm:^8.0.0"
     lerna: "npm:^8.0.2"
     lint-staged: "npm:^15.2.0"
     lorem-ipsum: "npm:^2.0.8"
@@ -23170,7 +23185,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:^6.0.0, semver@npm:^6.1.1, semver@npm:^6.1.2, semver@npm:^6.2.0, semver@npm:^6.3.0, semver@npm:^6.3.1":
+"semver@npm:^6.0.0, semver@npm:^6.1.1, semver@npm:^6.1.2, semver@npm:^6.3.0, semver@npm:^6.3.1":
   version: 6.3.1
   resolution: "semver@npm:6.3.1"
   bin:
@@ -24100,7 +24115,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"string_decoder@npm:^1.1.1, string_decoder@npm:^1.3.0":
+"string_decoder@npm:^1.0.0, string_decoder@npm:^1.1.1, string_decoder@npm:^1.3.0":
   version: 1.3.0
   resolution: "string_decoder@npm:1.3.0"
   dependencies:
@@ -24707,7 +24722,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"timers-browserify@npm:^2.0.12":
+"timers-browserify@npm:^2.0.12, timers-browserify@npm:^2.0.4":
   version: 2.0.12
   resolution: "timers-browserify@npm:2.0.12"
   dependencies:
@@ -24795,7 +24810,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tough-cookie@npm:^4.0.0":
+"tough-cookie@npm:^4.0.0, tough-cookie@npm:^4.1.3":
   version: 4.1.3
   resolution: "tough-cookie@npm:4.1.3"
   dependencies:
@@ -24972,7 +24987,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tty-browserify@npm:^0.0.1":
+"tty-browserify@npm:0.0.1, tty-browserify@npm:^0.0.1":
   version: 0.0.1
   resolution: "tty-browserify@npm:0.0.1"
   checksum: 5e34883388eb5f556234dae75b08e069b9e62de12bd6d87687f7817f5569430a6dfef550b51dbc961715ae0cd0eb5a059e6e3fc34dc127ea164aa0f9b5bb033d
@@ -25527,7 +25542,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"url@npm:^0.11.3":
+"url@npm:^0.11.0, url@npm:^0.11.3":
   version: 0.11.3
   resolution: "url@npm:0.11.3"
   dependencies:
@@ -25764,6 +25779,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"vite-plugin-node-polyfills@npm:^0.19.0":
+  version: 0.19.0
+  resolution: "vite-plugin-node-polyfills@npm:0.19.0"
+  dependencies:
+    "@rollup/plugin-inject": "npm:^5.0.5"
+    node-stdlib-browser: "npm:^1.2.0"
+  peerDependencies:
+    vite: ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0
+  checksum: 807ab14d94a693a3f9ba1e46258eaf8bce9e663d0a5f6a31f43c82d1a95ae0df1a03855e103bf50fa08f7485ffbe201623bf7c78d2ba91075ec5eae1e8a42555
+  languageName: node
+  linkType: hard
+
 "vite-plugin-svgr@npm:^3.3.0":
   version: 3.3.0
   resolution: "vite-plugin-svgr@npm:3.3.0"
@@ -25833,7 +25860,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vm-browserify@npm:^1.1.2":
+"vm-browserify@npm:^1.0.1, vm-browserify@npm:^1.1.2":
   version: 1.1.2
   resolution: "vm-browserify@npm:1.1.2"
   checksum: 0cc1af6e0d880deb58bc974921320c187f9e0a94f25570fca6b1bd64e798ce454ab87dfd797551b1b0cc1849307421aae0193cedf5f06bdb5680476780ee344b

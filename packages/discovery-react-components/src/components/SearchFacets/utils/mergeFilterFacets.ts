@@ -49,6 +49,7 @@ export const mergeFilterFacets = (
         if (!filterAggregation.name || !aggregation.name) {
           // aggregation is from initial filter string, we can only match on field
           if (
+            filterAggregation.field &&
             filterAggregation.field === aggregation.field &&
             !usedFields.includes(filterAggregation.field)
           ) {

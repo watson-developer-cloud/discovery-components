@@ -1,5 +1,5 @@
 import { Preview } from '@storybook/react';
-import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks';
+import { DocsPage, DocsContainer } from '@storybook/blocks';
 import './styles.scss';
 
 const preview: Preview = {

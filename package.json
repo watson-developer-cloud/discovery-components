@@ -50,7 +50,7 @@
     "fast-xml-parser": "^4.3.3",
     "gh-pages": "^6.1.1",
     "husky": "^8.0.3",
-    "ibm-watson": "^7",
+    "ibm-watson": "^8.0.0",
     "lerna": "^8.0.2",
     "lint-staged": "^15.2.0",
     "lorem-ipsum": "^2.0.8",
@@ -89,7 +89,7 @@
   },
   "packageManager": "yarn@4.0.2",
   "resolutions": {
-    "react-scripts@^5.0.1": "patch:react-scripts@npm:5.0.1#.yarn/patches/react-scripts-npm-5.0.1-d06bd2d5ad",
+    "react-scripts@^5.0.1": "patch:react-scripts@npm:5.0.1#.yarn/patches/react-scripts-npm-5.0.1-d06bd2d5ad.patch",
     "@types/react@npm:*": "^17"
   }
 }

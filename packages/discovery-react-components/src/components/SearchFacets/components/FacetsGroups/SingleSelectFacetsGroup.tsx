@@ -76,7 +76,10 @@ export const SingleSelectFacetsGroup: FC<SingleSelectFacetsGroupProps> = ({
       parameters: { naturalLanguageQuery }
     }
   } = useContext(SearchContext);
-  const escapedName = (aggregationSettings.name || aggregationSettings.field).replace(/\s+/g, '_');
+  // ibm-watson@8.0.0 changed the types so that both of these are now "optional" (can be undefined).
+  // However, that's not the case coming back from the API. So add `!` to mimic what was there for
+  // ibm-watson@7 types.
+  const escapedName = (aggregationSettings.name || aggregationSettings.field!).replace(/\s+/g, '_');
 
   const handleOnClick = (event: SyntheticEvent<HTMLInputElement>): void => {
     // Check if exposed onChange function is called

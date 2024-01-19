@@ -15,7 +15,7 @@ const props = () => ({
     'String to split words on for autocompletion (splitSearchQuerySelector)',
     ' '
   ),
-  spellingSuggestion: boolean('Fetch spelling suggestions (spellingSuggestion)', true),
+  spellingSuggestions: boolean('Fetch spelling suggestions (spellingSuggestions)', true),
   completionsCount: number('Number of autocompletion results to show (completionsCount)', 5),
   showAutocomplete: boolean('Show dropdown of autocomplete suggestions (showAutocomplete)', true),
   minCharsToAutocomplete: number(

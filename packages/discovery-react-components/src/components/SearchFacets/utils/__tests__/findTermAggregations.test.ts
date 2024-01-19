@@ -9,9 +9,8 @@ import {
 
 describe('findTermAggregations', () => {
   test('keeps two term aggregations the same', () => {
-    const termAggregations: DiscoveryV2.QueryTermAggregation[] = findTermAggregations(
-      twoTermAggs.aggregations
-    );
+    const termAggregations: DiscoveryV2.QueryAggregationQueryTermAggregation[] =
+      findTermAggregations(twoTermAggs.aggregations);
     expect(termAggregations).toEqual([
       {
         type: 'term',
@@ -59,9 +58,8 @@ describe('findTermAggregations', () => {
   });
 
   test('removes a top level nested aggregation to retrieve second level term aggregation', () => {
-    const termAggregations: DiscoveryV2.QueryTermAggregation[] = findTermAggregations(
-      nestedTermAgg.aggregations
-    );
+    const termAggregations: DiscoveryV2.QueryAggregationQueryTermAggregation[] =
+      findTermAggregations(nestedTermAgg.aggregations);
     expect(termAggregations).toEqual([
       {
         type: 'term',
@@ -81,9 +79,8 @@ describe('findTermAggregations', () => {
   });
 
   test('removes a top level nested aggregation and second level filter aggregation to retrieve third level term aggrgation', () => {
-    const termAggregations: DiscoveryV2.QueryTermAggregation[] = findTermAggregations(
-      nestedFilterTermAgg.aggregations
-    );
+    const termAggregations: DiscoveryV2.QueryAggregationQueryTermAggregation[] =
+      findTermAggregations(nestedFilterTermAgg.aggregations);
     expect(termAggregations).toEqual([
       {
         type: 'term',
@@ -103,9 +100,8 @@ describe('findTermAggregations', () => {
   });
 
   test('removes 2 top level nested aggregation and second level filter aggregation to retrieve both third level term aggrgations', () => {
-    const termAggregations: DiscoveryV2.QueryTermAggregation[] = findTermAggregations(
-      twoNestedFilterTermAgg.aggregations
-    );
+    const termAggregations: DiscoveryV2.QueryAggregationQueryTermAggregation[] =
+      findTermAggregations(twoNestedFilterTermAgg.aggregations);
     expect(termAggregations).toEqual([
       {
         type: 'term',

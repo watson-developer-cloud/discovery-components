@@ -1,5 +1,6 @@
-import { dirname, join } from 'path';
 import { StorybookConfig } from '@storybook/react-vite';
+import { mergeConfig } from 'vite';
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
 const config: StorybookConfig = {
   stories:
@@ -8,14 +9,14 @@ const config: StorybookConfig = {
       : ['../src/**/*.stories.tsx'],
 
   addons: [
-    getAbsolutePath('@storybook/addon-actions'),
+    '@storybook/addon-actions',
     {
       name: '@storybook/addon-docs',
       options: {
         configureJSX: true
       }
     },
-    getAbsolutePath('@storybook/addon-knobs')
+    '@storybook/addon-knobs'
   ],
 
   core: {
@@ -24,18 +25,27 @@ const config: StorybookConfig = {
 
   staticDirs: ['../../../node_modules/pdfjs-dist/build/'],
 
-  framework: {
-    name: getAbsolutePath('@storybook/react-vite'),
-    options: {}
+  framework: '@storybook/react-vite',
+
+  async viteFinal(config) {
+    // Merge custom configuration into the default config
+    return mergeConfig(config, {
+      plugins: [
+        nodePolyfills({
+          exclude: ['buffer', 'crypto', 'fs', 'module', 'net', 'tls'],
+          globals: {
+            process: true
+          },
+          // Whether to polyfill `node:` protocol imports.
+          protocolImports: true
+        })
+      ]
+    });
   },
 
   docs: {
     autodocs: true
   }
 };
-
-function getAbsolutePath(value: string): any {
-  return dirname(require.resolve(join(value, 'package.json')));
-}
 
 export default config;

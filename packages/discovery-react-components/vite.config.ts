@@ -44,6 +44,7 @@ export default defineConfig({
     dts
   ],
   build: {
+    sourcemap: true,
     lib: {
       entry: path.resolve(__dirname, 'src/index.tsx'),
       name: pkg.name,

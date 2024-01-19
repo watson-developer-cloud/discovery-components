@@ -1,8 +1,8 @@
-import DiscoveryV2 from 'ibm-watson/discovery/v2';
+import { QueryAggregationQueryTermAggregation } from 'ibm-watson/discovery/v2';
 
 function isConfigurationTerm(
   configuration: any
-): configuration is DiscoveryV2.QueryTermAggregation {
+): configuration is QueryAggregationQueryTermAggregation {
   return (
     (typeof configuration.field === 'string') === true &&
     configuration.count !== undefined &&
@@ -10,7 +10,7 @@ function isConfigurationTerm(
   );
 }
 
-export const validateConfiguration = (configuration: DiscoveryV2.QueryTermAggregation[]) => {
+export const validateConfiguration = (configuration: QueryAggregationQueryTermAggregation[]) => {
   if (!configuration) {
     return false;
   }

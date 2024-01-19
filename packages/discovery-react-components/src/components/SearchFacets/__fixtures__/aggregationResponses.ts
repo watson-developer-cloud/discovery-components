@@ -1,6 +1,6 @@
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 
-const termAggregation1: DiscoveryV2.QueryTermAggregation = {
+const termAggregation1: DiscoveryV2.QueryAggregationQueryTermAggregation = {
   type: 'term',
   field: 'author',
   count: 3,
@@ -19,7 +19,7 @@ const termAggregation1: DiscoveryV2.QueryTermAggregation = {
     }
   ]
 };
-const termAggregation2: DiscoveryV2.QueryTermAggregation = {
+const termAggregation2: DiscoveryV2.QueryAggregationQueryTermAggregation = {
   type: 'term',
   field: 'subject',
   count: 4,
@@ -47,7 +47,7 @@ export const twoTermAggs: DiscoveryV2.QueryResponse = {
   aggregations: [termAggregation1, termAggregation2]
 };
 
-const termAggregation3: DiscoveryV2.QueryTermAggregation = {
+const termAggregation3: DiscoveryV2.QueryAggregationQueryTermAggregation = {
   type: 'term',
   field: 'enriched_text.entities.text',
   results: [
@@ -61,7 +61,7 @@ const termAggregation3: DiscoveryV2.QueryTermAggregation = {
     }
   ]
 };
-const nestedAggregation: DiscoveryV2.QueryNestedAggregation = {
+const nestedAggregation: DiscoveryV2.QueryAggregationQueryNestedAggregation = {
   type: 'nested',
   path: 'enriched_text.entities',
   matching_results: 225809185,
@@ -71,7 +71,7 @@ export const nestedTermAgg: DiscoveryV2.QueryResponse = {
   aggregations: [nestedAggregation]
 };
 
-const termAggregation4: DiscoveryV2.QueryTermAggregation = {
+const termAggregation4: DiscoveryV2.QueryAggregationQueryTermAggregation = {
   type: 'term',
   field: 'enriched_text.entities.text',
   results: [
@@ -85,14 +85,14 @@ const termAggregation4: DiscoveryV2.QueryTermAggregation = {
     }
   ]
 };
-const filterAgg1: DiscoveryV2.QueryFilterAggregation = {
+const filterAgg1: DiscoveryV2.QueryAggregationQueryFilterAggregation = {
   type: 'filter',
   match: 'enriched_text.entities.text:!"United States"',
   matching_results: 224868657,
   aggregations: [termAggregation4]
 };
 
-const nestedAggregation2: DiscoveryV2.QueryNestedAggregation = {
+const nestedAggregation2: DiscoveryV2.QueryAggregationQueryNestedAggregation = {
   type: 'nested',
   path: 'enriched_text.entities',
   matching_results: 225809185,

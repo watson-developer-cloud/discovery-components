@@ -76,6 +76,7 @@
     "style-loader": "^3.3.4",
     "typescript": "^5.3.3",
     "vite": "^5.0.11",
+    "vite-plugin-node-polyfills": "^0.19.0",
     "vite-plugin-svgr": "^3.3.0",
     "vite-tsconfig-paths": "^4.3.1",
     "web-streams-polyfill": "^3.3.2"
@@ -86,7 +87,7 @@
     "carbon-components": ">= 10.46.0 < 11",
     "carbon-components-react": ">= 7.46.0 < 8",
     "core-js": "^2.6.12",
-    "ibm-watson": "^7",
+    "ibm-watson": "^8",
     "react": ">= 16.8.0 < 18",
     "react-dom": ">= 16.8.0 < 18"
   },

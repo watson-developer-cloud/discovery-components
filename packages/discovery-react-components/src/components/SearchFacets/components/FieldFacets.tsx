@@ -47,14 +47,17 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
   onFieldFacetsChange,
   onChange
 }) => {
-  const getFacetsForNameIndex = (selectedFacetName: string) => {
-    const facetsForNameIndex = allFacets.findIndex(facet => {
+  const getFacetsForNameIndex = (selectedFacetName?: string) => {
+    if (!selectedFacetName) {
+      return -1;
+    }
+
+    return allFacets.findIndex(facet => {
       if (!facet.name) {
         return facet.field === selectedFacetName;
       }
       return facet.name === selectedFacetName;
     });
-    return facetsForNameIndex;
   };
 
   const handleOnFieldFacetsChange = (selectedFacets: SelectedFacet[]): void => {
@@ -96,7 +99,7 @@ export const FieldFacets: FC<FieldFacetsProps> = ({
     onFieldFacetsChange({ filterFields: updatedFacets });
   };
 
-  const handleOnClear = (selectedFacetName: string): void => {
+  const handleOnClear = (selectedFacetName?: string): void => {
     let updatedFacets = cloneDeep(allFacets);
     const facetsForNameIndex = getFacetsForNameIndex(selectedFacetName);
     if (facetsForNameIndex > -1) {

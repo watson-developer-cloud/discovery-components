@@ -17,7 +17,7 @@ export const isSelectableQueryTermAggregationResult = (
 };
 
 export interface InternalQueryTermAggregation
-  extends Omit<DiscoveryV2.QueryTermAggregation, 'results'> {
+  extends Omit<DiscoveryV2.QueryAggregationQueryTermAggregation, 'results'> {
   results?: SelectableQueryTermAggregationResult[];
   label?: string;
   name?: string;
@@ -54,6 +54,7 @@ export interface SelectedFacet {
 }
 
 export interface QueryAggregationWithName extends DiscoveryV2.QueryAggregation {
+  type?: string;
   field?: string;
   count?: number;
   name?: string;

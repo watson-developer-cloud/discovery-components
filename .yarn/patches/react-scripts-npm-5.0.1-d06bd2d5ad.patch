@@ -1,13 +1,5 @@
-diff --git a/.vscode/diff/vulsCount.txt b/.vscode/diff/vulsCount.txt
-new file mode 100644
-index 0000000000000000000000000000000000000000..c227083464fb9af8955c90d2924774ee50abb547
---- /dev/null
-+++ b/.vscode/diff/vulsCount.txt
-@@ -0,0 +1 @@
-+0
-\ No newline at end of file
 diff --git a/config/webpack.config.js b/config/webpack.config.js
-index e465d8e7a00ec889e9c4c29ba7812019f8319a41..60e754e0923304b717e42f80b92eab57d1136430 100644
+index e465d8e7a00ec889e9c4c29ba7812019f8319a41..34e7f4d5e3d768f4250b527434f28935be674efd 100644
 --- a/config/webpack.config.js
 +++ b/config/webpack.config.js
 @@ -37,6 +37,7 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
@@ -33,6 +25,15 @@ index e465d8e7a00ec889e9c4c29ba7812019f8319a41..60e754e0923304b717e42f80b92eab57
        // This allows you to set a fallback for where webpack should look for modules.
        // We placed these paths second because we want `node_modules` to "win"
        // if there are any conflicts. This matches Node resolution mechanism.
+@@ -594,7 +603,7 @@ module.exports = function (webpackEnv) {
+               // its runtime that would otherwise be processed through "file" loader.
+               // Also exclude `html` and `json` extensions so they get processed
+               // by webpacks internal loaders.
+-              exclude: [/^$/, /\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
++              exclude: [/^$/, /\.(js|mjs|jsx|ts|tsx|cjs)$/, /\.html$/, /\.json$/],
+               type: 'asset/resource',
+             },
+             // ** STOP ** Are you adding a new loader?
 @@ -604,6 +613,9 @@ module.exports = function (webpackEnv) {
        ].filter(Boolean),
      },
