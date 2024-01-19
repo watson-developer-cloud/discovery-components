@@ -43,7 +43,7 @@
     "@testing-library/cypress": "^7.0.7",
     "@types/proper-url-join": "^2.1.4",
     "cross-env": "^7.0.3",
-    "cypress": "^10.11.0",
+    "cypress": "^13.6.3",
     "react-scripts": "^5.0.1",
     "start-server-and-test": "^2.0.3"
   },
