@@ -21,4 +21,4 @@ export { getDocumentTitle } from './utils/getDocumentTitle';
 export { default as useSafeRef } from './utils/useSafeRef';
 export { default as useSize } from './utils/useSize';
 export { escapeFieldName } from './components/SearchFacets/utils/escapeFieldName';
-export { default as setPdfJsGlobalWorkerOptions } from 'utils/setPdfJsGlobalWorkerOptions';
+export { default as setPdfJsGlobalWorkerOptions } from './utils/setPdfJsGlobalWorkerOptions';

@@ -5,7 +5,7 @@
     "target": "ES2020",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "sourceMap": true,
-    "allowJs": false,
+    "allowJs": true,
     "jsx": "react-jsx",
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
@@ -23,11 +23,14 @@
     "resolveJsonModule": true,
     "noEmit": true,
     "isolatedModules": true,
-    "baseUrl": "src",
     "noFallthroughCasesInSwitch": true,
-    "useDefineForClassFields": true
+    "useDefineForClassFields": true,
+    "paths": {
+      "components/*": ["./src/components/*"],
+      "utils/*": ["./src/utils/*"]
+    }
   },
   "include": ["src"],
-  "exclude": ["node_modules", "build", "dist", "rollup.config.js"],
+  "exclude": ["node_modules"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

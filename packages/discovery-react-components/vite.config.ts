@@ -1,33 +1,10 @@
-import { exec as _exec } from 'node:child_process';
 import path from 'node:path';
-import util from 'node:util';
-import { defineConfig, Plugin } from 'vite';
+import { defineConfig } from 'vite';
+import dts from 'vite-plugin-dts';
 import react from '@vitejs/plugin-react-swc';
 import svgr from 'vite-plugin-svgr';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import pkg from './package.json';
-
-const exec = util.promisify(_exec);
-
-// vite plugin to generate `.d.ts` type files
-const dts: Plugin = {
-  name: 'dts-generator',
-  buildEnd: async (error?: Error) => {
-    if (!error) {
-      try {
-        const { stdout, stderr } = await exec(
-          'yarn tsc --declaration --emitDeclarationOnly --noEmit false'
-        );
-        console.log(stdout);
-        console.error(stderr);
-      } catch (err) {
-        console.log(err.stdout);
-        console.error(err.stderr);
-        throw err;
-      }
-    }
-  }
-};
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -41,7 +18,7 @@ export default defineConfig({
     react(),
     // svgr options: https://react-svgr.com/docs/options/
     svgr({ svgrOptions: { icon: true } }),
-    dts
+    dts({ rollupTypes: true })
   ],
   build: {
     sourcemap: true,
