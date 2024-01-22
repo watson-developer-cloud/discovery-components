@@ -11,7 +11,7 @@
   ],
   "main": "dist/discovery-react-components.umd.cjs",
   "module": "dist/discovery-react-components.js",
-  "types": "dist/discovery-react-components.d.ts",
+  "types": "dist/index.d.ts",
   "publishConfig": {
     "access": "public"
   },

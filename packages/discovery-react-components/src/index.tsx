@@ -4,6 +4,7 @@ export {
   SearchApi,
   SearchContext
 } from './components/DiscoverySearch/DiscoverySearch';
+export type { SearchContextIFC } from './components/DiscoverySearch/DiscoverySearch';
 export { default as SearchInput } from './components/SearchInput/SearchInput';
 export { default as SearchFacets } from './components/SearchFacets/SearchFacets';
 export { default as ResultsPagination } from './components/ResultsPagination/ResultsPagination';

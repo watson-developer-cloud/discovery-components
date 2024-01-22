@@ -18,7 +18,7 @@ export default defineConfig({
     react(),
     // svgr options: https://react-svgr.com/docs/options/
     svgr({ svgrOptions: { icon: true } }),
-    dts({ rollupTypes: true })
+    dts()
   ],
   build: {
     sourcemap: true,
