@@ -23,12 +23,9 @@
     "resolveJsonModule": true,
     "noEmit": true,
     "isolatedModules": true,
+    "baseUrl": "src",
     "noFallthroughCasesInSwitch": true,
-    "useDefineForClassFields": true,
-    "paths": {
-      "components/*": ["./src/components/*"],
-      "utils/*": ["./src/utils/*"]
-    }
+    "useDefineForClassFields": true
   },
   "include": ["src"],
   "exclude": ["node_modules"],
