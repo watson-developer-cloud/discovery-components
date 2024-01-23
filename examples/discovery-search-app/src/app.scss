@@ -148,3 +148,13 @@ h1 {
     min-height: 0;
   }
 }
+
+.#{$prefix}--checkbox-wrapper,
+.#{$prefix}--radio-button-wrapper,
+.#{$prefix}--data-table {
+  // This is to work around a Chrome quirk where focus on a Carbon checkbox or radio button will
+  // sometimes cause parts of the UI to move upwards, making it partially unusable.
+  position: relative;
+}
+
+
