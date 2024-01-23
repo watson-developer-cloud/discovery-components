@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.0.0](https://github.com/watson-developer-cloud/discovery-components/compare/v4.9.0...v5.0.0) (2024-01-23)
+
+
+### chore
+
+* upgrade `ibm-watson` and other deps ([#536](https://github.com/watson-developer-cloud/discovery-components/issues/536)) ([97c366f](https://github.com/watson-developer-cloud/discovery-components/commit/97c366fed24194d1511a16d2a5aa93e61934ea3f))
+
+
+### BREAKING CHANGES
+
+* Upgrade of ibm-watson changes some types
+
+* fix: use `collectionIds` instead of `collection_ids` for fn param
+
+* fix: show document fetch error
+
+* chore: upgrade deps
+
+* chore: remove unneeded core-js deps
+
+* test: japanese PDF is only a single page
+
+* chore: upgrade cypress
+
+* chore: upgrade http-proxy-middleware
+
+* build: generate types file
+
+* build: don't rollup types, to keep breaking changes to a minimum
+
+* build: revert baseUrl removal
+
+
+
+
+
 # [4.9.0](https://github.com/watson-developer-cloud/discovery-components/compare/v4.8.0...v4.9.0) (2023-11-08)
 
 

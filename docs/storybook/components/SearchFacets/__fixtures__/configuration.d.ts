@@ -1,0 +1,10 @@
+import DiscoveryV2 from 'ibm-watson/discovery/v2';
+import { QueryAggregationWithName } from '../utils/searchFacetInterfaces';
+export declare const configurationWithOneField: DiscoveryV2.QueryAggregationQueryTermAggregation[];
+export declare const configurationWithTwoFields: DiscoveryV2.QueryAggregationQueryTermAggregation[];
+export declare const configurationWithTwoFielsdWithSpecialChars: DiscoveryV2.QueryAggregationQueryTermAggregation[];
+export declare const configurationWithoutCounts: DiscoveryV2.QueryAggregationQueryTermAggregation[];
+export declare const configurationWithTopEntities: QueryAggregationWithName[];
+export declare const configurationWithNestedQueryAggregation: QueryAggregationWithName[];
+export declare const configurationWithFilterQueryAggregation: QueryAggregationWithName[];
+export declare const configurationWithFilterQueryAggregationWithSpecialCharacters: QueryAggregationWithName[];

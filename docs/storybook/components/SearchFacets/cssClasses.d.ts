@@ -1,0 +1,11 @@
+export declare const fieldsetClasses: string[];
+export declare const labelClasses: string[];
+export declare const optionClass: string;
+export declare const optionLabelClass: string;
+export declare const singleSelectGroupClass: string;
+export declare const labelAndSelectionContainerClass: string;
+export declare const showMoreModalClass: string;
+export declare const categoryClass: string;
+export declare const categoryExpandCollapseClass: string;
+export declare const categoryGroupNameClass: string;
+export declare const collectionFacetIdPrefix = "collection-facet-";

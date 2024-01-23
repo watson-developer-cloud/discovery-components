@@ -1,0 +1,1 @@
+import{j as i}from"./jsx-runtime-FsUICBgo.js";const t=/({[^}]+})/,a=(o,r,s=!0)=>o.split(t).map((e,n)=>{const c=e.replace(/{/g,"").replace(/}/g,"");return e===""?e:e.includes("{")?s?i.jsx("div",{children:r[c]},n):r[c]:s?i.jsx("span",{children:e},n):e});export{a as f};
