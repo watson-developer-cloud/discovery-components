@@ -1,4 +1,4 @@
-import React, { FC, Dispatch, SetStateAction, useContext, SyntheticEvent } from 'react';
+import { FC, Dispatch, SetStateAction, useContext, SyntheticEvent } from 'react';
 import { ComboBox, TextInput } from 'carbon-components-react';
 import { RemoveRuleRowButton } from '../RemoveRuleRowButton/RemoveRuleRowButton';
 import { Messages } from 'components/StructuredQuery/messages';

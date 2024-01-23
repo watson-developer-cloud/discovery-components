@@ -10,14 +10,11 @@ document.createRange = jest.fn().mockImplementation(
             bottom: 2,
             left: 3,
             right: 4
-          } as unknown as ClientRect
-        ] as unknown as ClientRectList,
+          } as unknown as DOMRect
+        ] as unknown as DOMRectList,
       commonAncestorContainer: {
         nodeName: 'BODY',
         ownerDocument: document
       } as Node
     } as unknown as Range)
 );
-
-// exporting `document` results in babel warning, so just export an empty object
-export default {};

@@ -3,7 +3,7 @@
  * "infinite" list.
  */
 
-import React, {
+import {
   FC,
   Dispatch,
   SetStateAction,

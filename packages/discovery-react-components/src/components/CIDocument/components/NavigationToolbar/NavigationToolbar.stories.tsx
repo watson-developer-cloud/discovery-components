@@ -1,5 +1,4 @@
-import React, { useState, Dispatch, SetStateAction } from 'react';
-import { storiesOf } from '@storybook/react';
+import { useState, Dispatch, SetStateAction } from 'react';
 import { action, HandlerFunction } from '@storybook/addon-actions';
 import NavigationToolbar from './NavigationToolbar';
 
@@ -17,6 +16,11 @@ function onChange(navAction: HandlerFunction, setIndex: Dispatch<SetStateAction<
   };
 }
 
-storiesOf('CIDocument/components/NavigationToolbar', module).add('default', () => (
-  <NavToolbarWrapper />
-));
+export default {
+  title: 'CIDocument/components/NavigationToolbar'
+};
+
+export const Default = {
+  render: () => <NavToolbarWrapper />,
+  name: 'default'
+};

@@ -1,19 +1,24 @@
-import DiscoveryV2, { QueryAggregation } from 'ibm-watson/discovery/v2';
+import {
+  QueryAggregation,
+  QueryAggregationQueryFilterAggregation,
+  QueryAggregationQueryNestedAggregation,
+  QueryAggregationQueryTermAggregation
+} from 'ibm-watson/discovery/v2';
 
 function isBucketAggregation(
   aggregation: QueryAggregation
-): aggregation is DiscoveryV2.QueryFilterAggregation | DiscoveryV2.QueryNestedAggregation {
-  const { type } = aggregation;
+): aggregation is QueryAggregationQueryFilterAggregation | QueryAggregationQueryNestedAggregation {
+  const { type } = aggregation as QueryAggregationQueryFilterAggregation;
   return type === 'filter' || type === 'nested';
 }
 
 export function findTermAggregations(
-  inputAggregations: DiscoveryV2.QueryAggregation[] = [],
-  outputAggregations: DiscoveryV2.QueryTermAggregation[] = []
-): DiscoveryV2.QueryTermAggregation[] {
-  inputAggregations.forEach((aggregation: DiscoveryV2.QueryAggregation) => {
-    if (aggregation.type === 'term') {
-      outputAggregations.push(aggregation as DiscoveryV2.QueryTermAggregation);
+  inputAggregations: QueryAggregation[] = [],
+  outputAggregations: QueryAggregationQueryTermAggregation[] = []
+): QueryAggregationQueryTermAggregation[] {
+  inputAggregations.forEach(aggregation => {
+    if ((aggregation as QueryAggregationQueryTermAggregation).type === 'term') {
+      outputAggregations.push(aggregation as QueryAggregationQueryTermAggregation);
     } else if (isBucketAggregation(aggregation)) {
       outputAggregations.push(...findTermAggregations(aggregation.aggregations || []));
     }

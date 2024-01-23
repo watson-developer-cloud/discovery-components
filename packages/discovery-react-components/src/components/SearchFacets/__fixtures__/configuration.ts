@@ -1,7 +1,7 @@
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { QueryAggregationWithName } from '../utils/searchFacetInterfaces';
 
-export const configurationWithOneField: DiscoveryV2.QueryTermAggregation[] = [
+export const configurationWithOneField: DiscoveryV2.QueryAggregationQueryTermAggregation[] = [
   {
     type: 'term',
     field: 'enriched_text.keywords',
@@ -9,7 +9,7 @@ export const configurationWithOneField: DiscoveryV2.QueryTermAggregation[] = [
   }
 ];
 
-export const configurationWithTwoFields: DiscoveryV2.QueryTermAggregation[] = [
+export const configurationWithTwoFields: DiscoveryV2.QueryAggregationQueryTermAggregation[] = [
   {
     type: 'term',
     field: 'enriched_text.keywords',
@@ -22,20 +22,21 @@ export const configurationWithTwoFields: DiscoveryV2.QueryTermAggregation[] = [
   }
 ];
 
-export const configurationWithTwoFielsdWithSpecialChars: DiscoveryV2.QueryTermAggregation[] = [
-  {
-    type: 'term',
-    field: 's:o~m<e|t^h*i[n(g)]>',
-    count: 10
-  },
-  {
-    type: 'term',
-    field: 'enriched_s:o~m<e|t^h*i[n(g)]>.entities.text',
-    count: 10
-  }
-];
+export const configurationWithTwoFielsdWithSpecialChars: DiscoveryV2.QueryAggregationQueryTermAggregation[] =
+  [
+    {
+      type: 'term',
+      field: 's:o~m<e|t^h*i[n(g)]>',
+      count: 10
+    },
+    {
+      type: 'term',
+      field: 'enriched_s:o~m<e|t^h*i[n(g)]>.entities.text',
+      count: 10
+    }
+  ];
 
-export const configurationWithoutCounts: DiscoveryV2.QueryTermAggregation[] = [
+export const configurationWithoutCounts: DiscoveryV2.QueryAggregationQueryTermAggregation[] = [
   {
     type: 'term',
     field: 'enriched_text.keywords'

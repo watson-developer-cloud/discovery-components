@@ -1,4 +1,3 @@
-import React from 'react';
 import { act, render, BoundFunction, GetByText } from '@testing-library/react';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import 'utils/test/createRange.mock';

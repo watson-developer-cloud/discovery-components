@@ -1,4 +1,4 @@
-import React, { cloneElement } from 'react';
+import { cloneElement } from 'react';
 import { render, fireEvent, RenderResult, wait } from '@testing-library/react';
 import DiscoverySearch, {
   DiscoverySearchProps,
@@ -7,6 +7,7 @@ import DiscoverySearch, {
 } from '../DiscoverySearch';
 import { createDummyResponsePromise } from 'utils/testingUtils';
 import { SearchClient } from '../types';
+import { QueryAggregationQueryTermAggregation } from 'ibm-watson/discovery/v2';
 interface Setup {
   fullTree: JSX.Element;
   result: RenderResult;
@@ -187,10 +188,12 @@ describe('DiscoverySearch', () => {
           }) => (
             <>
               <span data-testid="aggResults">
-                {aggregationResults && aggregationResults[0].type}
+                {aggregationResults &&
+                  (aggregationResults[0] as QueryAggregationQueryTermAggregation).type}
               </span>
               <span data-testid="globalAggResponseStore">
-                {globalAggResults && globalAggResults[0].type}
+                {globalAggResults &&
+                  (globalAggResults[0] as QueryAggregationQueryTermAggregation).type}
               </span>
             </>
           )}
@@ -324,7 +327,7 @@ describe('DiscoverySearch', () => {
       expect(spy).toHaveBeenCalledWith({
         projectId: 'foo',
         filter: 'document_id::bar',
-        collection_ids: ['12345-12345-12345-12345'],
+        collectionIds: ['12345-12345-12345-12345'],
         aggregation: '',
         passages: {
           enabled: false

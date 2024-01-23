@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { settings } from 'carbon-components';
 import { Party, OnActiveMetadataChangeFn, OnActivePartyChangeFn } from './types';
 import { Metadata } from 'components/CIDocument/types';

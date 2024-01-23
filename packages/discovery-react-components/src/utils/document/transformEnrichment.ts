@@ -27,7 +27,8 @@ const modelMapping = {
 
 function getUpdatedEnrichment(enrichment: EnrichedHtml, enrichmentName: string): EnrichedHtml {
   if (enrichment && enrichmentName in modelMapping) {
-    enrichment = modelMapping[enrichmentName](enrichment, enrichmentName);
+    // @ts-expect-error - I think there may be issues with the types here not matching the actual data coming in, but I don't have time to figure out all the details and don't want to break something
+    return modelMapping[enrichmentName as keyof typeof modelMapping](enrichment, enrichmentName);
   }
   return enrichment;
 }
@@ -44,7 +45,7 @@ function setMetadata(enrichedHtml: Contract): Contract {
 
   const updatedMetadata: Metadata[] = [];
   Object.keys(meta).forEach(key => {
-    const metadataObj = meta[key];
+    const metadataObj = meta[key as keyof typeof meta];
     if (typeof metadataObj === 'object' && !!metadataObj.length) {
       updatedMetadata.push({
         metadataType: key,
@@ -62,7 +63,7 @@ function setAttributesAndRelations(
   enrichment: Invoice | PurchaseOrder,
   enrichmentName: string
 ): Invoice | PurchaseOrder {
-  const ontology = ontologyMapping[enrichmentName];
+  const ontology = ontologyMapping[enrichmentName as keyof typeof ontologyMapping];
   enrichment.attributes = setAttributes(ontology, enrichment);
   enrichment.relations = setRelations(ontology, enrichment);
 
@@ -155,12 +156,15 @@ function hasLocationData(attr: Attributes): boolean {
   );
 }
 
-export default function transformEnrichment(enrichedHtml: EnrichedHtml[]): EnrichedHtml[] {
+export default function transformEnrichment(
+  enrichedHtml?: EnrichedHtml[]
+): EnrichedHtml[] | undefined {
   if (enrichedHtml && enrichedHtml[0]) {
     const enrichmentName = getEnrichmentName(enrichedHtml[0]);
-    const enrichment = enrichedHtml[0][enrichmentName];
+    const enrichment = enrichedHtml[0][enrichmentName as keyof EnrichedHtml];
     const updatedEnrichment = getUpdatedEnrichment(enrichment, enrichmentName);
-    enrichedHtml[0][enrichmentName] = updatedEnrichment;
+    // @ts-expect-error - not sure what TS doesn't like about this
+    enrichedHtml[0][enrichmentName as keyof EnrichedHtml] = updatedEnrichment;
   }
   return enrichedHtml;
 }

@@ -1,5 +1,5 @@
 // display name mappings for values within documents (contracts, invoices and purchase orders)
-export const documentDisplayNames = {
+export const documentDisplayNames: Record<string, string> = {
   amount: 'Amount',
   bill_to: 'Bill to',
   buyers: 'Buyer',

@@ -1,4 +1,4 @@
-import React, { ComponentClass, ComponentType, ReactNode, PureComponent } from 'react';
+import { ComponentClass, ComponentType, ReactNode, PureComponent } from 'react';
 
 /**
  * Ideas for improvements:

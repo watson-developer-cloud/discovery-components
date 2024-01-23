@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { SearchContext } from 'components/DiscoverySearch/DiscoverySearch';
 import document from 'components/DocumentPreview/__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';

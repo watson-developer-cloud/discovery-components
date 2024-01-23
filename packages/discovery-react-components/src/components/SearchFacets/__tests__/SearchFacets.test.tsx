@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render, RenderResult, fireEvent, wait } from '@testing-library/react';
-import { QueryTermAggregation } from 'ibm-watson/discovery/v2';
+import { QueryAggregationQueryTermAggregation } from 'ibm-watson/discovery/v2';
 import { wrapWithContext } from 'utils/testingUtils';
 import SearchFacets from '../SearchFacets';
 import {
@@ -423,7 +423,7 @@ describe('SearchFacetsComponent', () => {
 
   describe('i18n messages', () => {
     let result: RenderResult;
-    const termAgg: QueryTermAggregation = {
+    const termAgg: QueryAggregationQueryTermAggregation = {
       type: 'term',
       field: 'one',
       results: [

@@ -1,4 +1,4 @@
-import React, { FC, useContext, SyntheticEvent } from 'react';
+import { FC, useContext, SyntheticEvent } from 'react';
 import { settings } from 'carbon-components';
 import { Button as CarbonButton } from 'carbon-components-react';
 import { SearchApi, SearchContext } from 'components/DiscoverySearch/DiscoverySearch';

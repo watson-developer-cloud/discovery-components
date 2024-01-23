@@ -1,20 +1,27 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { withKnobs, radios } from '@storybook/addon-knobs';
 
 import HtmlView from './HtmlView';
 import docJson from '../../__fixtures__/Art Effects Koya Creative Base TSA 2008.pdf.json';
 
-storiesOf('DocumentPreview/components/HtmlView', module)
-  .addDecorator(withKnobs)
-  .add('default', () => {
+export default {
+  title: 'DocumentPreview/components/HtmlView',
+  decorators: [withKnobs]
+};
+
+export const Default = {
+  render: () => {
     return (
       <div style={{ height: '100%' }}>
         <HtmlView document={docJson} setLoading={(): void => {}} />
       </div>
     );
-  })
-  .add('table highlighting', () => {
+  },
+
+  name: 'default'
+};
+
+export const TableHighlighting = {
+  render: () => {
     const label = 'Tables';
     const options = {
       'Table 1': '0',
@@ -58,8 +65,13 @@ storiesOf('DocumentPreview/components/HtmlView', module)
         />
       </div>
     );
-  })
-  .add('passage highlighting', () => {
+  },
+
+  name: 'table highlighting'
+};
+
+export const PassageHighlighting = {
+  render: () => {
     const label = 'Passage';
     const options = {
       'Passage 1': '0',
@@ -93,4 +105,7 @@ storiesOf('DocumentPreview/components/HtmlView', module)
         />
       </div>
     );
-  });
+  },
+
+  name: 'passage highlighting'
+};

@@ -1,5 +1,3 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { text, object, boolean, number } from '@storybook/addon-knobs';
 import SearchFacets from '../SearchFacets';
 import { facetsQueryResponse } from '../__fixtures__/facetsQueryResponse';
@@ -104,9 +102,18 @@ const discoverySearchProps = (
   }
 });
 
-storiesOf('SearchFacets', module)
-  .addParameters({ component: SearchFacets })
-  .add('default', () => {
+export default {
+  title: 'SearchFacets',
+
+  parameters: {
+    component: SearchFacets
+  },
+
+  excludeStories: ['props']
+};
+
+export const Default = {
+  render: () => {
     const exampleProps = props();
     return (
       <StoryWrapper>
@@ -115,8 +122,13 @@ storiesOf('SearchFacets', module)
         </DiscoverySearch>
       </StoryWrapper>
     );
-  })
-  .add('with initial selected collection', () => {
+  },
+
+  name: 'default'
+};
+
+export const WithInitialSelectedCollection = {
+  render: () => {
     const exampleProps = props();
     return (
       <StoryWrapper>
@@ -125,8 +137,13 @@ storiesOf('SearchFacets', module)
         </DiscoverySearch>
       </StoryWrapper>
     );
-  })
-  .add('with initial selected facets', () => {
+  },
+
+  name: 'with initial selected collection'
+};
+
+export const WithInitialSelectedFacets = {
+  render: () => {
     const exampleProps = props();
     return (
       <StoryWrapper>
@@ -139,4 +156,7 @@ storiesOf('SearchFacets', module)
         </DiscoverySearch>
       </StoryWrapper>
     );
-  });
+  },
+
+  name: 'with initial selected facets'
+};

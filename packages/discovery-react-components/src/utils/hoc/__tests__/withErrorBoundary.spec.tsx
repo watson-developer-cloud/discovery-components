@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { render, BoundFunction, GetByText } from '@testing-library/react';
 import { withErrorBoundary, WithErrorBoundaryProps } from '../withErrorBoundary';
 

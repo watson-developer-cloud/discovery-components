@@ -52,8 +52,8 @@ function _processFilter(list: any, filterGroups: FilterGroup[]): HelperFilterFn 
     const updatedFilterGroups = [];
 
     // Split filters into radio and checkbox type filters
-    const radioFilters = {};
-    const checkboxFilters = {};
+    const radioFilters: Record<string, any> = {};
+    const checkboxFilters: Record<string, any> = {};
     filterGroups.forEach(group => {
       const filterPart = filter[group.id];
       if (filterPart) {

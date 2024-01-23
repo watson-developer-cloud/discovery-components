@@ -9,6 +9,7 @@ import { spansIntersect } from './documentUtils';
 import { decodeHTML, encodeHTML } from 'entities';
 import { getDocumentTitle } from 'utils/getDocumentTitle';
 import { QueryResultWithOptionalMetadata, Location } from 'components/DocumentPreview/types';
+import { Contract, Invoice, PurchaseOrder } from 'components/CIDocument/types';
 
 // split HTML into "sections" based on these top level tag(s)
 const SECTION_NAMES = ['p', 'ul', 'table'];
@@ -97,22 +98,22 @@ export async function processDoc(
 
   //enriched_html is a singlton array.
   const transformedEnrichment = transformedEnrichmentArray && transformedEnrichmentArray[0];
-  const enrichment = transformedEnrichment
-    ? transformedEnrichment[getEnrichmentName(transformedEnrichment)]
-    : [];
+  const enrichment = transformedEnrichment?.[
+    getEnrichmentName(transformedEnrichment) as keyof typeof transformEnrichment
+  ] as Contract | Invoice | PurchaseOrder | undefined;
 
   const doc: ProcessedDoc = {
     title: documentTitle,
     styles: ''
   };
-  if (enrichment && enrichment.metadata) {
-    doc.metadata = enrichment.metadata;
+  if (enrichment && (enrichment as Contract).metadata) {
+    doc.metadata = (enrichment as Contract).metadata;
   }
-  if (enrichment && enrichment.attributes) {
-    doc.attributes = enrichment.attributes;
+  if (enrichment && (enrichment as Invoice).attributes) {
+    doc.attributes = (enrichment as Invoice).attributes;
   }
-  if (enrichment && enrichment.relations) {
-    doc.relations = enrichment.relations;
+  if (enrichment && (enrichment as PurchaseOrder).relations) {
+    doc.relations = (enrichment as PurchaseOrder).relations;
   }
   if (options.sections) {
     doc.sections = [];
@@ -482,8 +483,8 @@ function sortFieldsBySection(field: any, sections: any[], fieldType: string): vo
 function addItemMap(doc: ProcessedDoc): void {
   const itemNames = ['elements', 'attributes', 'metadata'];
   const { sections } = doc;
-  const byItem = {};
-  const bySection = {};
+  const byItem: Record<string, number> = {};
+  const bySection: Record<string, string[]> = {};
 
   (sections as any[]).forEach((section, sectionNum) => {
     bySection[sectionNum] = [];

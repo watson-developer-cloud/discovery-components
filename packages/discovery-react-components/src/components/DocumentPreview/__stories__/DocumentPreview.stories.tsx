@@ -1,5 +1,4 @@
 import React, { ComponentType, FC } from 'react';
-import { storiesOf } from '@storybook/react';
 import { radios, boolean, number } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import { QueryResult, QueryResultPassage } from 'ibm-watson/discovery/v2';
@@ -26,9 +25,16 @@ const Wrapper: FC<WrapperProps> = ({ children, style = {} }) => (
   </div>
 );
 
-storiesOf('DocumentPreview', module)
-  .addParameters({ component: DocumentPreview })
-  .add('default', () => {
+export default {
+  title: 'DocumentPreview',
+
+  parameters: {
+    component: DocumentPreview
+  }
+};
+
+export const Default = {
+  render: () => {
     const [file, doc] = docSelection();
     return (
       <Wrapper>
@@ -40,8 +46,13 @@ storiesOf('DocumentPreview', module)
         />
       </Wrapper>
     );
-  })
-  .add('passage highlighting', () => {
+  },
+
+  name: 'default'
+};
+
+export const PassageHighlighting = {
+  render: () => {
     const [file, doc] = docSelection([
       'pdf',
       'pdf-q-n-a',
@@ -66,8 +77,13 @@ storiesOf('DocumentPreview', module)
         />
       </Wrapper>
     );
-  })
-  .add('table highlight', () => {
+  },
+
+  name: 'passage highlighting'
+};
+
+export const TableHighlight = {
+  render: () => {
     const [file, doc] = docSelection([
       'pdf',
       'pdf-no-mappings',
@@ -89,8 +105,13 @@ storiesOf('DocumentPreview', module)
         />
       </Wrapper>
     );
-  })
-  .add('fallback component', () => {
+  },
+
+  name: 'table highlight'
+};
+
+export const FallbackComponent = {
+  render: () => {
     const doc = {
       document_id: '1234567890',
       extracted_metadata: {
@@ -112,8 +133,13 @@ storiesOf('DocumentPreview', module)
         />
       </Wrapper>
     );
-  })
-  .add('loading file with timeout', () => {
+  },
+
+  name: 'fallback component'
+};
+
+export const LoadingFileWithTimeout = {
+  render: () => {
     const file = atob(docPDF);
     const fetchTime = number('Milliseconds for loading file', 1000);
     const fileFetchTimeout = number(
@@ -142,7 +168,10 @@ storiesOf('DocumentPreview', module)
         </SearchContext.Provider>
       </Wrapper>
     );
-  });
+  },
+
+  name: 'loading file with timeout'
+};
 
 function docSelection(items = ['pdf', 'html', 'text']): [string | undefined, QueryResult] {
   const label = 'Document Type';
@@ -196,7 +225,7 @@ function docSelection(items = ['pdf', 'html', 'text']): [string | undefined, Que
   return [file, doc];
 }
 
-function passageSelection(doc: QueryResult, passages: object): QueryResult {
+function passageSelection(doc: QueryResult, passages: Record<string, any>): QueryResult {
   const label = 'Passage Type';
   const options = {
     'Single line': 'single',

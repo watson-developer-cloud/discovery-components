@@ -2,7 +2,6 @@
   "packages": ["packages/*"],
   "version": "4.9.0",
   "npmClient": "yarn",
-  "useWorkspaces": true,
   "command": {
     "publish": {
       "conventionalCommits": true,
@@ -12,5 +11,6 @@
       "message": "chore: publish %s [ci skip]",
       "ignoreChanges": ["examples/**"]
     }
-  }
+  },
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json"
 }

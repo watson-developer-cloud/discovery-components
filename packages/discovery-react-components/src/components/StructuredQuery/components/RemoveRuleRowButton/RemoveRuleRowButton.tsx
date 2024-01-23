@@ -1,4 +1,4 @@
-import React, { FC, Dispatch, SetStateAction } from 'react';
+import { FC, Dispatch, SetStateAction } from 'react';
 import omit from 'lodash/omit';
 import { Button } from 'carbon-components-react';
 import { SubtractAlt16 } from '@carbon/icons-react';

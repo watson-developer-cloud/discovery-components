@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, SyntheticEvent } from 'react';
+import { FC, useState, useEffect, SyntheticEvent } from 'react';
 import { Button } from 'carbon-components-react';
 import { ChevronDown16 } from '@carbon/icons-react';
 import { ChevronUp16 } from '@carbon/icons-react';

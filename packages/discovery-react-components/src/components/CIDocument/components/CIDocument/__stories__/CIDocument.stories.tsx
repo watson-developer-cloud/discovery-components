@@ -1,5 +1,4 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
+import { QueryResult } from 'ibm-watson/discovery/v2';
 import { withKnobs, radios } from '@storybook/addon-knobs';
 import CIDocument from '../CIDocument';
 import contract from '../__fixtures__/contract.json';
@@ -14,7 +13,7 @@ const options = {
   'Purchase Order': 'purchase_orders'
 };
 
-const docs = {
+const docs: Record<string, Partial<QueryResult>> = {
   contracts: contract,
   invoices: invoice,
   purchase_orders: po
@@ -31,18 +30,27 @@ const STYLE = `
   height: 100vh;
 }`;
 
-storiesOf('CIDocument', module)
-  .addDecorator(withKnobs)
-  .add('default', () => {
+export default {
+  title: 'CIDocument',
+  decorators: [withKnobs]
+};
+
+export const Default = {
+  render: () => {
     const modelId = radios(label, options, defaultValue, groupId);
     return (
       <div style={{ overflow: 'hidden' }}>
         <style>{STYLE}</style>
-        <div className="story">{<CIDocument document={docs[modelId]} />}</div>
+        <div className="story">{<CIDocument document={docs[modelId] as QueryResult} />}</div>
       </div>
     );
-  })
-  .add('parse error', () => {
+  },
+
+  name: 'default'
+};
+
+export const ParseError = {
+  render: () => {
     const badDoc = {
       document_id: 'document_id',
       result_metadata: {
@@ -63,4 +71,7 @@ storiesOf('CIDocument', module)
         <div className="story">{<CIDocument document={badDoc} />}</div>
       </div>
     );
-  });
+  },
+
+  name: 'parse error'
+};

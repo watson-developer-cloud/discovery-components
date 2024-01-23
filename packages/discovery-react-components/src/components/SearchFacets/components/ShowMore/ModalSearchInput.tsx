@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, SyntheticEvent } from 'react';
+import { FC, useState, useEffect, SyntheticEvent } from 'react';
 import { Messages } from 'components/SearchFacets/messages';
 import { Search as CarbonSearchInput } from 'carbon-components-react';
 import {
@@ -58,8 +58,10 @@ export const ModalSearchInput: FC<ModalSearchInputProps> = ({
     const tempFacets = [...facets];
     setFilteredFacets(
       tempFacets.filter(facet => {
-        if (facet[facetsTextField]) {
-          return facet[facetsTextField].toLowerCase().includes(tempValue.toLowerCase());
+        if (facet[facetsTextField as keyof typeof facet]) {
+          return (facet[facetsTextField as keyof typeof facet] as string)
+            ?.toLowerCase()
+            .includes(tempValue.toLowerCase());
         }
         return null;
       })

@@ -34,5 +34,6 @@ export function defineDOMRect() {
 }
 
 export function removeDOMRect() {
+  // @ts-expect-error - ignore error saying that `DOMRect` must be optional
   delete globalThis.DOMRect;
 }

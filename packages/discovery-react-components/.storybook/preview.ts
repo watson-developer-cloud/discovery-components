@@ -1,10 +1,14 @@
-import { addParameters } from '@storybook/react';
-import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks';
+import { Preview } from '@storybook/react';
+import { DocsPage, DocsContainer } from '@storybook/blocks';
 import './styles.scss';
 
-addParameters({
-  docs: {
-    container: DocsContainer,
-    page: DocsPage
+const preview: Preview = {
+  parameters: {
+    docs: {
+      container: DocsContainer,
+      page: DocsPage
+    }
   }
-});
+};
+
+export default preview;

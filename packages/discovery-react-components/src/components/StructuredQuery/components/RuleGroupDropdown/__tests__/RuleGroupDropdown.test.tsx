@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, RenderResult } from '@testing-library/react';
 import { RuleGroupDropdown } from '../RuleGroupDropdown';
 import { defaultMessages } from 'components/StructuredQuery/messages';

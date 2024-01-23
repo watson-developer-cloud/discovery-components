@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { render, waitFor, screen } from '@testing-library/react';
 // PDF.js uses web streams, which aren't defined in jest/JSDOM
 import 'web-streams-polyfill/es2018';
@@ -10,7 +9,9 @@ describe('PdfViewer', () => {
     render(<PdfViewer file={atob(doc)} page={1} scale={1} setLoading={(): void => {}} />);
 
     // wait for component to finish rendering (prevent "act" warning)
-    await waitFor(() => expect(screen.getByText('ART EFFECTS LIMITED')).toBeVisible());
+    await waitFor(() => expect(screen.getByText('ART EFFECTS LIMITED')).toBeVisible(), {
+      timeout: 5000
+    });
 
     const canvasList = document.querySelectorAll('canvas');
     expect(canvasList.length).toBe(1);

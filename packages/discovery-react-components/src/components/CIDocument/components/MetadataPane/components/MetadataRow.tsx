@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import cx from 'classnames';
 import { Link, Tooltip } from 'carbon-components-react';
 import { Metadata, MetadataData } from 'components/CIDocument/types';
@@ -59,7 +59,7 @@ const MetadataRow: FC<MetadataRowProps> = ({
 
   return (
     <div className="group">
-      <h3 className="group-title">{headings[metadataType]} </h3>
+      <h3 className="group-title">{headings[metadataType as keyof typeof headings]} </h3>
       <ul>
         {data.map(dt => {
           const metadataId = getId(dt);

@@ -1,5 +1,4 @@
-import React, { useState, ReactElement } from 'react';
-import { storiesOf } from '@storybook/react';
+import { useState, ReactElement } from 'react';
 import { withKnobs, number, boolean } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import { Json24, Document24 } from '@carbon/icons-react';
@@ -54,9 +53,13 @@ const userActions: ToolbarAction[] = [
   }
 ];
 
-storiesOf('DocumentPreview/components/PreviewToolbar', module)
-  .addDecorator(withKnobs)
-  .add('default', () => {
+export default {
+  title: 'DocumentPreview/components/PreviewToolbar',
+  decorators: [withKnobs]
+};
+
+export const Default = {
+  render: () => {
     const currentPage = number('Current page', 1);
     const totalPage = number('Total pages', 100);
     const hideControls = boolean('Hide controls', false);
@@ -74,11 +77,19 @@ storiesOf('DocumentPreview/components/PreviewToolbar', module)
         />
       </div>
     );
-  })
-  .add('parent wrapped', () => {
+  },
+
+  name: 'default'
+};
+
+export const ParentWrapped = {
+  render: () => {
     return (
       <div style={divStyle}>
         <PreviewToolbarWrapper />
       </div>
     );
-  });
+  },
+
+  name: 'parent wrapped'
+};

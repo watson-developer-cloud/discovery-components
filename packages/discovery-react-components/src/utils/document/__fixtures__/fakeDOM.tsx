@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 export const nodes = (
   <div className="parent">
     <div className="root" data-child-begin={0} data-child-end={779}>

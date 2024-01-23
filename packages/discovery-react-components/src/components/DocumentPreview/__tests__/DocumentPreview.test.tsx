@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import omit from 'lodash/omit';
 import { NoAuthAuthenticator } from 'ibm-watson/auth';

@@ -7,7 +7,6 @@ import React, {
   useRef,
   useState
 } from 'react';
-import { storiesOf } from '@storybook/react';
 import { withKnobs, radios, number, select, files } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import { ChevronUp24 } from '@carbon/icons-react';
@@ -90,7 +89,7 @@ const highlightKnob = {
     empty: EMPTY,
     companies: HIGHLIGHT_COMPANIES,
     customerGroups: HIGHLIGHT_CUSTOMER_GROUPS
-  }
+  } as Record<string, DocumentFieldHighlight[]>
 };
 
 // @ts-expect-error forwardRef makes PdfViewerWithHighlight a ForwardRefExoticComponent,
@@ -291,55 +290,62 @@ const WithToolbar: FC<
   );
 };
 
-storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
-  .addDecorator(withKnobs)
-  .add('default', () => {
-    const page = number(pageKnob.label, pageKnob.defaultValue, pageKnob.options);
-    const zoom = radios(zoomKnob.label, zoomKnob.options, zoomKnob.defaultValue);
-    const scale = parseFloat(zoom);
-    const highlights = select(
-      highlightKnob.label,
-      highlightKnob.options,
-      highlightKnob.defaultValue
-    );
-    const activeId = number('Active highlight index', 0);
-    const setLoadingAction = action('setLoading');
-    const setCurrentPageAction = action('setCurrentPage');
+export default {
+  title: 'DocumentPreview/components/PdfViewerWithHighlight',
+  decorators: [withKnobs]
+};
 
-    const [currentPage, setCurrentPage] = useState(0);
-    useEffect(() => {
-      setCurrentPage(page);
-    }, [page]);
-    const handleSetCurrentPage = useCallback(
-      (p: number) => {
-        setCurrentPageAction(p);
-        setCurrentPage(p);
-      },
-      [setCurrentPageAction]
-    );
+const DefaultStory: FC<{}> = () => {
+  const page = number(pageKnob.label, pageKnob.defaultValue, pageKnob.options);
+  const zoom = radios(zoomKnob.label, zoomKnob.options, zoomKnob.defaultValue);
+  const scale = parseFloat(zoom);
+  const highlights = select(highlightKnob.label, highlightKnob.options, highlightKnob.defaultValue);
+  const activeId = number('Active highlight index', 0);
+  const setLoadingAction = action('setLoading');
+  const setCurrentPageAction = action('setCurrentPage');
 
-    const [activeIds, setActiveIds] = useState<string[]>([]);
-    useEffect(() => {
-      const items = highlightKnob.data[highlights];
-      const item = items[activeId];
-      setActiveIds(item ? [item.id] : []);
-    }, [activeId, highlights]);
+  const [currentPage, setCurrentPage] = useState(0);
+  useEffect(() => {
+    setCurrentPage(page);
+  }, [page]);
+  const handleSetCurrentPage = useCallback(
+    (p: number) => {
+      setCurrentPageAction(p);
+      setCurrentPage(p);
+    },
+    [setCurrentPageAction]
+  );
 
-    return (
-      <PdfViewerWithHighlight
-        file={atob(doc)}
-        page={currentPage}
-        scale={scale}
-        setLoading={setLoadingAction}
-        document={document}
-        highlights={highlightKnob.data[highlights]}
-        activeIds={activeIds}
-        setCurrentPage={handleSetCurrentPage}
-        pdfWorkerUrl={PDF_WORKER_URL}
-      />
-    );
-  })
-  .add('with text selection', () => {
+  const [activeIds, setActiveIds] = useState<string[]>([]);
+  useEffect(() => {
+    const items = highlightKnob.data[highlights];
+    const item = items[activeId];
+    setActiveIds(item?.id ? [item.id] : []);
+  }, [activeId, highlights]);
+
+  return (
+    <PdfViewerWithHighlight
+      file={atob(doc)}
+      page={currentPage}
+      scale={scale}
+      setLoading={setLoadingAction}
+      document={document}
+      highlights={highlightKnob.data[highlights]}
+      activeIds={activeIds}
+      setCurrentPage={handleSetCurrentPage}
+      pdfWorkerUrl={PDF_WORKER_URL}
+    />
+  );
+};
+
+export const Default = {
+  render: () => <DefaultStory />,
+
+  name: 'default'
+};
+
+export const _WithTextSelection = {
+  render: () => {
     const page = number(pageKnob.label, pageKnob.defaultValue, pageKnob.options);
     const zoom = radios(zoomKnob.label, zoomKnob.options, zoomKnob.defaultValue);
     const scale = parseFloat(zoom);
@@ -358,9 +364,14 @@ storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
         pdfWorkerUrl={PDF_WORKER_URL}
       />
     );
-  })
-  .add('with PDF in Japanese', () => {
-    const page = number(pageKnob.label, pageKnob.defaultValue, pageKnob.options);
+  },
+
+  name: 'with text selection'
+};
+
+export const WithPdfInJapanese = {
+  render: () => {
+    const page = number(pageKnob.label, pageKnob.defaultValue, { ...pageKnob.options, max: 1 });
     const zoom = radios(zoomKnob.label, zoomKnob.options, zoomKnob.defaultValue);
     const scale = parseFloat(zoom);
     const setLoadingAction = action('setLoading');
@@ -378,8 +389,13 @@ storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
         pdfWorkerUrl={PDF_WORKER_URL}
       />
     );
-  })
-  .add("with user's PDF and JSON", () => {
+  },
+
+  name: 'with PDF in Japanese'
+};
+
+export const WithUsersPdfAndJson = {
+  render: () => {
     const pdfFile = files(pdfFileKnob.label, pdfFileKnob.accept);
     const documentFile = files(documentFileKnob.label, documentFileKnob.accept);
     const page = number(pageKnob.label, pageKnob.defaultValue, pageKnob.options);
@@ -420,8 +436,13 @@ storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
         pdfWorkerUrl={PDF_WORKER_URL}
       />
     );
-  })
-  .add('with preview toolbar', () => {
+  },
+
+  name: "with user's PDF and JSON"
+};
+
+export const WithPreviewToolbar = {
+  render: () => {
     const highlights = select(
       highlightKnob.label,
       highlightKnob.options,
@@ -439,4 +460,7 @@ storiesOf('DocumentPreview/components/PdfViewerWithHighlight', module)
         highlights={highlightKnob.data[highlights]}
       />
     );
-  });
+  },
+
+  name: 'with preview toolbar'
+};

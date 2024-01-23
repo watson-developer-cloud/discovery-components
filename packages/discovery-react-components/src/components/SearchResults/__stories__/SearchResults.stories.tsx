@@ -1,5 +1,3 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { text, boolean, object, number, select } from '@storybook/addon-knobs';
 import { StoryWrapper, DummySearchClient } from 'utils/storybookUtils';
 import DiscoverySearch, { DiscoverySearchProps } from 'components/DiscoverySearch/DiscoverySearch';
@@ -80,23 +78,33 @@ const discoverySearchProps = (knobValues: any): DiscoverySearchProps => {
   };
 };
 
-storiesOf('SearchResults', module)
-  .addParameters({ component: SearchResults })
-  .add('default', () => {
+export default {
+  title: 'SearchResults',
+
+  parameters: {
+    component: SearchResults
+  }
+};
+
+export const Default = {
+  render: () => {
     return (
       <StoryWrapper>
         <DiscoverySearch {...discoverySearchProps(props())}>
           <style
             dangerouslySetInnerHTML={{
               __html: `
-            .red em { background-color: #ff9191 }
-            .yellow em { background-color: yellow }
-            .green em { background-color: #a1ffb7 }
-          `
+              .red em { background-color: #ff9191 }
+              .yellow em { background-color: yellow }
+              .green em { background-color: #a1ffb7 }
+            `
             }}
           />
           <SearchResults {...props()} />
         </DiscoverySearch>
       </StoryWrapper>
     );
-  });
+  },
+
+  name: 'default'
+};

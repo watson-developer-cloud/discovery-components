@@ -1,4 +1,4 @@
-import React, { FC, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import capitalize from 'lodash/capitalize';
 import cx from 'classnames';
 import { Link } from 'carbon-components-react';
@@ -76,7 +76,7 @@ function renderText(item: string | ItemLabel): string | undefined {
   if ((item as ItemLabel).label) {
     return (item as ItemLabel).label;
   }
-  return documentDisplayNames[item as string] || item;
+  return documentDisplayNames[item as string] || (item as string);
 }
 
 export default Details;

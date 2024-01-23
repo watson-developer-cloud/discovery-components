@@ -1,7 +1,6 @@
 import React, { FC, useContext } from 'react';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { CloudPakForDataAuthenticator } from 'ibm-watson/auth';
-import { storiesOf } from '@storybook/react';
 import { text, object } from '@storybook/addon-knobs';
 import DiscoverySearch, {
   DiscoverySearchProps,
@@ -42,9 +41,16 @@ const customSearchClientProps = (): DiscoverySearchProps => ({
   })
 });
 
-storiesOf('DiscoverySearch', module)
-  .addParameters({ component: DiscoverySearch })
-  .add('default', () => {
+export default {
+  title: 'DiscoverySearch',
+
+  parameters: {
+    component: DiscoverySearch
+  }
+};
+
+export const Default = {
+  render: () => {
     const authenticator = new CloudPakForDataAuthenticator({
       url: text('Base URL', 'http://mycluster.com'),
       username: text('Username', 'foo'),
@@ -63,8 +69,13 @@ storiesOf('DiscoverySearch', module)
         <MyComponent />
       </DiscoverySearch>
     );
-  })
-  .add('custom search client', () => {
+  },
+
+  name: 'default'
+};
+
+export const CustomSearchClient = {
+  render: () => {
     const props = customSearchClientProps();
     return (
       <DiscoverySearch {...props}>
@@ -79,4 +90,7 @@ storiesOf('DiscoverySearch', module)
         </SearchApi.Consumer>
       </DiscoverySearch>
     );
-  });
+  },
+
+  name: 'custom search client'
+};

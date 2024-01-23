@@ -21,15 +21,12 @@
   "peerDependencies": {
     "carbon-components": ">= 10.46.0 < 11"
   },
-  "engines": {
-    "node": ">=16"
-  },
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
     "@types/prettier": "^2",
     "prettier": "^2.4.1",
-    "sass": "^1.54.9"
+    "sass": "^1.70.0"
   }
 }

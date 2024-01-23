@@ -1,5 +1,3 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { array, text, boolean, number, object } from '@storybook/addon-knobs';
 import DiscoverySearch, { DiscoverySearchProps } from 'components/DiscoverySearch/DiscoverySearch';
 import { DummySearchClient } from 'utils/storybookUtils';
@@ -36,12 +34,24 @@ const discoverySearchProps = (): DiscoverySearchProps => ({
   overrideSearchResults
 });
 
-storiesOf('ResultsPagination', module)
-  .addParameters({ component: ResultsPagination })
-  .add('default', () => {
+export default {
+  title: 'ResultsPagination',
+
+  parameters: {
+    component: ResultsPagination
+  },
+
+  excludeStories: ['props']
+};
+
+export const Default = {
+  render: () => {
     return (
       <DiscoverySearch {...discoverySearchProps()}>
         <ResultsPagination {...props()} />
       </DiscoverySearch>
     );
-  });
+  },
+
+  name: 'default'
+};

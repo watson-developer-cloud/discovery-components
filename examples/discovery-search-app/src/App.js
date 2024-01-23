@@ -150,7 +150,7 @@ function PreviewPage() {
   const {
     selectedResult: { document: selectedDocument },
     searchResponseStore: { data: searchResponse },
-    fetchDocumentsResponseStore: { data: fetchDocumentResponse, isLoading }
+    fetchDocumentsResponseStore: { data: fetchDocumentResponse, isLoading, isError, error }
   } = useContext(SearchContext);
   const { fetchDocuments, setSelectedResult } = useContext(SearchApi);
 
@@ -202,7 +202,9 @@ function PreviewPage() {
           tooltipAlignment="start"
         />
       </div>
-      {isLoading ? (
+      {isError ? (
+        <div>Unable to fetch document: {error.toString()}</div>
+      ) : isLoading ? (
         <Loading className={`${settings.prefix}--search-app__loading`} />
       ) : (
         <Tabs

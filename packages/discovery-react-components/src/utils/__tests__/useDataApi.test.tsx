@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { render, fireEvent, waitForDomChange, wait } from '@testing-library/react';
 import { createDummyResponsePromise, createDummyResponse } from '../testingUtils';
@@ -799,7 +799,7 @@ describe('useFetchDocumentsApi', () => {
       fireEvent.click(fetchDocumentsButton, { target: { value: 'filter_string' } });
       expect(checkParametersMock).toHaveBeenCalledWith({
         projectId: 'foo',
-        collection_ids: ['12345-12345-12345-12345'],
+        collectionIds: ['12345-12345-12345-12345'],
         _return: [],
         aggregation: '',
         passages: {},

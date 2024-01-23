@@ -1,3 +1,4 @@
+import Debug from 'debug';
 import minBy from 'lodash/minBy';
 import { nonEmpty } from 'utils/nonEmpty';
 import { bboxesIntersect } from '../../../../utils/box';
@@ -8,7 +9,7 @@ import { MappingTargetBoxProvider } from './MappingTargetCellProvider';
 import { TextBoxMappingBuilder } from './TextBoxMapping';
 import { TextBoxMapping } from './types';
 
-const debugOut = require('debug')?.('pdf:mapping:getTextBoxMapping');
+const debugOut = Debug('pdf:mapping:getTextBoxMapping');
 function debug(...args: any) {
   debugOut?.apply(null, args);
 }

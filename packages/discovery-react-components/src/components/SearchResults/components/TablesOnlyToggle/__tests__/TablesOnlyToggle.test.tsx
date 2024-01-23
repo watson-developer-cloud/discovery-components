@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, fireEvent, within, RenderResult } from '@testing-library/react';
 import {
   SearchContextIFC,

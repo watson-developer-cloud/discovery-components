@@ -1,4 +1,3 @@
-import React from 'react';
 import DiscoveryV2 from 'ibm-watson/discovery/v2';
 import { action } from '@storybook/addon-actions';
 import { createDummyResponsePromise } from './testingUtils';

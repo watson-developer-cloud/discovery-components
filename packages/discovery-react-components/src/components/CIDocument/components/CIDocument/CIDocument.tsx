@@ -38,7 +38,6 @@ import {
   Metadata,
   MetadataData,
   EnrichedHtml,
-  Contract,
   Item,
   Field,
   Attributes,
@@ -176,11 +175,12 @@ const CIDocument: FC<CIDocumentProps> = ({
   const [selectedContractFilter, setSelectedContractFilter] = useState(FILTERS);
 
   const enrichment = get(enrichedHtml, enrichmentName, {});
-  const { elements = [], parties = [] }: Contract = enrichment;
+  // @ts-expect-error - not sure best way of getting TS to be happy with this, since `elements` and `parties` are only part of Contracts and not the others
+  const { elements = [], parties = [] } = enrichment;
 
-  let itemList = elements;
+  let itemList: any[] = elements;
   if (isInvoiceOrPurchaseOrder(enrichmentName)) {
-    itemList = state[selectedType] || [];
+    itemList = (state[selectedType as keyof typeof state] as any[]) || [];
   }
 
   const resetTabs = (): void => {
@@ -313,7 +313,7 @@ const CIDocument: FC<CIDocumentProps> = ({
   const renderSidebar = (): ReactElement => {
     const nonContractFilterGroups = filterGroups.filter(group => group.id === selectedType);
 
-    const tabLabels = {
+    const tabLabels: Record<string, string | undefined> = {
       attributes: messages.attributesTabLabel,
       relations: messages.relationsTabLabel,
       filters: messages.filtersTabLabel,

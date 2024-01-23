@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, forwardRef } from 'react';
+import { useState, useEffect, useRef, forwardRef } from 'react';
 import { settings } from 'carbon-components';
 import { QueryResultPassage, QueryTableResult } from 'ibm-watson/discovery/v2';
 import { nonEmpty } from 'utils/nonEmpty';

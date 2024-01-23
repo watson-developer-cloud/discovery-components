@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, useContext, SyntheticEvent } from 'react';
+import { FC, useState, useEffect, useContext, SyntheticEvent } from 'react';
 import {
   InternalQueryTermAggregation,
   FieldFacetsByCategory,

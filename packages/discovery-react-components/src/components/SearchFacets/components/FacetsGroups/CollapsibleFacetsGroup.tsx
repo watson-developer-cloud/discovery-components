@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, SyntheticEvent } from 'react';
+import { FC, useState, useEffect, SyntheticEvent } from 'react';
 import filter from 'lodash/filter';
 import get from 'lodash/get';
 import ListBox from 'carbon-components-react/es/components/ListBox';
@@ -55,7 +55,7 @@ interface CollapsibleFacetsGroupProps {
   /**
    * Callback to reset selected facet
    */
-  onClear: (selectedFacetName: string) => void;
+  onClear: (selectedFacetName?: string) => void;
   /**
    * Whether this is an enriched entities facet that includes categories by which to organize facet values
    */
@@ -82,7 +82,10 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
   const [isCollapsible, setIsCollapsible] = useState<boolean>(collapsedFacetsCount < facets.length);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const facetsLabel = aggregationSettings.label || aggregationSettings.field;
+  // ibm-watson@8.0.0 changed the types so that both of these are now "optional" (can be undefined).
+  // However, that's not the case coming back from the API. So add `!` to mimic what was there for
+  // ibm-watson@7 types.
+  const facetsLabel = aggregationSettings.label || aggregationSettings.field!;
 
   useEffect(() => {
     setIsCollapsed(collapsedFacetsCount < facets.length);
@@ -99,18 +102,18 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
 
   let facetsByCategory: FieldFacetsByCategory = {};
   if (hasCategories) {
-    facetsByCategory[`${facetsLabel}`] = { categories: {} };
+    facetsByCategory[facetsLabel] = { categories: {} };
     if (isSelectableQueryTermAggregationResult(facets)) {
       facets.forEach(result => {
         const resultType = result!.aggregations![0].results![0].key;
-        if (resultType in facetsByCategory[`${facetsLabel}`].categories) {
-          facetsByCategory[`${facetsLabel}`].categories[`${resultType}`].facets.push({
+        if (resultType in facetsByCategory[facetsLabel].categories) {
+          facetsByCategory[facetsLabel].categories[`${resultType}`].facets.push({
             key: result.key,
             matching_results: result.matching_results,
             selected: result.selected ? result.selected : false
           });
         } else {
-          facetsByCategory[`${facetsLabel}`].categories[`${resultType}`] = {
+          facetsByCategory[facetsLabel].categories[`${resultType}`] = {
             facets: [
               {
                 key: result.key,
@@ -141,7 +144,7 @@ export const CollapsibleFacetsGroup: FC<CollapsibleFacetsGroupProps> = ({
   };
 
   const translateWithId = (id: string): string => {
-    const mapping = {
+    const mapping: Record<string, string> = {
       'clear.all': messages.clearFacetTitle,
       'clear.selection': messages.clearFacetSelectionTitle
     };
