@@ -1774,10 +1774,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@carbon/icons@npm:^10.48.3":
-  version: 10.48.3
-  resolution: "@carbon/icons@npm:10.48.3"
-  checksum: 9d179acb35278d2157120930dd85b2e85f1a407de89653ad63cdaf4ec24dc284a52c7395a66f8f1919fdcc5cc6d241ad612323ff52a8bcdf855026720f7c63b4
+"@carbon/icons@npm:^11.34.1":
+  version: 11.34.1
+  resolution: "@carbon/icons@npm:11.34.1"
+  checksum: 51ad5d02698b6264c4f5fde657b67843bb3ffbbf52bca2db3bdfebff5760e87400f0a24329fe9ae6a367d1494e944a30613d201faca21dc188f358e80c9bbf6e
   languageName: node
   linkType: hard
 
@@ -11464,7 +11464,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "discovery-search-app@workspace:examples/discovery-search-app"
   dependencies:
-    "@carbon/icons": "npm:^10.48.3"
+    "@carbon/icons": "npm:^11.34.1"
     "@ibm-watson/discovery-react-components": "workspace:*"
     "@ibm-watson/discovery-styles": "workspace:*"
     "@testing-library/cypress": "npm:^7.0.7"
