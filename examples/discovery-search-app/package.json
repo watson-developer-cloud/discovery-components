@@ -21,7 +21,7 @@
     "server:setup": "node ./scripts/setSdkUrl.js"
   },
   "dependencies": {
-    "@carbon/icons": "^10.48.3",
+    "@carbon/icons": "^11.36.0",
     "@ibm-watson/discovery-react-components": "workspace:*",
     "@ibm-watson/discovery-styles": "workspace:*",
     "body-parser": "^1.20.2",
