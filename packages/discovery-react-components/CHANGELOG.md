@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.2](https://github.com/watson-developer-cloud/discovery-components/compare/v5.0.1...v5.0.2) (2024-02-14)
+
+
+### Bug Fixes
+
+* fixed error in search results due to document title ([#550](https://github.com/watson-developer-cloud/discovery-components/issues/550)) ([220798d](https://github.com/watson-developer-cloud/discovery-components/commit/220798d8d51ea380b16dab4c8330c6e93ea7de65))
+
+
+
+
+
 ## [5.0.1](https://github.com/watson-developer-cloud/discovery-components/compare/v5.0.0...v5.0.1) (2024-01-26)
 
 **Note:** Version bump only for package @ibm-watson/discovery-react-components
