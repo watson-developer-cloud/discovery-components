@@ -48,7 +48,7 @@
     "mustache": "^4.2.0",
     "pdfjs-dist": "2.6.347",
     "react-error-boundary": "^1.2.5",
-    "react-resize-detector": "^4.2.3",
+    "react-resize-detector": "^10.0.1",
     "react-virtualized": "9.21.2",
     "uuid": "^9.0.1"
   },
