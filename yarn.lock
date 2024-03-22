@@ -2837,8 +2837,8 @@ __metadata:
     carbon-components: ">= 10.46.0 < 11"
     carbon-components-react: ">= 7.46.0 < 8"
     ibm-watson: ^8
-    react: ">= 16.8.0 < 18"
-    react-dom: ">= 16.8.0 < 18"
+    react: ">= 16.8.0 < 19"
+    react-dom: ">= 16.8.0 < 19"
   languageName: unknown
   linkType: soft
 
