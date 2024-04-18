@@ -30,7 +30,7 @@
     "start": "vite preview",
     "storybook": "storybook dev --ci --port=9002",
     "storybook:build": "storybook build",
-    "storybook:build:release": "cross-env STORYBOOK_BUILD_MODE=production storybook build -o ../../docs/storybook",
+    "storybook:build:release": "cross-env STORYBOOK_BUILD_MODE=production storybook build -o ../../docs/storybook && touch ../../docs/storybook/.nojekyll",
     "analyze": "yarn run g:analyze 'dist/index.js'",
     "preversion": "yarn run storybook:build:release",
     "version": "git add ../../docs"
