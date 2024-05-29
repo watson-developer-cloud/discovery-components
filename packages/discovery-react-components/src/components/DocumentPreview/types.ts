@@ -1,5 +1,5 @@
 import { QueryResult, QueryResultMetadata } from 'ibm-watson/discovery/v2';
-import { DocumentInitParameters, TypedArray } from 'pdfjs-dist/types/display/api';
+import { DocumentInitParameters, TypedArray } from 'pdfjs-dist/types/src/display/api';
 
 export interface TextMappings {
   pages: Page[];

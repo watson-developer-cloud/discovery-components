@@ -1,4 +1,4 @@
-import { DocumentInitParameters, TypedArray } from 'pdfjs-dist/types/display/api';
+import { DocumentInitParameters, TypedArray } from 'pdfjs-dist/types/src/display/api';
 import { toPDFSource } from '../utils';
 
 describe('utils', () => {

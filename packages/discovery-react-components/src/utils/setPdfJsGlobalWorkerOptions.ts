@@ -1,5 +1,5 @@
 import * as PdfjsLib from 'pdfjs-dist';
-import { GlobalWorkerOptionsType } from 'pdfjs-dist/types/display/worker_options';
+import { GlobalWorkerOptionsType } from 'pdfjs-dist/types/src/display/worker_options';
 
 // Make fields from GlobalWorkerOptionsType optional
 type GlobalWorkerOptionsDelta = {

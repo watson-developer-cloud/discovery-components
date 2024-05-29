@@ -10,8 +10,8 @@ import {
 } from 'react';
 import cx from 'classnames';
 import * as PdfjsLib from 'pdfjs-dist';
-import { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist/types/display/api';
-import { PageViewport } from 'pdfjs-dist/types/display/display_utils';
+import { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist/types/src/display/api';
+import { PageViewport } from 'pdfjs-dist/types/src/display/display_utils';
 import { settings } from 'carbon-components';
 import useSafeRef from 'utils/useSafeRef';
 import useSize from 'utils/useSize';

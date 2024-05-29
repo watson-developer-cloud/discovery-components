@@ -1,6 +1,6 @@
 import { bboxesIntersect } from 'components/DocumentPreview/utils/box';
-import { TextItem } from 'pdfjs-dist/types/display/api';
-import { PageViewport, PageViewportParameters } from 'pdfjs-dist/types/display/display_utils';
+import { TextItem } from 'pdfjs-dist/types/src/display/api';
+import { PageViewport, PageViewportParameters } from 'pdfjs-dist/types/src/display/display_utils';
 import { Bbox, TextSpan } from '../../types';
 import { BaseTextLayoutCell } from './BaseTextLayout';
 import { getAdjustedCellByOffsetByDom } from './dom';

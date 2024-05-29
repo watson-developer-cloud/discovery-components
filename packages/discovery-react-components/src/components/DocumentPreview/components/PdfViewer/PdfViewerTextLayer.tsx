@@ -1,9 +1,8 @@
 import { FC, useEffect, useRef, useCallback } from 'react';
 import cx from 'classnames';
-import { TextContent, TextItem, PDFPageProxy } from 'pdfjs-dist/types/display/api';
-import { PageViewport } from 'pdfjs-dist/types/display/display_utils';
-import { EventBus } from 'pdfjs-dist/lib/web/ui_utils';
-import { TextLayerBuilder } from 'pdfjs-dist/lib/web/text_layer_builder';
+import { TextContent, TextItem, PDFPageProxy } from 'pdfjs-dist/types/src/display/api';
+import { PageViewport } from 'pdfjs-dist/types/src/display/display_utils';
+import { EventBus, TextLayerBuilder } from 'pdfjs-dist/web/pdf_viewer.mjs';
 import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
 import { PdfDisplayProps } from './types';
 
