@@ -1,4 +1,4 @@
-// declare module 'pdfjs-dist/build/pdf.worker.min.js';
+// declare module 'pdfjs-dist/build/pdf.worker.min.mjs';
 
 // //
 // // Declare modules and their types that is referred from PDF text layer rendering.

@@ -14,7 +14,7 @@ import omit from 'lodash/omit';
 import pickBy from 'lodash/pickBy';
 
 // pulled from pdfjs-dist (see main.js > staticDirs)
-const PDF_WORKER_URL = 'pdf.worker.min.js';
+const PDF_WORKER_URL = 'pdf.worker.min.mjs';
 
 interface WrapperProps {
   style?: any;
