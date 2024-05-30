@@ -301,7 +301,7 @@ const App = () => {
 
 If you want to use the Discovery Components (`DocumentPreview` or `PdfViewer`) to render PDF documents, you will need to set up the pdf.js worker script. This can be done in one of two ways:
 
-1. Set the `pdfWorkerUrl` prop to the URL of the pdf.js worker script (i.e. `pdf.worker.min.js`) to any of `DocumentPreview`, `PdfViewer`, `PdfViewerWithHighlight`, or `DocumentPreview.PreviewDocument`. (see examples/discovery-search-app/src/App.js for an example)
+1. Set the `pdfWorkerUrl` prop to the URL of the pdf.js worker script (i.e. `pdf.worker.min.mjs`) to any of `DocumentPreview`, `PdfViewer`, `PdfViewerWithHighlight`, or `DocumentPreview.PreviewDocument`. (see examples/discovery-search-app/src/App.js for an example)
 2. Use `setPdfJsGlobalWorkerOptions({ workerSrc: 'path/to/worker.js' })` to set up the pdf.js worker script (see `src/setupTests.ts` for an example).
 
 ## Available Commands
