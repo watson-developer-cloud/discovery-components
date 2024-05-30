@@ -23,7 +23,7 @@
     "test:watch": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts test --watch",
     "test:debug": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts --inspect-brk test --runInBand --no-cache",
     "circular": "madge --circular src/*",
-    "build": "vite build",
+    "build": "tsc && vite build",
     "build:app": "yarn run storybook:build --quiet",
     "eslint": "yarn run g:eslint --quiet '{src,.storybook}/**/*.{js,jsx,ts,tsx}'",
     "lint": "yarn run circular && yarn run eslint",
