@@ -93,10 +93,9 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
     }
   }, [renderedText, setRenderedText]);
 
-  const rootClassName = cx(className, `textLayer`);
   return (
     <div
-      className={rootClassName}
+      className={cx(className, 'textLayerWrapper')}
       ref={textLayerRef}
       style={{
         width: `${loadedText?.viewport?.width ?? 0}px`,
