@@ -88,6 +88,8 @@ const PdfHighlight: FC<Props> = ({
 
   const { textDivs } = pdfRenderedText || {};
 
+  console.log('textDivs', textDivs);
+
   const highlightShapes = useMemo(() => {
     if (boxHighlights) {
       return getShapeFromBboxHighlight(boxHighlights, page);

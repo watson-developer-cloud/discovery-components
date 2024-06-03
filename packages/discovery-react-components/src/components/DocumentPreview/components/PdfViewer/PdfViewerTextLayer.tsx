@@ -49,7 +49,7 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
   setRenderedText = () => {}
 }) => {
   const textLayerRef = useRef<HTMLDivElement>(null);
-  const textLayerDiv = textLayerRef.current;
+  const textLayerWrapper = textLayerRef.current;
 
   // load text content from the page
   const loadedText = useAsyncFunctionCall(
@@ -67,23 +67,25 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
   const renderedText = useAsyncFunctionCall(
     useCallback(
       async (signal: AbortSignal) => {
-        if (textLayerDiv && loadedText) {
+        if (textLayerWrapper && loadedText) {
           const { textContent, viewport, scale, page } = loadedText;
 
           const builder = new TextLayerBuilder({
-            textLayerDiv,
-            viewport,
-            eventBus: new EventBus(),
-            pageIndex: page - 1
+            pdfPage: loadedPage
           });
+          // trying to find a way to return textDivs
+          const textItems = textContent.items;
+          console.log('textItems', textItems);
+
+          textLayerWrapper.append(builder.div);
           signal.addEventListener('abort', () => builder.cancel());
 
-          await _renderTextLayer(builder, textContent, textLayerDiv, scale);
-          return { textContent, viewport, page, textDivs: builder.textDivs };
+          await _renderTextLayer(builder, textContent, textLayerWrapper, scale, viewport);
+          return { textContent, viewport, page, textDivs: [] };
         }
         return undefined;
       },
-      [loadedText, textLayerDiv]
+      [loadedPage, loadedText, textLayerWrapper]
     )
   );
 
@@ -112,24 +114,32 @@ async function _renderTextLayer(
   builder: TextLayerBuilder,
   textContent: TextContent,
   textLayerDiv: HTMLDivElement,
-  scale: number
+  scale: number,
+  viewport: PageViewport
+  // loadedPage: PDFPageProxy
 ) {
-  builder.setTextContent(textContent);
+  // TODO: delete if this works without it
+  // if (!builder.renderingDone) {
+  //   const readableStream = loadedPage.streamTextContent({
+  //     includeMarkedContent: true
+  //   })
+  //   builder.(readableStream);
+  // }
 
   // render
   textLayerDiv.innerHTML = '';
-  const deferredRenderEndPromise = new Promise<void>(resolve => {
-    const listener = () => {
-      resolve();
-      builder?.eventBus.off('textlayerrendered', listener);
-    };
-    builder?.eventBus.on('textlayerrendered', listener);
-  });
+  // const deferredRenderEndPromise = new Promise<void>(resolve => {
+  //   const listener = () => {
+  //     resolve();
+  //     builder?.eventBus.off('textlayerrendered', listener);
+  //   };
+  //   builder?.eventBus.on('textlayerrendered', listener);
+  // });
 
-  builder.render();
-  await deferredRenderEndPromise;
+  await builder.render(viewport);
+  // await deferredRenderEndPromise;
 
-  _adjustTextDivs(builder.textDivs, textContent.items as TextItem[], scale);
+  // _adjustTextDivs(builder.textDivs, textContent.items as TextItem[], scale);
 }
 
 /**
