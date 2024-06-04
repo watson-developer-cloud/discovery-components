@@ -2,7 +2,8 @@ import { FC, useEffect, useRef, useCallback } from 'react';
 import cx from 'classnames';
 import { TextContent, TextItem, PDFPageProxy } from 'pdfjs-dist/types/src/display/api';
 import { PageViewport } from 'pdfjs-dist/types/src/display/display_utils';
-import { EventBus, TextLayerBuilder } from 'pdfjs-dist/web/pdf_viewer.mjs';
+import { TextLayerBuilder } from 'pdfjs-dist/web/pdf_viewer.mjs';
+import { TextLayer } from 'pdfjs-dist/build/pdf.mjs';
 import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
 import { PdfDisplayProps } from './types';
 
@@ -74,14 +75,20 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
             pdfPage: loadedPage
           });
           // trying to find a way to return textDivs
-          const textItems = textContent.items;
-          console.log('textItems', textItems);
+          // const textItems = textContent.items;
+          // const textDivs = processItemsToDivs(textItems);
 
           textLayerWrapper.append(builder.div);
           signal.addEventListener('abort', () => builder.cancel());
 
           await _renderTextLayer(builder, textContent, textLayerWrapper, scale, viewport);
-          return { textContent, viewport, page, textDivs: [] };
+          const textLayer = new TextLayer({
+            textContentSource: textContent,
+            container: textLayerWrapper,
+            viewport
+          });
+          await textLayer.render();
+          return { textContent, viewport, page, textDivs: textLayer.textDivs };
         }
         return undefined;
       },
@@ -140,6 +147,13 @@ async function _renderTextLayer(
   // await deferredRenderEndPromise;
 
   // _adjustTextDivs(builder.textDivs, textContent.items as TextItem[], scale);
+}
+
+function processItemsToDivs(textItems: TextItem[] | null): HTMLElement[] | null {
+  console.log('items to process', textItems);
+  let textDivs = [];
+
+  return textDivs;
 }
 
 /**
