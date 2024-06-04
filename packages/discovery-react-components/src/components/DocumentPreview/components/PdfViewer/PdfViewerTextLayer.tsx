@@ -1,6 +1,6 @@
 import { FC, useEffect, useRef, useCallback } from 'react';
 import cx from 'classnames';
-import { TextContent, PDFPageProxy } from 'pdfjs-dist/types/src/display/api';
+import { TextContent, TextItem, PDFPageProxy } from 'pdfjs-dist/types/src/display/api';
 import { PageViewport } from 'pdfjs-dist/types/src/display/display_utils';
 import { TextLayerBuilder } from 'pdfjs-dist/web/pdf_viewer.mjs';
 import { TextLayer as PdfJsTextLayer } from 'pdfjs-dist/build/pdf.mjs';
@@ -78,19 +78,20 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
           textLayerWrapper.append(builder.div);
           signal.addEventListener('abort', () => builder.cancel());
 
-          await _renderTextLayer(builder, textLayerWrapper, viewport);
-          //TODO: is textLayerWrapper the right value for the container?
           const pdfJsTextLayer = new PdfJsTextLayer({
             textContentSource: textContent,
             container: textLayerWrapper,
             viewport
           });
           await pdfJsTextLayer.render();
-          return { textContent, viewport, page, textDivs: pdfJsTextLayer.textDivs };
+          const textDivs = pdfJsTextLayer.textDivs;
+          await _renderTextLayer(builder, textContent, textLayerWrapper, scale, viewport, textDivs);
+          //TODO: is textLayerWrapper the right value for the container?
+          return { textContent, viewport, page, textDivs };
         }
         return undefined;
       },
-      [loadedPage, loadedText, textLayerWrapper]
+      [loadedPage, loadedText, scale, textLayerWrapper]
     )
   );
 
@@ -117,10 +118,11 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
  */
 async function _renderTextLayer(
   builder: TextLayerBuilder,
-  // textContent: TextContent,
+  textContent: TextContent,
   textLayerDiv: HTMLDivElement,
-  // scale: number,
-  viewport: PageViewport
+  scale: number,
+  viewport: PageViewport,
+  textDivs: HTMLElement[]
   // loadedPage: PDFPageProxy
 ) {
   // render
@@ -136,7 +138,7 @@ async function _renderTextLayer(
   // TODO: if this method is only 2 commands, can we extract them to the component renderer above?
   await builder.render(viewport);
 
-  // _adjustTextDivs(builder.textDivs, textContent.items as TextItem[], scale);
+  _adjustTextDivs(textDivs, textContent.items as TextItem[], scale);
 }
 
 /**
@@ -145,35 +147,35 @@ async function _renderTextLayer(
  * @param textItems
  * @param scale
  */
-// function _adjustTextDivs(
-//   textDivs: HTMLElement[],
-//   textItems: TextItem[] | null,
-//   scale: number
-// ): void {
-//   const scaleXPattern = /scaleX\(([\d.]+)\)/;
-//   (textDivs || []).forEach((textDivElm, index) => {
-//     const textItem = textItems?.[index];
-//     if (!textItem) return;
+function _adjustTextDivs(
+  textDivs: HTMLElement[],
+  textItems: TextItem[] | null,
+  scale: number
+): void {
+  const scaleXPattern = /scaleX\(([\d.]+)\)/;
+  (textDivs || []).forEach((textDivElm, index) => {
+    const textItem = textItems?.[index];
+    if (!textItem) return;
 
-//     const expectedWidth = textItem.width * scale;
-//     const actualWidth = textDivElm.getBoundingClientRect().width;
+    const expectedWidth = textItem.width * scale;
+    const actualWidth = textDivElm.getBoundingClientRect().width;
 
-//     function getScaleX(element: HTMLElement) {
-//       const match = element.style.transform?.match(scaleXPattern);
-//       if (match) {
-//         return parseFloat(match[1]);
-//       }
-//       return null;
-//     }
-//     const currentScaleX = getScaleX(textDivElm);
-//     if (currentScaleX && !isNaN(currentScaleX)) {
-//       const newScale = `scaleX(${(expectedWidth / actualWidth) * currentScaleX})`;
-//       textDivElm.style.transform = textDivElm.style.transform.replace(scaleXPattern, newScale);
-//     } else {
-//       const newScale = `scaleX(${expectedWidth / actualWidth})`;
-//       textDivElm.style.transform = newScale;
-//     }
-//   });
-// }
+    function getScaleX(element: HTMLElement) {
+      const match = element.style.transform?.match(scaleXPattern);
+      if (match) {
+        return parseFloat(match[1]);
+      }
+      return null;
+    }
+    const currentScaleX = getScaleX(textDivElm);
+    if (currentScaleX && !isNaN(currentScaleX)) {
+      const newScale = `scaleX(${(expectedWidth / actualWidth) * currentScaleX})`;
+      textDivElm.style.transform = textDivElm.style.transform.replace(scaleXPattern, newScale);
+    } else {
+      const newScale = `scaleX(${expectedWidth / actualWidth})`;
+      textDivElm.style.transform = newScale;
+    }
+  });
+}
 
 export default PdfViewerTextLayer;
