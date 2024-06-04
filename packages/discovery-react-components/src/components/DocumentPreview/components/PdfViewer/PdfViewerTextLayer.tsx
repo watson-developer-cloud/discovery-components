@@ -1,9 +1,9 @@
 import { FC, useEffect, useRef, useCallback } from 'react';
 import cx from 'classnames';
-import { TextContent, TextItem, PDFPageProxy } from 'pdfjs-dist/types/src/display/api';
+import { TextContent, PDFPageProxy } from 'pdfjs-dist/types/src/display/api';
 import { PageViewport } from 'pdfjs-dist/types/src/display/display_utils';
 import { TextLayerBuilder } from 'pdfjs-dist/web/pdf_viewer.mjs';
-import { TextLayer } from 'pdfjs-dist/build/pdf.mjs';
+import { TextLayer as PdfJsTextLayer } from 'pdfjs-dist/build/pdf.mjs';
 import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
 import { PdfDisplayProps } from './types';
 
@@ -69,26 +69,24 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
     useCallback(
       async (signal: AbortSignal) => {
         if (textLayerWrapper && loadedText) {
-          const { textContent, viewport, scale, page } = loadedText;
+          const { textContent, viewport, page } = loadedText;
 
           const builder = new TextLayerBuilder({
             pdfPage: loadedPage
           });
-          // trying to find a way to return textDivs
-          // const textItems = textContent.items;
-          // const textDivs = processItemsToDivs(textItems);
 
           textLayerWrapper.append(builder.div);
           signal.addEventListener('abort', () => builder.cancel());
 
-          await _renderTextLayer(builder, textContent, textLayerWrapper, scale, viewport);
-          const textLayer = new TextLayer({
+          await _renderTextLayer(builder, textLayerWrapper, viewport);
+          //TODO: is textLayerWrapper the right value for the container?
+          const pdfJsTextLayer = new PdfJsTextLayer({
             textContentSource: textContent,
             container: textLayerWrapper,
             viewport
           });
-          await textLayer.render();
-          return { textContent, viewport, page, textDivs: textLayer.textDivs };
+          await pdfJsTextLayer.render();
+          return { textContent, viewport, page, textDivs: pdfJsTextLayer.textDivs };
         }
         return undefined;
       },
@@ -119,20 +117,12 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
  */
 async function _renderTextLayer(
   builder: TextLayerBuilder,
-  textContent: TextContent,
+  // textContent: TextContent,
   textLayerDiv: HTMLDivElement,
-  scale: number,
+  // scale: number,
   viewport: PageViewport
   // loadedPage: PDFPageProxy
 ) {
-  // TODO: delete if this works without it
-  // if (!builder.renderingDone) {
-  //   const readableStream = loadedPage.streamTextContent({
-  //     includeMarkedContent: true
-  //   })
-  //   builder.(readableStream);
-  // }
-
   // render
   textLayerDiv.innerHTML = '';
   // const deferredRenderEndPromise = new Promise<void>(resolve => {
@@ -143,17 +133,10 @@ async function _renderTextLayer(
   //   builder?.eventBus.on('textlayerrendered', listener);
   // });
 
+  // TODO: if this method is only 2 commands, can we extract them to the component renderer above?
   await builder.render(viewport);
-  // await deferredRenderEndPromise;
 
   // _adjustTextDivs(builder.textDivs, textContent.items as TextItem[], scale);
-}
-
-function processItemsToDivs(textItems: TextItem[] | null): HTMLElement[] | null {
-  console.log('items to process', textItems);
-  let textDivs = [];
-
-  return textDivs;
 }
 
 /**
@@ -162,35 +145,35 @@ function processItemsToDivs(textItems: TextItem[] | null): HTMLElement[] | null 
  * @param textItems
  * @param scale
  */
-function _adjustTextDivs(
-  textDivs: HTMLElement[],
-  textItems: TextItem[] | null,
-  scale: number
-): void {
-  const scaleXPattern = /scaleX\(([\d.]+)\)/;
-  (textDivs || []).forEach((textDivElm, index) => {
-    const textItem = textItems?.[index];
-    if (!textItem) return;
+// function _adjustTextDivs(
+//   textDivs: HTMLElement[],
+//   textItems: TextItem[] | null,
+//   scale: number
+// ): void {
+//   const scaleXPattern = /scaleX\(([\d.]+)\)/;
+//   (textDivs || []).forEach((textDivElm, index) => {
+//     const textItem = textItems?.[index];
+//     if (!textItem) return;
 
-    const expectedWidth = textItem.width * scale;
-    const actualWidth = textDivElm.getBoundingClientRect().width;
+//     const expectedWidth = textItem.width * scale;
+//     const actualWidth = textDivElm.getBoundingClientRect().width;
 
-    function getScaleX(element: HTMLElement) {
-      const match = element.style.transform?.match(scaleXPattern);
-      if (match) {
-        return parseFloat(match[1]);
-      }
-      return null;
-    }
-    const currentScaleX = getScaleX(textDivElm);
-    if (currentScaleX && !isNaN(currentScaleX)) {
-      const newScale = `scaleX(${(expectedWidth / actualWidth) * currentScaleX})`;
-      textDivElm.style.transform = textDivElm.style.transform.replace(scaleXPattern, newScale);
-    } else {
-      const newScale = `scaleX(${expectedWidth / actualWidth})`;
-      textDivElm.style.transform = newScale;
-    }
-  });
-}
+//     function getScaleX(element: HTMLElement) {
+//       const match = element.style.transform?.match(scaleXPattern);
+//       if (match) {
+//         return parseFloat(match[1]);
+//       }
+//       return null;
+//     }
+//     const currentScaleX = getScaleX(textDivElm);
+//     if (currentScaleX && !isNaN(currentScaleX)) {
+//       const newScale = `scaleX(${(expectedWidth / actualWidth) * currentScaleX})`;
+//       textDivElm.style.transform = textDivElm.style.transform.replace(scaleXPattern, newScale);
+//     } else {
+//       const newScale = `scaleX(${expectedWidth / actualWidth})`;
+//       textDivElm.style.transform = newScale;
+//     }
+//   });
+// }
 
 export default PdfViewerTextLayer;
