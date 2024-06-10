@@ -70,12 +70,21 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
       async (signal: AbortSignal) => {
         if (textLayerWrapper && loadedText) {
           const { textContent, viewport, page } = loadedText;
+          let textDivs: HTMLElement[] = [];
 
           const builder = new TextLayerBuilder({
-            pdfPage: loadedPage
+            pdfPage: loadedPage,
+            // @ts-expect-error: type for this param is null | undefined for some reason, even though we know it can be used
+            onAppend: textLayerDiv => {
+              textLayerWrapper.append(textLayerDiv);
+              console.log('textLayerDiv', textLayerDiv);
+              // textDivs = textLayerDiv.children;
+              console.log('textDivs', textDivs);
+              console.log('items', textContent.items);
+              _adjustTextDivs(textDivs, textContent.items as TextItem[], scale);
+            }
           });
 
-          textLayerWrapper.append(builder.div);
           signal.addEventListener('abort', () => builder.cancel());
 
           const pdfJsTextLayer = new PdfJsTextLayer({
@@ -84,9 +93,8 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
             viewport
           });
           await pdfJsTextLayer.render();
-          const textDivs = pdfJsTextLayer.textDivs;
+          textDivs = pdfJsTextLayer.textDivs;
           await _renderTextLayer(builder, textContent, textLayerWrapper, scale, viewport, textDivs);
-          //TODO: is textLayerWrapper the right value for the container?
           return { textContent, viewport, page, textDivs };
         }
         return undefined;
@@ -123,22 +131,13 @@ async function _renderTextLayer(
   scale: number,
   viewport: PageViewport,
   textDivs: HTMLElement[]
-  // loadedPage: PDFPageProxy
 ) {
   // render
   textLayerDiv.innerHTML = '';
-  // const deferredRenderEndPromise = new Promise<void>(resolve => {
-  //   const listener = () => {
-  //     resolve();
-  //     builder?.eventBus.off('textlayerrendered', listener);
-  //   };
-  //   builder?.eventBus.on('textlayerrendered', listener);
-  // });
+  await builder.render(viewport, textContent);
+  console.log('viewport', viewport);
 
-  // TODO: if this method is only 2 commands, can we extract them to the component renderer above?
-  await builder.render(viewport);
-
-  _adjustTextDivs(textDivs, textContent.items as TextItem[], scale);
+  // _adjustTextDivs(textDivs, textContent.items as TextItem[], scale);
 }
 
 /**
