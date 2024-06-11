@@ -3,10 +3,8 @@ import cx from 'classnames';
 import { TextContent, TextItem, PDFPageProxy } from 'pdfjs-dist/types/src/display/api';
 import { PageViewport } from 'pdfjs-dist/types/src/display/display_utils';
 import { TextLayerBuilder } from 'pdfjs-dist/web/pdf_viewer.mjs';
-import { TextLayer as PdfJsTextLayer } from 'pdfjs-dist/build/pdf.mjs';
 import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
 import { PdfDisplayProps } from './types';
-// import { TextAccessibilityManager } from 'pdfjs-dist/web/text_accessibility';
 
 type PdfViewerTextLayerProps = Pick<PdfDisplayProps, 'scale'> & {
   className?: string;
@@ -91,15 +89,6 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
           });
 
           signal.addEventListener('abort', () => builder.cancel());
-
-          // const pdfJsTextLayer = new PdfJsTextLayer({
-          //   textContentSource: textContent,
-          //   container: textLayerWrapper,
-          //   viewport
-          // });
-          // await pdfJsTextLayer.render();
-          // textDivs = pdfJsTextLayer.textDivs;
-          // await _renderTextLayer(builder, textContent, textLayerWrapper, scale, viewport, textDivs);
 
           textLayerWrapper.innerHTML = '';
           await builder.render(viewport, textContent);
