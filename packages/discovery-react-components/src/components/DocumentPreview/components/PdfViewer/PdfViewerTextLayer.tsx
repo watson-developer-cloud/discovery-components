@@ -6,6 +6,7 @@ import { TextLayerBuilder } from 'pdfjs-dist/web/pdf_viewer.mjs';
 import { TextLayer as PdfJsTextLayer } from 'pdfjs-dist/build/pdf.mjs';
 import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
 import { PdfDisplayProps } from './types';
+// import { TextAccessibilityManager } from 'pdfjs-dist/web/text_accessibility';
 
 type PdfViewerTextLayerProps = Pick<PdfDisplayProps, 'scale'> & {
   className?: string;
@@ -71,30 +72,37 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
         if (textLayerWrapper && loadedText) {
           const { textContent, viewport, page } = loadedText;
           let textDivs: HTMLElement[] = [];
+          // const textAccessibilityManager = new TextAccessibilityManager();
 
           const builder = new TextLayerBuilder({
             pdfPage: loadedPage,
             // @ts-expect-error: type for this param is null | undefined for some reason, even though we know it can be used
             onAppend: textLayerDiv => {
               textLayerWrapper.append(textLayerDiv);
-              console.log('textLayerDiv', textLayerDiv);
-              // textDivs = textLayerDiv.children;
+              textDivs = textLayerDiv.children;
+              const textContentItems = textContent.items as TextItem[];
+              // console.log('div children', textLayerDiv.children); // includes end of content
               console.log('textDivs', textDivs);
-              console.log('items', textContent.items);
-              _adjustTextDivs(textDivs, textContent.items as TextItem[], scale);
+              console.log('scale', scale);
+              textDivs?.length > 0 &&
+                textContentItems?.length > 0 &&
+                _adjustTextDivs(textDivs, textContentItems, scale);
             }
           });
 
           signal.addEventListener('abort', () => builder.cancel());
 
-          const pdfJsTextLayer = new PdfJsTextLayer({
-            textContentSource: textContent,
-            container: textLayerWrapper,
-            viewport
-          });
-          await pdfJsTextLayer.render();
-          textDivs = pdfJsTextLayer.textDivs;
-          await _renderTextLayer(builder, textContent, textLayerWrapper, scale, viewport, textDivs);
+          // const pdfJsTextLayer = new PdfJsTextLayer({
+          //   textContentSource: textContent,
+          //   container: textLayerWrapper,
+          //   viewport
+          // });
+          // await pdfJsTextLayer.render();
+          // textDivs = pdfJsTextLayer.textDivs;
+          // await _renderTextLayer(builder, textContent, textLayerWrapper, scale, viewport, textDivs);
+
+          textLayerWrapper.innerHTML = '';
+          await builder.render(viewport, textContent);
           return { textContent, viewport, page, textDivs };
         }
         return undefined;
@@ -122,25 +130,6 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
 };
 
 /**
- * Render text into DOM using the text layer builder
- */
-async function _renderTextLayer(
-  builder: TextLayerBuilder,
-  textContent: TextContent,
-  textLayerDiv: HTMLDivElement,
-  scale: number,
-  viewport: PageViewport,
-  textDivs: HTMLElement[]
-) {
-  // render
-  textLayerDiv.innerHTML = '';
-  await builder.render(viewport, textContent);
-  console.log('viewport', viewport);
-
-  // _adjustTextDivs(textDivs, textContent.items as TextItem[], scale);
-}
-
-/**
  * Adjust text span width based on scale
  * @param textDivs
  * @param textItems
@@ -152,7 +141,8 @@ function _adjustTextDivs(
   scale: number
 ): void {
   const scaleXPattern = /scaleX\(([\d.]+)\)/;
-  (textDivs || []).forEach((textDivElm, index) => {
+  // since textDivs is technically not an array, just array-like, it doesn't have forEach
+  [...textDivs].forEach((textDivElm, index) => {
     const textItem = textItems?.[index];
     if (!textItem) return;
 
@@ -173,6 +163,15 @@ function _adjustTextDivs(
     } else {
       const newScale = `scaleX(${expectedWidth / actualWidth})`;
       textDivElm.style.transform = newScale;
+    }
+
+    const initialTop = textDivElm.style.top;
+    const rescaledTop =
+      initialTop.length > 0 &&
+      Number.parseFloat(initialTop.substring(0, initialTop.length - 1)) / 2;
+    console.log('initialTop', textDivElm.style.top, 'rescaledTop', rescaledTop);
+    if (!!rescaledTop) {
+      textDivElm.style.top = rescaledTop.toString() + '%';
     }
   });
 }
