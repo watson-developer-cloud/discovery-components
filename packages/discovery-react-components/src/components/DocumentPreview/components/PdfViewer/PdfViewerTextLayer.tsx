@@ -70,18 +70,16 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
         if (textLayerWrapper && loadedText) {
           const { textContent, viewport, page } = loadedText;
           let textDivs: HTMLElement[] = [];
-          // const textAccessibilityManager = new TextAccessibilityManager();
 
           const builder = new TextLayerBuilder({
             pdfPage: loadedPage,
             // @ts-expect-error: type for this param is null | undefined for some reason, even though we know it can be used
             onAppend: textLayerDiv => {
+              // onAppend runs as part of the text layer rendering. We can use this to extract the rendered text divs and
+              // do manual adjustment of their dimensions
               textLayerWrapper.append(textLayerDiv);
               textDivs = textLayerDiv.children;
               const textContentItems = textContent.items as TextItem[];
-              // console.log('div children', textLayerDiv.children); // includes end of content
-              console.log('textDivs', textDivs);
-              console.log('scale', scale);
               textDivs?.length > 0 &&
                 textContentItems?.length > 0 &&
                 _adjustTextDivs(textDivs, textContentItems, scale);
@@ -130,35 +128,49 @@ function _adjustTextDivs(
   scale: number
 ): void {
   const scaleXPattern = /scaleX\(([\d.]+)\)/;
+  const scaleYPattern = /scaleY\(([\d.]+)\)/;
   // since textDivs is technically not an array, just array-like, it doesn't have forEach
   [...textDivs].forEach((textDivElm, index) => {
     const textItem = textItems?.[index];
     if (!textItem) return;
 
+    function getCurrentScales(element: HTMLElement) {
+      const matchX = element.style.transform?.match(scaleXPattern);
+      const matchY = element.style.transform?.match(scaleYPattern);
+      const scaleX = !!matchX ? parseFloat(matchX[1]) : null;
+      const scaleY = !!matchY ? parseFloat(matchY[1]) : null;
+      return [scaleX, scaleY];
+    }
+
+    function getUpdatedScale(
+      currentScale: number | null,
+      expectedSize: number,
+      actualSize: number
+    ) {
+      if (currentScale && !isNaN(currentScale)) {
+        return `${(expectedSize / actualSize) * currentScale}`;
+      } else {
+        return `${expectedSize / actualSize}`;
+      }
+    }
+
+    // adjust X and Y scale used in the transform
     const expectedWidth = textItem.width * scale;
     const actualWidth = textDivElm.getBoundingClientRect().width;
+    const expectedHeight = textItem.height * scale;
+    const actualHeight = textDivElm.getBoundingClientRect().height;
+    const [currentScaleX, currentScaleY] = getCurrentScales(textDivElm);
+    const updatedScaleX = getUpdatedScale(currentScaleX, expectedWidth, actualWidth);
+    const updatedScaleY = getUpdatedScale(currentScaleY, expectedHeight, actualHeight);
+    const newTransform = `scaleX(${updatedScaleX}) scaleY(${updatedScaleY})`;
 
-    function getScaleX(element: HTMLElement) {
-      const match = element.style.transform?.match(scaleXPattern);
-      if (match) {
-        return parseFloat(match[1]);
-      }
-      return null;
-    }
-    const currentScaleX = getScaleX(textDivElm);
-    if (currentScaleX && !isNaN(currentScaleX)) {
-      const newScale = `scaleX(${(expectedWidth / actualWidth) * currentScaleX})`;
-      textDivElm.style.transform = textDivElm.style.transform.replace(scaleXPattern, newScale);
-    } else {
-      const newScale = `scaleX(${expectedWidth / actualWidth})`;
-      textDivElm.style.transform = newScale;
-    }
+    textDivElm.style.transform = newTransform;
 
+    // adjust position from top
     const initialTop = textDivElm.style.top;
     const rescaledTop =
       initialTop.length > 0 &&
       Number.parseFloat(initialTop.substring(0, initialTop.length - 1)) / 2;
-    console.log('initialTop', textDivElm.style.top, 'rescaledTop', rescaledTop);
     if (!!rescaledTop) {
       textDivElm.style.top = rescaledTop.toString() + '%';
     }
