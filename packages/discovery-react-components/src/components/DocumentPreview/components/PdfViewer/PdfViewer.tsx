@@ -115,7 +115,7 @@ const PdfViewer = forwardRef<any, PdfViewerProps>(
           return promise;
         } catch (error) {
           setIsPdfRenderError?.(true);
-          console.error(`Failed to load pdf file: ${error}`);
+          console.error(`Failed to load pdf file: ${error}`, error.stack);
           return null;
         }
       }, [file, setIsPdfRenderError])
