@@ -27,7 +27,7 @@ import { document as docJa } from 'components/DocumentPreview/__fixtures__/Disco
 import documentJa from 'components/DocumentPreview/__fixtures__/DiscoComponents-ja_document.json';
 
 // pulled from pdfjs-dist (see main.js > staticDirs)
-const PDF_WORKER_URL = 'pdf.worker.min.js';
+const PDF_WORKER_URL = 'pdf.worker.min.mjs';
 
 const pageKnob = {
   label: 'Page',

@@ -1,7 +1,7 @@
 import Debug from 'debug';
 import flatMap from 'lodash/flatMap';
-import { TextContent } from 'pdfjs-dist/types/display/api';
-import { PageViewport } from 'pdfjs-dist/types/display/display_utils';
+import { TextContent } from 'pdfjs-dist/types/src/display/api';
+import { PageViewport } from 'pdfjs-dist/types/src/display/display_utils';
 import { nonEmpty } from 'utils/nonEmpty';
 import { DocumentFields, HighlightShape, HighlightShapeBox } from '../types';
 import { DocumentFieldHighlight, TextMappings } from 'components/DocumentPreview/types';

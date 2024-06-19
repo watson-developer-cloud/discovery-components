@@ -22,7 +22,7 @@ import {
   canRenderCIDocument
 } from '@ibm-watson/discovery-react-components';
 
-const PDF_WORKER_URL = './assets/pdf.worker.min.js';
+const PDF_WORKER_URL = './assets/pdf.worker.min.mjs';
 
 const App = () => {
   const searchClient = useMemo(() => {

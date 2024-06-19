@@ -10,8 +10,8 @@ import {
 } from 'react';
 import cx from 'classnames';
 import * as PdfjsLib from 'pdfjs-dist';
-import { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist/types/display/api';
-import { PageViewport } from 'pdfjs-dist/types/display/display_utils';
+import { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist/types/src/display/api';
+import { PageViewport } from 'pdfjs-dist/types/src/display/display_utils';
 import { settings } from 'carbon-components';
 import useSafeRef from 'utils/useSafeRef';
 import useSize from 'utils/useSize';
@@ -114,7 +114,7 @@ const PdfViewer = forwardRef<any, PdfViewerProps>(
           return promise;
         } catch (error) {
           setIsPdfRenderError?.(true);
-          console.error(`Failed to load pdf file: ${error}`);
+          console.error(`Failed to load pdf file: ${error}`, error.stack);
           return null;
         }
       }, [file, setIsPdfRenderError])
@@ -263,7 +263,7 @@ function setupPdfjs(pdfWorkerUrl: string): void {
   // Only load the worker the first time the worker url is sent in
   // and don't load the worker in unit tests (see setupTests.ts)
   if (!!pdfWorkerUrl && pdfWorkerUrl !== currentPdfWorkerUrl && typeof Worker !== 'undefined') {
-    const pdfjsWorker = new Worker(pdfWorkerUrl);
+    const pdfjsWorker = new Worker(pdfWorkerUrl, { type: 'module' });
     setPdfJsGlobalWorkerOptions({ workerPort: pdfjsWorker });
     currentPdfWorkerUrl = pdfWorkerUrl;
   }
