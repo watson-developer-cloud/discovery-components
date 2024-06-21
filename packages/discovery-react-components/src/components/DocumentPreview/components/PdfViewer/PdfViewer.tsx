@@ -110,7 +110,6 @@ const PdfViewer = forwardRef<any, PdfViewerProps>(
     const loadedFile = useAsyncFunctionCall(
       useCallback(async () => {
         try {
-          //TODO: getting"ReferenceError: structuredClone is not defined" here during unit test
           var promise = file ? await _loadPdf(file) : null;
           return promise;
         } catch (error) {
@@ -171,7 +170,6 @@ const PdfViewer = forwardRef<any, PdfViewerProps>(
     // This value will be used to scale the text layer and highlights
     const fitToWidthRatio = canvasInfo?.fitToWidthRatio || 1;
 
-    // TODO: maybe look in here to see why the PDF Viewer is 2x as tall as it should be
     const base = `${settings.prefix}--document-preview-pdf-viewer`;
     return (
       <div ref={setRootRef} className={cx(base, className)} {...rest}>
@@ -238,8 +236,8 @@ function usePageCount({
 }
 
 function _loadPdf(data: DocumentFile): Promise<PDFDocumentProxy> {
-  const source = toPDFSource(data);
-  return PdfjsLib.getDocument(source).promise;
+  // const source = toPDFSource(data);
+  return PdfjsLib.getDocument(data).promise;
 }
 
 function _loadPage(file: PDFDocumentProxy, page: number) {
