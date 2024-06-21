@@ -251,8 +251,8 @@ describe('DocumentPreview', () => {
           </DiscoverySearch>
         );
 
-        // 58 pages evidence PDF rendered
-        const elem = await screen.findByText('58 pages', {
+        // evidence PDF rendered
+        const elem = await screen.findByText('“Acceptance Tests” or “Acceptance Testing”', {
           exact: false
         });
         expect(elem).toBeInTheDocument();

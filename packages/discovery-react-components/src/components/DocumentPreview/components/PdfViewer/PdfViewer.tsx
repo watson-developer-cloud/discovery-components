@@ -236,8 +236,8 @@ function usePageCount({
 }
 
 function _loadPdf(data: DocumentFile): Promise<PDFDocumentProxy> {
-  const source = toPDFSource(data);
-  return PdfjsLib.getDocument(source).promise;
+  // const source = toPDFSource(data);
+  return PdfjsLib.getDocument(data).promise;
 }
 
 function _loadPage(file: PDFDocumentProxy, page: number) {
