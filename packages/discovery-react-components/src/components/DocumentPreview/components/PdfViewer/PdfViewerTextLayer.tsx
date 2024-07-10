@@ -2,7 +2,7 @@ import { FC, useEffect, useRef, useCallback } from 'react';
 import cx from 'classnames';
 import { TextContent, TextItem, PDFPageProxy } from 'pdfjs-dist/types/src/display/api';
 import { PageViewport } from 'pdfjs-dist/types/src/display/display_utils';
-import { EventBus, TextLayerBuilder } from 'pdfjs-dist/web/pdf_viewer.mjs';
+import { TextLayerBuilder } from 'pdfjs-dist/web/pdf_viewer.mjs';
 import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
 import { PdfDisplayProps } from './types';
 
@@ -49,7 +49,7 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
   setRenderedText = () => {}
 }) => {
   const textLayerRef = useRef<HTMLDivElement>(null);
-  const textLayerDiv = textLayerRef.current;
+  const textLayerWrapper = textLayerRef.current;
 
   // load text content from the page
   const loadedText = useAsyncFunctionCall(
@@ -67,23 +67,34 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
   const renderedText = useAsyncFunctionCall(
     useCallback(
       async (signal: AbortSignal) => {
-        if (textLayerDiv && loadedText) {
-          const { textContent, viewport, scale, page } = loadedText;
+        if (textLayerWrapper && loadedText) {
+          const { textContent, viewport, page } = loadedText;
+          let textDivs: HTMLElement[] = [];
 
           const builder = new TextLayerBuilder({
-            textLayerDiv,
-            viewport,
-            eventBus: new EventBus(),
-            pageIndex: page - 1
+            pdfPage: loadedPage,
+            // @ts-expect-error: type for this param is null | undefined for some reason, even though we know it can be used
+            onAppend: textLayerDiv => {
+              // onAppend runs as part of the text layer rendering. We can use this to extract the rendered text divs and
+              // do manual adjustment of their dimensions
+              textLayerWrapper.append(textLayerDiv);
+              textDivs = textLayerDiv.children;
+              const textContentItems = textContent.items as TextItem[];
+              textDivs?.length > 0 &&
+                textContentItems?.length > 0 &&
+                _adjustTextDivs(textDivs, textContentItems, scale);
+            }
           });
+
           signal.addEventListener('abort', () => builder.cancel());
 
-          await _renderTextLayer(builder, textContent, textLayerDiv, scale);
-          return { textContent, viewport, page, textDivs: builder.textDivs };
+          textLayerWrapper.innerHTML = '';
+          await builder.render(viewport, textContent);
+          return { textContent, viewport, page, textDivs };
         }
         return undefined;
       },
-      [loadedText, textLayerDiv]
+      [loadedPage, loadedText, scale, textLayerWrapper]
     )
   );
 
@@ -106,33 +117,6 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
 };
 
 /**
- * Render text into DOM using the text layer builder
- */
-async function _renderTextLayer(
-  builder: TextLayerBuilder,
-  textContent: TextContent,
-  textLayerDiv: HTMLDivElement,
-  scale: number
-) {
-  builder.setTextContent(textContent);
-
-  // render
-  textLayerDiv.innerHTML = '';
-  const deferredRenderEndPromise = new Promise<void>(resolve => {
-    const listener = () => {
-      resolve();
-      builder?.eventBus.off('textlayerrendered', listener);
-    };
-    builder?.eventBus.on('textlayerrendered', listener);
-  });
-
-  builder.render();
-  await deferredRenderEndPromise;
-
-  _adjustTextDivs(builder.textDivs, textContent.items as TextItem[], scale);
-}
-
-/**
  * Adjust text span width based on scale
  * @param textDivs
  * @param textItems
@@ -144,27 +128,51 @@ function _adjustTextDivs(
   scale: number
 ): void {
   const scaleXPattern = /scaleX\(([\d.]+)\)/;
-  (textDivs || []).forEach((textDivElm, index) => {
+  const scaleYPattern = /scaleY\(([\d.]+)\)/;
+  // since textDivs is technically not an array, just array-like, it doesn't have forEach
+  [...textDivs].forEach((textDivElm, index) => {
     const textItem = textItems?.[index];
     if (!textItem) return;
 
+    function getCurrentScales(element: HTMLElement) {
+      const matchX = element.style.transform?.match(scaleXPattern);
+      const matchY = element.style.transform?.match(scaleYPattern);
+      const scaleX = !!matchX ? parseFloat(matchX[1]) : null;
+      const scaleY = !!matchY ? parseFloat(matchY[1]) : null;
+      return [scaleX, scaleY];
+    }
+
+    function getUpdatedScale(
+      currentScale: number | null,
+      expectedSize: number,
+      actualSize: number
+    ) {
+      if (currentScale && !isNaN(currentScale)) {
+        return `${(expectedSize / actualSize) * currentScale}`;
+      } else {
+        return `${expectedSize / actualSize}`;
+      }
+    }
+
+    // adjust X and Y scale used in the transform
     const expectedWidth = textItem.width * scale;
     const actualWidth = textDivElm.getBoundingClientRect().width;
+    const expectedHeight = textItem.height * scale;
+    const actualHeight = textDivElm.getBoundingClientRect().height;
+    const [currentScaleX, currentScaleY] = getCurrentScales(textDivElm);
+    const updatedScaleX = getUpdatedScale(currentScaleX, expectedWidth, actualWidth);
+    const updatedScaleY = getUpdatedScale(currentScaleY, expectedHeight, actualHeight);
+    const newTransform = `scaleX(${updatedScaleX}) scaleY(${updatedScaleY})`;
 
-    function getScaleX(element: HTMLElement) {
-      const match = element.style.transform?.match(scaleXPattern);
-      if (match) {
-        return parseFloat(match[1]);
-      }
-      return null;
-    }
-    const currentScaleX = getScaleX(textDivElm);
-    if (currentScaleX && !isNaN(currentScaleX)) {
-      const newScale = `scaleX(${(expectedWidth / actualWidth) * currentScaleX})`;
-      textDivElm.style.transform = textDivElm.style.transform.replace(scaleXPattern, newScale);
-    } else {
-      const newScale = `scaleX(${expectedWidth / actualWidth})`;
-      textDivElm.style.transform = newScale;
+    textDivElm.style.transform = newTransform;
+
+    // adjust position from top
+    const initialTop = textDivElm.style.top;
+    const rescaledTop =
+      initialTop.length > 0 &&
+      Number.parseFloat(initialTop.substring(0, initialTop.length - 1)) / 2;
+    if (!!rescaledTop) {
+      textDivElm.style.top = rescaledTop.toString() + '%';
     }
   });
 }
