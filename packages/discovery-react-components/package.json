@@ -1,6 +1,6 @@
 {
   "name": "@ibm-watson/discovery-react-components",
-  "version": "5.0.3",
+  "version": "5.0.4",
   "description": "Discovery components built with the React framework and IBM Carbon components",
   "license": "Apache-2.0",
   "author": "IBM Corp.",
