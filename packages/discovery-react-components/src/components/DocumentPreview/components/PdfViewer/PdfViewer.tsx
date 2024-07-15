@@ -21,7 +21,6 @@ import { QueryResult } from 'ibm-watson/discovery/v2';
 import { DocumentFile } from '../../types';
 import { getTextMappings } from '../../utils/documentData';
 import PdfViewerTextLayer, { PdfRenderedText } from './PdfViewerTextLayer';
-import { toPDFSource } from './utils';
 import { PdfDisplayProps } from './types';
 type RenderTask = ReturnType<PDFPageProxy['render']>;
 
@@ -114,7 +113,7 @@ const PdfViewer = forwardRef<any, PdfViewerProps>(
           return promise;
         } catch (error) {
           setIsPdfRenderError?.(true);
-          console.error(`Failed to load pdf file: ${error}`, error.stack);
+          console.error(`Failed to load pdf file: ${error}`, (error as Error).stack);
           return null;
         }
       }, [file, setIsPdfRenderError])
