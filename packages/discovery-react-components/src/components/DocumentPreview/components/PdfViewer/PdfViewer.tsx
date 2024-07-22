@@ -22,6 +22,7 @@ import { DocumentFile } from '../../types';
 import { getTextMappings } from '../../utils/documentData';
 import PdfViewerTextLayer, { PdfRenderedText } from './PdfViewerTextLayer';
 import { PdfDisplayProps } from './types';
+import { toPDFSource } from './utils';
 type RenderTask = ReturnType<PDFPageProxy['render']>;
 
 export interface PdfViewerProps extends PdfDisplayProps, HTMLAttributes<HTMLElement> {
@@ -235,8 +236,8 @@ function usePageCount({
 }
 
 function _loadPdf(data: DocumentFile): Promise<PDFDocumentProxy> {
-  // const source = toPDFSource(data);
-  return PdfjsLib.getDocument(data).promise;
+  const source = toPDFSource(data);
+  return PdfjsLib.getDocument(source).promise;
 }
 
 function _loadPage(file: PDFDocumentProxy, page: number) {
