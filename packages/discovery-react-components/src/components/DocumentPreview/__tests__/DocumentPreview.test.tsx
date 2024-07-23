@@ -252,9 +252,7 @@ describe('DocumentPreview', () => {
         );
 
         // evidence PDF rendered
-        const elem = await screen.findByText('“Acceptance Tests” or “Acceptance Testing”', {
-          exact: false
-        });
+        const elem = await screen.findByText('ART EFFECTS LIMITED');
         expect(elem).toBeInTheDocument();
       },
       THIRTY_SECONDS
