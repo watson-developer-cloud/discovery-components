@@ -42,12 +42,14 @@
   "devDependencies": {
     "@testing-library/cypress": "^7.0.7",
     "@types/proper-url-join": "^2.1.4",
+    "core-js": "^3.37.1",
     "cross-env": "^7.0.3",
     "cypress": "^13.6.3",
     "react-scripts": "^5.0.1",
     "start-server-and-test": "^2.0.3"
   },
   "jest": {
+    "displayName": "Search app (unit)",
     "moduleNameMapper": {
       "^axios$": "axios/dist/node/axios.cjs"
     }

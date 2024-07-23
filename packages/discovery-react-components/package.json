@@ -97,7 +97,7 @@
   },
   "jest": {
     "resetMocks": false,
-    "displayName": "Disco React Components (Unit)",
+    "displayName": "Disco React Components (unit)",
     "transformIgnorePatterns": [
       "/!node_modules\\/react-virtualized/"
     ],
@@ -109,9 +109,6 @@
       "!src/**/__fixtures__/**",
       "!src/**/__stories__/**",
       "!src/**/*.stories.*"
-    ],
-    "moduleNameMapper": {
-      "^pdfjs-dist$": "pdfjs-dist/legacy/build/pdf.mjs"
-    }
+    ]
   }
 }
