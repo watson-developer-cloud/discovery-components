@@ -18,72 +18,553 @@
 
   .textLayer {
     position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    overflow: hidden;
-    opacity: 0.2;
+    text-align: initial;
+    inset: 0;
+    overflow: clip;
+    opacity: 1;
     line-height: 1;
+    -webkit-text-size-adjust: none;
+    -moz-text-size-adjust: none;
+    text-size-adjust: none;
+    forced-color-adjust: none;
+    transform-origin: 0 0;
+    caret-color: CanvasText;
+    z-index: 0;
   }
 
-  .textLayer > span {
+  .textLayer.highlighting {
+    touch-action: none;
+  }
+
+  .textLayer :is(span, br) {
     color: transparent;
     position: absolute;
     white-space: pre;
     cursor: text;
-    -webkit-transform-origin: 0% 0%;
     transform-origin: 0% 0%;
   }
 
+  .textLayer > :not(.markedContent),
+  .textLayer .markedContent span:not(.markedContent) {
+    z-index: 1;
+  }
+
+  .textLayer span.markedContent {
+    top: 0;
+    height: 0;
+  }
+
   .textLayer .highlight {
+    --highlight-bg-color: rgb(180 0 170 / 0.25);
+    --highlight-selected-bg-color: rgb(0 100 0 / 0.25);
+    --highlight-backdrop-filter: none;
+    --highlight-selected-backdrop-filter: none;
+
     margin: -1px;
     padding: 1px;
-
-    background-color: rgb(180, 0, 170);
+    background-color: var(--highlight-bg-color);
+    -webkit-backdrop-filter: var(--highlight-backdrop-filter);
+    backdrop-filter: var(--highlight-backdrop-filter);
     border-radius: 4px;
   }
 
+  @media screen and (forced-colors: active) {
+    .textLayer .highlight {
+      --highlight-bg-color: transparent;
+      --highlight-selected-bg-color: transparent;
+      --highlight-backdrop-filter: var(--hcm-highlight-filter);
+      --highlight-selected-backdrop-filter: var(--hcm-highlight-selected-filter);
+    }
+  }
+
+  .textLayer .highlight.appended {
+    position: initial;
+  }
+
   .textLayer .highlight.begin {
-    border-radius: 4px 0px 0px 4px;
+    border-radius: 4px 0 0 4px;
   }
 
   .textLayer .highlight.end {
-    border-radius: 0px 4px 4px 0px;
+    border-radius: 0 4px 4px 0;
   }
 
   .textLayer .highlight.middle {
-    border-radius: 0px;
+    border-radius: 0;
   }
 
   .textLayer .highlight.selected {
-    background-color: rgb(0, 100, 0);
+    background-color: var(--highlight-selected-bg-color);
+    -webkit-backdrop-filter: var(--highlight-selected-backdrop-filter);
+    backdrop-filter: var(--highlight-selected-backdrop-filter);
   }
 
   .textLayer ::-moz-selection {
-    background: rgb(0, 0, 255);
+    background: rgba(0 0 255 / 0.25);
+    background: color-mix(in srgb, AccentColor, transparent 75%);
   }
 
   .textLayer ::selection {
-    background: rgb(0, 0, 255);
+    background: rgba(0 0 255 / 0.25);
+    background: color-mix(in srgb, AccentColor, transparent 75%);
+  }
+
+  .textLayer br::-moz-selection {
+    background: transparent;
+  }
+
+  .textLayer br::selection {
+    background: transparent;
   }
 
   .textLayer .endOfContent {
     display: block;
     position: absolute;
-    left: 0px;
-    top: 100%;
-    right: 0px;
-    bottom: 0px;
-    z-index: -1;
+    inset: 100% 0 0;
+    z-index: 0;
     cursor: default;
     -webkit-user-select: none;
     -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
   }
 
   .textLayer .endOfContent.active {
-    top: 0px;
+    top: 0;
+  }
+
+  .textLayer.highlighting {
+    cursor: var(--editorFreeHighlight-editing-cursor);
+  }
+
+  .textLayer.highlighting:not(.free) span {
+    cursor: var(--editorHighlight-editing-cursor);
+  }
+
+  .textLayer.highlighting.free span {
+    cursor: var(--editorFreeHighlight-editing-cursor);
+  }
+
+  :is(
+      .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
+    .editToolbar {
+    --editor-toolbar-delete-image: url(images/editor-toolbar-delete.svg);
+    --editor-toolbar-bg-color: #f0f0f4;
+    --editor-toolbar-highlight-image: url(images/toolbarButton-editorHighlight.svg);
+    --editor-toolbar-fg-color: #2e2e56;
+    --editor-toolbar-border-color: #8f8f9d;
+    --editor-toolbar-hover-border-color: var(--editor-toolbar-border-color);
+    --editor-toolbar-hover-bg-color: #e0e0e6;
+    --editor-toolbar-hover-fg-color: var(--editor-toolbar-fg-color);
+    --editor-toolbar-hover-outline: none;
+    --editor-toolbar-focus-outline-color: #0060df;
+    --editor-toolbar-shadow: 0 2px 6px 0 rgb(58 57 68 / 0.2);
+    --editor-toolbar-vert-offset: 6px;
+    --editor-toolbar-height: 28px;
+    --editor-toolbar-padding: 2px;
+
+    display: flex;
+    width: -moz-fit-content;
+    width: fit-content;
+    height: var(--editor-toolbar-height);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: default;
+    pointer-events: auto;
+    box-sizing: content-box;
+    padding: var(--editor-toolbar-padding);
+
+    position: absolute;
+    inset-inline-end: 0;
+    inset-block-start: calc(100% + var(--editor-toolbar-vert-offset));
+
+    border-radius: 6px;
+    background-color: var(--editor-toolbar-bg-color);
+    border: 1px solid var(--editor-toolbar-border-color);
+    box-shadow: var(--editor-toolbar-shadow);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :is(
+        .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+        .textLayer
+      )
+      .editToolbar {
+      --editor-toolbar-bg-color: #2b2a33;
+      --editor-toolbar-fg-color: #fbfbfe;
+      --editor-toolbar-hover-bg-color: #52525e;
+      --editor-toolbar-focus-outline-color: #0df;
+    }
+  }
+
+  @media screen and (forced-colors: active) {
+    :is(
+        .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+        .textLayer
+      )
+      .editToolbar {
+      --editor-toolbar-bg-color: ButtonFace;
+      --editor-toolbar-fg-color: ButtonText;
+      --editor-toolbar-border-color: ButtonText;
+      --editor-toolbar-hover-border-color: AccentColor;
+      --editor-toolbar-hover-bg-color: ButtonFace;
+      --editor-toolbar-hover-fg-color: AccentColor;
+      --editor-toolbar-hover-outline: 2px solid var(--editor-toolbar-hover-border-color);
+      --editor-toolbar-focus-outline-color: ButtonBorder;
+      --editor-toolbar-shadow: none;
+    }
+  }
+
+  :is(
+      .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
+    .editToolbar.hidden {
+    display: none;
+  }
+
+  :is(
+      .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
+    .editToolbar:has(:focus-visible) {
+    border-color: transparent;
+  }
+
+  [dir='ltr']
+    :is(
+      .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
+    .editToolbar {
+    transform-origin: 100% 0;
+  }
+
+  [dir='rtl']
+    :is(
+      .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
+    .editToolbar {
+    transform-origin: 0 0;
+  }
+
+  :is(
+      .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
+    .editToolbar
+    .buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    height: 100%;
+  }
+
+  :is(
+      .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
+    .editToolbar
+    .buttons
+    .divider {
+    width: 1px;
+    height: calc(2 * var(--editor-toolbar-padding) + var(--editor-toolbar-height));
+    background-color: var(--editor-toolbar-border-color);
+    display: inline-block;
+    margin-inline: 2px;
+  }
+
+  :is(
+      .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
+    .editToolbar
+    .buttons
+    .highlightButton {
+    width: var(--editor-toolbar-height);
+  }
+
+  :is(
+      .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
+    .editToolbar
+    .buttons
+    .highlightButton::before {
+    content: '';
+    -webkit-mask-image: var(--editor-toolbar-highlight-image);
+    mask-image: var(--editor-toolbar-highlight-image);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    display: inline-block;
+    background-color: var(--editor-toolbar-fg-color);
+    width: 100%;
+    height: 100%;
+  }
+
+  :is(
+      .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
+    .editToolbar
+    .buttons
+    .highlightButton:hover::before {
+    background-color: var(--editor-toolbar-hover-fg-color);
+  }
+
+  :is(
+      .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
+    .editToolbar
+    .buttons
+    .delete {
+    width: var(--editor-toolbar-height);
+  }
+
+  :is(
+      .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
+    .editToolbar
+    .buttons
+    .delete::before {
+    content: '';
+    -webkit-mask-image: var(--editor-toolbar-delete-image);
+    mask-image: var(--editor-toolbar-delete-image);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    display: inline-block;
+    background-color: var(--editor-toolbar-fg-color);
+    width: 100%;
+    height: 100%;
+  }
+
+  :is(
+      .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
+    .editToolbar
+    .buttons
+    .delete:hover::before {
+    background-color: var(--editor-toolbar-hover-fg-color);
+  }
+
+  :is(
+      .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
+    .editToolbar
+    .buttons
+    > * {
+    height: var(--editor-toolbar-height);
+  }
+
+  :is(
+      .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
+    .editToolbar
+    .buttons
+    > :not(.divider) {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+
+  :is(
+      .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
+    .editToolbar
+    .buttons
+    > :not(.divider):hover {
+    border-radius: 2px;
+    background-color: var(--editor-toolbar-hover-bg-color);
+    color: var(--editor-toolbar-hover-fg-color);
+    outline: var(--editor-toolbar-hover-outline);
+    outline-offset: 1px;
+  }
+
+  :is(
+      .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
+    .editToolbar
+    .buttons
+    > :not(.divider):hover:active {
+    outline: none;
+  }
+
+  :is(
+      .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
+    .editToolbar
+    .buttons
+    > :not(.divider):focus-visible {
+    border-radius: 2px;
+    outline: 2px solid var(--editor-toolbar-focus-outline-color);
+  }
+
+  :is(
+      .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
+    .editToolbar
+    .buttons
+    .altText {
+    --alt-text-add-image: url(images/altText_add.svg);
+    --alt-text-done-image: url(images/altText_done.svg);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: -moz-max-content;
+    width: max-content;
+    padding-inline: 8px;
+    pointer-events: all;
+    font: menu;
+    font-weight: 590;
+    font-size: 12px;
+    color: var(--editor-toolbar-fg-color);
+  }
+
+  :is(
+      .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
+    .editToolbar
+    .buttons
+    .altText:disabled {
+    pointer-events: none;
+  }
+
+  :is(
+      .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
+    .editToolbar
+    .buttons
+    .altText::before {
+    content: '';
+    -webkit-mask-image: var(--alt-text-add-image);
+    mask-image: var(--alt-text-add-image);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    display: inline-block;
+    width: 12px;
+    height: 13px;
+    background-color: var(--editor-toolbar-fg-color);
+    margin-inline-end: 4px;
+  }
+
+  :is(
+      .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
+    .editToolbar
+    .buttons
+    .altText:hover::before {
+    background-color: var(--editor-toolbar-hover-fg-color);
+  }
+
+  :is(
+      .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
+    .editToolbar
+    .buttons
+    .altText.done::before {
+    -webkit-mask-image: var(--alt-text-done-image);
+    mask-image: var(--alt-text-done-image);
+  }
+
+  :is(
+      .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
+    .editToolbar
+    .buttons
+    .altText
+    .tooltip {
+    display: none;
+  }
+
+  :is(
+      .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
+    .editToolbar
+    .buttons
+    .altText
+    .tooltip.show {
+    --alt-text-tooltip-bg: #f0f0f4;
+    --alt-text-tooltip-fg: #15141a;
+    --alt-text-tooltip-border: #8f8f9d;
+    --alt-text-tooltip-shadow: 0px 2px 6px 0px rgb(58 57 68 / 0.2);
+
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: calc(100% + 2px);
+    inset-inline-start: 0;
+    padding-block: 2px 3px;
+    padding-inline: 3px;
+    max-width: 300px;
+    width: -moz-max-content;
+    width: max-content;
+    height: auto;
+    font-size: 12px;
+
+    border: 0.5px solid var(--alt-text-tooltip-border);
+    background: var(--alt-text-tooltip-bg);
+    box-shadow: var(--alt-text-tooltip-shadow);
+    color: var(--alt-text-tooltip-fg);
+
+    pointer-events: none;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :is(
+        .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+        .textLayer
+      )
+      .editToolbar
+      .buttons
+      .altText
+      .tooltip.show {
+      --alt-text-tooltip-bg: #1c1b22;
+      --alt-text-tooltip-fg: #fbfbfe;
+      --alt-text-tooltip-shadow: 0px 2px 6px 0px #15141a;
+    }
+  }
+
+  @media screen and (forced-colors: active) {
+    :is(
+        .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+        .textLayer
+      )
+      .editToolbar
+      .buttons
+      .altText
+      .tooltip.show {
+      --alt-text-tooltip-bg: Canvas;
+      --alt-text-tooltip-fg: CanvasText;
+      --alt-text-tooltip-border: CanvasText;
+      --alt-text-tooltip-shadow: none;
+    }
   }
 }
