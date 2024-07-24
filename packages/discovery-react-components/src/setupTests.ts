@@ -17,6 +17,8 @@ beforeAll(() => {
     // JSDOM doesn't have a robust CSS implementation and will sometimes fail to
     // correctly parse valid CSS, throwing an error that isn't really an error and
     // polluting test output. This code hides this "error".
+    // @see https://stackoverflow.com/a/69958999/908343
+    // @see https://github.com/jsdom/jsdom/issues/2230
     if (
       typeof args[0]?.toString === 'function' &&
       args[0].toString().includes('Error: Could not parse CSS stylesheet')

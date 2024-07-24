@@ -29,7 +29,7 @@ export type PdfRenderedText = {
   /**
    * Text span DOM elements rendered on the text layer
    */
-  textDivs: HTMLElement[];
+  textDivs: HTMLCollection;
 
   /**
    * Pdf page viewport used to render text items
@@ -69,12 +69,12 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
       async (signal: AbortSignal) => {
         if (textLayerWrapper && loadedText) {
           const { textContent, viewport, page } = loadedText;
-          let textDivs: HTMLElement[] = [];
+          let textDivs: HTMLCollection;
 
           const builder = new TextLayerBuilder({
             pdfPage: loadedPage,
-            // @ts-expect-error: type for this param is null | undefined for some reason, even though we know it can be used
-            onAppend: textLayerDiv => {
+            // @ts-expect-error: type for `onAppend` is `null | undefined` for some reason, even though we know it can be used
+            onAppend: (textLayerDiv: HTMLElement) => {
               // onAppend runs as part of the text layer rendering. We can use this to extract the rendered text divs and
               // do manual adjustment of their dimensions
               textLayerWrapper.append(textLayerDiv);
@@ -123,14 +123,15 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
  * @param scale
  */
 function _adjustTextDivs(
-  textDivs: HTMLElement[],
+  textDivs: HTMLCollection,
   textItems: TextItem[] | null,
   scale: number
 ): void {
   const scaleXPattern = /scaleX\(([\d.]+)\)/;
   const scaleYPattern = /scaleY\(([\d.]+)\)/;
   // since textDivs is technically not an array, just array-like, it doesn't have forEach
-  [...textDivs].forEach((textDivElm, index) => {
+  [...textDivs].forEach((_textDivElm, index) => {
+    const textDivElm = _textDivElm as HTMLElement;
     const textItem = textItems?.[index];
     if (!textItem) return;
 

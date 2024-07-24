@@ -1,12 +1,12 @@
 // declare module 'pdfjs-dist/build/pdf.worker.min.mjs';
 
-declare module 'pdfjs-dist/build/pdf.mjs' {
-  export class TextLayer {
-    constructor({ textContentSource: TextContent, container: any, viewport: PageViewport });
-    render(): Promise;
-    textDivs: HTMLElement[];
-  }
-}
+// declare module 'pdfjs-dist/build/pdf.mjs' {
+//   export class TextLayer {
+//     constructor({ textContentSource: TextContent, container: any, viewport: PageViewport });
+//     render(): Promise;
+//     textDivs: HTMLElement[];
+//   }
+// }
 
 // //
 // // Declare modules and their types that is referred from PDF text layer rendering.

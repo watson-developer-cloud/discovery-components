@@ -41,7 +41,7 @@ export class Highlighter {
     pdfTextContentInfo?: {
       textContent: TextContent;
       viewport: PageViewport;
-      spans?: HTMLElement[];
+      spans?: HTMLCollection;
     };
   }) {
     this.pageNum = pageNum;
@@ -78,7 +78,7 @@ export class Highlighter {
   setTextContentItems(
     textContent: TextContent,
     viewport: PageViewport,
-    textContentDivs?: HTMLElement[],
+    textContentDivs?: HTMLCollection,
     htmlBoxInfo?: HtmlBboxInfo
   ) {
     this.pdfTextContentLayout = new PdfTextContentTextLayout(
@@ -97,7 +97,7 @@ export class Highlighter {
    * Update text content HTML elements
    * @param textContentDivs HTML elements where text content items are rendered
    */
-  setTextContentDivs(textContentDivs?: HTMLElement[]) {
+  setTextContentDivs(textContentDivs?: HTMLCollection) {
     this.pdfTextContentLayout?.setDivs(textContentDivs);
   }
 
