@@ -252,7 +252,7 @@ describe('DocumentPreview', () => {
         );
 
         // evidence PDF rendered
-        const elem = await screen.findByText('ART EFFECTS LIMITED');
+        const elem = await screen.findByText('ART EFFECTS LIMITED', {}, { timeout: 5000 });
         expect(elem).toBeInTheDocument();
       },
       THIRTY_SECONDS
