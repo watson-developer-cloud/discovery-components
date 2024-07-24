@@ -9,11 +9,11 @@ describe('documentData', () => {
 
   let consoleError: jest.SpyInstance<any, any>;
 
-  beforeAll(() => {
+  beforeEach(() => {
     consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
-  afterAll(() => {
+  afterEach(() => {
     consoleError.mockRestore();
   });
 
@@ -67,7 +67,7 @@ describe('documentData', () => {
   it('fails gracefully if text mappings is not a string', () => {
     const mappings = getTextMappings(noStringTextMapping);
     expect(mappings).toEqual(null);
-    expect(consoleError).toHaveBeenCalled();
+    expect(consoleError).not.toHaveBeenCalled();
   });
 
   const jsonFileType = {
