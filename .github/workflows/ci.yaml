@@ -33,7 +33,7 @@ jobs:
       - name: Build Apps
         run: yarn run build:apps
       - name: Test
-        run: yarn run test
+        run: yarn run test:ci
         env:
           DEBUG_PRINT_LIMIT: 50000
       - name: Archive test artifacts
