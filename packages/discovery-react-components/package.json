@@ -47,7 +47,7 @@
     "htmlparser2": "^4.1.0",
     "lodash": "^4.17.21",
     "mustache": "^4.2.0",
-    "pdfjs-dist": "4.3.136",
+    "pdfjs-dist": "4.4.168",
     "react-error-boundary": "^1.2.5",
     "react-resize-detector": "^4.2.3",
     "react-virtualized": "9.21.2",

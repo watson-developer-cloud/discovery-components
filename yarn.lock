@@ -2804,7 +2804,7 @@ __metadata:
     madge: "npm:^6.1.0"
     marked: "npm:^11.1.1"
     mustache: "npm:^4.2.0"
-    pdfjs-dist: "npm:4.3.136"
+    pdfjs-dist: "npm:4.4.168"
     react: "npm:^17.0.2"
     react-dom: "npm:^17.0.2"
     react-error-boundary: "npm:^1.2.5"
@@ -19829,9 +19829,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pdfjs-dist@npm:4.3.136":
-  version: 4.3.136
-  resolution: "pdfjs-dist@npm:4.3.136"
+"pdfjs-dist@npm:4.4.168":
+  version: 4.4.168
+  resolution: "pdfjs-dist@npm:4.4.168"
   dependencies:
     canvas: "npm:^2.11.2"
     path2d: "npm:^0.2.0"
@@ -19840,7 +19840,7 @@ __metadata:
       optional: true
     path2d:
       optional: true
-  checksum: 10c0/4cb88d737f56100d45d2c9c0c6e8dc2f3dfd856362a55e47801ae32c52b2f12b3e74819c3cafb995a1e84c43eb580598a69c6710a78b1a11cdb52ef24bf8a633
+  checksum: 10c0/61bad19fe0aae8261631d425bd96368cf0b8803c3a4446615456dddd867ef3e5ba15c11a1caabb8033bce9538e3ad8262c24a56fa68b150c6ee0eb9e26a9f3a7
   languageName: node
   linkType: hard
 
