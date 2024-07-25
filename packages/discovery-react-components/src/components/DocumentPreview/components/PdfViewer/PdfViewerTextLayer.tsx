@@ -137,9 +137,14 @@ function adjustTextDivs(
     const expectedHeight = textItem.height * scale;
     const actualHeight = textDivElm.getBoundingClientRect().height;
 
-    /**
-     * Retrieve scale definition from within `transform` style rule
-     */
+    // hide elements that don't have dimensions
+    if (expectedHeight === 0 || expectedWidth === 0) {
+      textDivElm.style.visibility = 'hidden';
+      textDivElm.style.transform = '';
+      continue;
+    }
+
+    // retrieve scale definition from within `transform` style rule
     function getScale(element: HTMLElement, type: 'x' | 'y'): number | null {
       const pattern = type === 'x' ? scaleXPattern : scaleYPattern;
       const match = element.style.transform?.match(pattern);
