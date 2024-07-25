@@ -137,38 +137,40 @@ function adjustTextDivs(
     const expectedHeight = textItem.height * scale;
     const actualHeight = textDivElm.getBoundingClientRect().height;
 
-    function getScaleX(element: HTMLElement) {
-      const match = element.style.transform?.match(scaleXPattern);
+    /**
+     * Retrieve scale definition from within `transform` style rule
+     */
+    function getScale(element: HTMLElement, type: 'x' | 'y'): number | null {
+      const pattern = type === 'x' ? scaleXPattern : scaleYPattern;
+      const match = element.style.transform?.match(pattern);
       if (match) {
         return parseFloat(match[1]);
       }
       return null;
     }
 
-    function getScaleY(element: HTMLElement) {
-      const match = element.style.transform?.match(scaleYPattern);
-      if (match) {
-        return parseFloat(match[1]);
-      }
-      return null;
-    }
-
-    const currentScaleX = getScaleX(textDivElm);
+    const currentScaleX = getScale(textDivElm, 'x');
     if (currentScaleX && !isNaN(currentScaleX)) {
       const newScale = `scaleX(${(expectedWidth / actualWidth) * currentScaleX})`;
       textDivElm.style.transform = textDivElm.style.transform.replace(scaleXPattern, newScale);
     } else {
-      const newScale = `scaleX(${expectedWidth / actualWidth})`;
-      textDivElm.style.transform += newScale;
+      const val = expectedWidth / actualWidth;
+      if (val !== 0) {
+        const newScale = `scaleX(${val})`;
+        textDivElm.style.transform += newScale;
+      }
     }
 
-    const currentScaleY = getScaleY(textDivElm);
+    const currentScaleY = getScale(textDivElm, 'y');
     if (currentScaleY && !isNaN(currentScaleY)) {
       const newScale = `scaleY(${(expectedHeight / actualHeight) * currentScaleY})`;
       textDivElm.style.transform = textDivElm.style.transform.replace(scaleYPattern, newScale);
     } else {
-      const newScale = `scaleY(${expectedHeight / actualHeight})`;
-      textDivElm.style.transform += newScale;
+      const val = expectedHeight / actualHeight;
+      if (val !== 0) {
+        const newScale = `scaleY(${val})`;
+        textDivElm.style.transform += newScale;
+      }
     }
   }
 }
