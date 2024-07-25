@@ -69,7 +69,7 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
       async (signal: AbortSignal) => {
         if (textLayerWrapper && loadedText) {
           const { textContent, viewport, page } = loadedText;
-          let textDivs: HTMLCollection;
+          let textDivs!: HTMLCollection;
 
           const builder = new TextLayerBuilder({
             pdfPage: loadedPage,
@@ -82,7 +82,7 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
               const textContentItems = textContent.items as TextItem[];
               textDivs?.length > 0 &&
                 textContentItems?.length > 0 &&
-                _adjustTextDivs(textDivs, textContentItems, scale);
+                adjustTextDivs(textDivs, textContentItems, scale);
             }
           });
 
@@ -117,65 +117,60 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
 };
 
 /**
- * Adjust text span width based on scale
- * @param textDivs
- * @param textItems
- * @param scale
+ * Adjust text span dimensions based on scale
  */
-function _adjustTextDivs(
+function adjustTextDivs(
   textDivs: HTMLCollection,
   textItems: TextItem[] | null,
   scale: number
 ): void {
   const scaleXPattern = /scaleX\(([\d.]+)\)/;
   const scaleYPattern = /scaleY\(([\d.]+)\)/;
-  // since textDivs is technically not an array, just array-like, it doesn't have forEach
-  [...textDivs].forEach((_textDivElm, index) => {
-    const textDivElm = _textDivElm as HTMLElement;
+
+  for (let index = 0; index < textDivs.length; index++) {
+    const textDivElm = textDivs[index] as HTMLElement;
     const textItem = textItems?.[index];
     if (!textItem) return;
 
-    function getCurrentScales(element: HTMLElement) {
-      const matchX = element.style.transform?.match(scaleXPattern);
-      const matchY = element.style.transform?.match(scaleYPattern);
-      const scaleX = !!matchX ? parseFloat(matchX[1]) : null;
-      const scaleY = !!matchY ? parseFloat(matchY[1]) : null;
-      return [scaleX, scaleY];
-    }
-
-    function getUpdatedScale(
-      currentScale: number | null,
-      expectedSize: number,
-      actualSize: number
-    ) {
-      if (currentScale && !isNaN(currentScale)) {
-        return `${(expectedSize / actualSize) * currentScale}`;
-      } else {
-        return `${expectedSize / actualSize}`;
-      }
-    }
-
-    // adjust X and Y scale used in the transform
     const expectedWidth = textItem.width * scale;
     const actualWidth = textDivElm.getBoundingClientRect().width;
     const expectedHeight = textItem.height * scale;
     const actualHeight = textDivElm.getBoundingClientRect().height;
-    const [currentScaleX, currentScaleY] = getCurrentScales(textDivElm);
-    const updatedScaleX = getUpdatedScale(currentScaleX, expectedWidth, actualWidth);
-    const updatedScaleY = getUpdatedScale(currentScaleY, expectedHeight, actualHeight);
-    const newTransform = `scaleX(${updatedScaleX}) scaleY(${updatedScaleY})`;
 
-    textDivElm.style.transform = newTransform;
-
-    // adjust position from top
-    const initialTop = textDivElm.style.top;
-    const rescaledTop =
-      initialTop.length > 0 &&
-      Number.parseFloat(initialTop.substring(0, initialTop.length - 1)) / 2;
-    if (!!rescaledTop) {
-      textDivElm.style.top = rescaledTop.toString() + '%';
+    function getScaleX(element: HTMLElement) {
+      const match = element.style.transform?.match(scaleXPattern);
+      if (match) {
+        return parseFloat(match[1]);
+      }
+      return null;
     }
-  });
+
+    function getScaleY(element: HTMLElement) {
+      const match = element.style.transform?.match(scaleYPattern);
+      if (match) {
+        return parseFloat(match[1]);
+      }
+      return null;
+    }
+
+    const currentScaleX = getScaleX(textDivElm);
+    if (currentScaleX && !isNaN(currentScaleX)) {
+      const newScale = `scaleX(${(expectedWidth / actualWidth) * currentScaleX})`;
+      textDivElm.style.transform = textDivElm.style.transform.replace(scaleXPattern, newScale);
+    } else {
+      const newScale = `scaleX(${expectedWidth / actualWidth})`;
+      textDivElm.style.transform += newScale;
+    }
+
+    const currentScaleY = getScaleY(textDivElm);
+    if (currentScaleY && !isNaN(currentScaleY)) {
+      const newScale = `scaleY(${(expectedHeight / actualHeight) * currentScaleY})`;
+      textDivElm.style.transform = textDivElm.style.transform.replace(scaleYPattern, newScale);
+    } else {
+      const newScale = `scaleY(${expectedHeight / actualHeight})`;
+      textDivElm.style.transform += newScale;
+    }
+  }
 }
 
 export default PdfViewerTextLayer;
