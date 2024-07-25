@@ -40,9 +40,9 @@ async function genPdfjsScss(originalPdfjsWebCss, outputPdfjsWebScss) {
   const cssText = fs.readFileSync(originalPdfjsWebCss, { encoding: 'utf-8' });
   const cssRoot = postcss.parse(cssText);
 
-  // remove rules not related to .textLayer
+  // remove rules not related to .textLayer (except for those that also reference .annotationEditorLayer)
   cssRoot.walkRules(rule => {
-    if (rule.selector.includes('.textLayer')) {
+    if (rule.selector.includes('.textLayer') && !rule.selector.includes('.annotationEditorLayer')) {
       return;
     }
     rule.remove();
