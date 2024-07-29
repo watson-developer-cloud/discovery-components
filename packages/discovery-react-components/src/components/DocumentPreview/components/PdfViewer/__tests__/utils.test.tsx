@@ -8,19 +8,34 @@ describe('utils', () => {
       expect(toPDFSource(stringData).data).toBe(stringData);
     });
 
-    it('can create PDFSource from Uint8Array', () => {
+    it('can create PDFSource from Uint8Array (cloned)', () => {
       const uint8ArrayData: Uint8Array = new Uint8Array(2);
-      expect(toPDFSource(uint8ArrayData).data).toBe(uint8ArrayData);
+      const pdfSource = toPDFSource(uint8ArrayData);
+      expect(areTypeArraysEqual(pdfSource.data as TypedArray, uint8ArrayData)).toBe(true);
     });
 
     it('can create PDFSource from ArrayBuffer', () => {
       const arrayBufferData: ArrayBuffer = new ArrayBuffer(2);
-      expect(toPDFSource(arrayBufferData as TypedArray).data).toBe(arrayBufferData);
+      const pdfSource = toPDFSource(arrayBufferData);
+      // convert to a typed array to verify underlying data is the same
+      expect(
+        areTypeArraysEqual(
+          new Uint8Array(pdfSource.data as ArrayBuffer),
+          new Uint8Array(arrayBufferData)
+        )
+      ).toBe(true);
     });
 
     it('can create PDFSource from ArrayBuffer view', () => {
       const arrayBufferViewData: ArrayBufferView = new DataView(new ArrayBuffer(2));
-      expect(toPDFSource(arrayBufferViewData as TypedArray).data).toBe(arrayBufferViewData);
+      const pdfSource = toPDFSource(arrayBufferViewData as TypedArray);
+      // convert to a typed array to verify underlying data is the same
+      expect(
+        areTypeArraysEqual(
+          new Uint8Array((pdfSource.data as unknown as DataView).buffer),
+          new Uint8Array(arrayBufferViewData.buffer)
+        )
+      ).toBe(true);
     });
 
     it('can create PDFSource from PDFSource', () => {
@@ -29,3 +44,7 @@ describe('utils', () => {
     });
   });
 });
+
+function areTypeArraysEqual(a: TypedArray, b: TypedArray) {
+  return a.length === b.length && a.every((value, index) => value === b[index]);
+}
