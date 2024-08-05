@@ -80,15 +80,20 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
               textLayerWrapper.append(textLayerDiv);
               textDivs = textLayerDiv.children;
               const textContentItems = textContent.items as TextItem[];
-              textDivs?.length > 0 &&
-                textContentItems?.length > 0 &&
-                adjustTextDivs(textDivs, textContentItems, scale);
+              if (textDivs?.length > 0 && textContentItems?.length > 0) {
+                const [normalizedTextDivs, normalizedTextContentItems] = normalize(
+                  textDivs,
+                  textContentItems
+                );
+                adjustTextDivs(normalizedTextDivs, normalizedTextContentItems, scale);
+              }
             }
           });
 
           signal.addEventListener('abort', () => builder.cancel());
 
           textLayerWrapper.innerHTML = '';
+          // `render()` will call `onAppend()` callback above before resolving its promise
           await builder.render(viewport, textContent);
           return { textContent, viewport, page, textDivs };
         }
@@ -117,13 +122,32 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
 };
 
 /**
+ * We need `textDivs` collection to be in sync with `textContentItems`. The DOM
+ * collection `textDivs` will contain both text spans and line breaks (`<br>`).
+ * Normally, PDF.js' `getTextContent()` function will return an item that
+ * corresponds to line breaks -- it will have no width/height and contain an
+ * empty string. But this doesn't _always_ happen, resulting in a mismatch
+ * between the two collections.
+ *
+ * This function removes line break elements (from `textDivs`) and any empty/
+ * no-dimension items (from `textContentItems`) in order to ensure that the
+ * collections are in sync.
+ */
+function normalize(
+  textDivs: HTMLCollection,
+  textContentItems: TextItem[]
+): [Element[], TextItem[]] {
+  const normalizedTextDivs = Array.from(textDivs).filter(elem => elem.tagName !== 'BR');
+  const normalizedTextContentItems = textContentItems.filter(
+    item => !(item.str.length === 0 && item.width === 0 && item.height === 0)
+  );
+  return [normalizedTextDivs, normalizedTextContentItems];
+}
+
+/**
  * Adjust text span dimensions based on scale
  */
-function adjustTextDivs(
-  textDivs: HTMLCollection,
-  textItems: TextItem[] | null,
-  scale: number
-): void {
+function adjustTextDivs(textDivs: Element[], textItems: TextItem[] | null, scale: number): void {
   const scaleXPattern = /scaleX\(([\d.]+)\)/;
   const scaleYPattern = /scaleY\(([\d.]+)\)/;
 
