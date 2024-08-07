@@ -10,8 +10,8 @@ import {
 } from 'react';
 import cx from 'classnames';
 import * as PdfjsLib from 'pdfjs-dist';
-import { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist/types/display/api';
-import { PageViewport } from 'pdfjs-dist/types/display/display_utils';
+import { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist/types/src/display/api';
+import { PageViewport } from 'pdfjs-dist/types/src/display/display_utils';
 import { settings } from 'carbon-components';
 import useSafeRef from 'utils/useSafeRef';
 import useSize from 'utils/useSize';
@@ -21,8 +21,8 @@ import { QueryResult } from 'ibm-watson/discovery/v2';
 import { DocumentFile } from '../../types';
 import { getTextMappings } from '../../utils/documentData';
 import PdfViewerTextLayer, { PdfRenderedText } from './PdfViewerTextLayer';
-import { toPDFSource } from './utils';
 import { PdfDisplayProps } from './types';
+import { toPDFSource } from './utils';
 type RenderTask = ReturnType<PDFPageProxy['render']>;
 
 export interface PdfViewerProps extends PdfDisplayProps, HTMLAttributes<HTMLElement> {
@@ -263,7 +263,7 @@ function setupPdfjs(pdfWorkerUrl: string): void {
   // Only load the worker the first time the worker url is sent in
   // and don't load the worker in unit tests (see setupTests.ts)
   if (!!pdfWorkerUrl && pdfWorkerUrl !== currentPdfWorkerUrl && typeof Worker !== 'undefined') {
-    const pdfjsWorker = new Worker(pdfWorkerUrl);
+    const pdfjsWorker = new Worker(pdfWorkerUrl, { type: 'module' });
     setPdfJsGlobalWorkerOptions({ workerPort: pdfjsWorker });
     currentPdfWorkerUrl = pdfWorkerUrl;
   }

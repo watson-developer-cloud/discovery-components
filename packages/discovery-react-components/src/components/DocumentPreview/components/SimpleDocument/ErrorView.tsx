@@ -2,12 +2,12 @@ import { FC, ReactNode } from 'react';
 import { settings } from 'carbon-components';
 import { ReactComponent as DocumentPreviewIcon } from './icons/document_preview.svg';
 
-type ErrorStateProps = {
+type ErrorViewProps = {
   header: ReactNode;
   message: ReactNode;
 };
 
-const ErrorState: FC<ErrorStateProps> = ({ header, message }) => {
+const ErrorView: FC<ErrorViewProps> = ({ header, message }) => {
   const baseClass = `${settings.prefix}--simple-document__error-view`;
   return (
     <div className={baseClass} data-testid="error_state">
@@ -22,4 +22,4 @@ const ErrorState: FC<ErrorStateProps> = ({ header, message }) => {
   );
 };
 
-export default ErrorState;
+export default ErrorView;

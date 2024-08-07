@@ -1,10 +1,9 @@
 import * as PdfjsLib from 'pdfjs-dist';
-import { GlobalWorkerOptionsType } from 'pdfjs-dist/types/display/worker_options';
 
-// Make fields from GlobalWorkerOptionsType optional
+// Make fields from GlobalWorkerOptions optional
 type GlobalWorkerOptionsDelta = {
-  workerPort?: GlobalWorkerOptionsType['workerPort'];
-  workerSrc?: GlobalWorkerOptionsType['workerSrc'];
+  workerPort?: Worker;
+  workerSrc?: string;
 };
 
 const setPdfJsGlobalWorkerOptions = (options: GlobalWorkerOptionsDelta): void => {

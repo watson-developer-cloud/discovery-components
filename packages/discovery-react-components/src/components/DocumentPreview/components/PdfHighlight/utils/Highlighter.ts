@@ -1,7 +1,7 @@
 import Debug from 'debug';
 import flatMap from 'lodash/flatMap';
-import { TextContent } from 'pdfjs-dist/types/display/api';
-import { PageViewport } from 'pdfjs-dist/types/display/display_utils';
+import { TextContent } from 'pdfjs-dist/types/src/display/api';
+import { PageViewport } from 'pdfjs-dist/types/src/display/display_utils';
 import { nonEmpty } from 'utils/nonEmpty';
 import { DocumentFields, HighlightShape, HighlightShapeBox } from '../types';
 import { DocumentFieldHighlight, TextMappings } from 'components/DocumentPreview/types';
@@ -41,7 +41,7 @@ export class Highlighter {
     pdfTextContentInfo?: {
       textContent: TextContent;
       viewport: PageViewport;
-      spans?: HTMLElement[];
+      spans?: HTMLCollection;
     };
   }) {
     this.pageNum = pageNum;
@@ -78,7 +78,7 @@ export class Highlighter {
   setTextContentItems(
     textContent: TextContent,
     viewport: PageViewport,
-    textContentDivs?: HTMLElement[],
+    textContentDivs?: HTMLCollection,
     htmlBoxInfo?: HtmlBboxInfo
   ) {
     this.pdfTextContentLayout = new PdfTextContentTextLayout(
@@ -97,7 +97,7 @@ export class Highlighter {
    * Update text content HTML elements
    * @param textContentDivs HTML elements where text content items are rendered
    */
-  setTextContentDivs(textContentDivs?: HTMLElement[]) {
+  setTextContentDivs(textContentDivs?: HTMLCollection) {
     this.pdfTextContentLayout?.setDivs(textContentDivs);
   }
 

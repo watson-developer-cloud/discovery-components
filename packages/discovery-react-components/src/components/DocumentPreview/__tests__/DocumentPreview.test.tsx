@@ -251,10 +251,11 @@ describe('DocumentPreview', () => {
           </DiscoverySearch>
         );
 
-        // 58 pages evidence PDF rendered
-        const elem = await screen.findByText('58 pages', {
-          exact: false
-        });
+        // evidence PDF rendered
+        let elem = await screen.findByText('ART EFFECTS LIMITED', {}, { timeout: 5000 });
+        expect(elem).toBeInTheDocument();
+        // check that 58 pages were found
+        elem = await screen.findByText('58 pages', { exact: false });
         expect(elem).toBeInTheDocument();
       },
       THIRTY_SECONDS

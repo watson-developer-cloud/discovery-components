@@ -7,14 +7,16 @@
   "author": "IBM Corp.",
   "homepage": ".",
   "scripts": {
-    "setup": "mkdir -p ./public/assets/ && cp ../../node_modules/pdfjs-dist/build/pdf.worker.min.js ./public/assets/pdf.worker.min.js",
+    "setup": "mkdir -p ./public/assets/ && cp ../../node_modules/pdfjs-dist/build/pdf.worker.min.mjs ./public/assets/pdf.worker.min.mjs",
     "build:app": "yarn run build",
     "build": "yarn setup && cross-env SKIP_PREFLIGHT_CHECK=true CI=false SASS_PATH=${PWD}/src react-scripts build",
     "start": "yarn setup && cross-env SKIP_PREFLIGHT_CHECK=true SASS_PATH=${PWD}/src react-scripts start",
     "lint": "yarn run g:eslint --quiet '{src,cypress}/**/*.{js,jsx,ts,tsx}' './*.{js,jsx,ts,tsx}'",
     "test:e2e": "cross-env REACT_APP_CYPRESS_MODE=true BROWSER=none CYPRESS_baseUrl=http://localhost:3000 start-server-and-test start http://localhost:3000 'cypress run'",
-    "test:unit": "cross-env SKIP_PREFLIGHT_CHECK=true CI=1 react-scripts test --env=jsdom",
+    "test:unit": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts test --env=jsdom",
+    "test:unit:ci": "yarn run test:unit --runInBand",
     "test": "yarn test:unit && yarn test:e2e",
+    "test:ci": "yarn test:unit:ci && yarn test:e2e",
     "cypress": "cross-env REACT_APP_CYPRESS_MODE=true cypress open --e2e --browser chrome",
     "server": "yarn server:setup && yarn server:run",
     "server:run": "node ./server.js",
@@ -42,12 +44,14 @@
   "devDependencies": {
     "@testing-library/cypress": "^7.0.7",
     "@types/proper-url-join": "^2.1.4",
+    "core-js": "^3.37.1",
     "cross-env": "^7.0.3",
     "cypress": "^13.6.3",
     "react-scripts": "^5.0.1",
     "start-server-and-test": "^2.0.3"
   },
   "jest": {
+    "displayName": "Search app (unit)",
     "moduleNameMapper": {
       "^axios$": "axios/dist/node/axios.cjs"
     }

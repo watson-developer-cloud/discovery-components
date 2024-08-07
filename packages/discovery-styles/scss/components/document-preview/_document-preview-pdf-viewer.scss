@@ -29,6 +29,12 @@ $hightlight-active-z-index: 200;
   // Prevent bottom whitespace from displaying
   line-height: 0;
 
+  .textLayerWrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
   @include pdfjsTextLayer;
 }
 

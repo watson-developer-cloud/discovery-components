@@ -1,6 +1,6 @@
 import { TextMappings } from 'components/DocumentPreview/types';
-import { TextContent } from 'pdfjs-dist/types/display/api';
-import { PageViewport } from 'pdfjs-dist/types/display/display_utils';
+import { TextContent } from 'pdfjs-dist/types/src/display/api';
+import { PageViewport } from 'pdfjs-dist/types/src/display/display_utils';
 import { ProcessedDoc } from 'utils/document';
 import { Bbox, DocumentFields, TextSpan } from '../../types';
 

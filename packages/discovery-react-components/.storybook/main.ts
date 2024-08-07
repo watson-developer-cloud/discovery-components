@@ -1,4 +1,5 @@
 import { StorybookConfig } from '@storybook/react-vite';
+import path from 'node:path';
 import { mergeConfig } from 'vite';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
@@ -23,7 +24,10 @@ const config: StorybookConfig = {
     disableTelemetry: true
   },
 
-  staticDirs: ['../../../node_modules/pdfjs-dist/build/'],
+  staticDirs: [
+    // should resolve to '.../pdfjs-dist/build/'
+    path.dirname(require.resolve('pdfjs-dist'))
+  ],
 
   framework: '@storybook/react-vite',
 

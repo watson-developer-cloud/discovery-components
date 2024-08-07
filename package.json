@@ -11,6 +11,7 @@
     "build:pkgs": "yarn workspaces foreach -Av --parallel --include '@ibm-watson/*' run build",
     "build:apps": "yarn workspaces foreach -Av --parallel run build:app",
     "test": "yarn workspaces foreach -Av --parallel run test",
+    "test:ci": "yarn workspaces foreach -Av run test:ci",
     "g:analyze": "cd $INIT_CWD && source-map-explorer",
     "g:eslint": "cd $INIT_CWD && eslint"
   },
@@ -87,7 +88,7 @@
       "last 1 safari version"
     ]
   },
-  "packageManager": "yarn@4.0.2",
+  "packageManager": "yarn@4.2.2",
   "resolutions": {
     "react-scripts@^5.0.1": "patch:react-scripts@npm:5.0.1#.yarn/patches/react-scripts-npm-5.0.1-d06bd2d5ad.patch",
     "@types/react@npm:*": "^17"

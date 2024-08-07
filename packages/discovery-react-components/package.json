@@ -18,12 +18,13 @@
   "scripts": {
     "prepack": "yarn run build",
     "prepublish": "yarn run build",
-    "test": "cross-env SKIP_PREFLIGHT_CHECK=true CI=1 react-scripts test",
-    "test:coverage": "cross-env CI=1 SKIP_PREFLIGHT_CHECK=true react-scripts test --coverage",
-    "test:watch": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts test --watch",
-    "test:debug": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts --inspect-brk test --runInBand --no-cache",
+    "test": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts test --env ./src/fixedJSDOMEnvironment.js",
+    "test:ci": "yarn run test --runInBand",
+    "test:coverage": "yarn run test --coverage",
+    "test:watch": "yarn run test --watch",
+    "test:debug": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts --inspect-brk test --env ./src/fixedJSDOMEnvironment.js --runInBand --no-cache",
     "circular": "madge --circular src/*",
-    "build": "vite build",
+    "build": "tsc && vite build",
     "build:app": "yarn run storybook:build --quiet",
     "eslint": "yarn run g:eslint --quiet '{src,.storybook}/**/*.{js,jsx,ts,tsx}'",
     "lint": "yarn run circular && yarn run eslint",
@@ -46,7 +47,7 @@
     "htmlparser2": "^4.1.0",
     "lodash": "^4.17.21",
     "mustache": "^4.2.0",
-    "pdfjs-dist": "2.6.347",
+    "pdfjs-dist": "4.5.136",
     "react-error-boundary": "^1.2.5",
     "react-resize-detector": "^4.2.3",
     "react-virtualized": "9.21.2",
@@ -97,7 +98,7 @@
   },
   "jest": {
     "resetMocks": false,
-    "displayName": "Disco React Components (Unit)",
+    "displayName": "Disco React Components (unit)",
     "transformIgnorePatterns": [
       "/!node_modules\\/react-virtualized/"
     ],

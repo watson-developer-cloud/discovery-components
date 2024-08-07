@@ -1,9 +1,8 @@
 import { FC, useEffect, useRef, useCallback } from 'react';
 import cx from 'classnames';
-import { TextContent, TextItem, PDFPageProxy } from 'pdfjs-dist/types/display/api';
-import { PageViewport } from 'pdfjs-dist/types/display/display_utils';
-import { EventBus } from 'pdfjs-dist/lib/web/ui_utils';
-import { TextLayerBuilder } from 'pdfjs-dist/lib/web/text_layer_builder';
+import { TextContent, TextItem, PDFPageProxy } from 'pdfjs-dist/types/src/display/api';
+import { PageViewport } from 'pdfjs-dist/types/src/display/display_utils';
+import { TextLayerBuilder } from 'pdfjs-dist/web/pdf_viewer.mjs';
 import useAsyncFunctionCall from 'utils/useAsyncFunctionCall';
 import { PdfDisplayProps } from './types';
 
@@ -30,7 +29,7 @@ export type PdfRenderedText = {
   /**
    * Text span DOM elements rendered on the text layer
    */
-  textDivs: HTMLElement[];
+  textDivs: HTMLCollection;
 
   /**
    * Pdf page viewport used to render text items
@@ -50,7 +49,7 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
   setRenderedText = () => {}
 }) => {
   const textLayerRef = useRef<HTMLDivElement>(null);
-  const textLayerDiv = textLayerRef.current;
+  const textLayerWrapper = textLayerRef.current;
 
   // load text content from the page
   const loadedText = useAsyncFunctionCall(
@@ -68,23 +67,39 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
   const renderedText = useAsyncFunctionCall(
     useCallback(
       async (signal: AbortSignal) => {
-        if (textLayerDiv && loadedText) {
-          const { textContent, viewport, scale, page } = loadedText;
+        if (textLayerWrapper && loadedText) {
+          const { textContent, viewport, page } = loadedText;
+          let textDivs!: HTMLCollection;
 
           const builder = new TextLayerBuilder({
-            textLayerDiv,
-            viewport,
-            eventBus: new EventBus(),
-            pageIndex: page - 1
+            pdfPage: loadedPage,
+            // @ts-expect-error: type for `onAppend` is `null | undefined` for some reason, even though we know it can be used
+            onAppend: (textLayerDiv: HTMLElement) => {
+              // onAppend runs as part of the text layer rendering. We can use this to extract the rendered text divs and
+              // do manual adjustment of their dimensions
+              textLayerWrapper.append(textLayerDiv);
+              textDivs = textLayerDiv.children;
+              const textContentItems = textContent.items as TextItem[];
+              if (textDivs?.length > 0 && textContentItems?.length > 0) {
+                const [normalizedTextDivs, normalizedTextContentItems] = normalize(
+                  textDivs,
+                  textContentItems
+                );
+                adjustTextDivs(normalizedTextDivs, normalizedTextContentItems, scale);
+              }
+            }
           });
+
           signal.addEventListener('abort', () => builder.cancel());
 
-          await _renderTextLayer(builder, textContent, textLayerDiv, scale);
-          return { textContent, viewport, page, textDivs: builder.textDivs };
+          textLayerWrapper.innerHTML = '';
+          // `render()` will call `onAppend()` callback above before resolving its promise
+          await builder.render(viewport, textContent);
+          return { textContent, viewport, page, textDivs };
         }
         return undefined;
       },
-      [loadedText, textLayerDiv]
+      [loadedPage, loadedText, scale, textLayerWrapper]
     )
   );
 
@@ -94,10 +109,9 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
     }
   }, [renderedText, setRenderedText]);
 
-  const rootClassName = cx(className, `textLayer`);
   return (
     <div
-      className={rootClassName}
+      className={cx(className, 'textLayerWrapper')}
       ref={textLayerRef}
       style={{
         width: `${loadedText?.viewport?.width ?? 0}px`,
@@ -108,67 +122,86 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
 };
 
 /**
- * Render text into DOM using the text layer builder
+ * We need `textDivs` collection to be in sync with `textContentItems`. The DOM
+ * collection `textDivs` will contain both text spans and line breaks (`<br>`).
+ * Normally, PDF.js' `getTextContent()` function will return an item that
+ * corresponds to line breaks -- it will have no width/height and contain an
+ * empty string. But this doesn't _always_ happen, resulting in a mismatch
+ * between the two collections.
+ *
+ * This function removes line break elements (from `textDivs`) and any empty/
+ * no-dimension items (from `textContentItems`) in order to ensure that the
+ * collections are in sync.
  */
-async function _renderTextLayer(
-  builder: TextLayerBuilder,
-  textContent: TextContent,
-  textLayerDiv: HTMLDivElement,
-  scale: number
-) {
-  builder.setTextContent(textContent);
-
-  // render
-  textLayerDiv.innerHTML = '';
-  const deferredRenderEndPromise = new Promise<void>(resolve => {
-    const listener = () => {
-      resolve();
-      builder?.eventBus.off('textlayerrendered', listener);
-    };
-    builder?.eventBus.on('textlayerrendered', listener);
-  });
-
-  builder.render();
-  await deferredRenderEndPromise;
-
-  _adjustTextDivs(builder.textDivs, textContent.items as TextItem[], scale);
+function normalize(
+  textDivs: HTMLCollection,
+  textContentItems: TextItem[]
+): [Element[], TextItem[]] {
+  const normalizedTextDivs = Array.from(textDivs).filter(elem => elem.tagName !== 'BR');
+  const normalizedTextContentItems = textContentItems.filter(
+    item => !(item.str.length === 0 && item.width === 0 && item.height === 0)
+  );
+  return [normalizedTextDivs, normalizedTextContentItems];
 }
 
 /**
- * Adjust text span width based on scale
- * @param textDivs
- * @param textItems
- * @param scale
+ * Adjust text span dimensions based on scale
  */
-function _adjustTextDivs(
-  textDivs: HTMLElement[],
-  textItems: TextItem[] | null,
-  scale: number
-): void {
+function adjustTextDivs(textDivs: Element[], textItems: TextItem[] | null, scale: number): void {
   const scaleXPattern = /scaleX\(([\d.]+)\)/;
-  (textDivs || []).forEach((textDivElm, index) => {
+  const scaleYPattern = /scaleY\(([\d.]+)\)/;
+
+  for (let index = 0; index < textDivs.length; index++) {
+    const textDivElm = textDivs[index] as HTMLElement;
     const textItem = textItems?.[index];
     if (!textItem) return;
 
     const expectedWidth = textItem.width * scale;
     const actualWidth = textDivElm.getBoundingClientRect().width;
+    const expectedHeight = textItem.height * scale;
+    const actualHeight = textDivElm.getBoundingClientRect().height;
 
-    function getScaleX(element: HTMLElement) {
-      const match = element.style.transform?.match(scaleXPattern);
+    // hide elements that don't have dimensions
+    if (expectedHeight === 0 || expectedWidth === 0) {
+      textDivElm.style.visibility = 'hidden';
+      textDivElm.style.transform = '';
+      continue;
+    }
+
+    // retrieve scale definition from within `transform` style rule
+    function getScale(element: HTMLElement, type: 'x' | 'y'): number | null {
+      const pattern = type === 'x' ? scaleXPattern : scaleYPattern;
+      const match = element.style.transform?.match(pattern);
       if (match) {
         return parseFloat(match[1]);
       }
       return null;
     }
-    const currentScaleX = getScaleX(textDivElm);
+
+    const currentScaleX = getScale(textDivElm, 'x');
     if (currentScaleX && !isNaN(currentScaleX)) {
       const newScale = `scaleX(${(expectedWidth / actualWidth) * currentScaleX})`;
       textDivElm.style.transform = textDivElm.style.transform.replace(scaleXPattern, newScale);
     } else {
-      const newScale = `scaleX(${expectedWidth / actualWidth})`;
-      textDivElm.style.transform = newScale;
+      const val = expectedWidth / actualWidth;
+      if (val !== 0) {
+        const newScale = `scaleX(${val})`;
+        textDivElm.style.transform += newScale;
+      }
     }
-  });
+
+    const currentScaleY = getScale(textDivElm, 'y');
+    if (currentScaleY && !isNaN(currentScaleY)) {
+      const newScale = `scaleY(${(expectedHeight / actualHeight) * currentScaleY})`;
+      textDivElm.style.transform = textDivElm.style.transform.replace(scaleYPattern, newScale);
+    } else {
+      const val = expectedHeight / actualHeight;
+      if (val !== 0) {
+        const newScale = `scaleY(${val})`;
+        textDivElm.style.transform += newScale;
+      }
+    }
+  }
 }
 
 export default PdfViewerTextLayer;

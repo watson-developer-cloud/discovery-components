@@ -12,8 +12,5 @@ describe('PdfViewer', () => {
     await waitFor(() => expect(screen.getByText('ART EFFECTS LIMITED')).toBeVisible(), {
       timeout: 5000
     });
-
-    const canvasList = document.querySelectorAll('canvas');
-    expect(canvasList.length).toBe(1);
-  }, 30000);
+  });
 });

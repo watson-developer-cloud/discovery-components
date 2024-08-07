@@ -1,6 +1,6 @@
 import { bboxesIntersect } from 'components/DocumentPreview/utils/box';
-import { TextItem } from 'pdfjs-dist/types/display/api';
-import { PageViewport, PageViewportParameters } from 'pdfjs-dist/types/display/display_utils';
+import { TextItem } from 'pdfjs-dist/types/src/display/api';
+import { PageViewport, PageViewportParameters } from 'pdfjs-dist/types/src/display/display_utils';
 import { Bbox, TextSpan } from '../../types';
 import { BaseTextLayoutCell } from './BaseTextLayout';
 import { getAdjustedCellByOffsetByDom } from './dom';
@@ -12,7 +12,7 @@ import { HtmlBboxInfo, PdfTextContentInfo, TextLayout } from './types';
 export class PdfTextContentTextLayout implements TextLayout<PdfTextContentTextLayoutCell> {
   private readonly textContentInfo: PdfTextContentInfo;
   readonly cells: PdfTextContentTextLayoutCell[];
-  private divs: HTMLElement[] | undefined;
+  private divs: HTMLCollection | undefined;
 
   constructor(textContentInfo: PdfTextContentInfo, pageNum: number, htmlBboxInfo?: HtmlBboxInfo) {
     this.textContentInfo = textContentInfo;
@@ -48,7 +48,7 @@ export class PdfTextContentTextLayout implements TextLayout<PdfTextContentTextLa
   /**
    * set PDF text content item divs
    */
-  setDivs(divs: HTMLElement[] | undefined) {
+  setDivs(divs: HTMLCollection | undefined) {
     this.divs = divs;
   }
 
@@ -56,7 +56,7 @@ export class PdfTextContentTextLayout implements TextLayout<PdfTextContentTextLa
    * get HTML element for a given cell id
    */
   divAt(id: number): HTMLElement | undefined {
-    return this.divs?.[id];
+    return this.divs?.[id] as HTMLElement;
   }
 }
 
