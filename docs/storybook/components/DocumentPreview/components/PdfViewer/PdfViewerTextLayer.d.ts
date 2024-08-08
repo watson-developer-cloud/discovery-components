@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { TextContent, PDFPageProxy } from 'pdfjs-dist/types/display/api';
-import { PageViewport } from 'pdfjs-dist/types/display/display_utils';
+import { TextContent, PDFPageProxy } from 'pdfjs-dist/types/src/display/api';
+import { PageViewport } from 'pdfjs-dist/types/src/display/display_utils';
 import { PdfDisplayProps } from './types';
 type PdfViewerTextLayerProps = Pick<PdfDisplayProps, 'scale'> & {
     className?: string;
@@ -21,7 +21,7 @@ export type PdfRenderedText = {
     /**
      * Text span DOM elements rendered on the text layer
      */
-    textDivs: HTMLElement[];
+    textDivs: HTMLCollection;
     /**
      * Pdf page viewport used to render text items
      */

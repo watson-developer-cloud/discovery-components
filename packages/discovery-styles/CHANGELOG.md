@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.0.0](https://github.com/watson-developer-cloud/discovery-components/compare/v5.0.4...v6.0.0) (2024-08-08)
+
+
+### Bug Fixes
+
+* upgrade to pdfjs v4 ([#577](https://github.com/watson-developer-cloud/discovery-components/issues/577)) ([3e42362](https://github.com/watson-developer-cloud/discovery-components/commit/3e423625cdff51182963e86d2757983c2d6f202c))
+
+
+### BREAKING CHANGES
+
+* The worker file has been renamed from having extension `.js` to `.mjs`.
+
+
+
+
+
 # [5.0.0](https://github.com/watson-developer-cloud/discovery-components/compare/v4.9.0...v5.0.0) (2024-01-23)
 
 

@@ -1,5 +1,5 @@
 import DiscoveryV2, { JsonObject, QueryResult } from 'ibm-watson/discovery/v2';
-import { DocumentInitParameters } from 'pdfjs-dist/types/display/api';
+import { DocumentInitParameters } from 'pdfjs-dist/types/src/display/api';
 export type SearchClient = Pick<DiscoveryV2, 'query' | 'getAutocompletion' | 'listCollections' | 'getComponentSettings' | 'listFields'>;
 export type SearchParams = Omit<DiscoveryV2.QueryParams, 'projectId' | 'headers'> & {
     /**

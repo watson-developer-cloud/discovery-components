@@ -1,5 +1,5 @@
-import { TextContent } from 'pdfjs-dist/types/display/api';
-import { PageViewport } from 'pdfjs-dist/types/display/display_utils';
+import { TextContent } from 'pdfjs-dist/types/src/display/api';
+import { PageViewport } from 'pdfjs-dist/types/src/display/display_utils';
 import { DocumentFields, HighlightShape } from '../types';
 import { DocumentFieldHighlight, TextMappings } from 'components/DocumentPreview/types';
 import { HtmlBboxInfo } from './textLayout/types';
@@ -20,7 +20,7 @@ export declare class Highlighter {
         pdfTextContentInfo?: {
             textContent: TextContent;
             viewport: PageViewport;
-            spans?: HTMLElement[];
+            spans?: HTMLCollection;
         };
     });
     /**
@@ -35,12 +35,12 @@ export declare class Highlighter {
      * @param textContentDivs HTML elements where text content items are rendered
      * @param htmlBoxInfo processed document info including bboxes
      */
-    setTextContentItems(textContent: TextContent, viewport: PageViewport, textContentDivs?: HTMLElement[], htmlBoxInfo?: HtmlBboxInfo): void;
+    setTextContentItems(textContent: TextContent, viewport: PageViewport, textContentDivs?: HTMLCollection, htmlBoxInfo?: HtmlBboxInfo): void;
     /**
      * Update text content HTML elements
      * @param textContentDivs HTML elements where text content items are rendered
      */
-    setTextContentDivs(textContentDivs?: HTMLElement[]): void;
+    setTextContentDivs(textContentDivs?: HTMLCollection): void;
     /**
      * Get highlight shape from a span on a field
      * @param highlight a span on a document field to highlight

@@ -1,5 +1,5 @@
-import { TextItem } from 'pdfjs-dist/types/display/api';
-import { PageViewport } from 'pdfjs-dist/types/display/display_utils';
+import { TextItem } from 'pdfjs-dist/types/src/display/api';
+import { PageViewport } from 'pdfjs-dist/types/src/display/display_utils';
 import { Bbox, TextSpan } from '../../types';
 import { BaseTextLayoutCell } from './BaseTextLayout';
 import { HtmlBboxInfo, PdfTextContentInfo, TextLayout } from './types';
@@ -22,7 +22,7 @@ export declare class PdfTextContentTextLayout implements TextLayout<PdfTextConte
     /**
      * set PDF text content item divs
      */
-    setDivs(divs: HTMLElement[] | undefined): void;
+    setDivs(divs: HTMLCollection | undefined): void;
     /**
      * get HTML element for a given cell id
      */

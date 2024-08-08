@@ -1,7 +1,7 @@
 import { FC, ReactNode } from 'react';
-type ErrorStateProps = {
+type ErrorViewProps = {
     header: ReactNode;
     message: ReactNode;
 };
-declare const ErrorState: FC<ErrorStateProps>;
-export default ErrorState;
+declare const ErrorView: FC<ErrorViewProps>;
+export default ErrorView;
