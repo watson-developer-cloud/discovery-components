@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.2](https://github.com/watson-developer-cloud/discovery-components/compare/v6.0.1...v6.0.2) (2024-08-13)
+
+
+### Bug Fixes
+
+* update peerDep version ([#580](https://github.com/watson-developer-cloud/discovery-components/issues/580)) ([61ddaf9](https://github.com/watson-developer-cloud/discovery-components/commit/61ddaf9b7931f66254a68b8609a6aa567ccd22a5))
+
+
+
+
+
 ## [6.0.1](https://github.com/watson-developer-cloud/discovery-components/compare/v6.0.0...v6.0.1) (2024-08-13)
 
 
