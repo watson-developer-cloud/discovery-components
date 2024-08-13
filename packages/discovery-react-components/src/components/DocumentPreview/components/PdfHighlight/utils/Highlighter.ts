@@ -97,7 +97,7 @@ export class Highlighter {
    * Update text content HTML elements
    * @param textContentDivs HTML elements where text content items are rendered
    */
-  setTextContentDivs(textContentDivs?: HTMLCollection) {
+  setTextContentDivs(textContentDivs?: HTMLCollection | Element[]) {
     this.pdfTextContentLayout?.setDivs(textContentDivs);
   }
 
