@@ -12,7 +12,7 @@ import { HtmlBboxInfo, PdfTextContentInfo, TextLayout } from './types';
 export class PdfTextContentTextLayout implements TextLayout<PdfTextContentTextLayoutCell> {
   private readonly textContentInfo: PdfTextContentInfo;
   readonly cells: PdfTextContentTextLayoutCell[];
-  private divs: HTMLCollection | undefined;
+  private divs: HTMLCollection | Element[] | undefined;
 
   constructor(textContentInfo: PdfTextContentInfo, pageNum: number, htmlBboxInfo?: HtmlBboxInfo) {
     this.textContentInfo = textContentInfo;
@@ -48,7 +48,7 @@ export class PdfTextContentTextLayout implements TextLayout<PdfTextContentTextLa
   /**
    * set PDF text content item divs
    */
-  setDivs(divs: HTMLCollection | undefined) {
+  setDivs(divs: HTMLCollection | Element[] | undefined) {
     this.divs = divs;
   }
 

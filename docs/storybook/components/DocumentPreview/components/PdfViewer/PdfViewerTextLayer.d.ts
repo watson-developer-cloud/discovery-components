@@ -21,7 +21,7 @@ export type PdfRenderedText = {
     /**
      * Text span DOM elements rendered on the text layer
      */
-    textDivs: HTMLCollection;
+    textDivs: HTMLCollection | Element[];
     /**
      * Pdf page viewport used to render text items
      */

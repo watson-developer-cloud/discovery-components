@@ -40,7 +40,7 @@ export declare class Highlighter {
      * Update text content HTML elements
      * @param textContentDivs HTML elements where text content items are rendered
      */
-    setTextContentDivs(textContentDivs?: HTMLCollection): void;
+    setTextContentDivs(textContentDivs?: HTMLCollection | Element[]): void;
     /**
      * Get highlight shape from a span on a field
      * @param highlight a span on a document field to highlight

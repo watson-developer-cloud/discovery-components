@@ -22,7 +22,7 @@ export declare class PdfTextContentTextLayout implements TextLayout<PdfTextConte
     /**
      * set PDF text content item divs
      */
-    setDivs(divs: HTMLCollection | undefined): void;
+    setDivs(divs: HTMLCollection | Element[] | undefined): void;
     /**
      * get HTML element for a given cell id
      */
