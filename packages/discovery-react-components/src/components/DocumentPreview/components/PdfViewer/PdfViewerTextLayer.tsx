@@ -29,7 +29,7 @@ export type PdfRenderedText = {
   /**
    * Text span DOM elements rendered on the text layer
    */
-  textDivs: HTMLCollection;
+  textDivs: HTMLCollection | Element[];
 
   /**
    * Pdf page viewport used to render text items
@@ -69,7 +69,7 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
       async (signal: AbortSignal) => {
         if (textLayerWrapper && loadedText) {
           const { textContent, viewport, page } = loadedText;
-          let textDivs!: HTMLCollection;
+          let textDivs!: HTMLCollection | Element[];
 
           const builder = new TextLayerBuilder({
             pdfPage: loadedPage,
@@ -86,6 +86,10 @@ const PdfViewerTextLayer: FC<PdfViewerTextLayerProps> = ({
                   textContentItems
                 );
                 adjustTextDivs(normalizedTextDivs, normalizedTextContentItems, scale);
+
+                // update values that will be returned, to use normalized values
+                textDivs = normalizedTextDivs;
+                textContent.items = normalizedTextContentItems;
               }
             }
           });
