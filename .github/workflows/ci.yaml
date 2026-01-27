@@ -37,7 +37,7 @@ jobs:
         env:
           DEBUG_PRINT_LIMIT: 50000
       - name: Archive test artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: cypress
